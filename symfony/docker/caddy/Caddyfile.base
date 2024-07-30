@@ -1,0 +1,25 @@
+{
+	{$CADDY_GLOBAL_OPTIONS}
+
+	frankenphp {
+		{$FRANKENPHP_CONFIG}
+	}
+}
+
+qgis.{$DOMAIN} {
+	reverse_proxy http://qgis:6000
+}
+
+{$CADDY_EXTRA_CONFIG}
+
+api.{$DOMAIN} {
+	root * /var/www/php
+	encode zstd br gzip
+
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+	# Disable Topics tracking if not enabled explicitly: https://github.com/jkarlin/topics
+	# header ?Permissions-Policy "browsing-topics=()"
+
+	php_server
+}

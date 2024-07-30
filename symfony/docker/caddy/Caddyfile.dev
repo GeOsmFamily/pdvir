@@ -1,0 +1,9 @@
+import Caddyfile.base
+
+{$DOMAIN} {
+	reverse_proxy http://vue:3000
+}
+
+docs.{$DOMAIN} {
+	reverse_proxy http://docs:5000
+}

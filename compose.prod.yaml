@@ -1,0 +1,17 @@
+services:
+  vue:
+    build:
+      target: vue_prod
+
+  docs:
+    build:
+      target: docs_prod
+
+  php:
+    build:
+      context: ./symfony
+      target: frankenphp_prod
+    environment:
+      APP_SECRET: ${APP_SECRET}
+    volumes:
+      - ./docker/caddy/Caddyfile.prod:/etc/caddy/Caddyfile*
