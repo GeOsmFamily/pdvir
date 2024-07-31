@@ -10,9 +10,9 @@ EXPOSE 5000
 # for Development environnement
 FROM docs_base AS docs_dev
 
-CMD [ "yarn", "docs:dev"]
+CMD ["yarn", "docs:dev"]
 
 # for Production environnement
 FROM docs_base AS docs_prod
 
-RUN yarn build
+RUN ["yarn", "docs:build"]

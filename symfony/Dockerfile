@@ -79,7 +79,7 @@ RUN set -eux; \
 # COPY --link . ./
 COPY --link . ./
 COPY --from=puc-vue --link /app/dist /var/www/vue
-COPY --from=puc-docs --link /app/dist /var/www/docs
+COPY --from=puc-docs --link /app/.vitepress/dist /var/www/docs
 # RUN rm -Rf docker/frankenphp/
 # RUN rm -Rf frankenphp/
 
