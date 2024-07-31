@@ -6,7 +6,7 @@ pages:
   script:
     - cd docs
     - yarn
-    - yarn docs:build --base=/$CI_PROJECT_PATH_SLUG
+    - yarn docs:build --base=/$CI_PROJECT_NAME
     - mv .vitepress/dist ../public
   artifacts:
     paths:
