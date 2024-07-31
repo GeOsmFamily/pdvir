@@ -3,15 +3,14 @@ pages:
   cache:
     paths:
       - node_modules/
+  publish: docs
   script:
-    - cd docs
     - yarn
-    - yarn docs:build --base=$CI_PAGES_URL
-    - cd ..
-    - ls docs
-    - cp -r docs/dist public
-    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
-    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
+    - yarn docs:build
+    - ls
+    # - cp -r docs/dist public
+    # - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
+    # - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
   artifacts:
     paths:
       - public
