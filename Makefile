@@ -26,18 +26,24 @@ build:
 	$(DOCKER_COMP) build
 
 
+YELLOW=\033[1;33m
+GREEN=\033[1;32m
+BLUE=\033[0;34m
+LIGHT_BLUE=\033[1;36m
+NC=\033[0m # No Color
+
 show-urls:
 	@echo ""
-	@printf "\033[1;34m+--------------------------------------------------+\033[0m\n"
-	@printf "\033[1;34m| Cameroon Urban Platform                          |\033[0m\n"
-	@printf "\033[1;34m+--------------------------------------------------+\033[0m\n"
-	@printf "\033[1;34m| \033[0m\033[1;32m%-30s \033[0m\033[1;34m| \033[0m\033[1;36m%-15s\033[0m\033[1;34m |\033[0m\n" "https://puc.local" "Main website"
-	@printf "\033[1;34m| \033[0m\033[1;32m%-30s \033[0m\033[1;34m| \033[0m\033[1;36m%-15s\033[0m\033[1;34m |\033[0m\n" "https://qgis.puc.local" "QGIS server"
-	@printf "\033[1;34m| \033[0m\033[1;32m%-30s \033[0m\033[1;34m| \033[0m\033[1;36m%-15s\033[0m\033[1;34m |\033[0m\n" "https://docs.puc.local" "Documentation"
-	@printf "\033[1;34m| \033[0m\033[1;32m%-30s \033[0m\033[1;34m| \033[0m\033[1;36m%-15s\033[0m\033[1;34m |\033[0m\n" "https://api.puc.local" "API server"
-	@printf "\033[1;34m| \033[0m\033[1;32m%-30s \033[0m\033[1;34m| \033[0m\033[1;36m%-15s\033[0m\033[1;34m |\033[0m\n" "https://mail.puc.local" "SMTP server"
-	@printf "\033[1;34m+--------------------------------------------------+\033[0m\n"
-	@printf ""
+	@printf "${BLUE}+---------------------------------------------+\n"
+	@printf "${BLUE}| Cameroon Urban Platform                     |\n"
+	@printf "${BLUE}+---------------------------------------------+\n"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "🚀  Main website" 	"https://puc.local"     
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "🔒  REST API" 			"https://api.puc.local" 
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "🌍  QGIS server" 	 	"https://qgis.puc.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "📨  SMTP server" 		"https://mail.puc.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "💡  Documentation" 	"https://docs.puc.local"
+	@printf "${BLUE}+---------------------------------------------+${NC}\n"
+	@echo ""
 
 HOST_ENTRIES = \
   "127.0.0.1     puc.local"\
@@ -47,6 +53,10 @@ HOST_ENTRIES = \
   "127.0.0.1     mail.puc.local"
 
 init-hosts:
+	@printf "${YELLOW}----------------------------------------------------${NC}\n"
+	@printf "${YELLOW}  We will just add entries to your hosts file       ${NC}\n"
+	@printf "${YELLOW}  Note : You might be asked to enter your password  ${NC}\n"
+	@printf "${YELLOW}----------------------------------------------------${NC}\n"
 	@echo "Detecting OS..."
 	@OS=`uname | cut -d'_' -f1` ; \
 	if [ "$$OS" = "Linux" ] || [ "$$OS" = "Darwin" ]; then \

@@ -1,15 +1,22 @@
-# Urban Platform Camroon
+# Urban Platform Cameroon
 
 ## Requirements
 
-- `Docker` with compose plugin
-- `Make` (if you are on Windows you can simply use Git Bash)
+- (**Docker**)[https://docs.docker.com/desktop/] with compose plugin
+
+*If you are using **Windows** :*
+- (**WSL 2**)[https://docs.docker.com/desktop/wsl/#turn-on-docker-desktop-wsl-2]
+- (**VSCode WSL extension**)[https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl]
 
 ## Getting started
 
 To setup your local env project (Only the first time)
 
 ``` bash
+# Clone your project
+# ⚠️ On Windows make sure you are cloning it from your WSL environnement
+git clone git@gitlab.cartong.org:expertise-france/plateforme-urbaine-cameroun.git puc && cd puc
+
 # Build and pull your docker images 🐋 & setup your hosts local domains
 make init
 ```
