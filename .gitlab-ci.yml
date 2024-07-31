@@ -2,15 +2,16 @@ image: node:20
 pages:
   cache:
     paths:
-      - node_modules/
-  publish: docs
+      - docs/node_modules/
   script:
     - ls
     - cd docs
     - ls
     - yarn
     - yarn docs:build
-    # - cp -r docs/dist public
+    - ls
+    - cd ..
+    - mv docs/dist public
     # - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
     # - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
   artifacts:
