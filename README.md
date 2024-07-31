@@ -2,11 +2,11 @@
 
 ## Requirements
 
-- (**Docker**)[https://docs.docker.com/desktop/] with compose plugin
+- [**Docker**](https://docs.docker.com/desktop/) with compose plugin
 
 *If you are using **Windows** :*
-- (**WSL 2**)[https://docs.docker.com/desktop/wsl/#turn-on-docker-desktop-wsl-2]
-- (**VSCode WSL extension**)[https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl]
+- [**WSL 2**](https://docs.docker.com/desktop/wsl/#turn-on-docker-desktop-wsl-2)
+- [**VSCode WSL extension**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
 
 ## Getting started
 
