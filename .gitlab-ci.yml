@@ -8,7 +8,8 @@ pages:
     - yarn
     - yarn docs:build --base=$CI_PAGES_URL
     - cd ..
-    - cp -r docs/public public
+    - ls docs
+    - cp -r docs/dist public
     - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
     - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
   artifacts:
