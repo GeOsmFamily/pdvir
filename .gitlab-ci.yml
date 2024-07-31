@@ -4,16 +4,10 @@ pages:
     paths:
       - docs/node_modules/
   script:
-    - ls
     - cd docs
-    - ls
     - yarn
     - yarn docs:build
-    - ls
-    - cd ..
-    - mv docs/dist public
-    # - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
-    # - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
+    - mv .vitepress/dist ../public
   artifacts:
     paths:
       - public
