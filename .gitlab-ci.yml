@@ -5,9 +5,11 @@ pages:
       - node_modules/
   publish: docs
   script:
+    - ls
+    - cd docs
+    - ls
     - yarn
     - yarn docs:build
-    - ls
     # - cp -r docs/dist public
     # - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
     # - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
