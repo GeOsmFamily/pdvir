@@ -5,10 +5,6 @@ import Caddyfile.base
 	file_server
 }
 
-qgis.{$DOMAIN} {
-	reverse_proxy http://qgis:6000
-}
-
 docs.{$DOMAIN} {
 	root * /var/www/docs
 	file_server

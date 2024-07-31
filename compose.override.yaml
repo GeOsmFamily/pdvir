@@ -6,6 +6,7 @@ services:
       target: frankenphp_dev
     volumes:
       - ./symfony/:/app
+      - ./symfony/docker/caddy/Caddyfile.dev:/etc/caddy/Caddyfile
       # - ./docker/frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./symfony/docker/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
       # If you develop on Mac or Windows you can remove the vendor/ directory

@@ -77,7 +77,7 @@ RUN set -eux; \
 
 # copy sources
 # COPY --link . ./
-COPY --link . /var/www/php
+COPY --link . ./
 COPY --from=puc-vue --link /app/dist /var/www/vue
 COPY --from=puc-docs --link /app/dist /var/www/docs
 # RUN rm -Rf docker/frankenphp/

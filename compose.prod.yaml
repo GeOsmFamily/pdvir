@@ -14,4 +14,4 @@ services:
     environment:
       APP_SECRET: ${APP_SECRET}
     volumes:
-      - ./docker/caddy/Caddyfile.prod:/etc/caddy/Caddyfile*
+      - ./symfony/docker/caddy/Caddyfile.prod:/etc/caddy/Caddyfile

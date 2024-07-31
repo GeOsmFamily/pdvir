@@ -13,7 +13,7 @@ qgis.{$DOMAIN} {
 {$CADDY_EXTRA_CONFIG}
 
 api.{$DOMAIN} {
-	root * /var/www/php
+	root * /app/public
 	encode zstd br gzip
 
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
