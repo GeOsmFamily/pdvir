@@ -1,0 +1,13 @@
+{
+    "header": {
+        "help": "Aide",
+        "contact": "Contact",
+        "home": "Accueil",
+        "actors": "Acteurs",
+        "projects": "Projets",
+        "resources": "Ressources",
+        "services": "Services",
+        "map": "Ma carte",
+        "login": "Connectez-vous"
+    }
+}

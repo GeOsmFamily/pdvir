@@ -1,0 +1,43 @@
+
+@import 'variables';
+
+.AppLogo__Desktop{
+    position: absolute;
+    top: 0px;
+    left: $desktop-side-padding;
+    z-index: 10;
+    height: 90px;
+}
+
+.Header__Desktop__Banner{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0px $desktop-side-padding;
+    background: rgb(var(--v-theme-main-yellow));
+    color: rgb(var(--v-theme-main-blue));
+    font-weight: 600;
+    height: 30px;
+}
+
+.Header__Desktop__Tabs{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0px $desktop-side-padding;
+    background: linear-gradient(
+    to top right,
+    white 0%,
+    rgb(var(--v-theme-light-yellow)) 100%
+  );
+}
+
+.Header__Desktop__TabsText{
+    color: rgb(var(--v-theme-main-blue));
+    font-weight: 600;
+    text-transform: none;
+}
+
+.v-btn__content a {
+    text-decoration: none;
+}
