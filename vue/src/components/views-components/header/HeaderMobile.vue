@@ -1,5 +1,5 @@
 <template>
-    <div>  
+    <div class="Header__Mobile__Container">
         <v-layout>
             <v-app-bar :elevation="2">
                 <template v-slot:prepend>
@@ -7,7 +7,7 @@
                 </template>
                 <v-app-bar-title>
                 <div class="d-flex align-center">
-                    <img src="@/assets/images/logo_puc_temp.png" class="AppLogo__Mobile">
+                    <img src="@/assets/images/Logo.svg" class="AppLogo__Mobile">
                     <span class="ml-4 text-main-blue">{{ $t('header.title') }}</span>
                     <span class="ml-2 text-main-blue font-weight-bold">{{ $t('header.title2') }}</span>
                 </div>
@@ -16,12 +16,12 @@
         </v-layout>
         <div v-if="showMobileMenu" class="Header__Mobile__Menu">
             <div class="Header__Mobile__Menu__Top">
-                <img src="@/assets/images/logo_puc_temp.png">
+                <img src="@/assets/images/Logo.svg">
                 <div class="Header__Mobile__Menu__Closer" @click="showMobileMenu = !showMobileMenu">
                     <v-icon icon="mdi mdi-close" />
                 </div>
             </div>
-            <img src="@/assets/images/frise.png" alt="">
+            <img src="@/assets/images/Frise.svg" alt="">
             <div class="Header__Mobile__Menu__Content">
                 <v-list lines="one" bg-color="light-yellow">
                     <v-list-item

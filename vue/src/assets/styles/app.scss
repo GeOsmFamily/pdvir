@@ -2,3 +2,30 @@
 @import 'variables';
 @import 'header';
 
+#app {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+
+.App__Desktop__Content{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 50px $desktop-side-padding;
+    background-image: url('img/Frame.svg');
+    background-position: top right;
+    background-size: 45% auto;
+}
+
+.App__Mobile__Content{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 20px $mobile-side-padding;
+    background-image: url('img/Frame.svg');
+    background-position: top right;
+    background-size: 100% auto;
+}
+

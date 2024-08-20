@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="Header__Desktop__Banner">
-            <img src="@/assets/images/logo_puc_temp.png" alt="Accueil" class="AppLogo__Desktop">
+            <img src="@/assets/images/Logo.svg" alt="Accueil" class="AppLogo__Desktop">
             <div>
                 <v-icon icon="mdi-help-circle-outline" class="mr-2" />
                 <span class="mr-6">{{ $t('header.help') }}</span>
