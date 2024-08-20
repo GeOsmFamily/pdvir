@@ -26,6 +26,7 @@
                 <v-list lines="one" bg-color="light-yellow">
                     <v-list-item
                         v-for="tab in NavigationTabsContent.getContent()"
+                        @click="showMobileMenu = !showMobileMenu"
                     >
                         <RouterLink :to="tab.route" class="Header__TabsText">
                             <span :class="{'Header__TabsText__Active': appStore.activeTab === tab.value}" @click="appStore.activeTab = tab.value">{{ tab.name }}</span>
@@ -37,6 +38,9 @@
                     <v-list-item>
                         <span class="Header__TabsText">{{ $t('header.contact') }}</span>
                     </v-list-item>
+                    <v-list-item>
+                        <LoginButton />
+                    </v-list-item>
                 </v-list>
             </div>
         </div>
@@ -44,6 +48,7 @@
 </template>
 <script setup lang="ts">
 import { NavigationTabsContent } from '@/models/static-classes/NavigationTabsContent';
+import LoginButton from './LoginButton.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { ref } from 'vue';
 

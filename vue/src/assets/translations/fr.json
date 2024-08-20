@@ -10,6 +10,7 @@
         "resources": "Ressources",
         "services": "Services",
         "map": "Ma carte",
-        "login": "Connectez-vous"
+        "login": "Connectez-vous",
+        "account": "Mon compte"
     }
 }

@@ -24,6 +24,15 @@ export const vuetify = createVuetify({
             pucCustomTheme,
         },
       },
+    defaults: {
+      VBtn: {
+        elevation: 0,
+        style: [{ 
+          textTransform: 'none',
+          fontWeight: 'bold'
+        }],
+      },
+    },
     components,
     directives,
   })

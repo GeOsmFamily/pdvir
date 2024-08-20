@@ -23,7 +23,6 @@
     padding: 0px $desktop-side-padding;
     background: rgb(var(--v-theme-main-yellow));
     color: rgb(var(--v-theme-main-blue));
-    font-weight: 600;
     height: 30px;
 }
 
@@ -31,12 +30,13 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 0px $desktop-side-padding;
+    padding: 20px $desktop-side-padding 10px $desktop-side-padding;
     background: linear-gradient(
-    to top right,
-    white 0%,
-    rgb(var(--v-theme-light-yellow)) 100%
-  );
+        to top right,
+        white 0%,
+        rgb(var(--v-theme-light-yellow)) 100%
+    );
+    height: 60px;
 }
 
 .Header__TabsText{

@@ -24,12 +24,14 @@
                 </RouterLink>
                 </v-tab>
             </v-tabs>
+            <LoginButton />
         </div>
   </div>
 </template>
 <script setup lang="ts">
 import { NavigationTabsContent } from '@/models/static-classes/NavigationTabsContent';
 import { useApplicationStore } from '@/stores/applicationStore';
+import LoginButton from './LoginButton.vue';
 
 const appStore = useApplicationStore();
 </script>
