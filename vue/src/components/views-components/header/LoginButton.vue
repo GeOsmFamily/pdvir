@@ -3,7 +3,7 @@
         v-if="!userStore.userIsLogged"
         color="main-red"
         prepend-icon="mdi-account-circle"
-        @click="userStore.showLogginModal = true"
+        @click="userStore.showLogingDialog = true"
     >
         {{ $t('header.login') }}
     </v-btn>
