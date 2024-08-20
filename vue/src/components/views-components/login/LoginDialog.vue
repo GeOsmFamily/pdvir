@@ -2,6 +2,7 @@
     <v-dialog
       v-model="userStore.showLogingDialog"
       width="auto"
+      class="font-ojuju"
     >
       <v-card
         max-width="400"
