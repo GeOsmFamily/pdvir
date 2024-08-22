@@ -21,7 +21,7 @@
     flex-grow: 1;
     padding: 30px $desktop-side-padding;
     background-image: url('img/Frame.svg');
-    background-position: right 500%;
+    background-position: top right;
     background-size: 45% auto;
 }
 
@@ -31,7 +31,7 @@
     flex-grow: 1;
     padding: 20px $mobile-side-padding;
     background-image: url('img/Frame.svg');
-    background-position: right -50%;
+    background-position: top right;
     background-size: 100% auto;
 }
 

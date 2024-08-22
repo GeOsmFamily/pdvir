@@ -9,6 +9,7 @@ const pucCustomTheme: ThemeDefinition = {
     colors: {
       'main-blue': '#1c3b87',
       'bright-blue': '#111EF7',
+      'light-blue': '#6176AB',
       'main-red': '#E83323',
       'main-yellow': '#F6CC47',
       'light-yellow': '#fdf5da',
@@ -31,6 +32,11 @@ export const vuetify = createVuetify({
           textTransform: 'none',
           fontWeight: 'bold'
         }],
+      },
+      VPagination: {
+        rounded: 'circle',
+        color: 'main-blue',
+        activeColor: 'main-yellow',
       },
     },
     components,

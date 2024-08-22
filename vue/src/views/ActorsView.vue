@@ -21,15 +21,8 @@
     <div class="Actors__Content">
         <v-container>
             <v-row>
-                <v-col
-                    v-for="actor in paginatedActors"
-                    cols="12"
-                    md="4"
-                >
-                <v-card class="pa-2">
-                    <v-card-title>{{ actor.name }}</v-card-title>
-                    <v-card-text>{{ actor.id }}</v-card-text>
-                    </v-card>
+                <v-col v-for="actor in paginatedActors" cols="12" md="4">
+                    <ActorCard :actor="actor"/>
                 </v-col>
             </v-row>
             <v-pagination
@@ -48,8 +41,9 @@ import Autocomplete from '@/components/generic-components/Autocomplete.vue';
 import PageTitle from '@/components/generic-components/text-elements/PageTitle.vue';
 import SectionTitle from '@/components/generic-components/text-elements/SectionTitle.vue';
 import Wip from '@/components/generic-components/Wip.vue';
+import ActorCard from '@/components/views-components/actors/ActorCard.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
