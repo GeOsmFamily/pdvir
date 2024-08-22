@@ -12,7 +12,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
-const i18n = createI18n({
+const i18nInstance = createI18n({
     legacy: false,
     locale: 'fr',
     fallbackLocale: 'fr',
@@ -20,6 +20,7 @@ const i18n = createI18n({
       fr: fr
     }
   })
-app.use(i18n)
+export const i18n = i18nInstance.global//Workaround for translate text outside components
+app.use(i18nInstance)
 
 app.mount('#app')

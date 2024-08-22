@@ -2,6 +2,7 @@
   <Header />
   <LoginDialog />
   <div :class="appStore.mobile ? 'App__Mobile__Content' : 'App__Desktop__Content'">
+    <v-breadcrumbs v-if="!appStore.mobile" :items="appStore.breadcrumbs"></v-breadcrumbs>
     <RouterView />
   </div>
 </template>
@@ -11,7 +12,12 @@ import { RouterView } from 'vue-router'
 import Header from './components/views-components/header/Header.vue';
 import LoginDialog from './components/views-components/login/LoginDialog.vue';
 import { useApplicationStore } from './stores/applicationStore';
+import { useActorsStore } from './stores/actorsStore';
+import { onBeforeMount } from 'vue';
+
 const appStore = useApplicationStore();
+const actorsStore = useActorsStore();
+onBeforeMount(async () => await actorsStore.getActors())
 </script>
 <style lang="scss">
 @import './assets/styles/app.scss';

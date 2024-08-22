@@ -1,4 +1,5 @@
 export enum StoresList {
     APPLICATION = "application",
-    USER = "user"
+    USER = "user",
+    ACTORS = "actors"
 }

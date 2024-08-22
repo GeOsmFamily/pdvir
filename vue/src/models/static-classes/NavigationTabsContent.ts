@@ -1,31 +1,30 @@
-import { useI18n } from 'vue-i18n';
+import { i18n } from '@/main';
 import { NavigationTabs } from '../enums/NavigationTabs';
 export class NavigationTabsContent {
     static getContent(){
-        const { t } = useI18n()
         return [
             {
-                name: t("header.home"),
+                name: i18n.t("header.home"),
                 value: NavigationTabs.HOME,
                 route: "/"
             },
             {
-                name: t("header.actors"),
+                name: i18n.t("header.actors"),
                 value: NavigationTabs.ACTORS,
                 route: "/actors"
             },
             {
-                name: t("header.projects"),
+                name: i18n.t("header.projects"),
                 value: NavigationTabs.PROJECTS,
                 route: "/projects"
             },
             {
-                name: t("header.resources"),
+                name: i18n.t("header.resources"),
                 value: NavigationTabs.RESOURCES,
                 route: "/resources"
             },
             {
-                name: t("header.services"),
+                name: i18n.t("header.services"),
                 value: NavigationTabs.SERVICES,
                 route: "/services"
             }

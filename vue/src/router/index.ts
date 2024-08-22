@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useApplicationStore } from '@/stores/applicationStore'
+import { BreadcrumbsService } from '@/services/application/BreadcrumbsService'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
