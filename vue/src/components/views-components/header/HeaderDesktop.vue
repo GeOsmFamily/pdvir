@@ -24,6 +24,14 @@
                 </RouterLink>
                 </v-tab>
             </v-tabs>
+            <v-btn 
+                base-color="white"
+                class="text-main-blue mr-3"
+                prepend-icon="mdi-account-circle"
+                to="/map"
+            >
+                {{ $t('header.map') }}
+            </v-btn>
             <LoginButton />
         </div>
   </div>

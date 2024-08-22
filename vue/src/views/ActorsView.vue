@@ -1,6 +1,65 @@
 <template>
-    <div>I'm the actors component</div>
-    <v-btn color="main-red">Button</v-btn>
+    <div class="Actors__Header">
+        <img src="@/assets/images/Mosaic_actors_page.svg" alt="">
+        <div class="Actors__Header__Description">
+            <PageTitle :text="$t('actors.title')"/>
+            <PageTitle :text="$t('actors.subtitle')"/>
+            <span class="mt-6">{{ $t('actors.desc') }}</span>
+            <Autocomplete 
+                :placeholder="$t('actors.search')"
+                :items="actorsStore.actors"
+                item-title="name"
+                item-value="id"
+                class="mt-6"
+            />
+        </div>
+    </div>
+    <div class="Actors__Filters">
+        <SectionTitle :text="$t('actors.filtersTitle')" />
+        <Wip />
+    </div>
+    <div class="Actors__Content">
+        <v-container>
+            <v-row>
+                <v-col
+                    v-for="actor in paginatedActors"
+                    cols="12"
+                    md="4"
+                >
+                <v-card class="pa-2">
+                    <v-card-title>{{ actor.name }}</v-card-title>
+                    <v-card-text>{{ actor.id }}</v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+            <v-pagination
+                v-model="page"
+                :length="totalPages"
+                :total-visible="5"
+                class="mt-4"
+                @update:model-value="log()"
+            ></v-pagination>
+        </v-container>
+    </div>
 </template>
 <script setup lang="ts">
+import { useActorsStore } from '@/stores/actorsStore';
+import Autocomplete from '@/components/generic-components/Autocomplete.vue';
+import PageTitle from '@/components/generic-components/text-elements/PageTitle.vue';
+import SectionTitle from '@/components/generic-components/text-elements/SectionTitle.vue';
+import Wip from '@/components/generic-components/Wip.vue';
+import { useApplicationStore } from '@/stores/applicationStore';
+import { computed, ref, watch } from 'vue';
+
+const appStore = useApplicationStore();
+const actorsStore = useActorsStore();
+
+const page = ref(1);
+const itemsPerPage = appStore.mobile ? 5 : 15
+const paginatedActors = computed(() => {
+      const start = (page.value - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      return actorsStore.actors.slice(start, end);
+    })
+const totalPages = computed(() => Math.ceil(actorsStore.actors.length / itemsPerPage));
 </script>
