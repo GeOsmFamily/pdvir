@@ -5,7 +5,7 @@
                 v-bind="props"
                 variant="outlined"
                 class="ActorCard"
-                :to="`/actors/${actor.id}`"
+                :to="getActorUrl(actor.name)"
             >
                 <span class="ActorCard__Acronym">{{ actor.acronym }}</span>
                 <span class="ActorCard__Name">{{ actor.name }}</span>
@@ -33,6 +33,9 @@ import type { Actor }  from '@/models/interfaces/Actor';
 defineProps<{
   actor: Actor;
 }>();
+const getActorUrl = (name: string) => {
+    return `/actors/${name}`
+}
 </script>
 <style scoped>
 .ActorCard{

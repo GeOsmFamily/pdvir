@@ -16,12 +16,11 @@
                 color="main-red"
             >
                 <v-tab 
-                v-for="tab in NavigationTabsContent.getContent()"
+                v-for="tab in NavigationTabsService.getContent()"
                 :value="tab.value"
+                :to="tab.route"
                 >
-                <RouterLink :to="tab.route" class="Header__TabsText">
-                    {{tab.name}}
-                </RouterLink>
+                    <span class="Header__TabsText">{{tab.name}}</span>
                 </v-tab>
             </v-tabs>
             <v-btn 
@@ -37,7 +36,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { NavigationTabsContent } from '@/models/static-classes/NavigationTabsContent';
+import { NavigationTabsService } from '@/services/application/NavigationTabsService';
 import { useApplicationStore } from '@/stores/applicationStore';
 import LoginButton from './LoginButton.vue';
 

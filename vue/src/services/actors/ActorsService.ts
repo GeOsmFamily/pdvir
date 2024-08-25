@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import { fr, fakerFR } from '@faker-js/faker';
 import type { Actor } from "@/models/interfaces/Actor";
 
 export class ActorsService {
@@ -13,30 +13,30 @@ export class ActorsService {
 
 function generateActor(): Actor {
   return {
-    id: faker.string.uuid(),
-    name: faker.company.name(),
-    acronym: faker.lorem.word().toUpperCase().substring(0, Math.floor(Math.random() * 6) + 1),
-    type_id: faker.number.int({ min: 1, max: 10 }),
-    country_id: faker.number.int({ min: 1, max: 195 }),
-    foundation_date: faker.date.past(),
-    description: faker.lorem.paragraph(),
-    logo: faker.image.url({ height: 180, width: 180 }),
-    contact_name: faker.person.fullName(),
-    contact_picture: faker.image.avatar(),
-    phone: faker.phone.number(),
-    address: faker.location.streetAddress(),
-    email: faker.internet.email(),
-    website: faker.internet.url(),
-    fb: `https://facebook.com/${faker.internet.userName()}`,
-    linkedin: `https://linkedin.com/in/${faker.internet.userName()}`,
-    twitter: `https://twitter.com/${faker.internet.userName()}`,
-    instagram: `https://instagram.com/${faker.internet.userName()}`,
-    latitude: faker.location.latitude(),
-    longitude: faker.location.longitude(),
-    active: faker.datatype.boolean(),
-    closing_date: faker.datatype.boolean() ? faker.date.future() : null,
-    last_update: faker.date.recent(),
-    reference: faker.lorem.words(5)
+    id: fakerFR.string.uuid(),
+    name: fakerFR.company.name(),
+    acronym: fakerFR.lorem.word().toUpperCase().substring(0, Math.floor(Math.random() * 6) + 1),
+    type_id: fakerFR.number.int({ min: 1, max: 10 }),
+    country_id: fakerFR.number.int({ min: 1, max: 195 }),
+    foundation_date: fakerFR.date.past(),
+    description: fakerFR.lorem.paragraph(),
+    logo: fakerFR.image.url({ height: 180, width: 180 }),
+    contact_name: fakerFR.person.fullName(),
+    contact_picture: fakerFR.image.avatar(),
+    phone: fakerFR.phone.number(),
+    address: fakerFR.location.streetAddress(),
+    email: fakerFR.internet.email(),
+    website: fakerFR.internet.url(),
+    fb: `https://facebook.com/${fakerFR.internet.userName()}`,
+    linkedin: `https://linkedin.com/in/${fakerFR.internet.userName()}`,
+    twitter: `https://twitter.com/${fakerFR.internet.userName()}`,
+    instagram: `https://instagram.com/${fakerFR.internet.userName()}`,
+    latitude: fakerFR.location.latitude(),
+    longitude: fakerFR.location.longitude(),
+    active: fakerFR.datatype.boolean(),
+    closing_date: fakerFR.datatype.boolean() ? fakerFR.date.future() : null,
+    last_update: fakerFR.date.recent(),
+    reference: fakerFR.lorem.words(5)
   };
 }
 

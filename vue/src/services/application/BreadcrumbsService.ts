@@ -1,23 +1,28 @@
 import { i18n } from "@/main";
+import type { RouteLocationNormalizedLoadedGeneric } from "vue-router";
 
 export class BreadcrumbsService {
-    static getBreadcrumbsItems(path: string) {
-        const segments = path.split('/').filter(Boolean);
-        const breadcrumbs: string[] = [];
+    static getBreadcrumbsItems(route: RouteLocationNormalizedLoadedGeneric) {
+        const segments = route.fullPath.split('/').filter(Boolean);
+        let newRoute = "/"
+        const breadcrumbs: {title: string, to: string}[] = [];
         if (segments.length > 0) {
-            breadcrumbs.push(i18n.t('header.home'))
-            segments.map((segment) => {
+            breadcrumbs.push({title:i18n.t('header.home'), to: newRoute});
+            segments.map((segment, i) => {
                 const key = 'header.' + segment;
                 const text = i18n.t(key);
+                newRoute += segment
                 // Check if traduction exists
                 if (text === key) {
-                    breadcrumbs.push(segment);
+                    breadcrumbs.push({title: segment, to: newRoute});
                 } else {
-                    breadcrumbs.push(text);
+                    breadcrumbs.push({title: text, to: newRoute});
+                }
+                if (i < segments.length - 1) {
+                    newRoute += '/'
                 }
             });
         }
-        
     
         return breadcrumbs;
     }

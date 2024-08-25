@@ -19,10 +19,9 @@ const router = createRouter({
       component: () => import('../views/ActorsView.vue')
     },
     {
-      path: '/actors/:id',
-      name: 'ActorProfile',
+      path: '/actors/:name',
+      name: 'actorProfile',
       component: ActorProfile,
-      props: route => ({ id: Number(route.params.id) }) // Passe l'id comme prop
     },
     {
       path: '/projects',

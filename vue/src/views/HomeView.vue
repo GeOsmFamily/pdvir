@@ -1,7 +1,14 @@
-<script setup lang="ts">
-</script>
-
 <template>
-  <main>
-  </main>
+  <div class="homeTemp">
+    <Wip :height="350"/>
+  </div>
 </template>
+<script setup lang="ts">
+import Wip from '@/components/generic-components/Wip.vue';
+</script>
+<style lang="scss">
+.homeTemp{
+  height: 100%;
+  width: 100%;
+}
+</style>

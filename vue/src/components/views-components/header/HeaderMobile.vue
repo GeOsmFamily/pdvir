@@ -25,7 +25,7 @@
             <div class="Header__Mobile__Menu__Content">
                 <v-list lines="one" bg-color="light-yellow">
                     <v-list-item
-                        v-for="tab in NavigationTabsContent.getContent()"
+                        v-for="tab in NavigationTabsService.getContent()"
                         @click="showMobileMenu = !showMobileMenu"
                     >
                         <RouterLink :to="tab.route" class="Header__TabsText">
@@ -47,7 +47,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { NavigationTabsContent } from '@/models/static-classes/NavigationTabsContent';
+import { NavigationTabsService } from '@/services/application/NavigationTabsService';
 import LoginButton from './LoginButton.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { ref } from 'vue';

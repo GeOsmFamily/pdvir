@@ -12,8 +12,9 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 const actorsStore = useActorsStore();
 
-const id = computed(() => route.params.id);
-const actor: Ref<Actor> = ref(actorsStore.actors.find(actor => actor.id === id.value)) as Ref<Actor>;
+const id = computed(() => route.params.name);
+const actor: Ref<Actor> = ref(actorsStore.actors.find(actor => actor.name === id.value)) as Ref<Actor>;
+//Use only keys with correct format
 const objectKeys = computed(() => Object.keys(actor.value));
 </script>
 <style scoped>
