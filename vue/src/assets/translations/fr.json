@@ -1,4 +1,16 @@
 {
+    "breadcrumbs": {
+        "home": "Accueil",
+        "actors": "Acteurs",
+        "projects": "Projets",
+        "resources": "Ressources",
+        "services": "Services",
+        "map": "Ma carte",
+        "account": "Mon compte",
+        "administration": "Administration",
+        "members": "Membres",
+        "content": "Contenu"
+    },
     "header": {
         "title": "Platerforme",
         "title2": "Urbaine",
