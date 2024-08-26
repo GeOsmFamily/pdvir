@@ -2,8 +2,7 @@ import { StoresList } from '@/models/enums/StoresList'
 import type { Actor } from '@/models/interfaces/Actor'
 import { ActorsService } from '@/services/actors/ActorsService'
 import { defineStore } from 'pinia'
-import { reactive, ref } from 'vue'
-import { useDisplay } from 'vuetify'
+import { reactive } from 'vue'
 
 
 export const useActorsStore = defineStore(StoresList.ACTORS, () => {

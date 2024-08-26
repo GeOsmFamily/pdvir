@@ -24,12 +24,5 @@
         "map": "Ma carte",
         "login": "Connectez-vous",
         "account": "Mon compte"
-    },
-    "actors": {
-        "title": "Annuaire",
-        "subtitle": "des acteurs",
-        "desc": "Consultez l’annuaire des acteurs du secteur de l’urbanisme au Cameroun.",
-        "search": "Rechercher un acteur",
-        "filtersTitle": "Affinez votre recherche"
     }
 }
