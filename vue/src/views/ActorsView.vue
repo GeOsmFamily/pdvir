@@ -1,7 +1,7 @@
 <template>
-    <div class="Actors__Header">
+    <div class="Actors__header">
         <img src="@/assets/images/Mosaic_actors_page.svg" alt="">
-        <div class="Actors__Header__Description">
+        <div class="Actors__header__description">
             <PageTitle :text="$t('actors.title')"/>
             <PageTitle :text="$t('actors.subtitle')"/>
             <span class="mt-6">{{ $t('actors.desc') }}</span>
@@ -14,11 +14,11 @@
             />
         </div>
     </div>
-    <div class="Actors__Filters">
+    <div class="Actors__filters">
         <SectionTitle :text="$t('actors.filtersTitle')" />
         <Wip />
     </div>
-    <div class="Actors__Content">
+    <div class="Actors__content">
         <v-container>
             <v-row>
                 <v-col v-for="actor in paginatedActors" cols="12" md="4">
@@ -30,6 +30,7 @@
                 :length="totalPages"
                 :total-visible="5"
                 class="mt-4"
+                @update:model-value="log()"
             ></v-pagination>
         </v-container>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <Header />
   <LoginDialog />
-  <div :class="appStore.mobile ? 'App__Mobile__Content' : 'App__Desktop__Content'">
+  <div :class="appStore.mobile ? 'App__content--mobile' : 'App__content--desktop'">
     <v-breadcrumbs v-if="!appStore.mobile" :items="appStore.breadcrumbs"></v-breadcrumbs>
     <RouterView />
   </div>
@@ -20,5 +20,5 @@ const actorsStore = useActorsStore();
 onBeforeMount(async () => await actorsStore.getActors())
 </script>
 <style lang="scss">
-@import './assets/styles/app.scss';
+@import '@/assets/styles/global/app.scss';
 </style>

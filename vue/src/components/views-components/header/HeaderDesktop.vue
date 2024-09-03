@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="Header__Desktop__Banner">
-            <img src="@/assets/images/Logo.svg" alt="Accueil" class="AppLogo__Desktop">
+        <div class="Header__desktop__banner">
+            <img src="@/assets/images/Logo.svg" alt="Accueil" class="Header__appLogo--desktop">
             <div>
                 <v-icon icon="mdi-help-circle-outline" class="mr-2" />
                 <span class="mr-6">{{ $t('header.help') }}</span>
@@ -9,7 +9,7 @@
                 <span>{{ $t('header.contact') }}</span>
             </div>
         </div>
-        <div class="Header__Desktop__Tabs">
+        <div class="Header__desktop__tabs">
             <v-tabs
                 v-model="appStore.activeTab"
                 align-tabs="end"
@@ -20,7 +20,7 @@
                 :value="tab.value"
                 :to="tab.route"
                 >
-                    <span class="Header__TabsText">{{tab.name}}</span>
+                    <span class="Header__tabsText">{{tab.name}}</span>
                 </v-tab>
             </v-tabs>
             <v-btn 
