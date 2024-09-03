@@ -15,3 +15,4 @@ services:
       APP_SECRET: ${APP_SECRET}
     volumes:
       - ./symfony/docker/caddy/Caddyfile.prod:/etc/caddy/Caddyfile
+      - ./symfony/docker/caddy/worker.Caddyfile:/etc/caddy/worker.Caddyfile
