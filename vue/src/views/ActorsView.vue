@@ -30,7 +30,6 @@
                 :length="totalPages"
                 :total-visible="5"
                 class="mt-4"
-                @update:model-value="log()"
             ></v-pagination>
         </v-container>
     </div>
