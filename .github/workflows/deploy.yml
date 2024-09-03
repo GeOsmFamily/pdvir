@@ -9,20 +9,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'uat' || 'dev' }}
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set Environment Variables
-      id: set-env
-      run: |
-        if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-          echo "ENVIRONMENT=uat" >> $GITHUB_ENV
-        else
-          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
-        fi
-  
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
