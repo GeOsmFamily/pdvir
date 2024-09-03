@@ -19,14 +19,16 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Deploy to UAT
-      if: github.ref == 'refs/heads/main'
+    - name: Set Environment Variables
+      id: set-env
+      run: |
+        if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          echo "ENVIRONMENT=uat" >> $GITHUB_ENV
+        else
+          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+        fi
+        
+    - name: Deploy to Server
       run: |
         ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-        "cd /home/ubuntu/puc_uat && git fetch origin && git reset --hard origin/main && make deploy"
-
-    - name: Deploy to Dev
-      if: github.event_name == 'workflow_dispatch'
-      run: |
-        ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-        "cd /home/ubuntu/puc_dev && git fetch origin && git reset --hard origin/${{ github.ref_name }} && make deploy"
+        "cd ${{ secrets.REMOTE_PATH }} && git fetch origin && git reset --hard origin/${{ github.ref_name }} && make deploy"
