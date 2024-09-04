@@ -1,4 +1,7 @@
 {
+	http_port {$HTTP_PORT}
+	https_port {$HTTPS_PORT}
+	
 	{$CADDY_GLOBAL_OPTIONS}
 
 	frankenphp {
@@ -7,7 +10,7 @@
 }
 
 qgis.{$DOMAIN} {
-	reverse_proxy http://qgis:6000
+	reverse_proxy http://qgis:{$QGIS_SERVER_PORT}
 }
 
 {$CADDY_EXTRA_CONFIG}
