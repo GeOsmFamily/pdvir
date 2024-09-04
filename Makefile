@@ -20,7 +20,7 @@ up:
 	$(DOCKER_COMP) --env-file .env --env-file .env.local up --build -d --remove-orphans
 
 deploy:
-	$(DOCKER_COMP) --env-file .env --env-file .env.prod --env-file .env.local up --build --wait -d --remove-orphans
+	$(DOCKER_COMP) --env-file .env --env-file .env.prod --env-file .env.local up --build -d --remove-orphans
 
 down:
 	$(DOCKER_COMP) down

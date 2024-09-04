@@ -2,9 +2,6 @@ name: Deploy to Server
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
 
 jobs:
   deploy:
@@ -21,7 +18,7 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         
-    - name: Deploy to Server
+    - name: Deploy to Server depending on environment
       run: |
         ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
         "cd ${{ secrets.REMOTE_PATH }} && git fetch origin && git reset --hard origin/${{ github.ref_name }} && make deploy"

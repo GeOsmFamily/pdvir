@@ -3,6 +3,7 @@ services:
     build:
       context: ./vue
       target: vue_dev
+    image: vue:latest
     restart: on-failure
     ports:
       - ${VUE_PORT:-3000}:3000
@@ -29,9 +30,9 @@ services:
       - qgis
       - docs
     ports:
-      - 80:80
-      - 443:443
-      - 443:443/udp
+      - ${HTTP_PORT:-80}:80
+      - ${HTTPS_PORT:-443}:443
+      - ${HTTPS_PORT:-443}:443/udp
     volumes:
       - caddy_data:/data
       - caddy_config:/config
@@ -40,6 +41,7 @@ services:
     build:
       context: ./docs
       target: docs_dev
+    image: docs:latest
     restart: on-failure
     ports:
       - ${DOCS_PORT:-5000}:5000
@@ -89,7 +91,7 @@ services:
       QGIS_SERVER_WMS_MAX_HEIGHT: 5000
       QGIS_SERVER_WMS_MAX_WIDTH: 5000
     ports:
-      - 6000:9993
+      - ${QGIS_SERVER_PORT:-6000}:9993
     volumes:
      # Data should be mount RO when working
      # with GeoPackages and more than one QGIS container
@@ -105,10 +107,10 @@ services:
     # Provide the FQDN of your mail server here (Your DNS MX record should point to this value)
     hostname: mail.${DOMAIN}
     ports:
-      - "25:25"
-      - "465:465"
-      - "587:587"
-      - "993:993"
+      - "${SMTP_RELAY_PORT:-25}:25"
+      - "${SMTP_OLD_PORT:-465}:465"
+      - "${SMTP_SUBMISSION_PORT:-587}:587"
+      - "${IMAP_PORT:-993}:993"
     volumes:
       - ./docker/mailserver/dms/mail-data/:/var/mail/
       - ./docker/mailserver/dms/mail-state/:/var/mail-state/
