@@ -20,7 +20,7 @@
     flex-direction: column;
     flex-grow: 1;
     padding: 30px $desktop-side-padding;
-    background-image: url('img/Frame.svg');
+    background-image: url('/img/Frame.svg');
     background-position: top right;
     background-size: 45% auto;
 }
@@ -30,7 +30,7 @@
     flex-direction: column;
     flex-grow: 1;
     padding: 20px $mobile-side-padding;
-    background-image: url('img/Frame.svg');
+    background-image: url('/img/Frame.svg');
     background-position: top right;
     background-size: 100% auto;
 }
