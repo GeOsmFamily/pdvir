@@ -1,11 +1,8 @@
 name: Deploy to Server
 
 on:
-  # push:
-  #   branches:
-  #     - main
   push:
-    branches-ignore:
+    branches:
       - main
   workflow_dispatch:
     inputs:
