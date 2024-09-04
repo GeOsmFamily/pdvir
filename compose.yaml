@@ -14,13 +14,16 @@ services:
   php:
     build:
       context: ./symfony
-    image: ${IMAGES_PREFIX:-}app-php
+    image: ${COMPOSE_PROJECT_NAME}-php
     restart: unless-stopped
     environment:
       SERVER_NAME: api.${DOMAIN:-localhost}, php:${HTTP_PORT:-80}
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
       TRUSTED_HOSTS: ${TRUSTED_HOSTS:-^api\.${DOMAIN:-example\.com|localhost}|php$$}
       DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@postgres:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-16}&charset=${POSTGRES_CHARSET:-utf8}
+      VUE_PORT: ${VUE_PORT:-3000}
+      DOCS_PORT: ${DOCS_PORT:-5000}
+      QGIS_SERVER_PORT: ${QGIS_SERVER_PORT:-6000}
       DOMAIN: ${DOMAIN}
     cap_add:
       - NET_ADMIN
