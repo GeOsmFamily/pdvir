@@ -1,7 +1,7 @@
 // Imported in app.vue
-@import 'variables';
-@import 'header';
-@import 'actors';
+@import '@/assets/styles/global/_variables';
+@import '@/assets/styles/views/header';
+@import '@/assets/styles/views/actors';
 
 #app {
     display: flex;
@@ -15,7 +15,7 @@
     font-family: "Ojuju", sans-serif;
 }
 
-.App__Desktop__Content{
+.App__content--desktop{
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -25,7 +25,7 @@
     background-size: 45% auto;
 }
 
-.App__Mobile__Content{
+.App__content--mobile{
     display: flex;
     flex-direction: column;
     flex-grow: 1;
