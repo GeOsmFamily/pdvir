@@ -1,7 +1,6 @@
 import Caddyfile.base
 
 {$DOMAIN} {
-	https_port
 	root * /var/www/vue
 	file_server
 }
