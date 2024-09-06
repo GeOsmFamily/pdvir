@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.ref == 'refs/heads/main' && 'uat' || 'dev' }}
+      url: https://${{ github.ref == 'refs/heads/main' && 'uat' || 'dev' }}.puc.cartong.org
 
     steps:
     - name: Checkout code
