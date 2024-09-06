@@ -3,10 +3,10 @@
 	https_port {$HTTPS_PORT}
 	
 	on_demand_tls {
-		ask http://localhost:9999
+		# ask http://localhost:9999
 
 		# Should be the way to go, but disabled because couldn't issue cert on validator instance
-		# ask http://api.{$DOMAIN}/caddy/allowed-domain
+		ask http://api.{$DOMAIN}/caddy/allowed-domain
 	}
 	
 	{$CADDY_GLOBAL_OPTIONS}
@@ -18,9 +18,9 @@
 
 # Unsecured, should be implementing https://caddyserver.com/docs/caddyfile/options#on-demand-tls
 # This path allows all
-http://localhost:9999 {
-	respond 200
-}
+# http://localhost:9999 {
+# 	respond 200
+# }
 
 # qgis.{$DOMAIN} {
 # 	reverse_proxy http://qgis:{$QGIS_SERVER_PORT}
@@ -28,11 +28,11 @@ http://localhost:9999 {
 
 {$CADDY_EXTRA_CONFIG}
 
-https://api.{$DOMAIN} {
+http://api.{$DOMAIN} {
 
-	tls {
-		on_demand
-	}
+#	tls {
+#		on_demand
+#	}
 	
 	root * /app/public
 	encode zstd br gzip
