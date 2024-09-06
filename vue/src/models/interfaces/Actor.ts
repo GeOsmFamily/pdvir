@@ -1,5 +1,6 @@
 export interface Actor {
     id: string;
+    createdBy: string;
     name: string;
     acronym: string;
     type_id: number;

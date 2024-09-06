@@ -14,6 +14,7 @@ export class ActorsService {
 function generateActor(): Actor {
   return {
     id: fakerFR.string.uuid(),
+    createdBy: fakerFR.string.uuid(),
     name: fakerFR.company.name(),
     acronym: fakerFR.lorem.word().toUpperCase().substring(0, Math.floor(Math.random() * 6) + 1),
     type_id: fakerFR.number.int({ min: 1, max: 10 }),
@@ -36,7 +37,7 @@ function generateActor(): Actor {
     active: fakerFR.datatype.boolean(),
     closing_date: fakerFR.datatype.boolean() ? fakerFR.date.future() : null,
     last_update: fakerFR.date.recent(),
-    reference: fakerFR.lorem.words(5)
+    reference: fakerFR.lorem.words(5),
   };
 }
 

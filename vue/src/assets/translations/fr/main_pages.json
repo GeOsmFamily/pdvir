@@ -4,6 +4,7 @@
         "subtitle": "des acteurs",
         "desc": "Consultez l’annuaire des acteurs du secteur de l’urbanisme au Cameroun.",
         "search": "Rechercher un acteur",
-        "filtersTitle": "Affinez votre recherche"
+        "filtersTitle": "Affinez votre recherche",
+        "add": "Ajouter un acteur"
     }
 }

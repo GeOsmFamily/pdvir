@@ -1,6 +1,6 @@
 <template>
     <v-dialog
-      v-model="userStore.showLogingDialog"
+      v-model="appStore.showLogingDialog"
       width="auto"
       class="font-ojuju"
     >
@@ -14,14 +14,14 @@
           <v-btn
             class="ms-auto"
             text="Ok"
-            @click="userStore.showLogingDialog = false"
+            @click="appStore.showLogingDialog = false"
           ></v-btn>
         </template>
       </v-card>
     </v-dialog>
 </template>
 <script setup lang="ts">
-import { useUserStore } from '@/stores/userStore';
+import { useApplicationStore } from '@/stores/applicationStore';
 
-const userStore = useUserStore();
+const appStore = useApplicationStore();
 </script>

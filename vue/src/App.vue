@@ -1,6 +1,7 @@
 <template>
   <Header />
   <LoginDialog />
+  <EditContentDialog />
   <div :class="appStore.mobile ? 'App__content--mobile' : 'App__content--desktop'">
     <v-breadcrumbs v-if="!appStore.mobile" :items="appStore.breadcrumbs"></v-breadcrumbs>
     <RouterView />
@@ -10,10 +11,11 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import Header from './components/views-components/header/Header.vue';
-import LoginDialog from './components/views-components/login/LoginDialog.vue';
+import LoginDialog from './components/views-components/dialog/LoginDialog.vue';
 import { useApplicationStore } from './stores/applicationStore';
 import { useActorsStore } from './stores/actorsStore';
 import { onBeforeMount } from 'vue';
+import EditContentDialog from './components/views-components/dialog/EditContentDialog.vue';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();

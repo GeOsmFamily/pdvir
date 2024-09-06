@@ -17,9 +17,12 @@
     <div class="Actors__filters">
         <SectionTitle :text="$t('actors.filtersTitle')" />
         <Wip />
+        <div>
+            <v-btn color="main-red" prepend-icon="mdi-plus" @click="addActor()">{{ $t('actors.add') }}</v-btn>
+        </div>
     </div>
-    <div class="Actors__content">
-        <v-container>
+    <div class="Actors__content mt-4">
+        <v-container class="pa-0">
             <v-row>
                 <v-col v-for="actor in paginatedActors" cols="12" md="4">
                     <ActorCard :actor="actor"/>
@@ -55,4 +58,8 @@ const paginatedActors = computed(() => {
       return actorsStore.actors.slice(start, end);
     })
 const totalPages = computed(() => Math.ceil(actorsStore.actors.length / itemsPerPage));
+
+function addActor() {
+    actorsStore.activateActorEdition(null);
+}
 </script>
