@@ -22,9 +22,9 @@ http://localhost:9999 {
 	respond 200
 }
 
-qgis.{$DOMAIN} {
-	reverse_proxy http://qgis:{$QGIS_SERVER_PORT}
-}
+# qgis.{$DOMAIN} {
+# 	reverse_proxy http://qgis:{$QGIS_SERVER_PORT}
+# }
 
 {$CADDY_EXTRA_CONFIG}
 
