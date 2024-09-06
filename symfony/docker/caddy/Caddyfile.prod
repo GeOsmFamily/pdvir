@@ -1,11 +1,19 @@
 import Caddyfile.base
 
-{$DOMAIN} {
+https://{$DOMAIN} {
+	tls {
+		on_demand
+	}
+	
 	root * /var/www/vue
 	file_server
 }
 
-docs.{$DOMAIN} {
+https://docs.{$DOMAIN} {
+	tls {
+		on_demand
+	}
+	
 	root * /var/www/docs
 	file_server
 }

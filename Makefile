@@ -13,20 +13,23 @@ SYMFONY = $(DOCKER_EXEC_PHP) php bin/console
 COMPOSER = $(DOCKER_EXEC_PHP) composer
 
 dev: up show-urls
+build-dev: build-and-up show-urls
+
 stop: down
 init: build init-hosts
+build-and-up: build up
 
 up:
-	$(DOCKER_COMP) --env-file .env --env-file .env.local up --build -d --remove-orphans
+	$(DOCKER_COMP) --env-file .env --env-file .env.local up -d --remove-orphans
+
+down:
+	$(DOCKER_COMP) --env-file .env --env-file .env.local down
+
+build:
+	$(DOCKER_COMP) --env-file .env --env-file .env.local build
 
 deploy:
 	$(DOCKER_COMP) --env-file .env --env-file .env.prod --env-file .env.local up --build -d --remove-orphans
-
-down:
-	$(DOCKER_COMP) down
-
-build:
-	$(DOCKER_COMP) build
 
 
 YELLOW=\033[1;33m
