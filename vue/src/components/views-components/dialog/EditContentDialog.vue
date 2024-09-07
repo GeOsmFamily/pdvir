@@ -2,8 +2,9 @@
     <v-dialog
       v-model="appStore.showEditContentDialog"
       width="auto"
+      persistent
     >
-        <ActorEditionForm v-if="actorsStore.actorEdition.active"/>
+      <ActorEditionForm v-if="actorsStore.actorEdition.active"/>
     </v-dialog>
 </template>
 <script lang="ts" setup>

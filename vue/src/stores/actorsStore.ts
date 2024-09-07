@@ -16,14 +16,11 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     active: false,
     id: null
   })
-  function activateActorEdition(id: string) {
+  function activateActorEdition(id: string | null) {
     actorEdition.id = id
     actorEdition.active = true
     useApplicationStore().showEditContentDialog = true
   }
-  function getActorById(id: string): Actor {
-    return actors.find(actor => actor.id === id)
-  }
 
-  return { actors, getActors, actorEdition, activateActorEdition, getActorById }
+  return { actors, getActors, actorEdition, activateActorEdition }
 })
