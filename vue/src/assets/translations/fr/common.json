@@ -9,7 +9,10 @@
         "account": "Mon compte",
         "administration": "Administration",
         "members": "Membres",
-        "content": "Contenu"
+        "content": "Contenu",
+        "membersPanel": "Membres",
+        "contentPanel": "Contenu",
+        "commentPanel": "Commentaires"
     },
     "header": {
         "title": "Platerforme",

@@ -3,7 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import ActorProfile from '@/components/views-components/actors/ActorProfile.vue'
 import AdminMembers from '@/components/views-components/admin/AdminMembers.vue'
 import AdminContent from '@/components/views-components/admin/AdminContent.vue'
-import AdminResources from '@/components/views-components/admin/AdminResources.vue'
+import AdminComments from '@/components/views-components/admin/AdminComments.vue'
+import { useAdminStore } from '@/stores/adminStore'
+import { AdministrationPanels } from '@/models/enums/AdministrationPanels'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,6 +56,12 @@ const router = createRouter({
     {
       path: '/administration',
       name: 'admin',
+      redirect: to => {
+        const adminStore = useAdminStore()
+        adminStore.selectedAdminPanel = AdministrationPanels.MEMBERS
+        return {
+          path: '/administration/membersPanel',}
+      },
       component: () => import('../views/AdminView.vue'),
       children: [
         {
@@ -65,8 +73,8 @@ const router = createRouter({
           component: AdminContent,
         },
         {
-          path: 'resourcesPanel',
-          component: AdminResources,
+          path: 'commentPanel',
+          component: AdminComments,
         },
       ]
     },

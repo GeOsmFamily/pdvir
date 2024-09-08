@@ -15,6 +15,7 @@ function generateActor(): Actor {
   return {
     id: fakerFR.string.uuid(),
     createdBy: fakerFR.string.uuid(),
+    isValidated: fakerFR.datatype.boolean(),
     name: fakerFR.company.name(),
     acronym: fakerFR.lorem.word().toUpperCase().substring(0, Math.floor(Math.random() * 6) + 1),
     type_id: fakerFR.number.int({ min: 1, max: 10 }),

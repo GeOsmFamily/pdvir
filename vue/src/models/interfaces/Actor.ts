@@ -1,6 +1,7 @@
 export interface Actor {
     id: string;
     createdBy: string;
+    isValidated: boolean;
     name: string;
     acronym: string;
     type_id: number;

@@ -1,6 +1,6 @@
 <template>
     <!-- Edit right to setup -->
-    <v-btn @click="editActor()" color="main-red">Edit</v-btn>
+    <v-btn @click="editActor()" color="main-red">{{ $t("actors.form.editTitle")}}</v-btn>
     <!-- Edit right to setup -->
     <div v-for="(value) in Object.entries(actor)">
         <strong>{{ value[0] }}:</strong>

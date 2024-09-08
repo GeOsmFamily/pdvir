@@ -13,7 +13,7 @@ export class ActorsFormService {
             acronym: z
                 .string()
                 .min(2, { message: i18n.t('actors.form.errorMessages.minlength', { min: 2 }) })
-                .max(8),
+                .max(8, { message: i18n.t('actors.form.errorMessages.maxlength', { max: 8 }) }),
             email: z.string().email(i18n.t('actors.form.errorMessages.email')),
         })
         const { errors } =useForm<Actor>({
@@ -21,9 +21,9 @@ export class ActorsFormService {
             validationSchema: toTypedSchema(actorSchema),
         });
         const form = {
-            name: {...useField('name', '', { validateOnValueUpdate: false })},
-            acronym: {...useField('acronym', '', { validateOnValueUpdate: false })},
-            email: {...useField('email', '', { validateOnValueUpdate: false })},
+            name: useField('name', '', { validateOnValueUpdate: false }),
+            acronym: useField('acronym', '', { validateOnValueUpdate: false }),
+            email: useField('email', '', { validateOnValueUpdate: false }),
         }
         return {form, errors}
     }

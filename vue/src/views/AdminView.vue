@@ -1,7 +1,9 @@
 <template>
     <PageBanner :text="$t('admin.title')" class="mt-10" />
     <div class="AdminView mt-10">
-        <div class="AdminView__Left"><AdminPanelsSelector /></div>
+        <div class="AdminView__Left">
+            <AdminPanelsSelector />
+        </div>
         <div class="AdminView__Right"><router-view /></div>
     </div>
 </template>
@@ -24,5 +26,6 @@ watch(selectedTab, () => {
 }
 .AdminView__Right {
     width: 70%;
+    background-color: white;
 }
 </style>

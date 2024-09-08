@@ -23,4 +23,7 @@ onBeforeMount(async () => await actorsStore.getActors())
 </script>
 <style lang="scss">
 @import '@/assets/styles/global/app.scss';
+// .v-field--variant-solo, .v-field--variant-solo-filled {
+//     box-shadow: none !important;
+// }
 </style>

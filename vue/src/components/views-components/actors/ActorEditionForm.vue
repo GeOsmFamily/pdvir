@@ -1,7 +1,7 @@
 <template>
     <div class="Actors__form__dialog">
         <div class="Actors__form__title">
-            <h3>{{ actorToEdit ? $t('actors.form.edittitle') : $t('actors.form.createtitle') }}</h3>
+            <h3>{{ actorToEdit ? $t('actors.form.editTitle') : $t('actors.form.createTitle') }}</h3>
             <v-btn icon="mdi-close" variant="outlined" size="x-small" @click="appStore.showEditContentDialog=false"></v-btn>
         </div>
         <div class="Actors__form__container">

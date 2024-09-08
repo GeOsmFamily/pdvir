@@ -1,5 +1,5 @@
 <template>
-    <div class="Autocomplete__Container pa-3 bg-main-yellow">
+    <div class="Autocomplete__container pa-3 bg-main-yellow">
         <v-autocomplete
             :items="items"
             variant="outlined"
@@ -23,13 +23,13 @@ defineProps({
 })
 </script>
 <style>
-.Autocomplete__Container{
+.Autocomplete__container{
     display: flex;
     align-items: center;
     width: 60%;
 }
 @media screen and (max-width: 600px) {
-    .Autocomplete__Container{
+    .Autocomplete__container{
         width: 100%;
     }
 }
