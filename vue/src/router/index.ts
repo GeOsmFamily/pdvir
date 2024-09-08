@@ -60,7 +60,8 @@ const router = createRouter({
         const adminStore = useAdminStore()
         adminStore.selectedAdminPanel = AdministrationPanels.MEMBERS
         return {
-          path: '/administration/membersPanel',}
+          path: '/administration/membersPanel'
+        }
       },
       component: () => import('../views/AdminView.vue'),
       children: [

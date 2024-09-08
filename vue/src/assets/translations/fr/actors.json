@@ -17,6 +17,9 @@
                 "maxlength": "Ce champs doit avoir au maximum {max} caractères",
                 "email": "Veuillez renseigner une adresse email valide"
             }
+        },
+        "admin": {
+            "sort": "Trier par"
         }
     }
 }
