@@ -11,11 +11,18 @@
         "form": {
             "createTitle": "Ajouter un acteur",
             "editTitle": "Modifier un acteur",
+            "name": "Nom de l'acteur",
+            "acronym": "Acronyme",
+            "contact": "Contact",
+            "website": "Site internet",
+            "phone": "Téléphone (Whatsapp)",
             "errorMessages": {
                 "required": "Ce champs est requis",
                 "minlength": "Ce champs doit avoir au moins {min} caractères",
                 "maxlength": "Ce champs doit avoir au maximum {max} caractères",
-                "email": "Veuillez renseigner une adresse email valide"
+                "email": "Veuillez renseigner une adresse email valide",
+                "url": "Veuillez renseigner une URL valide",
+                "phone": "Veuillez renseigner un numéro de téléphone valide"
             }
         },
         "admin": {

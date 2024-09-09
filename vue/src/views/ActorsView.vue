@@ -7,7 +7,7 @@
             <span class="mt-6">{{ $t('actors.desc') }}</span>
             <Autocomplete 
                 :placeholder="$t('actors.search')"
-                :items="actorsStore.actors"
+                :items="validatedActors"
                 item-title="name"
                 item-value="id"
                 class="mt-6"
@@ -49,15 +49,16 @@ import { computed, ref } from 'vue';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
+const validatedActors = computed(() => actorsStore.actors.filter(x => x.isValidated));
 
 const page = ref(1);
 const itemsPerPage = appStore.mobile ? 5 : 15
 const paginatedActors = computed(() => {
       const start = (page.value - 1) * itemsPerPage;
       const end = start + itemsPerPage;
-      return actorsStore.actors.slice(start, end);
+      return validatedActors.value.slice(start, end);
     })
-const totalPages = computed(() => Math.ceil(actorsStore.actors.length / itemsPerPage));
+const totalPages = computed(() => Math.ceil(validatedActors.value.length / itemsPerPage));
 
 function addActor() {
     actorsStore.activateActorEdition(null);
