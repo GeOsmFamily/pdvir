@@ -16,6 +16,8 @@
             "contact": "Contact",
             "website": "Site internet",
             "phone": "Téléphone (Whatsapp)",
+            "drag": "Faites glisser un fichier ici ou",
+            "import": "Importer un fichier",
             "errorMessages": {
                 "required": "Ce champs est requis",
                 "minlength": "Ce champs doit avoir au moins {min} caractères",
