@@ -12,6 +12,12 @@ VUE = $(DOCKER_EXEC_VUE)
 SYMFONY = $(DOCKER_EXEC_PHP) php bin/console
 COMPOSER = $(DOCKER_EXEC_PHP) composer
 
+ifdef ENV
+env := $(ENV)
+else
+env := prod
+endif
+
 dev: up show-urls
 stop: down
 init: build init-hosts
@@ -26,8 +32,10 @@ down:
 	$(DOCKER_COMP) down
 
 build:
-	$(DOCKER_COMP) build
+	$(DOCKER_COMP) --env-file .env --env-file .env.local build
 
+deploy:
+	$(DOCKER_COMP) --env-file .env --env-file .env.${ENV} --env-file .env.local up --build -d --remove-orphans
 
 YELLOW=\033[1;33m
 GREEN=\033[1;32m
