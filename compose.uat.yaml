@@ -1,0 +1,10 @@
+services:
+  php:
+    ports: !override
+      - ${HTTP_PORT:-80}:80
+    networks:
+      - puc-network
+
+networks:
+  puc-network:
+    name: puc_network
