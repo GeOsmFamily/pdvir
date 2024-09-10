@@ -1,4 +1,8 @@
 security:
+    role_hierarchy:
+        ROLE_EDITOR: ROLE_USER
+        ROLE_ADMIN: ROLE_EDITOR
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -10,11 +14,11 @@ security:
                 property: email
     firewalls:
         dev:
-            pattern: ^/_(profiler|wdt)
+            pattern: ^/_(profiler|wdt) # for Symfony Web Debug Toolbar
             security: false
         api:
             pattern: ^/api/
-            stateless: true
+            stateless: true #Don't use session
             provider: users
             jwt: ~
         main:
@@ -34,12 +38,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/$, roles: PUBLIC_ACCESS }
         - { path: ^/docs, roles: PUBLIC_ACCESS }
         - { path: ^/auth, roles: PUBLIC_ACCESS }
-        # - { path: ^/api/actors, roles: PUBLIC_ACCESS, methods: [GET] }
-        # - { path: ^/api/actors, roles: ROLE_EDITOR, methods: [POST, PUT, DELETE] }
-        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/actors, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/actors, roles: ROLE_EDITOR, methods: [POST, PUT, DELETE] }
+        # - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/$, roles: PUBLIC_ACCESS }
 
 when@test:
     security:

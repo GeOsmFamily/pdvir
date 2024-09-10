@@ -14,7 +14,7 @@ use ApiPlatform\Metadata\GetCollection;
 #[ApiResource]
 #[Get]
 #[Put(security: "is_granted('ROLE_EDITOR') or object.owner == user")]
-#[GetCollection]
+#[GetCollection(security: "is_granted('ROLE_EDITOR')")]
 #[Post(security: "is_granted('ROLE_EDITOR')")]
 class Actor
 {

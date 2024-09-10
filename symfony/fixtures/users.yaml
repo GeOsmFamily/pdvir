@@ -1,0 +1,9 @@
+App\Entity\User:
+    user_1:
+        email: admin@test.com
+        plainPassword: Test_Admin1234!
+        roles: [ 'ROLE_ADMIN' ]
+    user_2:
+        email: editor@test.com
+        plainPassword: Test_Edit1234!
+        roles: [ 'ROLE_EDITOR' ]

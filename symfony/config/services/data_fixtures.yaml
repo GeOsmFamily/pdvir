@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    App\DataFixtures\:
+        resource: '../../src/DataFixtures/'
+
+    App\DataFixtures\Processor\UserProcessor:
+        arguments:
+          - '@security.user_password_hasher'
