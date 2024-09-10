@@ -25,11 +25,8 @@ init: build init-hosts
 up:
 	$(DOCKER_COMP) --env-file .env --env-file .env.local up --build -d --remove-orphans
 
-deploy:
-	$(DOCKER_COMP) --env-file .env --env-file .env.prod --env-file .env.local up --build -d --remove-orphans
-
 down:
-	$(DOCKER_COMP) down
+	$(DOCKER_COMP) --env-file .env --env-file .env.local down
 
 build:
 	$(DOCKER_COMP) --env-file .env --env-file .env.local build
