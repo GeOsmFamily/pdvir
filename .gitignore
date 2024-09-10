@@ -1,3 +1,5 @@
 .env.local
 
 docker/postgres/*
+
+.idea
