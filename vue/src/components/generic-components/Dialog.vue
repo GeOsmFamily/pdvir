@@ -16,14 +16,13 @@
 </template>
 
 <script setup lang="ts">
-import { DialogKey } from '@/models/enums/DialogKey';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const applicationStore = useApplicationStore();
-const showDialog = computed(() => Object.values(DialogKey).includes(applicationStore.activeDialog));
+const showDialog = computed(() => applicationStore.activeDialog != null);
 const closeDialog = () => router.replace({ query: { dialog: undefined }});
 </script>
 
