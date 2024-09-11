@@ -18,21 +18,35 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Documentation', link: '/home' }
     ],
+    
+    search: {
+      provider: 'local'
+    },
 
     sidebar: [
       {
-        text: 'Examples',
+        collapsed: false,
+        text: 'Environments',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Local environment', link: '/environments/local' },
+          { text: 'Remote environments', link: '/environments/remote' },
+          { text: 'Deployement', link: '/environments/deployement' },
+          { text: 'Continuous Integration', link: '/environments/ci' },
+        ]
+      },
+      {
+        collapsed: false,
+        text: 'Infrastructure',
+        items: [
+          { text: 'Architecture schema', link: '/infrastructure' },
         ]
       }
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/CartONG/plateforme-urbaine-cameroun' }
     ]
   }
 })
