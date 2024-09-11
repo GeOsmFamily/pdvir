@@ -20,3 +20,11 @@ services:
       # Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
     tty: true
+
+volumes:
+  vue_node_modules:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./vue/node_modules

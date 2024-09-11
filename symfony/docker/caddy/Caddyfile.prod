@@ -1,11 +1,11 @@
 import Caddyfile.base
 
-{$DOMAIN} {
+{$CADDY_PROTOCOL}://{$DOMAIN} {
 	root * /var/www/vue
 	file_server
 }
 
-docs.{$DOMAIN} {
+{$CADDY_PROTOCOL}://docs.{$DOMAIN} {
 	root * /var/www/docs
 	file_server
 }

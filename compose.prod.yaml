@@ -16,3 +16,9 @@ services:
     volumes:
       - ./symfony/docker/caddy/Caddyfile.prod:/etc/caddy/Caddyfile
       - ./symfony/docker/caddy/worker.Caddyfile:/etc/caddy/worker.Caddyfile
+    networks:
+      - puc-network
+
+networks:
+  puc-network:
+    name: puc_network
