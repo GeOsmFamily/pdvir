@@ -8,7 +8,6 @@ import { useDisplay } from 'vuetify'
 import { DialogKey } from '@/models/enums/DialogKey'
 import type { Ref } from 'vue'
 
-
 export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
   const { mobile } = useDisplay()
   const activeTab = ref(0)

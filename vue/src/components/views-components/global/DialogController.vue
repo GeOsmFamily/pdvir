@@ -1,8 +1,8 @@
 <template>
-    <component :is="dialogComponent" v-if="dialogComponent != null" :key="activeDialog" />
+    <component :is="dialogComponent" v-if="dialogComponent != null" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { DialogKey } from '@/models/enums/DialogKey';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { computed, defineAsyncComponent } from 'vue';
