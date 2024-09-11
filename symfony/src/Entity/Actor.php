@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\ActorVoter;
 use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
 use App\State\Processor\ActorProcessor;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[ApiResource(
@@ -41,10 +41,12 @@ class Actor
     private const GROUP_READ = 'actor:read';
     private const GROUP_WRITE = 'actor:write';
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'uuid')]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
+    // #[ORM\Column]
     #[Groups([self::GROUP_READ])]
-    private ?int $id = null;
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
@@ -59,8 +61,18 @@ class Actor
     #[Groups([self::GROUP_READ])]
     private ?User $createdBy = null;
 
-    public function getId(): ?int
-    {
+    // public function __construct()
+    // {
+    //     $this->id = Uuid::v7();
+    // }
+    // public function setId(string $name): static
+    // {
+    //     $this->id = Uuid::v7();
+
+    //     return $this;
+    // }
+
+    public function getId(): ?Uuid {
         return $this->id;
     }
 
