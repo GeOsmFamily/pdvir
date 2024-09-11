@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
+import { useApplicationStore } from '@/stores/applicationStore'
 import ActorProfile from '@/components/views-components/actors/ActorProfile.vue'
 import AdminMembers from '@/components/views-components/admin/AdminMembers.vue'
 import AdminContent from '@/components/views-components/admin/AdminContent.vue'
 import AdminResources from '@/components/views-components/admin/AdminResources.vue'
+import { DialogKey } from '@/models/enums/DialogKey'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,6 +73,14 @@ const router = createRouter({
       ]
     },
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const applicationStore = useApplicationStore()
+  if (typeof to.query.dialog === 'string') {
+    applicationStore.activeDialog = to.query.dialog != undefined ? to.query.dialog : null
+  }
+  next()
 })
 
 export default router

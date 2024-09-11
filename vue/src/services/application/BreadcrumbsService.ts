@@ -1,4 +1,4 @@
-import { i18n } from "@/main";
+import { i18n } from "@/assets/plugins/i18n";
 import type { RouteLocationNormalizedLoadedGeneric } from "vue-router";
 
 export class BreadcrumbsService {

@@ -5,6 +5,5 @@ import { ref } from 'vue'
 
 export const useUserStore = defineStore(StoresList.USER, () => {
   const userIsLogged = ref(false)
-  const showLogingDialog = ref(false)
-  return { userIsLogged, showLogingDialog }
+  return { userIsLogged }
 })
