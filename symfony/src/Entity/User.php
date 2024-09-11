@@ -7,6 +7,8 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
@@ -57,6 +59,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(groups: ['user:create'])]
     #[Groups(['user:create', 'user:update'])]
     private ?string $plainPassword = null;
+
+    /**
+     * @var Collection<int, Actor>
+     */
+    #[ORM\OneToMany(targetEntity: Actor::class, mappedBy: 'createdBy', orphanRemoval: true)]
+    private Collection $actorsCreated;
+
+    public function __construct()
+    {
+        $this->actorsCreated = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -143,5 +156,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Actor>
+     */
+    public function getActorsCreated(): Collection
+    {
+        return $this->actorsCreated;
+    }
+
+    public function addActorsCreated(Actor $actorsCreated): static
+    {
+        if (!$this->actorsCreated->contains($actorsCreated)) {
+            $this->actorsCreated->add($actorsCreated);
+            $actorsCreated->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActorsCreated(Actor $actorsCreated): static
+    {
+        if ($this->actorsCreated->removeElement($actorsCreated)) {
+            // set the owning side to null (unless already changed)
+            if ($actorsCreated->getCreatedBy() === $this) {
+                $actorsCreated->setCreatedBy(null);
+            }
+        }
+
+        return $this;
     }
 }
