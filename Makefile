@@ -1,6 +1,7 @@
 include vue/Makefile
 include symfony/Makefile
 
+-include local.mk
 -include .env.local
 
 DOCKER_COMP = docker compose
