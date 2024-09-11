@@ -19,11 +19,14 @@ env := prod
 endif
 
 dev: up show-urls
+build-dev: build-and-up show-urls
+
 stop: down
 init: build init-hosts
+build-and-up: build up
 
 up:
-	$(DOCKER_COMP) --env-file .env --env-file .env.local up --build -d --remove-orphans
+	$(DOCKER_COMP) --env-file .env --env-file .env.local up -d --remove-orphans
 
 down:
 	$(DOCKER_COMP) --env-file .env --env-file .env.local down
