@@ -61,17 +61,6 @@ class Actor
     #[Groups([self::GROUP_READ])]
     private ?User $createdBy = null;
 
-    // public function __construct()
-    // {
-    //     $this->id = Uuid::v7();
-    // }
-    // public function setId(string $name): static
-    // {
-    //     $this->id = Uuid::v7();
-
-    //     return $this;
-    // }
-
     public function getId(): ?Uuid {
         return $this->id;
     }

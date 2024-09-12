@@ -1,13 +1,19 @@
 App\Entity\User:
     user_1:
+        firstName: John
+        lastName: Admin Doe
         email: admin@test.com
         plainPassword: Test1234
         roles: [ 'ROLE_ADMIN' ]
     user_2:
+        firstName: John
+        lastName: Editor Doe
         email: editor@test.com
         plainPassword: Test1234
         roles: [ 'ROLE_EDITOR' ]
     user_3:
+        firstName: Jane
+        lastName: Doe
         email: lambda@test.com
         plainPassword: Test1234
         roles: [ 'ROLE_USER' ]

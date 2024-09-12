@@ -7,13 +7,13 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use App\State\Processor\UserPasswordHasher;
+use App\State\Processor\UserProcessor;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -25,23 +25,39 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'user:create']]),
-        new Get(),
-        new Put(processor: UserPasswordHasher::class),
-        new Patch(processor: UserPasswordHasher::class),
+        new Post(processor: UserProcessor::class, validationContext: ['groups' => [self::GROUP_WRITE]]),
+        new Get(validationContext: ['groups' => [self::GROUP_READ]]),
+        new Put(processor: UserProcessor::class),
+        new Patch(processor: UserProcessor::class),
         new Delete(),
     ],
-    normalizationContext: ['groups' => ['user:read']],
-    denormalizationContext: ['groups' => ['user:create', 'user:update']],
+    normalizationContext: ['groups' => [self::GROUP_READ]],
+    denormalizationContext: ['groups' => [self::GROUP_WRITE]],
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    private const GROUP_READ = 'user:read';
+    private const GROUP_WRITE = 'user:write';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([self::GROUP_READ])]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
+    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
+    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    private ?string $lastName = null;
+
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
+    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $email = null;
 
     /**
@@ -56,8 +72,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Assert\NotBlank(groups: ['user:create'])]
-    #[Groups(['user:create', 'user:update'])]
+    #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
+    #[Groups([self::GROUP_WRITE])]
     private ?string $plainPassword = null;
 
     /**
@@ -65,6 +81,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Actor::class, mappedBy: 'createdBy', orphanRemoval: true)]
     private Collection $actorsCreated;
+
+    #[ORM\Column]
+    private ?bool $isValidated = null;
 
     public function __construct()
     {
@@ -184,6 +203,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $actorsCreated->setCreatedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function isValidated(): ?bool
+    {
+        return $this->isValidated;
+    }
+
+    public function setValidated(bool $isValidated): static
+    {
+        $this->isValidated = $isValidated;
 
         return $this;
     }

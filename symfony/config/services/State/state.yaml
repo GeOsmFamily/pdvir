@@ -6,6 +6,6 @@ services:
     App\State\:
         resource: '../../../src/State/'
 
-    App\State\Processor\UserPasswordHasher:
+    App\State\Processor\UserProcessor:
         bind:
             $processor: '@api_platform.doctrine.orm.state.persist_processor'
