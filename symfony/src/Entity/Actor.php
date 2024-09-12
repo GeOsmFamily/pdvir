@@ -17,24 +17,21 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(
-            normalizationContext: ['groups' => [self::GROUP_READ]]
-        ),
+        new GetCollection(),
         new Post(
-            denormalizationContext: ['groups' => [self::GROUP_WRITE]],
             processor: ActorProcessor::class,
             security: "is_granted('ROLE_EDITOR')"
         ),
         new Patch(
-            denormalizationContext: ['groups' => [self::GROUP_WRITE]],
             security: 'is_granted("'.ActorVoter::EDIT.'", object)'
         ),
         new Put(
-            denormalizationContext: ['groups' => [self::GROUP_WRITE]],
             processor: ActorProcessor::class,
             security: 'is_granted("'.ActorVoter::EDIT.'", object)'
         )
     ],
+    normalizationContext: ['groups' => [self::GROUP_READ]],
+    denormalizationContext: ['groups' => [self::GROUP_WRITE]],
 )]
 class Actor
 {

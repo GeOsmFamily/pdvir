@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Security\Voter\UserVoter;
 use App\State\Processor\UserProcessor;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,10 +26,16 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(processor: UserProcessor::class, validationContext: ['groups' => [self::GROUP_WRITE]]),
-        new Get(validationContext: ['groups' => [self::GROUP_READ]]),
-        new Put(processor: UserProcessor::class),
-        new Patch(processor: UserProcessor::class),
+        new Post(processor: UserProcessor::class),
+        new Get(),
+        new Put(
+            processor: UserProcessor::class,
+            security: 'is_granted("'.UserVoter::EDIT.'", object)'
+        ),
+        new Patch(
+            processor: UserProcessor::class,
+            security: 'is_granted("'.UserVoter::EDIT.'", object)'
+        ),
         new Delete(),
     ],
     normalizationContext: ['groups' => [self::GROUP_READ]],
