@@ -30,6 +30,8 @@ const reasons = [
 
 <style lang="scss">
 .AuthBecomeMemberWhy {
+  --reasons-margin-x: 2.5rem;
+
   .AuthBecomeMemberWhy__image {
     width: 100%;
     border-radius: 1rem;
@@ -39,7 +41,13 @@ const reasons = [
     display: flex;
     flex-flow: column nowrap;
     gap: 1rem;
-    margin: 2rem 3rem;
+    margin: 2rem var(--reasons-margin-x);
+  }
+}
+
+@media (max-width: $bp-md) {
+  .AuthBecomeMemberWhy {
+    --reasons-margin-x: 0.5rem;
   }
 }
 </style>

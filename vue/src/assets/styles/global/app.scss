@@ -18,10 +18,6 @@ a {
     text-decoration: none;
 }
 
-button .v-btn {
-    text-decoration: none;
-}
-
 * {
     font-family: $font-secondary;
 }
@@ -44,8 +40,8 @@ h4 {
 }
 
 .v-overlay__scrim {
-    background: rgba(0,0,0,.2) !important;
-    opacity: 1 !important;
+    background: rgba(0,0,0,0.2) !important;
+    opacity: .5;
     cursor: pointer;
 }
 

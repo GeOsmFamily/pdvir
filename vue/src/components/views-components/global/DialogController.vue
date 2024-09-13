@@ -1,21 +1,36 @@
 <template>
-    <component :is="dialogComponent" v-if="dialogComponent != null" />
+  <component :is="dialogComponent" v-if="dialogComponent != null" :transition="transition" />
 </template>
 
 <script setup lang="ts">
-import { DialogKey } from '@/models/enums/DialogKey';
-import { useApplicationStore } from '@/stores/applicationStore';
-import { computed, defineAsyncComponent } from 'vue';
+import { computed, onBeforeUnmount, ref, watch, type Ref } from 'vue';
+import { VScaleTransition } from 'vuetify/components';
 
-const AuthSignIn = defineAsyncComponent(() => import('@/components/views-components/auth/AuthSignIn.vue'));
-const AuthBecomeMember = defineAsyncComponent(() => import('@/components/views-components/auth/AuthBecomeMember.vue'));
-const AuthBecomeMemberWhy = defineAsyncComponent(() => import('@/components/views-components/auth/AuthBecomeMemberWhy.vue'));
-const AuthBecomeMemberThanks = defineAsyncComponent(() => import('@/components/views-components/auth/AuthBecomeMemberThanks.vue'));
-const AuthForgotPassword = defineAsyncComponent(() => import('@/components/views-components/auth/AuthForgotPassword.vue'));
-const AuthForgotPasswordOk = defineAsyncComponent(() => import('@/components/views-components/auth/AuthForgotPasswordOk.vue'));
+import { useApplicationStore } from '@/stores/applicationStore';
+
+import AuthSignIn from '@/components/views-components/auth/AuthSignIn.vue';
+import AuthBecomeMember from '@/components/views-components/auth/AuthBecomeMember.vue';
+import AuthBecomeMemberWhy from '@/components/views-components/auth/AuthBecomeMemberWhy.vue';
+import AuthBecomeMemberThanks from '@/components/views-components/auth/AuthBecomeMemberThanks.vue';
+import AuthForgotPassword from '@/components/views-components/auth/AuthForgotPassword.vue';
+import AuthForgotPasswordOk from '@/components/views-components/auth/AuthForgotPasswordOk.vue';
+
+import { DialogKey } from '@/models/enums/DialogKey';
+import type { VFadeTransition } from 'vuetify/components/transitions';
+
+const DEFAULT_TRANSITION = VScaleTransition
 
 const appStore = useApplicationStore();
 const activeDialog = computed(() => appStore.activeDialog);
+const transition: any = ref(DEFAULT_TRANSITION)
+
+watch(activeDialog, (newValue, oldValue) => {
+  transition.value = (oldValue == null && newValue != null) ? DEFAULT_TRANSITION : false
+})
+
+onBeforeUnmount(() => {
+  transition.value = DEFAULT_TRANSITION
+})
 
 const dialogComponent = computed(() => {
   switch (activeDialog.value) {
@@ -29,3 +44,14 @@ const dialogComponent = computed(() => {
   }
 })
 </script>
+
+<style lang="scss">
+.v-overlay {
+  .v-overlay__scrim {
+    &.fade-transition-enter-from,
+    &.fade-transition-leave-to {
+      opacity: 0.5 !important;
+    }
+  }
+}
+</style>

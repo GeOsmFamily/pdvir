@@ -28,12 +28,18 @@ const closeDialog = () => router.replace({ query: { dialog: undefined }});
 
 <style lang="scss">
 .Dialog {
+  --dialog-padding-x: 2.5rem;
+  --dialog-padding-top: 5.5rem;
+  $dim-dialog-h: calc(100vh - 4rem);
+
   background: #fff url(@/assets/images/Frise.svg)  no-repeat top center;
-  padding: 5.5rem 2.5rem 3rem 2.5rem;
+  background-attachment: local;
+  padding: var(--dialog-padding-top) var(--dialog-padding-x) 3rem var(--dialog-padding-x);
   width: $dim-dialog-w;
-  height: 42rem;
-  max-height: calc(100vh - 2rem);
-  overflow-y: scroll;
+  min-height: min(42rem, $dim-dialog-h);
+  max-height: calc(100vh - $dim-dialog-h);
+  max-width: 100%;
+  overflow-y: auto;
   display: flex;
   flex-flow: column nowrap; 
   align-items: center;
@@ -47,6 +53,7 @@ const closeDialog = () => router.replace({ query: { dialog: undefined }});
     align-items: center;
     gap: .125rem;
     margin-bottom: 1.5rem;
+    text-align: center;
     
     .Dialog__title {
       color: rgb(var(--v-theme-main-red));
@@ -78,7 +85,16 @@ const closeDialog = () => router.replace({ query: { dialog: undefined }});
   .Dialog__bottomContent {
     display: flex;
     flex-flow: row wrap;
+    text-align: center;
+    justify-content: center;
     gap: .5rem;
+  }
+}
+
+@media (max-width: $bp-md) {
+  .Dialog {
+    --dialog-padding-x: 1rem;
+    --dialog-padding-top: 3.5rem;
   }
 }
 </style>
