@@ -1,9 +1,9 @@
-import { i18n } from "@/main";
+import { i18n } from "@/assets/plugins/i18n";
 import type { RouteLocationNormalizedLoadedGeneric } from "vue-router";
 
 export class BreadcrumbsService {
     static getBreadcrumbsItems(route: RouteLocationNormalizedLoadedGeneric) {
-        const segments = route.fullPath.split('/').filter(Boolean);
+        const segments = route.path.split('/').filter(Boolean);
         let newRoute = "/"
         const breadcrumbs: {title: string, to: string}[] = [];
         if (segments.length > 0) {
