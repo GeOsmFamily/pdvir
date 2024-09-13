@@ -14,5 +14,4 @@ app.use(router)
 initSentry(app, router)
 app.use(vuetify)
 app.use(i18nInstance)
-
 app.mount('#app')

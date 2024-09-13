@@ -6,6 +6,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     environment:
       name: ${{ github.ref == 'refs/heads/main' && 'uat' || 'dev' }}
       url: https://${{ github.ref == 'refs/heads/main' && 'uat' || 'dev' }}.puc.cartong.org
@@ -23,3 +25,17 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
         "cd ${{ secrets.REMOTE_PATH }} && git fetch origin && git reset --hard origin/${{ github.ref_name }} && make deploy"
+    
+    - name: Create Sentry deploy 
+      run: |
+        # Install Sentry CLI
+        curl -sL https://sentry.io/get-cli/ | bash
+
+        # Create new Sentry release
+        export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+        sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+        sentry-cli releases set-commits --auto $SENTRY_RELEASE
+        sentry-cli releases finalize $SENTRY_RELEASE
+
+        # Create new deploy for this Sentry release
+        sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_DEPLOY_ENVIRONMENT
