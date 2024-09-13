@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240912151952 extends AbstractMigration
+final class Version20240913120057 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,7 +21,7 @@ final class Version20240912151952 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE actor (id UUID NOT NULL, created_by_id INT NOT NULL, name VARCHAR(255) NOT NULL, acronym VARCHAR(10) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE actor (id UUID NOT NULL, created_by_id INT NOT NULL, name VARCHAR(255) NOT NULL, acronym VARCHAR(10) NOT NULL, is_validated BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_447556F9B03A8386 ON actor (created_by_id)');
         $this->addSql('COMMENT ON COLUMN actor.id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE "user" (id INT NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_validated BOOLEAN NOT NULL, PRIMARY KEY(id))');

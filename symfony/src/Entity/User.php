@@ -8,11 +8,12 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\UserRepository;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use App\Security\Voter\UserVoter;
+use App\Repository\UserRepository;
+use App\State\Provider\UserProvider;
+use ApiPlatform\Metadata\ApiResource;
 use App\State\Processor\UserProcessor;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -25,7 +26,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ApiResource(
     operations: [
-        new GetCollection(),
+        new GetCollection(
+            provider: UserProvider::class
+        ),
         new Post(processor: UserProcessor::class),
         new Get(),
         new Put(

@@ -5,19 +5,22 @@ namespace App\Entity;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\ActorVoter;
 use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiResource;
+use App\State\Provider\ActorProvider;
 use ApiPlatform\Metadata\GetCollection;
 use App\State\Processor\ActorProcessor;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(),
+        new GetCollection(
+            provider: ActorProvider::class
+        ),
         new Post(
             processor: ActorProcessor::class,
             security: "is_granted('ROLE_EDITOR')"
@@ -58,6 +61,10 @@ class Actor
     #[Groups([self::GROUP_READ])]
     private ?User $createdBy = null;
 
+    #[ORM\Column]
+    #[Groups([self::GROUP_READ])]
+    private ?bool $isValidated = null;
+
     public function getId(): ?Uuid {
         return $this->id;
     }
@@ -94,6 +101,18 @@ class Actor
     public function setCreatedBy(?User $createdBy): static
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function isValidated(): ?bool
+    {
+        return $this->isValidated;
+    }
+
+    public function setValidated(bool $isValidated): static
+    {
+        $this->isValidated = $isValidated;
 
         return $this;
     }
