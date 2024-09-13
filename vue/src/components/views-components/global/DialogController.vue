@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch, type Ref } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { VScaleTransition } from 'vuetify/components';
 
 import { useApplicationStore } from '@/stores/applicationStore';
@@ -16,7 +16,6 @@ import AuthForgotPassword from '@/components/views-components/auth/AuthForgotPas
 import AuthForgotPasswordOk from '@/components/views-components/auth/AuthForgotPasswordOk.vue';
 
 import { DialogKey } from '@/models/enums/DialogKey';
-import type { VFadeTransition } from 'vuetify/components/transitions';
 
 const DEFAULT_TRANSITION = VScaleTransition
 

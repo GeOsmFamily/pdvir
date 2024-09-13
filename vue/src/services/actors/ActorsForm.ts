@@ -2,7 +2,7 @@ import type { Actor } from "@/models/interfaces/Actor";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useField, useForm } from "vee-validate";
 import { z } from "zod";
-import { i18n } from "@/main";
+import { i18n } from "@/assets/plugins/i18n";
 
 export class ActorsFormService {
     static getActorsForm(actorToEdit: Actor | undefined) {
