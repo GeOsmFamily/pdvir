@@ -1,7 +1,7 @@
 {
 	http_port {$HTTP_PORT}
 	https_port {$HTTPS_PORT}
-	
+
 	{$CADDY_GLOBAL_OPTIONS}
 
 	frankenphp {
@@ -9,13 +9,13 @@
 	}
 }
 
-qgis.{$DOMAIN} {
+{$CADDY_PROTOCOL}://qgis.{$DOMAIN} {
 	reverse_proxy http://qgis:{$QGIS_SERVER_PORT}
 }
 
 {$CADDY_EXTRA_CONFIG}
 
-api.{$DOMAIN} {
+{$CADDY_PROTOCOL}://api.{$DOMAIN} {
 	root * /app/public
 	encode zstd br gzip
 

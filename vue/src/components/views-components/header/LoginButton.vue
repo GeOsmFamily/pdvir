@@ -1,12 +1,14 @@
 <template>
-    <v-btn
+    <router-link
         v-if="!userStore.userIsLogged"
-        color="main-red"
-        prepend-icon="mdi-account-circle"
-        @click="userStore.showLogingDialog = true"
-    >
-        {{ $t('header.login') }}
-    </v-btn>
+        append :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_SIGN_IN } }">
+        <v-btn
+            color="main-red"
+            prepend-icon="mdi-account-circle"
+        >
+            {{ $t('header.login') }}
+        </v-btn>
+    </router-link>
     <v-btn 
         v-else
         base-color="white"
@@ -17,6 +19,7 @@
     </v-btn>
 </template>
 <script setup lang="ts">
+import { DialogKey } from '@/models/enums/DialogKey';
 import { useUserStore } from '@/stores/userStore';
 
 const userStore = useUserStore()

@@ -10,11 +10,45 @@
     flex-direction: column;
     width: 100%;
     height: 100vh;
-    font-family: "Onest", sans-serif;
 }
 
-.font-ojuju{
-    font-family: "Ojuju", sans-serif;
+a {
+    color: #000;
+}
+
+.Link--withoutUnderline {
+    text-decoration: none;
+}
+
+* {
+    font-family: $font-secondary;
+}
+    
+h1 {
+    font-size: $font-size-h1;
+}
+
+h2 {
+    font-size: $font-size-h2;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: $font-size-h3;
+}
+
+h4 {
+    font-size: $font-size-h4;
+}
+
+.v-overlay__scrim {
+    background: rgba(0,0,0,0.2) !important;
+    opacity: .5;
+    cursor: pointer;
+}
+
+.font-ojuju {
+    font-family: $font-primary;
 }
 
 .App__content--desktop{
