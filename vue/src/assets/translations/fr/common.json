@@ -27,5 +27,12 @@
         "map": "Ma carte",
         "login": "Connectez-vous",
         "account": "Mon compte"
+    },
+    "inputs": {
+        "fileUncorrect": "Fichier incorrect",
+        "images": {
+            "wrongFormat": "Format d'image incorrect, sont acceptés uniquement les images au format .png, .jpg, .jpeg, .bmp, .gif, .svg, .webp",
+            "wrongSize": "Taille d'image incorrecte, la taille maximale est de 1Mo"
+        }
     }
 }

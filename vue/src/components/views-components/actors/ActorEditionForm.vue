@@ -81,11 +81,11 @@
             </div>
 
             <div v-if="selectedFiles.length" class="d-flex flex-wrap mt-3">
-                <div v-for="(file, index) in selectedFiles":key="index" class="position-relative">
+                <div v-for="(selectedFile, index) in selectedFiles":key="index" class="position-relative">
                     <div @click="removeFile(index)" class="Actors__form__dropzone__imageCloser">X</div>
                     <img
-                        :src="file.preview"
-                        :alt="file.name"
+                        :src="selectedFile.preview"
+                        :alt="(selectedFile as any).name ? (selectedFile as ContentImageFromUserFile).name : ''"
                         class="Actors__form__dropzone__imageLoaded ma-2"
                     />
                 </div>
@@ -112,34 +112,21 @@ import { ActorsFormService } from '@/services/actors/ActorsForm';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useApplicationStore } from '@/stores/applicationStore';
 import FormSectionTitle from '@/components/generic-components/text-elements/FormSectionTitle.vue';
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
+import { ContentImageType } from '@/models/enums/ContentImageType';
+import type { ContentImageFromUrl, ContentImageFromUserFile } from '@/models/interfaces/ContentImage';
+import { InputImageValidator } from '@/services/files/InputImageValidator';
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const actorToEdit: Actor | undefined = actorsStore.actors.find(actor => actor.id === actorsStore.actorEdition.id);
 const {form, errors, handleSubmit, isSubmitting} = ActorsFormService.getActorsForm(actorToEdit);
 
-const selectedFiles: any = ref([])
-const fileInput = ref(null)
+const selectedFiles: Ref<(ContentImageFromUserFile | ContentImageFromUrl)[]> = ref([])
 
+const fileInput = ref(null)
 const triggerFileInput = () => {
   (fileInput.value as any).click()
 }
-const handleDrop = (event: any) => {
-  const files = event.dataTransfer.files
-  handleFileChange({ target: { files } })
-}
-
-const handleFileChange = (event: any) => {
-  const files = event.target.files
-  Array.from(files).forEach(file => {
-    const preview = URL.createObjectURL(file as File)
-    selectedFiles.value.push({ name: (file as File).name, preview, file })
-  })
-}
-const removeFile = (index: number) => {
-    selectedFiles.value.splice(index, 1)
-}
-
 const isDragging = ref(false)
 const handleDragEnter = () => {
   isDragging.value = true
@@ -152,8 +139,37 @@ const handleDragLeave = (event: any) => {
         isDragging.value = false
     }
 }
+const handleDrop = (event: any) => {
+  const files = event.dataTransfer.files
+  handleFileChange({ target: { files } })
+}
+
+const handleFileChange = (event: any) => {
+  const files: FileList = event.target.files
+  Array.from(files).forEach((file) => {
+    const fileStatus = InputImageValidator.validateImageFromFile(file)
+    if (fileStatus.isValid) {
+        const preview = URL.createObjectURL(file)
+        selectedFiles.value.push({ 
+            type: ContentImageType.CONTENT_IMAGE_FROM_USER_FILE,
+            name: (file).name,
+            preview: preview, 
+            file: file
+        })
+    } else {
+        console.log(fileStatus.message)
+    }
+  })
+  console.log(files)
+  console.log(selectedFiles.value)
+}
+const removeFile = (index: number) => {
+    selectedFiles.value.splice(index, 1)
+}
 
 const submitForm = handleSubmit((values) => {
-    console.log(values)
+    console.log(errors.value)
+    console.log(selectedFiles.value)
+    values.images = [...selectedFiles.value.map(selectedfile => selectedfile.file)]
 })
 </script>

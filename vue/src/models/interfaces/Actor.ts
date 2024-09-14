@@ -2,6 +2,7 @@ export interface Actor {
     id: string;
     createdBy: string;
     isValidated: boolean;
+    images: File[];
     name: string;
     acronym: string;
     type_id: number;
