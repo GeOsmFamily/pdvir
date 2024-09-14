@@ -57,41 +57,7 @@
                     :label="$t('actors.form.phone')"
                 ></v-text-field>
 
-            <div
-                class="Actors__form__dropzone"
-                :class="{ 'Actors__form__dropzone--dragging': isDragging }"
-                @drop.prevent="handleDrop"
-                @dragenter.prevent="handleDragEnter"
-                @dragover.prevent="handleDragOver"
-                @dragleave.prevent="handleDragLeave"
-                @click="triggerFileInput"
-            >
-                <img src="@/assets/images/importFilesIcon.svg" alt="">
-                <p class="ml-2">
-                    {{$t('actors.form.drag')}}
-                    <span class="Actors__form__dropzone__uploadLink">{{$t('actors.form.import')}}</span></p>
-                <input
-                    ref="fileInput"
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    class="d-none"
-                    @change="handleFileChange"
-                />
-            </div>
-
-            <div v-if="selectedFiles.length" class="d-flex flex-wrap mt-3">
-                <div v-for="(selectedFile, index) in selectedFiles":key="index" class="position-relative">
-                    <div @click="removeFile(index)" class="Actors__form__dropzone__imageCloser">X</div>
-                    <img
-                        :src="selectedFile.preview"
-                        :alt="(selectedFile as any).name ? (selectedFile as ContentImageFromUserFile).name : ''"
-                        class="Actors__form__dropzone__imageLoaded ma-2"
-                    />
-                </div>
-            </div>
-                
-
+                <InputImage @updateFiles="handleFilesUpdate" />
 
                 <div class="d-flex justify-space-between">
                     <v-btn color="white">Supprimer</v-btn>
@@ -107,69 +73,28 @@
     
 </template>
 <script setup lang="ts">
-import { type Actor } from '@/models/interfaces/Actor';
+import { type Actor, type ActorSubmission } from '@/models/interfaces/Actor';
 import { ActorsFormService } from '@/services/actors/ActorsForm';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useApplicationStore } from '@/stores/applicationStore';
 import FormSectionTitle from '@/components/generic-components/text-elements/FormSectionTitle.vue';
+import InputImage from '@/components/generic-components/InputImage.vue';
 import { ref, type Ref } from 'vue';
-import { ContentImageType } from '@/models/enums/ContentImageType';
-import type { ContentImageFromUrl, ContentImageFromUserFile } from '@/models/interfaces/ContentImage';
-import { InputImageValidator } from '@/services/files/InputImageValidator';
+import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const actorToEdit: Actor | undefined = actorsStore.actors.find(actor => actor.id === actorsStore.actorEdition.id);
-const {form, errors, handleSubmit, isSubmitting} = ActorsFormService.getActorsForm(actorToEdit);
-
+const {form, handleSubmit, isSubmitting} = ActorsFormService.getActorsForm(actorToEdit);
 const selectedFiles: Ref<(ContentImageFromUserFile | ContentImageFromUrl)[]> = ref([])
-
-const fileInput = ref(null)
-const triggerFileInput = () => {
-  (fileInput.value as any).click()
-}
-const isDragging = ref(false)
-const handleDragEnter = () => {
-  isDragging.value = true
-}
-const handleDragOver = (event: Event) => {
-  event.preventDefault()
-}
-const handleDragLeave = (event: any) => {
-    if (!event.currentTarget.contains(event.relatedTarget)) {
-        isDragging.value = false
-    }
-}
-const handleDrop = (event: any) => {
-  const files = event.dataTransfer.files
-  handleFileChange({ target: { files } })
-}
-
-const handleFileChange = (event: any) => {
-  const files: FileList = event.target.files
-  Array.from(files).forEach((file) => {
-    const fileStatus = InputImageValidator.validateImageFromFile(file)
-    if (fileStatus.isValid) {
-        const preview = URL.createObjectURL(file)
-        selectedFiles.value.push({ 
-            type: ContentImageType.CONTENT_IMAGE_FROM_USER_FILE,
-            name: (file).name,
-            preview: preview, 
-            file: file
-        })
-    } else {
-        console.log(fileStatus.message)
-    }
-  })
-  console.log(files)
-  console.log(selectedFiles.value)
-}
-const removeFile = (index: number) => {
-    selectedFiles.value.splice(index, 1)
+function handleFilesUpdate(files: (ContentImageFromUserFile | ContentImageFromUrl)[]) {
+    console.log(files)
+  selectedFiles.value = files;
 }
 
 const submitForm = handleSubmit((values) => {
-    console.log(errors.value)
-    console.log(selectedFiles.value)
-    values.images = [...selectedFiles.value.map(selectedfile => selectedfile.file)]
+    const actorSubmission: ActorSubmission = {
+        ...values, images: [...selectedFiles.value]
+    }
+    console.log(actorSubmission)
 })
 </script>

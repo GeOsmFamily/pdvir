@@ -39,7 +39,7 @@ export class ActorsFormService {
             name: useField('name', '', { validateOnValueUpdate: false }),
             website: useField('website', '', { validateOnValueUpdate: false }),
             email: useField('email', '', { validateOnValueUpdate: false }),
-            phone: useField('phone', '', { validateOnValueUpdate: false })
+            phone: useField('phone', '', { validateOnValueUpdate: false }),
         }
         return {form, errors, handleSubmit, isSubmitting}
     }
