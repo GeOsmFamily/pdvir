@@ -1,0 +1,57 @@
+<template>
+  <component :is="dialogComponent" v-if="dialogComponent != null" :transition="transition" />
+</template>
+
+<script setup lang="ts">
+import { computed, onBeforeUnmount, ref, watch, type Ref } from 'vue';
+import { VScaleTransition } from 'vuetify/components';
+
+import { useApplicationStore } from '@/stores/applicationStore';
+
+import AuthSignIn from '@/components/views-components/auth/AuthSignIn.vue';
+import AuthBecomeMember from '@/components/views-components/auth/AuthBecomeMember.vue';
+import AuthBecomeMemberWhy from '@/components/views-components/auth/AuthBecomeMemberWhy.vue';
+import AuthBecomeMemberThanks from '@/components/views-components/auth/AuthBecomeMemberThanks.vue';
+import AuthForgotPassword from '@/components/views-components/auth/AuthForgotPassword.vue';
+import AuthForgotPasswordOk from '@/components/views-components/auth/AuthForgotPasswordOk.vue';
+
+import { DialogKey } from '@/models/enums/DialogKey';
+import type { VFadeTransition } from 'vuetify/components/transitions';
+
+const DEFAULT_TRANSITION = VScaleTransition
+
+const appStore = useApplicationStore();
+const activeDialog = computed(() => appStore.activeDialog);
+const transition: any = ref(DEFAULT_TRANSITION)
+
+watch(activeDialog, (newValue, oldValue) => {
+  transition.value = (oldValue == null && newValue != null) ? DEFAULT_TRANSITION : false
+})
+
+onBeforeUnmount(() => {
+  transition.value = DEFAULT_TRANSITION
+})
+
+const dialogComponent = computed(() => {
+  switch (activeDialog.value) {
+    case DialogKey.AUTH_SIGN_IN: return AuthSignIn
+    case DialogKey.AUTH_BECOME_MEMBER: return AuthBecomeMember
+    case DialogKey.AUTH_BECOME_MEMBER_WHY: return AuthBecomeMemberWhy
+    case DialogKey.AUTH_BECOME_MEMBER_THANKS: return AuthBecomeMemberThanks
+    case DialogKey.AUTH_FORGOT_PASSWORD: return AuthForgotPassword
+    case DialogKey.AUTH_FORGOT_PASSWORD_OK: return AuthForgotPasswordOk
+    default: return null;
+  }
+})
+</script>
+
+<style lang="scss">
+.v-overlay {
+  .v-overlay__scrim {
+    &.fade-transition-enter-from,
+    &.fade-transition-leave-to {
+      opacity: 0.5 !important;
+    }
+  }
+}
+</style>

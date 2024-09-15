@@ -1,5 +1,5 @@
-import { i18n } from '@/main';
-import { NavigationTabs } from '../../models/enums/NavigationTabs';
+import { i18n } from '@/assets/plugins/i18n';
+import { NavigationTabs } from '@/models/enums/NavigationTabs';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 export class NavigationTabsService {
     static getContent(){
@@ -32,7 +32,7 @@ export class NavigationTabsService {
         ]
     }
     static getTabsNumberFromRoute(route: RouteLocationNormalizedLoadedGeneric, actualNumber: number) {
-        const segments = route.fullPath.split('/').filter(Boolean);
+        const segments = route.path.split('/').filter(Boolean);
         //When Homepage
         if (segments.length === 0) {
             return 0
