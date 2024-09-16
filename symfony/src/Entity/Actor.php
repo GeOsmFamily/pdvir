@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
         new Post(
             processor: ActorProcessor::class,
-            security: "is_granted('ROLE_EDITOR')"
+            security: "is_granted('ROLE_EDITOR_ACTORS')"
         ),
         new Patch(
             security: 'is_granted("'.ActorVoter::EDIT.'", object)'

@@ -48,7 +48,7 @@ class ActorVoter extends Voter
             return true;
         }
 
-        if ($this->security->isGranted('ROLE_EDITOR')) {
+        if ($this->security->isGranted('ROLE_EDITOR_ACTORS')) {
             return $actor->getCreatedBy() === $user;
         }
 

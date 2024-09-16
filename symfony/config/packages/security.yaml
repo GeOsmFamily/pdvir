@@ -1,7 +1,9 @@
 security:
     role_hierarchy:
-        ROLE_EDITOR: ROLE_USER
-        ROLE_ADMIN: ROLE_EDITOR
+        ROLE_EDITOR_ACTORS: ROLE_USER
+        ROLE_EDITOR_PROJECTS: ROLE_USER
+        ROLE_EDITOR_RESSOURCES: ROLE_USER
+        ROLE_ADMIN: [ROLE_EDITOR_ACTORS, ROLE_EDITOR_PROJECTS, ROLE_EDITOR_RESSOURCES]
         ROLE_SUPER_ADMIN: ROLE_ADMIN
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
@@ -42,7 +44,7 @@ security:
         - { path: ^/auth, roles: PUBLIC_ACCESS }
         - { path: ^/api/users, roles: PUBLIC_ACCESS, methods: [POST]}
         - { path: ^/api/actors, roles: PUBLIC_ACCESS, methods: [GET] }
-        - { path: ^/api/actors, roles: ROLE_EDITOR, methods: [POST, PUT, DELETE] }
+        - { path: ^/api/actors, roles: ROLE_EDITOR_ACTORS, methods: [POST, PUT, DELETE] }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
