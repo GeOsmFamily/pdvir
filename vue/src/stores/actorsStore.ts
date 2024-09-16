@@ -2,7 +2,7 @@ import { StoresList } from '@/models/enums/StoresList'
 import type { Actor } from '@/models/interfaces/Actor'
 import { ActorsService } from '@/services/actors/ActorsService'
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
+import { reactive, type Reactive } from 'vue'
 import { useApplicationStore } from './applicationStore'
 
 
@@ -12,7 +12,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
       actors.push(...await ActorsService.getActors())
   }
 
-  const actorEdition = reactive({
+  const actorEdition: Reactive<{active: boolean, id: string | null}> = reactive({
     active: false,
     id: null
   })
