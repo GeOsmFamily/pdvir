@@ -15,7 +15,7 @@
         <div class="Header__nav">
             <div class="Header__navContent container">
                 <div class="Header__navBlock Header__navBlock--left">
-                    <img src="@/assets/images/Logo.svg" alt="Accueil" class="Header__appLogo">
+                    <img src="@/assets/images/Logo.png" alt="Accueil" class="Header__appLogo">
                 </div>
                 <nav class="Header__navBlock Header__navBlock--right">
                     <v-tabs v-model="appStore.activeTab" align-tabs="end" color="main-red">

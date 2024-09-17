@@ -7,7 +7,7 @@
                 </template>
                 <v-app-bar-title>
                 <div class="d-flex align-center">
-                    <img src="@/assets/images/Logo.svg" class="Header__appLogo">
+                    <img src="@/assets/images/Logo.png" class="Header__appLogo">
                     <span class="ml-4 text-main-blue">{{ $t('header.title') }}</span>
                     <span class="ml-2 text-main-blue font-weight-bold">{{ $t('header.title2') }}</span>
                 </div>
@@ -16,7 +16,7 @@
         </v-layout>
         <div v-if="showMobileMenu" class="Header__menu">
             <div class="Header__menu__top">
-                <img src="@/assets/images/Logo.svg">
+                <img src="@/assets/images/Logo.png">
                 <div class="Header__menu__closer" @click="showMobileMenu = !showMobileMenu">
                     <v-icon icon="mdi mdi-close" />
                 </div>
