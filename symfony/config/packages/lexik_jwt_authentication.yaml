@@ -5,13 +5,13 @@ lexik_jwt_authentication:
 
         cookie:
             enabled: true
-            name:    BEARER
+            name: BEARER
     
     set_cookies:
         BEARER: ~
 
     # remove the token from the response body when using cookies
-    remove_token_from_body_when_cookies_used: true
+    remove_token_from_body_when_cookies_used: false
 
     secret_key: '%env(resolve:JWT_SECRET_KEY)%'
     public_key: '%env(resolve:JWT_PUBLIC_KEY)%'

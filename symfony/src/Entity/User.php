@@ -35,6 +35,13 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
         ),
+        // Roles update
+        new Patch(
+            uriTemplate: '/users/{id}/set_roles',
+            security: "is_granted('ROLE_ADMIN')",
+            normalizationContext: ['groups' => ['user:admin']],
+            denormalizationContext: ['groups' => ['user:admin']] 
+        ),
         new Patch(
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
@@ -48,6 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     private const GROUP_READ = 'user:read';
     private const GROUP_WRITE = 'user:write';
+    private const GROUP_ADMIN = 'user:admin';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -74,6 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var list<string> The user roles
      */
     #[ORM\Column]
+    #[Groups([self::GROUP_ADMIN])] 
     private array $roles = [];
 
     /**

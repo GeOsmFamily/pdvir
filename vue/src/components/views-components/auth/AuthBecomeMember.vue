@@ -12,11 +12,44 @@
       </i18n-t>
     </template>
     <template #content>
-      <Form @submit="null">
-        <v-text-field v-model="firstName" :label="$t('auth.becomeMember.form.firstName')" />
-        <v-text-field v-model="lastName" :label="$t('auth.becomeMember.form.lastName')" />
-        <v-text-field v-model="email" :label="$t('auth.becomeMember.form.email')" />
-        <v-checkbox class="align-baseline">
+      <Form @submit="onSubmit">
+        <v-text-field 
+          v-model="form.firstName.value.value"
+          :label="$t('auth.becomeMember.form.firstName')"
+          :error-messages="form.firstName.errorMessage.value"
+          @blur="form.firstName.handleChange"
+        />
+        <v-text-field
+          v-model="form.lastName.value.value"
+          :label="$t('auth.becomeMember.form.lastName')"
+          :error-messages="form.lastName.errorMessage.value"
+          @blur="form.lastName.handleChange"
+        />
+        <v-text-field
+          type="email"
+          v-model="form.email.value.value"
+          :label="$t('auth.becomeMember.form.email')"
+          :error-messages="form.email.errorMessage.value"
+          @blur="form.email.handleChange"
+        />
+        <v-text-field
+          type="password"
+          v-model="form.password.value.value"
+          :label="$t('auth.becomeMember.form.password')"
+          :error-messages="form.password.errorMessage.value"
+          @blur="form.password.handleChange"
+        />
+        <v-text-field
+          type="password"
+          v-model="form.confirmPassword.value.value"
+          :label="$t('auth.becomeMember.form.confirmPassword')"
+          :error-messages="form.confirmPassword.errorMessage.value"
+          @blur="form.confirmPassword.handleChange"
+        />
+        <v-checkbox class="align-baseline"
+          v-model="form.acceptTerms.value.value"
+          :error-messages="form.acceptTerms.errorMessage.value"
+        >
           <template v-slot:label>
             <i18n-t keypath="auth.becomeMember.form.privacyPolicy.label" tag="span" >
               <template v-slot:url1>
@@ -34,9 +67,7 @@
             </i18n-t>
           </template>
         </v-checkbox>
-        <router-link append :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_BECOME_MEMBER_THANKS } }" class="Link--withoutUnderline">
           <v-btn color="main-red" type="submit" block>{{ $t('auth.becomeMember.form.submit') }}</v-btn>
-        </router-link>
       </Form>
     </template>
   </AuthDialog>
@@ -44,30 +75,17 @@
 
 <script setup lang="ts">
 import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
-import { useField, useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod';
-import * as zod from 'zod';
 import Form from '@/components/generic-components/Form.vue';
 import { DialogKey } from '@/models/enums/DialogKey';
 import { I18nT } from 'vue-i18n';
+import { RegistrationForm } from '@/services/auth/forms/RegistrationForm';
+import { AuthenticationService } from '@/services/auth/AuthenticationService';
 
-const validationSchema = toTypedSchema(
-  zod.object({
-    email: zod.string().min(1, { message: 'This is required' }).email({ message: 'Must be a valid email' }),
-    firstName: zod.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(50, { message: 'Too loog' }),
-    lastName: zod.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(50, { message: 'Too loog' }),
-  })
-);
-
-const { handleSubmit, errors } = useForm({
-  validationSchema,
-});
-
-const { value: email } = useField('email');
-const { value: firstName } = useField('firstName');
-const { value: lastName } = useField('lastName');
+const {form, errors, handleSubmit, isSubmitting} = RegistrationForm.getRegistrationForm();
 
 const onSubmit = handleSubmit(values => {
-  alert(JSON.stringify(values, null, 2));
+  console.log(values);
+  AuthenticationService.signUp(values);
+  // :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_BECOME_MEMBER_THANKS } }"
 });
 </script>

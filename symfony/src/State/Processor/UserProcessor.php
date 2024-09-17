@@ -37,10 +37,17 @@ final readonly class UserProcessor implements ProcessorInterface
         $data->setPassword($hashedPassword);
         $data->eraseCredentials();
 
-        // User is validated after inscription by admin
+        // User is validated and roles are set after inscription by admin
         if ($this->requestStack->getCurrentRequest()->getMethod() === 'POST') {
             $data->setRoles(['ROLE_USER']);
             $data->setValidated(false);
+        }
+
+        // Admin can change user roles
+        if ($this->requestStack->getCurrentRequest()->getMethod() === 'PATCH') {
+            if (isset($context['item_operation_name']) && $context['item_operation_name'] === 'set_user_roles') {
+                $data->setRoles(['FLOUCK']);
+            }
         }
 
         return $this->processor->process($data, $operation, $uriVariables, $context);

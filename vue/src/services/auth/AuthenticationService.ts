@@ -1,35 +1,47 @@
 import { useUserStore } from "@/stores/userStore";
-import { useRouter } from "vue-router";
+import axios from "axios";
 
 
 export class AuthenticationService {
-    static signIn(values: any) {
-        fetch('https://api.puc.local/auth', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
+    static async signIn(values: any) {
+        try {
+            const result = await axios.post('https://api.puc.local/auth', JSON.stringify(values), {headers: {'Content-Type': 'application/json'}})
+            if (result.status === 200) useUserStore().signInSuccess()
+            else useUserStore().errorWhileSignInOrSignUp = true
+        } catch (error) {
+            console.log(error)//TODO: Send to Sentry
+            useUserStore().errorWhileSignInOrSignUp = true
+        }      
+
+        console.log(document.cookie.split("; "))
+    }
+
+    static async signUp(values: any) {
+        const data = JSON.stringify({
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            plainPassword: values.password
         })
-        .then(response => {
-          console.log(response)
-          console.log(response.headers.getSetCookie());
-            if (!response.ok) {
-                throw new Error('Auth failed');
+        try {
+            const result = await axios.post('https://api.puc.local/api/users', data, {headers: {'Content-Type': 'application/ld+json'}})
+            if (result.status === 201) {
+                useUserStore().signUpSuccess()
             }
-            if (response.status === 204) {
-                return "Login Success";
+        } catch (error) {
+            if ((error as any).status === 409) {
+                useUserStore().errorWhileSignInOrSignUp = true
+                alert("Cet email est déjà utilisé")
             }
-            return response.json(); 
-        })
-        .then(data => {
-            console.log('Result:', data);
-            console.log(document.cookie.split("; "))
-            useUserStore().loginSuccess()
-        })
-        .catch(error => {
-            useUserStore().errorInLogin = true
-            console.error('Error:', error);
-        });
+            console.log(error)//TODO: Send to Sentry
+        }
+        
+        // else {
+        //     if (result.status === 409) {
+        //         useUserStore().errorWhileSignInOrSignUp = true
+        //         alert("Cet email est déjà utilisé")
+        //     }
+        //     alert("Error in registration")
+        // }
     }
 }

@@ -2,7 +2,7 @@
   <AuthDialog class="AuthSignIn">
     <template #title>{{ $t('auth.signIn.title') }}</template>
     <template #content>
-      <div class="AuthSignIn__error" v-if="userStore.errorInLogin">{{ $t('auth.signIn.error') }}</div>
+      <div class="AuthSignIn__error" v-if="userStore.errorWhileSignInOrSignUp">{{ $t('auth.signIn.error') }}</div>
       <Form @submit="onSubmit">
         <v-text-field v-model="form.email.value.value" :label="$t('auth.signIn.form.email')"
           :error-messages="form.email.errorMessage.value"
@@ -16,7 +16,7 @@
           {{ $t('auth.signIn.form.forgotPassword') }}
         </router-link>
         <v-checkbox :label="$t('auth.signIn.form.rememberMe')"></v-checkbox>
-        <v-btn color="main-red" type="submit" @click="onSubmit">{{ $t('auth.signIn.form.submit') }}</v-btn>
+        <v-btn color="main-red" type="submit">{{ $t('auth.signIn.form.submit') }}</v-btn>
       </Form>
     </template>
     <template #bottom-content>
