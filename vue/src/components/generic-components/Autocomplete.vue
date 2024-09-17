@@ -1,10 +1,11 @@
 <template>
-    <div class="Autocomplete__Container pa-3 bg-main-yellow">
+    <div class="Autocomplete bg-main-yellow">
         <v-autocomplete
             :items="items"
-            variant="outlined"
+            variant="solo"
             bg-color="white"
-            density="compact"
+            elevation="2"
+            density="comfortable"
             :hide-details="true"
             menu-icon=""
             prepend-inner-icon="mdi-magnify"
@@ -22,14 +23,24 @@ defineProps({
     itemValue: String //Value selected
 })
 </script>
-<style>
-.Autocomplete__Container{
+<style lang="scss">
+.Autocomplete {
     display: flex;
     align-items: center;
     width: 60%;
+    border-radius: .5rem;
+    padding: 1rem 1.5rem;
+
+    .v-autocomplete {
+        ::placeholder {
+            opacity: 1;
+            letter-spacing: .05rem;
+        }
+    }
 }
+
 @media screen and (max-width: 600px) {
-    .Autocomplete__Container{
+    .Autocomplete {
         width: 100%;
     }
 }

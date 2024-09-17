@@ -30,7 +30,8 @@ export const vuetify = createVuetify({
         elevation: 0,
         style: [{ 
           textTransform: 'none',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          letterSpacing: '.045rem'
         }],
       },
       VPagination: {
@@ -38,6 +39,14 @@ export const vuetify = createVuetify({
         color: 'main-blue',
         activeColor: 'main-yellow',
       },
+      VTabs: {
+        height: '38px',
+      },
+      VBreadcrumbs: {
+        style: [{ 
+          padding: '.75rem 0',
+        }],
+      }
     },
     components,
     directives,
