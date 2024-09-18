@@ -34,10 +34,10 @@
         />
         <v-text-field
           type="password"
-          v-model="form.password.value.value"
+          v-model="form.plainPassword.value.value"
           :label="$t('auth.becomeMember.form.password')"
-          :error-messages="form.password.errorMessage.value"
-          @blur="form.password.handleChange"
+          :error-messages="form.plainPassword.errorMessage.value"
+          @blur="form.plainPassword.handleChange"
         />
         <v-text-field
           type="password"
@@ -79,13 +79,10 @@ import Form from '@/components/generic-components/Form.vue';
 import { DialogKey } from '@/models/enums/DialogKey';
 import { I18nT } from 'vue-i18n';
 import { RegistrationForm } from '@/services/auth/forms/RegistrationForm';
-import { AuthenticationService } from '@/services/auth/AuthenticationService';
+import { useUserStore } from '@/stores/userStore';
 
 const {form, errors, handleSubmit, isSubmitting} = RegistrationForm.getRegistrationForm();
+const userStore = useUserStore();
 
-const onSubmit = handleSubmit(values => {
-  console.log(values);
-  AuthenticationService.signUp(values);
-  // :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_BECOME_MEMBER_THANKS } }"
-});
+const onSubmit = handleSubmit(values => userStore.signUp(values));
 </script>

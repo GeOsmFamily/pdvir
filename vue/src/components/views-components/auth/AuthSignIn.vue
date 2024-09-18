@@ -32,14 +32,13 @@
 import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
 import { DialogKey } from '@/models/enums/DialogKey';
 import Form from '@/components/generic-components/Form.vue';
-import { AuthenticationService } from '@/services/auth/AuthenticationService';
 import { useUserStore } from '@/stores/userStore';
 import { SignInForm } from '@/services/auth/forms/SignInForm';
 
 const userStore = useUserStore();
 const {form, errors, handleSubmit, isSubmitting} = SignInForm.getSignInForm();
 const onSubmit = handleSubmit(async (values) => {
-  AuthenticationService.signIn(values);
+  userStore.signIn(values);
 });
 </script>
 
