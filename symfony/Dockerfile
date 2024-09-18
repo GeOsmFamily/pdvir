@@ -66,7 +66,7 @@ FROM docs:latest AS docs_prod
 # Prod FrankenPHP image
 FROM frankenphp_base AS frankenphp_prod
 
-ENV APP_ENV=prod
+ENV APP_ENV=prod SENTRY_DSN=$SENTRY_DSN
 ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
