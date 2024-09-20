@@ -90,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Groups([self::GROUP_READ, self::GROUP_ADMIN])] 
-    // #[Assert\Choice(self::ACCEPTED_ROLES)]
+    #[Assert\Choice(choices: self::ACCEPTED_ROLES, multiple: true)]
     private array $roles = [];
 
     /**
