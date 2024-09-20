@@ -2,6 +2,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\User;
+use App\Model\Enums\UserRoles;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -42,7 +43,7 @@ class UserVoter extends Voter
 
     private function canEdit(User $user, User $userToEdit): bool
     {
-        if ($this->security->isGranted('ROLE_ADMIN')) {
+        if ($this->security->isGranted(UserRoles::ROLE_ADMIN)) {
             return true;
         }
 

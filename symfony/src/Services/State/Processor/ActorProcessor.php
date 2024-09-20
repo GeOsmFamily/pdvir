@@ -1,8 +1,9 @@
 <?php
 
-namespace App\State\Processor;
+namespace App\Services\State\Processor;
 
 use App\Entity\Actor;
+use App\Model\Enums\UserRoles;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\State\ProcessorInterface;
@@ -27,7 +28,7 @@ class ActorProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         if ($this->requestStack->getCurrentRequest()->getMethod() === 'POST') {
-            if ($this->security->isGranted('ROLE_ADMIN')) {
+            if ($this->security->isGranted(UserRoles::ROLE_ADMIN)) {
                 $data->setValidated(true);
             } else {
                 $data->setValidated(false);

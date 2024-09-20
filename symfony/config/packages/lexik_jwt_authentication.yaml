@@ -3,12 +3,31 @@ lexik_jwt_authentication:
         authorization_header:
             enabled: false
 
-        cookie:
+        split_cookie:
             enabled: true
-            name: BEARER
-    
+            cookies:
+                - jwt_hp
+                - jwt_s
+
     set_cookies:
-        BEARER: ~
+        jwt_hp:
+            lifetime: null
+            samesite: strict
+            path: /
+            domain: puc.local
+            httpOnly: false
+            split:
+                - header
+                - payload
+
+        jwt_s:
+            lifetime: 0
+            samesite: strict
+            path: /
+            domain: puc.local
+            httpOnly: true
+            split:
+                - signature
 
     # remove the token from the response body when using cookies
     remove_token_from_body_when_cookies_used: false

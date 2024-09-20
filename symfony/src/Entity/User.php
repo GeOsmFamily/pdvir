@@ -5,25 +5,28 @@ namespace App\Entity;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
+use App\Model\Enums\UserRoles;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\UserVoter;
 use App\Repository\UserRepository;
-use App\State\Provider\UserProvider;
 use ApiPlatform\Metadata\ApiResource;
-use App\State\Processor\UserProcessor;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Services\State\Provider\UserProvider;
+use App\Services\State\Processor\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity('email')]
 #[ApiResource(
     operations: [
         new GetCollection(
@@ -35,13 +38,14 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
         ),
-        // Roles update
-        new Patch(
-            uriTemplate: '/users/{id}/set_roles',
-            security: "is_granted('ROLE_ADMIN')",
-            normalizationContext: ['groups' => ['user:admin']],
-            denormalizationContext: ['groups' => ['user:admin']] 
-        ),
+        // new Patch(
+        //     name: 'setRoles',
+        //     processor: UserProcessor::class,
+        //     uriTemplate: '/users/{id}/set_roles',
+        //     security: "is_granted('ROLE_ADMIN')",
+        //     normalizationContext: ['groups' => ['user:admin']],
+        //     denormalizationContext: ['groups' => ['user:admin']] 
+        // ),
         new Patch(
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
@@ -53,10 +57,11 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    private const GROUP_READ = 'user:read';
-    private const GROUP_WRITE = 'user:write';
-    private const GROUP_ADMIN = 'user:admin';
-    
+    public const GROUP_READ = 'user:read';
+    public const GROUP_WRITE = 'user:write';
+    public const GROUP_ADMIN = 'user:admin';
+    private const ACCEPTED_ROLES = [UserRoles::ROLE_USER, UserRoles::ROLE_EDITOR_ACTORS, UserRoles::ROLE_EDITOR_PROJECTS, UserRoles::ROLE_EDITOR_RESSOURCES];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -70,11 +75,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
+    #[Assert\Email(groups: [self::GROUP_WRITE])]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 180)]
-    #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $email = null;
 
@@ -82,7 +89,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    #[Groups([self::GROUP_ADMIN])] 
+    #[Groups([self::GROUP_READ, self::GROUP_ADMIN])] 
+    // #[Assert\Choice(self::ACCEPTED_ROLES)]
     private array $roles = [];
 
     /**
@@ -102,11 +110,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $actorsCreated;
 
     #[ORM\Column]
-    private ?bool $isValidated = null;
+    private ?bool $isValidated = false;
 
     public function __construct()
     {
         $this->actorsCreated = new ArrayCollection();
+        $this->setRoles([UserRoles::ROLE_USER]);
     }
 
     public function getId(): ?int
@@ -145,7 +154,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = UserRoles::ROLE_USER;
 
         return array_unique($roles);
     }

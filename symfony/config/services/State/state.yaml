@@ -3,9 +3,9 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\State\:
-        resource: '../../../src/State/'
+    App\Services\State\:
+        resource: '../../../src/Services/State/'
 
-    App\State\Processor\UserProcessor:
+    App\Services\State\Processor\UserProcessor:
         bind:
             $processor: '@api_platform.doctrine.orm.state.persist_processor'
