@@ -112,6 +112,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isValidated = false;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Assert\Choice(choices: self::ACCEPTED_ROLES, multiple: true)]
+    private ?array $requestedRoles = null;
+
     public function __construct()
     {
         $this->actorsCreated = new ArrayCollection();
@@ -267,6 +272,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setValidated(bool $isValidated): static
     {
         $this->isValidated = $isValidated;
+
+        return $this;
+    }
+
+    public function getRequestedRoles(): ?array
+    {
+        return $this->requestedRoles;
+    }
+
+    public function setRequestedRoles(?array $requestedRoles): static
+    {
+        $this->requestedRoles = $requestedRoles;
 
         return $this;
     }
