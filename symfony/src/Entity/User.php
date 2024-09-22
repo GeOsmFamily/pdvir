@@ -34,7 +34,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
             security: 'is_granted(\'IS_AUTHENTICATED_FULLY\')',
             uriTemplate: '/users/me',
             provider: CurrentUserProvider::class,
-            read: false,
             normalizationContext: ['groups' => self::GROUP_GETME]
         ),
         new GetCollection(
