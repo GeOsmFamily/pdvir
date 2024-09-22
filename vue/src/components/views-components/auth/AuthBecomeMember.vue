@@ -66,8 +66,9 @@
               </template>
             </i18n-t>
           </template>
-        </v-checkbox>
-          <v-btn color="main-red" type="submit" block>{{ $t('auth.becomeMember.form.submit') }}</v-btn>
+        </v-checkbox>      
+        <div class="AuthSignIn__error" v-if="userStore.errorWhileSignInOrSignUp">{{ $t('auth.becomeMember.error') }}</div>
+        <v-btn color="main-red" type="submit" block>{{ $t('auth.becomeMember.form.submit') }}</v-btn>
       </Form>
     </template>
   </AuthDialog>
@@ -78,10 +79,10 @@ import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
 import Form from '@/components/generic-components/Form.vue';
 import { DialogKey } from '@/models/enums/DialogKey';
 import { I18nT } from 'vue-i18n';
-import { RegistrationForm } from '@/services/auth/forms/RegistrationForm';
+import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
 import { useUserStore } from '@/stores/userStore';
 
-const {form, errors, handleSubmit, isSubmitting} = RegistrationForm.getRegistrationForm();
+const {form, errors, handleSubmit, isSubmitting} = UserProfileForm.getUserForm();
 const userStore = useUserStore();
 
 const onSubmit = handleSubmit(values => userStore.signUp(values));

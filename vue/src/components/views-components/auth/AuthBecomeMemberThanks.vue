@@ -5,16 +5,37 @@
       <CheckPoint class="mb-4" :label="$t('auth.becomeMemberThanks.subtitle')" :highlighted="true" />
       <span class="mb-4 text-center">{{ $t('auth.becomeMemberThanks.form.info') }}</span>
       <Form @submit="null">
-        <v-text-field v-model="organization" :label="$t('auth.becomeMemberThanks.form.organization')" />
-        <v-text-field v-model="functions" :label="$t('auth.becomeMemberThanks.form.functions')" />
-        <v-text-field v-model="telephone" :label="$t('auth.becomeMemberThanks.form.telephone')" />
-        <v-text-field v-model="message" :label="$t('auth.becomeMemberThanks.form.message')" />
+        <v-text-field 
+          v-model="form.organisation.value.value" 
+          :label="$t('auth.becomeMemberThanks.form.organization')"
+          :error-messages="form.organisation.errorMessage.value"
+          @blur="form.organisation.handleChange"
+        />
+        <v-text-field 
+          v-model="form.position.value.value" 
+          :label="$t('auth.becomeMemberThanks.form.functions')"
+          :error-messages="form.position.errorMessage.value"
+          @blur="form.position.handleChange"
+        />
+        <v-text-field 
+          v-model="form.phoneNumber.value.value" 
+          :label="$t('auth.becomeMemberThanks.form.telephone')"
+          :error-messages="form.phoneNumber.errorMessage.value"
+          @blur="form.phoneNumber.handleChange"
+        />
+        <v-text-field 
+          v-model="form.signUpMessage.value.value" 
+          :label="$t('auth.becomeMemberThanks.form.message')"
+          :error-messages="form.signUpMessage.errorMessage.value"
+          @blur="form.signUpMessage.handleChange"
+        />
         <span>{{ $t('auth.becomeMemberThanks.form.actionsRequest.label') }}</span>
         <v-list>
           <v-list-item v-for="(action, index) in actionList" :key="index">
-            <v-checkbox v-model="action.selected" :label="action.value" hide-details="auto" />
+            <v-checkbox v-model="action.selected" :label="action.label" hide-details="auto" />
           </v-list-item>
         </v-list>
+        <v-btn color="main-red" type="submit">{{ $t('auth.becomeMemberThanks.form.submit') }}</v-btn>
       </Form>
     </template>
   </AuthDialog>
@@ -22,40 +43,23 @@
 
 <script setup lang="ts">
 import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
-import { useField, useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod';
-import * as zod from 'zod';
 import Form from '@/components/generic-components/Form.vue';
 import { i18n } from '@/assets/plugins/i18n';
 import CheckPoint from '@/components/generic-components/CheckPoint.vue';
+import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
+import { UserRoles } from '@/models/enums/auth/UserRoles';
 
 const actionList = [
-  { value: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addActors'), selected: false},
-  { value: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addProjects'), selected: false},
-  { value: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addData'), selected: false},
-  { value: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addResources'), selected: false}
+  { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addActors'), value: UserRoles.EDITOR_ACTORS, selected: false},
+  { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addProjects'), value: UserRoles.EDITOR_PROJECTS, selected: false},
+  { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addResources'), value: UserRoles.EDITOR_RESOURCES, selected: false}
 ]
 
-const validationSchema = toTypedSchema(
-  zod.object({
-    organization: zod.string().min(1, { message: 'This is required' }),
-    functions: zod.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(70, { message: 'Too loog' }),
-    telephone: zod.string().max(50, { message: 'Too loog' }),
-    message: zod.string().max(300, { message: 'Too loog' }),
-  })
-);
-
-const { handleSubmit, errors } = useForm({
-  validationSchema,
-});
-
-const { value: organization } = useField('organization');
-const { value: functions } = useField('function');
-const { value: telephone } = useField('telephone');
-const { value: message } = useField('message');
+const {form, errors, handleSubmit, isSubmitting} = UserProfileForm.getUserForm();
 
 const onSubmit = handleSubmit(values => {
-  alert(JSON.stringify(values, null, 2));
+  console.log(values)
+  console.log(actionList)
 });
 </script>
 

@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Post;
 use App\Model\Enums\UserRoles;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\UserVoter;
 use App\Repository\UserRepository;
@@ -116,6 +117,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Choice(choices: self::ACCEPTED_ROLES, multiple: true)]
     #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?array $requestedRoles = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
+    private ?string $organisation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
+    private ?string $position = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
+    private ?string $phone = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    private ?string $signInMessage = null;
 
     public function __construct()
     {
@@ -284,6 +301,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRequestedRoles(?array $requestedRoles): static
     {
         $this->requestedRoles = $requestedRoles;
+
+        return $this;
+    }
+
+    public function getOrganisation(): ?string
+    {
+        return $this->organisation;
+    }
+
+    public function setOrganisation(?string $organisation): static
+    {
+        $this->organisation = $organisation;
+
+        return $this;
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?string $position): static
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getSignInMessage(): ?string
+    {
+        return $this->signInMessage;
+    }
+
+    public function setSignInMessage(?string $signInMessage): static
+    {
+        $this->signInMessage = $signInMessage;
 
         return $this;
     }
