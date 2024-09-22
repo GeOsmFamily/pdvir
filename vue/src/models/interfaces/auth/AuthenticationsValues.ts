@@ -3,9 +3,9 @@ export interface SignInValues {
     password: string
 }
 
-    export interface SignUpValues {
-        firstName: string
-        lastName: string
-        email: string
-        plainPassword: string
-    }
+export interface SignUpValues {
+    firstName: string
+    lastName: string
+    email: string
+    plainPassword: string
+}

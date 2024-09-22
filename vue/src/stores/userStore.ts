@@ -12,17 +12,17 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const route = useRoute()
   const userIsLogged = ref(false)
   const errorWhileSignInOrSignUp = ref(false)
+  const userToken = ref<string | null>(null)
 
   const signIn = async (values: SignInValues) => {
     try {
-      const signIn = await AuthenticationService.signIn(values)
-      if (signIn.status === 200) {
-        userIsLogged.value = true
-        errorWhileSignInOrSignUp.value = false
-        router.replace({ query: { dialog: undefined }})
-      } else {
-        errorWhileSignInOrSignUp.value = true
-      }
+      const signInResponse = await AuthenticationService.signIn(values)
+      userToken.value = signInResponse.data.token
+      const user = await AuthenticationService.getAuthenticatedUser(userToken.value as string)
+      console.log(user.data)
+      userIsLogged.value = true
+      errorWhileSignInOrSignUp.value = false
+      router.replace({ query: { dialog: undefined }})
     } catch (error) {
         console.log(error)//TODO: Send to Sentry
         errorWhileSignInOrSignUp.value = true

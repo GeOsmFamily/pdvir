@@ -18,6 +18,7 @@ use App\Services\State\Provider\UserProvider;
 use App\Services\State\Processor\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Services\State\Provider\CurrentUserProvider;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -29,23 +30,21 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[UniqueEntity('email')]
 #[ApiResource(
     operations: [
+        new Get(
+            security: 'is_granted(\'IS_AUTHENTICATED_FULLY\')',
+            uriTemplate: '/users/me',
+            provider: CurrentUserProvider::class,
+            read: false,
+            normalizationContext: ['groups' => self::GROUP_GETME]
+        ),
         new GetCollection(
             provider: UserProvider::class
         ),
         new Post(processor: UserProcessor::class),
-        new Get(),
         new Put(
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
         ),
-        // new Patch(
-        //     name: 'setRoles',
-        //     processor: UserProcessor::class,
-        //     uriTemplate: '/users/{id}/set_roles',
-        //     security: "is_granted('ROLE_ADMIN')",
-        //     normalizationContext: ['groups' => ['user:admin']],
-        //     denormalizationContext: ['groups' => ['user:admin']] 
-        // ),
         new Patch(
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
@@ -57,6 +56,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const GROUP_GETME = 'user:get_me';
     public const GROUP_READ = 'user:read';
     public const GROUP_WRITE = 'user:write';
     public const GROUP_ADMIN = 'user:admin';
@@ -65,31 +65,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([self::GROUP_READ])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
     #[Assert\Email(groups: [self::GROUP_WRITE])]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank]
     #[Assert\Email]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    #[Groups([self::GROUP_READ, self::GROUP_ADMIN])] 
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_ADMIN])] 
     #[Assert\Choice(choices: self::ACCEPTED_ROLES, multiple: true)]
     private array $roles = [];
 
@@ -110,11 +110,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $actorsCreated;
 
     #[ORM\Column]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME,])]
     private ?bool $isValidated = false;
 
     #[ORM\Column(nullable: true)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     #[Assert\Choice(choices: self::ACCEPTED_ROLES, multiple: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?array $requestedRoles = null;
 
     public function __construct()
