@@ -7,8 +7,11 @@ import Caddyfile.base
 }
 
 {$CADDY_PROTOCOL}://{$DOMAIN} {
-	root * /var/www/vue
+	import main_domain
 	import spa
+	root @pwa /var/www/vue
+	root * /app/public
+	php_server
 }
 
 {$CADDY_PROTOCOL}://docs.{$DOMAIN} {
