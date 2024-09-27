@@ -4,15 +4,16 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
+use App\Model\Enums\UserRoles;
 use ApiPlatform\Metadata\Patch;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\ActorVoter;
 use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiResource;
-use App\State\Provider\ActorProvider;
 use ApiPlatform\Metadata\GetCollection;
-use App\State\Processor\ActorProcessor;
+use App\Services\State\Provider\ActorProvider;
+use App\Services\State\Processor\ActorProcessor;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
@@ -23,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
         new Post(
             processor: ActorProcessor::class,
-            security: "is_granted('ROLE_EDITOR_ACTORS')"
+            security: "is_granted('".UserRoles::ROLE_EDITOR_ACTORS."')"
         ),
         new Patch(
             security: 'is_granted("'.ActorVoter::EDIT.'", object)'

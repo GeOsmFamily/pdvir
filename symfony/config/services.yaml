@@ -22,9 +22,11 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/State/'
+            - '../src/Services/State/'
             - '../src/DataFixtures/'
-            - '../src/Event/'
+            - '../src/Services/Serializer/'
+
+    
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

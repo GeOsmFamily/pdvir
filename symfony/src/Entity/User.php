@@ -5,42 +5,45 @@ namespace App\Entity;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
+use App\Model\Enums\UserRoles;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\UserVoter;
 use App\Repository\UserRepository;
-use App\State\Provider\UserProvider;
 use ApiPlatform\Metadata\ApiResource;
-use App\State\Processor\UserProcessor;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Services\State\Provider\UserProvider;
+use App\Services\State\Processor\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Services\State\Provider\CurrentUserProvider;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity('email')]
 #[ApiResource(
     operations: [
+        new Get(
+            security: 'is_granted(\'IS_AUTHENTICATED_FULLY\')',
+            uriTemplate: '/users/me',
+            provider: CurrentUserProvider::class,
+            normalizationContext: ['groups' => self::GROUP_GETME]
+        ),
         new GetCollection(
             provider: UserProvider::class
         ),
         new Post(processor: UserProcessor::class),
-        new Get(),
         new Put(
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
-        ),
-        // Roles update
-        new Patch(
-            uriTemplate: '/users/{id}/set_roles',
-            security: "is_granted('ROLE_ADMIN')",
-            normalizationContext: ['groups' => ['user:admin']],
-            denormalizationContext: ['groups' => ['user:admin']] 
         ),
         new Patch(
             processor: UserProcessor::class,
@@ -53,36 +56,41 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    private const GROUP_READ = 'user:read';
-    private const GROUP_WRITE = 'user:write';
-    private const GROUP_ADMIN = 'user:admin';
-    
+    public const GROUP_GETME = 'user:get_me';
+    public const GROUP_READ = 'user:read';
+    public const GROUP_WRITE = 'user:write';
+    public const GROUP_ADMIN = 'user:admin';
+    private const ACCEPTED_ROLES = [UserRoles::ROLE_USER, UserRoles::ROLE_EDITOR_ACTORS, UserRoles::ROLE_EDITOR_PROJECTS, UserRoles::ROLE_EDITOR_RESSOURCES];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([self::GROUP_READ])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Assert\Email(groups: [self::GROUP_WRITE])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 180)]
-    #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    #[Groups([self::GROUP_ADMIN])] 
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_ADMIN])] 
+    #[Assert\Choice(choices: self::ACCEPTED_ROLES, multiple: true)]
     private array $roles = [];
 
     /**
@@ -102,11 +110,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $actorsCreated;
 
     #[ORM\Column]
-    private ?bool $isValidated = null;
+    #[Groups([self::GROUP_READ, self::GROUP_GETME,])]
+    private ?bool $isValidated = false;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\Choice(choices: self::ACCEPTED_ROLES, multiple: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
+    private ?array $requestedRoles = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
+    private ?string $organisation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
+    private ?string $position = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
+    private ?string $phone = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    private ?string $signInMessage = null;
 
     public function __construct()
     {
         $this->actorsCreated = new ArrayCollection();
+        $this->setRoles([UserRoles::ROLE_USER]);
     }
 
     public function getId(): ?int
@@ -145,7 +176,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = UserRoles::ROLE_USER;
 
         return array_unique($roles);
     }
@@ -258,6 +289,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setValidated(bool $isValidated): static
     {
         $this->isValidated = $isValidated;
+
+        return $this;
+    }
+
+    public function getRequestedRoles(): ?array
+    {
+        return $this->requestedRoles;
+    }
+
+    public function setRequestedRoles(?array $requestedRoles): static
+    {
+        $this->requestedRoles = $requestedRoles;
+
+        return $this;
+    }
+
+    public function getOrganisation(): ?string
+    {
+        return $this->organisation;
+    }
+
+    public function setOrganisation(?string $organisation): static
+    {
+        $this->organisation = $organisation;
+
+        return $this;
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?string $position): static
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getSignInMessage(): ?string
+    {
+        return $this->signInMessage;
+    }
+
+    public function setSignInMessage(?string $signInMessage): static
+    {
+        $this->signInMessage = $signInMessage;
 
         return $this;
     }

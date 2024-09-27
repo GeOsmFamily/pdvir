@@ -13,4 +13,12 @@ export class AuthenticationService {
     static async signUp(values: SignUpValues): Promise<AxiosResponse> {
         return axios.post('https://puc.local/api/users', JSON.stringify(values), { headers: { 'Content-Type': 'application/ld+json' } })
     }
+
+    static async getAuthenticatedUser(token: string): Promise<AxiosResponse> {
+        return axios.get('https://api.puc.local/api/users/me', { headers:  {
+            'Authorization': `Bearer ${token}`,
+            'accept': 'application/ld+json'
+          }
+        })
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
-namespace App\State\Provider;
+namespace App\Services\State\Provider;
+use App\Model\Enums\UserRoles;
 use ApiPlatform\Metadata\Operation;
 use App\Repository\ActorRepository;
 use ApiPlatform\State\ProviderInterface;
@@ -18,7 +19,7 @@ final class ActorProvider implements ProviderInterface
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
     {
-        if ($this->security->isGranted('ROLE_ADMIN')) {
+        if ($this->security->isGranted(UserRoles::ROLE_ADMIN)) {
             return $this->actorRepository->findAll();
         }
 

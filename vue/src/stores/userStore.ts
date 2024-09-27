@@ -1,6 +1,7 @@
 import { DialogKey } from '@/models/enums/DialogKey'
 import { StoresList } from '@/models/enums/StoresList'
 import type { SignInValues, SignUpValues } from '@/models/interfaces/auth/AuthenticationsValues'
+import type { User } from '@/models/interfaces/auth/User'
 import { AuthenticationService } from '@/services/auth/AuthenticationService'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -12,17 +13,18 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const route = useRoute()
   const userIsLogged = ref(false)
   const errorWhileSignInOrSignUp = ref(false)
+  const userToken = ref<string | null>(null)
+  const loggedUser = ref<User | null>(null)
 
   const signIn = async (values: SignInValues) => {
     try {
-      const signIn = await AuthenticationService.signIn(values)
-      if (signIn.status === 200) {
-        userIsLogged.value = true
-        errorWhileSignInOrSignUp.value = false
-        router.replace({ query: { dialog: undefined }})
-      } else {
-        errorWhileSignInOrSignUp.value = true
-      }
+      const signInResponse = await AuthenticationService.signIn(values)
+      userToken.value = signInResponse.data.token
+      const user = await AuthenticationService.getAuthenticatedUser(userToken.value as string)
+      console.log(user.data)
+      userIsLogged.value = true
+      errorWhileSignInOrSignUp.value = false
+      router.replace({ query: { dialog: undefined }})
     } catch (error) {
         console.log(error)//TODO: Send to Sentry
         errorWhileSignInOrSignUp.value = true
@@ -32,14 +34,10 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const signUp = async (values: SignUpValues) => {
     try {
       const signUp = await AuthenticationService.signUp(values)
-      if (signUp.status === 201) {
-        router.replace({ query: { ...route.query, dialog: DialogKey.AUTH_BECOME_MEMBER_THANKS } })
-      }
+      loggedUser.value = signUp.data as User
+      router.replace({ query: { ...route.query, dialog: DialogKey.AUTH_BECOME_MEMBER_THANKS } })
     } catch (error) {
-        if ((error as any).status === 409) {
-          errorWhileSignInOrSignUp.value = true
-          alert("Cet email est déjà utilisé")
-        }
+        errorWhileSignInOrSignUp.value = true
         console.log(error)//TODO: Send to Sentry
     }
   }

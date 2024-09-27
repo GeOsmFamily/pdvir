@@ -3,6 +3,7 @@ namespace App\Security\Voter;
 
 use App\Entity\User;
 use App\Entity\Actor;
+use App\Model\Enums\UserRoles;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -44,11 +45,11 @@ class ActorVoter extends Voter
 
     private function canEdit(User $user, Actor $actor): bool
     {
-        if ($this->security->isGranted('ROLE_ADMIN')) {
+        if ($this->security->isGranted(UserRoles::ROLE_ADMIN)) {
             return true;
         }
 
-        if ($this->security->isGranted('ROLE_EDITOR_ACTORS')) {
+        if ($this->security->isGranted(UserRoles::ROLE_EDITOR_ACTORS)) {
             return $actor->getCreatedBy() === $user;
         }
 
