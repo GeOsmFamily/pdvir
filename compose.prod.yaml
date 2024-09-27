@@ -2,6 +2,8 @@ services:
   vue:
     build:
       target: vue_prod
+      args:
+        - VITE_SENTRY_DSN=${SENTRY_DSN}
 
   docs:
     build:
@@ -13,6 +15,7 @@ services:
       target: frankenphp_prod
     environment:
       APP_SECRET: ${APP_SECRET}
+      SENTRY_DSN: ${SENTRY_DSN}
     volumes:
       - ./symfony/docker/caddy/Caddyfile.prod:/etc/caddy/Caddyfile
       - ./symfony/docker/caddy/worker.Caddyfile:/etc/caddy/worker.Caddyfile
