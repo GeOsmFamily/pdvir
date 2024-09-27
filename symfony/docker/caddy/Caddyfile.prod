@@ -1,8 +1,11 @@
 import Caddyfile.base
 
 {$CADDY_PROTOCOL}://{$DOMAIN} {
-	root * /var/www/vue
-	file_server
+	import main_domain
+	root * /app/public
+	import spa
+	root @pwa /var/www/vue
+	php_server
 }
 
 {$CADDY_PROTOCOL}://docs.{$DOMAIN} {
