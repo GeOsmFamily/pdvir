@@ -7,7 +7,7 @@ include symfony/Makefile
 DOCKER_COMP = docker compose
 
 DOCKER_EXEC_VUE = $(DOCKER_COMP) exec vue
-DOCKER_EXEC_PHP = $(DOCKER_COMP) exec php
+DOCKER_EXEC_PHP = $(DOCKER_COMP) exec frankenphp
 
 VUE = $(DOCKER_EXEC_VUE)
 SYMFONY = $(DOCKER_EXEC_PHP) php bin/console
@@ -29,14 +29,17 @@ build-and-up: build up
 up:
 	$(DOCKER_COMP) --env-file .env --env-file .env.local up -d --remove-orphans
 
-down:
-	$(DOCKER_COMP) --env-file .env --env-file .env.local down
+down-remove-all:
+	$(DOCKER_COMP) --env-file .env --env-file .env.local down --remove-orphans --rmi all -v
 
 build:
 	$(DOCKER_COMP) --env-file .env --env-file .env.local build
 
 deploy:
 	$(DOCKER_COMP) --env-file .env --env-file .env.${ENV} --env-file .env.local up --build -d --remove-orphans
+
+docker-config:
+	$(DOCKER_COMP) --env-file .env --env-file .env.local config
 
 YELLOW=\033[1;33m
 GREEN=\033[1;32m
@@ -50,7 +53,7 @@ show-urls:
 	@printf "${BLUE}| Cameroon Urban Platform                     |\n"
 	@printf "${BLUE}+---------------------------------------------+\n"
 	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "🚀  Main website" 	"https://puc.local"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "🔒  REST API" 			"https://api.puc.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "🔒  REST API" 			"https://puc.local/api"
 	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "🌍  QGIS server" 	 	"https://qgis.puc.local"
 	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "📨  SMTP server" 		"https://mail.puc.local"
 	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-23s${BLUE} |\n" "💡  Documentation" 	"https://docs.puc.local"
@@ -61,7 +64,6 @@ HOST_ENTRIES = \
   "127.0.0.1     puc.local"\
   "127.0.0.1     qgis.puc.local"\
   "127.0.0.1     docs.puc.local"\
-  "127.0.0.1     api.puc.local"\
   "127.0.0.1     mail.puc.local"
 
 init-hosts:

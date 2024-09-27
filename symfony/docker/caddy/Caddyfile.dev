@@ -1,7 +1,15 @@
 import Caddyfile.base
 
-{$DOMAIN} {
-	reverse_proxy http://vue:{$VUE_PORT}
+{$CADDY_PROTOCOL}://{$DOMAIN} {
+	@websockets {
+		header Connection *Upgrade*
+		header Upgrade websocket
+	}
+	root * /app/public
+	import main_domain
+	reverse_proxy @pwa http://vue:{$VUE_PORT}
+	reverse_proxy @websockets http://vue:{$VUE_PORT}
+	php_server
 }
 
 docs.{$DOMAIN} {

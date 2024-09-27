@@ -1,6 +1,6 @@
 # Development environment override
 services:
-  php:
+  frankenphp:
     build:
       context: ./symfony
       target: frankenphp_dev
@@ -27,4 +27,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./vue/node_modules
+      device: ${PWD}/vue/node_modules
