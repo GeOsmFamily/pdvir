@@ -1,5 +1,5 @@
 services:
-  php:
+  frankenphp:
     ports: !override
       - ${HTTP_PORT:-80}:80
     networks:

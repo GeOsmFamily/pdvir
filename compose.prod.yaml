@@ -9,7 +9,7 @@ services:
     build:
       target: docs_prod
 
-  php:
+  frankenphp:
     build:
       context: ./symfony
       target: frankenphp_prod
