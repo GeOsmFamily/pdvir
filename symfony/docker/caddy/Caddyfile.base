@@ -7,6 +7,8 @@
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
 	}
+
+	order php_server before file_server
 }
 
 {$CADDY_PROTOCOL}://qgis.{$DOMAIN} {
@@ -27,9 +29,4 @@
 	encode zstd br gzip
 
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
-
-	# Disable Topics tracking if not enabled explicitly: https://github.com/jkarlin/topics
-	# header ?Permissions-Policy "browsing-topics=()"
-
-	php_server
 }
