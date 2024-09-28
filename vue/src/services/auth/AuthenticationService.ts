@@ -1,4 +1,5 @@
 import type { SignInValues, SignUpValues } from "@/models/interfaces/auth/AuthenticationsValues";
+import type { User } from "@/models/interfaces/auth/User";
 import { useUserStore } from "@/stores/userStore";
 import axios, { type AxiosResponse } from "axios";
 
@@ -14,11 +15,7 @@ export class AuthenticationService {
         return axios.post('https://puc.local/api/users', JSON.stringify(values), { headers: { 'Content-Type': 'application/ld+json' } })
     }
 
-    static async getAuthenticatedUser(token: string): Promise<AxiosResponse> {
-        return axios.get('https://api.puc.local/api/users/me', { headers:  {
-            'Authorization': `Bearer ${token}`,
-            'accept': 'application/ld+json'
-          }
-        })
+    static async getAuthenticatedUser(): Promise<AxiosResponse<User>> {
+        return axios.get('https://puc.local/api/users/me', { headers:  {'accept': 'application/ld+json'}})
     }
 }

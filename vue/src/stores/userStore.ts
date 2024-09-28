@@ -13,15 +13,12 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const route = useRoute()
   const userIsLogged = ref(false)
   const errorWhileSignInOrSignUp = ref(false)
-  const userToken = ref<string | null>(null)
   const loggedUser = ref<User | null>(null)
 
   const signIn = async (values: SignInValues) => {
     try {
-      const signInResponse = await AuthenticationService.signIn(values)
-      userToken.value = signInResponse.data.token
-      const user = await AuthenticationService.getAuthenticatedUser(userToken.value as string)
-      console.log(user.data)
+      await AuthenticationService.signIn(values)
+      loggedUser.value = (await AuthenticationService.getAuthenticatedUser()).data
       userIsLogged.value = true
       errorWhileSignInOrSignUp.value = false
       router.replace({ query: { dialog: undefined }})
