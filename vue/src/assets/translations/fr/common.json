@@ -23,6 +23,13 @@
         "services": "Services",
         "map": "Ma carte",
         "login": "Connectez-vous",
-        "account": "Mon compte"
+        "account": "Mon compte",
+        "addProject": "Ajouter un projet",
+        "addActor": "Ajouter un acteur",
+        "addResource": "Ajouter une ressource",
+        "addData": "Ajouter une donnée",
+        "administration": "Espace d'administration",
+        "content": "Mes contributions",
+        "logout": "Déconnexion"
     }
 }

@@ -12,13 +12,13 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const router = useRouter()
   const route = useRoute()
   const userIsLogged = ref(false)
+  const currentUser = ref<User | null>(null)
   const errorWhileSignInOrSignUp = ref(false)
-  const loggedUser = ref<User | null>(null)
 
   const signIn = async (values: SignInValues) => {
     try {
       await AuthenticationService.signIn(values)
-      loggedUser.value = (await AuthenticationService.getAuthenticatedUser()).data
+      currentUser.value = (await AuthenticationService.getAuthenticatedUser()).data
       userIsLogged.value = true
       errorWhileSignInOrSignUp.value = false
       router.replace({ query: { dialog: undefined }})
@@ -31,12 +31,22 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const signUp = async (values: SignUpValues) => {
     try {
       const signUp = await AuthenticationService.signUp(values)
-      loggedUser.value = signUp.data as User
+      currentUser.value = signUp.data as User
       router.replace({ query: { ...route.query, dialog: DialogKey.AUTH_BECOME_MEMBER_THANKS } })
     } catch (error) {
         errorWhileSignInOrSignUp.value = true
         console.log(error)//TODO: Send to Sentry
     }
   }
-  return { userIsLogged, errorWhileSignInOrSignUp, signIn, signUp }
+
+  const signOut = async () => {
+    currentUser.value = null
+    userIsLogged.value = false
+    try {
+      await AuthenticationService.signOut()
+    } catch (error) {
+      console.log(error)//TODO: Send to Sentry
+    }
+  }
+  return { userIsLogged, currentUser, errorWhileSignInOrSignUp, signIn, signUp, signOut }
 })

@@ -18,4 +18,8 @@ export class AuthenticationService {
     static async getAuthenticatedUser(): Promise<AxiosResponse<User>> {
         return axios.get('https://puc.local/api/users/me', { headers:  {'accept': 'application/ld+json'}})
     }
+
+    static async signOut(): Promise<void> {
+        return axios.post('https://puc.local/logout')
+    }
 }
