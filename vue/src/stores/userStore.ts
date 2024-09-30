@@ -62,5 +62,11 @@ export const useUserStore = defineStore(StoresList.USER, () => {
       setCurrentUser()
     }
   }
-  return { userIsLogged, currentUser, errorWhileSignInOrSignUp, signIn, signUp, signOut, checkAuthenticated }
+
+  const patchUser = async (values: Partial<User>) => {
+    await AuthenticationService.patchUser(values, currentUser.value!.id)
+    setCurrentUser()
+    router.replace({ query: { dialog: undefined }})
+  }
+  return { userIsLogged, currentUser, errorWhileSignInOrSignUp, signIn, signUp, signOut, checkAuthenticated, patchUser }
 })

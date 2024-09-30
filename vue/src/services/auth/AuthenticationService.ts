@@ -17,4 +17,8 @@ export class AuthenticationService {
     static async getAuthenticatedUser(): Promise<AxiosResponse<User>> {
         return axios.get('https://puc.local/api/users/me', { headers:  {'accept': 'application/ld+json'}})
     }
+
+    static async patchUser(values: Partial<User>, userID: number): Promise<AxiosResponse> {
+        return axios.patch(`https://puc.local/api/users/${userID}`, JSON.stringify(values), { headers: { 'Content-Type': 'application/merge-patch+json' } })
+    }
 }

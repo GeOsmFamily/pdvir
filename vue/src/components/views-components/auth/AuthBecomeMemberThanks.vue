@@ -18,16 +18,16 @@
           @blur="form.position.handleChange"
         />
         <v-text-field 
-          v-model="form.phoneNumber.value.value" 
+          v-model="form.phone.value.value" 
           :label="$t('auth.becomeMemberThanks.form.telephone')"
-          :error-messages="form.phoneNumber.errorMessage.value"
-          @blur="form.phoneNumber.handleChange"
+          :error-messages="form.phone.errorMessage.value"
+          @blur="form.phone.handleChange"
         />
         <v-text-field 
-          v-model="form.signUpMessage.value.value" 
+          v-model="form.signInMessage.value.value" 
           :label="$t('auth.becomeMemberThanks.form.message')"
-          :error-messages="form.signUpMessage.errorMessage.value"
-          @blur="form.signUpMessage.handleChange"
+          :error-messages="form.signInMessage.errorMessage.value"
+          @blur="form.signInMessage.handleChange"
         />
         <span>{{ $t('auth.becomeMemberThanks.form.actionsRequest.label') }}</span>
         <v-list>
@@ -49,6 +49,8 @@ import CheckPoint from '@/components/generic-components/CheckPoint.vue';
 import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
 import { UserRoles } from '@/models/enums/auth/UserRoles';
 import { ref } from 'vue';
+import { useUserStore } from '@/stores/userStore';
+const userStore = useUserStore();
 
 const actionList = [
   { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addActors'), value: UserRoles.EDITOR_ACTORS, selected: ref(false)},
@@ -60,7 +62,8 @@ const {form, errors, handleSubmit, isSubmitting} = UserProfileForm.getSignUpThan
 
 const onSubmit = handleSubmit(
   values => {
-    console.log(values)
+    const requestedRoles = actionList.filter(action => action.selected.value).map(action => action.value)
+    userStore.patchUser({...values, requestedRoles: requestedRoles})
   },
   errors => {
     console.error('Form validation failed:', errors);
