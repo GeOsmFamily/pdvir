@@ -1,6 +1,5 @@
 import type { SignInValues, SignUpValues } from "@/models/interfaces/auth/AuthenticationsValues";
 import type { User } from "@/models/interfaces/auth/User";
-import { useUserStore } from "@/stores/userStore";
 import axios, { type AxiosResponse } from "axios";
 
 
@@ -17,9 +16,5 @@ export class AuthenticationService {
 
     static async getAuthenticatedUser(): Promise<AxiosResponse<User>> {
         return axios.get('https://puc.local/api/users/me', { headers:  {'accept': 'application/ld+json'}})
-    }
-
-    static async signOut(): Promise<void> {
-        return axios.post('https://puc.local/logout')
     }
 }

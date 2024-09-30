@@ -16,10 +16,15 @@ import Header from '@/components/views-components/header/Header.vue';
 import DialogController from '@/components/views-components/global/DialogController.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useActorsStore } from '@/stores/actorsStore';
+import { useUserStore } from './stores/userStore';
 
 const appStore = useApplicationStore();
-const actorsStore = useActorsStore();
-onBeforeMount(async () => await actorsStore.getActors())
+const actorsStore = useActorsStore();4
+const userStore = useUserStore();
+onBeforeMount(async () => {
+  await actorsStore.getActors()
+  userStore.checkAuthenticated()
+})
 </script>
 
 <style lang="scss">

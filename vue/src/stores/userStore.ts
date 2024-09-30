@@ -3,6 +3,7 @@ import { StoresList } from '@/models/enums/StoresList'
 import type { SignInValues, SignUpValues } from '@/models/interfaces/auth/AuthenticationsValues'
 import type { User } from '@/models/interfaces/auth/User'
 import { AuthenticationService } from '@/services/auth/AuthenticationService'
+import JwtCookie from '@/services/auth/JWTCookie'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -18,14 +19,18 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const signIn = async (values: SignInValues) => {
     try {
       await AuthenticationService.signIn(values)
-      currentUser.value = (await AuthenticationService.getAuthenticatedUser()).data
-      userIsLogged.value = true
+      setCurrentUser()
       errorWhileSignInOrSignUp.value = false
       router.replace({ query: { dialog: undefined }})
     } catch (error) {
         console.log(error)//TODO: Send to Sentry
         errorWhileSignInOrSignUp.value = true
     }
+  }
+
+  const setCurrentUser = async () => {
+    currentUser.value = (await AuthenticationService.getAuthenticatedUser()).data
+    userIsLogged.value = true
   }
 
   const signUp = async (values: SignUpValues) => {
@@ -42,11 +47,14 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const signOut = async () => {
     currentUser.value = null
     userIsLogged.value = false
-    try {
-      await AuthenticationService.signOut()
-    } catch (error) {
-      console.log(error)//TODO: Send to Sentry
+    JwtCookie.clearCookies()
+  }
+
+  const checkAuthenticated = async () => {
+    const jwtCookieIsValid = JwtCookie.isValid()
+    if (jwtCookieIsValid) {
+      setCurrentUser()
     }
   }
-  return { userIsLogged, currentUser, errorWhileSignInOrSignUp, signIn, signUp, signOut }
+  return { userIsLogged, currentUser, errorWhileSignInOrSignUp, signIn, signUp, signOut, checkAuthenticated }
 })

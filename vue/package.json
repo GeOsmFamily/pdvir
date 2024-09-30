@@ -17,6 +17,7 @@
     "@supabase/supabase-js": "^2.44.4",
     "@vee-validate/zod": "^4.13.2",
     "axios": "^1.7.7",
+    "jwt-decode": "^4.0.0",
     "maplibre-gl": "^4.5.2",
     "pinia": "^2.1.7",
     "vee-validate": "^4.13.2",
