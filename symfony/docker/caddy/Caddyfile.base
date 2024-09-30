@@ -20,17 +20,11 @@
 
 (main_domain) {
 	@pwa expression `(
-			header({'Accept': '*text/html*'})
-			&& !path(
+			!path(
 				'/api*', '/bundles*', '/contexts*', '/_profiler*', '/_wdt*',
-				'*.json*', '*.html', '*.csv', '*.yml', '*.yaml', '*.xml'
+				'*.csv', '*.yml', '*.yaml', '*.xml'
 			)
-		)
-		|| path(
-			'/favicon.ico', '/manifest.json', '/robots.txt', '/sitemap*', '/@vite/client*', '/@id/*',
-			'*.js', '*.css', '*.json*', '*.ts', '*.mjs', '*.vue', '*.svg', '*.png', '*.jpe?g', '*.woff', '*.woff2', '*.ttf'
-		)
-		|| query({'_rsc': '*'})`
+		)`
 
 	header ?Permissions-Policy "browsing-topics=()"
 	encode zstd br gzip

@@ -1,5 +1,9 @@
+import type { ContentImageFromUserFile, ContentImageFromUrl } from "./ContentImage";
+
 export interface Actor {
     id: string;
+    createdBy: string;
+    isValidated: boolean;
     name: string;
     acronym: string;
     type_id: number;
@@ -23,5 +27,9 @@ export interface Actor {
     closing_date: Date | null;
     last_update: Date;
     reference: string;
+  }
+
+  export interface ActorSubmission extends Actor {
+    images: (ContentImageFromUserFile | ContentImageFromUrl)[]
   }
   

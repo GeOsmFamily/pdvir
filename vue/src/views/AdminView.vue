@@ -23,5 +23,6 @@ const userStore = useUserStore();
 }
 .AdminView__Right {
     width: 70%;
+    background-color: white;
 }
 </style>

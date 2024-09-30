@@ -4,7 +4,7 @@
     <DialogController />
   </KeepAlive>
   <div :class="'App__content container ' + (appStore.mobile ? 'App__content--mobile' : 'App__content--desktop')">
-    <v-breadcrumbs v-if="!appStore.mobile" :items="appStore.breadcrumbs" class="p-0"></v-breadcrumbs>
+    <v-breadcrumbs v-if="!appStore.mobile" :items="appStore.breadcrumbs"></v-breadcrumbs>
     <RouterView />
   </div>
 </template>
@@ -17,6 +17,7 @@ import DialogController from '@/components/views-components/global/DialogControl
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from './stores/userStore';
+import EditContentDialog from './components/views-components/dialog/EditContentDialog.vue';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();4

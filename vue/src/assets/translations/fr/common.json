@@ -9,7 +9,10 @@
         "account": "Mon compte",
         "administration": "Administration",
         "members": "Membres",
-        "content": "Contenu"
+        "content": "Contenu",
+        "membersPanel": "Membres",
+        "contentPanel": "Contenu",
+        "commentPanel": "Commentaires"
     },
     "header": {
         "title": "Platerforme",
@@ -31,5 +34,14 @@
         "administration": "Espace d'administration",
         "content": "Mes contributions",
         "logout": "Déconnexion"
+    },
+    "inputs": {
+        "fileUncorrect": "Fichier incorrect",
+        "images": {
+            "generic": "Une ou plusieurs images n'ont pas pu être chargées: ",
+            "wrongFormat": "Format d'image incorrect, sont acceptés uniquement les images au format .png, .jpg, .jpeg, .bmp, .gif, .svg, .webp",
+            "wrongSize": "Taille d'image incorrecte, la taille maximale est de 1Mo",
+            "duplicate": "Une image avec ce nom est déjà sélectionnée"
+        }
     }
 }

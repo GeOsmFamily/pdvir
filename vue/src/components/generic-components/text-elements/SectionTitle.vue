@@ -1,5 +1,5 @@
 <template>
-    <span class="Section__Title">{{ text }}</span>
+    <span class="Section__title">{{ text }}</span>
 </template>
 <script setup lang="ts">
 defineProps({
@@ -7,7 +7,7 @@ defineProps({
 })
 </script>
 <style scoped>
-.Section__Title{
+.Section__title{
     color: rgb(var(--v-theme-main-blue));
     font-size: 24px;
     font-weight: 700;
