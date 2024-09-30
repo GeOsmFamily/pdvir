@@ -1,35 +1,37 @@
+import type { ActorsAdministrativeScopes } from "../enums/actors/ActorsAdministrativeScopes";
+import type { ActorsCategories } from "../enums/actors/ActorsCategories";
+import type { ActorsExpertises } from "../enums/actors/ActorsExpertises";
+import type { ActorsThematics } from "../enums/actors/ActorsThematics";
+import type { User } from "./auth/User";
 import type { ContentImageFromUserFile, ContentImageFromUrl } from "./ContentImage";
 
 export interface Actor {
     id: string;
-    createdBy: string;
+    createdBy: User["id"];
     isValidated: boolean;
     name: string;
     acronym: string;
-    type_id: number;
-    country_id: number;
-    foundation_date: Date;
+    category: ActorsCategories;
+    expertise: ActorsExpertises;
+    thematics: ActorsThematics[];
+    creationDate: Date;
+    lastUpdate: Date;
     description: string;
+    administrativeScopes: ActorsAdministrativeScopes[];
+    officeName: string;
+    officeAddress: string;
+    officeLocation: [number, number];
+    contactName: string;
+    contactPosition: string;
+    projects: string[];
     logo: string;
-    contact_name: string;
-    contact_picture: string;
-    phone: string;
-    address: string;
-    email: string;
+    images: string[];
     website: string;
-    fb: string;
-    linkedin: string;
-    twitter: string;
-    instagram: string;
-    latitude: number;
-    longitude: number;
-    active: boolean;
-    closing_date: Date | null;
-    last_update: Date;
-    reference: string;
+    phone: string;
+    email: string;
   }
 
   export interface ActorSubmission extends Actor {
-    images: (ContentImageFromUserFile | ContentImageFromUrl)[]
+    imagesToUpload: (ContentImageFromUserFile | ContentImageFromUrl)[]
   }
   

@@ -93,7 +93,7 @@ function handleFilesUpdate(files: (ContentImageFromUserFile | ContentImageFromUr
 
 const submitForm = handleSubmit((values) => {
     const actorSubmission: ActorSubmission = {
-        ...values, images: [...selectedFiles.value]
+        ...values, imagesToUpload: [...selectedFiles.value]
     }
     console.log(actorSubmission)
 })

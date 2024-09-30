@@ -1,5 +1,5 @@
-import { AdministrationPanels } from '@/models/enums/AdministrationPanels'
-import { StoresList } from '@/models/enums/StoresList'
+import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels'
+import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
 import { ref, watch, type Ref } from 'vue'
 

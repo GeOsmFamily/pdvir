@@ -3,6 +3,7 @@
   <KeepAlive>
     <DialogController />
   </KeepAlive>
+  <EditContentDialog />
   <div :class="'App__content container ' + (appStore.mobile ? 'App__content--mobile' : 'App__content--desktop')">
     <v-breadcrumbs v-if="!appStore.mobile" :items="appStore.breadcrumbs"></v-breadcrumbs>
     <RouterView />

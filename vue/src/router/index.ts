@@ -6,8 +6,8 @@ import AdminMembers from '@/components/views-components/admin/AdminMembers.vue'
 import AdminContent from '@/components/views-components/admin/AdminContent.vue'
 import AdminComments from '@/components/views-components/admin/AdminComments.vue'
 import { useAdminStore } from '@/stores/adminStore'
-import { AdministrationPanels } from '@/models/enums/AdministrationPanels'
-import { DialogKey } from '@/models/enums/DialogKey'
+import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels'
+import { DialogKey } from '@/models/enums/app/DialogKey'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

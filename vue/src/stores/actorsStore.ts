@@ -1,4 +1,4 @@
-import { StoresList } from '@/models/enums/StoresList'
+import { StoresList } from '@/models/enums/app/StoresList'
 import type { Actor } from '@/models/interfaces/Actor'
 import { ActorsService } from '@/services/actors/ActorsService'
 import { defineStore } from 'pinia'

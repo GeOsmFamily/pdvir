@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
-import { DialogKey } from '@/models/enums/DialogKey';
+import { DialogKey } from '@/models/enums/app/DialogKey';
 import Form from '@/components/generic-components/Form.vue';
 import { useUserStore } from '@/stores/userStore';
 import { SignInForm } from '@/services/auth/forms/SignInForm';

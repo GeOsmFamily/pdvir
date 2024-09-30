@@ -19,7 +19,7 @@ import { useField, useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as zod from 'zod';
 import Form from '@/components/generic-components/Form.vue';
-import { DialogKey } from '@/models/enums/DialogKey';
+import { DialogKey } from '@/models/enums/app/DialogKey';
 
 const validationSchema = toTypedSchema(
   zod.object({

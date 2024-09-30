@@ -69,7 +69,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { AdministrationPanels } from '@/models/enums/AdministrationPanels';
+import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useAdminStore } from '@/stores/adminStore';
 import { computed, watch } from 'vue';

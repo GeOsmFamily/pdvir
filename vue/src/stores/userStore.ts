@@ -1,5 +1,5 @@
-import { DialogKey } from '@/models/enums/DialogKey'
-import { StoresList } from '@/models/enums/StoresList'
+import { DialogKey } from '@/models/enums/app/DialogKey'
+import { StoresList } from '@/models/enums/app/StoresList'
 import type { SignInValues, SignUpValues } from '@/models/interfaces/auth/AuthenticationsValues'
 import type { User } from '@/models/interfaces/auth/User'
 import { AuthenticationService } from '@/services/auth/AuthenticationService'

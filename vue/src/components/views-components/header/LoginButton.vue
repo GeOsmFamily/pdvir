@@ -30,7 +30,10 @@
             </template>
           <v-list-item-title>{{ $t('header.addProject') }}</v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="userStore.currentUser?.roles.includes(UserRoles.EDITOR_ACTORS) || userStore.currentUser?.roles.includes(UserRoles.ADMIN)">
+        <v-list-item 
+          v-if="userStore.currentUser?.roles.includes(UserRoles.EDITOR_ACTORS) || userStore.currentUser?.roles.includes(UserRoles.ADMIN)"
+          @click="actorsStore.activateActorEdition(null)"
+          >
             <template v-slot:prepend>
                 <v-icon color="main-blue" icon="mdi-pencil-outline"></v-icon>
             </template>
@@ -78,11 +81,13 @@
 </template>
 <script setup lang="ts">
 import { UserRoles } from '@/models/enums/auth/UserRoles';
-import { DialogKey } from '@/models/enums/DialogKey';
+import { DialogKey } from '@/models/enums/app/DialogKey';
+import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';
 import { computed } from 'vue';
 
 const userStore = useUserStore()
+const actorsStore = useActorsStore()
 const isEditor = computed(() => {
     return userStore.currentUser 
         && (userStore.currentUser.roles.includes(UserRoles.EDITOR_PROJECTS) 

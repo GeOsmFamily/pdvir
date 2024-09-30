@@ -1,4 +1,4 @@
-import type { ContentImageType } from "../enums/ContentImageType";
+import type { ContentImageType } from "../enums/app/ContentImageType";
 
 interface ContentImage {
     preview: string;

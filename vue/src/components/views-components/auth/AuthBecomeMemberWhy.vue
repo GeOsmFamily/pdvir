@@ -19,7 +19,7 @@
 import { i18n } from '@/assets/plugins/i18n';
 import CheckPoint from '@/components/generic-components/CheckPoint.vue';
 import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
-import { DialogKey } from '@/models/enums/DialogKey';
+import { DialogKey } from '@/models/enums/app/DialogKey';
 
 const reasons = [
   i18n.t('auth.becomeMemberWhy.form.reasons.urbanTransformation'),
