@@ -4,7 +4,7 @@
     <template #content>
       <CheckPoint class="mb-4" :label="$t('auth.becomeMemberThanks.subtitle')" :highlighted="true" />
       <span class="mb-4 text-center">{{ $t('auth.becomeMemberThanks.form.info') }}</span>
-      <Form @submit="null">
+      <Form @submit="onSubmit">
         <v-text-field 
           v-model="form.organisation.value.value" 
           :label="$t('auth.becomeMemberThanks.form.organization')"
@@ -32,7 +32,7 @@
         <span>{{ $t('auth.becomeMemberThanks.form.actionsRequest.label') }}</span>
         <v-list>
           <v-list-item v-for="(action, index) in actionList" :key="index">
-            <v-checkbox v-model="action.selected" :label="action.label" hide-details="auto" />
+            <v-checkbox v-model="action.selected.value" :label="action.label" hide-details="auto" />
           </v-list-item>
         </v-list>
         <v-btn color="main-red" type="submit">{{ $t('auth.becomeMemberThanks.form.submit') }}</v-btn>
@@ -48,19 +48,24 @@ import { i18n } from '@/assets/plugins/i18n';
 import CheckPoint from '@/components/generic-components/CheckPoint.vue';
 import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
 import { UserRoles } from '@/models/enums/auth/UserRoles';
+import { ref } from 'vue';
 
 const actionList = [
-  { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addActors'), value: UserRoles.EDITOR_ACTORS, selected: false},
-  { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addProjects'), value: UserRoles.EDITOR_PROJECTS, selected: false},
-  { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addResources'), value: UserRoles.EDITOR_RESOURCES, selected: false}
+  { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addActors'), value: UserRoles.EDITOR_ACTORS, selected: ref(false)},
+  { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addProjects'), value: UserRoles.EDITOR_PROJECTS, selected: ref(false)},
+  { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addResources'), value: UserRoles.EDITOR_RESOURCES, selected: ref(false)}
 ]
 
-const {form, errors, handleSubmit, isSubmitting} = UserProfileForm.getUserForm();
+const {form, errors, handleSubmit, isSubmitting} = UserProfileForm.getSignUpThanksForm();
 
-const onSubmit = handleSubmit(values => {
-  console.log(values)
-  console.log(actionList)
-});
+const onSubmit = handleSubmit(
+  values => {
+    console.log(values)
+  },
+  errors => {
+    console.error('Form validation failed:', errors);
+  }
+);
 </script>
 
 <style lang="scss">

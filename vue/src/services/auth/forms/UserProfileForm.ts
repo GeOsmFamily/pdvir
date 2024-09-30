@@ -1,11 +1,10 @@
 import { toTypedSchema } from "@vee-validate/zod";
-import { useForm, useField } from "vee-validate";
+import { useForm, useField, type TypedSchema } from "vee-validate";
 import { z } from "zod";
 
 export class UserProfileForm {
-    static getUserForm() {
-        const validationSchema = toTypedSchema(
-            z.object({
+    static getSchema() {
+        return z.object({
               firstName: z.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(50, { message: 'Too loog' }),
               lastName: z.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(50, { message: 'Too loog' }),
               organisation: z.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(50, { message: 'Too loog' }),
@@ -19,25 +18,64 @@ export class UserProfileForm {
               }),
               signUpMessage: z.string().min(10).max(300, { message: 'Too long' }).optional().or(z.literal('')),
             })
-            .refine((data) => data.plainPassword === data.confirmPassword, {
-              message: "Les mots de passe ne correspondent pas",
-              path: ["confirmPassword"],
-            })
-          );
         
-        const { errors, handleSubmit, isSubmitting } = useForm({validationSchema: validationSchema});
-        const form = {
-            firstName: useField('firstName', '', { validateOnValueUpdate: false }),
-            lastName: useField('lastName', '', { validateOnValueUpdate: false }),
-            organisation: useField('organisation', '', { validateOnValueUpdate: false }),
-            position: useField('position', '', { validateOnValueUpdate: false }),
-            phoneNumber: useField('phoneNumber', '', { validateOnValueUpdate: false }),
-            email: useField('email', '', { validateOnValueUpdate: false }),
-            plainPassword: useField('plainPassword', '', { validateOnValueUpdate: false }),
-            confirmPassword: useField('confirmPassword', '', { validateOnValueUpdate: false }),
-            acceptTerms: useField('acceptTerms', '', { validateOnValueUpdate: false }),
-            signUpMessage: useField('signUpMessage', '', { validateOnValueUpdate: false }),
-        }
-        return {form, errors, handleSubmit, isSubmitting}
+        // const form = {
+        //     firstName: useField('firstName', '', { validateOnValueUpdate: false }),
+        //     lastName: useField('lastName', '', { validateOnValueUpdate: false }),
+        //     organisation: useField('organisation', '', { validateOnValueUpdate: false }),
+        //     position: useField('position', '', { validateOnValueUpdate: false }),
+        //     phoneNumber: useField('phoneNumber', '', { validateOnValueUpdate: false }),
+        //     email: useField('email', '', { validateOnValueUpdate: false }),
+        //     plainPassword: useField('plainPassword', '', { validateOnValueUpdate: false }),
+        //     confirmPassword: useField('confirmPassword', '', { validateOnValueUpdate: false }),
+        //     acceptTerms: useField('acceptTerms', '', { validateOnValueUpdate: false }),
+        //     signUpMessage: useField('signUpMessage', '', { validateOnValueUpdate: false }),
+        // }
+        // return {form, errors, handleSubmit, isSubmitting}
+    }
+
+    static getSignUpForm() {
+      const baseSchema = this.getSchema().pick({
+        firstName: true,
+        lastName: true,
+        email: true,
+        plainPassword: true,
+        confirmPassword: true,
+        acceptTerms: true,
+      })
+
+      const signUpSchema = baseSchema.refine((data) => data.plainPassword === data.confirmPassword, {
+        message: "Les mots de passe ne correspondent pas",
+        path: ["confirmPassword"],
+      })
+      
+      const { errors, handleSubmit, isSubmitting } = useForm({validationSchema: toTypedSchema(signUpSchema)});
+      const form = {
+        firstName: useField('firstName', '', { validateOnValueUpdate: false }),
+        lastName: useField('lastName', '', { validateOnValueUpdate: false }),
+        email: useField('email', '', { validateOnValueUpdate: false }),
+        plainPassword: useField('plainPassword', '', { validateOnValueUpdate: false }),
+        confirmPassword: useField('confirmPassword', '', { validateOnValueUpdate: false }),
+        acceptTerms: useField('acceptTerms', '', { validateOnValueUpdate: false }),
+      }
+      return {form, errors, handleSubmit, isSubmitting}
+    }
+
+    static getSignUpThanksForm() {
+      const baseSchema = this.getSchema().pick({
+        organisation: true,
+        position: true,
+        phoneNumber: true,
+        signUpMessage: true
+      })
+
+      const { errors, handleSubmit, isSubmitting } = useForm({validationSchema: toTypedSchema(baseSchema)});
+      const form = {
+        organisation: useField('organisation', '', { validateOnValueUpdate: false }),
+        position: useField('position', '', { validateOnValueUpdate: false }),
+        phoneNumber: useField('phoneNumber', '', { validateOnValueUpdate: false }),
+        signUpMessage: useField('signUpMessage', '', { validateOnValueUpdate: false })
+      }
+      return {form, errors, handleSubmit, isSubmitting}
     }
 }

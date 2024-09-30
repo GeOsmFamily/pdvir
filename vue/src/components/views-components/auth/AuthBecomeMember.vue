@@ -12,7 +12,7 @@
       </i18n-t>
     </template>
     <template #content>
-      <Form @submit="onSubmit">
+      <Form @submit.prevent="onSubmit">
         <v-text-field 
           v-model="form.firstName.value.value"
           :label="$t('auth.becomeMember.form.firstName')"
@@ -82,8 +82,15 @@ import { I18nT } from 'vue-i18n';
 import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
 import { useUserStore } from '@/stores/userStore';
 
-const {form, errors, handleSubmit, isSubmitting} = UserProfileForm.getUserForm();
+const {form, errors, handleSubmit, isSubmitting} = UserProfileForm.getSignUpForm();
 const userStore = useUserStore();
 
-const onSubmit = handleSubmit(values => userStore.signUp(values));
+const onSubmit = handleSubmit(
+  values => {
+    userStore.signUp(values);
+  },
+  errors => {
+    console.error('Form validation failed:', errors);
+  }
+);
 </script>

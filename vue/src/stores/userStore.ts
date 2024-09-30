@@ -16,12 +16,14 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const currentUser = ref<User | null>(null)
   const errorWhileSignInOrSignUp = ref(false)
 
-  const signIn = async (values: SignInValues) => {
+  const signIn = async (values: SignInValues, hideDialog = true) => {
     try {
       await AuthenticationService.signIn(values)
       setCurrentUser()
       errorWhileSignInOrSignUp.value = false
-      router.replace({ query: { dialog: undefined }})
+      if (hideDialog) {
+        router.replace({ query: { dialog: undefined }})
+      }
     } catch (error) {
         console.log(error)//TODO: Send to Sentry
         errorWhileSignInOrSignUp.value = true
@@ -35,8 +37,12 @@ export const useUserStore = defineStore(StoresList.USER, () => {
 
   const signUp = async (values: SignUpValues) => {
     try {
-      const signUp = await AuthenticationService.signUp(values)
-      currentUser.value = signUp.data as User
+      await AuthenticationService.signUp(values)
+      signIn({
+          email: values.email,
+          password: values.plainPassword
+        }, false
+      )
       router.replace({ query: { ...route.query, dialog: DialogKey.AUTH_BECOME_MEMBER_THANKS } })
     } catch (error) {
         errorWhileSignInOrSignUp.value = true
