@@ -13,5 +13,5 @@ These 2 environements are hosted on the same server. Using a `Caddy` reverse pro
 
 This reverse proxy issues the certificates for the HTTPS, using default Caddy [`auto_https`](https://caddyserver.com/docs/automatic-https) for the main domain.
 
-And [`on_demand_tls`](https://caddyserver.com/docs/automatic-https#on-demand-tls) for the subdomains (`api.<domain.com>`,`docs.<domain.com>`,...)
+And [`on_demand_tls`](https://caddyserver.com/docs/automatic-https#on-demand-tls) for the subdomains (`qgis.<domain.com>`,`docs.<domain.com>`,...)
 

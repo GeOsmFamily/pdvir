@@ -1,11 +1,20 @@
 import Caddyfile.base
 
-{$CADDY_PROTOCOL}://{$DOMAIN} {
-	root * /var/www/vue
+(spa) {
+	try_files {path} /
 	file_server
+	encode gzip
+}
+
+{$CADDY_PROTOCOL}://{$DOMAIN} {
+	import main_domain
+	root * /app/public
+	import spa
+	root @pwa /var/www/vue
+	php_server
 }
 
 {$CADDY_PROTOCOL}://docs.{$DOMAIN} {
 	root * /var/www/docs
-	file_server
+	import spa
 }

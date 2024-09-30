@@ -1,6 +1,6 @@
 # Development environment override
 services:
-  php:
+  frankenphp:
     build:
       context: ./symfony
       target: frankenphp_dev
@@ -15,6 +15,7 @@ services:
     environment:
       # See https://xdebug.org/docs/all_settings#mode
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
     extra_hosts:
       # Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
@@ -26,4 +27,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./vue/node_modules
+      device: ${PWD}/vue/node_modules
