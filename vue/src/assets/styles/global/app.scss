@@ -1,5 +1,6 @@
 // Imported in app.vue
 @import '@/assets/styles/global/_variables';
+@import '@/assets/styles/global/vuetifyOverrides';
 @import '@/assets/styles/views/header';
 @import '@/assets/styles/views/actors';
 
@@ -79,4 +80,8 @@ h4 {
         }
     }
 }
+
+// .v-field--variant-solo, .v-field--variant-solo-filled {
+//     box-shadow: none !important;
+// }
 
