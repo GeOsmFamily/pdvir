@@ -15,6 +15,7 @@ use ApiPlatform\Metadata\GetCollection;
 use App\Services\State\Provider\ActorProvider;
 use App\Services\State\Processor\ActorProcessor;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[ApiResource(
@@ -50,6 +51,7 @@ class Actor
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
+    #[UniqueEntity('name')]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $name = null;
 

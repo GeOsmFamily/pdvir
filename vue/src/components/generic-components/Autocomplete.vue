@@ -12,16 +12,35 @@
             :placeholder="placeholder"
             :item-title="itemTitle"
             :item-value="itemValue"
+            :custom-filter="customFilter"
+            v-model="selectedItem"
         ></v-autocomplete>
     </div>
 </template>
 <script setup lang="ts">
-defineProps({
-    placeholder: String,
-    items: Array,
-    itemTitle: String, //String that will be displayed in the list
-    itemValue: String //Value selected
+import type { Actor } from '@/models/interfaces/Actor';
+import { ref, watch } from 'vue';
+
+const selectedItem = ref(null);
+const emit = defineEmits(['updateSelect'])
+watch(selectedItem, () => {
+    emit('updateSelect', selectedItem.value)
 })
+
+type FilterFunction = (value: string, query: string, item?: InternalItem) => FilterMatch;
+interface InternalItem<T = any> {
+    value: any;
+    raw: T;
+}
+type FilterMatch = boolean | number | [number, number] | [number, number][];
+
+const props = defineProps<{
+    placeholder: string,
+    items: Array<Actor>,
+    itemTitle: string,
+    itemValue: string,
+    customFilter: FilterFunction
+}>()
 </script>
 <style lang="scss">
 .Autocomplete {

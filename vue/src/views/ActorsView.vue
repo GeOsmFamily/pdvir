@@ -8,9 +8,11 @@
             <Autocomplete 
                 :placeholder="$t('actors.search')"
                 :items="validatedActors"
+                :customFilter="searchActors"
                 item-title="name"
-                item-value="id"
+                item-value="name"
                 class="mt-6"
+                @updateSelect="updateSelectedActor"
             />
         </div>
     </div>
@@ -46,6 +48,9 @@ import Wip from '@/components/generic-components/Wip.vue';
 import ActorCard from '@/components/views-components/actors/ActorCard.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
@@ -62,5 +67,18 @@ const totalPages = computed(() => Math.ceil(validatedActors.value.length / items
 
 function addActor() {
     actorsStore.activateActorEdition(null);
+}
+
+function searchActors(value: string, queryText: string, itemText: any) {
+    const searchText = queryText.toLowerCase();    
+    return (
+        itemText.raw.name.toLowerCase().indexOf(searchText) > -1 ||
+        itemText.raw.acronym.toLowerCase().indexOf(searchText) > -1 ||
+        itemText.raw.category.toLowerCase().indexOf(searchText) > -1||
+        itemText.raw.expertise.toLowerCase().indexOf(searchText) > -1 
+    )
+}
+function updateSelectedActor(name: string) {
+    router.push('/actors/' + name)
 }
 </script>

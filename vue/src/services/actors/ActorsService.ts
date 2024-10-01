@@ -1,5 +1,9 @@
 import { fr, fakerFR } from '@faker-js/faker';
 import type { Actor } from "@/models/interfaces/Actor";
+import { ActorsAdministrativeScopes } from '@/models/enums/actors/ActorsAdministrativeScopes';
+import { ActorsCategories } from '@/models/enums/actors/ActorsCategories';
+import { ActorsExpertises } from '@/models/enums/actors/ActorsExpertises';
+import { ActorsThematics } from '@/models/enums/actors/ActorsThematics';
 
 export class ActorsService {
     static async getActors(): Promise<Actor[]> {
@@ -14,33 +18,31 @@ export class ActorsService {
 function generateActor(): Actor {
   return {
     id: fakerFR.string.uuid(),
-    createdBy: fakerFR.string.uuid(),
+    createdBy: fakerFR.number.int(),  // Assurez-vous que ce champ correspond bien à `User["id"]`
     isValidated: fakerFR.datatype.boolean(),
     name: fakerFR.company.name(),
     acronym: fakerFR.lorem.word().toUpperCase().substring(0, Math.floor(Math.random() * 6) + 1),
-    type_id: fakerFR.number.int({ min: 1, max: 10 }),
-    country_id: fakerFR.number.int({ min: 1, max: 195 }),
-    foundation_date: fakerFR.date.past(),
+    category: fakerFR.helpers.arrayElement(Object.values(ActorsCategories)),  // Génère une catégorie aléatoire
+    expertise: fakerFR.helpers.arrayElement(Object.values(ActorsExpertises)),  // Génère une expertise aléatoire
+    thematics: fakerFR.helpers.arrayElements(Object.values(ActorsThematics), 2),  // Génère 2 thématiques aléatoires
+    creationDate: fakerFR.date.past(),
+    lastUpdate: fakerFR.date.recent(),
     description: fakerFR.lorem.paragraph(),
+    administrativeScopes: fakerFR.helpers.arrayElements(Object.values(ActorsAdministrativeScopes), 2),  // Génère 2 zones administratives aléatoires
+    officeName: fakerFR.company.name(),
+    officeAddress: fakerFR.address.streetAddress(),
+    officeLocation: [fakerFR.location.longitude(), fakerFR.location.latitude()],
+    contactName: fakerFR.person.firstName() + " " + fakerFR.person.lastName(),
+    contactPosition: fakerFR.name.jobTitle(),
+    projects: fakerFR.helpers.arrayElements([fakerFR.lorem.words(3), fakerFR.lorem.words(4), fakerFR.lorem.words(2)]),  // Génère une liste de projets
     logo: fakerFR.image.url({ height: 180, width: 180 }),
-    contact_name: fakerFR.person.fullName(),
-    contact_picture: fakerFR.image.avatar(),
-    phone: fakerFR.phone.number(),
-    address: fakerFR.location.streetAddress(),
-    email: fakerFR.internet.email(),
+    images: fakerFR.helpers.arrayElements([fakerFR.image.url(), fakerFR.image.url(), fakerFR.image.url()]),  // Génère des URLs d'images aléatoires
     website: fakerFR.internet.url(),
-    fb: `https://facebook.com/${fakerFR.internet.userName()}`,
-    linkedin: `https://linkedin.com/in/${fakerFR.internet.userName()}`,
-    twitter: `https://twitter.com/${fakerFR.internet.userName()}`,
-    instagram: `https://instagram.com/${fakerFR.internet.userName()}`,
-    latitude: fakerFR.location.latitude(),
-    longitude: fakerFR.location.longitude(),
-    active: fakerFR.datatype.boolean(),
-    closing_date: fakerFR.datatype.boolean() ? fakerFR.date.future() : null,
-    last_update: fakerFR.date.recent(),
-    reference: fakerFR.lorem.words(5),
+    phone: fakerFR.phone.number(),
+    email: fakerFR.internet.email(),
   };
 }
+
 
 function generateActors(count: number): Actor[] {
   return Array.from({ length: count }, generateActor);
