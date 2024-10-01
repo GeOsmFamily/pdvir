@@ -5,7 +5,7 @@ import type { User } from '@/models/interfaces/auth/User'
 import { AuthenticationService } from '@/services/auth/AuthenticationService'
 import JwtCookie from '@/services/auth/JWTCookie'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import * as Sentry from "@sentry/browser";
 import { UserRoles } from '@/models/enums/auth/UserRoles'
@@ -16,14 +16,14 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const route = useRoute()
   const currentUser = ref<User | null>(null)
   const errorWhileSignInOrSignUp = ref(false)
-  const userIsLogged = () => currentUser.value != null
-  const userIsAdmin = () => userIsLogged() && currentUser.value?.roles.includes(UserRoles.ADMIN)
-  const userIsEditor = () => userIsLogged() && 
+  const userIsLogged = computed(() => currentUser.value !== null)
+  const userIsAdmin = () => userIsLogged.value && currentUser.value?.roles.includes(UserRoles.ADMIN)
+  const userIsEditor = () => userIsLogged.value && 
     currentUser.value?.roles.includes(UserRoles.EDITOR_PROJECTS) ||
     currentUser.value?.roles.includes(UserRoles.EDITOR_ACTORS) ||
     currentUser.value?.roles.includes(UserRoles.EDITOR_RESOURCES) ||
     currentUser.value?.roles.includes(UserRoles.EDITOR_DATA)
-  const userHasRole = (role: UserRoles) => userIsLogged() && currentUser.value?.roles.includes(role)
+  const userHasRole = (role: UserRoles) => userIsLogged.value && currentUser.value?.roles.includes(role)
 
   const signIn = async (values: SignInValues, hideDialog = true) => {
     try {
