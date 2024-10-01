@@ -51,10 +51,9 @@ class Actor
     private const GROUP_READ = 'actor:read';
     private const GROUP_WRITE = 'actor:write';
     #[ORM\Id]
-    #[ORM\Column(type: 'uuid')]
+    #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
-    // #[ORM\Column]
     #[Groups([self::GROUP_READ])]
     private ?Uuid $id = null;
 
@@ -145,12 +144,19 @@ class Actor
     #[Assert\Email]
     private ?string $email = null;
 
+    /**
+     * @var Collection<int, Project>
+     */
+    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'actor')]
+    private Collection $projects;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->expertises = new ArrayCollection();
         $this->thematics = new ArrayCollection();
         $this->administrativesScopes = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?Uuid {
@@ -420,4 +426,35 @@ class Actor
 
         return $this;
     }
+
+    /**
+    * @return Collection<int, Project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): static
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->setActor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): static
+    {
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getActor() === $this) {
+                $project->setActor(null);
+            }
+        }
+
+        return $this;
+    }
 }
+    

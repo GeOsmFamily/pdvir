@@ -24,10 +24,10 @@
           @blur="form.phone.handleChange"
         />
         <v-text-field 
-          v-model="form.signInMessage.value.value" 
+          v-model="form.signUpMessage.value.value" 
           :label="$t('auth.becomeMemberThanks.form.message')"
-          :error-messages="form.signInMessage.errorMessage.value"
-          @blur="form.signInMessage.handleChange"
+          :error-messages="form.signUpMessage.errorMessage.value"
+          @blur="form.signUpMessage.handleChange"
         />
         <span>{{ $t('auth.becomeMemberThanks.form.actionsRequest.label') }}</span>
         <v-list>

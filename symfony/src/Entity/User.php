@@ -27,7 +27,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity('email')]
 #[ApiResource(
     operations: [
@@ -38,9 +37,12 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
             normalizationContext: ['groups' => self::GROUP_GETME]
         ),
         new GetCollection(
-            provider: UserProvider::class
+            // provider: UserProvider::class // To use if we need to open to every logged user if we need to see user names associated to likes
+            security: 'is_granted("ROLE_ADMIN")'
         ),
-        new Post(processor: UserProcessor::class),
+        new Post(
+            processor: UserProcessor::class
+        ),
         new Put(
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
@@ -49,7 +51,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
         ),
-        new Delete(),
+        new Delete(security: 'is_granted("'.UserVoter::EDIT.'", object)'),
     ],
     normalizationContext: ['groups' => [self::GROUP_READ]],
     denormalizationContext: ['groups' => [self::GROUP_WRITE]],
@@ -75,7 +77,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
-    #[Assert\Email(groups: [self::GROUP_WRITE])]
     #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?string $lastName = null;
 
@@ -132,7 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
-    private ?string $signInMessage = null;
+    private ?string $signUpMessage = null;
 
     public function __construct()
     {
@@ -341,14 +342,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSignInMessage(): ?string
+    public function getsignUpMessage(): ?string
     {
-        return $this->signInMessage;
+        return $this->signUpMessage;
     }
 
-    public function setSignInMessage(?string $signInMessage): static
+    public function setsignUpMessage(?string $signUpMessage): static
     {
-        $this->signInMessage = $signInMessage;
+        $this->signUpMessage = $signUpMessage;
 
         return $this;
     }

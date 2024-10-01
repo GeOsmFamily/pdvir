@@ -21,7 +21,7 @@ import { useUserStore } from './stores/userStore';
 import EditContentDialog from './components/views-components/dialog/EditContentDialog.vue';
 
 const appStore = useApplicationStore();
-const actorsStore = useActorsStore();4
+const actorsStore = useActorsStore();
 const userStore = useUserStore();
 onBeforeMount(async () => {
   await actorsStore.getActors()

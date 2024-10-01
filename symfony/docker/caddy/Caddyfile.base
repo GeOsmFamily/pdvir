@@ -1,5 +1,4 @@
 {
-	debug
 	http_port {$HTTP_PORT}
 	https_port {$HTTPS_PORT}
 

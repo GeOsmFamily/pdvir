@@ -23,7 +23,7 @@ dev: up show-urls
 build-dev: build-and-up show-urls
 
 stop: down
-init: build init-hosts
+init: build init-jwt-keypair init-hosts
 build-and-up: build up
 
 up:
