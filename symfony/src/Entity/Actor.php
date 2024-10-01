@@ -42,7 +42,7 @@ class Actor
     private const GROUP_READ = 'actor:read';
     private const GROUP_WRITE = 'actor:write';
     #[ORM\Id]
-    #[ORM\Column(type: 'uuid')]
+    #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
     #[Groups([self::GROUP_READ])]

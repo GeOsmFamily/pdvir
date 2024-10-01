@@ -19,3 +19,23 @@
 import Dialog from '@/components/generic-components/Dialog.vue';
 import { DialogKey } from '@/models/enums/DialogKey';
 </script>
+
+<style lang="scss">
+.AuthDialog {
+  &__forgotPassword {
+    font-size: $font-size-sm;
+    margin-bottom: 1rem;
+  }
+  &__error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+    color: rgb(var(--v-theme-main-red));
+    font-weight: 700;
+    background-color: rgb(var(--v-theme-light-yellow));
+    margin-bottom: 1rem;
+  }
+}
+</style>

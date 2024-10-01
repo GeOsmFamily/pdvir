@@ -11,11 +11,11 @@
           :error-messages="form.password.errorMessage.value"
           @blur="form.password.handleChange"
         />
-        <router-link class="AuthSignIn__forgotPassword" append :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_FORGOT_PASSWORD } }">
+        <router-link class="AuthDialog__forgotPassword" append :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_FORGOT_PASSWORD } }">
           {{ $t('auth.signIn.form.forgotPassword') }}
         </router-link>
         <v-checkbox :label="$t('auth.signIn.form.rememberMe')"></v-checkbox>
-        <div class="AuthSignIn__error" v-if="userStore.errorWhileSignInOrSignUp">{{ $t('auth.signIn.error') }}</div>
+        <div class="AuthDialog__error" v-if="userStore.errorWhileSignInOrSignUp">{{ $t('auth.signIn.error') }}</div>
         <v-btn color="main-red" type="submit">{{ $t('auth.signIn.form.submit') }}</v-btn>
       </Form>
     </template>
@@ -42,22 +42,3 @@ const onSubmit = handleSubmit(async (values) => {
 });
 </script>
 
-<style lang="scss">
-.AuthSignIn {
-  &__forgotPassword {
-    font-size: $font-size-sm;
-    margin-bottom: 1rem;
-  }
-  &__error {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    width: 100%;
-    color: rgb(var(--v-theme-main-red));
-    font-weight: 700;
-    background-color: rgb(var(--v-theme-light-yellow));
-    margin-bottom: 1rem;
-  }
-}
-</style>

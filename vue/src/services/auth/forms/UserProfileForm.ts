@@ -22,7 +22,7 @@ export class UserProfileForm {
         acceptTerms: z.boolean().refine(val => val === true, {
           message: i18n.t('auth.becomeMember.form.privacyPolicy.error'),
         }),
-        signInMessage: z.string().min(10).max(500, { message: i18n.t('forms.errorMessages.maxlength', { max: 500 }) }).optional().or(z.literal('')),
+        signUpMessage: z.string().min(10).max(500, { message: i18n.t('forms.errorMessages.maxlength', { max: 500 }) }).optional().or(z.literal('')),
       })
     }
 
@@ -58,7 +58,7 @@ export class UserProfileForm {
         organisation: true,
         position: true,
         phone: true,
-        signInMessage: true
+        signUpMessage: true
       })
 
       const { errors, handleSubmit, isSubmitting } = useForm({validationSchema: toTypedSchema(baseSchema)});
@@ -66,7 +66,7 @@ export class UserProfileForm {
         organisation: useField('organisation', '', { validateOnValueUpdate: false }),
         position: useField('position', '', { validateOnValueUpdate: false }),
         phone: useField('phone', '', { validateOnValueUpdate: false }),
-        signInMessage: useField('signInMessage', '', { validateOnValueUpdate: false })
+        signUpMessage: useField('signUpMessage', '', { validateOnValueUpdate: false })
       }
       return {form, errors, handleSubmit, isSubmitting}
     }

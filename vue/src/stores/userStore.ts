@@ -8,6 +8,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import * as Sentry from "@sentry/browser";
+import { UserRoles } from '@/models/enums/auth/UserRoles'
 
 
 export const useUserStore = defineStore(StoresList.USER, () => {
@@ -15,8 +16,14 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const route = useRoute()
   const currentUser = ref<User | null>(null)
   const errorWhileSignInOrSignUp = ref(false)
-  
   const userIsLogged = () => currentUser.value != null
+  const userIsAdmin = () => userIsLogged() && currentUser.value?.roles.includes(UserRoles.ADMIN)
+  const userIsEditor = () => userIsLogged() && 
+    currentUser.value?.roles.includes(UserRoles.EDITOR_PROJECTS) ||
+    currentUser.value?.roles.includes(UserRoles.EDITOR_ACTORS) ||
+    currentUser.value?.roles.includes(UserRoles.EDITOR_RESOURCES) ||
+    currentUser.value?.roles.includes(UserRoles.EDITOR_DATA)
+  const userHasRole = (role: UserRoles) => userIsLogged() && currentUser.value?.roles.includes(role)
 
   const signIn = async (values: SignInValues, hideDialog = true) => {
     try {
@@ -24,7 +31,7 @@ export const useUserStore = defineStore(StoresList.USER, () => {
       setCurrentUser()
       errorWhileSignInOrSignUp.value = false
       if (hideDialog) {
-        router.replace({ query: { dialog: undefined }})
+        router.replace({ query: { ...route.query, dialog: undefined } })
       }
     } catch (err) {
         Sentry.captureException(err);
@@ -66,7 +73,7 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const patchUser = async (values: Partial<User>) => {
     await AuthenticationService.patchUser(values, currentUser.value!.id)
     setCurrentUser()
-    router.replace({ query: { dialog: undefined }})
+    router.replace({ query: { ...route.query, dialog: undefined } })
   }
-  return { userIsLogged, currentUser, errorWhileSignInOrSignUp, signIn, signUp, signOut, checkAuthenticated, patchUser }
+  return { userIsLogged, userIsAdmin, userIsEditor, userHasRole, currentUser, errorWhileSignInOrSignUp, signIn, signUp, signOut, checkAuthenticated, patchUser }
 })
