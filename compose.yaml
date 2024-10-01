@@ -58,7 +58,7 @@ services:
       - docs_node_modules:/app/node_modules:rw,cached
 
   postgres:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
+    image: postgis/postgis:${POSTGIS_VERSION:-16-3.5}-alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}

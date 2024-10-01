@@ -1,0 +1,34 @@
+
+# Il faut également générer des `Actor` et des `Thematic` pour que les relations ManyToMany fonctionnent bien.
+App\Entity\Actor:
+  actor_{1..100}:
+    name: <company()>
+    # Ajoute d'autres champs en fonction de l'entité `Actor`
+
+App\Entity\Thematic:
+  thematic_{1..50}:
+    name: <randomElement(["Urban Planning", "Public Transportation", "Green Spaces", "Housing Development", "Water Management"])>
+
+App\Entity\Project:
+  project_{1..500}:
+    title: <city()> Urban Development
+    location: <city()>
+    coords: 'POINT(<longitude()> <latitude()>)'
+    status: '<randomElement(<(App\Enum\Status::toArray())>)>' # Remplace par les valeurs de ton Enum Status
+    description: <paragraph(2)>
+    images: []
+    partners: []
+    interventionZone: '<randomElement(<(App\Enum\AdminLevel::toArray())>)>' # Remplace par les valeurs de ton Enum AdminLevel
+    financialActors: '<numberBetween(1, 5)>x @actor_*'
+    actor: '@actor_*'
+    contractingActors: '<numberBetween(1, 5)>x @actor_*'
+    thematics: '<numberBetween(1, 3)>x @thematic_*'
+    projectManagerName: <firstName()> <lastName()>
+    projectManagerPosition: <jobTitle()>
+    projectManagerEmail: <email()>
+    projectManagerTel: <phoneNumber()>
+    projectManagerPhoto: <imageUrl(400, 400)>
+    website: <url()>
+    logo: <imageUrl(200, 100)>
+    created_at: '<dateTimeBetween("-200 days", "now")>'
+    updated_at: '<dateTimeBetween($created_at, "now")>'

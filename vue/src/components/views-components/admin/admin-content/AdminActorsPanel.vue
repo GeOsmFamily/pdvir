@@ -14,7 +14,7 @@
             </div>
             <div class="Admin__actorsPanel__title__right">
                 <v-btn color="white" class="mr-3">
-                    <span>{{$t('actors.admin.sort')}}</span><v-icon icon="mdi mdi-arrow-down-drop-circle-outline" class="ml-2"></v-icon>
+                    <span>{{$t('filters.sortBy')}}</span><v-icon icon="mdi mdi-arrow-down-drop-circle-outline" class="ml-2"></v-icon>
                     <v-menu activator="parent">
                         <v-list>
                             <v-list-item @click="sortingActorsSelectedMethod = 'isValidated'">Acteurs à valider</v-list-item>
