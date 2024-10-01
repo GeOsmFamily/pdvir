@@ -1,13 +1,13 @@
 App\Entity\ActorsCategories:
-  actor_category_1:
+  actorcategory_1:
     name: Acteurs institutionnels
-  actor_category_2:
+  actorcategory_2:
     name: Entreprises et établissements publics
-  actor_category_3:
+  actorcategory_3:
     name: Structures de formation, recherche et production de données
-  actor_category_4:
+  actorcategory_4:
     name: Acteurs non institutionnels
-  actor_category_5:
+  actorcategory_5:
     name: Partenaires bilatèreux et multilatèreux
-  actor_category_6:
+  actorcategory_6:
     name: Espaces de concertation

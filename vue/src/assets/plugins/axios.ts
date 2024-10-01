@@ -1,4 +1,4 @@
-import { DialogKey } from '@/models/enums/DialogKey';
+import { DialogKey } from '@/models/enums/app/DialogKey';
 import router from '@/router';
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import * as Sentry from '@sentry/vue';
