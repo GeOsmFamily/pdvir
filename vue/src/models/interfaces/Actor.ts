@@ -1,7 +1,7 @@
-import type { ActorsAdministrativeScopes } from "../enums/actors/ActorsAdministrativeScopes";
-import type { ActorsCategories } from "../enums/actors/ActorsCategories";
-import type { ActorsExpertises } from "../enums/actors/ActorsExpertises";
-import type { ActorsThematics } from "../enums/actors/ActorsThematics";
+import type { AdministrativesScopes } from "../enums/contents/AdministrativesScopes";
+import type { ActorsCategories } from "../enums/contents/actors/ActorsCategories";
+import type { ActorsExpertises } from "../enums/contents/actors/ActorsExpertises";
+import type { ActorsThematics } from "../enums/contents/actors/ActorsThematics";
 import type { User } from "./auth/User";
 import type { ContentImageFromUserFile, ContentImageFromUrl } from "./ContentImage";
 
@@ -11,16 +11,16 @@ export interface Actor {
     isValidated: boolean;
     name: string;
     acronym: string;
-    category: ActorsCategories;
-    expertise: ActorsExpertises;
+    categories: ActorsCategories[];
+    expertises: ActorsExpertises[];
     thematics: ActorsThematics[];
     creationDate: Date;
     lastUpdate: Date;
     description: string;
-    administrativeScopes: ActorsAdministrativeScopes[];
+    administrativeScopes: AdministrativesScopes[];
     officeName: string;
     officeAddress: string;
-    officeLocation: [number, number];
+    officeLocation: [number, number]; //To add later in SF Entity
     contactName: string;
     contactPosition: string;
     projects: string[];

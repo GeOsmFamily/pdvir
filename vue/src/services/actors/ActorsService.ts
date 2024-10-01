@@ -1,9 +1,9 @@
 import { fr, fakerFR } from '@faker-js/faker';
 import type { Actor } from "@/models/interfaces/Actor";
-import { ActorsAdministrativeScopes } from '@/models/enums/actors/ActorsAdministrativeScopes';
-import { ActorsCategories } from '@/models/enums/actors/ActorsCategories';
-import { ActorsExpertises } from '@/models/enums/actors/ActorsExpertises';
-import { ActorsThematics } from '@/models/enums/actors/ActorsThematics';
+import { ActorsAdministrativeScopes } from '@/models/enums/contents/actors/ActorsAdministrativeScopes';
+import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
+import { ActorsExpertises } from '@/models/enums/contents/actors/ActorsExpertises';
+import { ActorsThematics } from '@/models/enums/contents/actors/ActorsThematics';
 
 export class ActorsService {
     static async getActors(): Promise<Actor[]> {

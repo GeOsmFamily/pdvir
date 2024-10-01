@@ -1,4 +1,4 @@
-export enum ActorsAdministrativeScopes {
+export enum AdministrativesScopes {
     COMMUNAL = "Communal",
     DEPARTMENTAL = "Départemental",
     REGIONAL = "Régional",
