@@ -26,6 +26,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
+#[UniqueEntity('name')]
 #[ApiResource(
     operations: [
         new GetCollection(
@@ -58,7 +59,6 @@ class Actor
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[UniqueEntity('name')]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $name = null;
 

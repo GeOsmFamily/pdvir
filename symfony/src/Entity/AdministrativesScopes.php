@@ -10,6 +10,7 @@ use App\Repository\AdministrativesScopesRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AdministrativesScopesRepository::class)]
+#[UniqueEntity('name')]
 #[ApiResource]
 class AdministrativesScopes
 {
@@ -19,7 +20,6 @@ class AdministrativesScopes
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[UniqueEntity('name')]
     private ?string $name = null;
 
     /**

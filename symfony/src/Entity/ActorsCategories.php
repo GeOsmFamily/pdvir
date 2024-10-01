@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ActorsCategoriesRepository::class)]
 #[ApiResource]
+#[UniqueEntity('name')]
 class ActorsCategories
 {
     #[ORM\Id]
@@ -19,7 +20,6 @@ class ActorsCategories
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[UniqueEntity('name')]
     private ?string $name = null;
 
     /**

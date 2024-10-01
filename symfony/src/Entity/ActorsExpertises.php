@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ActorsExpertisesRepository::class)]
+#[UniqueEntity('name')]
 #[ApiResource]
 class ActorsExpertises
 {
@@ -19,7 +20,6 @@ class ActorsExpertises
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[UniqueEntity('name')]
     private ?string $name = null;
 
     /**

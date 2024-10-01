@@ -1,6 +1,6 @@
 import { fr, fakerFR } from '@faker-js/faker';
 import type { Actor } from "@/models/interfaces/Actor";
-import { ActorsAdministrativeScopes } from '@/models/enums/contents/actors/ActorsAdministrativeScopes';
+import { AdministrativesScopes } from '@/models/enums/contents/AdministrativesScopes';
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
 import { ActorsExpertises } from '@/models/enums/contents/actors/ActorsExpertises';
 import { ActorsThematics } from '@/models/enums/contents/actors/ActorsThematics';
@@ -22,13 +22,13 @@ function generateActor(): Actor {
     isValidated: fakerFR.datatype.boolean(),
     name: fakerFR.company.name(),
     acronym: fakerFR.lorem.word().toUpperCase().substring(0, Math.floor(Math.random() * 6) + 1),
-    category: fakerFR.helpers.arrayElement(Object.values(ActorsCategories)),  // Génère une catégorie aléatoire
-    expertise: fakerFR.helpers.arrayElement(Object.values(ActorsExpertises)),  // Génère une expertise aléatoire
+    categories: fakerFR.helpers.arrayElements(Object.values(ActorsCategories), 2),  // Génère une catégorie aléatoire
+    expertises: fakerFR.helpers.arrayElements(Object.values(ActorsExpertises), 2),  // Génère une expertise aléatoire
     thematics: fakerFR.helpers.arrayElements(Object.values(ActorsThematics), 2),  // Génère 2 thématiques aléatoires
     creationDate: fakerFR.date.past(),
     lastUpdate: fakerFR.date.recent(),
     description: fakerFR.lorem.paragraph(),
-    administrativeScopes: fakerFR.helpers.arrayElements(Object.values(ActorsAdministrativeScopes), 2),  // Génère 2 zones administratives aléatoires
+    administrativeScopes: fakerFR.helpers.arrayElements(Object.values(AdministrativesScopes), 2),  // Génère 2 zones administratives aléatoires
     officeName: fakerFR.company.name(),
     officeAddress: fakerFR.address.streetAddress(),
     officeLocation: [fakerFR.location.longitude(), fakerFR.location.latitude()],
