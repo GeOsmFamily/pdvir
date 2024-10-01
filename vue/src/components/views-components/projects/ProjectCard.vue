@@ -1,20 +1,20 @@
 <template>
     <Card
         class="ProjectCard"
-        :title=""
-        :subTitle="actor.acronym"
-        :to="getActorUrl(actor.name)"
+        title=""
+        subTitle=""
+        to=""
         >
         <template #content>
             <span style="font-size: 14px;">Acteur institutionnel</span>
             <div class="ProjectCard__logoCtn">
-                <img class="ProjectCard__logo" :src="actor.logo">
+                <img class="ProjectCard__logo" src="">
             </div>
         </template>
         <template #footer-left>
             <LikeButton />
         </template>
-        <template #footer-right :v-slot="{ isHovering }">
+        <template #footer-right="{ isHovering }">
             <v-icon icon="mdi mdi-arrow-right" color="light-blue" v-if="!isHovering"></v-icon>
             <v-icon icon="mdi mdi-arrow-right-circle" color="main-blue" size="x-large" v-else></v-icon>
         </template>

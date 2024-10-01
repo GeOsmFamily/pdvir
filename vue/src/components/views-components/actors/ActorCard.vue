@@ -14,7 +14,7 @@
         <template #footer-left>
             <LikeButton />
         </template>
-        <template #footer-right :v-slot="{ isHovering }">
+        <template #footer-right="{ isHovering }">
             <v-icon icon="mdi mdi-arrow-right" color="light-blue" v-if="!isHovering"></v-icon>
             <v-icon icon="mdi mdi-arrow-right-circle" color="main-blue" size="x-large" v-else></v-icon>
         </template>

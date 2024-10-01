@@ -20,7 +20,7 @@
                         </slot>
                     </div>
                     <div class="Card__footerBlock Card__footerBlock--right">
-                        <slot name="footer-right"></slot>
+                        <slot name="footer-right" :isHovering="isHovering"></slot>
                     </div>
                 </div>
             </v-card>
