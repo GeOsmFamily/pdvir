@@ -1,7 +1,7 @@
 import type { Actor } from "@/models/interfaces/Actor";
 import type { Thematic } from "@/models/interfaces/Thematic";
-import type { Status } from "@/models/enums/Status";
-import type { AdminLevel } from "@/models/enums/AdminLevel";
+import type { Status } from "@/models/enums/contents/Status";
+import type { AdministrativesScopes } from "../enums/contents/AdministrativesScopes";
 
 export interface Project {
   id: number;
@@ -12,7 +12,7 @@ export interface Project {
   description: string;
   images: string[];
   partners: string[];
-  interventionZone: AdminLevel;
+  interventionZone: AdministrativesScopes;
   thematics: Thematic[];
   projectManagerName: string;
   projectManagerPosition: string;

@@ -3,4 +3,4 @@ export enum AdministrativesScopes {
     DEPARTMENTAL = "Départemental",
     REGIONAL = "Régional",
     NATIONAL = "National"
-  }  
+  }

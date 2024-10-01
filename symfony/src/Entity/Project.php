@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Trait\TimestampableEntity;
-use App\Enum\AdminLevel;
+use App\Enum\AdministrativeScopes;
 use App\Enum\Status;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -48,8 +48,8 @@ class Project
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $partners = null;
 
-    #[ORM\Column(enumType: AdminLevel::class)]
-    private ?AdminLevel $interventionZone = null;
+    #[ORM\Column(enumType: AdministrativeScopes::class)]
+    private ?AdministrativeScopes $interventionZone = null;
 
     /**
      * @var Collection<int, Thematic>
@@ -193,12 +193,12 @@ class Project
         return $this;
     }
 
-    public function getInterventionZone(): ?AdminLevel
+    public function getInterventionZone(): ?AdministrativeScopes
     {
         return $this->interventionZone;
     }
 
-    public function setInterventionZone(AdminLevel $interventionZone): static
+    public function setInterventionZone(AdministrativeScopes $interventionZone): static
     {
         $this->interventionZone = $interventionZone;
 

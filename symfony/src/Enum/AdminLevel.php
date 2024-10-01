@@ -3,7 +3,7 @@ namespace App\Enum;
 
 use App\Enum\Trait\ToArray;
 
-enum AdminLevel: string
+enum AdministrativeScopes: string
 {
   case NATIONAL = 'NATIONAL';
   case REGIONAL = 'REGIONAL';

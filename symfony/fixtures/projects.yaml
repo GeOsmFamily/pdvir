@@ -18,7 +18,7 @@ App\Entity\Project:
     description: <paragraph(2)>
     images: []
     partners: []
-    interventionZone: '<randomElement(<(App\Enum\AdminLevel::toArray())>)>' # Remplace par les valeurs de ton Enum AdminLevel
+    interventionZone: '<randomElement(<(App\Enum\AdministrativeScopes::toArray())>)>' # Remplace par les valeurs de ton Enum AdministrativeScopes
     financialActors: '<numberBetween(1, 5)>x @actor_*'
     actor: '@actor_*'
     contractingActors: '<numberBetween(1, 5)>x @actor_*'
