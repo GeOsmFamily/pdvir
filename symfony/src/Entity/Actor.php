@@ -23,27 +23,14 @@ class Actor
     /**
      * @var Collection<int, Project>
      */
-    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'financialActors')]
-    private Collection $financedProjects;
-
-    /**
-     * @var Collection<int, Project>
-     */
-    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'contractingActors')]
-    private Collection $contractedProjects;
-
-    /**
-     * @var Collection<int, Project>
-     */
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'actor')]
     private Collection $projects;
 
     public function __construct()
     {
-        $this->financedProjects = new ArrayCollection();
-        $this->contractedProjects = new ArrayCollection();
         $this->projects = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -58,60 +45,6 @@ class Actor
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Project>
-     */
-    public function getFinancedProjects(): Collection
-    {
-        return $this->financedProjects;
-    }
-
-    public function addFinancedProject(Project $financedProject): static
-    {
-        if (!$this->financedProjects->contains($financedProject)) {
-            $this->financedProjects->add($financedProject);
-            $financedProject->addFinancialActor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFinancedProject(Project $financedProject): static
-    {
-        if ($this->financedProjects->removeElement($financedProject)) {
-            $financedProject->removeFinancialActor($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Project>
-     */
-    public function getContractedProjects(): Collection
-    {
-        return $this->contractedProjects;
-    }
-
-    public function addContractedProject(Project $contractedProject): static
-    {
-        if (!$this->contractedProjects->contains($contractedProject)) {
-            $this->contractedProjects->add($contractedProject);
-            $contractedProject->addContractingActor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContractedProject(Project $contractedProject): static
-    {
-        if ($this->contractedProjects->removeElement($contractedProject)) {
-            $contractedProject->removeContractingActor($this);
-        }
 
         return $this;
     }

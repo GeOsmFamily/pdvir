@@ -82,7 +82,7 @@ class Project
      * @var Collection<int, Actor>
      */
     #[ORM\JoinTable(name: 'financed_projects_actors')]
-    #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: 'financedProjects')]
+    #[ORM\ManyToMany(targetEntity: Actor::class)]
     private Collection $financialActors;
 
     /**
@@ -90,7 +90,7 @@ class Project
      */
     
     #[ORM\JoinTable(name: 'contracted_projects_actors')]
-    #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: 'contractedProjects')]
+    #[ORM\ManyToMany(targetEntity: Actor::class)]
     private Collection $contractingActors;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
