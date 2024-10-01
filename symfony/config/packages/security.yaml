@@ -44,7 +44,6 @@ security:
         - { path: ^/auth, roles: PUBLIC_ACCESS }
         - { path: ^/api/users, roles: PUBLIC_ACCESS, methods: [POST]}
         - { path: ^/api/actors, roles: PUBLIC_ACCESS, methods: [GET] }
-        - { path: ^/api/actors, roles: ROLE_EDITOR_ACTORS, methods: [POST, PUT, DELETE] }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:

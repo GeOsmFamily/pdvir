@@ -40,7 +40,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         new GetCollection(
             provider: UserProvider::class
         ),
-        new Post(processor: UserProcessor::class),
+        new Post(
+            processor: UserProcessor::class
+        ),
         new Put(
             processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'

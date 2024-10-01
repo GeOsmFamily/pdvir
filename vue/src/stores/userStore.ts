@@ -7,14 +7,16 @@ import JwtCookie from '@/services/auth/JWTCookie'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import * as Sentry from "@sentry/browser";
 
 
 export const useUserStore = defineStore(StoresList.USER, () => {
   const router = useRouter()
   const route = useRoute()
-  const userIsLogged = ref(false)
   const currentUser = ref<User | null>(null)
   const errorWhileSignInOrSignUp = ref(false)
+  
+  const userIsLogged = () => currentUser.value != null
 
   const signIn = async (values: SignInValues, hideDialog = true) => {
     try {
@@ -24,15 +26,14 @@ export const useUserStore = defineStore(StoresList.USER, () => {
       if (hideDialog) {
         router.replace({ query: { dialog: undefined }})
       }
-    } catch (error) {
-        console.log(error)//TODO: Send to Sentry
+    } catch (err) {
+        Sentry.captureException(err);
         errorWhileSignInOrSignUp.value = true
     }
   }
 
   const setCurrentUser = async () => {
     currentUser.value = (await AuthenticationService.getAuthenticatedUser()).data
-    userIsLogged.value = true
   }
 
   const signUp = async (values: SignUpValues) => {
@@ -44,15 +45,14 @@ export const useUserStore = defineStore(StoresList.USER, () => {
         }, false
       )
       router.replace({ query: { ...route.query, dialog: DialogKey.AUTH_BECOME_MEMBER_THANKS } })
-    } catch (error) {
+    } catch (err) {
         errorWhileSignInOrSignUp.value = true
-        console.log(error)//TODO: Send to Sentry
+        Sentry.captureException(err);
     }
   }
 
   const signOut = async () => {
     currentUser.value = null
-    userIsLogged.value = false
     JwtCookie.clearCookies()
   }
 
