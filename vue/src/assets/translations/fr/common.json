@@ -43,5 +43,15 @@
             "wrongSize": "Taille d'image incorrecte, la taille maximale est de 1Mo",
             "duplicate": "Une image avec ce nom est déjà sélectionnée"
         }
+    },
+    "forms": {
+        "errorMessages": {
+                "required": "Ce champs est requis",
+                "minlength": "Ce champs doit avoir au moins {min} caractères",
+                "maxlength": "Ce champs doit avoir au maximum {max} caractères",
+                "email": "Veuillez renseigner une adresse email valide",
+                "url": "Veuillez renseigner une URL valide",
+                "phone": "Veuillez renseigner un numéro de téléphone valide"
+        }
     }
 }

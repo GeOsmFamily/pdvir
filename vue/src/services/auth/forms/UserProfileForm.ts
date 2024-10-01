@@ -1,22 +1,28 @@
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, useField, type TypedSchema } from "vee-validate";
 import { z } from "zod";
+import { i18n } from "@/assets/plugins/i18n";
 
 export class UserProfileForm {
     static getSchema() {
       return z.object({
-        firstName: z.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(50, { message: 'Too loog' }),
-        lastName: z.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(50, { message: 'Too loog' }),
-        organisation: z.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(50, { message: 'Too loog' }),
-        position: z.string().min(1, { message: 'This is required' }).min(1, { message: 'Too short' }).max(50, { message: 'Too loog' }),
-        phone: z.string().min(10).max(20, { message: 'Too long' }).optional().or(z.literal('')),
-        email: z.string().email({ message: 'Must be a valid email' }),
-        plainPassword: z.string().min(1, { message: 'This is required' }).min(8, { message: 'Too short' }),
-        confirmPassword: z.string().min(1, { message: 'This is required' }).min(8, { message: 'Too short' }),
+        firstName: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).min(2, { message: i18n.t('forms.errorMessages.minlength', { min: 2 }) }).max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }),
+        lastName: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).min(2, { message: i18n.t('forms.errorMessages.minlength', { min: 2 }) }).max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }),
+        organisation: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }),
+        position: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).min(2, { message: i18n.t('forms.errorMessages.minlength', { min: 2 }) }).max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }),
+        phone: z.string().refine((phone) => {
+          const regex = /^(?:\+?[1-9]\d{1,3}[ .-]?)?(?:[1-9]\d{8}|0[1-9]\d{8})$/;
+          return regex.test(phone);
+        }, {
+          message: i18n.t('forms.errorMessages.phone'),
+        }).optional().or(z.literal('')),
+        email: z.string().email({ message: i18n.t('forms.errorMessages.email') }),
+        plainPassword: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).min(8, { message: i18n.t('forms.errorMessages.minlength', { min: 8 }) }),
+        confirmPassword: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).min(8, { message: i18n.t('forms.errorMessages.minlength', { min: 8 }) }),
         acceptTerms: z.boolean().refine(val => val === true, {
-          message: "Vous devez accepter les conditions d'utilisation",
+          message: i18n.t('auth.becomeMember.form.privacyPolicy.error'),
         }),
-        signInMessage: z.string().min(10).max(300, { message: 'Too long' }).optional().or(z.literal('')),
+        signInMessage: z.string().min(10).max(500, { message: i18n.t('forms.errorMessages.maxlength', { max: 500 }) }).optional().or(z.literal('')),
       })
     }
 
@@ -31,7 +37,7 @@ export class UserProfileForm {
       })
 
       const signUpSchema = baseSchema.refine((data) => data.plainPassword === data.confirmPassword, {
-        message: "Les mots de passe ne correspondent pas",
+        message: i18n.t('auth.becomeMember.form.passwordMatchError'),
         path: ["confirmPassword"],
       })
       

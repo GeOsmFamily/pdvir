@@ -45,7 +45,6 @@ class Actor
     #[ORM\Column(type: 'uuid')]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
-    // #[ORM\Column]
     #[Groups([self::GROUP_READ])]
     private ?Uuid $id = null;
 
