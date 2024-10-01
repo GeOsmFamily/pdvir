@@ -1,14 +1,14 @@
 <template>
     <Card
-        class="ActorCard"
-        :title="actor.name"
+        class="ProjectCard"
+        :title=""
         :subTitle="actor.acronym"
         :to="getActorUrl(actor.name)"
         >
         <template #content>
             <span style="font-size: 14px;">Acteur institutionnel</span>
-            <div class="ActorCard__logoCtn">
-                <img class="ActorCard__logo" :src="actor.logo">
+            <div class="ProjectCard__logoCtn">
+                <img class="ProjectCard__logo" :src="actor.logo">
             </div>
         </template>
         <template #footer-left>
@@ -22,11 +22,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Actor }  from '@/models/interfaces/Actor';
+import type { Project }  from '@/models/interfaces/Project';
 import Card from '@/components/views-components/global/Card.vue';
 import LikeButton from '@/components/views-components/global/LikeButton.vue';
 defineProps<{
-  actor: Actor;
+  project: Project;
 }>();
 const getActorUrl = (name: string) => {
     return `/actors/${name}`
@@ -34,13 +34,13 @@ const getActorUrl = (name: string) => {
 </script>
 
 <style lang="scss">
-.ActorCard {
+.ProjectCard {
     &__logoCtn {
         margin-top: 20px;
         height: 140px;
         width: 140px;
 
-        .ActorCard__logo{
+        .ProjectCard__logo{
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;

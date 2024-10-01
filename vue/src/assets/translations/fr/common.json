@@ -36,5 +36,8 @@
             "wrongSize": "Taille d'image incorrecte, la taille maximale est de 1Mo",
             "duplicate": "Une image avec ce nom est déjà sélectionnée"
         }
+    },
+    "filters": {
+        "sortBy": "Trier par"
     }
 }
