@@ -1,16 +1,5 @@
-
-# Il faut également générer des `Actor` et des `Thematic` pour que les relations ManyToMany fonctionnent bien.
-App\Entity\Actor:
-  actor_{1..100}:
-    name: <company()>
-    # Ajoute d'autres champs en fonction de l'entité `Actor`
-
-App\Entity\Thematic:
-  thematic_{1..50}:
-    name: <randomElement(["Urban Planning", "Public Transportation", "Green Spaces", "Housing Development", "Water Management"])>
-
 App\Entity\Project:
-  project_{1..500}:
+  project_{1..100}:
     title: <city()> Urban Development
     location: <city()>
     coords: 'POINT(<longitude()> <latitude()>)'

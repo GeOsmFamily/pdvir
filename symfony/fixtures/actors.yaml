@@ -1,0 +1,20 @@
+App\Entity\Actor:
+  actor_{1..40}:
+    name: <company()>
+    acronym: <word(3, true)>
+    createdBy: '@user_<numberBetween(1,3)>' 
+    categories: '<numberBetween(1, 3)>x @ActorCategory_*'
+    expertises: '<numberBetween(1, 3)>x @actorexpertise_*'
+    thematics: '<numberBetween(1, 3)>x @thematic_*'
+    creationDate: <dateTimeBetween("-2 years", "now")>
+    lastUpdate: <dateTimeBetween("creationDate", "now")>
+    description: <paragraph()>
+    administrativeScopes: '<numberBetween(1, 3)>x @administrative_scope_*'
+    officeName: <companySuffix()>
+    officeAdress: <address()>
+    contactName: <name()>
+    contactPosition: <jobTitle()>
+    website: <url()>
+    phone: <phoneNumber()>
+    email: <email()>
+    projects: '<numberBetween(1, 8)>x @project_*'

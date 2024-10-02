@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\AdministrativesScopes;
+use App\Entity\ActorCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<AdministrativesScopes>
+ * @extends ServiceEntityRepository<ActorCategory>
  */
-class AdministrativesScopesRepository extends ServiceEntityRepository
+class ActorCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AdministrativesScopes::class);
+        parent::__construct($registry, ActorCategory::class);
     }
 
     //    /**
-    //     * @return AdministrativesScopes[] Returns an array of AdministrativesScopes objects
+    //     * @return ActorCategory[] Returns an array of ActorCategory objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class AdministrativesScopesRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?AdministrativesScopes
+    //    public function findOneBySomeField($value): ?ActorCategory
     //    {
     //        return $this->createQueryBuilder('a')
     //            ->andWhere('a.exampleField = :val')

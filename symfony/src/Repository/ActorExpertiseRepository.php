@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\ActorsExpertises;
+use App\Entity\ActorExpertise;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ActorsExpertises>
+ * @extends ServiceEntityRepository<ActorExpertise>
  */
-class ActorsExpertisesRepository extends ServiceEntityRepository
+class ActorExpertiseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ActorsExpertises::class);
+        parent::__construct($registry, ActorExpertise::class);
     }
 
     //    /**
-    //     * @return ActorsExpertises[] Returns an array of ActorsExpertises objects
+    //     * @return ActorExpertise[] Returns an array of ActorExpertise objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class ActorsExpertisesRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ActorsExpertises
+    //    public function findOneBySomeField($value): ?ActorExpertise
     //    {
     //        return $this->createQueryBuilder('a')
     //            ->andWhere('a.exampleField = :val')

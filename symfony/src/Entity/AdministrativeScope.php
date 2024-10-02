@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
-use Doctrine\Common\Collections\Collection;
-use App\Repository\ActorsExpertisesRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\AdministrativeScopeRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: ActorsExpertisesRepository::class)]
+#[ORM\Entity(repositoryClass: AdministrativeScopeRepository::class)]
 #[UniqueEntity('name')]
 #[ApiResource]
-class ActorsExpertises
+class AdministrativeScope
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,7 +25,7 @@ class ActorsExpertises
     /**
      * @var Collection<int, Actor>
      */
-    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'expertises')]
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'AdministrativeScope')]
     private Collection $actors;
 
     public function __construct()
@@ -62,7 +62,7 @@ class ActorsExpertises
     {
         if (!$this->actors->contains($actor)) {
             $this->actors->add($actor);
-            $actor->addExpertise($this);
+            $actor->addAdministrativeScope($this);
         }
 
         return $this;
@@ -71,7 +71,7 @@ class ActorsExpertises
     public function removeActor(Actor $actor): static
     {
         if ($this->actors->removeElement($actor)) {
-            $actor->removeExpertise($this);
+            $actor->removeAdministrativeScope($this);
         }
 
         return $this;

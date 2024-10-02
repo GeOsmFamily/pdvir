@@ -19,7 +19,7 @@
     <div class="Actors__filters">
         <SectionTitle :text="$t('actors.filtersTitle')" />
         <Wip />
-        <div>
+        <div class="mt-3 mb-3" v-if="userStore.userIsAdmin || userStore.userHasRole(UserRoles.EDITOR_ACTORS)">
             <v-btn color="main-red" prepend-icon="mdi-plus" @click="addActor()">{{ $t('actors.add') }}</v-btn>
         </div>
     </div>
@@ -47,13 +47,16 @@ import SectionTitle from '@/components/generic-components/text-elements/SectionT
 import Wip from '@/components/generic-components/Wip.vue';
 import ActorCard from '@/components/views-components/actors/ActorCard.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
+import { useUserStore } from '@/stores/userStore';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { UserRoles } from '@/models/enums/auth/UserRoles';
 
 const router = useRouter();
-
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
+const userStore = useUserStore();
+
 const validatedActors = computed(() => actorsStore.actors.filter(x => x.isValidated));
 
 const page = ref(1);

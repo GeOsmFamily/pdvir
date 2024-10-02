@@ -7,8 +7,10 @@ use App\Repository\ThematicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ThematicRepository::class)]
+#[UniqueEntity('name')]
 #[ApiResource()]
 class Thematic
 {
@@ -26,9 +28,16 @@ class Thematic
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'thematics')]
     private Collection $projects;
 
+    /**
+     * @var Collection<int, Actor>
+     */
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'thematics')]
+    private Collection $actors;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->actors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +79,33 @@ class Thematic
     {
         if ($this->projects->removeElement($project)) {
             $project->removeThematic($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Actor>
+     */
+    public function getActors(): Collection
+    {
+        return $this->actors;
+    }
+
+    public function addActor(Actor $actor): static
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors->add($actor);
+            $actor->addThematic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actor $actor): static
+    {
+        if ($this->actors->removeElement($actor)) {
+            $actor->removeThematic($this);
         }
 
         return $this;

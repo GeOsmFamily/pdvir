@@ -1,23 +1,23 @@
-App\Entity\Thematics:
-  thematics_1:
+App\Entity\Thematic:
+  thematic_1:
     name: Appui/Gouvernance
-  thematics_2:
+  thematic_2:
     name: Assainissement
-  thematics_3:
+  thematic_3:
     name: Concertation
-  thematics_4:
+  thematic_4:
     name: Environnement
-  thematics_5:
+  thematic_5:
     name: Equipements
-  thematics_6:
+  thematic_6:
     name: Études urbaines
-  thematics_7:
+  thematic_7:
     name: Numérique
-  thematics_8:
+  thematic_8:
     name: Plannification
-  thematics_9:
+  thematic_9:
     name: Renforcement des capacités
-  thematics_10:
+  thematic_10:
     name: Infrastructures légères
-  thematics_11:
+  thematic_11:
     name: Infrastructures structurantes

@@ -1,4 +1,4 @@
-App\Entity\ActorsExpertises:
+App\Entity\ActorExpertise:
   actorexpertise_1:
     name: Planification urbaine
   actorexpertise_2:

@@ -8,3 +8,7 @@ services:
     App\DataFixtures\Processor\UserProcessor:
         arguments:
           - '@security.user_password_hasher'
+
+    App\DataFixtures\Processor\ActorProjectProcessor:
+        arguments:
+          - '@security.user_password_hasher'

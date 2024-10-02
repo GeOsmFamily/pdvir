@@ -2,20 +2,20 @@
 
 namespace App\Entity;
 
-use App\Entity\Thematics;
+use App\Entity\Thematic;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
 use App\Model\Enums\UserRoles;
 use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use Symfony\Component\Uid\Uuid;
-use App\Entity\ActorsCategories;
-use App\Entity\ActorsExpertises;
+use App\Entity\ActorCategory;
+use App\Entity\ActorExpertise;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\ActorVoter;
 use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiResource;
-use App\Entity\AdministrativesScopes;
+use App\Entity\AdministrativeScope;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Services\State\Provider\ActorProvider;
@@ -62,7 +62,7 @@ class Actor
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $name = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 255)]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $acronym = null;
 
@@ -73,26 +73,26 @@ class Actor
 
     #[ORM\Column]
     #[Groups([self::GROUP_READ])]
-    private ?bool $isValidated = null;
+    private ?bool $isValidated = false;
 
     /**
-     * @var Collection<int, ActorsCategories>
+     * @var Collection<int, ActorCategory>
      */
-    #[ORM\ManyToMany(targetEntity: ActorsCategories::class, inversedBy: 'actors')]
+    #[ORM\ManyToMany(targetEntity: ActorCategory::class, inversedBy: 'actors')]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private Collection $categories;
 
     /**
-     * @var Collection<int, ActorsExpertises>
+     * @var Collection<int, ActorExpertise>
      */
-    #[ORM\ManyToMany(targetEntity: ActorsExpertises::class, inversedBy: 'actors')]
+    #[ORM\ManyToMany(targetEntity: ActorExpertise::class, inversedBy: 'actors')]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private Collection $expertises;
 
     /**
      * @var Collection<int, Thematics>
      */
-    #[ORM\ManyToMany(targetEntity: Thematics::class, inversedBy: 'actors')]
+    #[ORM\ManyToMany(targetEntity: Thematic::class, inversedBy: 'actors')]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private Collection $thematics;
 
@@ -109,11 +109,11 @@ class Actor
     private ?string $description = null;
 
     /**
-     * @var Collection<int, AdministrativesScopes>
+     * @var Collection<int, AdministrativeScope>
      */
-    #[ORM\ManyToMany(targetEntity: AdministrativesScopes::class, inversedBy: 'actors')]
+    #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
-    private Collection $administrativesScopes;
+    private Collection $getAdministrativeScopes;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
@@ -155,7 +155,7 @@ class Actor
         $this->categories = new ArrayCollection();
         $this->expertises = new ArrayCollection();
         $this->thematics = new ArrayCollection();
-        $this->administrativesScopes = new ArrayCollection();
+        $this->getAdministrativeScopes = new ArrayCollection();
         $this->projects = new ArrayCollection();
     }
 
@@ -212,14 +212,14 @@ class Actor
     }
 
     /**
-     * @return Collection<int, ActorsCategories>
+     * @return Collection<int, ActorCategory>
      */
     public function getCategories(): Collection
     {
         return $this->categories;
     }
 
-    public function addCategory(ActorsCategories $category): static
+    public function addCategory(ActorCategory $category): static
     {
         if (!$this->categories->contains($category)) {
             $this->categories->add($category);
@@ -228,7 +228,7 @@ class Actor
         return $this;
     }
 
-    public function removeCategory(ActorsCategories $category): static
+    public function removeCategory(ActorCategory $category): static
     {
         $this->categories->removeElement($category);
 
@@ -236,14 +236,14 @@ class Actor
     }
 
     /**
-     * @return Collection<int, ActorsExpertises>
+     * @return Collection<int, ActorExpertise>
      */
     public function getExpertises(): Collection
     {
         return $this->expertises;
     }
 
-    public function addExpertise(ActorsExpertises $expertise): static
+    public function addExpertise(ActorExpertise $expertise): static
     {
         if (!$this->expertises->contains($expertise)) {
             $this->expertises->add($expertise);
@@ -252,7 +252,7 @@ class Actor
         return $this;
     }
 
-    public function removeExpertise(ActorsExpertises $expertise): static
+    public function removeExpertise(ActorExpertise $expertise): static
     {
         $this->expertises->removeElement($expertise);
 
@@ -267,7 +267,7 @@ class Actor
         return $this->thematics;
     }
 
-    public function addThematic(Thematics $thematic): static
+    public function addThematic(Thematic $thematic): static
     {
         if (!$this->thematics->contains($thematic)) {
             $this->thematics->add($thematic);
@@ -276,7 +276,7 @@ class Actor
         return $this;
     }
 
-    public function removeThematic(Thematics $thematic): static
+    public function removeThematic(Thematic $thematic): static
     {
         $this->thematics->removeElement($thematic);
 
@@ -320,25 +320,25 @@ class Actor
     }
 
     /**
-     * @return Collection<int, AdministrativesScopes>
+     * @return Collection<int, AdministrativeScope>
      */
-    public function getAdministrativesScopes(): Collection
+    public function getAdministrativeScopes(): Collection
     {
-        return $this->administrativesScopes;
+        return $this->getAdministrativeScopes;
     }
 
-    public function addAdministrativesScope(AdministrativesScopes $administrativesScope): static
+    public function addAdministrativeScope(AdministrativeScope $getAdministrativeScopes): static
     {
-        if (!$this->administrativesScopes->contains($administrativesScope)) {
-            $this->administrativesScopes->add($administrativesScope);
+        if (!$this->getAdministrativeScopes->contains($getAdministrativeScopes)) {
+            $this->getAdministrativeScopes->add($getAdministrativeScopes);
         }
 
         return $this;
     }
 
-    public function removeAdministrativesScope(AdministrativesScopes $administrativesScope): static
+    public function removeAdministrativeScope(AdministrativeScope $getAdministrativeScopes): static
     {
-        $this->administrativesScopes->removeElement($administrativesScope);
+        $this->getAdministrativeScopes->removeElement($getAdministrativeScopes);
 
         return $this;
     }

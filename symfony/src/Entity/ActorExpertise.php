@@ -5,14 +5,14 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
-use App\Repository\ActorsCategoriesRepository;
+use App\Repository\ActorExpertiseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: ActorsCategoriesRepository::class)]
-#[ApiResource]
+#[ORM\Entity(repositoryClass: ActorExpertiseRepository::class)]
 #[UniqueEntity('name')]
-class ActorsCategories
+#[ApiResource]
+class ActorExpertise
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,7 +25,7 @@ class ActorsCategories
     /**
      * @var Collection<int, Actor>
      */
-    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'categories')]
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'expertises')]
     private Collection $actors;
 
     public function __construct()
@@ -62,7 +62,7 @@ class ActorsCategories
     {
         if (!$this->actors->contains($actor)) {
             $this->actors->add($actor);
-            $actor->addCategory($this);
+            $actor->addExpertise($this);
         }
 
         return $this;
@@ -71,7 +71,7 @@ class ActorsCategories
     public function removeActor(Actor $actor): static
     {
         if ($this->actors->removeElement($actor)) {
-            $actor->removeCategory($this);
+            $actor->removeExpertise($this);
         }
 
         return $this;

@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\AdministrativesScopesRepository;
+use Doctrine\Common\Collections\Collection;
+use App\Repository\ActorCategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: AdministrativesScopesRepository::class)]
-#[UniqueEntity('name')]
+#[ORM\Entity(repositoryClass: ActorCategoryRepository::class)]
 #[ApiResource]
-class AdministrativesScopes
+#[UniqueEntity('name')]
+class ActorCategory
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,7 +25,7 @@ class AdministrativesScopes
     /**
      * @var Collection<int, Actor>
      */
-    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'administrativesScopes')]
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'categories')]
     private Collection $actors;
 
     public function __construct()
@@ -62,7 +62,7 @@ class AdministrativesScopes
     {
         if (!$this->actors->contains($actor)) {
             $this->actors->add($actor);
-            $actor->addAdministrativesScope($this);
+            $actor->addCategory($this);
         }
 
         return $this;
@@ -71,7 +71,7 @@ class AdministrativesScopes
     public function removeActor(Actor $actor): static
     {
         if ($this->actors->removeElement($actor)) {
-            $actor->removeAdministrativesScope($this);
+            $actor->removeCategory($this);
         }
 
         return $this;

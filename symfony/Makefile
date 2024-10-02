@@ -39,7 +39,7 @@ run-migration rerun-migration:
 	@$(SYMFONY) do:mi:mi -n --allow-no-migration
 
 run-fixtures:
-	@$(SYMFONY) ha:fi:lo -n -vvv
+	@$(SYMFONY) --profile ha:fi:lo -n -vvv
 
 make-migration:
 	@$(SYMFONY) make:migration
