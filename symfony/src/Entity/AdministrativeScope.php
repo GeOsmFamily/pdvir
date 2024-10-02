@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\AdministrativeScopeRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AdministrativeScopeRepository::class)]
@@ -20,6 +21,7 @@ class AdministrativeScope
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Actor::ACTOR_READ_ITEM])]
     private ?string $name = null;
 
     /**

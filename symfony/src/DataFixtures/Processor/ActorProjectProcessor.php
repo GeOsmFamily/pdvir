@@ -9,7 +9,13 @@ final class ActorProjectProcessor  implements ProcessorInterface
 {
     public function preProcess(string $fixtureId, $object): void
     {
-        // Do nothing
+        // For testing purpose
+        static $callCount = 0;
+        if ($object instanceof Actor) {
+            $callCount++;
+            $isValidated = $callCount % 4 !== 0;
+            $object->setValidated($isValidated);
+        }
     }
 
     public function postProcess(string $fixtureId, $object): void

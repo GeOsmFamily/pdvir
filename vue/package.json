@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@sentry/vue": "^8.30.0",
-    "@supabase/supabase-js": "^2.44.4",
     "@vee-validate/zod": "^4.13.2",
     "axios": "^1.7.7",
     "jwt-decode": "^4.0.0",
@@ -28,7 +27,6 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
     "@mdi/font": "^7.4.47",
     "@rushstack/eslint-patch": "^1.8.0",
     "@sentry/vite-plugin": "^2.22.4",

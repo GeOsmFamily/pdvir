@@ -3,35 +3,38 @@
 namespace App\Entity;
 
 use App\Entity\Thematic;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
+use App\Entity\ActorCategory;
 use ApiPlatform\Metadata\Post;
+use App\Entity\ActorExpertise;
 use App\Model\Enums\UserRoles;
 use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use Symfony\Component\Uid\Uuid;
-use App\Entity\ActorCategory;
-use App\Entity\ActorExpertise;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\ActorVoter;
+use App\Entity\AdministrativeScope;
 use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiResource;
-use App\Entity\AdministrativeScope;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Services\State\Provider\ActorProvider;
 use App\Services\State\Processor\ActorProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[UniqueEntity('name')]
 #[ApiResource(
     operations: [
         new GetCollection(
-            provider: ActorProvider::class
+            provider: ActorProvider::class,
+            normalizationContext: ['groups' => self::ACTOR_READ_ITEM_COLLECTION]
         ),
+        new Get(),
         new Post(
             processor: ActorProcessor::class,
             security: "is_granted('".UserRoles::ROLE_EDITOR_ACTORS."')"
@@ -44,103 +47,104 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("'.ActorVoter::EDIT.'", object)'
         )
     ],
-    normalizationContext: ['groups' => [self::GROUP_READ]],
-    denormalizationContext: ['groups' => [self::GROUP_WRITE]],
+    normalizationContext: ['groups' => [self::ACTOR_READ_ITEM]],
+    denormalizationContext: ['groups' => [self::ACTOR_WRITE]],
 )]
 class Actor
 {
-    private const GROUP_READ = 'actor:read';
-    private const GROUP_WRITE = 'actor:write';
+    public const ACTOR_READ_ITEM_COLLECTION = 'actor:read_collection';
+    public const ACTOR_READ_ITEM = 'actor:read_item';
+    private const ACTOR_WRITE = 'actor:write';
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
-    #[Groups([self::GROUP_READ])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $acronym = null;
 
     #[ORM\ManyToOne(inversedBy: 'actorsCreated')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups([self::GROUP_READ])]
+    #[Groups([self::ACTOR_READ_ITEM])]
     private ?User $createdBy = null;
 
     #[ORM\Column]
-    #[Groups([self::GROUP_READ])]
+    #[Groups([self::ACTOR_READ_ITEM])]
     private ?bool $isValidated = false;
 
     /**
      * @var Collection<int, ActorCategory>
      */
     #[ORM\ManyToMany(targetEntity: ActorCategory::class, inversedBy: 'actors')]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $categories;
 
     /**
      * @var Collection<int, ActorExpertise>
      */
     #[ORM\ManyToMany(targetEntity: ActorExpertise::class, inversedBy: 'actors')]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $expertises;
 
     /**
      * @var Collection<int, Thematics>
      */
     #[ORM\ManyToMany(targetEntity: Thematic::class, inversedBy: 'actors')]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $thematics;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?\DateTimeInterface $creationDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?\DateTimeInterface $lastUpdate = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $description = null;
 
     /**
      * @var Collection<int, AdministrativeScope>
      */
     #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $getAdministrativeScopes;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $officeName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $officeAdress = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $contactName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $contactPosition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     #[Assert\Email]
     private ?string $email = null;
 
@@ -149,6 +153,10 @@ class Actor
      */
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'actor')]
     private Collection $projects;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private ?string $logo = null;
 
     public function __construct()
     {
@@ -453,6 +461,18 @@ class Actor
                 $project->setActor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): static
+    {
+        $this->logo = $logo;
 
         return $this;
     }

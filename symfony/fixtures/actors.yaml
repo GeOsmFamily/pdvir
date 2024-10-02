@@ -17,4 +17,5 @@ App\Entity\Actor:
     website: <url()>
     phone: <phoneNumber()>
     email: <email()>
+    logo: <imageUrl(200, 200)>
     projects: '<numberBetween(1, 8)>x @project_*'

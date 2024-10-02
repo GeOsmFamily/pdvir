@@ -7,10 +7,10 @@
             <span class="mt-6">{{ $t('actors.desc') }}</span>
             <Autocomplete 
                 :placeholder="$t('actors.search')"
-                :items="validatedActors"
+                :items="actorsStore.actors"
                 :customFilter="searchActors"
                 item-title="name"
-                item-value="name"
+                item-value="id"
                 class="mt-6"
                 @updateSelect="updateSelectedActor"
             />
@@ -19,7 +19,7 @@
     <div class="Actors__filters">
         <SectionTitle :text="$t('actors.filtersTitle')" />
         <Wip />
-        <div class="mt-3 mb-3" v-if="userStore.userIsAdmin || userStore.userHasRole(UserRoles.EDITOR_ACTORS)">
+        <div class="mt-3" v-if="userStore.userIsAdmin || userStore.userHasRole(UserRoles.EDITOR_ACTORS)">
             <v-btn color="main-red" prepend-icon="mdi-plus" @click="addActor()">{{ $t('actors.add') }}</v-btn>
         </div>
     </div>
@@ -57,16 +57,16 @@ const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const userStore = useUserStore();
 
-const validatedActors = computed(() => actorsStore.actors.filter(x => x.isValidated));
+// const validatedActors = computed(() => actorsStore.actors.filter(x => x.isValidated));
 
 const page = ref(1);
 const itemsPerPage = appStore.mobile ? 5 : 15
 const paginatedActors = computed(() => {
       const start = (page.value - 1) * itemsPerPage;
       const end = start + itemsPerPage;
-      return validatedActors.value.slice(start, end);
+      return actorsStore.actors.slice(start, end);
     })
-const totalPages = computed(() => Math.ceil(validatedActors.value.length / itemsPerPage));
+const totalPages = computed(() => Math.ceil(actorsStore.actors.length / itemsPerPage));
 
 function addActor() {
     actorsStore.activateActorEdition(null);
@@ -81,7 +81,7 @@ function searchActors(value: string, queryText: string, itemText: any) {
         itemText.raw.expertise.toLowerCase().indexOf(searchText) > -1 
     )
 }
-function updateSelectedActor(name: string) {
+function updateSelectedActor(id: string) {
     router.push('/actors/' + name)
 }
 </script>

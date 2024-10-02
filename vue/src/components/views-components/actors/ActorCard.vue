@@ -1,12 +1,12 @@
 <template>
     <Card
-        class="ActorCard"
         :title="actor.name"
         :subTitle="actor.acronym"
-        :to="getActorUrl(actor.name)"
-        >
-        <template #content>
-            <span style="font-size: 14px;">Acteur institutionnel</span>
+        isActorCard
+        @click="actorStore.setSelectedActor(actor.id)"
+    >
+        <template #content >
+            <span style="font-size: 14px;">{{ actor.categories.toString() }}</span>
             <div class="ActorCard__logoCtn">
                 <img class="ActorCard__logo" :src="actor.logo">
             </div>
@@ -25,20 +25,19 @@
 import type { Actor }  from '@/models/interfaces/Actor';
 import Card from '@/components/views-components/global/Card.vue';
 import LikeButton from '@/components/views-components/global/LikeButton.vue';
+import { useActorsStore } from '@/stores/actorsStore';
 defineProps<{
-  actor: Actor;
+  actor: Actor
 }>();
-const getActorUrl = (name: string) => {
-    return `/actors/${name}`
-}
+const actorStore = useActorsStore();
 </script>
 
 <style lang="scss">
 .ActorCard {
     &__logoCtn {
         margin-top: 20px;
-        height: 140px;
-        width: 140px;
+        height: 6em;
+        width: 6em;
 
         .ActorCard__logo{
             max-width: 100%;
