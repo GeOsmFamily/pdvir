@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { i18n } from '@/assets/plugins/i18n';
-import CheckPoint from '@/components/generic-components/CheckPoint.vue';
+import CheckPoint from '@/components/generic-components/global/CheckPoint.vue';
 import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
 import { DialogKey } from '@/models/enums/app/DialogKey';
 

@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import Dialog from '@/components/generic-components/Dialog.vue';
+import Dialog from '@/components/generic-components/global/Dialog.vue';
 import { DialogKey } from '@/models/enums/app/DialogKey';
 </script>
 

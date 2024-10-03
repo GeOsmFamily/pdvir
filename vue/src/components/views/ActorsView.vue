@@ -41,10 +41,10 @@
 </template>
 <script setup lang="ts">
 import { useActorsStore } from '@/stores/actorsStore';
-import Autocomplete from '@/components/generic-components/Autocomplete.vue';
+import Autocomplete from '@/components/generic-components/global/Autocomplete.vue';
 import PageTitle from '@/components/generic-components/text-elements/PageTitle.vue';
 import SectionTitle from '@/components/generic-components/text-elements/SectionTitle.vue';
-import Wip from '@/components/generic-components/Wip.vue';
+import Wip from '@/components/generic-components/global/Wip.vue';
 import ActorCard from '@/components/views-components/actors/ActorCard.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useUserStore } from '@/stores/userStore';
@@ -77,11 +77,11 @@ function searchActors(value: string, queryText: string, itemText: any) {
     return (
         itemText.raw.name.toLowerCase().indexOf(searchText) > -1 ||
         itemText.raw.acronym.toLowerCase().indexOf(searchText) > -1 ||
-        itemText.raw.category.toLowerCase().indexOf(searchText) > -1||
-        itemText.raw.expertise.toLowerCase().indexOf(searchText) > -1 
+        itemText.raw.categories.some((cat: string) => cat.toLowerCase().includes(searchText)) ||
+        itemText.raw.expertises.some((exp: string) => exp.toLowerCase().includes(searchText))
     )
 }
 function updateSelectedActor(id: string) {
-    router.push('/actors/' + name)
+    actorsStore.setSelectedActor(id);
 }
 </script>

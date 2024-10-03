@@ -78,7 +78,7 @@ import { ActorsFormService } from '@/services/actors/ActorsForm';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useApplicationStore } from '@/stores/applicationStore';
 import FormSectionTitle from '@/components/generic-components/text-elements/FormSectionTitle.vue';
-import InputImage from '@/components/generic-components/InputImage.vue';
+import InputImage from '@/components/generic-components/global/InputImage.vue';
 import { ref, type Ref } from 'vue';
 import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
 const appStore = useApplicationStore();

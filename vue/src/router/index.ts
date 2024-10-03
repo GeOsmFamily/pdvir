@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
+import HomeView from '@/components/views/HomeView.vue'
 import { useApplicationStore } from '@/stores/applicationStore'
 import ActorProfile from '@/components/views-components/actors/ActorProfile.vue'
 import AdminMembers from '@/components/views-components/admin/AdminMembers.vue'
@@ -23,7 +23,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/ActorsView.vue')
+      component: () => import('../components/views/ActorsView.vue')
     },
     {
       path: '/actors/:name',
@@ -33,27 +33,27 @@ const router = createRouter({
     {
       path: '/projects',
       name: 'projects',
-      component: () => import('../views/ProjectsView.vue')
+      component: () => import('../components/views/ProjectsView.vue')
     },
     {
       path: '/resources',
       name: 'resources',
-      component: () => import('../views/ResourcesView.vue')
+      component: () => import('../components/views/ResourcesView.vue')
     },
     {
       path: '/services',
       name: 'services',
-      component: () => import('../views/ServicesView.vue')
+      component: () => import('../components/views/ServicesView.vue')
     },
     {
       path: '/map',
       name: 'map',
-      component: () => import('../views/MapView.vue')
+      component: () => import('../components/views/MapView.vue')
     },
     {
       path: '/members',
       name: 'members',
-      component: () => import('../views/MemberView.vue')
+      component: () => import('../components/views/MemberView.vue')
     },
     {
       path: '/administration',
@@ -65,7 +65,7 @@ const router = createRouter({
           path: '/administration/membersPanel'
         }
       },
-      component: () => import('../views/AdminView.vue'),
+      component: () => import('../components/views/AdminView.vue'),
       children: [
         {
           path: 'membersPanel',

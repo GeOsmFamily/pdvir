@@ -90,7 +90,7 @@ class Actor
      * @var Collection<int, ActorExpertise>
      */
     #[ORM\ManyToMany(targetEntity: ActorExpertise::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $expertises;
 
     /**

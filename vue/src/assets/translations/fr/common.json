@@ -56,5 +56,9 @@
     },
     "filters": {
         "sortBy": "Trier par"
+    },
+    "content": {
+        "website": "Visiter le site internet",
+        "mail": "Contacter par mail"
     }
 }

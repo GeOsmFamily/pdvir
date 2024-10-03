@@ -21,7 +21,7 @@ class ActorExpertise
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM])]
+    #[Groups([Actor::ACTOR_READ_ITEM_COLLECTION, Actor::ACTOR_READ_ITEM])]
     private ?string $name = null;
 
     /**

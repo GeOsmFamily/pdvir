@@ -1,5 +1,5 @@
 <template>
-    <Card
+    <InfoCard
         :title="actor.name"
         :subTitle="actor.acronym"
         isActorCard
@@ -12,19 +12,21 @@
             </div>
         </template>
         <template #footer-left>
+            <ShareButton :additionnal-path="actor.name"/>
             <LikeButton />
         </template>
         <template #footer-right="{ isHovering }">
             <v-icon icon="mdi mdi-arrow-right" color="light-blue" v-if="!isHovering"></v-icon>
             <v-icon icon="mdi mdi-arrow-right-circle" color="main-blue" size="x-large" v-else></v-icon>
         </template>
-    </Card>
+    </InfoCard>
 </template>
 
 <script setup lang="ts">
 import type { Actor }  from '@/models/interfaces/Actor';
-import Card from '@/components/views-components/global/Card.vue';
-import LikeButton from '@/components/views-components/global/LikeButton.vue';
+import InfoCard from '@/components/generic-components/global/InfoCard.vue';
+import LikeButton from '@/components/generic-components/global/LikeButton.vue';
+import ShareButton from '@/components/generic-components/global//ShareButton.vue';
 import { useActorsStore } from '@/stores/actorsStore';
 defineProps<{
   actor: Actor

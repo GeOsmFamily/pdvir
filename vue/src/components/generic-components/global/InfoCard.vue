@@ -4,20 +4,20 @@
                 <v-card
                     v-bind="props"
                     variant="outlined"
-                    class="Card"
+                    class="InfoCard CardShadow"
                     @click="emit('click')"
                 >
-                    <span class="Card__subTitle" :class="{ 'text-uppercase': isActorCard }" v-if="subTitle" >{{ subTitle }}</span>
-                    <span class="Card__title">{{ title }}</span>
-                    <div class="Card__content">
+                    <span class="InfoCard__subTitle" :class="{ 'text-uppercase': isActorCard }" v-if="subTitle" >{{ subTitle }}</span>
+                    <span class="InfoCard__title">{{ title }}</span>
+                    <div class="InfoCard__content">
                         <slot name="content">
                         </slot>
                     </div>
-                    <div class="Card__footer mt-6">
-                        <div class="Card__footerBlock Card__footerBlock--left">
+                    <div class="InfoCard__footer mt-6">
+                        <div class="InfoCard__footerBlock InfoCard__footerBlock--left">
                             <slot name="footer-left"></slot>
                         </div>
-                        <div class="Card__footerBlock Card__footerBlock--right">
+                        <div class="InfoCard__footerBlock InfoCard__footerBlock--right">
                             <slot name="footer-right" :isHovering="isHovering"></slot>
                         </div>
                     </div>
@@ -27,9 +27,9 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  title: string,
-  subTitle: string
+withDefaults(defineProps<{
+  title: string
+  subTitle?: string
   isActorCard?: boolean
 }>(), {
     isActorCard: false
@@ -38,21 +38,13 @@ const emit = defineEmits(['click'])
 </script>
 
 <style lang="scss">
-.Card {
+.InfoCard {
     width: 100%;
     height: 330px;
     padding: 25px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0px 2px 0px rgb(var(--v-theme-main-blue));
-    border: 0.5px solid rgb(var(--v-theme-main-blue));
-
-    &:hover {
-        box-shadow: 0px 4px 0px rgb(var(--v-theme-main-blue));
-        border: 2px solid rgb(var(--v-theme-main-blue));
-        cursor: pointer;
-    }
 
     &__subTitle {
         font-size: 14px;
