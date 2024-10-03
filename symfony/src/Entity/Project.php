@@ -2,16 +2,17 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\Trait\TimestampableEntity;
-use App\Enum\AdministrativeScopes;
 use App\Enum\Status;
-use App\Repository\ProjectRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Enum\AdministrativeScopes;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\ProjectRepository;
+use App\Entity\Trait\TimestampableEntity;
+use Doctrine\Common\Collections\Collection;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ApiResource]
@@ -25,6 +26,7 @@ class Project
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Actor::ACTOR_READ_ITEM])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]

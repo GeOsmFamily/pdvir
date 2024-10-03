@@ -59,6 +59,7 @@
     },
     "content": {
         "website": "Visiter le site internet",
-        "mail": "Contacter par mail"
+        "mail": "Contacter par mail",
+        "edit": "Modifier"
     }
 }

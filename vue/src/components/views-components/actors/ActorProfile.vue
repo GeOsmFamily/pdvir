@@ -1,28 +1,39 @@
 <template>
-    <!-- Edit right to setup -->
-    <v-btn @click="editActor(actorsStore.selectedActor?.id as string)" color="main-red">{{ $t("actors.form.editTitle")}}</v-btn>
-    <!-- Edit right to setup -->
     <template v-if="actor">
         <div class="ActorPage">
             <div class="ActorPage__leftBlock">
-                <PageBanner :text="actor.name" :subtitle="actor.acronym" class="mt-10" />
-                <div class="ActorPage__shareBar mt-3">
-                    <ShareButton />
-                    <LikeButton />
+                <ContentBanner :content="actor" :isEditable="isEditable" :editFunction="editActor"/>
+                <SectionTitle :text="$t('actorPage.description')" class="mt-12"/>
+                <ContentDivider class="mt-4"/>
+                <p class="mt-6 mr-8">{{actor.description}}</p>
+                <SectionBanner :text="$t('actorPage.projects')" class="mt-12"/>
+                {{ actor.projects }}
+                <SectionBanner :text="$t('actorPage.data')" class="mt-12"/>
+                <SectionBanner :text="$t('actorPage.resources')" class="mt-12"/>
+                <SectionBanner :text="$t('actorPage.services')" class="mt-12"/>
+                <SectionBanner :text="$t('actorPage.images')" class="mt-12"/>
+            </div>
+            <div class="ActorPage__rightBlock">
+                <img :src="actor.logo" alt="" v-if="!appStore.mobile" class="mt-4">
+                <div class="mt-6">
+                    <ThematicChip v-for="thematic in actor.thematics" :text="thematic" class="mt-1"/>
                 </div>
-                <div class="ActorPage__contact mt-4">
-                    <BasicCard icon="mdi-open-in-new">
-                        <a :href="actor.website" target="_blank" class="ml-2">{{ $t('content.website') }}</a>
-                    </BasicCard>
-                    <BasicCard icon="mdi-email-plus-outline">
-                        <a :href="`mailto:${actor.email}`" class="ml-2">{{ $t('content.mail') }}</a>
-                    </BasicCard>
-                    <BasicCard icon="mdi-phone">
-                        <span class="ml-2">{{actor.phone }}</span>
-                    </BasicCard>
+                <SectionTitle :text="$t('actorPage.adminScope')" class="mt-12"/>
+                <ContentDivider class="mt-4"/>
+                {{ actor.administrativeScopes }}
+                <div class="ActorPage__contentCard">
+                    <v-icon icon="mdi-map-marker-outline" color="main-black" />
+                    <div class="ml-1">
+                        <p class="font-weight-bold">{{ actor.officeName }}</p>
+                        <p>{{ actor.officeAdress}}</p>
+                    </div>
+                </div>
+                <div class="ActorPage__contentCard flex-column mt-8">
+                    <SectionTitle :text="$t('actorPage.contact')"/>
+                    <span class="font-weight-bold mt-3">{{ actor.contactName }}</span>
+                    <span>{{ actor.contactPosition }}</span>
                 </div>
             </div>
-            <div class="ActorPage__rightBlock">Coucou</div>
         </div>
     </template>
     
@@ -32,11 +43,16 @@ import type { Actor }  from '@/models/interfaces/Actor';
 import { useActorsStore } from '@/stores/actorsStore';
 import { computed, onMounted, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
-import PageBanner from '@/components/generic-components/banners/PageBanner.vue';
-import LikeButton from '@/components/generic-components/global/LikeButton.vue';
-import ShareButton from '@/components/generic-components/global/ShareButton.vue';
-import BasicCard from '@/components/generic-components/global/BasicCard.vue';
+import ContentBanner from '@/components/generic-components/content/ContentBanner.vue';
+import SectionTitle from '@/components/generic-components/text-elements/SectionTitle.vue';
+import ContentDivider from '@/components/generic-components/content/ContentDivider.vue';
+import SectionBanner from '@/components/generic-components/banners/SectionBanner.vue';
+import ThematicChip from '@/components/generic-components/content/ThematicChip.vue';
+import { useApplicationStore } from '@/stores/applicationStore';
+import { useUserStore } from '@/stores/userStore';
 
+const appStore = useApplicationStore();
+const userStore = useUserStore();
 const actorsStore = useActorsStore();
 const actor = computed(() => actorsStore.selectedActor)
 // Handle page openened directly by url
@@ -46,10 +62,15 @@ onMounted(() => {
         if (actorsStore.dataLoaded) {
             if (actorsStore.selectedActor === null) {
                 const actor: Actor | undefined = actorsStore.actors.find(actor => actor.name === route.params.name);
+                console.log(actor)
                 actorsStore.setSelectedActor(actor?.id as string);
             }
         }
     });
+})
+
+const isEditable = computed(() => {
+    return userStore.userIsAdmin() || actor.value?.createdBy.id === userStore.currentUser?.id
 })
 
 function editActor(id: string) {
@@ -77,15 +98,11 @@ function editActor(id: string) {
     flex-wrap: wrap;
 }
 .ActorPage {
-    &__shareBar {
+    &__contentCard {
         display: flex;
-        margin-left: 50px;
-    }
-    &__contact {
+        padding: 1.5em;
         width: 100%;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 10px;
+        background-color: rgb(var(--v-theme-light-yellow));
     }
 }
 </style>

@@ -7,7 +7,9 @@ import type { ContentImageFromUserFile, ContentImageFromUrl } from "./ContentIma
 
 export interface Actor {
     id: string;
-    createdBy: User["id"];
+    createdBy: {
+        id: User["id"]
+    };
     isValidated: boolean;
     name: string;
     acronym: string;
@@ -19,7 +21,7 @@ export interface Actor {
     description: string;
     administrativeScopes: AdministrativesScopes[];
     officeName: string;
-    officeAddress: string;
+    officeAdress: string;
     officeLocation: [number, number]; //To add later in SF Entity
     contactName: string;
     contactPosition: string;

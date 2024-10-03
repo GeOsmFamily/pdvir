@@ -1,10 +1,18 @@
 <template>
     <PageBanner :text="content.name" :subtitle="content.acronym" class="mt-10" />
-    <div class="ActorPage__shareBar mt-3">
-        <ShareButton />
+    <div class="ContentPage__shareBar mt-3">
+        <v-btn 
+            prepend-icon="mdi-pencil"
+            color="main-red"
+            v-if="isEditable && editFunction"
+            @click="editFunction(content.id)"
+        >
+            {{ $t("content.edit") }}
+        </v-btn>
+        <ShareButton class="ml-2"/>
         <LikeButton />
     </div>
-    <div class="ActorPage__contact mt-4">
+    <div class="ContentPage__contact mt-4">
         <BasicCard icon="mdi-open-in-new">
             <a :href="content.website" target="_blank" class="ml-2">{{ $t('content.website') }}</a>
         </BasicCard>
@@ -25,6 +33,24 @@ import BasicCard from '@/components/generic-components/global/BasicCard.vue';
 import type { Actor } from '@/models/interfaces/Actor';
 
 defineProps<{
-    content: Actor
+    content: Actor,
+    isEditable: boolean,
+    editFunction?: (id: string) => void,
 }>()
 </script>
+
+<style scoped lang="scss">
+.ContentPage {
+    &__shareBar {
+        display: flex;
+        align-items: center;
+        margin-left: 50px;
+    }
+    &__contact {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+    }
+}
+</style>

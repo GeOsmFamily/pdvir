@@ -22,5 +22,15 @@
         "admin": {
             "sort": "Trier par"
         }
+    },
+    "actorPage": {
+        "description": "Activité",
+        "projects": "Projets",
+        "data": "Données",
+        "resources": "Ressources",
+        "services": "Services",
+        "images": "En images",
+        "adminScope": "Zone d'intervention",
+        "contact": "Point de contact"
     }
 }

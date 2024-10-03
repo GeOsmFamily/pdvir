@@ -152,6 +152,7 @@ class Actor
      * @var Collection<int, Project>
      */
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'actor')]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $projects;
 
     #[ORM\Column(length: 255, nullable: true)]
