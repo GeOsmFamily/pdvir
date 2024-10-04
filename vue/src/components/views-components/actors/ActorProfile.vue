@@ -2,16 +2,12 @@
     <template v-if="actor">
         <div class="ActorPage">
             <div class="ActorPage__leftBlock">
+                <img :src="actor.logo" alt="" v-if="appStore.mobile" class="mt-4 mb-4 ActorPage__logo">
                 <ContentBanner :content="actor" :isEditable="isEditable" :editFunction="editActor"/>
                 <SectionTitle :text="$t('actorPage.description')" class="mt-12"/>
                 <ContentDivider class="mt-4"/>
                 <p class="mt-6 mr-8">{{actor.description}}</p>
-                <SectionBanner :text="$t('actorPage.projects')" class="mt-12"/>
-                {{ actor.projects }}
-                <SectionBanner :text="$t('actorPage.data')" class="mt-12"/>
-                <SectionBanner :text="$t('actorPage.resources')" class="mt-12"/>
-                <SectionBanner :text="$t('actorPage.services')" class="mt-12"/>
-                <SectionBanner :text="$t('actorPage.images')" class="mt-12"/>
+                <ActorRelatedContent :actor="actor" v-if="!appStore.mobile"/>
             </div>
             <div class="ActorPage__rightBlock">
                 <img :src="actor.logo" alt="" v-if="!appStore.mobile" class="mt-4">
@@ -33,6 +29,7 @@
                     <span class="font-weight-bold mt-3">{{ actor.contactName }}</span>
                     <span>{{ actor.contactPosition }}</span>
                 </div>
+                <ActorRelatedContent :actor="actor" v-if="appStore.mobile"/>
             </div>
         </div>
     </template>
@@ -46,7 +43,7 @@ import { useRoute } from 'vue-router';
 import ContentBanner from '@/components/generic-components/content/ContentBanner.vue';
 import SectionTitle from '@/components/generic-components/text-elements/SectionTitle.vue';
 import ContentDivider from '@/components/generic-components/content/ContentDivider.vue';
-import SectionBanner from '@/components/generic-components/banners/SectionBanner.vue';
+import ActorRelatedContent from './ActorRelatedContent.vue';
 import ThematicChip from '@/components/generic-components/content/ThematicChip.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useUserStore } from '@/stores/userStore';
@@ -91,13 +88,26 @@ function editActor(id: string) {
     flex-wrap: wrap;
     padding-right: 1em;
 }
+@media (max-width: 600px) {
+    .ActorPage__leftBlock {
+        width: 100%;
+    }
+}
 .ActorPage__rightBlock {
     display: flex;
     flex-direction: column;
     width: 30%;
     flex-wrap: wrap;
 }
+@media (max-width: 600px) {
+    .ActorPage__rightBlock {
+        width: 100%;
+    }
+}
 .ActorPage {
+    &__logo {
+        max-width: 100%;
+    }
     &__contentCard {
         display: flex;
         padding: 1.5em;
