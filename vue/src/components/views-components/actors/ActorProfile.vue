@@ -21,7 +21,7 @@
                     <v-icon icon="mdi-map-marker-outline" color="main-black" />
                     <div class="ml-1">
                         <p class="font-weight-bold">{{ actor.officeName }}</p>
-                        <p>{{ actor.officeAdress}}</p>
+                        <p>{{ actor.officeAddress}}</p>
                     </div>
                 </div>
                 <div class="ActorPage__contentCard flex-column mt-8">

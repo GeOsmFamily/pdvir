@@ -19,14 +19,14 @@ export interface Actor {
     creationDate: Date;
     lastUpdate: Date;
     description: string;
-    administrativeScopes: AdministrativesScopes[];
+    administrativeScopes: AdministrativesScopes[];//To add in form
     officeName: string;
-    officeAdress: string;
-    officeLocation: [number, number]; //To add later in SF Entity
+    officeAddress: string;
+    officeLocation: [number, number];//To add in form and SF Entity
     contactName: string;
     contactPosition: string;
     projects: string[];
-    logo: string;
+    logo: string;//To add in form
     images: string[];
     website: string;
     phone: string;

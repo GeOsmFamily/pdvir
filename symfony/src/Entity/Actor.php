@@ -122,7 +122,7 @@ class Actor
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private ?string $officeAdress = null;
+    private ?string $officeAddress = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
@@ -348,14 +348,14 @@ class Actor
         return $this;
     }
 
-    public function getOfficeAdress(): ?string
+    public function getofficeAddress(): ?string
     {
-        return $this->officeAdress;
+        return $this->officeAddress;
     }
 
-    public function setOfficeAdress(?string $officeAdress): static
+    public function setofficeAddress(?string $officeAddress): static
     {
-        $this->officeAdress = $officeAdress;
+        $this->officeAddress = $officeAddress;
 
         return $this;
     }

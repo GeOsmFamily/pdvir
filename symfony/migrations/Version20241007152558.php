@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241007101601 extends AbstractMigration
+final class Version20241007152558 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,7 +25,7 @@ final class Version20241007101601 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE project_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE thematic_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE actor (id UUID NOT NULL, created_by_id INT NOT NULL, name VARCHAR(255) NOT NULL, acronym VARCHAR(255) NOT NULL, is_validated BOOLEAN NOT NULL, category VARCHAR(255) NOT NULL, creation_date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, last_update TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, description TEXT NOT NULL, office_name VARCHAR(255) DEFAULT NULL, office_adress VARCHAR(255) DEFAULT NULL, contact_name VARCHAR(255) DEFAULT NULL, contact_position VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, email VARCHAR(255) DEFAULT NULL, logo VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE actor (id UUID NOT NULL, created_by_id INT NOT NULL, name VARCHAR(255) NOT NULL, acronym VARCHAR(255) NOT NULL, is_validated BOOLEAN NOT NULL, category VARCHAR(255) NOT NULL, creation_date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, last_update TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, description TEXT NOT NULL, office_name VARCHAR(255) DEFAULT NULL, office_address VARCHAR(255) DEFAULT NULL, contact_name VARCHAR(255) DEFAULT NULL, contact_position VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, email VARCHAR(255) DEFAULT NULL, logo VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_447556F9B03A8386 ON actor (created_by_id)');
         $this->addSql('COMMENT ON COLUMN actor.id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE actor_actor_expertise (actor_id UUID NOT NULL, actor_expertise_id INT NOT NULL, PRIMARY KEY(actor_id, actor_expertise_id))');
