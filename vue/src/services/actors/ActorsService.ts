@@ -13,8 +13,9 @@ export class ActorsService {
     static async getActor(id: string): Promise<Actor> {
       const data = (await apiClient.get(`/api/actors/${id}`, { headers:  {'accept': 'application/ld+json'}})).data
       console.log(data)
-      data["expertises"] =  data["expertises"].map((category: any) => category["name"])
-      data["thematics"] =  data["thematics"].map((category: any) => category["name"])
+      data["administrativeScopes"] = data["administrativeScopes"].map((category: any) => category["name"])
+      data["expertises"] = data["expertises"].map((category: any) => category["name"])
+      data["thematics"] = data["thematics"].map((category: any) => category["name"])
       return data as Actor
     }
 }

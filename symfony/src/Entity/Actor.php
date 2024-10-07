@@ -114,7 +114,7 @@ class Actor
      */
     #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private Collection $getAdministrativeScopes;
+    private Collection $administrativeScopes;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
@@ -317,21 +317,21 @@ class Actor
      */
     public function getAdministrativeScopes(): Collection
     {
-        return $this->getAdministrativeScopes;
+        return $this->administrativeScopes;
     }
 
-    public function addAdministrativeScope(AdministrativeScope $getAdministrativeScopes): static
+    public function addAdministrativeScope(AdministrativeScope $administrativeScope): static
     {
-        if (!$this->getAdministrativeScopes->contains($getAdministrativeScopes)) {
-            $this->getAdministrativeScopes->add($getAdministrativeScopes);
+        if (!$this->administrativeScopes->contains($administrativeScope)) {
+            $this->administrativeScopes->add($administrativeScope);
         }
 
         return $this;
     }
 
-    public function removeAdministrativeScope(AdministrativeScope $getAdministrativeScopes): static
+    public function removeAdministrativeScope(AdministrativeScope $administrativeScope): static
     {
-        $this->getAdministrativeScopes->removeElement($getAdministrativeScopes);
+        $this->administrativeScopes->removeElement($administrativeScope);
 
         return $this;
     }

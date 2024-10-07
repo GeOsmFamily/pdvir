@@ -16,6 +16,7 @@
             "category": "Categorie",
             "expertise": "Principaux domaines d'expertise",
             "thematic": "Principales thematiques",
+            "adminScope": "Zones d'intervention",
             "description": "Description",
             "contact": "Contact",
             "officeName": "Nom du siège",

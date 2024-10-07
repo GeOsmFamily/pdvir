@@ -56,6 +56,16 @@
                     :error-messages="form.thematics.errorMessage.value"
                     @blur="form.thematics.handleChange(form.thematics.value.value)"
                 />
+                <v-select
+                    density="compact"
+                    variant="outlined"
+                    :label="$t('actors.form.adminScope')"
+                    multiple
+                    v-model="(form.administrativeScopes.value.value as AdministrativesScopes[])"
+                    :items="administrativeScopesItems"
+                    :error-messages="form.administrativeScopes.errorMessage.value"
+                    @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
+                />
                 <v-textarea 
                     :label="$t('actors.form.description')"
                     variant="outlined"
@@ -158,6 +168,7 @@ import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/int
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
 import { ActorsExpertises } from '@/models/enums/contents/actors/ActorsExpertises';
 import { ActorsThematics } from '@/models/enums/contents/actors/ActorsThematics';
+import { AdministrativesScopes } from '@/models/enums/contents/AdministrativesScopes';
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const actorToEdit: Actor | null = actorsStore.actorEdition.actor
@@ -167,6 +178,7 @@ const {form, handleSubmit, isSubmitting} = ActorsFormService.getActorsForm(actor
 const categoryItems = Object.values(ActorsCategories)
 const expertisesItems = Object.values(ActorsExpertises)
 const thematicsItems = Object.values(ActorsThematics)
+const administrativeScopesItems = Object.values(AdministrativesScopes)
 
 const selectedFiles: Ref<(ContentImageFromUserFile | ContentImageFromUrl)[]> = ref([])
 function handleFilesUpdate(files: (ContentImageFromUserFile | ContentImageFromUrl)[]) {

@@ -6,6 +6,7 @@ import { i18n } from "@/assets/plugins/i18n";
 import { ActorsCategories } from "@/models/enums/contents/actors/ActorsCategories";
 import { ActorsExpertises } from "@/models/enums/contents/actors/ActorsExpertises";
 import { ActorsThematics } from "@/models/enums/contents/actors/ActorsThematics";
+import { AdministrativesScopes } from "@/models/enums/contents/AdministrativesScopes";
 
 export class ActorsFormService {
     static getActorsForm(actorToEdit: Actor | null) {
@@ -22,10 +23,13 @@ export class ActorsFormService {
                 .refine((value) => value && Object.values(ActorsCategories).includes(value), {
                     message: i18n.t('forms.errorMessages.required'),
                 }),
-            expertises: z.array(z.string()).nonempty({
+            expertises: z.array(z.nativeEnum(ActorsExpertises)).nonempty({
                 message: i18n.t('forms.errorMessages.required'),
             }),
-            thematics: z.array(z.string()).nonempty({
+            thematics: z.array(z.nativeEnum(ActorsThematics)).nonempty({
+                message: i18n.t('forms.errorMessages.required'),
+            }),
+            administrativeScopes: z.array(z.nativeEnum(AdministrativesScopes)).nonempty({
                 message: i18n.t('forms.errorMessages.required'),
             }),
             description: z.string()
@@ -63,6 +67,7 @@ export class ActorsFormService {
             category: useField('category', '', { validateOnValueUpdate: false }),
             expertises: useField('expertises', '', { validateOnValueUpdate: false }),
             thematics: useField('thematics', '', { validateOnValueUpdate: false }),
+            administrativeScopes: useField('administrativeScopes', '', { validateOnValueUpdate: false }),
             description: useField('description', '', { validateOnValueUpdate: false }),
             officeName: useField('officeName', '', { validateOnValueUpdate: false }),
             officeAddress: useField('officeAddress', '', { validateOnValueUpdate: false }),
