@@ -1,6 +1,6 @@
 {
     "api-platform/core": {
-        "version": "3.3",
+        "version": "3.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -14,7 +14,7 @@
         ]
     },
     "doctrine/doctrine-bundle": {
-        "version": "2.12",
+        "version": "2.13",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -60,9 +60,18 @@
             "branch": "main",
             "version": "1.7",
             "ref": "211979f7917bf6edb8fc5006a17b2e84e8e84d50"
+        }
+    },
+    "lexik/jwt-authentication-bundle": {
+        "version": "3.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.5",
+            "ref": "e9481b233a11ef7e15fe055a2b21fd3ac1aa2bb7"
         },
         "files": [
-            "config/packages/jsor_doctrine_postgis.yaml"
+            "config/packages/lexik_jwt_authentication.yaml"
         ]
     },
     "nelmio/alice": {
@@ -96,10 +105,7 @@
             "branch": "main",
             "version": "5.0",
             "ref": "76afa07d23e76f678942f00af5a6a417ba0816d0"
-        },
-        "files": [
-            "config/packages/sentry.yaml"
-        ]
+        }
     },
     "symfony/console": {
         "version": "7.1",
@@ -110,7 +116,19 @@
             "ref": "1781ff40d8a17d87cf53f8d4cf0c8346ed2bb461"
         },
         "files": [
-            "./bin/console"
+            "bin/console"
+        ]
+    },
+    "symfony/debug-bundle": {
+        "version": "7.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "5aa8aa48234c8eb6dbdd7b3cd5d791485d2cec4b"
+        },
+        "files": [
+            "config/packages/debug.yaml"
         ]
     },
     "symfony/flex": {
@@ -122,7 +140,7 @@
             "ref": "146251ae39e06a95be0fe3d13c807bcf3938b172"
         },
         "files": [
-            "./.env"
+            ".env"
         ]
     },
     "symfony/framework-bundle": {
@@ -134,18 +152,18 @@
             "ref": "6356c19b9ae08e7763e4ba2d9ae63043efc75db5"
         },
         "files": [
-            "./config/packages/cache.yaml",
-            "./config/packages/framework.yaml",
-            "./config/preload.php",
-            "./config/routes/framework.yaml",
-            "./config/services.yaml",
-            "./public/index.php",
-            "./src/Controller/.gitignore",
-            "./src/Kernel.php"
+            "config/packages/cache.yaml",
+            "config/packages/framework.yaml",
+            "config/preload.php",
+            "config/routes/framework.yaml",
+            "config/services.yaml",
+            "public/index.php",
+            "src/Controller/.gitignore",
+            "src/Kernel.php"
         ]
     },
     "symfony/maker-bundle": {
-        "version": "1.60",
+        "version": "1.61",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -162,8 +180,8 @@
             "ref": "21b72649d5622d8f7da329ffb5afb232a023619d"
         },
         "files": [
-            "./config/packages/routing.yaml",
-            "./config/routes.yaml"
+            "config/packages/routing.yaml",
+            "config/routes.yaml"
         ]
     },
     "symfony/security-bundle": {
