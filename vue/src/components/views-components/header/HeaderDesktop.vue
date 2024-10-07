@@ -99,6 +99,7 @@ const appStore = useApplicationStore();
                     &--left {
                         .Header__appLogo {
                             z-index: 10;
+                            position: relative;
                             height: $dim-logo;
                             transform: translateY(-$dim-banner)
                         }

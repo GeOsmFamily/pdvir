@@ -46,7 +46,12 @@ export const vuetify = createVuetify({
         style: [{ 
           padding: '.75rem 0',
         }],
-      }
+      },
+      VFieldLabel: {
+        style: [{ 
+          opacity: '1',
+        }],
+      },
     },
     components,
     directives,

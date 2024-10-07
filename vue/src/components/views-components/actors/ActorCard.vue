@@ -28,6 +28,7 @@ import LikeButton from '@/components/views-components/global/LikeButton.vue';
 defineProps<{
   actor: Actor;
 }>();
+
 const getActorUrl = (name: string) => {
     return `/actors/${name}`
 }
@@ -35,6 +36,7 @@ const getActorUrl = (name: string) => {
 
 <style lang="scss">
 .ActorCard {
+    height: 330px;
     &__logoCtn {
         margin-top: 20px;
         height: 140px;

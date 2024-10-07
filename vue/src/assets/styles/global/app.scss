@@ -12,10 +12,15 @@
     height: 100vh;
 }
 
+:root {
+    --dim-container-w: 70rem;
+}
+
 .container {
-    width: $dim-container-w;
+    width: var(--dim-container-w);
     margin: 0 auto;
     max-width: 100%;
+    transition: all .15s ease-in;
 }
 
 a {

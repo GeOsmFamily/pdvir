@@ -1,31 +1,25 @@
 <template>
-    <v-hover>
-        <template v-slot:default="{ isHovering, props }">
-            <v-card
-                v-bind="props"
-                variant="outlined"
-                class="Card"
-                :to="to"
-            >
-                <span class="Card__subTitle" v-if="subTitle" >{{ subTitle }}</span>
-                <span class="Card__title">{{ title }}</span>
-                <div class="Card__content">
-                    <slot name="content">
-                    </slot>
-                </div>
-                <div class="Card__footer mt-6">
-                    <div class="Card__footerBlock Card__footerBlock--left">
-                        <slot name="footer-left">
-                            <LikeButton />
-                        </slot>
-                    </div>
-                    <div class="Card__footerBlock Card__footerBlock--right">
-                        <slot name="footer-right" :isHovering="isHovering"></slot>
-                    </div>
-                </div>
-            </v-card>
-        </template>
-    </v-hover>
+    <v-card
+        variant="outlined"
+        class="Card"
+        :to="to"
+    >
+        <div class="Card__content">
+            <span class="Card__subTitle" v-if="subTitle" >{{ subTitle }}</span>
+            <span class="Card__title">{{ title }}</span>
+            <slot name="content"></slot>
+        </div>
+        <div class="Card__footer mt-6">
+            <div class="Card__footerBlock Card__footerBlock--left">
+                <slot name="footer-left">
+                    <LikeButton />
+                </slot>
+            </div>
+            <div class="Card__footerBlock Card__footerBlock--right">
+                <slot name="footer-right"></slot>
+            </div>
+        </div>
+    </v-card>
 </template>
 
 <script setup lang="ts">
@@ -39,34 +33,52 @@ defineProps<{
 <style lang="scss">
 .Card {
     width: 100%;
-    height: 330px;
+    background: white;
     padding: 25px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 2px 0px rgb(var(--v-theme-main-blue));
-    border: 0.5px solid rgb(var(--v-theme-main-blue));
+    box-shadow:  0px 0px 0px 1px rgb(var(--v-theme-main-blue)), 0px 2px 0px 1px rgb(var(--v-theme-main-blue));
+    transition: all .1s ease-in;
+    border: none;
 
-    &:hover {
-        box-shadow: 0px 4px 0px rgb(var(--v-theme-main-blue));
-        border: 2px solid rgb(var(--v-theme-main-blue));
+    &:hover, &[active="true"] {
+        box-shadow: 0px 0px 0px 2px rgb(var(--v-theme-main-blue)), 0px 4px 0px 2px rgb(var(--v-theme-main-blue));
+
+        .Card__actionIcon {
+            background-color: rgb(var(--v-theme-main-blue));
+            color: white !important;
+        }
     }
 
-    &__subTitle {
-        font-size: 14px;
-        font-weight: 700;
-        color: rgb(var(--v-theme-light-blue));
+    .Card__content {
+        display: flex;
+        flex-flow: column nowrap;
+
+        .Card__subTitle {
+            font-size: 14px;
+            font-weight: 700;
+            color: rgb(var(--v-theme-light-blue));
+        }
+
+        .Card__title {
+            font-size: 18px;
+            font-weight: 700;
+            color: rgb(var(--v-theme-main-blue));
+        }
     }
 
-    &__title {
-        font-size: 18px;
-        font-weight: 700;
-        color: rgb(var(--v-theme-main-blue));
-    }
-
-    &__footer {
+    .Card__footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+    
+
+    .Card__actionIcon {
+        background-color: transparent;
+        padding: 1rem;
+        border-radius: 50%;
+        transition: all .1s ease-in;
     }
 }
 </style>

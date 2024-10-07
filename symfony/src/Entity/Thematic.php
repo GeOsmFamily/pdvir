@@ -7,6 +7,7 @@ use App\Repository\ThematicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ThematicRepository::class)]
 #[ApiResource()]
@@ -18,6 +19,7 @@ class Thematic
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Project::PROJECT_READ_ALL])]
     private ?string $name = null;
 
     /**

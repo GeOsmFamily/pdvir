@@ -11,9 +11,10 @@ App\Entity\Thematic:
 
 App\Entity\Project:
   project_{1..500}:
-    title: <city()> Urban Development
+    name: <city()> Urban Development
     location: <city()>
-    coords: 'POINT(<longitude()> <latitude()>)'
+    # coords: 'POINT(<longitude()> <latitude()>)'
+    coords: 'POINT(<randomFloat(11, 12.8593962671, 1.72767263428)> <randomFloat(11, 16.0128524106, 8.48881554529)>)'
     status: '<randomElement(<(App\Enum\Status::toArray())>)>' # Remplace par les valeurs de ton Enum Status
     description: <paragraph(2)>
     images: []

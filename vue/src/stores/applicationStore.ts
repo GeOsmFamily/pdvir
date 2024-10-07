@@ -14,9 +14,21 @@ export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
   const activeDialog: Ref<DialogKey|null> = ref(null)
   const showEditContentDialog = ref(false)
   const route = useRoute();
+  const isProjectMapFullWidth = ref(false)
+  const triggerZoomReset = ref(false)
   const breadcrumbs = computed(() => {
     activeTab.value = NavigationTabsService.getTabsNumberFromRoute(route, activeTab.value)
     return BreadcrumbsService.getBreadcrumbsItems(route)
   })
-  return { mobile, activeTab, activeDialog, breadcrumbs, showEditContentDialog }
+
+  const is100vh = computed(() => {
+    return isProjectMapFullWidth.value
+  })
+
+  const isLight = computed(() => {
+    const lightUiRoutes: string[] = ['projects']
+    return route.name && typeof route.name === 'string' && lightUiRoutes.includes(route.name)
+  })
+
+  return { mobile, activeTab, activeDialog, breadcrumbs, is100vh, isLight, isProjectMapFullWidth, triggerZoomReset, showEditContentDialog }
 })
