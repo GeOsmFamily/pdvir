@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Entity\Thematic;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
-use App\Entity\ActorCategory;
+use App\Enum\ActorCategory;
 use ApiPlatform\Metadata\Post;
 use App\Entity\ActorExpertise;
 use App\Model\Enums\UserRoles;
@@ -79,12 +79,9 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM])]
     private ?bool $isValidated = false;
 
-    /**
-     * @var Collection<int, ActorCategory>
-     */
-    #[ORM\ManyToMany(targetEntity: ActorCategory::class, inversedBy: 'actors')]
+    #[ORM\Column(enumType: ActorCategory::class)]
     #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private Collection $categories;
+    private ?ActorCategory $category = null;
 
     /**
      * @var Collection<int, ActorExpertise>
@@ -161,7 +158,6 @@ class Actor
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
         $this->expertises = new ArrayCollection();
         $this->thematics = new ArrayCollection();
         $this->getAdministrativeScopes = new ArrayCollection();
@@ -220,26 +216,14 @@ class Actor
         return $this;
     }
 
-    /**
-     * @return Collection<int, ActorCategory>
-     */
-    public function getCategories(): Collection
+    public function getCategory(): ?ActorCategory
     {
-        return $this->categories;
+        return $this->category;
     }
 
-    public function addCategory(ActorCategory $category): static
+    public function setCategory(ActorCategory $category): static
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(ActorCategory $category): static
-    {
-        $this->categories->removeElement($category);
+        $this->category = $category;
 
         return $this;
     }

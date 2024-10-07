@@ -83,7 +83,9 @@ import { ref, type Ref } from 'vue';
 import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
-const actorToEdit: Actor | undefined = actorsStore.actors.find(actor => actor.id === actorsStore.actorEdition.id);
+const actorToEdit: Actor | null = actorsStore.actorEdition.actor
+
+
 const {form, handleSubmit, isSubmitting} = ActorsFormService.getActorsForm(actorToEdit);
 const selectedFiles: Ref<(ContentImageFromUserFile | ContentImageFromUrl)[]> = ref([])
 function handleFilesUpdate(files: (ContentImageFromUserFile | ContentImageFromUrl)[]) {

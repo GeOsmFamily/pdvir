@@ -5,7 +5,7 @@
             prepend-icon="mdi-pencil"
             color="main-red"
             v-if="isEditable && editFunction"
-            @click="editFunction(content.id)"
+            @click="editFunction(content)"
         >
             {{ $t("content.edit") }}
         </v-btn>
@@ -35,7 +35,7 @@ import type { Actor } from '@/models/interfaces/Actor';
 defineProps<{
     content: Actor,
     isEditable: boolean,
-    editFunction?: (id: string) => void,
+    editFunction?: (content: Actor) => void,
 }>()
 </script>
 

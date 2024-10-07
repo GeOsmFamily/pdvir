@@ -13,7 +13,7 @@ export interface Actor {
     isValidated: boolean;
     name: string;
     acronym: string;
-    categories: ActorsCategories[];
+    category: ActorsCategories;
     expertises: ActorsExpertises[];
     thematics: ActorsThematics[];
     creationDate: Date;

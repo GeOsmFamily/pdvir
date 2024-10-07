@@ -10,7 +10,7 @@ App\Entity\User:
         lastName: Editor Doe
         email: editor@test.com
         plainPassword: Test1234
-        roles: [ 'ROLE_EDITOR_ACTORS' ]
+        roles: [ 'ROLE_EDITOR_ACTORS', 'ROLE_EDITOR_PROJECTS', "ROLE_EDITOR_RESOURCES", "ROLE_EDITOR_DATA" ]
     user_3:
         firstName: Jane
         lastName: Doe

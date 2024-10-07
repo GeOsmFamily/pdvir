@@ -5,7 +5,7 @@ export class ActorsService {
     static async getActors(): Promise<Actor[]> {
       const data = (await apiClient.get('/api/actors', { headers:  {'accept': 'application/ld+json'}})).data
       data["hydra:member"].forEach((actor: any) => {
-        actor["categories"] =  actor["categories"].map((category: any) => category["name"])
+        // actor["categories"] =  actor["categories"].map((category: any) => category["name"])
         actor["expertises"] =  actor["expertises"].map((category: any) => category["name"])
       })
       return data["hydra:member"] as Actor[]

@@ -22,12 +22,12 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     router.push('/actors/' + selectedActor.value.name)
   }
 
-  const actorEdition: Reactive<{active: boolean, id: string | null}> = reactive({
+  const actorEdition: Reactive<{active: boolean, actor: Actor | null}> = reactive({
     active: false,
-    id: null
+    actor: null
   })
-  function activateActorEdition(id: string | null) {
-    actorEdition.id = id
+  function activateActorEdition(actor: Actor | null) {
+    actorEdition.actor = actor
     actorEdition.active = true
     useApplicationStore().showEditContentDialog = true
   }

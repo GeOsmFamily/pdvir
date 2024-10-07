@@ -6,7 +6,7 @@
         @click="actorStore.setSelectedActor(actor.id)"
     >
         <template #content >
-            <span style="font-size: 14px;">{{ actor.categories.toString() }}</span>
+            <span style="font-size: 14px;">{{ actor.category }}</span>
             <div class="ActorCard__logoCtn">
                 <img class="ActorCard__logo" :src="actor.logo">
             </div>

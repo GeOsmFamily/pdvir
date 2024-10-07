@@ -5,7 +5,7 @@ import { z } from "zod";
 import { i18n } from "@/assets/plugins/i18n";
 
 export class ActorsFormService {
-    static getActorsForm(actorToEdit: Actor | undefined) {
+    static getActorsForm(actorToEdit: Actor | null) {
         const actorSchema  = z.object({
             acronym: z
                 .string()
