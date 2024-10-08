@@ -24,7 +24,7 @@
 import Map from '@/components/generic-components/Map.vue';
 import MapService from '@/services/map/MapService';
 import { useProjectStore } from '@/stores/projectStore';
-import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
+import { computed, onMounted, ref, useTemplateRef, watch, type ShallowRef } from 'vue';
 import projectIcon from '@/assets/images/icons/map/project_icon.png'
 import projectHoverIcon from '@/assets/images/icons/map/project_icon_hover.png'
 import ProjectCard from '@/components/views-components/projects/ProjectCard.vue';
@@ -32,9 +32,12 @@ import { type ResolvedImageSpecification } from 'maplibre-gl';
 import ProjectFilterModal from '@/components/views-components/projects/ProjectFilterModal.vue';
 import ShowProjectFiltersModalControl from './map-controls/ShowProjectFiltersModalControl';
 
+type MapType = InstanceType<typeof Map>
+type ProjectCard = InstanceType<typeof ProjectCard>
+
 const projectStore = useProjectStore()
-const projectMap = useTemplateRef('project-map');
-const activeProjectCard = useTemplateRef('active-project-card');
+const projectMap = useTemplateRef<MapType>('project-map');
+const activeProjectCard = useTemplateRef<ProjectCard>('active-project-card');
 const geojson = computed(() => MapService.getGeojson(projectStore.filteredProjects))
 const map = computed(() => projectMap.value?.map)
 const sources = {
@@ -95,8 +98,8 @@ const imageHoverFilter = (imageName: string, imageHoverName: string): maplibregl
 const setProjectLayer = async () => {
   if (projectMap.value) {
     projectMap.value.addSource(projectsSourceName, geojson.value)
-    await projectMap.value?.addImage(projectIcon, projectsImageName)
-    await projectMap.value?.addImage(projectHoverIcon, projectsImageHoverName)
+    await projectMap.value.addImage(projectIcon, projectsImageName)
+    await projectMap.value.addImage(projectHoverIcon, projectsImageHoverName)
     const layout: maplibregl.LayerSpecification['layout'] = {
       'icon-image': imageHoverFilter(projectsImageName, projectsImageHoverName),
       'icon-size': 0.45
