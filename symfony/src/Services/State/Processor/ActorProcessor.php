@@ -33,6 +33,13 @@ class ActorProcessor implements ProcessorInterface
             } else {
                 $data->setValidated(false);
             }
+
+            if (!isset($data->createdAt)) {
+                $data->setCreatedAt(new \DateTimeImmutable());
+            }
+            if (!isset($data->updatedAt)) {
+                $data->setUpdatedAt(new \DateTimeImmutable());
+            }
         }
 
         $user = $this->security->getUser();

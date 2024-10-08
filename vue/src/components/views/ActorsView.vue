@@ -73,7 +73,7 @@ function searchActors(value: string, queryText: string, itemText: any) {
     return (
         itemText.raw.name.toLowerCase().indexOf(searchText) > -1 ||
         itemText.raw.acronym.toLowerCase().indexOf(searchText) > -1 ||
-        itemText.raw.categories.some((cat: string) => cat.toLowerCase().includes(searchText)) ||
+        itemText.raw.category.toLowerCase().indexOf(searchText) > -1 ||
         itemText.raw.expertises.some((exp: string) => exp.toLowerCase().includes(searchText))
     )
 }

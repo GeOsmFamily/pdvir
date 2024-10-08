@@ -210,7 +210,7 @@ const submitForm = handleSubmit(
         ...values, imagesToUpload: [...selectedFiles.value]
     }
     console.log(actorSubmission)
-    actorsStore.createActor(actorSubmission)
+    actorsStore.createOrEditActor(actorSubmission, actorToEdit !== null)
   },
   errors => {
     console.error('Form validation failed:', errors);

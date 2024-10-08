@@ -43,8 +43,9 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     useApplicationStore().showEditContentDialog = true
   }
 
-  async function createActor(actor: Actor) {
-    const post = await ActorsService.createActor(actor)
+  async function createOrEditActor(actor: Actor, edit: boolean) {
+    const id = selectedActor.value?.id
+    const post = await ActorsService.createOrEditActor(actor, edit, id)
     console.log(post)
   }
 
@@ -60,6 +61,6 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     setSelectedActor,
     actorEdition,
     activateActorEdition,
-    createActor
+    createOrEditActor
   }
 })

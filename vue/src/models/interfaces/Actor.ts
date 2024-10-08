@@ -29,6 +29,7 @@ export interface Actor {
     website: string;
     phone: string;
     email: string;
+    [key: string]: any;
   }
 
   export interface ActorSubmission extends Actor {

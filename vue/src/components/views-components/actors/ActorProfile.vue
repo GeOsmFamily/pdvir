@@ -12,11 +12,11 @@
             <div class="ActorPage__rightBlock">
                 <img :src="actor.logo" alt="" v-if="!appStore.mobile" class="ActorPage__logo">
                 <div class="mt-6">
-                    <ThematicChip v-for="thematic in actor.thematics" :text="thematic" class="mt-1"/>
+                    <ThematicChip v-for="thematic in actor.thematics" :text="thematic.name" class="mt-1"/>
                 </div>
                 <SectionTitle :text="$t('actorPage.adminScope')" class="mt-12"/>
                 <ContentDivider class="mt-4"/>
-                {{ actor.administrativeScopes }}
+                {{ actor.administrativeScopes.map(x => x.name).join(", ") }}
                 <div class="ActorPage__contentCard">
                     <v-icon icon="mdi-map-marker-outline" color="main-black" />
                     <div class="ml-1">

@@ -155,6 +155,7 @@ class Actor
 
     public function __construct()
     {
+        $this->id = Uuid::v4();
         $this->expertises = new ArrayCollection();
         $this->thematics = new ArrayCollection();
         $this->projects = new ArrayCollection();
