@@ -1,6 +1,10 @@
 
 <template>
   <div class="ProjectMap">
+    <ProjectFilterModal
+      v-if="projectStore.projects != null"
+      :show="projectStore.isFilterModalShown"
+      @close="projectStore.isFilterModalShown = false" />
     <ProjectCard
       class="ProjectCard ProjectCard--light"
       :project="projectStore.activeProject"
@@ -25,6 +29,8 @@ import projectIcon from '@/assets/images/icons/map/project_icon.png'
 import projectHoverIcon from '@/assets/images/icons/map/project_icon_hover.png'
 import ProjectCard from '@/components/views-components/projects/ProjectCard.vue';
 import { type ResolvedImageSpecification } from 'maplibre-gl';
+import ProjectFilterModal from '@/components/views-components/projects/ProjectFilterModal.vue';
+import ShowProjectFiltersModalControl from './map-controls/ShowProjectFiltersModalControl';
 
 const projectStore = useProjectStore()
 const projectMap = useTemplateRef('project-map');
@@ -44,7 +50,6 @@ watch(() => projectStore.filteredProjects, () => {
 })
 
 watch(() => projectMap.value?.hoveredFeatureId, () => {
-  console.log('should be refreshing ', projectMap.value?.hoveredFeatureId);
   if (projectMap.value == null) return
   projectStore.hoveredProjectId = projectMap.value?.hoveredFeatureId
 })
@@ -58,6 +63,11 @@ watch(() => projectMap.value?.activeFeatureId, () => {
   if (projectMap.value == null) return
   projectStore.activeProjectId = projectMap.value?.activeFeatureId
   updatePin()
+})
+
+onMounted(() => {
+  if (map.value == null) return
+  map.value.addControl(new ShowProjectFiltersModalControl, 'top-right')
 })
 
 const updatePin = () => {
@@ -115,9 +125,41 @@ onMounted(() => {
   height: 100%;
   position: relative;
 
-  &__map {
+  #map.ProjectMap__map {
     width: 100%;
     height: 100%;
+
+    .maplibregl-ctrl-top-right {
+      align-items: flex-end;
+    }
+
+    .maplibregl-ctrl-show-project-filters-ctn {
+      order: -1;
+
+      button.maplibregl-ctrl-show-project-filters {
+        display: flex;
+        flex-flow: row nowrap;
+        border-radius: 2rem;
+        align-items: center;
+        padding: .5rem 1rem;
+        width: fit-content;
+
+        .maplibregl-ctrl-icon {
+          margin-right: 0.5rem;
+          color: rgb(var(--v-theme-main-blue));
+          width: 1rem;
+          background-image: url(@/assets/images/icons/map/mdi-filter.svg);
+        }
+
+        .maplibregl-ctrl-text {
+          color: rgb(var(--v-theme-main-blue));
+          text-wrap: none;
+          white-space: nowrap;
+          font-size: $font-size-sm;
+          font-weight: 500;
+        }
+      }
+    }
   }
 }
 </style>

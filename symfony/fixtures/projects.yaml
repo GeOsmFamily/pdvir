@@ -1,25 +1,14 @@
-
-# Il faut également générer des `Actor` et des `Thematic` pour que les relations ManyToMany fonctionnent bien.
-App\Entity\Actor:
-  actor_{1..100}:
-    name: <company()>
-    # Ajoute d'autres champs en fonction de l'entité `Actor`
-
-App\Entity\Thematic:
-  thematic_{1..50}:
-    name: <randomElement(["Urban Planning", "Public Transportation", "Green Spaces", "Housing Development", "Water Management"])>
-
 App\Entity\Project:
   project_{1..500}:
     name: <city()> Urban Development
     location: <city()>
     # coords: 'POINT(<longitude()> <latitude()>)'
     coords: 'POINT(<randomFloat(11, 12.8593962671, 1.72767263428)> <randomFloat(11, 16.0128524106, 8.48881554529)>)'
-    status: '<randomElement(<(App\Enum\Status::toArray())>)>' # Remplace par les valeurs de ton Enum Status
+    status: '<randomElement(<(App\Enum\Status::toArray())>)>'
     description: <paragraph(2)>
     images: []
     partners: []
-    interventionZone: '<randomElement(<(App\Enum\AdminLevel::toArray())>)>' # Remplace par les valeurs de ton Enum AdminLevel
+    interventionZone: '<randomElement(<(App\Enum\AdministrativeScope::toArray())>)>'
     financialActors: '<numberBetween(1, 5)>x @actor_*'
     actor: '@actor_*'
     contractingActors: '<numberBetween(1, 5)>x @actor_*'

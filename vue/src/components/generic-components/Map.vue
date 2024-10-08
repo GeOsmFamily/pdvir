@@ -216,7 +216,6 @@ defineExpose({
     }
 
     .maplibregl-popup-tip {
-        z-index: 9999999;
         display: none;
         pointer-events: none;
     }

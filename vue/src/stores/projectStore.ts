@@ -1,18 +1,38 @@
 import { StoresList } from '@/models/enums/StoresList'
 import { defineStore } from 'pinia'
-import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, reactive, ref, type Ref, type Reactive } from 'vue';
 import type { Project } from '@/models/interfaces/Project'
 import { ProjectService } from '@/services/projects/ProjectService'
 import maplibregl from 'maplibre-gl';
 import { SortKey } from '@/models/enums/SortKey'
+import type { Status } from '@/models/enums/Status';
+import type { Thematic } from '@/models/interfaces/Thematic';
+import type { AdministrativeScope } from '@/models/enums/AdministrativeScope';
+import type { Actor } from '@/models/interfaces/Actor';
 
 export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const projects: Ref<Project[]> = ref([])
-  const projectsSearchValue: Ref<string> = ref('')
   const hoveredProjectId: Ref<Project['id'] | null> = ref(null)
   const activeProjectId: Ref<Project['id'] | null> = ref(null)
   const map: Ref<maplibregl.Map | null> = ref(null)
+  const isFilterModalShown: Ref<boolean> = ref(false)
   const sortingProjectsSelectedMethod = ref(SortKey.PROJECTS_AZ)
+
+  const filters: Reactive<{
+    searchValue: string,
+    thematics: Thematic['id'][],
+    statuses: Status[],
+    interventionZones: AdministrativeScope[],
+    contractingActors: Actor['id'][],
+    financialActors: Actor['id'][],
+  }> = reactive({
+    searchValue: '',
+    thematics: [],
+    statuses: [],
+    interventionZones: [],
+    contractingActors: [],
+    financialActors: [],
+  })
 
   async function getAll(): Promise<void> {
     if (projects.value.length === 0) {
@@ -36,7 +56,18 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
 
   const filteredProjects = computed(() => {
     return projects.value.filter((project) => {
-      return project.name.toLowerCase().includes(projectsSearchValue.value.toLowerCase())
+      const projectThematicIds = project.thematics.map((projectThematic) => projectThematic.id)
+      const projectContractingActorIds = project.contractingActors.map((contractingActor) => contractingActor.id)
+      const projectFinancialActorIds = project.financialActors.map((financialActor) => financialActor.id)
+
+      return (
+        project.name.toLowerCase().includes(filters.searchValue.toLowerCase()) &&
+        (filters.thematics.length === 0 || filters.thematics.some((thematic) => projectThematicIds.includes(thematic))) &&
+        (filters.statuses.length === 0  || filters.statuses.some((status) => project.status === status)) &&
+        (filters.interventionZones.length === 0  || filters.interventionZones.some((interventionZone) => project.interventionZone === interventionZone)) &&
+        (filters.contractingActors.length === 0  || filters.contractingActors.some((contractingActor) => projectContractingActorIds.includes(contractingActor))) &&
+        (filters.financialActors.length === 0  || filters.financialActors.some((financialActor) => projectFinancialActorIds.includes(financialActor)))
+      )
     })
   })
 
@@ -58,5 +89,17 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     }
   })
 
-  return { projects, getAll, projectsSearchValue, sortingProjectsSelectedMethod, hoveredProjectId, hoveredProject, activeProjectId, activeProject, filteredProjects, orderedProjects, map }
+  const resetFilters = () => {
+    filters.searchValue = ''
+    filters.thematics = []
+    filters.statuses = []
+    filters.interventionZones = []
+    filters.contractingActors = []
+    filters.financialActors = []
+  }
+
+  return {
+    projects, filters, isFilterModalShown, sortingProjectsSelectedMethod, hoveredProjectId, hoveredProject, activeProjectId, activeProject, filteredProjects, orderedProjects, map,
+    getAll, resetFilters
+  }
 })

@@ -1,4 +1,4 @@
 export interface Thematic {
-    id: string;
+    id: number;
     name: string;
 }

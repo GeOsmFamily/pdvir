@@ -1,7 +1,7 @@
 import type { Actor } from "@/models/interfaces/Actor";
 import type { Thematic } from "@/models/interfaces/Thematic";
 import type { Status } from "@/models/enums/Status";
-import type { AdminLevel } from "@/models/enums/AdminLevel";
+import type { AdministrativeScope } from "@/models/enums/AdministrativeScope";
 import type { Timestampable } from "@/models/interfaces/common/Timestampable";
 
 export interface Project extends Timestampable {
@@ -13,7 +13,7 @@ export interface Project extends Timestampable {
   description: string;
   images: string[];
   partners: string[];
-  interventionZone: AdminLevel;
+  interventionZone: AdministrativeScope;
   thematics: Thematic[];
   projectManagerName: string;
   projectManagerPosition: string;

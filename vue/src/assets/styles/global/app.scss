@@ -23,6 +23,15 @@
     transition: all .15s ease-in;
 }
 
+.text-action {
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+        font-weight: 500;
+    }
+}
+
 a {
     color: #000;
 }

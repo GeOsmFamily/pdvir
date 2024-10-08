@@ -4,7 +4,7 @@
             <div class="ProjectsView__listHeader">
                 <h3 class="ProjectsView__projectCount">{{ projectsCount }} {{ projectsCount > 1 ? $t('projects.projects') : $t('projects.project') }}</h3>
                 <v-autocomplete
-                    @update:search="projectStore.projectsSearchValue = $event"
+                    @update:search="projectStore.filters.searchValue = $event"
                     class="ProjectsView__searchBar"
                     variant="outlined"
                     hide-details="auto"

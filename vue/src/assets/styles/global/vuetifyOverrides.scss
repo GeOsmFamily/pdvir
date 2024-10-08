@@ -10,3 +10,10 @@
 .v-select.fit  .v-select__selection--comma {
     text-overflow: unset;
 }
+
+.v-dialog {
+    button {
+        min-width: 0;
+        min-height: 2.75rem;
+    }
+}

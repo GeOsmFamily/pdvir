@@ -72,11 +72,6 @@ const closeDialog = () => router.replace({ query: { dialog: undefined }});
     align-items: center;
     justify-content: center;
 
-    button {
-      min-width: 0;
-      min-height: 2.75rem;
-    }
-
     .Link--withoutUnderline {
       width: fit-content;
     }

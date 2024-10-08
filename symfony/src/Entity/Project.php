@@ -5,7 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Trait\TimestampableEntity;
-use App\Enum\AdminLevel;
+use App\Enum\AdministrativeScope;
 use App\Enum\Status;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -53,6 +53,7 @@ class Project
     private ?string $coords = null;
 
     #[ORM\Column(enumType: Status::class)]
+    #[Groups([self::PROJECT_READ_ALL])]
     private ?Status $status = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -64,8 +65,9 @@ class Project
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $partners = null;
 
-    #[ORM\Column(enumType: AdminLevel::class)]
-    private ?AdminLevel $interventionZone = null;
+    #[ORM\Column(enumType: AdministrativeScope::class)]
+    #[Groups([self::PROJECT_READ_ALL])]
+    private ?AdministrativeScope $interventionZone = null;
 
     /**
      * @var Collection<int, Thematic>
@@ -101,6 +103,7 @@ class Project
      */
     #[ORM\JoinTable(name: 'financed_projects_actors')]
     #[ORM\ManyToMany(targetEntity: Actor::class)]
+    #[Groups([self::PROJECT_READ_ALL])]
     private Collection $financialActors;
 
     /**
@@ -109,6 +112,7 @@ class Project
     
     #[ORM\JoinTable(name: 'contracted_projects_actors')]
     #[ORM\ManyToMany(targetEntity: Actor::class)]
+    #[Groups([self::PROJECT_READ_ALL])]
     private Collection $contractingActors;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
@@ -217,12 +221,12 @@ class Project
         return $this;
     }
 
-    public function getInterventionZone(): ?AdminLevel
+    public function getInterventionZone(): ?AdministrativeScope
     {
         return $this->interventionZone;
     }
 
-    public function setInterventionZone(AdminLevel $interventionZone): static
+    public function setInterventionZone(AdministrativeScope $interventionZone): static
     {
         $this->interventionZone = $interventionZone;
 

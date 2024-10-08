@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ThematicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,16 +11,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ThematicRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    paginationEnabled: false,
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => [self::THEMATIC_READ]]
+        )
+    ])]
 class Thematic
 {
+    public const THEMATIC_READ = 'thematic:read';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([self::THEMATIC_READ, Project::PROJECT_READ_ALL])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Project::PROJECT_READ_ALL])]
+    #[Groups([self::THEMATIC_READ, Project::PROJECT_READ_ALL])]
     private ?string $name = null;
 
     /**

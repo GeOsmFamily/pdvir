@@ -68,6 +68,10 @@
         "search": "Rechercher..."
     },
     "labels": {
-        "updatedAt": "Mis à jour le"
+        "updatedAt": "Mis à jour le",
+        "reset": "Réinitialiser"
+    },
+    "placeholders": {
+        "all": "Tous"
     }
 }
