@@ -253,75 +253,19 @@ defineExpose({
             border-width: 0;
             position: relative;
 
-            &:hover {
-                &::after {
-                    transform: scale(1);
-                    opacity: 1;
-                }
-            }
-
-            &::after {
-                /* background: fade(@color-primary, 100%); */
-                z-index: 8;
-                position: absolute;
-                content: none !important;
-                border-radius: 4px;
-                padding: .25rem .5rem;
-                right: 100%;
-                top: 0;
-                bottom: 0;
-                margin: auto .5rem;
-                height: fit-content;
-                white-space: nowrap;
-                transform-origin: right center;
-                transform: scale(0);
-                opacity: 0;
-                pointer-events: none;
-                transition: all .15s ease-in;
-            }
-
             &.maplibregl-ctrl-zoom-in {
-                &::after {
-                    content: "Zoomer";
-                }
-
                 .maplibregl-ctrl-icon {
                     background-image: url(@/assets/images/icons/map/mdi-plus.svg);
                 }
             }
 
             &.maplibregl-ctrl-zoom-out {
-
-                &::after {
-                    content: "Dézoomer";
-                }
-
                 .maplibregl-ctrl-icon {
                     background-image: url(@/assets/images/icons/map/mdi-minus.svg);
                 }
             }
 
-            &.maplibregl-ctrl-shrink::after {
-                content: "Quitter le plein écran";
-            }
-
-            &.maplibregl-ctrl-fullscreen::after {
-                content: "Ouvrir en plein écran";
-            }
-
-            &.maplibregl-ctrl-fullscreen,
-            &.maplibregl-ctrl-shrink {
-                .maplibregl-ctrl-icon {
-                    background-image: url(@/assets/images/icons/map/mdi-zoom-out.svg);
-                    background-size: 70%;
-                }
-            }
-
             &.maplibregl-ctrl-zoom-extent {
-                &::after {
-                    content: "Revenir à l'étendue globale";
-                }
-
                 .maplibregl-ctrl-icon {
                     background-image: url(@/assets/images/icons/map/mdi-image-filter-center-focus-strong-outline.svg);
                 }
