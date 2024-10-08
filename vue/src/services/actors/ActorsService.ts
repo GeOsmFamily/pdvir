@@ -14,7 +14,6 @@ export class ActorsService {
 
     static async getActor(id: string): Promise<Actor> {
       const data = (await apiClient.get(`/api/actors/${id}`, { headers:  {'accept': 'application/ld+json'}})).data
-      console.log(data)
       return data as Actor
     }
 
