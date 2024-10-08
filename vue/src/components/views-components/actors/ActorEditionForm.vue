@@ -41,30 +41,39 @@
                     variant="outlined"
                     :label="$t('actors.form.expertise')"
                     multiple
-                    v-model="(form.expertises.value.value as string[])"
+                    v-model="(form.expertises.value.value as SymfonyRelation[])"
                     :items="expertisesItems"
+                    item-title="name"
+                    item-value="@id"
                     :error-messages="form.expertises.errorMessage.value"
                     @blur="form.expertises.handleChange(form.expertises.value.value)"
+                    return-object
                 />
                 <v-select
                     density="compact"
                     variant="outlined"
                     :label="$t('actors.form.thematic')"
                     multiple
-                    v-model="(form.thematics.value.value as string[])"
+                    v-model="(form.thematics.value.value as SymfonyRelation[])"
                     :items="thematicsItems"
+                    item-title="name"
+                    item-value="@id"
                     :error-messages="form.thematics.errorMessage.value"
                     @blur="form.thematics.handleChange(form.thematics.value.value)"
+                    return-object
                 />
                 <v-select
                     density="compact"
                     variant="outlined"
                     :label="$t('actors.form.adminScope')"
                     multiple
-                    v-model="(form.administrativeScopes.value.value as AdministrativesScopes[])"
+                    v-model="(form.administrativeScopes.value.value as SymfonyRelation[])"
                     :items="administrativeScopesItems"
+                    item-title="name"
+                    item-value="@id"
                     :error-messages="form.administrativeScopes.errorMessage.value"
                     @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
+                    return-object
                 />
                 <v-textarea 
                     :label="$t('actors.form.description')"
@@ -163,12 +172,10 @@ import { useActorsStore } from '@/stores/actorsStore';
 import { useApplicationStore } from '@/stores/applicationStore';
 import FormSectionTitle from '@/components/generic-components/text-elements/FormSectionTitle.vue';
 import InputImage from '@/components/generic-components/global/InputImage.vue';
-import { ref, type Ref } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
 import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
-import { type ActorExpertise } from '@/models/interfaces/ActorExpertise';
-import { ActorsThematics } from '@/models/enums/contents/actors/ActorsThematics';
-import { AdministrativesScopes } from '@/models/enums/contents/AdministrativesScopes';
+import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation';
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const actorToEdit: Actor | null = actorsStore.actorEdition.actor
@@ -177,6 +184,9 @@ const {form, handleSubmit, isSubmitting} = ActorsFormService.getActorsForm(actor
 
 const categoryItems = Object.values(ActorsCategories)
 const expertisesItems = actorsStore.actorsExpertises
+onMounted(() => {
+    console.log(expertisesItems)
+})
 const thematicsItems = actorsStore.actorsThematics
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 

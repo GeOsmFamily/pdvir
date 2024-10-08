@@ -1,15 +1,18 @@
 import type { Actor } from "@/models/interfaces/Actor";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useField, useForm } from "vee-validate";
-import { z } from "zod";
+import { z, ZodType } from "zod";
 import { i18n } from "@/assets/plugins/i18n";
-import { ActorsCategories } from "@/models/enums/contents/actors/ActorsCategories";
-import { ActorsExpertises } from "@/models/enums/contents/actors/ActorsExpertises";
-import { ActorsThematics } from "@/models/enums/contents/actors/ActorsThematics";
-import { AdministrativesScopes } from "@/models/enums/contents/AdministrativesScopes";
+import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories'
+import type { SymfonyRelation } from "@/models/interfaces/SymfonyRelation";
 
 export class ActorsFormService {
     static getActorsForm(actorToEdit: Actor | null) {
+        const SymfonyRelationSchema = z.object({
+            "@id": z.string(),
+            name: z.string()
+        }) satisfies ZodType<SymfonyRelation>
+
         const actorSchema  = z.object({
             ///////// Main infos \\\\\\\\\
             name: z
@@ -22,13 +25,13 @@ export class ActorsFormService {
             category: z.string()
                 
             .min(1, { message: i18n.t('forms.errorMessages.required') }),
-            expertises: z.array(z.string()).nonempty({
+            expertises: z.array(SymfonyRelationSchema).nonempty({
                 message: i18n.t('forms.errorMessages.required'),
             }),
-            thematics: z.array(z.string()).nonempty({
+            thematics: z.array(SymfonyRelationSchema).nonempty({
                 message: i18n.t('forms.errorMessages.required'),
             }),
-            administrativeScopes: z.array(z.string()).nonempty({
+            administrativeScopes: z.array(SymfonyRelationSchema).nonempty({
                 message: i18n.t('forms.errorMessages.required'),
             }),
             description: z.string()
