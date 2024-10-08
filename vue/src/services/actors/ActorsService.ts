@@ -1,6 +1,5 @@
 import type { Actor } from "@/models/interfaces/Actor";
 import { apiClient } from '@/assets/plugins/axios';
-import type { ActorExpertise } from "@/models/interfaces/ActorExpertise";
 import type { SymfonyRelation } from "@/models/interfaces/SymfonyRelation";
 
 export class ActorsService {
@@ -8,7 +7,7 @@ export class ActorsService {
     static async getActors(): Promise<Actor[]> {
       const data = (await apiClient.get('/api/actors', { headers:  {'accept': 'application/ld+json'}})).data
       data["hydra:member"].forEach((actor: any) => {
-        actor["expertises"] =  actor["expertises"].map((category: ActorExpertise) => category["name"])
+        actor["expertises"] =  actor["expertises"].map((category: SymfonyRelation) => category["name"])
       })
       return data["hydra:member"] as Actor[]
     }

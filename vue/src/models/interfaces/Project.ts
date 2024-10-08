@@ -1,7 +1,5 @@
-import type { Actor } from "@/models/interfaces/Actor";
-import type { Thematic } from "@/models/interfaces/Thematic";
 import type { Status } from "@/models/enums/contents/Status";
-import type { AdministrativesScopes } from "../enums/contents/AdministrativesScopes";
+import type { SymfonyRelation } from "./SymfonyRelation";
 
 export interface Project {
   id: number;
@@ -12,8 +10,8 @@ export interface Project {
   description: string;
   images: string[];
   partners: string[];
-  interventionZone: AdministrativesScopes;
-  thematics: Thematic[];
+  interventionZone: SymfonyRelation[];
+  thematics: SymfonyRelation[];
   projectManagerName: string;
   projectManagerPosition: string;
   projectManagerEmail: string;
@@ -21,7 +19,7 @@ export interface Project {
   projectManagerPhoto: string;
   website: string;
   logo: string;
-  financialActors: Actor[];
-  contractingActors: Actor[];
-  actor: Actor;
+  financialActors: SymfonyRelation[];
+  contractingActors: SymfonyRelation[];
+  actor: SymfonyRelation;
 }
