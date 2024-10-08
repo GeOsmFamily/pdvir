@@ -19,7 +19,7 @@
 <script setup lang="ts">
 defineProps<{
     title: string,
-    show: boolean
+    show?: boolean
 }>()
 </script>
 

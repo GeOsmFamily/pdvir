@@ -33,8 +33,9 @@ import LikeButton from '@/components/views-components/global/LikeButton.vue';
 import ChipList from '@/components/generic-components/ChipList.vue';
 import { useDate } from '@/composables/useDate';
 defineProps<{
-  project: Project;
-  map: boolean;
+  project: Project | null;
+  map?: boolean;
+  key?: any;
 }>();
 
 const getFormattedDate = (project: Project) => {

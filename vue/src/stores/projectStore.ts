@@ -49,7 +49,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
 
   const activeProject = computed(() => {
     if (activeProjectId.value) {
-      return projects.value.find((project) => project.id === activeProjectId.value)
+      return projects.value.find((project) => project.id === activeProjectId.value) ?? null
     }
     return null
   })
