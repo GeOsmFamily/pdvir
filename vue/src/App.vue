@@ -4,6 +4,13 @@
     <DialogController />
   </KeepAlive>
   <EditContentDialog />
+  <v-snackbar
+      v-model="appStore.showSnackBar"
+      color="main-green"
+      :timeout="2000"
+    >
+      {{ appStore.snackBarMessage }}
+    </v-snackbar>
   <div :class="'App__content container ' + (appStore.mobile ? 'App__content--mobile' : 'App__content--desktop')">
     <v-breadcrumbs v-if="!appStore.mobile" :items="appStore.breadcrumbs"></v-breadcrumbs>
     <RouterView />

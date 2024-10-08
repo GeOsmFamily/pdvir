@@ -71,7 +71,7 @@ const isEditable = computed(() => {
 })
 
 function editActor(actor: Actor) {
-    actorsStore.activateActorEdition(actor)
+    actorsStore.setActorEditionMode(actor)
 }
 </script>
 <style lang="scss">

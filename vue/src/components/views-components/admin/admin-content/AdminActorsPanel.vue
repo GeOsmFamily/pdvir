@@ -36,7 +36,7 @@
                 <div class="Admin__actorsPanel__content__item__type">Type d'acteur</div>
                 <div class="Admin__actorsPanel__content__item__actions">
                     <template v-if="!actor.isValidated">
-                        <v-btn size="small" icon="mdi-arrow-right" class="text-main-blue" @click="actorsStore.activateActorEdition(actor.id)"></v-btn>
+                        <v-btn size="small" icon="mdi-arrow-right" class="text-main-blue" @click="actorsStore.setActorEditionMode(actor)"></v-btn>
                     </template>
                     <template v-else>
                         <v-btn icon="mdi-pencil-outline"></v-btn>
@@ -57,7 +57,7 @@ const actorsCount = computed(() => actorsStore.actors.length)
 const sortingActorsSelectedMethod = ref("isValidated")
 
 const createActor = () => {
-    actorsStore.activateActorEdition(null)
+    actorsStore.setActorEditionMode(null)
 }
 const sortedActors = computed(() => {
     if (sortingActorsSelectedMethod.value === "isValidated") {

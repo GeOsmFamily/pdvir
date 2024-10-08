@@ -184,9 +184,6 @@ const {form, handleSubmit, isSubmitting} = ActorsFormService.getActorsForm(actor
 
 const categoryItems = Object.values(ActorsCategories)
 const expertisesItems = actorsStore.actorsExpertises
-onMounted(() => {
-    console.log(expertisesItems)
-})
 const thematicsItems = actorsStore.actorsThematics
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 
@@ -196,20 +193,11 @@ function handleFilesUpdate(files: (ContentImageFromUserFile | ContentImageFromUr
   selectedFiles.value = files;
 }
 
-// const submitForm = handleSubmit((values) => {
-//     const actorSubmission: ActorSubmission = {
-//         ...values, imagesToUpload: [...selectedFiles.value]
-//     }
-//     console.log(actorSubmission)
-//     actorsStore.createActor(actorSubmission)
-// })
-
 const submitForm = handleSubmit(
   values => {
     const actorSubmission: ActorSubmission = {
         ...values, imagesToUpload: [...selectedFiles.value]
     }
-    console.log(actorSubmission)
     actorsStore.createOrEditActor(actorSubmission, actorToEdit !== null)
   },
   errors => {

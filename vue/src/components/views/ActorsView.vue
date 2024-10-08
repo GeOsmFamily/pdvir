@@ -65,7 +65,7 @@ const paginatedActors = computed(() => {
 const totalPages = computed(() => Math.ceil(actorsStore.actors.length / itemsPerPage));
 
 function addActor() {
-    actorsStore.activateActorEdition(null);
+    actorsStore.setActorEditionMode(null);
 }
 
 function searchActors(value: string, queryText: string, itemText: any) {

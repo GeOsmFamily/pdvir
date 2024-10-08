@@ -18,5 +18,8 @@ export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
     activeTab.value = NavigationTabsService.getTabsNumberFromRoute(route, activeTab.value)
     return BreadcrumbsService.getBreadcrumbsItems(route)
   })
-  return { mobile, activeTab, activeDialog, breadcrumbs, showEditContentDialog }
+
+  const showSnackBar = ref(false)
+  const snackBarMessage = ref('')
+  return { mobile, activeTab, activeDialog, breadcrumbs, showEditContentDialog, showSnackBar, snackBarMessage }
 })

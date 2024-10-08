@@ -37,16 +37,18 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     active: false,
     actor: null
   })
-  function activateActorEdition(actor: Actor | null) {
+  function setActorEditionMode(actor: Actor | null) {
     actorEdition.actor = actor
-    actorEdition.active = true
-    useApplicationStore().showEditContentDialog = true
+    actorEdition.active = actor !== null
+    useApplicationStore().showEditContentDialog = actor !== null
   }
 
   async function createOrEditActor(actor: Actor, edit: boolean) {
     const id = selectedActor.value?.id
     const post = await ActorsService.createOrEditActor(actor, edit, id)
-    console.log(post)
+    setActorEditionMode(null)
+    useApplicationStore().snackBarMessage = edit ? 'L\'acteur a bien été modifié' : 'L\'acteur a bien été ajouté'
+    useApplicationStore().showSnackBar = true
   }
 
   return { 
@@ -60,7 +62,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     getActorsSelectListContent,
     setSelectedActor,
     actorEdition,
-    activateActorEdition,
+    setActorEditionMode,
     createOrEditActor
   }
 })
