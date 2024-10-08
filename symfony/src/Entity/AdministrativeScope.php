@@ -2,32 +2,49 @@
 
 namespace App\Entity;
 
+use App\Entity\Actor;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\AdministrativeScopeRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AdministrativeScopeRepository::class)]
-#[UniqueEntity('name')]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Post(
+            security: 'is_granted("ROLE_ADMIN")'
+        ),
+        new Delete(
+            security: 'is_granted("ROLE_ADMIN")'
+        )
+    ],
+    normalizationContext: ['groups' => [self::GROUP_READ]],
+    denormalizationContext: ['groups' => [self::GROUP_WRITE]],
+)]
 class AdministrativeScope
 {
+    private const GROUP_READ = 'administrative:read';
+    private const GROUP_WRITE = 'administrative:write';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM])]
+    #[Groups([Actor::ACTOR_READ_ITEM_COLLECTION, Actor::ACTOR_READ_ITEM, self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $name = null;
 
     /**
      * @var Collection<int, Actor>
      */
-    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'AdministrativeScope')]
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'administrativeScopes')]
     private Collection $actors;
 
     public function __construct()

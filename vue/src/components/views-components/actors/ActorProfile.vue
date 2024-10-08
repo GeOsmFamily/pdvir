@@ -10,7 +10,7 @@
                 <ActorRelatedContent :actor="actor" v-if="!appStore.mobile"/>
             </div>
             <div class="ActorPage__rightBlock">
-                <img :src="actor.logo" alt="" v-if="!appStore.mobile" class="mt-4">
+                <img :src="actor.logo" alt="" v-if="!appStore.mobile" class="ActorPage__logo">
                 <div class="mt-6">
                     <ThematicChip v-for="thematic in actor.thematics" :text="thematic" class="mt-1"/>
                 </div>

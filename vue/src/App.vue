@@ -25,6 +25,7 @@ const actorsStore = useActorsStore();
 const userStore = useUserStore();
 onBeforeMount(async () => {
   await actorsStore.getActors()
+  await actorsStore.getActorsSelectListContent()
   userStore.checkAuthenticated()
 })
 </script>

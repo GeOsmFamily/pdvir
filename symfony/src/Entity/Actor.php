@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Entity\Thematic;
+use App\Enum\ActorCategory;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
-use App\Enum\ActorCategory;
 use ApiPlatform\Metadata\Post;
 use App\Entity\ActorExpertise;
 use App\Model\Enums\UserRoles;
@@ -18,6 +18,7 @@ use App\Entity\AdministrativeScope;
 use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
 use App\Services\State\Provider\ActorProvider;
 use App\Services\State\Processor\ActorProcessor;
@@ -55,6 +56,10 @@ class Actor
     public const ACTOR_READ_ITEM_COLLECTION = 'actor:read_collection';
     public const ACTOR_READ_ITEM = 'actor:read_item';
     private const ACTOR_WRITE = 'actor:write';
+
+    use TimestampableEntity;
+
+    
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -97,24 +102,9 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $thematics;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private ?\DateTimeInterface $creationDate = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private ?\DateTimeInterface $lastUpdate = null;
-
     #[ORM\Column(type: Types::TEXT)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $description = null;
-
-    /**
-     * @var Collection<int, AdministrativeScope>
-     */
-    #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private Collection $administrativeScopes;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
@@ -156,12 +146,19 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $logo = null;
 
+    /**
+     * @var Collection<int, AdministrativeScope>
+     */
+    #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private Collection $administrativeScopes;
+
     public function __construct()
     {
         $this->expertises = new ArrayCollection();
         $this->thematics = new ArrayCollection();
-        $this->getAdministrativeScopes = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->administrativeScopes = new ArrayCollection();
     }
 
     public function getId(): ?Uuid {
@@ -276,30 +273,6 @@ class Actor
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
-    {
-        return $this->creationDate;
-    }
-
-    public function setCreationDate(\DateTimeInterface $creationDate): static
-    {
-        $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->lastUpdate;
-    }
-
-    public function setLastUpdate(\DateTimeInterface $lastUpdate): static
-    {
-        $this->lastUpdate = $lastUpdate;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -308,30 +281,6 @@ class Actor
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, AdministrativeScope>
-     */
-    public function getAdministrativeScopes(): Collection
-    {
-        return $this->administrativeScopes;
-    }
-
-    public function addAdministrativeScope(AdministrativeScope $administrativeScope): static
-    {
-        if (!$this->administrativeScopes->contains($administrativeScope)) {
-            $this->administrativeScopes->add($administrativeScope);
-        }
-
-        return $this;
-    }
-
-    public function removeAdministrativeScope(AdministrativeScope $administrativeScope): static
-    {
-        $this->administrativeScopes->removeElement($administrativeScope);
 
         return $this;
     }
@@ -458,6 +407,30 @@ class Actor
     public function setLogo(?string $logo): static
     {
         $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AdministrativeScope>
+     */
+    public function getAdministrativeScopes(): Collection
+    {
+        return $this->administrativeScopes;
+    }
+
+    public function addAdministrativeScope(AdministrativeScope $administrativeScope): static
+    {
+        if (!$this->administrativeScopes->contains($administrativeScope)) {
+            $this->administrativeScopes->add($administrativeScope);
+        }
+
+        return $this;
+    }
+
+    public function removeAdministrativeScope(AdministrativeScope $administrativeScope): static
+    {
+        $this->administrativeScopes->removeElement($administrativeScope);
 
         return $this;
     }

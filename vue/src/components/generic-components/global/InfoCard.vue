@@ -14,10 +14,10 @@
                         </slot>
                     </div>
                     <div class="InfoCard__footer mt-6">
-                        <div class="InfoCard__footerBlock InfoCard__footerBlock--left">
+                        <div class="d-flex">
                             <slot name="footer-left"></slot>
                         </div>
-                        <div class="InfoCard__footerBlock InfoCard__footerBlock--right">
+                        <div>
                             <slot name="footer-right" :isHovering="isHovering"></slot>
                         </div>
                     </div>

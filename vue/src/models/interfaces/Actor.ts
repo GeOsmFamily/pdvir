@@ -14,12 +14,12 @@ export interface Actor {
     name: string;
     acronym: string;
     category: ActorsCategories;
-    expertises: ActorsExpertises[];
-    thematics: ActorsThematics[];
+    expertises: string[];
+    thematics: string[];
     creationDate: Date;
     lastUpdate: Date;
     description: string;
-    administrativeScopes: AdministrativesScopes[];//To add in form
+    administrativeScopes: string[];
     officeName: string;
     officeAddress: string;
     officeLocation: [number, number];//To add in form and SF Entity

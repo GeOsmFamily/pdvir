@@ -19,17 +19,16 @@ export class ActorsFormService {
                 .string()
                 .min(2, { message: i18n.t('forms.errorMessages.minlength', { min: 2 }) })
                 .max(8, { message: i18n.t('forms.errorMessages.maxlength', { max: 8 }) }),
-            category: z.nativeEnum(ActorsCategories)
-                .refine((value) => value && Object.values(ActorsCategories).includes(value), {
-                    message: i18n.t('forms.errorMessages.required'),
-                }),
-            expertises: z.array(z.nativeEnum(ActorsExpertises)).nonempty({
+            category: z.string()
+                
+            .min(1, { message: i18n.t('forms.errorMessages.required') }),
+            expertises: z.array(z.string()).nonempty({
                 message: i18n.t('forms.errorMessages.required'),
             }),
-            thematics: z.array(z.nativeEnum(ActorsThematics)).nonempty({
+            thematics: z.array(z.string()).nonempty({
                 message: i18n.t('forms.errorMessages.required'),
             }),
-            administrativeScopes: z.array(z.nativeEnum(AdministrativesScopes)).nonempty({
+            administrativeScopes: z.array(z.string()).nonempty({
                 message: i18n.t('forms.errorMessages.required'),
             }),
             description: z.string()

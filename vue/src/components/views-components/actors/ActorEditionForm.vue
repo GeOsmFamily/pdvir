@@ -41,7 +41,7 @@
                     variant="outlined"
                     :label="$t('actors.form.expertise')"
                     multiple
-                    v-model="(form.expertises.value.value as ActorsExpertises[])"
+                    v-model="(form.expertises.value.value as string[])"
                     :items="expertisesItems"
                     :error-messages="form.expertises.errorMessage.value"
                     @blur="form.expertises.handleChange(form.expertises.value.value)"
@@ -51,7 +51,7 @@
                     variant="outlined"
                     :label="$t('actors.form.thematic')"
                     multiple
-                    v-model="(form.thematics.value.value as ActorsThematics[])"
+                    v-model="(form.thematics.value.value as string[])"
                     :items="thematicsItems"
                     :error-messages="form.thematics.errorMessage.value"
                     @blur="form.thematics.handleChange(form.thematics.value.value)"
@@ -166,7 +166,7 @@ import InputImage from '@/components/generic-components/global/InputImage.vue';
 import { ref, type Ref } from 'vue';
 import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
-import { ActorsExpertises } from '@/models/enums/contents/actors/ActorsExpertises';
+import { type ActorExpertise } from '@/models/interfaces/ActorExpertise';
 import { ActorsThematics } from '@/models/enums/contents/actors/ActorsThematics';
 import { AdministrativesScopes } from '@/models/enums/contents/AdministrativesScopes';
 const appStore = useApplicationStore();
@@ -176,9 +176,9 @@ const actorToEdit: Actor | null = actorsStore.actorEdition.actor
 const {form, handleSubmit, isSubmitting} = ActorsFormService.getActorsForm(actorToEdit);
 
 const categoryItems = Object.values(ActorsCategories)
-const expertisesItems = Object.values(ActorsExpertises)
-const thematicsItems = Object.values(ActorsThematics)
-const administrativeScopesItems = Object.values(AdministrativesScopes)
+const expertisesItems = actorsStore.actorsExpertises
+const thematicsItems = actorsStore.actorsThematics
+const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 
 const selectedFiles: Ref<(ContentImageFromUserFile | ContentImageFromUrl)[]> = ref([])
 function handleFilesUpdate(files: (ContentImageFromUserFile | ContentImageFromUrl)[]) {
@@ -186,10 +186,24 @@ function handleFilesUpdate(files: (ContentImageFromUserFile | ContentImageFromUr
   selectedFiles.value = files;
 }
 
-const submitForm = handleSubmit((values) => {
+// const submitForm = handleSubmit((values) => {
+//     const actorSubmission: ActorSubmission = {
+//         ...values, imagesToUpload: [...selectedFiles.value]
+//     }
+//     console.log(actorSubmission)
+//     actorsStore.createActor(actorSubmission)
+// })
+
+const submitForm = handleSubmit(
+  values => {
     const actorSubmission: ActorSubmission = {
         ...values, imagesToUpload: [...selectedFiles.value]
     }
     console.log(actorSubmission)
-})
+    actorsStore.createActor(actorSubmission)
+  },
+  errors => {
+    console.error('Form validation failed:', errors);
+  }
+);
 </script>
