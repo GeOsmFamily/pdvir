@@ -1,8 +1,8 @@
 <template>
-    <div class="PageBanner__Subtitle">{{ subtitle }}</div>
+    <div class="PageBanner__subtitle">{{ subtitle }}</div>
     <div class="PageBanner">
-        <div class="PageBanner__HalfCircle"></div>
-        <div class="PageBanner__Title">{{ text }}</div>
+        <div class="PageBanner__halfCircle"></div>
+        <div class="PageBanner__title">{{ text }}</div>
     </div>
 </template>
 <script setup lang="ts">
@@ -20,7 +20,7 @@ defineProps({
     min-height: 70px;
     position: relative;
 
-    &__HalfCircle {
+    &__halfCircle {
         width: 35px;
         height: 70px;
         background-color: rgb(var(--v-theme-main-yellow));
@@ -31,7 +31,7 @@ defineProps({
         transform: translateY(-50%);
     }
 
-    &__Title {
+    &__title {
         margin-left: 50px;
         font-size: 36px;
         font-weight: 700;
@@ -39,7 +39,7 @@ defineProps({
         line-height: 45px;
     }
 
-    &__Subtitle {
+    &__subtitle {
         margin-left: 50px;
         width: 100%;
         font-size: 24px;

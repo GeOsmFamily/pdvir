@@ -46,13 +46,7 @@ export const vuetify = createVuetify({
         style: [{ 
           padding: '.75rem 0',
         }],
-      },
-      // VCard: {
-      //   style: [{ 
-      //     'box-shadow': '0px 2px 0px rgb(var(--v-theme-main-blue))',
-      //     border: '0.5px solid rgb(var(--v-theme-main-blue))'
-      //   }],
-      // }
+      }
     },
     components,
     directives,

@@ -18,6 +18,5 @@ defineProps({
     border-radius: 16px;
     text-align: center;
     white-space: nowrap;
-    border: 1px solid white;
 }
 </style>

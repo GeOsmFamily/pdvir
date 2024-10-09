@@ -41,7 +41,7 @@
                     variant="outlined"
                     :label="$t('actors.form.expertise')"
                     multiple
-                    v-model="(form.expertises.value.value as SymfonyRelation[])"
+                    v-model="(form.expertises.value.value as ActorExpertise[])"
                     :items="expertisesItems"
                     item-title="name"
                     item-value="@id"
@@ -54,7 +54,7 @@
                     variant="outlined"
                     :label="$t('actors.form.thematic')"
                     multiple
-                    v-model="(form.thematics.value.value as SymfonyRelation[])"
+                    v-model="(form.thematics.value.value as Thematic[])"
                     :items="thematicsItems"
                     item-title="name"
                     item-value="@id"
@@ -67,7 +67,7 @@
                     variant="outlined"
                     :label="$t('actors.form.adminScope')"
                     multiple
-                    v-model="(form.administrativeScopes.value.value as SymfonyRelation[])"
+                    v-model="(form.administrativeScopes.value.value as AdministrativeScope[])"
                     :items="administrativeScopesItems"
                     item-title="name"
                     item-value="@id"
@@ -175,7 +175,9 @@ import InputImage from '@/components/generic-components/global/InputImage.vue';
 import { onMounted, ref, type Ref } from 'vue';
 import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
-import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation';
+import type { ActorExpertise } from '@/models/interfaces/ActorExpertise';
+import type { Thematic } from '@/models/interfaces/Thematic';
+import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope';
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const actorToEdit: Actor | null = actorsStore.actorEdition.actor

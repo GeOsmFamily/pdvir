@@ -1,7 +1,9 @@
 import type { ActorsCategories } from "../enums/contents/actors/ActorsCategories";
+import type { ActorExpertise } from "./ActorExpertise";
+import type { AdministrativeScope } from "./AdministrativeScope";
 import type { User } from "./auth/User";
 import type { ContentImageFromUserFile, ContentImageFromUrl } from "./ContentImage";
-import type { SymfonyRelation } from "./SymfonyRelation";
+import type { Thematic } from "./Thematic";
 
 export interface Actor {
     id: string;
@@ -12,12 +14,12 @@ export interface Actor {
     name: string;
     acronym: string;
     category: ActorsCategories;
-    expertises: SymfonyRelation[];
-    thematics: SymfonyRelation[];
+    expertises: ActorExpertise[];
+    thematics: Thematic[];
     creationDate: Date;
     lastUpdate: Date;
     description: string;
-    administrativeScopes: SymfonyRelation[];
+    administrativeScopes: AdministrativeScope[];
     officeName: string;
     officeAddress: string;
     officeLocation: [number, number];//To add in form and SF Entity
@@ -29,7 +31,6 @@ export interface Actor {
     website: string;
     phone: string;
     email: string;
-    [key: string]: any;
   }
 
   export interface ActorSubmission extends Actor {

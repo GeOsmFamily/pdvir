@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <v-icon icon="mdi mdi-share-variant" @click.stop="copyURL"></v-icon>
-    </div>
+    <v-icon icon="mdi mdi-share-variant" @click.stop="copyURL"></v-icon>
 </template>
 
 <script setup lang="ts">

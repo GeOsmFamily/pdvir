@@ -36,7 +36,7 @@ type FilterMatch = boolean | number | [number, number] | [number, number][];
 
 const props = defineProps<{
     placeholder: string,
-    items: Array<Actor>,
+    items: Actor[],
     itemTitle: string,
     itemValue: string,
     customFilter: FilterFunction

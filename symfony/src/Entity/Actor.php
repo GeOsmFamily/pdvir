@@ -297,12 +297,12 @@ class Actor
         return $this;
     }
 
-    public function getofficeAddress(): ?string
+    public function getOfficeAddress(): ?string
     {
         return $this->officeAddress;
     }
 
-    public function setofficeAddress(?string $officeAddress): static
+    public function setOfficeAddress(?string $officeAddress): static
     {
         $this->officeAddress = $officeAddress;
 

@@ -1,6 +1,9 @@
 import type { Actor } from "@/models/interfaces/Actor";
 import { apiClient } from '@/assets/plugins/axios';
 import type { SymfonyRelation } from "@/models/interfaces/SymfonyRelation";
+import type { ActorExpertise } from "@/models/interfaces/ActorExpertise";
+import type { Thematic } from "@/models/interfaces/Thematic";
+import type { AdministrativeScope } from "@/models/interfaces/AdministrativeScope";
 
 export class ActorsService {
 
@@ -39,25 +42,26 @@ export class ActorsService {
       return data as Actor
     }
 
-    static async getActorsExpertisesList(): Promise<SymfonyRelation[]> {
+    static async getActorsExpertisesList(): Promise<ActorExpertise[]> {
       const data = (await apiClient.get('/api/actor_expertises', { headers:  {'accept': 'application/ld+json'}})).data
       return data["hydra:member"]
     }
-    static async getActorsThematicsList(): Promise<SymfonyRelation[]> {
+    static async getActorsThematicsList(): Promise<Thematic[]> {
       const data = (await apiClient.get('/api/thematics', { headers:  {'accept': 'application/ld+json'}})).data
       return data["hydra:member"]
     }
-    static async getActorsAdministrativesScopesList(): Promise<SymfonyRelation[]> {
+    static async getActorsAdministrativesScopesList(): Promise<AdministrativeScope[]> {
       const data = (await apiClient.get('/api/administrative_scopes', { headers:  {'accept': 'application/ld+json'}})).data
       return data["hydra:member"]
     }
 
     static transformSymfonyRelationToIRIs(actor: Actor): Actor {
       for (const key in actor) {
-        if (actor[key][0] && actor[key][0]["@id"]) {
-          actor[key] = actor[key].map((x: SymfonyRelation) => x["@id"])
+        const typedKey = key as keyof Actor;
+        if (Array.isArray(actor[typedKey]) && actor[typedKey][0]?.["@id"]) {
+          actor[typedKey] = (actor[typedKey] as SymfonyRelation[]).map((x: SymfonyRelation) => x["@id"]) as never;
         }
       }
-      return actor
+      return actor;
     }
 }

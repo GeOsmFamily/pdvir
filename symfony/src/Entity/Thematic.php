@@ -15,7 +15,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ThematicRepository::class)]
 #[UniqueEntity('name')]
-
 #[ApiResource(
     operations: [
         new GetCollection(),

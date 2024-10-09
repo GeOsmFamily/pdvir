@@ -5,7 +5,9 @@ import { defineStore } from 'pinia'
 import { reactive, ref, type Reactive, type Ref } from 'vue'
 import { useApplicationStore } from './applicationStore'
 import { useRouter } from 'vue-router'
-import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
+import type { ActorExpertise } from '@/models/interfaces/ActorExpertise'
+import type { Thematic } from '@/models/interfaces/Thematic'
+import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope'
 
 
 export const useActorsStore = defineStore(StoresList.ACTORS, () => {
@@ -13,9 +15,9 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   const router = useRouter();
   const actors: Actor[] = reactive([])
   const selectedActor: Ref<Actor | null> = ref(null)
-  const actorsExpertises: SymfonyRelation[] = reactive([])
-  const actorsThematics: SymfonyRelation[] = reactive([])
-  const actorsAdministrativesScopes: SymfonyRelation[] = reactive([])
+  const actorsExpertises: ActorExpertise[] = reactive([])
+  const actorsThematics: Thematic[] = reactive([])
+  const actorsAdministrativesScopes: AdministrativeScope[] = reactive([])
 
   async function getActors(): Promise<void> {
       actors.push(...await ActorsService.getActors())
