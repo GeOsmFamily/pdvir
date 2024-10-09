@@ -5,11 +5,9 @@
         :to="to"
     >
         <div class="Card__content">
-            <span class="Card__subTitle" v-if="subTitle" >{{ subTitle }}</span>
-            <span class="Card__title">{{ title }}</span>
             <slot name="content"></slot>
         </div>
-        <div class="Card__footer mt-6">
+        <div class="Card__footer">
             <div class="Card__footerBlock Card__footerBlock--left">
                 <slot name="footer-left">
                     <LikeButton />
@@ -24,8 +22,8 @@
 
 <script setup lang="ts">
 defineProps<{
-    title: string,
-    subTitle: string,
+    title?: string,
+    subTitle?: string,
     to: string
 }>()
 </script>
@@ -71,6 +69,7 @@ defineProps<{
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-top: 1rem;
     }
     
 

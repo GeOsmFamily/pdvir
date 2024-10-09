@@ -1,18 +1,17 @@
 <template>
-    <Card
-        class="ProjectCard"
-        v-if="project != null"
-        :title="project.name"
-        :subTitle="project?.location ?? ''"
-        :to="getProjectsUrl(project)"
-        :map="map"
-        >
+    <Card class="ProjectCard" v-if="project != null" :to="getProjectsUrl(project)" :map="map">
         <template #content>
             <div class="ProjectCard__content">
-                <div class="ProjectCard__close"></div>
-                <div class="ProjectCard__infoCtn">
-                    <span>{{ project.actor.name }}</span>
-                    <span v-if="!map" class="ProjectCard__updatedAt">{{ $t('labels.updatedAt') }} {{ getFormattedDate(project) }}</span>
+                <div class="ProjectCard__block ProjectCard__block--left">
+                    <span class="Card__subTitle" >{{ project.location }}</span>
+                    <span class="Card__title">{{ project.name }}</span>
+                    <div class="ProjectCard__infoCtn">
+                        <span>{{ project.actor.name }}</span>
+                        <span v-if="!map" class="ProjectCard__updatedAt">{{ $t('labels.updatedAt') }} {{ getFormattedDate(project) }}</span>
+                    </div>
+                </div>
+                <div class="ProjectCard__block ProjectCard__block--right">
+                    <img class="ProjectCard__logo" :src="project.logo">
                 </div>
             </div>
             <ChipList v-if="!map" class="ProjectCard__thematicsCtn" :items="project.thematics" :align="'right'" />
@@ -54,6 +53,29 @@ const getProjectsUrl = (project: Project) => {
     &[map="true"] {
         width: 15rem;
         padding-bottom: 1rem;
+
+        .ProjectCard__content {
+            flex-flow: column nowrap;
+            gap: .5rem;
+
+            .ProjectCard__block {
+                &--left {
+                    gap: 0.25rem;
+                }
+                &--right {
+                    height: 70px;
+                    width: 70px;
+                }
+            }
+        }
+        
+        .Card__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0;
+        }
+    
     }
 
     &--light {
@@ -70,23 +92,35 @@ const getProjectsUrl = (project: Project) => {
         display: flex;
         flex-flow: row nowrap;
         margin: .5rem 0 1rem 0;
-        .ProjectCard__infoCtn {
-            display: flex;
-            flex-flow: column nowrap;
-            gap: .5rem;
+        justify-content: space-between;
 
-            .ProjectCard__updatedAt {
-                font-size: $font-size-xs;
+        .ProjectCard__block {
+            &--left {
+                display: flex;
+                flex-flow: column nowrap;
+                gap: .5rem;
+                
+                .ProjectCard__infoCtn {
+                    display: flex;
+                    flex-flow: column nowrap;
+                    gap: .5rem;
+        
+                    .ProjectCard__updatedAt {
+                        font-size: $font-size-xs;
+                    }
+                }
             }
-        }
-        .ProjectCard__logoCtn {
-            height: 90px;
-            width: 140px;
-    
-            .ProjectCard__logo{
-                max-width: 100%;
-                max-height: 100%;
-                object-fit: contain;
+
+            &--right {
+                
+                height: 90px;
+                width: 140px;
+        
+                .ProjectCard__logo{
+                    max-width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
             }
         }
 
