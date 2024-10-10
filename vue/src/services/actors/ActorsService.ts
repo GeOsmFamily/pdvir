@@ -55,11 +55,10 @@ export class ActorsService {
       return data["hydra:member"]
     }
 
-    static transformSymfonyRelationToIRIs(actor: Actor): Actor {
+    static transformSymfonyRelationToIRIs(actor: any): Actor {
       for (const key in actor) {
-        const typedKey = key as keyof Actor;
-        if (Array.isArray(actor[typedKey]) && actor[typedKey][0]?.["@id"]) {
-          actor[typedKey] = (actor[typedKey] as SymfonyRelation[]).map((x: SymfonyRelation) => x["@id"]) as never;
+        if (Array.isArray(actor[key]) && actor[key][0]?.["@id"]) {
+          actor[key] = (actor[key] as SymfonyRelation[]).map((x: SymfonyRelation) => x["@id"]) as never;
         }
       }
       return actor;
