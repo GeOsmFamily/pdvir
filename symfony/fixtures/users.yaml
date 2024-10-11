@@ -5,15 +5,18 @@ App\Entity\User:
         email: admin@test.com
         plainPassword: Test1234
         roles: [ 'ROLE_ADMIN' ]
+        isValidated: true
     user_2:
         firstName: John
         lastName: Editor Doe
         email: editor@test.com
         plainPassword: Test1234
         roles: [ 'ROLE_EDITOR_ACTORS' ]
+        isValidated: true
     user_3:
         firstName: Jane
         lastName: Doe
         email: lambda@test.com
         plainPassword: Test1234
         roles: [ 'ROLE_USER' ]
+        isValidated: true

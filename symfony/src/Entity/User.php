@@ -15,8 +15,6 @@ use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Services\State\Provider\UserProvider;
-use App\Services\State\Processor\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Services\State\Provider\CurrentUserProvider;
@@ -24,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -40,15 +39,11 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
             // provider: UserProvider::class // To use if we need to open to every logged user if we need to see user names associated to likes
             security: 'is_granted("ROLE_ADMIN")'
         ),
-        new Post(
-            processor: UserProcessor::class
-        ),
+        new Post(),
         new Put(
-            processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
         ),
         new Patch(
-            processor: UserProcessor::class,
             security: 'is_granted("'.UserVoter::EDIT.'", object)'
         ),
         new Delete(security: 'is_granted("'.UserVoter::EDIT.'", object)'),
@@ -97,11 +92,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $password = null;
 
     #[Assert\NotBlank(groups: [self::GROUP_WRITE])]
     #[Groups([self::GROUP_WRITE])]
+    #[SerializedName('password')]
     private ?string $plainPassword = null;
 
     /**
@@ -111,7 +107,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $actorsCreated;
 
     #[ORM\Column]
-    #[Groups([self::GROUP_READ, self::GROUP_GETME,])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME])]
     private ?bool $isValidated = false;
 
     #[ORM\Column(nullable: true)]
@@ -195,7 +191,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -282,12 +278,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isValidated(): ?bool
+    public function getIsValidated(): ?bool
     {
         return $this->isValidated;
     }
 
-    public function setValidated(bool $isValidated): static
+    public function setIsValidated(bool $isValidated): static
     {
         $this->isValidated = $isValidated;
 
