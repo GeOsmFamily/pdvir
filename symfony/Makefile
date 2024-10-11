@@ -55,9 +55,9 @@ regenerate-entity:
 	@$(SYMFONY) make:entity --regenerate
 
 make-run-migration: make-migration run-migration
-reset-database: create-database run-migration
+reset-database: recreate-database run-migration
 rerun-database: reset-database run-fixtures
-create-short-migration: create-database run-migration make-migration rerun-migration
+create-short-migration: recreate-database run-migration make-migration rerun-migration
 
 init-jwt-keypair:
 	@$(SYMFONY) lexik:jwt:generate-keypair
