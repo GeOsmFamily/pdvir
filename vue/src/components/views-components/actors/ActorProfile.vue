@@ -59,7 +59,6 @@ onMounted(() => {
         if (actorsStore.dataLoaded) {
             if (actorsStore.selectedActor === null) {
                 const actor: Actor | undefined = actorsStore.actors.find(actor => actor.name === route.params.name);
-                console.log(actor)
                 actorsStore.setSelectedActor(actor?.id as string);
             }
         }

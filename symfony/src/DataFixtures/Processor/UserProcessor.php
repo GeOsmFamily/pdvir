@@ -29,7 +29,7 @@ final class UserProcessor implements ProcessorInterface
         );
         $object->setPassword($hashedPassword);
         $object ->eraseCredentials();
-        $object->setValidated(true);
+        $object->setIsValidated(true);
     }
 
     /**

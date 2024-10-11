@@ -45,6 +45,8 @@
         }
     },
     "forms": {
+        "submit": "Valider",
+        "cancel": "Annuler",
         "errorMessages": {
                 "required": "Ce champs est requis",
                 "minlength": "Ce champs doit avoir au moins {min} caractères",

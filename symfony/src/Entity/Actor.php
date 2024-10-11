@@ -41,6 +41,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             security: "is_granted('".UserRoles::ROLE_EDITOR_ACTORS."')"
         ),
         new Patch(
+            processor: ActorProcessor::class,
             security: 'is_granted("'.ActorVoter::EDIT.'", object)'
         ),
         new Put(
@@ -81,7 +82,7 @@ class Actor
     private ?User $createdBy = null;
 
     #[ORM\Column]
-    #[Groups([self::ACTOR_READ_ITEM])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_READ_ITEM_COLLECTION])]
     private ?bool $isValidated = false;
 
     #[ORM\Column(enumType: ActorCategory::class)]
@@ -201,12 +202,12 @@ class Actor
         return $this;
     }
 
-    public function isValidated(): ?bool
+    public function getIsValidated(): ?bool
     {
         return $this->isValidated;
     }
 
-    public function setValidated(bool $isValidated): static
+    public function setIsValidated(bool $isValidated): static
     {
         $this->isValidated = $isValidated;
 

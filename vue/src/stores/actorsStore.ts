@@ -20,6 +20,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   const actorsAdministrativesScopes: AdministrativeScope[] = reactive([])
 
   async function getActors(): Promise<void> {
+      actors.splice(0, actors.length)
       actors.push(...await ActorsService.getActors())
       dataLoaded.value = true
   }
@@ -30,9 +31,11 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     actorsAdministrativesScopes.push(...await ActorsService.getActorsAdministrativesScopesList())
 }
 
-  async function setSelectedActor(id: string) {
+  async function setSelectedActor(id: string, redirect: boolean = true) {
     selectedActor.value = await ActorsService.getActor(id)
-    router.push('/actors/' + selectedActor.value.name)
+    if (redirect) {
+      router.push('/actors/' + selectedActor.value.name)
+    }
   }
 
   const actorEdition: Reactive<{active: boolean, actor: Actor | null}> = reactive({
@@ -47,7 +50,9 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
 
   async function createOrEditActor(actor: Actor, edit: boolean) {
     const id = selectedActor.value?.id
-    await ActorsService.createOrEditActor(actor, edit, id)
+    const result =await ActorsService.createOrEditActor(actor, edit, id)
+    await getActors()
+    selectedActor.value = await ActorsService.getActor(result.id)
     useApplicationStore().showEditContentDialog = false
     useApplicationStore().snackBarMessage = edit ? 'L\'acteur a bien été modifié' : 'L\'acteur a bien été ajouté'
     useApplicationStore().showSnackBar = true

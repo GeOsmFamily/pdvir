@@ -153,12 +153,12 @@
                 <InputImage @updateFiles="handleFilesUpdate" />
 
                 <div class="d-flex justify-space-between">
-                    <v-btn color="white">Supprimer</v-btn>
+                    <v-btn color="white" @click="actorsStore.setActorEditionMode(null)">{{ $t('forms.cancel') }}</v-btn>
                     <v-btn 
                         type="submit"
                         color="main-red"
                         :loading="isSubmitting"
-                    >Valider</v-btn>
+                    >{{ $t('forms.submit') }}</v-btn>
                 </div>
             </v-form>
         </div>

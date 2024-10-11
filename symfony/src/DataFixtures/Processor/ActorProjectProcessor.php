@@ -14,7 +14,7 @@ final class ActorProjectProcessor  implements ProcessorInterface
         if ($object instanceof Actor) {
             $callCount++;
             $isValidated = $callCount % 4 !== 0;
-            $object->setValidated($isValidated);
+            $object->setIsValidated($isValidated);
         }
     }
 

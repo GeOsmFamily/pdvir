@@ -1,7 +1,7 @@
-<template>
-    <div class="Admin__actorsPanel">
-        <div class="Admin__actorsPanel__title">
-            <div class="Admin__actorsPanel__title__left">
+AdminActorPanel<template>
+    <div class="AdminActorPanel">
+        <div class="AdminActorPanel__topBar">
+            <div class="AdminActorPanel__topBar--left">
                 <SectionTitle :text="`${actorsCount.toString()} ${actorsCount > 1 ? $t('actors.actors') : $t('actors.actor')}`" />
                 <v-icon icon="mdi mdi-magnify" class="ml-5" color="main-blue"></v-icon>
                 <v-text-field 
@@ -12,7 +12,7 @@
                 >
                 </v-text-field>
             </div>
-            <div class="Admin__actorsPanel__title__right">
+            <div class="AdminActorPanel__topBar--right">
                 <v-btn color="white" class="mr-3">
                     <span>{{$t('filters.sortBy')}}</span><v-icon icon="mdi mdi-arrow-down-drop-circle-outline" class="ml-2"></v-icon>
                     <v-menu activator="parent">
@@ -25,21 +25,21 @@
                 <v-btn @click="createActor()" color="main-red">{{ $t("actors.form.createTitle")}}</v-btn>
             </div>
         </div>
-        <div class="Admin__actorsPanel__content">
+        <div class="AdminActorPanel__content">
             <div 
-                class="Admin__actorsPanel__content__item"
-                :class="{ 'Admin__actorsPanel__content__item--overlay': !actor.isValidated }"
+                class="AdminActorPanel__contentItem"
+                :class="{ 'AdminActorPanel__contentItem--overlay': !actor.isValidated }"
                 v-for="actor in sortedActors" :key="actor.id"
             >
-                <div class="Admin__actorsPanel__content__item__acronym">{{ actor.acronym }}</div>
-                <div class="Admin__actorsPanel__content__item__name">{{ actor.name }}</div>
-                <div class="Admin__actorsPanel__content__item__type">Type d'acteur</div>
-                <div class="Admin__actorsPanel__content__item__actions">
+                <div class="AdminActorPanel__contentItem--col1">{{ actor.acronym }}</div>
+                <div class="AdminActorPanel__contentItem--col2">{{ actor.name }}</div>
+                <div class="AdminActorPanel__contentItem--col3">Type d'acteur</div>
+                <div class="AdminActorPanel__contentItem--col4">
                     <template v-if="!actor.isValidated">
-                        <v-btn size="small" icon="mdi-arrow-right" class="text-main-blue" @click="actorsStore.setActorEditionMode(actor)"></v-btn>
+                        <v-btn size="small" icon="mdi-arrow-right" class="text-main-blue" @click="editActor(actor)"></v-btn>
                     </template>
                     <template v-else>
-                        <v-btn icon="mdi-pencil-outline"></v-btn>
+                        <v-btn icon="mdi-pencil-outline" @click="editActor(actor)"></v-btn>
                         <v-btn icon="mdi-dots-vertical"></v-btn>
                     </template>
                 </div>
@@ -59,6 +59,11 @@ const sortingActorsSelectedMethod = ref("isValidated")
 const createActor = () => {
     actorsStore.setActorEditionMode(null)
 }
+
+const editActor = async (actor: Actor) => {
+    await actorsStore.setSelectedActor(actor.id, false)
+    actorsStore.setActorEditionMode(actorsStore.selectedActor)
+}
 const sortedActors = computed(() => {
     if (sortingActorsSelectedMethod.value === "isValidated") {
         return actorsStore.actors.slice().sort((a: Actor, b: Actor) => {
@@ -77,12 +82,12 @@ const sortedActors = computed(() => {
 })
 </script>
 <style lang="scss" scoped>
-.Admin__actorsPanel {
+.AdminActorPanel {
     display: flex;
     flex-direction: column;
     width: 100%;
 
-    &__title {
+    &__topBar {
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -90,7 +95,7 @@ const sortedActors = computed(() => {
         height: 48px;
         align-items: center;
 
-        &__left {
+        &--left {
             display: flex;
             align-items: center;
             flex-grow: 1;
@@ -102,31 +107,31 @@ const sortedActors = computed(() => {
         flex-direction: column;
         width: 100%;
         margin-top: 30px;
-        &__item {
+    }
+    &__contentItem {
+        display: flex;
+        flex-direction: row;
+        height: 52px;
+        align-items: center;
+        padding-left: 10px;
+        border-bottom: 1px solid rgb(var(--v-theme-main-grey));
+        &--overlay {
+            background-color: rgb(var(--v-theme-light-yellow));
+        }
+        &--col1 {
+            width: 15%;
+        }
+        &--col2 {
+            width: 40%;
+        }
+        &--col3 {
+            width: 25%;
+        }
+        &--col4 {
+            width: 20%;
             display: flex;
-            flex-direction: row;
-            height: 52px;
-            align-items: center;
-            padding-left: 10px;
-            border-bottom: 1px solid rgb(var(--v-theme-main-grey));
-            &--overlay {
-                background-color: rgb(var(--v-theme-light-yellow));
-            }
-            &__acronym {
-                width: 15%;
-            }
-            &__name {
-                width: 40%;
-            }
-            &__type {
-                width: 25%;
-            }
-            &__actions {
-                width: 20%;
-                display: flex;
-                justify-content: flex-end;
-                padding-right: 10px;
-            }
+            justify-content: flex-end;
+            padding-right: 10px;
         }
     }
 }
