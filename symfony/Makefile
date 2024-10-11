@@ -28,12 +28,7 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=c:c ## Clear the cache
 cc: sf
 
-recreate-database: drop-database create-database configure-database
-
-drop-database:
-	@$(SYMFONY) do:da:dr -f
-
-recreate-database: restart-db-container drop-database create-database
+recreate-database: restart-db-container drop-database create-database configure-database
 
 drop-database:
 	@$(SYMFONY) do:da:dr -f --if-exists 
