@@ -29,6 +29,18 @@ build-and-up: build up
 up:
 	$(DOCKER_COMP) --env-file .env --env-file .env.local up -d --remove-orphans
 
+
+ifeq (restart, $(firstword $(MAKECMDGOALS)))
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RUN_ARGS):;@:)
+endif
+
+restart:
+	$(DOCKER_COMP) restart $(RUN_ARGS)
+
+restart-db-container:
+	make restart postgres
+
 down-remove-all:
 	$(DOCKER_COMP) --env-file .env --env-file .env.local down --remove-orphans --rmi all -v
 
