@@ -17,7 +17,7 @@ const appStore = useApplicationStore();
     z-index: -1;
     background-size: contain;
     top: 0;
-    background-image: url('/img/Frame.svg');
+    background-image: url('/img/Frame.jpg');
     background-position: top right;
     position: absolute;
   }

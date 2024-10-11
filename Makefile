@@ -32,14 +32,25 @@ up:
 down:
 	$(DOCKER_COMP) down
 
+
+ifeq (restart, $(firstword $(MAKECMDGOALS)))
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RUN_ARGS):;@:)
+endif
+
+restart:
+	$(DOCKER_COMP) restart $(RUN_ARGS)
+
+restart-db-container:
+	make restart postgres
+
 down-remove-all:
 	$(DOCKER_COMP) down --remove-orphans --rmi all -v
 
 build:
 	$(DOCKER_COMP) build
 
-deploy:
-	$(DOCKER_COMP) up --build -d --remove-orphans
+deploy: build-and-up init-jwt-keypair cc
 
 docker-config:
 	$(DOCKER_COMP) config
