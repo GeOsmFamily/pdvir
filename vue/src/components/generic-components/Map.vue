@@ -157,8 +157,7 @@ defineExpose({
 <style lang="scss">
 
 .maplibregl-popup {
-    z-index: 99999;
-    transition: opacity 0.15s ease-in-out;
+    transition: opacity .15s ease-in-out;
     opacity: 0;
     user-select: none;
 

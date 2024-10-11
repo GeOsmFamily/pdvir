@@ -17,6 +17,7 @@
         },
         "popup": {
             "filters": {
+                "title": "Filtres",
                 "projectOwner": {
                     "label" : "Maitre d'ouvrage"
                 },

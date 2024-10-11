@@ -6,6 +6,7 @@ import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import { DialogKey } from '@/models/enums/DialogKey'
+import { useProjectStore } from '@/stores/projectStore'
 import type { Ref } from 'vue'
 
 export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
@@ -14,7 +15,6 @@ export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
   const activeDialog: Ref<DialogKey|null> = ref(null)
   const showEditContentDialog = ref(false)
   const route = useRoute();
-  const isProjectMapFullWidth = ref(false)
   const triggerZoomReset = ref(false)
   const breadcrumbs = computed(() => {
     activeTab.value = NavigationTabsService.getTabsNumberFromRoute(route, activeTab.value)
@@ -22,13 +22,13 @@ export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
   })
 
   const is100vh = computed(() => {
-    return isProjectMapFullWidth.value
+    return useProjectStore().isProjectMapFullWidth
   })
 
-  const isLight = computed(() => {
+  const isLightHeader = computed(() => {
     const lightUiRoutes: string[] = ['projects']
     return route.name && typeof route.name === 'string' && lightUiRoutes.includes(route.name)
   })
 
-  return { mobile, activeTab, activeDialog, breadcrumbs, is100vh, isLight, isProjectMapFullWidth, triggerZoomReset, showEditContentDialog }
+  return { mobile, activeTab, activeDialog, breadcrumbs, is100vh, isLightHeader, triggerZoomReset, showEditContentDialog }
 })

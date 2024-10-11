@@ -1,5 +1,5 @@
 <template>
-    <Modal title="Filtres">
+    <Modal :title="$t('projects.popup.filters.title')">
         <template #content>
             <div class="Modal__block">
                 <label class="Modal__label">{{ $t('projects.popup.filters.projectOwner.label') }}</label>

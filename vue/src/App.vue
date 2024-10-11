@@ -1,5 +1,5 @@
 <template>
-  <div class="App" :is-100-vh="appStore.is100vh" :is-light="appStore.isLight">
+  <div class="App" :is-100-vh="appStore.is100vh" :is-light-header="appStore.isLightHeader">
     <Header />
     <KeepAlive>
       <DialogController />
@@ -49,7 +49,7 @@ onBeforeMount(async () => {
     flex: 1 1 auto;
   }
 
-  &[is-light="true"] {
+  &[is-light-header="true"] {
     
     --dim-container-w: 80rem;
 

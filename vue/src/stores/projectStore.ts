@@ -17,6 +17,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const map: Ref<maplibregl.Map | null> = ref(null)
   const isFilterModalShown: Ref<boolean> = ref(false)
   const sortingProjectsSelectedMethod = ref(SortKey.PROJECTS_AZ)
+  const isProjectMapFullWidth = ref(false)
 
   const filters: Reactive<{
     searchValue: string,
@@ -99,7 +100,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   }
 
   return {
-    projects, filters, isFilterModalShown, sortingProjectsSelectedMethod, hoveredProjectId, hoveredProject, activeProjectId, activeProject, filteredProjects, orderedProjects, map,
+    projects, filters, isProjectMapFullWidth, isFilterModalShown, sortingProjectsSelectedMethod, hoveredProjectId, hoveredProject, activeProjectId, activeProject, filteredProjects, orderedProjects, map,
     getAll, resetFilters
   }
 })
