@@ -42,6 +42,13 @@ export default defineConfig({
         items: [
           { text: 'Architecture schema', link: '/infrastructure' },
         ]
+      },
+      {
+        collapsed: false,
+        text: 'Development',
+        items: [
+          { text: 'Request the API', link: '/development/request-the-api' },
+        ]
       }
     ],
 

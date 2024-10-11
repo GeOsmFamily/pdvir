@@ -1,5 +1,5 @@
 <template>
-    <span class="Page__Title">{{ text }}</span>
+    <span class="Page__title">{{ text }}</span>
 </template>
 <script setup lang="ts">
 defineProps({
@@ -7,7 +7,7 @@ defineProps({
 })
 </script>
 <style scoped>
-.Page__Title{
+.Page__title{
     font-family: "Ojuju", sans-serif;
     color: rgb(var(--v-theme-main-blue));
     font-size: 60px;

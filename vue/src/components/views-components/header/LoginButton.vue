@@ -9,16 +9,75 @@
             {{ $t('header.login') }}
         </v-btn>
     </router-link>
-    <v-btn 
-        v-else
-        base-color="white"
-        class="text-main-blue"
-        prepend-icon="mdi-account-circle"
-    >
-        {{ $t('header.account') }}
-    </v-btn>
+
+
+    <v-menu v-else class="cursor-pointer">
+      <template v-slot:activator="{ props }">
+        <v-btn 
+            base-color="white"
+            class="text-main-blue"
+            prepend-icon="mdi-account-circle"
+            v-bind="props"
+        >
+            {{ $t('header.account') }}
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_PROJECTS) || userStore.userIsAdmin()">
+            <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-pencil-outline"></v-icon>
+            </template>
+          <v-list-item-title>{{ $t('header.addProject') }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_ACTORS) || userStore.userIsAdmin()">
+            <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-pencil-outline"></v-icon>
+            </template>
+          <v-list-item-title>{{ $t('header.addActor') }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_RESOURCES) || userStore.userIsAdmin()">
+            <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-pencil-outline"></v-icon>
+            </template>
+          <v-list-item-title>{{ $t('header.addResource') }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_DATA) || userStore.userIsAdmin()">
+            <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-pencil-outline"></v-icon>
+            </template>
+          <v-list-item-title>{{ $t('header.addData') }}</v-list-item-title>
+        </v-list-item>
+        <v-divider v-if="userStore.userIsEditor()"/>
+        <v-list-item>
+            <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-account-circle"></v-icon>
+            </template>
+          <v-list-item-title>{{ $t('header.account') }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="userStore.userIsEditor()">
+            <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-tune"></v-icon>
+            </template>
+          <v-list-item-title>{{ $t('header.content') }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="userStore.userIsAdmin()" to="/administration">
+            <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-tune"></v-icon>
+            </template>
+          <v-list-item-title>{{ $t('header.administration') }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="userStore.signOut()">
+            <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-logout"></v-icon>
+            </template>
+          <v-list-item-title>{{ $t('header.logout') }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>    
 </template>
 <script setup lang="ts">
+import { UserRoles } from '@/models/enums/auth/UserRoles';
 import { DialogKey } from '@/models/enums/DialogKey';
 import { useUserStore } from '@/stores/userStore';
 

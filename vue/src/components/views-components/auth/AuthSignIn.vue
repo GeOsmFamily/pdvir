@@ -3,13 +3,20 @@
     <template #title>{{ $t('auth.signIn.title') }}</template>
     <template #content>
       <Form @submit="onSubmit">
-        <v-text-field v-model="email" :label="$t('auth.signIn.form.email')" />
-        <v-text-field v-model="password" type="password" :label="$t('auth.signIn.form.password')" />
-        <router-link class="AuthSignIn__forgotPassword" append :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_FORGOT_PASSWORD } }">
+        <v-text-field v-model="form.email.value.value" :label="$t('auth.signIn.form.email')"
+          :error-messages="form.email.errorMessage.value"
+          @blur="form.email.handleChange"
+        />
+        <v-text-field v-model="form.password.value.value" type="password" :label="$t('auth.signIn.form.password')"
+          :error-messages="form.password.errorMessage.value"
+          @blur="form.password.handleChange"
+        />
+        <router-link class="AuthDialog__forgotPassword" append :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_FORGOT_PASSWORD } }">
           {{ $t('auth.signIn.form.forgotPassword') }}
         </router-link>
         <v-checkbox :label="$t('auth.signIn.form.rememberMe')"></v-checkbox>
-        <v-btn color="main-red" type="submit" block>{{ $t('auth.signIn.form.submit') }}</v-btn>
+        <div class="AuthDialog__error" v-if="userStore.errorWhileSignInOrSignUp">{{ $t('auth.signIn.error') }}</div>
+        <v-btn color="main-red" type="submit">{{ $t('auth.signIn.form.submit') }}</v-btn>
       </Form>
     </template>
     <template #bottom-content>
@@ -24,35 +31,14 @@
 <script setup lang="ts">
 import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
 import { DialogKey } from '@/models/enums/DialogKey';
-import { useField, useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod';
-import * as zod from 'zod';
 import Form from '@/components/generic-components/Form.vue';
+import { useUserStore } from '@/stores/userStore';
+import { SignInForm } from '@/services/auth/forms/SignInForm';
 
-const validationSchema = toTypedSchema(
-  zod.object({
-    email: zod.string().min(1, { message: 'This is required' }).email({ message: 'Must be a valid email' }),
-    password: zod.string().min(1, { message: 'This is required' }).min(8, { message: 'Too short' }),
-  })
-);
-
-const { handleSubmit, errors } = useForm({
-  validationSchema,
-});
-
-const { value: email } = useField('email');
-const { value: password } = useField('password');
-
-const onSubmit = handleSubmit(values => {
-  alert(JSON.stringify(values, null, 2));
+const userStore = useUserStore();
+const {form, errors, handleSubmit, isSubmitting} = SignInForm.getSignInForm();
+const onSubmit = handleSubmit(async (values) => {
+  userStore.signIn(values);
 });
 </script>
 
-<style lang="scss">
-.AuthSignIn {
-  &__forgotPassword {
-    font-size: $font-size-sm;
-    margin-bottom: 1rem;
-  }
-}
-</style>

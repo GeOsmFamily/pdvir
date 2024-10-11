@@ -7,7 +7,7 @@
             <span class="mt-6">{{ $t('actors.desc') }}</span>
             <Autocomplete 
                 :placeholder="$t('actors.search')"
-                :items="actorsStore.actors"
+                :items="validatedActors"
                 item-title="name"
                 item-value="id"
                 class="mt-6"
@@ -17,9 +17,12 @@
     <div class="Actors__filters">
         <SectionTitle :text="$t('actors.filtersTitle')" />
         <Wip />
+        <div>
+            <v-btn color="main-red" prepend-icon="mdi-plus" @click="addActor()">{{ $t('actors.add') }}</v-btn>
+        </div>
     </div>
-    <div class="Actors__content">
-        <v-container>
+    <div class="Actors__content mt-4">
+        <v-container class="pa-0">
             <v-row>
                 <v-col v-for="actor in paginatedActors" cols="12" md="4">
                     <ActorCard :actor="actor"/>
@@ -46,13 +49,18 @@ import { computed, ref } from 'vue';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
+const validatedActors = computed(() => actorsStore.actors.filter(x => x.isValidated));
 
 const page = ref(1);
 const itemsPerPage = appStore.mobile ? 5 : 15
 const paginatedActors = computed(() => {
       const start = (page.value - 1) * itemsPerPage;
       const end = start + itemsPerPage;
-      return actorsStore.actors.slice(start, end);
+      return validatedActors.value.slice(start, end);
     })
-const totalPages = computed(() => Math.ceil(actorsStore.actors.length / itemsPerPage));
+const totalPages = computed(() => Math.ceil(validatedActors.value.length / itemsPerPage));
+
+function addActor() {
+    actorsStore.activateActorEdition(null);
+}
 </script>

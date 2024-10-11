@@ -12,10 +12,11 @@ export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
   const { mobile } = useDisplay()
   const activeTab = ref(0)
   const activeDialog: Ref<DialogKey|null> = ref(null)
+  const showEditContentDialog = ref(false)
   const route = useRoute();
   const breadcrumbs = computed(() => {
     activeTab.value = NavigationTabsService.getTabsNumberFromRoute(route, activeTab.value)
     return BreadcrumbsService.getBreadcrumbsItems(route)
   })
-  return { mobile, activeTab, activeDialog, breadcrumbs }
+  return { mobile, activeTab, activeDialog, breadcrumbs, showEditContentDialog }
 })

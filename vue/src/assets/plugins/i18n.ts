@@ -1,6 +1,6 @@
 import { createI18n } from 'vue-i18n'
 import commonFR from '@/assets/translations/fr/common.json'
-import mainPagesFR from '@/assets/translations/fr/main_pages.json'
+import actorsFR from '@/assets/translations/fr/actors.json'
 import adminFR from '@/assets/translations/fr/admin.json'
 import authFR from '@/assets/translations/fr/auth.json'
 
@@ -9,7 +9,7 @@ export const i18nInstance = createI18n({
   locale: 'fr',
   fallbackLocale: 'fr',
   messages: {
-    fr: {...commonFR, ...mainPagesFR, ...adminFR, ...authFR }
+    fr: {...commonFR, ...actorsFR, ...adminFR, ...authFR }
   }
 })
 

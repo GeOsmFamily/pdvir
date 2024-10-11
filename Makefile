@@ -2,9 +2,16 @@ include vue/Makefile
 include symfony/Makefile
 
 -include local.mk
+-include .env
 -include .env.local
 
-DOCKER_COMP = docker compose
+ifdef ENV
+env := $(ENV)
+else
+env := prod
+endif
+
+DOCKER_COMP = docker compose --env-file .env --env-file .env.${ENV} --env-file .env.local
 
 DOCKER_EXEC_VUE = $(DOCKER_COMP) exec vue
 DOCKER_EXEC_PHP = $(DOCKER_COMP) exec frankenphp
@@ -13,21 +20,17 @@ VUE = $(DOCKER_EXEC_VUE)
 SYMFONY = $(DOCKER_EXEC_PHP) php bin/console
 COMPOSER = $(DOCKER_EXEC_PHP) composer
 
-ifdef ENV
-env := $(ENV)
-else
-env := prod
-endif
-
 dev: up show-urls
 build-dev: build-and-up show-urls
 
-stop: down
-init: build init-hosts
+init: build init-jwt-keypair init-hosts
 build-and-up: build up
 
 up:
-	$(DOCKER_COMP) --env-file .env --env-file .env.local up -d --remove-orphans
+	$(DOCKER_COMP) up -d --remove-orphans
+
+down:
+	$(DOCKER_COMP) down
 
 
 ifeq (restart, $(firstword $(MAKECMDGOALS)))
@@ -42,16 +45,16 @@ restart-db-container:
 	make restart postgres
 
 down-remove-all:
-	$(DOCKER_COMP) --env-file .env --env-file .env.local down --remove-orphans --rmi all -v
+	$(DOCKER_COMP) down --remove-orphans --rmi all -v
 
 build:
-	$(DOCKER_COMP) --env-file .env --env-file .env.local build
+	$(DOCKER_COMP) build
 
 deploy:
-	$(DOCKER_COMP) --env-file .env --env-file .env.${ENV} --env-file .env.local up --build -d --remove-orphans
+	$(DOCKER_COMP) up --build -d --remove-orphans
 
 docker-config:
-	$(DOCKER_COMP) --env-file .env --env-file .env.local config
+	$(DOCKER_COMP) config
 
 YELLOW=\033[1;33m
 GREEN=\033[1;32m
