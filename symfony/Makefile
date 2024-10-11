@@ -31,7 +31,7 @@ cc: sf
 reset-database-schema:
 	@$(SYMFONY) do:s:u -f
 
-recreate-database: restart-db-container drop-database create-database configure-database
+recreate-database: restart-db-container drop-database create-database
 
 drop-database:
 	@$(SYMFONY) do:da:dr -f --if-exists 
