@@ -23,7 +23,6 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Services/State/'
-            - '../src/DataFixtures/'
             - '../src/Services/Serializer/'
 
     
