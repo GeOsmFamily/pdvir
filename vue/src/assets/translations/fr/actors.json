@@ -29,7 +29,9 @@
             "import": "Importer un fichier"
         },
         "admin": {
-            "sort": "Trier par"
+            "sort": "Trier par",
+            "goToPage": "Aller sur la page de l'acteur",
+            "delete": "Supprimer"
         }
     },
     "actorPage": {

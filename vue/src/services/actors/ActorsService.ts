@@ -42,6 +42,10 @@ export class ActorsService {
       return data as Actor
     }
 
+    static async deleteActor(id: string): Promise<void> {
+      await apiClient.delete(`/api/actors/${id}`)
+    }
+
     static async getActorsExpertisesList(): Promise<ActorExpertise[]> {
       const data = (await apiClient.get('/api/actor_expertises', { headers:  {'accept': 'application/ld+json'}})).data
       return data["hydra:member"]

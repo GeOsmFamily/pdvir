@@ -40,7 +40,15 @@ AdminActorPanel<template>
                     </template>
                     <template v-else>
                         <v-btn icon="mdi-pencil-outline" @click="editActor(actor)"></v-btn>
-                        <v-btn icon="mdi-dots-vertical"></v-btn>
+                        <v-btn icon="mdi-dots-vertical">
+                            <v-icon icon="mdi-dots-vertical"></v-icon>
+                            <v-menu activator="parent" location="left">
+                                <v-list class="AdminActorPanel__additionnalMenu">
+                                    <v-list-item :to="`/actors/${actor.name}`">{{ $t('actors.admin.goToPage')}}</v-list-item>
+                                    <v-list-item @click="actorsStore.deleteActor(actor.id)">{{ $t('actors.admin.delete')}}</v-list-item>
+                                </v-list>
+                            </v-menu>
+                        </v-btn>
                     </template>
                 </div>
             </div>
@@ -133,6 +141,10 @@ const sortedActors = computed(() => {
             justify-content: flex-end;
             padding-right: 10px;
         }
+    }
+    &__additionnalMenu {
+        font-weight: 700;
+        color: rgb(var(--v-theme-main-blue));
     }
 }
 

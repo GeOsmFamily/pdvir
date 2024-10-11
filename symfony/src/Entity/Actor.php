@@ -12,6 +12,7 @@ use App\Model\Enums\UserRoles;
 use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use Symfony\Component\Uid\Uuid;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\ActorVoter;
 use App\Entity\AdministrativeScope;
@@ -20,6 +21,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bundle\SecurityBundle\Security;
 use App\Services\State\Provider\ActorProvider;
 use App\Services\State\Processor\ActorProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -47,7 +49,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         new Put(
             processor: ActorProcessor::class,
             security: 'is_granted("'.ActorVoter::EDIT.'", object)'
-        )
+        ),
+        new Delete(
+            security: 'is_granted("ROLE_ADMIN")'
+        ),
     ],
     normalizationContext: ['groups' => [self::ACTOR_READ_ITEM]],
     denormalizationContext: ['groups' => [self::ACTOR_WRITE]],

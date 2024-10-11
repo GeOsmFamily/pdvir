@@ -58,6 +58,13 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     useApplicationStore().showSnackBar = true
   }
 
+  async function deleteActor(id: string) {
+    await ActorsService.deleteActor(id)
+    await getActors()
+    useApplicationStore().snackBarMessage = 'L\'acteur a bien été supprimé'
+    useApplicationStore().showSnackBar = true
+  }
+
   return { 
     dataLoaded,
     actors,
@@ -70,6 +77,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     setSelectedActor,
     actorEdition,
     setActorEditionMode,
-    createOrEditActor
+    createOrEditActor,
+    deleteActor
   }
 })
