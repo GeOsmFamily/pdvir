@@ -2,6 +2,7 @@ include vue/Makefile
 include symfony/Makefile
 
 -include local.mk
+-include .env
 -include .env.local
 
 ifdef ENV
