@@ -32,7 +32,7 @@ RUN set -eux; \
 	;
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
-ENV COMPOSER_ALLOW_SUPERUSER=1 DATABASE_URL=$DATABASE_URL
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY --link docker/frankenphp/conf.d/app.ini $PHP_INI_DIR/conf.d/
 COPY --link --chmod=755 docker/frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
@@ -66,8 +66,11 @@ FROM docs:latest AS docs_prod
 # Prod FrankenPHP image
 FROM frankenphp_base AS frankenphp_prod
 
-ENV APP_ENV=prod SENTRY_DSN=$SENTRY_DSN
-ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
+ENV APP_ENV=prod \
+		SENTRY_DSN=$SENTRY_DSN \
+		DATABASE_URL=$DATABASE_URL \
+		FRANKENPHP_CONFIG="import worker.Caddyfile"
+# ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
