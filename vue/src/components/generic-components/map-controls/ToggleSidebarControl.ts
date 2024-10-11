@@ -1,4 +1,4 @@
-import { useApplicationStore } from "@/stores/applicationStore";
+import { useProjectStore } from "@/stores/projectStore";
 export default class ToggleSidebarControl {
   _map: any
   _container: any
@@ -14,8 +14,8 @@ export default class ToggleSidebarControl {
     btn.appendChild(span)
     this._container.appendChild(btn);
     this._container.addEventListener('click', () => {
-      useApplicationStore().isProjectMapFullWidth = !useApplicationStore().isProjectMapFullWidth
-      btn.setAttribute('active', useApplicationStore().isProjectMapFullWidth.toString())
+      useProjectStore().isProjectMapFullWidth = !useProjectStore().isProjectMapFullWidth
+      btn.setAttribute('active', useProjectStore().isProjectMapFullWidth.toString())
     })
     
     return this._container;

@@ -70,7 +70,6 @@ const sortOptions = Object.values(SortKey).map((key) => {
 
 const setHoveredProject = (id: number) => {
     projectStore.hoveredProjectId = id
-    console.log('setHoveredProject', projectStore.hoveredProjectId);
 }
 
 const setSortKey = (key: SortKey) => {
@@ -81,7 +80,7 @@ onBeforeMount(async () => await projectStore.getAll())
 
 const projects = computed(() => projectStore.projects)
 const filteredProjects = computed(() => projectStore.filteredProjects)
-const isProjectMapFullWidth = computed(() => applicationStore.isProjectMapFullWidth)
+const isProjectMapFullWidth = computed(() => projectStore.isProjectMapFullWidth)
 const projectsCount = computed(() => filteredProjects.value.length)
 const projectNames = computed(() => projects.value.map((project: Project) => project.name))
 
