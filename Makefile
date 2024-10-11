@@ -50,8 +50,7 @@ down-remove-all:
 build:
 	$(DOCKER_COMP) build
 
-deploy:
-	$(DOCKER_COMP) up --build -d --remove-orphans
+deploy: build-and-up cc
 
 docker-config:
 	$(DOCKER_COMP) config
