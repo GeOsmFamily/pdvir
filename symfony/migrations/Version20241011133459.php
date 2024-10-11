@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241008065301 extends AbstractMigration
+final class Version20241011133459 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -57,7 +57,7 @@ final class Version20241008065301 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_E73AB79010DAF24A ON contracted_projects_actors (actor_id)');
         $this->addSql('COMMENT ON COLUMN contracted_projects_actors.actor_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE thematic (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_validated BOOLEAN NOT NULL, requested_roles JSON DEFAULT NULL, organisation VARCHAR(255) DEFAULT NULL, position VARCHAR(255) DEFAULT NULL, phone VARCHAR(20) DEFAULT NULL, sign_up_message TEXT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) DEFAULT NULL, is_validated BOOLEAN NOT NULL, requested_roles JSON DEFAULT NULL, organisation VARCHAR(255) DEFAULT NULL, position VARCHAR(255) DEFAULT NULL, phone VARCHAR(20) DEFAULT NULL, sign_up_message TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('ALTER TABLE actor ADD CONSTRAINT FK_447556F9B03A8386 FOREIGN KEY (created_by_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE actor_actor_expertise ADD CONSTRAINT FK_4A438EAD10DAF24A FOREIGN KEY (actor_id) REFERENCES actor (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE actor_actor_expertise ADD CONSTRAINT FK_4A438EAD916905AC FOREIGN KEY (actor_expertise_id) REFERENCES actor_expertise (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
