@@ -14,7 +14,7 @@ export class BreadcrumbsService {
                 newRoute += segment
                 // Check if traduction exists
                 if (text === key) {
-                    breadcrumbs.push({title: segment, to: newRoute});
+                    breadcrumbs.push({title: decodeURI(segment), to: newRoute});
                 } else {
                     breadcrumbs.push({title: text, to: newRoute});
                 }

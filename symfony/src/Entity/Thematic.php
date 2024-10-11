@@ -2,22 +2,32 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ThematicRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ThematicRepository::class)]
+#[UniqueEntity('name')]
 #[ApiResource(
     paginationEnabled: false,
     operations: [
-        new GetCollection(
-            normalizationContext: ['groups' => [self::THEMATIC_READ]]
+        new GetCollection(),
+        new Post(
+            security: 'is_granted("ROLE_ADMIN")'
+        ),
+        new Delete(
+            security: 'is_granted("ROLE_ADMIN")'
         )
-    ])]
+    ]
+)]
 class Thematic
 {
     public const THEMATIC_READ = 'thematic:read';
@@ -29,7 +39,7 @@ class Thematic
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::THEMATIC_READ, Project::PROJECT_READ_ALL])]
+    #[Groups([self::THEMATIC_READ, Actor::ACTOR_READ_ITEM, Project::PROJECT_READ_ALL])]
     private ?string $name = null;
 
     /**
@@ -38,9 +48,16 @@ class Thematic
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'thematics')]
     private Collection $projects;
 
+    /**
+     * @var Collection<int, Actor>
+     */
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'thematics')]
+    private Collection $actors;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->actors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +99,33 @@ class Thematic
     {
         if ($this->projects->removeElement($project)) {
             $project->removeThematic($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Actor>
+     */
+    public function getActors(): Collection
+    {
+        return $this->actors;
+    }
+
+    public function addActor(Actor $actor): static
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors->add($actor);
+            $actor->addThematic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actor $actor): static
+    {
+        if ($this->actors->removeElement($actor)) {
+            $actor->removeThematic($this);
         }
 
         return $this;

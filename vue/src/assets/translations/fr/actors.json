@@ -13,14 +13,35 @@
             "editTitle": "Modifier un acteur",
             "name": "Nom de l'acteur",
             "acronym": "Acronyme",
+            "category": "Catégorie",
+            "expertise": "Principaux domaines d'expertise",
+            "thematic": "Principales thématiques",
+            "adminScope": "Zones d'intervention",
+            "description": "Description",
             "contact": "Contact",
+            "officeName": "Nom du siège",
+            "officeAddress": "Adresse du siège",
+            "contactName": "Nom du contact",
+            "contactPosition": "Fonction du contact",
             "website": "Site internet",
             "phone": "Téléphone (Whatsapp)",
             "drag": "Faites glisser un fichier ici ou",
             "import": "Importer un fichier"
         },
         "admin": {
-            "sort": "Trier par"
+            "sort": "Trier par",
+            "goToPage": "Aller sur la page de l'acteur",
+            "delete": "Supprimer"
         }
+    },
+    "actorPage": {
+        "description": "Activité",
+        "projects": "Projets",
+        "data": "Données",
+        "resources": "Ressources",
+        "services": "Services",
+        "images": "En images",
+        "adminScope": "Zone d'intervention",
+        "contact": "Point de contact"
     }
 }

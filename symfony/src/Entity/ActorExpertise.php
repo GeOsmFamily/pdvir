@@ -2,8 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\Actor;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\ActorExpertiseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,16 +16,32 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ActorExpertiseRepository::class)]
 #[UniqueEntity('name')]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Post(
+            security: 'is_granted("ROLE_ADMIN")'
+        ),
+        new Delete(
+            security: 'is_granted("ROLE_ADMIN")'
+        )
+    ],
+    normalizationContext: ['groups' => [self::GROUP_READ]],
+    denormalizationContext: ['groups' => [self::GROUP_WRITE]],
+)]
 class ActorExpertise
 {
+    private const GROUP_READ = 'expertise:read';
+    private const GROUP_WRITE = 'expertise:write';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM_COLLECTION, Actor::ACTOR_READ_ITEM])]
+    #[Groups([Actor::ACTOR_READ_ITEM_COLLECTION, Actor::ACTOR_READ_ITEM, self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $name = null;
 
     /**

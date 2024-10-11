@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Thematic;
+use App\Enum\ActorCategory;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
 use App\Enum\ActorCategory;
@@ -12,13 +13,16 @@ use App\Model\Enums\UserRoles;
 use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use Symfony\Component\Uid\Uuid;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\ActorVoter;
 use App\Entity\AdministrativeScope;
 use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bundle\SecurityBundle\Security;
 use App\Services\State\Provider\ActorProvider;
 use App\Services\State\Processor\ActorProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,12 +44,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             security: "is_granted('".UserRoles::ROLE_EDITOR_ACTORS."')"
         ),
         new Patch(
+            processor: ActorProcessor::class,
             security: 'is_granted("'.ActorVoter::EDIT.'", object)'
         ),
         new Put(
             processor: ActorProcessor::class,
             security: 'is_granted("'.ActorVoter::EDIT.'", object)'
-        )
+        ),
+        new Delete(
+            security: 'is_granted("ROLE_ADMIN")'
+        ),
     ],
     normalizationContext: ['groups' => [self::ACTOR_READ_ITEM]],
     denormalizationContext: ['groups' => [self::ACTOR_WRITE]],
@@ -55,11 +63,15 @@ class Actor
     public const ACTOR_READ_ITEM_COLLECTION = 'actor:read_collection';
     public const ACTOR_READ_ITEM = 'actor:read_item';
     private const ACTOR_WRITE = 'actor:write';
+
+    use TimestampableEntity;
+
+    
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, Project::PROJECT_READ_ALL])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
@@ -67,7 +79,7 @@ class Actor
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL])]
     private ?string $acronym = null;
 
     #[ORM\ManyToOne(inversedBy: 'actorsCreated')]
@@ -76,7 +88,7 @@ class Actor
     private ?User $createdBy = null;
 
     #[ORM\Column]
-    #[Groups([self::ACTOR_READ_ITEM])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_READ_ITEM_COLLECTION])]
     private ?bool $isValidated = false;
 
     #[ORM\Column(enumType: ActorCategory::class)]
@@ -97,24 +109,9 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $thematics;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private ?\DateTimeInterface $creationDate = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private ?\DateTimeInterface $lastUpdate = null;
-
     #[ORM\Column(type: Types::TEXT)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $description = null;
-
-    /**
-     * @var Collection<int, AdministrativeScope>
-     */
-    #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private Collection $administrativeScopes;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
@@ -156,12 +153,19 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $logo = null;
 
+    /**
+     * @var Collection<int, AdministrativeScope>
+     */
+    #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private Collection $administrativeScopes;
+
     public function __construct()
     {
         $this->expertises = new ArrayCollection();
         $this->thematics = new ArrayCollection();
-        $this->administrativeScopes = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->administrativeScopes = new ArrayCollection();
     }
 
     public function getId(): ?Uuid {
@@ -204,12 +208,12 @@ class Actor
         return $this;
     }
 
-    public function isValidated(): ?bool
+    public function getIsValidated(): ?bool
     {
         return $this->isValidated;
     }
 
-    public function setValidated(bool $isValidated): static
+    public function setIsValidated(bool $isValidated): static
     {
         $this->isValidated = $isValidated;
 
@@ -276,30 +280,6 @@ class Actor
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
-    {
-        return $this->creationDate;
-    }
-
-    public function setCreationDate(\DateTimeInterface $creationDate): static
-    {
-        $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->lastUpdate;
-    }
-
-    public function setLastUpdate(\DateTimeInterface $lastUpdate): static
-    {
-        $this->lastUpdate = $lastUpdate;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -308,30 +288,6 @@ class Actor
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, AdministrativeScope>
-     */
-    public function getAdministrativeScopes(): Collection
-    {
-        return $this->administrativeScopes;
-    }
-
-    public function addAdministrativeScope(AdministrativeScope $administrativeScope): static
-    {
-        if (!$this->administrativeScopes->contains($administrativeScope)) {
-            $this->administrativeScopes->add($administrativeScope);
-        }
-
-        return $this;
-    }
-
-    public function removeAdministrativeScope(AdministrativeScope $administrativeScope): static
-    {
-        $this->administrativeScopes->removeElement($administrativeScope);
 
         return $this;
     }
@@ -348,12 +304,12 @@ class Actor
         return $this;
     }
 
-    public function getofficeAddress(): ?string
+    public function getOfficeAddress(): ?string
     {
         return $this->officeAddress;
     }
 
-    public function setofficeAddress(?string $officeAddress): static
+    public function setOfficeAddress(?string $officeAddress): static
     {
         $this->officeAddress = $officeAddress;
 
@@ -458,6 +414,30 @@ class Actor
     public function setLogo(?string $logo): static
     {
         $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AdministrativeScope>
+     */
+    public function getAdministrativeScopes(): Collection
+    {
+        return $this->administrativeScopes;
+    }
+
+    public function addAdministrativeScope(AdministrativeScope $administrativeScope): static
+    {
+        if (!$this->administrativeScopes->contains($administrativeScope)) {
+            $this->administrativeScopes->add($administrativeScope);
+        }
+
+        return $this;
+    }
+
+    public function removeAdministrativeScope(AdministrativeScope $administrativeScope): static
+    {
+        $this->administrativeScopes->removeElement($administrativeScope);
 
         return $this;
     }

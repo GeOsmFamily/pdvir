@@ -1,5 +1,5 @@
 import { i18n } from '@/assets/plugins/i18n';
-import { NavigationTabs } from '@/models/enums/NavigationTabs';
+import { NavigationTabs } from '@/models/enums/app/NavigationTabs';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 export class NavigationTabsService {
     static getContent(){

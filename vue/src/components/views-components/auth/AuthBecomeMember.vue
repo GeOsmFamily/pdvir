@@ -76,8 +76,8 @@
 
 <script setup lang="ts">
 import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
-import Form from '@/components/generic-components/Form.vue';
-import { DialogKey } from '@/models/enums/DialogKey';
+import Form from '@/components/generic-components/global/Form.vue';
+import { DialogKey } from '@/models/enums/app/DialogKey';
 import { I18nT } from 'vue-i18n';
 import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
 import { useUserStore } from '@/stores/userStore';

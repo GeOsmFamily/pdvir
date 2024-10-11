@@ -27,10 +27,10 @@
 
 <script setup lang="ts">
 import type { Project }  from '@/models/interfaces/Project';
-import Card from '@/components/views-components/global/Card.vue';
-import LikeButton from '@/components/views-components/global/LikeButton.vue';
+import Card from '@/components/generic-components/global/Card.vue';
 import ChipList from '@/components/generic-components/ChipList.vue';
 import { useDate } from '@/composables/useDate';
+import LikeButton from '@/components/generic-components/global/LikeButton.vue';
 defineProps<{
   project: Project | null;
   map?: boolean;

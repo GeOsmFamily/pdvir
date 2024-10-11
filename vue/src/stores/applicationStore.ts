@@ -1,12 +1,12 @@
-import { StoresList } from '@/models/enums/StoresList'
+import { StoresList } from '@/models/enums/app/StoresList'
 import { NavigationTabsService } from '@/services/application/NavigationTabsService'
 import { BreadcrumbsService } from '@/services/application/BreadcrumbsService'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDisplay } from 'vuetify'
-import { DialogKey } from '@/models/enums/DialogKey'
 import { useProjectStore } from '@/stores/projectStore'
+import { DialogKey } from '@/models/enums/app/DialogKey'
 import type { Ref } from 'vue'
 
 export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
@@ -16,6 +16,9 @@ export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
   const showEditContentDialog = ref(false)
   const route = useRoute();
   const triggerZoomReset = ref(false)
+  const showSnackBar = ref(false)
+  const snackBarMessage = ref('')
+
   const breadcrumbs = computed(() => {
     activeTab.value = NavigationTabsService.getTabsNumberFromRoute(route, activeTab.value)
     return BreadcrumbsService.getBreadcrumbsItems(route)
@@ -30,5 +33,5 @@ export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
     return route.name && typeof route.name === 'string' && lightUiRoutes.includes(route.name)
   })
 
-  return { mobile, activeTab, activeDialog, breadcrumbs, is100vh, isLightHeader, triggerZoomReset, showEditContentDialog }
+  return { mobile, showSnackBar, snackBarMessage, activeTab, activeDialog, breadcrumbs, is100vh, isLightHeader, triggerZoomReset, showEditContentDialog }
 })

@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import CheckPoint from '@/components/generic-components/CheckPoint.vue';
+import CheckPoint from '@/components/generic-components/global/CheckPoint.vue';
 import AuthDialog from '@/components/views-components/auth/AuthDialog.vue';
 import { useRouter } from 'vue-router';
 

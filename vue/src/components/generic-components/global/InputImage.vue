@@ -39,7 +39,7 @@
 </template>
   
 <script setup lang="ts">
-import { ContentImageType } from '@/models/enums/ContentImageType';
+import { ContentImageType } from '@/models/enums/app/ContentImageType';
 import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
 import { InputImageValidator } from '@/services/files/InputImageValidator';
 import { type Ref, ref } from 'vue';

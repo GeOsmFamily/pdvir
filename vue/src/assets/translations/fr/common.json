@@ -45,6 +45,8 @@
         }
     },
     "forms": {
+        "submit": "Valider",
+        "cancel": "Annuler",
         "errorMessages": {
                 "required": "Ce champs est requis",
                 "minlength": "Ce champs doit avoir au moins {min} caractères",
@@ -72,6 +74,12 @@
         "reset": "Réinitialiser"
     },
     "placeholders": {
-        "all": "Tous"
+        "all": "Tous",
+        "sortBy": "Trier par"
+    },
+    "content": {
+        "website": "Visiter le site internet",
+        "mail": "Contacter par mail",
+        "edit": "Modifier"
     }
 }

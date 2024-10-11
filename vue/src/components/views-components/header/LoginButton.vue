@@ -30,7 +30,9 @@
             </template>
           <v-list-item-title>{{ $t('header.addProject') }}</v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_ACTORS) || userStore.userIsAdmin()">
+        <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_ACTORS) || userStore.userIsAdmin()" 
+          @click="actorsStore.setActorEditionMode(null)"
+        >
             <template v-slot:prepend>
                 <v-icon color="main-blue" icon="mdi-pencil-outline"></v-icon>
             </template>
@@ -78,8 +80,10 @@
 </template>
 <script setup lang="ts">
 import { UserRoles } from '@/models/enums/auth/UserRoles';
-import { DialogKey } from '@/models/enums/DialogKey';
+import { DialogKey } from '@/models/enums/app/DialogKey';
+import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';
 
 const userStore = useUserStore()
+const actorsStore = useActorsStore()
 </script>

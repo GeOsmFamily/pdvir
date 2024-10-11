@@ -1,8 +1,8 @@
 import type { Actor } from "@/models/interfaces/Actor";
 import type { Thematic } from "@/models/interfaces/Thematic";
-import type { Status } from "@/models/enums/Status";
 import type { AdministrativeScope } from "@/models/enums/AdministrativeScope";
 import type { Timestampable } from "@/models/interfaces/common/Timestampable";
+import type { Status } from "@/models/enums/contents/Status";
 
 export interface Project extends Timestampable {
   id: number;

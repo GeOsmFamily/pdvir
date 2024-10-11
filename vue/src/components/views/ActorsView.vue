@@ -7,17 +7,19 @@
             <span class="mt-6">{{ $t('actors.desc') }}</span>
             <Autocomplete 
                 :placeholder="$t('actors.search')"
-                :items="validatedActors"
+                :items="actorsStore.actors"
+                :customFilter="searchActors"
                 item-title="name"
                 item-value="id"
                 class="mt-6"
+                @updateSelect="updateSelectedActor"
             />
         </div>
     </div>
     <div class="Actors__filters">
         <SectionTitle :text="$t('actors.filtersTitle')" />
         <Wip />
-        <div>
+        <div class="mt-3" v-if="userStore.userIsAdmin() || userStore.userHasRole(UserRoles.EDITOR_ACTORS)">
             <v-btn color="main-red" prepend-icon="mdi-plus" @click="addActor()">{{ $t('actors.add') }}</v-btn>
         </div>
     </div>
@@ -39,28 +41,43 @@
 </template>
 <script setup lang="ts">
 import { useActorsStore } from '@/stores/actorsStore';
-import Autocomplete from '@/components/generic-components/Autocomplete.vue';
+import Autocomplete from '@/components/generic-components/global/Autocomplete.vue';
 import PageTitle from '@/components/generic-components/text-elements/PageTitle.vue';
 import SectionTitle from '@/components/generic-components/text-elements/SectionTitle.vue';
-import Wip from '@/components/generic-components/Wip.vue';
+import Wip from '@/components/generic-components/global/Wip.vue';
 import ActorCard from '@/components/views-components/actors/ActorCard.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
-import { computed, ref } from 'vue';
-
+import { useUserStore } from '@/stores/userStore';
+import { computed, onMounted, ref } from 'vue';
+import { UserRoles } from '@/models/enums/auth/UserRoles';
+;
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
-const validatedActors = computed(() => actorsStore.actors.filter(x => x.isValidated));
+const userStore = useUserStore();
 
 const page = ref(1);
 const itemsPerPage = appStore.mobile ? 5 : 15
 const paginatedActors = computed(() => {
       const start = (page.value - 1) * itemsPerPage;
       const end = start + itemsPerPage;
-      return validatedActors.value.slice(start, end);
+      return actorsStore.actors.slice(start, end);
     })
-const totalPages = computed(() => Math.ceil(validatedActors.value.length / itemsPerPage));
+const totalPages = computed(() => Math.ceil(actorsStore.actors.length / itemsPerPage));
 
 function addActor() {
-    actorsStore.activateActorEdition(null);
+    actorsStore.setActorEditionMode(null);
+}
+
+function searchActors(value: string, queryText: string, itemText: any) {
+    const searchText = queryText.toLowerCase();    
+    return (
+        itemText.raw.name.toLowerCase().indexOf(searchText) > -1 ||
+        itemText.raw.acronym.toLowerCase().indexOf(searchText) > -1 ||
+        itemText.raw.category.toLowerCase().indexOf(searchText) > -1 ||
+        itemText.raw.expertises.some((exp: string) => exp.toLowerCase().includes(searchText))
+    )
+}
+function updateSelectedActor(id: string) {
+    actorsStore.setSelectedActor(id);
 }
 </script>

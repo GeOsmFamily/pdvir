@@ -1,36 +1,36 @@
 <template>
-    <Card
-        class="ActorCard"
+    <InfoCard
         :title="actor.name"
         :subTitle="actor.acronym"
-        :to="getActorUrl(actor.name)"
-        >
-        <template #content>
-            <span style="font-size: 14px;">Acteur institutionnel</span>
+        isActorCard
+        @click="actorStore.setSelectedActor(actor.id)"
+    >
+        <template #content >
+            <span style="font-size: 14px;">{{ actor.category }}</span>
             <div class="ActorCard__logoCtn">
                 <img class="ActorCard__logo" :src="actor.logo">
             </div>
         </template>
         <template #footer-left>
+            <ShareButton :additionnal-path="actor.name"/>
             <LikeButton />
         </template>
         <template #footer-right>
             <v-icon class="Card__actionIcon" icon="mdi mdi-arrow-right" color="light-blue"></v-icon>
         </template>
-    </Card>
+    </InfoCard>
 </template>
 
 <script setup lang="ts">
 import type { Actor }  from '@/models/interfaces/Actor';
-import Card from '@/components/views-components/global/Card.vue';
-import LikeButton from '@/components/views-components/global/LikeButton.vue';
+import InfoCard from '@/components/generic-components/global/InfoCard.vue';
+import LikeButton from '@/components/generic-components/global/LikeButton.vue';
+import ShareButton from '@/components/generic-components/global//ShareButton.vue';
+import { useActorsStore } from '@/stores/actorsStore';
 defineProps<{
-  actor: Actor;
+  actor: Actor
 }>();
-
-const getActorUrl = (name: string) => {
-    return `/actors/${name}`
-}
+const actorStore = useActorsStore();
 </script>
 
 <style lang="scss">
@@ -38,8 +38,8 @@ const getActorUrl = (name: string) => {
     height: 330px;
     &__logoCtn {
         margin-top: 20px;
-        height: 140px;
-        width: 140px;
+        height: 6em;
+        width: 6em;
 
         .ActorCard__logo{
             max-width: 100%;
