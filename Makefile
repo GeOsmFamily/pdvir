@@ -50,7 +50,7 @@ down-remove-all:
 build:
 	$(DOCKER_COMP) build
 
-deploy: build-and-up cc
+deploy: build-and-up init-jwt-keypair cc
 
 docker-config:
 	$(DOCKER_COMP) config
