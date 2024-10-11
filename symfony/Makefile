@@ -33,8 +33,13 @@ recreate-database: drop-database create-database configure-database
 drop-database:
 	@$(SYMFONY) do:da:dr -f
 
+recreate-database: restart-db-container drop-database create-database
+
+drop-database:
+	@$(SYMFONY) do:da:dr -f --if-exists 
+
 create-database:
-	@$(SYMFONY) do:da:cr
+	@$(SYMFONY) do:da:cr --if-not-exists
 
 run-migration rerun-migration:
 	@$(SYMFONY) do:mi:mi -n --allow-no-migration
