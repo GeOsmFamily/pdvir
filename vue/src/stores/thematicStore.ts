@@ -1,4 +1,4 @@
-import { StoresList } from '@/models/enums/StoresList'
+import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
 import type { Thematic } from '@/models/interfaces/Thematic'

@@ -1,74 +1,82 @@
 <template>
-        <v-hover>
-            <template v-slot:default="{ isHovering, props }">
-                <v-card
-                    v-bind="props"
-                    variant="outlined"
-                    class="InfoCard CardShadow"
-                    @click="emit('click')"
-                >
-                    <span class="InfoCard__subTitle" :class="{ 'text-uppercase': isActorCard }" v-if="subTitle" >{{ subTitle }}</span>
-                    <span class="InfoCard__title">{{ title }}</span>
-                    <div class="InfoCard__content">
-                        <slot name="content">
-                        </slot>
-                    </div>
-                    <div class="InfoCard__footer mt-6">
-                        <div class="d-flex">
-                            <slot name="footer-left"></slot>
-                        </div>
-                        <div>
-                            <slot name="footer-right" :isHovering="isHovering"></slot>
-                        </div>
-                    </div>
-                </v-card>
-            </template>
-        </v-hover>
+    <v-card
+        class="InfoCard Card"
+        :to="to"
+    >
+        <div class="InfoCard__content">
+            <slot name="content"></slot>
+        </div>
+        <div class="InfoCard__footer">
+            <div class="InfoCard__footerBlock InfoCard__footerBlock--left">
+                <slot name="footer-left">
+                    <LikeButton />
+                </slot>
+            </div>
+            <div class="InfoCard__footerBlock InfoCard__footerBlock--right">
+                <slot name="footer-right"></slot>
+            </div>
+        </div>
+    </v-card>
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{
-  title: string
-  subTitle?: string
-  isActorCard?: boolean
-}>(), {
-    isActorCard: false
-})
-const emit = defineEmits(['click'])
+import type { RouteLocationAsRelativeGeneric } from 'vue-router';
+defineProps<{
+    to: string |RouteLocationAsRelativeGeneric
+}>()
 </script>
 
 <style lang="scss">
 .InfoCard {
     width: 100%;
-    height: 330px;
     padding: 25px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
-    &__subTitle {
-        font-size: 14px;
-        font-weight: 700;
-        color: rgb(var(--v-theme-light-blue));
+    &:hover, &[active="true"] {
+
+        .InfoCard__actionIcon {
+            background-color: rgb(var(--v-theme-main-blue));
+            color: white !important;
+        }
     }
 
-    &__title {
-        font-size: 18px;
-        font-weight: 700;
-        color: rgb(var(--v-theme-main-blue));
-    }
-
-    &__content {
+    .InfoCard__content {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        flex-grow: 1;
+        flex-flow: column nowrap;
+
+        .InfoCard__subTitle {
+            font-size: 14px;
+            font-weight: 700;
+            color: rgb(var(--v-theme-light-blue));
+        }
+
+        .InfoCard__title {
+            font-size: 18px;
+            font-weight: 700;
+            color: rgb(var(--v-theme-main-blue));
+        }
     }
 
-    &__footer {
+    .InfoCard__footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-top: 1rem;
+
+        .InfoCard__footerBlock {
+            display: flex;
+            align-items: center;
+            flex-flow: row nowrap;
+        }
+    }
+    
+
+    .InfoCard__actionIcon {
+        background-color: transparent;
+        padding: 1rem;
+        border-radius: 50%;
+        transition: all .1s ease-in;
     }
 }
 </style>

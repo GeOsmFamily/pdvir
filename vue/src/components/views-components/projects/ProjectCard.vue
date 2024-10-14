@@ -1,10 +1,10 @@
 <template>
-    <Card class="ProjectCard" v-if="project != null" :to="getProjectsUrl(project)" :map="map">
+    <InfoCard class="ProjectCard" v-if="project != null" :to="getProjectsUrl(project)" :map="map">
         <template #content>
             <div class="ProjectCard__content">
                 <div class="ProjectCard__block ProjectCard__block--left">
-                    <span class="Card__subTitle" >{{ project.location }}</span>
-                    <span class="Card__title">{{ project.name }}</span>
+                    <span class="InfoCard__subTitle" >{{ project.location }}</span>
+                    <span class="InfoCard__title">{{ project.name }}</span>
                     <div class="ProjectCard__infoCtn">
                         <span>{{ project.actor.name }}</span>
                         <span v-if="!map" class="ProjectCard__updatedAt">{{ $t('labels.updatedAt') }} {{ getFormattedDate(project) }}</span>
@@ -17,20 +17,22 @@
             <ChipList v-if="!map" class="ProjectCard__thematicsCtn" :items="project.thematics" :align="'right'" />
         </template>
         <template #footer-left>
+            <ShareButton />
             <LikeButton />
         </template>
         <template #footer-right>
-            <v-icon class="Card__actionIcon" icon="mdi mdi-arrow-right" color="light-blue"></v-icon>
+            <v-icon class="InfoCard__actionIcon" icon="mdi mdi-arrow-right" color="light-blue"></v-icon>
         </template>
-    </Card>
+    </InfoCard>
 </template>
 
 <script setup lang="ts">
 import type { Project }  from '@/models/interfaces/Project';
-import Card from '@/components/generic-components/global/Card.vue';
-import ChipList from '@/components/generic-components/ChipList.vue';
+import InfoCard from '@/components/generic-components/global/InfoCard.vue';
+import ChipList from '@/components/generic-components/content/ChipList.vue';
 import { useDate } from '@/composables/useDate';
 import LikeButton from '@/components/generic-components/global/LikeButton.vue';
+import ShareButton from '@/components/generic-components/global/ShareButton.vue';
 defineProps<{
   project: Project | null;
   map?: boolean;
@@ -69,7 +71,7 @@ const getProjectsUrl = (project: Project) => {
             }
         }
         
-        .Card__footer {
+        .InfoCard__footer {
             display: flex;
             justify-content: space-between;
             align-items: center;

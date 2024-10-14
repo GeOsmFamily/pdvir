@@ -1,21 +1,22 @@
 <template>
-    <div class="ThematicChip">{{ text }}</div>
+    <div class="Chip">{{ text }}</div>
 </template>
 
 <script setup lang="ts">
 defineProps({
     text: String
-})</script>
+})
+</script>
 
 <style scoped lang="scss">
-.ThematicChip {
+.Chip {
     background-color: rgb(var(--v-theme-light-yellow));
     color: rgb(var(--v-theme-main-blue));
-    font-size: 14px;
+    font-size: $font-size-sm;
     font-weight: 400;
     display: inline-block;
-    padding: 8px 16px;
-    border-radius: 16px;
+    padding: .375rem .75rem;
+    border-radius: 1rem;
     text-align: center;
     white-space: nowrap;
 }

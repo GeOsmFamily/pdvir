@@ -2,14 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use App\Entity\Trait\TimestampableEntity;
 use App\Enum\AdministrativeScope;
 use App\Enum\Status;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Enum\AdministrativeScopes;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProjectRepository;
 use App\Entity\Trait\TimestampableEntity;

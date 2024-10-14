@@ -12,7 +12,7 @@
             <div class="ActorPage__rightBlock">
                 <img :src="actor.logo" alt="" v-if="!appStore.mobile" class="ActorPage__logo">
                 <div class="mt-6">
-                    <ThematicChip v-for="thematic in actor.thematics" :text="thematic.name" class="mt-1"/>
+                    <ChipList :items="actor.thematics" />
                 </div>
                 <SectionTitle :text="$t('actorPage.adminScope')" class="mt-12"/>
                 <ContentDivider class="mt-4"/>
@@ -44,9 +44,10 @@ import ContentBanner from '@/components/generic-components/content/ContentBanner
 import SectionTitle from '@/components/generic-components/text-elements/SectionTitle.vue';
 import ContentDivider from '@/components/generic-components/content/ContentDivider.vue';
 import ActorRelatedContent from './ActorRelatedContent.vue';
-import ThematicChip from '@/components/generic-components/content/ThematicChip.vue';
+import Chip from '@/components/generic-components/content/Chip.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useUserStore } from '@/stores/userStore';
+import ChipList from '@/components/generic-components/content/ChipList.vue';
 
 const appStore = useApplicationStore();
 const userStore = useUserStore();

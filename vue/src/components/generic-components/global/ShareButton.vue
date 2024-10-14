@@ -1,14 +1,14 @@
 <template>
-    <v-icon icon="mdi mdi-share-variant" @click.stop="copyURL"></v-icon>
+    <v-icon icon="mdi mdi-share-variant" color="main-blue" @click.stop="copyURL"></v-icon>
 </template>
 
 <script setup lang="ts">
-const props =defineProps<{
+const props = defineProps<{
     additionnalPath?: string
 }>()
 function copyURL() {
     if (props.additionnalPath) {
-        navigator.clipboard.writeText(encodeURI(window.location.href + '/' +props.additionnalPath))
+        navigator.clipboard.writeText(encodeURI(window.location.href + '/' + props.additionnalPath))
     } else {
         navigator.clipboard.writeText(window.location.href);
     }

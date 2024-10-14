@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import Modal from '@/components/generic-components/Modal.vue';
 import { AdministrativeScope } from '@/models/enums/AdministrativeScope';
-import { Status } from '@/models/enums/Status';
+import { Status } from '@/models/enums/contents/Status';
 import { uniqueArray } from '@/services/utils/UtilsService';
 import { useProjectStore } from '@/stores/projectStore';
 import { useThematicStore } from '@/stores/thematicStore';

@@ -1,11 +1,11 @@
-import { StoresList } from '@/models/enums/StoresList'
+import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
 import { computed, reactive, ref, type Ref, type Reactive } from 'vue';
 import type { Project } from '@/models/interfaces/Project'
 import { ProjectService } from '@/services/projects/ProjectService'
 import maplibregl from 'maplibre-gl';
 import { SortKey } from '@/models/enums/SortKey'
-import type { Status } from '@/models/enums/Status';
+import type { Status } from '@/models/enums/contents/Status';
 import type { Thematic } from '@/models/interfaces/Thematic';
 import type { AdministrativeScope } from '@/models/enums/AdministrativeScope';
 import type { Actor } from '@/models/interfaces/Actor';

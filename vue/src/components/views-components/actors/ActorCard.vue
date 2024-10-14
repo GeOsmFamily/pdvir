@@ -1,11 +1,11 @@
 <template>
     <InfoCard
-        :title="actor.name"
-        :subTitle="actor.acronym"
-        isActorCard
-        @click="actorStore.setSelectedActor(actor.id)"
+        class="ActorCard"
+        :to="actorProfileRoute"
     >
         <template #content >
+            <span class="InfoCard__subTitle" >{{ actor.acronym }}</span>
+            <span class="InfoCard__title">{{ actor.name }}</span>
             <span style="font-size: 14px;">{{ actor.category }}</span>
             <div class="ActorCard__logoCtn">
                 <img class="ActorCard__logo" :src="actor.logo">
@@ -16,7 +16,7 @@
             <LikeButton />
         </template>
         <template #footer-right>
-            <v-icon class="Card__actionIcon" icon="mdi mdi-arrow-right" color="light-blue"></v-icon>
+            <v-icon class="InfoCard__actionIcon" icon="mdi mdi-arrow-right" color="light-blue"></v-icon>
         </template>
     </InfoCard>
 </template>
@@ -26,20 +26,31 @@ import type { Actor }  from '@/models/interfaces/Actor';
 import InfoCard from '@/components/generic-components/global/InfoCard.vue';
 import LikeButton from '@/components/generic-components/global/LikeButton.vue';
 import ShareButton from '@/components/generic-components/global//ShareButton.vue';
-import { useActorsStore } from '@/stores/actorsStore';
-defineProps<{
+import { computed, type ComputedRef } from 'vue';
+import type { RouteLocationAsRelativeGeneric } from 'vue-router';
+const props = defineProps<{
   actor: Actor
 }>();
-const actorStore = useActorsStore();
+const actorProfileRoute: ComputedRef<RouteLocationAsRelativeGeneric> = computed(() => ({
+    name: 'actorProfile',
+    params: {
+        name: props.actor.name
+    }
+}))
 </script>
 
 <style lang="scss">
-.ActorCard {
-    height: 330px;
-    &__logoCtn {
+.InfoCard.ActorCard {
+
+    .InfoCard__subTitle {
+        text-transform: uppercase;
+    }
+
+    .ActorCard__logoCtn {
         margin-top: 20px;
-        height: 6em;
-        width: 6em;
+        $dim-img: 8rem;
+        height: $dim-img;
+        width: $dim-img;
 
         .ActorCard__logo{
             max-width: 100%;
