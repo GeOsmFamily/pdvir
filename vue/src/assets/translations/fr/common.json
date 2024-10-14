@@ -57,6 +57,24 @@
         }
     },
     "filters": {
+        "sortBy": {
+            "placeholder": "Trier par",
+            "options": {
+                "projects_az": "Projets A > Z",
+                "projects_za": "Projets Z > A",
+                "updated_at_az": "Date de dernière mise à jour",
+                "actors_az": "Acteurs A > Z",
+                "actors_za": "Acteurs Z > A"
+            }
+        },  
+        "search": "Rechercher..."
+    },
+    "labels": {
+        "updatedAt": "Mis à jour le",
+        "reset": "Réinitialiser"
+    },
+    "placeholders": {
+        "all": "Tous",
         "sortBy": "Trier par"
     },
     "content": {

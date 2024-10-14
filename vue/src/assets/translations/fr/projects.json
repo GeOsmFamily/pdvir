@@ -1,0 +1,43 @@
+{
+    "projects": {
+        "project": "projet",
+        "projects": "projets",
+        "status": {
+            "ongoing": "En cours",
+            "finalized": "Finalisé"
+        },
+        "scope": {
+            "national": "National",
+            "regional": "Régional",
+            "state": "Département",
+            "city": "Ville"
+        },
+        "map": {
+            "filterProjects": "Filtrer les projets"
+        },
+        "popup": {
+            "filters": {
+                "title": "Filtres",
+                "projectOwner": {
+                    "label" : "Maitre d'ouvrage"
+                },
+                "financial": {
+                    "label" : "Financement"
+                },
+                "beneficiaries": {
+                    "label" : "Bénéficiaires"
+                },
+                "interventionZones": {
+                    "label" : "Zones d'intervention"
+                },
+                "thematics": {
+                    "label" : "Thématiques"
+                },
+                "status": {
+                    "label" : "Statut"
+                }
+            },
+            "showTheProjects": "Afficher les {count} projets"
+        }
+    }
+}

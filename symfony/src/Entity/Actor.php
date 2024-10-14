@@ -21,7 +21,6 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Bundle\SecurityBundle\Security;
 use App\Services\State\Provider\ActorProvider;
 use App\Services\State\Processor\ActorProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -74,11 +73,11 @@ class Actor
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL])]
     private ?string $acronym = null;
 
     #[ORM\ManyToOne(inversedBy: 'actorsCreated')]

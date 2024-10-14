@@ -1,0 +1,82 @@
+<template>
+    <v-card
+        class="InfoCard Card"
+        :to="to"
+    >
+        <div class="InfoCard__content">
+            <slot name="content"></slot>
+        </div>
+        <div class="InfoCard__footer">
+            <div class="InfoCard__footerBlock InfoCard__footerBlock--left">
+                <slot name="footer-left">
+                    <LikeButton />
+                </slot>
+            </div>
+            <div class="InfoCard__footerBlock InfoCard__footerBlock--right">
+                <slot name="footer-right"></slot>
+            </div>
+        </div>
+    </v-card>
+</template>
+
+<script setup lang="ts">
+import type { RouteLocationAsRelativeGeneric } from 'vue-router';
+defineProps<{
+    to: string |RouteLocationAsRelativeGeneric
+}>()
+</script>
+
+<style lang="scss">
+.InfoCard {
+    width: 100%;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+
+    &:hover, &[active="true"] {
+
+        .InfoCard__actionIcon {
+            background-color: rgb(var(--v-theme-main-blue));
+            color: white !important;
+        }
+    }
+
+    .InfoCard__content {
+        display: flex;
+        flex-flow: column nowrap;
+
+        .InfoCard__subTitle {
+            font-size: 14px;
+            font-weight: 700;
+            color: rgb(var(--v-theme-light-blue));
+        }
+
+        .InfoCard__title {
+            font-size: 18px;
+            font-weight: 700;
+            color: rgb(var(--v-theme-main-blue));
+        }
+    }
+
+    .InfoCard__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+
+        .InfoCard__footerBlock {
+            display: flex;
+            align-items: center;
+            flex-flow: row nowrap;
+        }
+    }
+    
+
+    .InfoCard__actionIcon {
+        background-color: transparent;
+        padding: 1rem;
+        border-radius: 50%;
+        transition: all .1s ease-in;
+    }
+}
+</style>

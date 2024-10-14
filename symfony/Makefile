@@ -28,10 +28,7 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=c:c ## Clear the cache
 cc: sf
 
-reset-database-schema:
-	@$(SYMFONY) do:s:u -f
-
-recreate-database: restart-db-container drop-database create-database
+recreate-database: restart-db-container drop-database create-database configure-database
 
 drop-database:
 	@$(SYMFONY) do:da:dr -f --if-exists 
@@ -54,9 +51,13 @@ make-entity:
 regenerate-entity:
 	@$(SYMFONY) make:entity --regenerate
 
+enable-postgis:
+	@$(SYMFONY) dbal:run-sql 'CREATE extension postgis;'
+
 make-run-migration: make-migration run-migration
 reset-database: recreate-database run-migration
 rerun-database: reset-database run-fixtures
+configure-database: enable-postgis
 create-short-migration: recreate-database run-migration make-migration rerun-migration
 
 init-jwt-keypair:

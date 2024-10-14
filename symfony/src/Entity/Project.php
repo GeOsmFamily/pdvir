@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\GetCollection;
+use App\Enum\AdministrativeScope;
 use App\Enum\Status;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Enum\AdministrativeScopes;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProjectRepository;
 use App\Entity\Trait\TimestampableEntity;
@@ -15,30 +16,44 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    paginationEnabled: false,
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => [self::PROJECT_READ_ALL]]
+        )
+    ]
+)]
 class Project
 {
     use TimestampableEntity;
 
+    public const PROJECT_READ = 'project:read';
+    public const PROJECT_READ_ALL = 'project:read:all';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([self::PROJECT_READ_ALL])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM])]
-    private ?string $title = null;
+    #[Groups([self::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM])]
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([self::PROJECT_READ_ALL])]
     private ?string $location = null;
 
     #[ORM\Column(
         type: PostGISType::GEOMETRY, 
         options: ['geometry_type' => 'POINT'],
     )]
+    #[Groups([self::PROJECT_READ_ALL])]
     private ?string $coords = null;
 
     #[ORM\Column(enumType: Status::class)]
+    #[Groups([self::PROJECT_READ_ALL])]
     private ?Status $status = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -50,13 +65,15 @@ class Project
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $partners = null;
 
-    #[ORM\Column(enumType: AdministrativeScopes::class)]
-    private ?AdministrativeScopes $interventionZone = null;
+    #[ORM\Column(enumType: AdministrativeScope::class)]
+    #[Groups([self::PROJECT_READ_ALL])]
+    private ?AdministrativeScope $interventionZone = null;
 
     /**
      * @var Collection<int, Thematic>
      */
     #[ORM\ManyToMany(targetEntity: Thematic::class, inversedBy: 'projects')]
+    #[Groups([self::PROJECT_READ_ALL])]
     private Collection $thematics;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -78,6 +95,7 @@ class Project
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::PROJECT_READ_ALL])]
     private ?string $logo = null;
 
     /**
@@ -85,6 +103,7 @@ class Project
      */
     #[ORM\JoinTable(name: 'financed_projects_actors')]
     #[ORM\ManyToMany(targetEntity: Actor::class)]
+    #[Groups([self::PROJECT_READ_ALL])]
     private Collection $financialActors;
 
     /**
@@ -93,10 +112,12 @@ class Project
     
     #[ORM\JoinTable(name: 'contracted_projects_actors')]
     #[ORM\ManyToMany(targetEntity: Actor::class)]
+    #[Groups([self::PROJECT_READ_ALL])]
     private Collection $contractingActors;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups([self::PROJECT_READ_ALL])]
     private ?Actor $actor = null;
 
     public function __construct()
@@ -111,14 +132,14 @@ class Project
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): static
+    public function setName(string $name): static
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
@@ -135,9 +156,14 @@ class Project
         return $this;
     }
 
-    public function getCoords(): ?string
-    {
-        return $this->coords;
+    public function getCoords(): ?array {
+        if (preg_match('/POINT\(([-\d\.]+) ([-\d\.]+)\)/', $this->coords, $matches)) {
+            return [
+                'lat' => (float)$matches[1],
+                'long' => (float)$matches[2],
+            ];
+        }
+        return null;
     }
 
     public function setCoords(string $coords): static
@@ -195,12 +221,12 @@ class Project
         return $this;
     }
 
-    public function getInterventionZone(): ?AdministrativeScopes
+    public function getInterventionZone(): ?AdministrativeScope
     {
         return $this->interventionZone;
     }
 
-    public function setInterventionZone(AdministrativeScopes $interventionZone): static
+    public function setInterventionZone(AdministrativeScope $interventionZone): static
     {
         $this->interventionZone = $interventionZone;
 

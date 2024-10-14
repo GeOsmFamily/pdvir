@@ -2,3 +2,18 @@
 .v-field--variant-solo, .v-field--variant-solo-filled {
     box-shadow: none !important;
 }
+
+.v-select.fit,
+.v-autocomplete.fit {
+    width: min-content;
+}
+.v-select.fit  .v-select__selection--comma {
+    text-overflow: unset;
+}
+
+.v-dialog {
+    button {
+        min-width: 0;
+        min-height: 2.75rem;
+    }
+}

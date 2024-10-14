@@ -2,9 +2,11 @@
 
 namespace App\Entity\Trait;
 
+use App\Entity\Project;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 trait TimestampableEntity
 {
@@ -14,6 +16,7 @@ trait TimestampableEntity
 
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups([Project::PROJECT_READ_ALL])]
     protected ?\DateTimeInterface $updatedAt;
 
     public function getCreatedAt(): ?\DateTimeInterface

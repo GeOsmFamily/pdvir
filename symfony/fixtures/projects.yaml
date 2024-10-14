@@ -1,13 +1,14 @@
 App\Entity\Project:
-  project_{1..100}:
-    title: <city()> Urban Development
+  project_{1..500}:
+    name: <city()> Urban Development
     location: <city()>
-    coords: 'POINT(<longitude()> <latitude()>)'
-    status: '<randomElement(<(App\Enum\Status::toArray())>)>' # Remplace par les valeurs de ton Enum Status
+    # coords: 'POINT(<longitude()> <latitude()>)'
+    coords: 'POINT(<randomFloat(11, 12.8593962671, 1.72767263428)> <randomFloat(11, 16.0128524106, 8.48881554529)>)'
+    status: '<randomElement(<(App\Enum\Status::toArray())>)>'
     description: <paragraph(2)>
     images: []
     partners: []
-    interventionZone: '<randomElement(<(App\Enum\AdministrativeScopes::toArray())>)>' # Remplace par les valeurs de ton Enum AdministrativeScopes
+    interventionZone: '<randomElement(<(App\Enum\AdministrativeScope::toArray())>)>'
     financialActors: '<numberBetween(1, 5)>x @actor_*'
     actor: '@actor_*'
     contractingActors: '<numberBetween(1, 5)>x @actor_*'

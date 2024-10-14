@@ -16,6 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: ThematicRepository::class)]
 #[UniqueEntity('name')]
 #[ApiResource(
+    paginationEnabled: false,
     operations: [
         new GetCollection(),
         new Post(
@@ -28,13 +29,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 )]
 class Thematic
 {
+    public const THEMATIC_READ = 'thematic:read';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([self::THEMATIC_READ, Project::PROJECT_READ_ALL])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM])]
+    #[Groups([self::THEMATIC_READ, Actor::ACTOR_READ_ITEM, Project::PROJECT_READ_ALL])]
     private ?string $name = null;
 
     /**
