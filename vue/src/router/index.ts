@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/components/views/HomeView.vue'
+import HomeView from '@/views/home/HomeView.vue'
 import { useApplicationStore } from '@/stores/applicationStore'
-import ActorProfile from '@/components/views-components/actors/ActorProfile.vue'
-import AdminMembers from '@/components/views-components/admin/AdminMembers.vue'
-import AdminContent from '@/components/views-components/admin/AdminContent.vue'
-import AdminComments from '@/components/views-components/admin/AdminComments.vue'
+import ActorProfile from '@/views/actors/components/ActorProfile.vue'
+import AdminMembers from '@/views/admin/components/AdminMembers.vue'
+import AdminContent from '@/views/admin/components/AdminContent.vue'
+import AdminComments from '@/views/admin/components/AdminComments.vue'
 import { useAdminStore } from '@/stores/adminStore'
 import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels'
 import { DialogKey } from '@/models/enums/app/DialogKey'
@@ -20,10 +20,7 @@ const router = createRouter({
     {
       path: '/actors',
       name: 'actors',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../components/views/ActorsView.vue')
+      component: () => import('@/views/actors/ActorsView.vue')
     },
     {
       path: '/actors/:name',
@@ -33,27 +30,27 @@ const router = createRouter({
     {
       path: '/projects',
       name: 'projects',
-      component: () => import('../components/views/ProjectsView.vue')
+      component: () => import('@/views/projects/ProjectsView.vue')
     },
     {
       path: '/resources',
       name: 'resources',
-      component: () => import('../components/views/ResourcesView.vue')
+      component: () => import('@/views/resources/ResourcesView.vue')
     },
     {
       path: '/services',
       name: 'services',
-      component: () => import('../components/views/ServicesView.vue')
+      component: () => import('@/views/services/ServicesView.vue')
     },
     {
       path: '/map',
       name: 'map',
-      component: () => import('../components/views/MapView.vue')
+      component: () => import('@/views/map/MapView.vue')
     },
     {
       path: '/members',
       name: 'members',
-      component: () => import('../components/views/MemberView.vue')
+      component: () => import('@/views/member/MemberView.vue')
     },
     {
       path: '/administration',
@@ -65,7 +62,7 @@ const router = createRouter({
           path: '/administration/membersPanel'
         }
       },
-      component: () => import('../components/views/AdminView.vue'),
+      component: () => import('@/views/admin/AdminView.vue'),
       children: [
         {
           path: 'membersPanel',

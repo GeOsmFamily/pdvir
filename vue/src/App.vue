@@ -21,11 +21,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import { onBeforeMount } from 'vue';
-import Header from '@/components/views-components/header/Header.vue';
-import DialogController from '@/components/generic-components/global/DialogController.vue';
+import Header from '@/views/_layout/header/Header.vue';
+import DialogController from '@/components/global/DialogController.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';
+import EditContentDialog from '@/views/actors/components/EditContentDialog.vue';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();

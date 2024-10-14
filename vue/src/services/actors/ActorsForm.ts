@@ -3,7 +3,6 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useField, useForm } from "vee-validate";
 import { z, ZodType } from "zod";
 import { i18n } from "@/assets/plugins/i18n";
-import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories'
 import type { SymfonyRelation } from "@/models/interfaces/SymfonyRelation";
 
 export class ActorsFormService {
