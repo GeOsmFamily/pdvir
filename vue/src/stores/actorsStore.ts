@@ -45,7 +45,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   function setActorEditionMode(actor: Actor | null) {
     actorEdition.actor = actor
     actorEdition.active = true
-    useApplicationStore().showEditContentDialog = actor == null ? false : true
+    useApplicationStore().showEditContentDialog = true
   }
 
   async function createOrEditActor(actor: Actor, edit: boolean) {
