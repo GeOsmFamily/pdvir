@@ -13,13 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\QueryParameter;
 use App\Controller\Project\SimilarProjectsAction;
-use App\Entity\Trait\SluggableEntity;
 use App\Repository\ProjectRepository;
+use App\Entity\Trait\SluggableEntity;
 use App\Entity\Trait\TimestampableEntity;
+use App\Entity\Trait\BlameableEntity;
 use Doctrine\Common\Collections\Collection;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Blameable\Traits\BlameableEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
