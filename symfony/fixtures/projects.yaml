@@ -5,7 +5,9 @@ App\Entity\Project:
     # coords: 'POINT(<longitude()> <latitude()>)'
     coords: 'POINT(<randomFloat(11, 12.8593962671, 1.72767263428)> <randomFloat(11, 16.0128524106, 8.48881554529)>)'
     status: '<randomElement(<(App\Enum\Status::toArray())>)>'
-    description: <paragraph(2)>
+    description: <paragraph(8)>
+    deliverables: <paragraph(8)>
+    calendar: <paragraph(8)>
     images: []
     partners: []
     interventionZone: '<randomElement(<(App\Enum\AdministrativeScope::toArray())>)>'
@@ -17,8 +19,6 @@ App\Entity\Project:
     projectManagerPosition: <jobTitle()>
     projectManagerEmail: <email()>
     projectManagerTel: <phoneNumber()>
-    projectManagerPhoto: <imageUrl(400, 400)>
+    projectManagerPhoto: 'https://randomuser.me/api/portraits/men/<randomNumber(1, 92)>.jpg'
     website: <url()>
     logo: <imageUrl(200, 100)>
-    created_at: '<dateTimeBetween("-200 days", "now")>'
-    updated_at: '<dateTimeBetween($created_at, "now")>'

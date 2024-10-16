@@ -1,5 +1,5 @@
 <template>
-    <PageBanner :text="$t('admin.title')" class="mt-10"  v-if="userStore.currentUser?.roles.includes(UserRoles.ADMIN)"/>
+    <PageBanner :title="$t('admin.title')" class="mt-10"  v-if="userStore.currentUser?.roles.includes(UserRoles.ADMIN)"/>
     <div class="AdminView mt-10" v-if="userStore.currentUser?.roles.includes(UserRoles.ADMIN)">
         <div class="AdminView__Left"><AdminPanelsSelector /></div>
         <div class="AdminView__Right"><router-view /></div>

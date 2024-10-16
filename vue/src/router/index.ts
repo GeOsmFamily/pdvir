@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, onBeforeRouteUpdate, onBeforeRouteLeave } from 'vue-router';
 import HomeView from '@/views/home/HomeView.vue'
 import { useApplicationStore } from '@/stores/applicationStore'
 import ActorProfile from '@/views/actors/components/ActorProfile.vue'
@@ -8,9 +8,14 @@ import AdminComments from '@/views/admin/components/AdminComments.vue'
 import { useAdminStore } from '@/stores/adminStore'
 import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels'
 import { DialogKey } from '@/models/enums/app/DialogKey'
+import { useProjectStore } from '@/stores/projectStore'
+import { onBeforeUnmount, onBeforeMount } from 'vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition ? savedPosition : { el: '#app', top: 0, behavior: 'smooth' }
+  },
   routes: [
     {
       path: '/',
@@ -30,7 +35,17 @@ const router = createRouter({
     {
       path: '/projects',
       name: 'projects',
-      component: () => import('@/views/projects/ProjectsView.vue')
+      component: () => import('@/views/projects/ProjectListView.vue')
+    },
+    {
+      path: '/projects/:slug',
+      name: 'projectPage',
+      component: () => import('@/views/projects/ProjectSheetView.vue'),
+      beforeEnter: async (to, from, next) => {
+        const projectStore = useProjectStore()
+        await projectStore.loadProjectBySlug(to.params.slug)
+        next()
+      }
     },
     {
       path: '/resources',

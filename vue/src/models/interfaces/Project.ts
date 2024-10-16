@@ -3,12 +3,17 @@ import type { Thematic } from "@/models/interfaces/Thematic";
 import type { AdministrativeScope } from "@/models/enums/AdministrativeScope";
 import type { Timestampable } from "@/models/interfaces/common/Timestampable";
 import type { Status } from "@/models/enums/contents/Status";
+import type { User } from "@/models/interfaces/auth/User";
 
 export interface Project extends Timestampable {
   id: number;
   name: string;
+  slug: string;
+  createdBy: User;
   location: string;
   coords: string;
+  calendar: string;
+  deliverables: string;
   status: Status;
   description: string;
   images: string[];

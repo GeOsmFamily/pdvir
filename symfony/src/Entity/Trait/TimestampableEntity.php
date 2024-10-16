@@ -16,7 +16,7 @@ trait TimestampableEntity
 
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups([Project::PROJECT_READ_ALL])]
+    #[Groups([Project::PROJECT_READ, Project::PROJECT_READ_ALL])]
     protected ?\DateTimeInterface $updatedAt;
 
     public function getCreatedAt(): ?\DateTimeInterface

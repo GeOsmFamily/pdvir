@@ -1,5 +1,5 @@
 <template>
-    <InfoCard class="ProjectCard" v-if="project != null" :to="getProjectsUrl(project)" :map="map">
+    <InfoCard class="ProjectCard" v-if="project != null" :to="{ name: 'projectPage', params: { slug: project.slug } }" :map="map">
         <template #content>
             <div class="ProjectCard__content">
                 <div class="ProjectCard__block ProjectCard__block--left">

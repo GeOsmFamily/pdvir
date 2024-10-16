@@ -1,6 +1,6 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
-import { computed, reactive, ref, type Ref, type Reactive } from 'vue';
+import { computed, reactive, ref, type Ref, type Reactive, watch } from 'vue';
 import type { Project } from '@/models/interfaces/Project'
 import { ProjectService } from '@/services/projects/ProjectService'
 import maplibregl from 'maplibre-gl';
@@ -12,6 +12,8 @@ import type { Actor } from '@/models/interfaces/Actor';
 
 export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const projects: Ref<Project[]> = ref([])
+  const project: Ref<Project | null> = ref(null)
+  const similarProjects: Ref<Project[]> = ref([])
   const hoveredProjectId: Ref<Project['id'] | null> = ref(null)
   const activeProjectId: Ref<Project['id'] | null> = ref(null)
   const map: Ref<maplibregl.Map | null> = ref(null)
@@ -40,6 +42,24 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
       projects.value = await ProjectService.getAll()
     }
   }
+
+  async function loadProjectBySlug(slug: string | string []): Promise<void> {
+    if (project.value?.slug !== slug && typeof slug === 'string') {
+      project.value = await ProjectService.get({ slug })
+    }
+  }
+
+  async function loadSimilarProjects(): Promise<void> {
+    if (project.value) {
+      similarProjects.value = await ProjectService.getSimilarProjects(project.value)
+    }
+  }
+  
+  watch(() => project, () => {
+    if (project.value == null) {
+      similarProjects.value = []
+    }
+  })
 
   const hoveredProject = computed(() => {
     if (hoveredProjectId.value) {
@@ -100,7 +120,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   }
 
   return {
-    projects, filters, isProjectMapFullWidth, isFilterModalShown, sortingProjectsSelectedMethod, hoveredProjectId, hoveredProject, activeProjectId, activeProject, filteredProjects, orderedProjects, map,
-    getAll, resetFilters
+    projects, project, similarProjects,filters, isProjectMapFullWidth, isFilterModalShown, sortingProjectsSelectedMethod, hoveredProjectId, hoveredProject, activeProjectId, activeProject, filteredProjects, orderedProjects, map,
+    getAll, resetFilters, loadProjectBySlug, loadSimilarProjects
   }
 })

@@ -2,31 +2,53 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\GetCollection;
 use App\Enum\AdministrativeScope;
 use App\Enum\Status;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\QueryParameter;
+use App\Controller\Project\SimilarProjectsAction;
+use App\Entity\Trait\SluggableEntity;
 use App\Repository\ProjectRepository;
 use App\Entity\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Blameable\Traits\BlameableEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['slug' => SearchFilterInterface::STRATEGY_EXACT])]
 #[ApiResource(
     paginationEnabled: false,
     operations: [
         new GetCollection(
+            uriTemplate: '/projects/all',
             normalizationContext: ['groups' => [self::PROJECT_READ_ALL]]
-        )
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => [self::PROJECT_READ]],
+            parameters: [
+                'slug' => new QueryParameter()
+            ]
+        ),
+        new GetCollection(
+            uriTemplate: '/projects/{id}/similar',
+            controller: SimilarProjectsAction::class,
+            normalizationContext: ['groups' => [self::PROJECT_READ_ALL]]
+        ),
     ]
 )]
 class Project
 {
     use TimestampableEntity;
+    use BlameableEntity;
+    use SluggableEntity;
 
     public const PROJECT_READ = 'project:read';
     public const PROJECT_READ_ALL = 'project:read:all';
@@ -34,35 +56,37 @@ class Project
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
     private ?string $location = null;
 
     #[ORM\Column(
         type: PostGISType::GEOMETRY, 
         options: ['geometry_type' => 'POINT'],
     )]
-    #[Groups([self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
     private ?string $coords = null;
 
     #[ORM\Column(enumType: Status::class)]
-    #[Groups([self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
     private ?Status $status = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $images = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
     private ?array $partners = null;
 
     #[ORM\Column(enumType: AdministrativeScope::class)]
@@ -73,29 +97,33 @@ class Project
      * @var Collection<int, Thematic>
      */
     #[ORM\ManyToMany(targetEntity: Thematic::class, inversedBy: 'projects')]
-    #[Groups([self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
     private Collection $thematics;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
     private ?string $projectManagerName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
     private ?string $projectManagerPosition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $projectManagerEmail = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
     private ?string $projectManagerTel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
     private ?string $projectManagerPhoto = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
     private ?string $logo = null;
 
     /**
@@ -117,8 +145,16 @@ class Project
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups([self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
     private ?Actor $actor = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
+    private ?string $deliverables = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
+    private ?string $calendar = null;
 
     public function __construct()
     {
@@ -397,6 +433,30 @@ class Project
     public function setActor(?Actor $actor): static
     {
         $this->actor = $actor;
+
+        return $this;
+    }
+
+    public function getDeliverables(): ?string
+    {
+        return $this->deliverables;
+    }
+
+    public function setDeliverables(?string $deliverables): static
+    {
+        $this->deliverables = $deliverables;
+
+        return $this;
+    }
+
+    public function getCalendar(): ?string
+    {
+        return $this->calendar;
+    }
+
+    public function setCalendar(?string $calendar): static
+    {
+        $this->calendar = $calendar;
 
         return $this;
     }

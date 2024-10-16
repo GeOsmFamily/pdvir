@@ -1,0 +1,138 @@
+<template>
+    <div class="ProjectSheetView SheetView" v-if="project != null">
+        <div class="SheetView__block SheetView__block--left">
+            <div class="SheetView__logoCtn show-sm">
+                <img :src="project.logo" class="SheetView__logo">
+            </div>
+            <SheetContentBanner
+                :title="project.name"
+                :subtitle="project.location"
+                :email="project.projectManagerEmail"
+                :website="project.website"
+                :phone="project.projectManagerTel"
+                :isEditable="isEditable"
+                :isMapButtonShown="true"
+                :updatedAt="project.updatedAt"
+                @edit="editProject" />
+            <div class="SheetView__title SheetView__title--divider">{{ $t('projectPage.about') }}</div>
+            <div class="SheetView__contentCtn">
+                <p>{{project.description}}</p>
+                <ProjectRelatedContent :project="project" />
+            </div>
+        </div>
+        <div class="SheetView__block SheetView__block--right">
+            <div class="SheetView__updatedAtCtn hide-sm" >
+                <UpdatedAtLabel :date="project.updatedAt" />
+                <PrintButton />
+            </div>
+            <div class="SheetView__logoCtn hide-sm">
+                <img :src="project.logo" class="SheetView__logo">
+            </div>
+            <ChipList :items="project.thematics" />
+            <div class="SheetView__infoCard">
+                <div class="SheetView__infoCardBlock">
+                    <h5 class="SheetView__title">{{ $t('projectPage.projectOwner') }}</h5>
+                    <ActorCard :actor="project.actor" light="true" />
+                </div>
+                <div class="SheetView__infoCardBlock">
+                    <h5 class="SheetView__title">{{ $t('projectPage.focalPoint') }}</h5>
+                    <ContactCard
+                        :name="project.projectManagerName"
+                        :description="project.projectManagerPosition"
+                        :image="project.projectManagerPhoto" />
+                </div>
+            </div>
+            <div class="SheetView__title SheetView__title--divider">{{ $t('projectPage.partners') }}</div>
+        </div>
+        <div class="SheetView__block SheetView__block--bottom">
+            <SectionBanner :text="$t('projectPage.inImages')"/>
+            <ContentDivider />
+            <SectionBanner :text="$t('projectPage.otherProjectsWithSameThematics')" :hideHalfCircle="true" />
+            <div class="ProjectSheetView__projectCardCtn">
+                <ProjectCard v-for="project in similarProjects" :key="project.id" :project="project" />
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import type { Project }  from '@/models/interfaces/Project';
+import { useProjectStore } from '@/stores/projectStore';
+import { computed, onMounted, watch } from 'vue';
+import SheetContentBanner from '@/views/_layout/sheet/SheetContentBanner.vue';
+import ContentDivider from '@/components/content/ContentDivider.vue';
+import { useUserStore } from '@/stores/userStore';
+import ChipList from '@/components/content/ChipList.vue';
+import ProjectRelatedContent from './components/ProjectRelatedContent.vue';
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
+import ProjectCard from '@/views/projects/components/ProjectCard.vue';
+import ContactCard from '@/components/content/ContactCard.vue';
+import ActorCard from '@/views/actors/components/ActorCard.vue';
+import PrintButton from '@/components/global/PrintButton.vue';
+import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue';
+import SectionBanner from '@/components/banners/SectionBanner.vue';
+
+const userStore = useUserStore();
+const projectStore = useProjectStore();
+const project = computed(() => projectStore.project)
+
+onBeforeRouteUpdate(async (to, from) => {
+    if ((projectStore.project?.slug && projectStore.project.slug !== to.params.slug) || typeof to.params.slug === 'string') {
+      await projectStore.loadProjectBySlug(to.params.slug)
+    }
+})
+
+onBeforeRouteLeave(() => { projectStore.project = null })
+
+onMounted(async () => {
+    await loadSimilarProjects()
+})
+
+watch(() => projectStore.project, async () => await loadSimilarProjects())
+
+const loadSimilarProjects = async () => {
+    if (projectStore.project != null) await projectStore.loadSimilarProjects()
+}
+
+const similarProjects = computed(() => projectStore.similarProjects)
+
+const isEditable = computed(() => {
+    return userStore.userIsAdmin() || projectStore.project?.createdBy?.id === userStore.currentUser?.id
+})
+
+const editProject = (project: Project) => projectStore.setProjectEditionMode(project)
+</script>
+
+<style lang="scss">
+@import '@/assets/styles/views/SheetView';
+
+.ProjectSheetView__projectCardCtn {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 2rem;
+    > * {
+        flex: 1 0 25rem;
+    }
+}
+
+.ProjectSheetView {
+    &__logo {
+        max-width: 100%;
+    }
+    &__contentCard {
+        display: flex;
+        padding: 1.5em;
+        width: 100%;
+        background-color: rgb(var(--v-theme-light-yellow));
+    }
+}
+
+@media (max-width: $bp-xl) {
+    .ProjectSheetView {
+        .SheetView__block--bottom {
+            display: none;
+        }
+    }
+}
+</style>

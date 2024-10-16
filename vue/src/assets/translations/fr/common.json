@@ -71,15 +71,25 @@
     },
     "labels": {
         "updatedAt": "Mis à jour le",
+        "lastUpdatedAt": "Dernière mise à jour le",
         "reset": "Réinitialiser"
+    },
+    "buttons": {
+        "print": "Imprimer"
     },
     "placeholders": {
         "all": "Tous",
         "sortBy": "Trier par"
     },
     "content": {
+        "createAMap": "Créer une carte",
         "website": "Visiter le site internet",
         "mail": "Contacter par mail",
         "edit": "Modifier"
+    },
+    "kpi": {
+        "actors": "acteurs",
+        "resources": "ressources",
+        "data": "données"
     }
 }
