@@ -100,7 +100,7 @@ const isEditable = computed(() => {
     return userStore.userIsAdmin() || projectStore.project?.createdBy?.id === userStore.currentUser?.id
 })
 
-const editProject = (project: Project) => projectStore.setProjectEditionMode(project)
+const editProject = (project: Project) => { return };
 </script>
 
 <style lang="scss">

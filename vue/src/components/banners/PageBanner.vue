@@ -1,6 +1,6 @@
 <template>
     <div class="PageBanner">
-        <div class="PageBanner__subtitle">{{ subtitle }}</div>
+        <div class="PageBanner__subtitle" v-if="subtitle" >{{ subtitle }}</div>
         <div class="PageBanner__title half-circle half-circle--big">{{ title }}</div>
         <slot name="actions"></slot>
     </div>
@@ -8,7 +8,7 @@
 <script setup lang="ts">
 defineProps<{
     title: string,
-    subtitle: string,
+    subtitle?: string,
 }>()
 </script>
 <style scoped lang="scss">
