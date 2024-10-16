@@ -13,9 +13,7 @@
     </v-snackbar>
     <div :class="'App__content container ' + (appStore.mobile ? 'App__content--mobile' : 'App__content--desktop')">
       <v-breadcrumbs v-if="!appStore.mobile" class="Breadcrumbs" :items="appStore.breadcrumbs"></v-breadcrumbs>
-      <Transition>
-        <RouterView />
-      </Transition>
+      <RouterView />
     </div>
   </div>
 </template>

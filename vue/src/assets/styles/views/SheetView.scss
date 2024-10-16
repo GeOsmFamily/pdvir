@@ -84,8 +84,6 @@
 @media (max-width: $bp-xl) {
     .SheetView {
         grid-template-columns: minmax(0, 1fr);
-        
-        // grid-template-columns: 1fr 22.5rem;
         grid-template-rows: auto;
         max-width: 100%;
         row-gap: 2rem;
