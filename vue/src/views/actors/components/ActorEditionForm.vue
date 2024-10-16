@@ -103,8 +103,8 @@ const expertisesItems = actorsStore.actorsExpertises
 const thematicsItems = actorsStore.actorsThematics
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 
-const selectedFiles: Ref<(ContentImageFromUserFile | ContentImageFromUrl)[]> = ref([])
-function handleFilesUpdate(files: (ContentImageFromUserFile | ContentImageFromUrl)[]) {
+const selectedFiles: Ref<ContentImageFromUserFile[]> = ref([])
+function handleFilesUpdate(files: ContentImageFromUserFile[]) {
     selectedFiles.value = files;
 }
 

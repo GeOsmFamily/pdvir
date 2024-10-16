@@ -3,6 +3,7 @@ import type { ActorExpertise } from "./ActorExpertise";
 import type { AdministrativeScope } from "./AdministrativeScope";
 import type { User } from "./auth/User";
 import type { ContentImageFromUserFile, ContentImageFromUrl } from "./ContentImage";
+import type { MediaObject } from "./MediaObject";
 import type { Thematic } from "./Thematic";
 
 export interface Actor {
@@ -27,13 +28,13 @@ export interface Actor {
     contactPosition: string;
     projects: string[];
     logo: string;//To add in form
-    images: string[];
+    images: MediaObject[];
     website: string;
     phone: string;
     email: string;
   }
 
   export interface ActorSubmission extends Actor {
-    imagesToUpload: (ContentImageFromUserFile | ContentImageFromUrl)[]
+    imagesToUpload: ContentImageFromUserFile[]
   }
   

@@ -1,5 +1,5 @@
 import { StoresList } from '@/models/enums/app/StoresList'
-import type { Actor } from '@/models/interfaces/Actor'
+import type { Actor, ActorSubmission } from '@/models/interfaces/Actor'
 import { ActorsService } from '@/services/actors/ActorsService'
 import { defineStore } from 'pinia'
 import { reactive, ref, type Reactive, type Ref } from 'vue'
@@ -48,9 +48,10 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     useApplicationStore().showEditContentDialog = true
   }
 
-  async function createOrEditActor(actor: Actor, edit: boolean) {
+  async function createOrEditActor(actor: ActorSubmission, edit: boolean) {
     const id = selectedActor.value?.id
-    const result =await ActorsService.createOrEditActor(actor, edit, id)
+    const copy = {...selectedActor.value, ...actor}
+    const result = await ActorsService.createOrEditActor(copy, edit, id)
     await getActors()
     selectedActor.value = await ActorsService.getActor(result.id)
     useApplicationStore().showEditContentDialog = false
