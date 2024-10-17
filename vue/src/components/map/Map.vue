@@ -1,18 +1,23 @@
 <template>
-    <div id="map"></div>
+    <div id="map">
+        <ResetMapExtentControl ref="reset-map-extent-control" />
+        <ToggleSidebarControl ref="toggle-sidebar-control" />
+    </div>
 </template>
 <script setup lang="ts">
-import { onMounted, watch, computed, ref, type Ref } from 'vue';
+import { onMounted, watch, computed, ref, type Ref, useTemplateRef } from 'vue';
 import maplibregl, { GeoJSONSource } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css'
-import ResetMapExtentControl from "@/components/map/controls/ResetMapExtentControl";
-import ToggleSidebarControl from '@/components/map/controls/ToggleSidebarControl';
+import ResetMapExtentControl from "@/components/map/controls/ResetMapExtentControl.vue";
+import ToggleSidebarControl from '@/components/map/controls/ToggleSidebarControl.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
+import { IControl } from '@/services/map/MapService';
 
 const applicationStore = useApplicationStore()
 const triggerZoomReset = computed(() => applicationStore.triggerZoomReset)
 const map: Ref<maplibregl.Map | null> = ref(null)
-
+const resetMapExtentControl = useTemplateRef('reset-map-extent-control');
+const toggleSidebarControl = useTemplateRef('toggle-sidebar-control');
 const props = withDefaults(defineProps<{
     bounds?: maplibregl.LngLatBounds
 }>(), {
@@ -38,8 +43,8 @@ onMounted(() => {
     });
 
     map.value.addControl(nav, 'top-right');
-    map.value.addControl(new ResetMapExtentControl, 'top-right')
-    map.value.addControl(new ToggleSidebarControl, 'top-left')
+    map.value.addControl(new IControl(resetMapExtentControl), 'top-right')
+    map.value.addControl(new IControl(toggleSidebarControl), 'top-left')
     setBBox()
 })
 
@@ -261,25 +266,6 @@ defineExpose({
             &.maplibregl-ctrl-zoom-out {
                 .maplibregl-ctrl-icon {
                     background-image: url(@/assets/images/icons/map/mdi-minus.svg);
-                }
-            }
-
-            &.maplibregl-ctrl-zoom-extent {
-                .maplibregl-ctrl-icon {
-                    background-image: url(@/assets/images/icons/map/mdi-image-filter-center-focus-strong-outline.svg);
-                }
-            }
-
-            &.maplibregl-ctrl-toggle-sidebar {
-                transition: all .3s ease-in-out;
-
-                &[active="true"] {
-                    transform: rotate(180deg);
-                    box-shadow: 0 -.25rem .25rem -.125rem rgba(0, 0, 0, .15);
-                }
-
-                .maplibregl-ctrl-icon {
-                    background-image: url(@/assets/images/icons/map/mdi-toggle.svg);
                 }
             }
         }

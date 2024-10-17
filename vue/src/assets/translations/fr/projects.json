@@ -39,5 +39,16 @@
             },
             "showTheProjects": "Afficher les {count} projets"
         }
+    },
+    "projectPage": {
+        "projectOwner": "Responsable du projet",
+        "focalPoint": "Point de contact",
+        "about": "À propos",
+        "partners": "Partenaires",
+        "keyNumbers": "Chiffres-clés",
+        "projectCalendar": "Calendrier du projet",
+        "projectDeliverables": "Livrables du projet",
+        "inImages": "En images",
+        "otherProjectsWithSameThematics": "D’autres projets avec des thématiques communes"
     }
 }

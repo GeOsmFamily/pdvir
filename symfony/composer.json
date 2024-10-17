@@ -15,6 +15,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.2",
         "gedmo/doctrine-extensions": "^3.16",
+        "stof/doctrine-extensions-bundle": "^1.7",
         "hautelook/alice-bundle": "^2.14",
         "jsor/doctrine-postgis": "^2.3",
         "lexik/jwt-authentication-bundle": "^3.1",

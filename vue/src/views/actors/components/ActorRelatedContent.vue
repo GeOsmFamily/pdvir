@@ -1,10 +1,10 @@
 <template>
-    <SectionBanner :text="$t('actorPage.projects')" class="mt-12"/>
+    <SectionBanner :text="$t('actorPage.projects')"/>
     {{ actor.projects }}
-    <SectionBanner :text="$t('actorPage.data')" class="mt-12"/>
-    <SectionBanner :text="$t('actorPage.resources')" class="mt-12"/>
-    <SectionBanner :text="$t('actorPage.services')" class="mt-12"/>
-    <SectionBanner :text="$t('actorPage.images')" class="mt-12"/>
+    <SectionBanner :text="$t('actorPage.data')"/>
+    <SectionBanner :text="$t('actorPage.resources')"/>
+    <SectionBanner :text="$t('actorPage.services')"/>
+    <SectionBanner :text="$t('actorPage.images')"/>
     <div class="mosaic">
         <img 
             v-for="image in actor.images"

@@ -1,41 +1,24 @@
 <template>
-    <div class="SectionBanner">
-        <div class="SectionBanner__HalfCircle"></div>
-        <div class="SectionBanner__Title">{{ text }}</div>
-    </div>
+    <h3 class="SectionBanner half-circle" :hide-half-circle="hideHalfCircle || false" >{{ text }}</h3>
 </template>
 <script setup lang="ts">
-defineProps({
-    text: String
-})
+defineProps<{
+    text: string,
+    hideHalfCircle?: boolean,
+}>()
 </script>
 <style scoped lang="scss">
 .SectionBanner {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
-    min-height: 42px;
-    position: relative;
+    font-size: $font-size-h3;
+    font-weight: 700;
+    color: rgb(var(--v-theme-main-blue));
 
-    &__HalfCircle {
-        width: 21px;
-        height: 42px;
-        background-color: rgb(var(--v-theme-main-yellow));
-        border-radius: 0 21px 21px 0;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    &__Title {
-        margin-left: 50px;
-        font-size: 30px;
-        font-weight: 700;
-        color: rgb(var(--v-theme-main-blue));
-        line-height: 45px;
+    &[hide-half-circle="true"] {
+        padding: 0;
+        margin-top: 0;
+        &::before {
+            content: none;
+        }
     }
 }
-
 </style>

@@ -1,16 +1,15 @@
 <template>
-    <span class="Section__title">{{ text }}</span>
+    <span class="SectionTitle">{{ title }}</span>
 </template>
 <script setup lang="ts">
-defineProps({
-    text: String
-})
+defineProps<{
+    title: string
+}>()
 </script>
-<style scoped>
-.Section__title{
+<style lang="scss">
+.SectionTitle {
     color: rgb(var(--v-theme-main-blue));
-    font-size: 24px;
+    font-size: $font-size-h3;
     font-weight: 700;
-    line-height: 30px;
 }
 </style>
