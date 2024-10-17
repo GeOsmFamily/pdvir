@@ -2,7 +2,7 @@ import type { ActorsCategories } from "../enums/contents/actors/ActorsCategories
 import type { ActorExpertise } from "./ActorExpertise";
 import type { AdministrativeScope } from "./AdministrativeScope";
 import type { User } from "./auth/User";
-import type { ContentImageFromUserFile, ContentImageFromUrl } from "./ContentImage";
+import type { ContentImageFromUserFile } from "./ContentImage";
 import type { MediaObject } from "./MediaObject";
 import type { Thematic } from "./Thematic";
 
@@ -35,7 +35,9 @@ export interface Actor {
     email: string;
   }
 
-  export interface ActorSubmission extends Actor {
+  export interface ActorSubmission extends Omit<Actor, "logo"> {
+    logo: string,
+    logoToUpload: ContentImageFromUserFile
     imagesToUpload: ContentImageFromUserFile[]
   }
   

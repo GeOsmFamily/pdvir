@@ -22,6 +22,10 @@ export class ActorsService {
     }
 
     static async createOrEditActor(actor: ActorSubmission, edit: boolean, id?: string | undefined): Promise<Actor> {
+      if (actor.logoToUpload) {
+        const newLogo = await ImageLoader.loadImage(actor.logoToUpload.file)
+        actor.logo = newLogo['@id']
+      }
       const newImagesLoaded = await Promise.all(
         actor.imagesToUpload.map(async img => await ImageLoader.loadImage(img.file)
       ))

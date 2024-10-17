@@ -21,10 +21,10 @@
             @change="handleFileChange"
         />
     </div>
-    <div class="InputImage__divider">
+    <div class="InputImage__divider" v-if="externalImagesLoader">
         <span>ou</span>
     </div>
-    <div class="ExternalImages__ctn">
+    <div class="ExternalImages__ctn" v-if="externalImagesLoader">
         <v-text-field density="compact" variant="outlined" bg-color="white" label="Copier le lien de l’image" hide-details v-model="newExternalImageUrl"></v-text-field>
         <v-btn color="main-red ml-2" @click="addNewExternalImage">Ajouter</v-btn>
     </div>
@@ -33,14 +33,16 @@
         <span class="InputImage__errorMessage">{{ errorMessage }}</span>
     </div>
 
-    <div v-if="existingImages.length" class="LoadedImages__ctn mt-3">
-        <div v-for="(existingImage, index) in existingImages":key="index" class="position-relative">
-            <div @click="removeExistingImage(index)" class="LoadedImages__closer">X</div>
-            <img
-                :src="(existingImage as MediaObject).contentUrl ? (existingImage as MediaObject).contentUrl : (existingImage as string)"
-                class="LoadedImages__preview ma-2"
-            />
-        </div>
+    <div class="LoadedImages__ctn mt-3">
+        <template v-if="existingImages && existingImages.length > 0">
+            <div v-for="(existingImage, index) in existingImages":key="index" class="position-relative">
+                <div @click="removeExistingImage(index)" class="LoadedImages__closer">X</div>
+                <img
+                    :src="(existingImage as MediaObject).contentUrl ? (existingImage as MediaObject).contentUrl : (existingImage as string)"
+                    class="LoadedImages__preview ma-2"
+                />
+            </div>
+        </template>
         <div v-for="(selectedFile, index) in selectedFiles":key="index" class="position-relative">
             <div @click="removeLoadedFile(index)" class="LoadedImages__closer">X</div>
             <img
@@ -54,23 +56,26 @@
 
 <script setup lang="ts">
 import { ContentImageType } from '@/models/enums/app/ContentImageType';
-import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage';
 import type { MediaObject } from '@/models/interfaces/MediaObject';
 import { InputImageValidator } from '@/services/files/InputImageValidator';
 import { onMounted, type Ref, ref } from 'vue';
+
 
 const props = defineProps({
     existingImages: {
         type: Array<MediaObject | string>,
         default: () => []
+    },
+    externalImagesLoader: {
+        type: Boolean,
+        default: true
+    },
+    uniqueImage: {
+        type: Boolean,
+        default: false
     }
 })
-// const existingImages: Ref<(MediaObject | string)[]> = ref([])
-// onMounted(() => {
-//     console.log(props)// N'affiche pas l'array attendu mais un proxy dans un proxy
-//     existingImages.value = [...props.existingImages]
-//     console.log(existingImages.value)
-// })
 
 const newExternalImageUrl = ref('')
 const addNewExternalImage = () => {
@@ -105,7 +110,13 @@ const handleDrop = (event: any) => {
 
 const errorMessage = ref('')
 const handleFileChange = (event: any) => {
-  const files: FileList = event.target.files
+  let files: FileList
+  if (props.uniqueImage) {
+    selectedFiles.value = []
+    files = [event.target.files[0]] as unknown as FileList
+  } else {
+    files = event.target.files
+  }
   Array.from(files).forEach((file) => {
     const fileStatus = InputImageValidator.validateImageFromFile(file, selectedFiles.value)
     if (fileStatus.isValid) {
