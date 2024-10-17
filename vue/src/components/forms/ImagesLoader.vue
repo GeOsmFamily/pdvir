@@ -21,23 +21,28 @@
             @change="handleFileChange"
         />
     </div>
+    <div class="InputImage__divider">
+        <span>ou</span>
+    </div>
+    <div class="ExternalImages__ctn">
+        <v-text-field density="compact" variant="outlined" bg-color="white" label="Copier le lien de l’image" hide-details v-model="newExternalImageUrl"></v-text-field>
+        <v-btn color="main-red ml-2" @click="addNewExternalImage">Ajouter</v-btn>
+    </div>
 
     <div>
         <span class="InputImage__errorMessage">{{ errorMessage }}</span>
     </div>
 
-    <div v-if="existingImages.length" class="mt-3">
+    <div v-if="existingImages.length" class="LoadedImages__ctn mt-3">
         <div v-for="(existingImage, index) in existingImages":key="index" class="position-relative">
-            <div @click="removeExistingImage(index)" class="InputImage__dropzone__imageCloser">X</div>
+            <div @click="removeExistingImage(index)" class="LoadedImages__closer">X</div>
             <img
-                :src="existingImage.contentUrl"
-                class="InputImage__dropzone__imageLoaded ma-2"
+                :src="(existingImage as MediaObject).contentUrl ? (existingImage as MediaObject).contentUrl : (existingImage as string)"
+                class="LoadedImages__preview ma-2"
             />
         </div>
-    </div>
-    <div v-if="selectedFiles.length" class="d-flex flex-wrap mt-3">
         <div v-for="(selectedFile, index) in selectedFiles":key="index" class="position-relative">
-            <div @click="removeLoadedFile(index)" class="InputImage__dropzone__imageCloser">X</div>
+            <div @click="removeLoadedFile(index)" class="LoadedImages__closer">X</div>
             <img
                 :src="selectedFile.preview"
                 :alt="(selectedFile as any).name ? (selectedFile as ContentImageFromUserFile).name : ''"
@@ -56,15 +61,23 @@ import { onMounted, type Ref, ref } from 'vue';
 
 const props = defineProps({
     existingImages: {
-        type: Array<MediaObject>,
+        type: Array<MediaObject | string>,
         default: () => []
     }
 })
+// const existingImages: Ref<(MediaObject | string)[]> = ref([])
+// onMounted(() => {
+//     console.log(props)// N'affiche pas l'array attendu mais un proxy dans un proxy
+//     existingImages.value = [...props.existingImages]
+//     console.log(existingImages.value)
+// })
 
-const existingImages: Ref<MediaObject[]> = ref([])
-onMounted(() => {
-    existingImages.value = props.existingImages
-})
+const newExternalImageUrl = ref('')
+const addNewExternalImage = () => {
+    props.existingImages.push(newExternalImageUrl.value)
+    newExternalImageUrl.value = ''
+    emitChange()
+}
 
 const selectedFiles: Ref<ContentImageFromUserFile[]> = ref([])
 const emit = defineEmits(['updateFiles'])
@@ -117,12 +130,12 @@ const removeLoadedFile = (index: number) => {
     emitChange()
 }
 const removeExistingImage = (index: number) => {
-    existingImages.value.splice(index, 1)
+    props.existingImages.splice(index, 1)
     emitChange()
 }
 
 const emitChange = () => {
-    emit('updateFiles', {existingImages: existingImages.value, selectedFiles: selectedFiles.value})
+    emit('updateFiles', {existingImages: props.existingImages, selectedFiles: selectedFiles.value})
 }
 
 </script>
@@ -144,27 +157,52 @@ const emitChange = () => {
             cursor: pointer;
             text-decoration: underline;
         }
-        &__imageCloser{
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: rgb(var(--v-theme-main-red));
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: white;
-        }
-        &__imageLoaded{
-            width: 100px;
-        }
     }
     &__errorMessage{
         color: rgb(var(--v-theme-main-red));
         font-size: $font-size-xs;
     }
+    &__divider{
+        display: flex;
+        align-items: center;
+        text-align: center;
+        background-color: rgb(var(--v-theme-light-yellow));
+
+        &::before, &::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid rgb(var(--v-theme-main-grey));
+            margin: 0 1em;
+        }
+    }
+}
+
+.LoadedImages{
+    &__ctn{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__closer{
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgb(var(--v-theme-main-red));
+        height: 24px;
+        width: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: white;
+    }
+    &__preview{
+        width: 100px;
+    }
+}
+.ExternalImages__ctn{
+    display: flex;
+    background-color: rgb(var(--v-theme-light-yellow));
+    padding: 1em;
 }
 </style>

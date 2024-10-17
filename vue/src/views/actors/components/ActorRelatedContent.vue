@@ -12,6 +12,12 @@
             :src="`${image.contentUrl}`"
             class="card card-tall card-wide"
         >
+        <img 
+            v-for="image in actor.externalImages"
+            :key="image"
+            :src="image"
+            class="card card-tall card-wide"
+        >
     </div>
     
 </template>

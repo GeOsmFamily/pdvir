@@ -2,7 +2,7 @@
     <template v-if="actor">
         <div class="ActorPage">
             <div class="ActorPage__leftBlock">
-                <img :src="actor.logo" alt="" v-if="appStore.mobile" class="mt-4 mb-4 ActorPage__logo">
+                <!--<img :src="actor.logo.contentUrl" alt="" v-if="appStore.mobile" class="mt-4 mb-4 ActorPage__logo">-->
                 <ContentBanner :content="actor" :isEditable="isEditable" :editFunction="editActor"/>
                 <SectionTitle :text="$t('actorPage.description')" class="mt-12"/>
                 <ContentDivider class="mt-4"/>
@@ -10,7 +10,7 @@
                 <ActorRelatedContent :actor="actor" v-if="!appStore.mobile"/>
             </div>
             <div class="ActorPage__rightBlock">
-                <img :src="actor.logo" alt="" v-if="!appStore.mobile" class="ActorPage__logo">
+                <!--<img :src="actor.logo.contentUrl" alt="" v-if="!appStore.mobile" class="ActorPage__logo">-->
                 <div class="mt-6">
                     <ChipList :items="actor.thematics" />
                 </div>

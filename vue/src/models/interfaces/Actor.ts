@@ -27,8 +27,9 @@ export interface Actor {
     contactName: string;
     contactPosition: string;
     projects: string[];
-    logo: string;//To add in form
+    logo: MediaObject;//To add in form
     images: MediaObject[];
+    externalImages: string[];
     website: string;
     phone: string;
     email: string;

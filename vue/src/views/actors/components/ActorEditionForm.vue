@@ -66,7 +66,7 @@
                         :error-messages="form.phone.errorMessage.value" @blur="form.phone.handleChange" type="tel"
                         :label="$t('actors.form.phone')" />
 
-                    <ImagesLoader @updateFiles="handleFilesUpdate" :existing-images="existingImages"/>
+                    <ImagesLoader @updateFiles="handleFilesUpdate" :existingImages="existingImages"/>
                 </v-form>
             </div>
         </template>
@@ -104,23 +104,37 @@ const expertisesItems = actorsStore.actorsExpertises
 const thematicsItems = actorsStore.actorsThematics
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 
-let existingImages: MediaObject[] = []
+const existingImages = ref<(MediaObject | string)[]>([])
+let existingHostedImages: MediaObject[] = []
+let existingExternalImages: string[] = []
 onMounted(() => {
     if (actorToEdit) {
-        existingImages.push(...actorToEdit.images)
+        existingImages.value = [...actorToEdit.images, ...actorToEdit.externalImages]
+        existingHostedImages = actorToEdit.images
+        existingExternalImages = actorToEdit.externalImages
     }
 })
 
 const selectedFiles: Ref<ContentImageFromUserFile[]> = ref([])
 function handleFilesUpdate(lists: any) {
     selectedFiles.value = lists.selectedFiles
-    existingImages = lists.existingImages;
+    existingHostedImages = []
+    existingExternalImages = []
+    lists.existingImages.forEach((image: MediaObject | string) => {
+        if (typeof image === 'string') {
+            existingExternalImages.push(image)
+        } else {
+            existingHostedImages.push(image)
+        }
+    })
+    console.log(lists)
+    // existingImages = lists.existingImages;
 }
 
 const submitForm = handleSubmit(
     values => {
         const actorSubmission: ActorSubmission = {
-            ...values, images: existingImages, imagesToUpload: [...selectedFiles.value]
+            ...values, images: existingHostedImages, externalImages: existingExternalImages, imagesToUpload: [...selectedFiles.value]
         }
         actorsStore.createOrEditActor(actorSubmission, actorToEdit !== null)
     },

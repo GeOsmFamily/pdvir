@@ -168,6 +168,10 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $images;
 
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private ?array $externalImages = null;
+
     public function __construct()
     {
         $this->expertises = new ArrayCollection();
@@ -471,6 +475,18 @@ class Actor
     public function removeImage(MediaObject $image): static
     {
         $this->images->removeElement($image);
+
+        return $this;
+    }
+
+    public function getExternalImages(): ?array
+    {
+        return $this->externalImages;
+    }
+
+    public function setExternalImages(?array $externalImages): static
+    {
+        $this->externalImages = $externalImages;
 
         return $this;
     }
