@@ -1,9 +1,9 @@
 // Imported in app.vue
 @import '@/assets/styles/global/_variables';
 @import '@/assets/styles/global/vuetifyOverrides';
+@import '@/assets/styles/global/utils';
 @import '@/assets/styles/views/header';
 @import '@/assets/styles/views/actors';
-
 
 #app {
     display: flex;
@@ -16,28 +16,8 @@
     --dim-container-w: 70rem;
 }
 
-.container {
-    width: var(--dim-container-w);
-    margin: 0 auto;
-    max-width: 100%;
-    transition: all .15s ease-in;
-}
-
-.text-action {
-    text-decoration: underline;
-    cursor: pointer;
-
-    &:hover {
-        font-weight: 500;
-    }
-}
-
 a {
     color: #000;
-}
-
-.Link--withoutUnderline {
-    text-decoration: none;
 }
 
 * {
@@ -71,10 +51,6 @@ h4 {
     padding: 0;
 }
 
-.font-ojuju {
-    font-family: $font-primary;
-}
-
 .App {
 
     &__content {
@@ -84,7 +60,7 @@ h4 {
         position: relative;
 
         &--desktop{
-            padding: 30px 0;
+            padding: 0 0 30px 0;
             background-size: 45% auto;
         }
     
@@ -99,16 +75,4 @@ a:-webkit-any-link {
     color: rgb(var(--v-theme-main-blue));
     cursor: pointer;
     text-decoration: none;
-}
-
-.Card {
-    background: white;
-    box-shadow:  0px 0px 0px 1px rgb(var(--v-theme-main-blue)), 0px 2px 0px 1px rgb(var(--v-theme-main-blue));
-    transition: all .1s ease-in;
-    border: none;
-    cursor: pointer;
-
-    &:hover, &[active="true"] {
-        box-shadow: 0px 0px 0px 2px rgb(var(--v-theme-main-blue)), 0px 4px 0px 2px rgb(var(--v-theme-main-blue));
-    }
 }

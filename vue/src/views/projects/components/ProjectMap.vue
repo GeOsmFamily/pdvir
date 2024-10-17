@@ -17,20 +17,21 @@
       :geojson="geojson"
       ref="project-map"
       v-if="projectStore.projects != null" />
+    <ShowProjectFiltersModalControl ref="show-project-filters-modal-control" />
   </div>
 </template>
 
 <script setup lang="ts">
 import Map from '@/components/map/Map.vue';
-import MapService from '@/services/map/MapService';
+import MapService, { IControl } from '@/services/map/MapService';
 import { useProjectStore } from '@/stores/projectStore';
-import { computed, onMounted, ref, useTemplateRef, watch, type ShallowRef } from 'vue';
+import { computed, onMounted, useTemplateRef, watch } from 'vue';
 import projectIcon from '@/assets/images/icons/map/project_icon.png'
 import projectHoverIcon from '@/assets/images/icons/map/project_icon_hover.png'
 import ProjectCard from '@/views/projects/components/ProjectCard.vue';
 import ProjectFilterModal from '@/views/projects/components/ProjectFilterModal.vue';
 import { type ResolvedImageSpecification } from 'maplibre-gl';
-import ShowProjectFiltersModalControl from '@/views/projects/components/map-controls/ShowProjectFiltersModalControl';
+import ShowProjectFiltersModalControl from '@/views/projects/components/map-controls/ShowProjectFiltersModalControl.vue';
 
 type MapType = InstanceType<typeof Map>
 type ProjectCard = InstanceType<typeof ProjectCard>
@@ -38,6 +39,7 @@ type ProjectCard = InstanceType<typeof ProjectCard>
 const projectStore = useProjectStore()
 const projectMap = useTemplateRef<MapType>('project-map');
 const activeProjectCard = useTemplateRef<ProjectCard>('active-project-card');
+const showProjectFiltersModalControl = useTemplateRef('show-project-filters-modal-control');
 const geojson = computed(() => MapService.getGeojson(projectStore.filteredProjects))
 const map = computed(() => projectMap.value?.map)
 const sources = {
@@ -70,7 +72,7 @@ watch(() => projectMap.value?.activeFeatureId, () => {
 
 onMounted(() => {
   if (map.value == null) return
-  map.value.addControl(new ShowProjectFiltersModalControl, 'top-right')
+  map.value.addControl(new IControl(showProjectFiltersModalControl), 'top-right')
 })
 
 const updatePin = () => {

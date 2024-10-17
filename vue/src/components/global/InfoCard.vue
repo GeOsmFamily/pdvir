@@ -2,11 +2,12 @@
     <v-card
         class="InfoCard Card"
         :to="to"
+        :light="light"
     >
         <div class="InfoCard__content">
             <slot name="content"></slot>
         </div>
-        <div class="InfoCard__footer">
+        <div class="InfoCard__footer" v-if="!light">
             <div class="InfoCard__footerBlock InfoCard__footerBlock--left">
                 <slot name="footer-left">
                     <LikeButton />
@@ -22,7 +23,8 @@
 <script setup lang="ts">
 import type { RouteLocationAsRelativeGeneric } from 'vue-router';
 defineProps<{
-    to: string |RouteLocationAsRelativeGeneric
+    to: string |RouteLocationAsRelativeGeneric,
+    light?: boolean
 }>()
 </script>
 
@@ -32,6 +34,11 @@ defineProps<{
     padding: 25px;
     display: flex;
     flex-direction: column;
+    height: fit-content;
+
+    &[light="true"] {
+        box-shadow: none;
+    }
 
     &:hover, &[active="true"] {
 
@@ -68,6 +75,7 @@ defineProps<{
             display: flex;
             align-items: center;
             flex-flow: row nowrap;
+            gap: .5rem;
         }
     }
     

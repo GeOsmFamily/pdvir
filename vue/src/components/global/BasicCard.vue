@@ -21,7 +21,7 @@ defineProps<{
     align-items: center;
     justify-content: center;
     color: rgb(var(--v-theme-main-blue));
-    font-size: $font-size-h5;
+    font-size: $font-size-h6;
     font-weight: 700;
     position: relative;
 

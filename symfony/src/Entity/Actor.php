@@ -73,11 +73,11 @@ class Actor
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
     private ?string $acronym = null;
 
     #[ORM\ManyToOne(inversedBy: 'actorsCreated')]
@@ -90,7 +90,7 @@ class Actor
     private ?bool $isValidated = false;
 
     #[ORM\Column(enumType: ActorCategory::class)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
     private ?ActorCategory $category = null;
 
     /**
@@ -148,7 +148,7 @@ class Actor
     private Collection $projects;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
     private ?string $logo = null;
 
     /**
@@ -189,7 +189,7 @@ class Actor
 
     public function setAcronym(string $acronym): static
     {
-        $this->acronym = $acronym;
+        $this->acronym = strtoupper($acronym);
 
         return $this;
     }

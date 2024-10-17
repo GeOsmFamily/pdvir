@@ -2,7 +2,7 @@ AdminActorPanel<template>
     <div class="AdminActorPanel">
         <div class="AdminActorPanel__topBar">
             <div class="AdminActorPanel__topBar--left">
-                <SectionTitle :text="`${actorsCount.toString()} ${actorsCount > 1 ? $t('actors.actors') : $t('actors.actor')}`" />
+                <SectionTitle :title="`${actorsCount.toString()} ${actorsCount > 1 ? $t('actors.actors') : $t('actors.actor')}`" />
                 <v-icon icon="mdi mdi-magnify" class="ml-5" color="main-blue"></v-icon>
                 <v-text-field 
                     density="compact"

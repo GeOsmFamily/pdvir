@@ -27,7 +27,7 @@ export const vuetify = createVuetify({
       },
     defaults: {
       VBtn: {
-        elevation: 0,
+        variant: 'flat',
         style: [{ 
           textTransform: 'none',
           fontWeight: 'bold',
@@ -45,6 +45,7 @@ export const vuetify = createVuetify({
       VBreadcrumbs: {
         style: [{ 
           padding: '.75rem 0',
+          fontSize: '.875rem',
         }],
       },
       VFieldLabel: {
