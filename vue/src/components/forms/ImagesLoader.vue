@@ -26,9 +26,18 @@
         <span class="InputImage__errorMessage">{{ errorMessage }}</span>
     </div>
 
+    <div v-if="existingImages.length" class="mt-3">
+        <div v-for="(existingImage, index) in existingImages":key="index" class="position-relative">
+            <div @click="removeExistingImage(index)" class="InputImage__dropzone__imageCloser">X</div>
+            <img
+                :src="existingImage.contentUrl"
+                class="InputImage__dropzone__imageLoaded ma-2"
+            />
+        </div>
+    </div>
     <div v-if="selectedFiles.length" class="d-flex flex-wrap mt-3">
         <div v-for="(selectedFile, index) in selectedFiles":key="index" class="position-relative">
-            <div @click="removeFile(index)" class="InputImage__dropzone__imageCloser">X</div>
+            <div @click="removeLoadedFile(index)" class="InputImage__dropzone__imageCloser">X</div>
             <img
                 :src="selectedFile.preview"
                 :alt="(selectedFile as any).name ? (selectedFile as ContentImageFromUserFile).name : ''"
@@ -37,12 +46,25 @@
         </div>
     </div>
 </template>
-  
+
 <script setup lang="ts">
 import { ContentImageType } from '@/models/enums/app/ContentImageType';
 import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
+import type { MediaObject } from '@/models/interfaces/MediaObject';
 import { InputImageValidator } from '@/services/files/InputImageValidator';
-import { type Ref, ref } from 'vue';
+import { onMounted, type Ref, ref } from 'vue';
+
+const props = defineProps({
+    existingImages: {
+        type: Array<MediaObject>,
+        default: () => []
+    }
+})
+
+const existingImages: Ref<MediaObject[]> = ref([])
+onMounted(() => {
+    existingImages.value = props.existingImages
+})
 
 const selectedFiles: Ref<ContentImageFromUserFile[]> = ref([])
 const emit = defineEmits(['updateFiles'])
@@ -88,11 +110,21 @@ const handleFileChange = (event: any) => {
         }, 3000)
     }
   })
-  emit('updateFiles', selectedFiles.value)
+  emitChange()
 }
-const removeFile = (index: number) => {
+const removeLoadedFile = (index: number) => {
     selectedFiles.value.splice(index, 1)
+    emitChange()
 }
+const removeExistingImage = (index: number) => {
+    existingImages.value.splice(index, 1)
+    emitChange()
+}
+
+const emitChange = () => {
+    emit('updateFiles', {existingImages: existingImages.value, selectedFiles: selectedFiles.value})
+}
+
 </script>
 
 <style lang="scss">

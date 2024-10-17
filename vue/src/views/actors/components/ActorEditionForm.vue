@@ -66,7 +66,7 @@
                         :error-messages="form.phone.errorMessage.value" @blur="form.phone.handleChange" type="tel"
                         :label="$t('actors.form.phone')" />
 
-                    <InputImage @updateFiles="handleFilesUpdate" />
+                    <ImagesLoader @updateFiles="handleFilesUpdate" :existing-images="existingImages"/>
                 </v-form>
             </div>
         </template>
@@ -84,14 +84,15 @@ import { ActorsFormService } from '@/services/actors/ActorsForm';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useApplicationStore } from '@/stores/applicationStore';
 import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue';
-import InputImage from '@/components/global/InputImage.vue';
-import { ref, type Ref } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
 import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
 import type { ActorExpertise } from '@/models/interfaces/ActorExpertise';
 import type { Thematic } from '@/models/interfaces/Thematic';
 import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope';
 import Modal from '@/components/global/Modal.vue';
+import type { MediaObject } from '@/models/interfaces/MediaObject';
+import ImagesLoader from '@/components/forms/ImagesLoader.vue';
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const actorToEdit: Actor | null = actorsStore.actorEdition.actor
@@ -103,15 +104,23 @@ const expertisesItems = actorsStore.actorsExpertises
 const thematicsItems = actorsStore.actorsThematics
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 
+let existingImages: MediaObject[] = []
+onMounted(() => {
+    if (actorToEdit) {
+        existingImages.push(...actorToEdit.images)
+    }
+})
+
 const selectedFiles: Ref<ContentImageFromUserFile[]> = ref([])
-function handleFilesUpdate(files: ContentImageFromUserFile[]) {
-    selectedFiles.value = files;
+function handleFilesUpdate(lists: any) {
+    selectedFiles.value = lists.selectedFiles
+    existingImages = lists.existingImages;
 }
 
 const submitForm = handleSubmit(
     values => {
         const actorSubmission: ActorSubmission = {
-            ...values, imagesToUpload: [...selectedFiles.value]
+            ...values, images: existingImages, imagesToUpload: [...selectedFiles.value]
         }
         actorsStore.createOrEditActor(actorSubmission, actorToEdit !== null)
     },

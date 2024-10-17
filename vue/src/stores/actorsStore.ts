@@ -50,8 +50,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
 
   async function createOrEditActor(actor: ActorSubmission, edit: boolean) {
     const id = selectedActor.value?.id
-    const copy = {...selectedActor.value, ...actor}
-    const result = await ActorsService.createOrEditActor(copy, edit, id)
+    const result = await ActorsService.createOrEditActor(actor, edit, id)
     await getActors()
     selectedActor.value = await ActorsService.getActor(result.id)
     useApplicationStore().showEditContentDialog = false

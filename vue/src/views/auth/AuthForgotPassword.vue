@@ -18,7 +18,7 @@ import AuthDialog from '@/views/auth/AuthDialog.vue';
 import { useField, useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as zod from 'zod';
-import Form from '@/components/global/Form.vue';
+import Form from '@/components/forms/Form.vue';
 import { DialogKey } from '@/models/enums/app/DialogKey';
 
 const validationSchema = toTypedSchema(
