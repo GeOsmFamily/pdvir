@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241017125154 extends AbstractMigration
+final class Version20241017165114 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -50,8 +50,11 @@ final class Version20241017125154 extends AbstractMigration
         $this->addSql('CREATE TABLE actor_expertise (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE administrative_scope (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE media_object (id INT NOT NULL, file_path VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE project (id INT NOT NULL, actor_id UUID NOT NULL, name VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, coords geometry(POINT, 0) NOT NULL, status VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, images JSON DEFAULT NULL, partners JSON DEFAULT NULL, intervention_zone VARCHAR(255) NOT NULL, project_manager_name VARCHAR(255) DEFAULT NULL, project_manager_position VARCHAR(255) DEFAULT NULL, project_manager_email VARCHAR(255) DEFAULT NULL, project_manager_tel VARCHAR(255) DEFAULT NULL, project_manager_photo VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, logo VARCHAR(255) DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE project (id INT NOT NULL, actor_id UUID NOT NULL, created_by INT DEFAULT NULL, updated_by INT DEFAULT NULL, name VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, coords geometry(POINT, 0) NOT NULL, status VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, images JSON DEFAULT NULL, partners JSON DEFAULT NULL, intervention_zone VARCHAR(255) NOT NULL, project_manager_name VARCHAR(255) DEFAULT NULL, project_manager_position VARCHAR(255) DEFAULT NULL, project_manager_email VARCHAR(255) DEFAULT NULL, project_manager_tel VARCHAR(255) DEFAULT NULL, project_manager_photo VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, logo VARCHAR(255) DEFAULT NULL, deliverables TEXT DEFAULT NULL, calendar TEXT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, slug VARCHAR(128) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_2FB3D0EE989D9B62 ON project (slug)');
         $this->addSql('CREATE INDEX IDX_2FB3D0EE10DAF24A ON project (actor_id)');
+        $this->addSql('CREATE INDEX IDX_2FB3D0EEDE12AB56 ON project (created_by)');
+        $this->addSql('CREATE INDEX IDX_2FB3D0EE16FE72E1 ON project (updated_by)');
         $this->addSql('COMMENT ON COLUMN project.actor_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE project_thematic (project_id INT NOT NULL, thematic_id INT NOT NULL, PRIMARY KEY(project_id, thematic_id))');
         $this->addSql('CREATE INDEX IDX_415254A9166D1F9C ON project_thematic (project_id)');
@@ -77,6 +80,8 @@ final class Version20241017125154 extends AbstractMigration
         $this->addSql('ALTER TABLE actor_media_object ADD CONSTRAINT FK_18E6A66710DAF24A FOREIGN KEY (actor_id) REFERENCES actor (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE actor_media_object ADD CONSTRAINT FK_18E6A66764DE5A5 FOREIGN KEY (media_object_id) REFERENCES media_object (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE project ADD CONSTRAINT FK_2FB3D0EE10DAF24A FOREIGN KEY (actor_id) REFERENCES actor (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE project ADD CONSTRAINT FK_2FB3D0EEDE12AB56 FOREIGN KEY (created_by) REFERENCES "user" (id) ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE project ADD CONSTRAINT FK_2FB3D0EE16FE72E1 FOREIGN KEY (updated_by) REFERENCES "user" (id) ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE project_thematic ADD CONSTRAINT FK_415254A9166D1F9C FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE project_thematic ADD CONSTRAINT FK_415254A92395FCED FOREIGN KEY (thematic_id) REFERENCES thematic (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE financed_projects_actors ADD CONSTRAINT FK_50C6B8EC166D1F9C FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -106,6 +111,8 @@ final class Version20241017125154 extends AbstractMigration
         $this->addSql('ALTER TABLE actor_media_object DROP CONSTRAINT FK_18E6A66710DAF24A');
         $this->addSql('ALTER TABLE actor_media_object DROP CONSTRAINT FK_18E6A66764DE5A5');
         $this->addSql('ALTER TABLE project DROP CONSTRAINT FK_2FB3D0EE10DAF24A');
+        $this->addSql('ALTER TABLE project DROP CONSTRAINT FK_2FB3D0EEDE12AB56');
+        $this->addSql('ALTER TABLE project DROP CONSTRAINT FK_2FB3D0EE16FE72E1');
         $this->addSql('ALTER TABLE project_thematic DROP CONSTRAINT FK_415254A9166D1F9C');
         $this->addSql('ALTER TABLE project_thematic DROP CONSTRAINT FK_415254A92395FCED');
         $this->addSql('ALTER TABLE financed_projects_actors DROP CONSTRAINT FK_50C6B8EC166D1F9C');

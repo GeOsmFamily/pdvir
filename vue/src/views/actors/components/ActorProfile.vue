@@ -77,8 +77,8 @@ const isEditable = computed(() => {
     return userStore.userIsAdmin() || actor.value?.createdBy.id === userStore.currentUser?.id
 })
 
-function editActor(actor: Actor) {
-    actorsStore.setActorEditionMode(actor)
+function editActor() {
+    actorsStore.setActorEditionMode(actor.value)
 }
 </script>
 <style lang="scss">
