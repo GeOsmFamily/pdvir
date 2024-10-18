@@ -9,7 +9,7 @@ import { useAdminStore } from '@/stores/adminStore'
 import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels'
 import { DialogKey } from '@/models/enums/app/DialogKey'
 import { useProjectStore } from '@/stores/projectStore'
-import { onBeforeUnmount, onBeforeMount } from 'vue';
+import { ProjectListDisplay } from '@/models/enums/app/ProjectListType';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,7 +35,13 @@ const router = createRouter({
     {
       path: '/projects',
       name: 'projects',
-      component: () => import('@/views/projects/ProjectListView.vue')
+      component: () => import('@/views/projects/ProjectListView.vue'),
+      beforeEnter: (to, from, next) => {
+        const projectStore = useProjectStore()
+        projectStore.isProjectMapFullWidth = to.query.type === ProjectListDisplay.MAP ? true : false
+        projectStore.activeProjectId = to.query.project ? +to.query.project : null
+        next()
+      }
     },
     {
       path: '/projects/:slug',

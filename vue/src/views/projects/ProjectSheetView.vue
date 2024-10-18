@@ -11,14 +11,23 @@
                 :website="project.website"
                 :phone="project.projectManagerTel"
                 :isEditable="isEditable"
-                :isMapButtonShown="true"
                 :updatedAt="project.updatedAt"
-                @edit="editProject" />
-            <div class="SheetView__title SheetView__title--divider">{{ $t('projectPage.about') }}</div>
-            <div class="SheetView__contentCtn">
+                @edit="editProject">
+                <template #custom-actions>
+                    <v-btn
+                        :to="{ name: 'projects', query: { type: ProjectListDisplay.MAP, project: project.id }}"
+                        variant="text"
+                        density="comfortable"
+                        icon="mdi-map-outline"
+                        class="hide-sm"
+                        color="main-blue"></v-btn>
+                </template>
+            </SheetContentBanner>
+            <div class="SheetView__contentCtn my-6">
+                <div class="SheetView__title SheetView__title--divider">{{ $t('projectPage.about') }}</div>
                 <p>{{project.description}}</p>
-                <ProjectRelatedContent :project="project" />
             </div>
+            <ProjectRelatedContent :project="project" />
         </div>
         <div class="SheetView__block SheetView__block--right">
             <div class="SheetView__updatedAtCtn hide-sm" >
@@ -71,6 +80,7 @@ import ActorCard from '@/views/actors/components/ActorCard.vue';
 import PrintButton from '@/components/global/PrintButton.vue';
 import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue';
 import SectionBanner from '@/components/banners/SectionBanner.vue';
+import { ProjectListDisplay } from '@/models/enums/app/ProjectListType';
 
 const userStore = useUserStore();
 const projectStore = useProjectStore();

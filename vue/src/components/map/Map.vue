@@ -97,24 +97,35 @@ const addImage = async (path: string, name: string) => {
     return
 }
 
+const addPopup = (coordinates: maplibregl.LngLatLike, popupHtml: any) => {
+    if (map.value == null) return
+    flyTo(coordinates)
+    popup.value.setLngLat(coordinates).setDOMContent(popupHtml.$el).addTo(map.value);
+    popup.value.addClassName('show');
+    popup.value._onClose = () => {
+        activeFeatureId.value = null;
+        popup.value.removeClassName('show');
+    }
+}
+
 const addPopupOnClick = (layerName: string, popupHtml: any) => {
     if (map.value == null) return
     map.value.on('click', layerName, (e: any) => {
         if (map.value == null) return
         activeFeatureId.value = e.features[0].properties.id;
-        console.log('activeFeatureId', activeFeatureId.value);
-        
         const coordinates = e.features[0].geometry.coordinates.slice();
-
-        popup.value.setLngLat(coordinates).setDOMContent(popupHtml.$el).addTo(map.value);
-        popup.value.addClassName('show');
-        popup.value._onClose = () => {
-            activeFeatureId.value = null;
-            popup.value.removeClassName('show');
-        }
+        addPopup(coordinates, popupHtml);
     })
 }
 
+const flyTo = (coordinates: maplibregl.LngLatLike) => {
+    if (map.value == null) return
+    map.value.flyTo({
+        center: coordinates,
+        zoom: 7,
+        speed: 0.5,
+    });
+}
 
 const listenToHoveredFeature = (layerName: string) => {
     if (map.value == null) return
@@ -148,6 +159,7 @@ defineExpose({
     activeFeatureId,
     hoveredFeatureId,
     addSource,
+    addPopup,
     addPopupOnClick,
     addImage,
     addLayer,

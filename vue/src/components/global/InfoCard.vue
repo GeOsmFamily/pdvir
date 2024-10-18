@@ -75,7 +75,6 @@ defineProps<{
             display: flex;
             align-items: center;
             flex-flow: row nowrap;
-            gap: .5rem;
         }
     }
     

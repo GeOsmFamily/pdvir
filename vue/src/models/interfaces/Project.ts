@@ -11,7 +11,10 @@ export interface Project extends Timestampable {
   slug: string;
   createdBy: User;
   location: string;
-  coords: string;
+  coords: {
+    lng: number,
+    lat: number
+  };
   calendar: string;
   deliverables: string;
   status: Status;

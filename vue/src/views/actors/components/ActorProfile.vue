@@ -94,9 +94,9 @@ function editActor(actor: Actor) {
     display: flex;
     flex-direction: column;
     width: 70%;
-    flex-wrap: wrap;
     padding-right: 1em;
 }
+
 @media (max-width: 600px) {
     .ActorPage__leftBlock {
         width: 100%;

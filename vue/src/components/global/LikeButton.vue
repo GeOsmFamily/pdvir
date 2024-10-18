@@ -1,6 +1,10 @@
 <template>
     <div class="LikeButton">
-        <v-icon icon="mdi mdi-heart-outline" color="main-blue"></v-icon>
+        <v-btn
+            variant="text"
+            density="comfortable"
+            icon="mdi mdi-heart-outline"
+            color="main-blue"></v-btn>
     </div>
 </template>
 
