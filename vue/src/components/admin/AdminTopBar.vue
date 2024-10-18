@@ -1,15 +1,19 @@
 <template>
 <div class="AdminTopBar">
     <div class="AdminTopBar--left">
-        <SectionTitle :text="`${itemsCount.toString()} ${title}`" />
+        <SectionTitle :title="title" />
         <v-icon icon="mdi mdi-magnify" class="ml-5" color="main-blue"></v-icon>
-        <v-text-field 
+        <v-autocomplete
+            :items="items"
             density="compact"
             hide-details
             variant="solo"
             label="Search"
+            :item-value="searchKey"
+            :item-title="searchKey"
+            v-model="searchQuery"
         >
-        </v-text-field>
+        </v-autocomplete>
     </div>
     <div class="AdminTopBar--right">
         <v-btn color="white" class="mr-3">
@@ -34,17 +38,22 @@
 import { i18n } from '@/assets/plugins/i18n';
 import type { Actor } from '@/models/interfaces/Actor';
 import type { User } from '@sentry/vue';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import SectionTitle from '@/components/text-elements/SectionTitle.vue';
 
 type AdminPages = 'Actors' | 'Projects' | 'Members'
 const props = defineProps<{
     page: AdminPages,
     items: Actor[] | User[],
     sortingListItems: {sortingKey: string, text: string}[],
+    searchKey: string,
     createFunction: () => void
 }>()
-const itemsCount = props.items.length
+const emit = defineEmits(['updateSortingKey'])
 const sortingKey = ref("isValidated")
+watch(() => sortingKey.value, () => {
+    emit('updateSortingKey', sortingKey.value)
+})
 const title = computed(() => {
         if (props.page === 'Members') {
             return `${props.items.length.toString()} ${props.items.length > 1 ? i18n.t('admin.members') : i18n.t('admin.member')}`
@@ -55,6 +64,8 @@ const title = computed(() => {
         return `${props.items.length.toString()} ${props.items.length > 1 ? i18n.t('actors.actors') : i18n.t('actors.actor')}`
     }
 )
+
+const searchQuery = ref("")
 
 </script>
 
