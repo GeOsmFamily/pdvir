@@ -4,17 +4,19 @@
             :items="items"
             variant="solo"
             bg-color="white"
-            elevation="2"
             density="comfortable"
             :hide-details="true"
             menu-icon=""
-            prepend-inner-icon="mdi-magnify"
             :placeholder="placeholder"
             :item-title="itemTitle"
             :item-value="itemValue"
             :custom-filter="customFilter"
             v-model="selectedItem"
-        ></v-autocomplete>
+        >
+            <template v-slot:prepend-inner>
+                <v-icon icon="mdi-magnify" color="main-blue"></v-icon>
+            </template>
+        </v-autocomplete>
     </div>
 </template>
 <script setup lang="ts">
@@ -50,11 +52,19 @@ const props = defineProps<{
     border-radius: .5rem;
     padding: 1rem 1.5rem;
 
+    .v-input {
+        box-shadow: 0 .2rem .25rem -.125rem rgba(0, 0, 0, 0.3);
+    }
+
     .v-autocomplete {
         ::placeholder {
             opacity: 1;
             letter-spacing: .05rem;
         }
+    }
+
+    .v-field__prepend-inner > .v-icon {
+        opacity: 1;
     }
 }
 

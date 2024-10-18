@@ -2,7 +2,8 @@ import type { ActorsCategories } from "../enums/contents/actors/ActorsCategories
 import type { ActorExpertise } from "./ActorExpertise";
 import type { AdministrativeScope } from "./AdministrativeScope";
 import type { User } from "./auth/User";
-import type { ContentImageFromUserFile, ContentImageFromUrl } from "./ContentImage";
+import type { ContentImageFromUserFile } from "./ContentImage";
+import type { MediaObject } from "./MediaObject";
 import type { Thematic } from "./Thematic";
 
 export interface Actor {
@@ -26,14 +27,17 @@ export interface Actor {
     contactName: string;
     contactPosition: string;
     projects: string[];
-    logo: string;//To add in form
-    images: string[];
+    logo: MediaObject;//To add in form
+    images: MediaObject[];
+    externalImages: string[];
     website: string;
     phone: string;
     email: string;
   }
 
-  export interface ActorSubmission extends Actor {
-    imagesToUpload: (ContentImageFromUserFile | ContentImageFromUrl)[]
+  export interface ActorSubmission extends Omit<Actor, "logo"> {
+    logo: string,
+    logoToUpload: ContentImageFromUserFile
+    imagesToUpload: ContentImageFromUserFile[]
   }
   

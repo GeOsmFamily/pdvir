@@ -16,6 +16,21 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+
+    public function findTwoSimilarProjectsByThematics(Project $project): array {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.thematics', 't')
+            ->addSelect('t')
+            ->andWhere('p.id != :id')
+            ->andWhere('t.id IN (:thematicIds)')
+            ->setParameter('thematicIds', $project->getThematics()->map(fn($thematic) => $thematic->getId()))
+            ->setParameter('id', $project->getId())
+            ->orderBy('p.updatedAt', 'DESC')
+            ->setMaxResults(2)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 //    /**
 //     * @return Project[] Returns an array of Project objects
 //     */

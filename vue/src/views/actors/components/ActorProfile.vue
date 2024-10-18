@@ -2,19 +2,27 @@
     <template v-if="actor">
         <div class="ActorPage">
             <div class="ActorPage__leftBlock">
-                <img :src="actor.logo" alt="" v-if="appStore.mobile" class="mt-4 mb-4 ActorPage__logo">
-                <ContentBanner :content="actor" :isEditable="isEditable" :editFunction="editActor"/>
-                <SectionTitle :text="$t('actorPage.description')" class="mt-12"/>
+                <img :src="actor.logo.contentUrl" alt="" v-if="appStore.mobile && actor.logo" class="mt-4 mb-4 ActorPage__logo">
+                <SheetContentBanner
+                    :title="actor.name"
+                    :subtitle="actor.acronym"
+                    :phone="actor.phone"
+                    :email="actor.email"
+                    :website="actor.website"
+                    :isEditable="isEditable"
+                    :updatedAt="actor.lastUpdate"
+                    @edit="editActor"/>
+                <SectionTitle :title="$t('actorPage.description')" class="mt-12"/>
                 <ContentDivider class="mt-4"/>
-                <p class="mt-6 mr-8">{{actor.description}}</p>
+                <p class="mt-6 mr-8">{{ actor.description }}</p>
                 <ActorRelatedContent :actor="actor" v-if="!appStore.mobile"/>
             </div>
             <div class="ActorPage__rightBlock">
-                <img :src="actor.logo" alt="" v-if="!appStore.mobile" class="ActorPage__logo">
+                <img :src="actor.logo.contentUrl" alt="" v-if="!appStore.mobile && actor.logo" class="ActorPage__logo">
                 <div class="mt-6">
                     <ChipList :items="actor.thematics" />
                 </div>
-                <SectionTitle :text="$t('actorPage.adminScope')" class="mt-12"/>
+                <SectionTitle :title="$t('actorPage.adminScope')" class="mt-12"/>
                 <ContentDivider class="mt-4"/>
                 {{ actor.administrativeScopes.map(x => x.name).join(", ") }}
                 <div class="ActorPage__contentCard">
@@ -25,7 +33,7 @@
                     </div>
                 </div>
                 <div class="ActorPage__contentCard flex-column mt-8">
-                    <SectionTitle :text="$t('actorPage.contact')"/>
+                    <SectionTitle :title="$t('actorPage.contact')"/>
                     <span class="font-weight-bold mt-3">{{ actor.contactName }}</span>
                     <span>{{ actor.contactPosition }}</span>
                 </div>
@@ -40,7 +48,7 @@ import type { Actor }  from '@/models/interfaces/Actor';
 import { useActorsStore } from '@/stores/actorsStore';
 import { computed, onMounted, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
-import ContentBanner from '@/components/content/ContentBanner.vue';
+import SheetContentBanner from '@/views/_layout/sheet/SheetContentBanner.vue';
 import SectionTitle from '@/components/text-elements/SectionTitle.vue';
 import ContentDivider from '@/components/content/ContentDivider.vue';
 import ActorRelatedContent from './ActorRelatedContent.vue';
@@ -69,11 +77,13 @@ const isEditable = computed(() => {
     return userStore.userIsAdmin() || actor.value?.createdBy.id === userStore.currentUser?.id
 })
 
-function editActor(actor: Actor) {
-    actorsStore.setActorEditionMode(actor)
+function editActor() {
+    actorsStore.setActorEditionMode(actor.value)
 }
 </script>
 <style lang="scss">
+@import '@/assets/styles/views/SheetView';
+
 .ActorPage {
     display: flex;
     flex-direction: row;

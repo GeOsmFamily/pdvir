@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import AuthDialog from '@/views/auth/AuthDialog.vue';
-import Form from '@/components/global/Form.vue';
+import Form from '@/components/forms/Form.vue';
 import { i18n } from '@/assets/plugins/i18n';
 import CheckPoint from '@/components/global/CheckPoint.vue';
 import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';

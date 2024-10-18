@@ -2,8 +2,7 @@
     <div class="Actors__header">
         <img src="@/assets/images/Mosaic_actors_page.svg" alt="">
         <div class="Actors__header__description">
-            <PageTitle :text="$t('actors.title')"/>
-            <PageTitle :text="$t('actors.subtitle')"/>
+            <PageTitle :title="$t('actors.title')"/>
             <span class="mt-6">{{ $t('actors.desc') }}</span>
             <Autocomplete 
                 :placeholder="$t('actors.search')"
@@ -17,7 +16,7 @@
         </div>
     </div>
     <div class="Actors__filters">
-        <SectionTitle :text="$t('actors.filtersTitle')" />
+        <SectionTitle :title="$t('actors.filtersTitle')" />
         <Wip />
         <div class="mt-3" v-if="userStore.userIsAdmin() || userStore.userHasRole(UserRoles.EDITOR_ACTORS)">
             <v-btn color="main-red" prepend-icon="mdi-plus" @click="addActor()">{{ $t('actors.add') }}</v-btn>
@@ -48,9 +47,9 @@ import Wip from '@/components/global/Wip.vue';
 import ActorCard from '@/views/actors/components/ActorCard.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useUserStore } from '@/stores/userStore';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { UserRoles } from '@/models/enums/auth/UserRoles';
-;
+
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const userStore = useUserStore();

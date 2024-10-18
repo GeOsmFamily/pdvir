@@ -34,11 +34,11 @@ class Thematic
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([self::THEMATIC_READ, Project::PROJECT_READ_ALL])]
+    #[Groups([self::THEMATIC_READ, Project::PROJECT_READ, Project::PROJECT_READ_ALL])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::THEMATIC_READ, Actor::ACTOR_READ_ITEM, Project::PROJECT_READ_ALL])]
+    #[Groups([self::THEMATIC_READ, Actor::ACTOR_READ_ITEM, Project::PROJECT_READ, Project::PROJECT_READ_ALL])]
     private ?string $name = null;
 
     /**

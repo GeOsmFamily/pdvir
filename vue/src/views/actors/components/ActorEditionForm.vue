@@ -17,7 +17,9 @@
                     <v-text-field density="compact" variant="outlined" v-model="form.acronym.value.value"
                         :error-messages="form.acronym.errorMessage.value" :label="$t('actors.form.acronym')"
                         @blur="form.acronym.handleChange" />
+                    <ImagesLoader @updateFiles="handleLogoUpdate" :existingImages="existingLogo" :uniqueImage="true" :externalImagesLoader="false"/>
                     <v-select density="compact" variant="outlined" :label="$t('actors.form.category')"
+                        class="mt-3"
                         v-model="(form.category.value.value as ActorsCategories)" :items="categoryItems"
                         :error-messages="form.category.errorMessage.value" @blur="form.category.handleChange" />
                     <v-select density="compact" variant="outlined" :label="$t('actors.form.expertise')" multiple
@@ -66,7 +68,7 @@
                         :error-messages="form.phone.errorMessage.value" @blur="form.phone.handleChange" type="tel"
                         :label="$t('actors.form.phone')" />
 
-                    <InputImage @updateFiles="handleFilesUpdate" />
+                    <ImagesLoader @updateFiles="handleImagesUpdate" :existingImages="existingImages"/>
                 </v-form>
             </div>
         </template>
@@ -84,14 +86,15 @@ import { ActorsFormService } from '@/services/actors/ActorsForm';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useApplicationStore } from '@/stores/applicationStore';
 import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue';
-import InputImage from '@/components/global/InputImage.vue';
-import { ref, type Ref } from 'vue';
-import type { ContentImageFromUserFile, ContentImageFromUrl } from '@/models/interfaces/ContentImage';
+import { onMounted, ref, type Ref } from 'vue';
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage';
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
 import type { ActorExpertise } from '@/models/interfaces/ActorExpertise';
 import type { Thematic } from '@/models/interfaces/Thematic';
 import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope';
 import Modal from '@/components/global/Modal.vue';
+import type { MediaObject } from '@/models/interfaces/MediaObject';
+import ImagesLoader from '@/components/forms/ImagesLoader.vue';
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const actorToEdit: Actor | null = actorsStore.actorEdition.actor
@@ -103,15 +106,46 @@ const expertisesItems = actorsStore.actorsExpertises
 const thematicsItems = actorsStore.actorsThematics
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 
-const selectedFiles: Ref<(ContentImageFromUserFile | ContentImageFromUrl)[]> = ref([])
-function handleFilesUpdate(files: (ContentImageFromUserFile | ContentImageFromUrl)[]) {
-    selectedFiles.value = files;
+const existingLogo = ref<(MediaObject | string)[]>([]);
+const existingImages = ref<(MediaObject | string)[]>([])
+let existingHostedImages: MediaObject[] = []
+let existingExternalImages: string[] = []
+onMounted(() => {
+    if (actorToEdit) {
+        actorToEdit.logo ? existingLogo.value = [actorToEdit.logo] : existingLogo.value = []
+        existingImages.value = [...actorToEdit.images, ...actorToEdit.externalImages]
+        existingHostedImages = actorToEdit.images
+        existingExternalImages = actorToEdit.externalImages
+    }
+})
+
+const newLogo: Ref<ContentImageFromUserFile[]> = ref([])
+function handleLogoUpdate(list: any) {
+    newLogo.value = list.selectedFiles
+}
+
+const imagesToUpload: Ref<ContentImageFromUserFile[]> = ref([])
+function handleImagesUpdate(lists: any) {
+    imagesToUpload.value = lists.selectedFiles
+    existingHostedImages = []
+    existingExternalImages = []
+    lists.existingImages.forEach((image: MediaObject | string) => {
+        if (typeof image === 'string') {
+            existingExternalImages.push(image)
+        } else {
+            existingHostedImages.push(image)
+        }
+    })
 }
 
 const submitForm = handleSubmit(
     values => {
         const actorSubmission: ActorSubmission = {
-            ...values, imagesToUpload: [...selectedFiles.value]
+            ...values,
+            logoToUpload: newLogo.value[0],
+            images: existingHostedImages,
+            externalImages: existingExternalImages,
+            imagesToUpload: [...imagesToUpload.value]
         }
         actorsStore.createOrEditActor(actorSubmission, actorToEdit !== null)
     },
