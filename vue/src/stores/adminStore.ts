@@ -13,7 +13,7 @@ export const useAdminStore = defineStore(StoresList.ADMIN, () => {
 
   const appMembers = ref([])
   const getMembers = async () => {
-    await UsersService.getMembers()
+    appMembers.value = await UsersService.getMembers()
   }
   return { selectedAdminPanel, selectedAdminItem, appMembers, getMembers }
 })

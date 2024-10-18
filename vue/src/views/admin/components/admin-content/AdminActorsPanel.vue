@@ -1,5 +1,5 @@
-AdminActorPanel<template>
-    <div class="AdminActorPanel">
+<template>
+    <div class="AdminPanel">
         <AdminTopBar 
             page="Actors"
             :items="actorsStore.actors"
@@ -12,16 +12,16 @@ AdminActorPanel<template>
             :items="sortedActors"
             :tableKeys="['acronym', 'name', 'category']"
         >
-            <template #content="{ item }">
+            <template #editContentCell="{ item }">
                 <template v-if="!item.isValidated">
-                    <v-btn size="small" icon="mdi-arrow-right" class="text-main-blue" @click="editActor(item)"></v-btn>
+                    <v-btn size="small" icon="mdi-arrow-right" class="text-main-blue" @click="editActor(item as Actor)"></v-btn>
                 </template> 
                 <template v-else>
                     <v-btn density="comfortable" icon="mdi-pencil-outline" @click="editActor(item as Actor)" class="mr-2"></v-btn>
                     <v-btn density="comfortable" icon="mdi-dots-vertical">
                         <v-icon icon="mdi-dots-vertical"></v-icon>
                         <v-menu activator="parent" location="left">
-                            <v-list class="AdminActorPanel__additionnalMenu">
+                            <v-list class="AdminPanel__additionnalMenu">
                                 <v-list-item :to="`/actors/${item.name}`">{{ $t('actors.admin.goToPage')}}</v-list-item>
                                 <v-list-item @click="actorsStore.deleteActor((item as Actor).id)">{{ $t('actors.admin.delete')}}</v-list-item>
                             </v-list>
@@ -66,15 +66,3 @@ const sortedActors = computed(() => {
     return actorsStore.actors
 })
 </script>
-<style lang="scss" scoped>
-.AdminActorPanel {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    &__additionnalMenu {
-        font-weight: 700;
-        color: rgb(var(--v-theme-main-blue));
-    }
-}
-
-</style>

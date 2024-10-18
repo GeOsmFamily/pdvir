@@ -49,7 +49,7 @@ const props = defineProps<{
     searchKey: string,
     createFunction: () => void
 }>()
-const emit = defineEmits(['updateSortingKey'])
+const emit = defineEmits(['updateSortingKey', 'updateSearchQuery'])
 const sortingKey = ref("isValidated")
 watch(() => sortingKey.value, () => {
     emit('updateSortingKey', sortingKey.value)
@@ -66,6 +66,9 @@ const title = computed(() => {
 )
 
 const searchQuery = ref("")
+watch(() => searchQuery.value, () => {
+    emit('updateSearchQuery', searchQuery.value)
+})
 
 </script>
 

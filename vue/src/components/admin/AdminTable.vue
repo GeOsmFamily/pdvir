@@ -4,12 +4,19 @@
             class="AdminTableItem"
             :class="{ 'AdminTableItem--overlay': !item.isValidated }"
             v-for="item in items" :key="item.id"
+            :style="{ gridTemplateColumns: columnWidths.join(' ') }"
         >
-            <div class="AdminTableItem--col1">{{ reduceText(item[tableKeys[0] as keyof typeof item], 5) }}</div>
-            <div class="AdminTableItem--col2">{{ reduceText(item[tableKeys[1] as keyof typeof item], 25) }}</div>
-            <div class="AdminTableItem--col3">{{ reduceText(item[tableKeys[2] as keyof typeof item], 20) }}</div>
-            <div class="AdminTableItem--col4">
-                <slot name="content" :item="item"></slot>
+            <div class="AdminTableItem">
+                {{ plainText ? item[tableKeys[0] as keyof typeof item] : reduceText(item[tableKeys[0] as keyof typeof item], 5) }}
+            </div>
+            <div class="AdminTableItem">
+                {{ plainText ? item[tableKeys[1] as keyof typeof item] : reduceText(item[tableKeys[1] as keyof typeof item], 25) }}
+            </div>
+            <div class="AdminTableItem">
+                {{ plainText ? item[tableKeys[2] as keyof typeof item] : reduceText(item[tableKeys[2] as keyof typeof item], 20) }}
+            </div>
+            <div class="AdminTableItem--last">
+                <slot name="editContentCell" :item="item"></slot>
             </div>
         </div>
     </div>
@@ -23,7 +30,11 @@ import type { User } from '@sentry/vue';
 const props = defineProps<{
   items: Actor[] | User[];
   tableKeys: (keyof Actor | keyof User)[];
+  columnWidths?: string[];
+  plainText?: boolean;
 }>()
+const defaultColumnWidths = ['15%', '40%', '25%', '20%'];
+const columnWidths = props.columnWidths || defaultColumnWidths;
 </script>
 
 <style lang="scss">
@@ -34,7 +45,7 @@ const props = defineProps<{
     margin-top: 30px;
 }
 .AdminTableItem {
-    display: flex;
+    display: grid;
     flex-direction: row;
     height: 3.5rem;
     align-items: center;
@@ -43,17 +54,7 @@ const props = defineProps<{
     &--overlay {
         background-color: rgb(var(--v-theme-light-yellow));
     }
-    &--col1 {
-        width: 15%;
-    }
-    &--col2 {
-        width: 40%;
-    }
-    &--col3 {
-        width: 25%;
-    }
-    &--col4 {
-        width: 20%;
+    &--last {
         display: flex;
         justify-content: flex-end;
         padding-right: 10px;
