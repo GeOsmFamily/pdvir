@@ -1,30 +1,11 @@
 AdminActorPanel<template>
     <div class="AdminActorPanel">
-        <div class="AdminActorPanel__topBar">
-            <div class="AdminActorPanel__topBar--left">
-                <SectionTitle :text="`${actorsCount.toString()} ${actorsCount > 1 ? $t('actors.actors') : $t('actors.actor')}`" />
-                <v-icon icon="mdi mdi-magnify" class="ml-5" color="main-blue"></v-icon>
-                <v-text-field 
-                    density="compact"
-                    hide-details
-                    variant="solo"
-                    label="Search"
-                >
-                </v-text-field>
-            </div>
-            <div class="AdminActorPanel__topBar--right">
-                <v-btn color="white" class="mr-3">
-                    <span>{{ $t('placeholders.sortBy') }}</span><v-icon icon="mdi mdi-arrow-down-drop-circle-outline" class="ml-2"></v-icon>
-                    <v-menu activator="parent">
-                        <v-list>
-                            <v-list-item @click="sortingActorsSelectedMethod = 'isValidated'">Acteurs à valider</v-list-item>
-                            <v-list-item @click="sortingActorsSelectedMethod = 'name'">Nom</v-list-item>
-                        </v-list>
-                    </v-menu>
-                </v-btn>
-                <v-btn @click="createActor()" color="main-red">{{ $t("actors.form.createTitle")}}</v-btn>
-            </div>
-        </div>
+        <AdminTopBar 
+            page="Actors"
+            :items="actorsStore.actors"
+            :sortingListItems="[{sortingKey: 'isValidated', text: 'Acteurs à valider'}, {sortingKey: 'name', text: 'Nom'}]"
+            :createFunction="createActor"
+        />
         <div class="AdminActorPanel__content">
             <div 
                 class="AdminActorPanel__contentItem"
@@ -60,6 +41,7 @@ import SectionTitle from '@/components/text-elements/SectionTitle.vue';
 import type { Actor } from '@/models/interfaces/Actor';
 import { useActorsStore } from '@/stores/actorsStore';
 import { computed, ref } from 'vue';
+import AdminTopBar from '../AdminTopBar.vue';
 const actorsStore = useActorsStore()
 const actorsCount = computed(() => actorsStore.actors.length)
 const sortingActorsSelectedMethod = ref("isValidated")
@@ -95,21 +77,21 @@ const sortedActors = computed(() => {
     flex-direction: column;
     width: 100%;
 
-    &__topBar {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        flex-direction: row;
-        height: 48px;
-        align-items: center;
+    // &__topBar {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     width: 100%;
+    //     flex-direction: row;
+    //     height: 48px;
+    //     align-items: center;
 
-        &--left {
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-            margin-right: 30px;
-        }
-    }
+    //     &--left {
+    //         display: flex;
+    //         align-items: center;
+    //         flex-grow: 1;
+    //         margin-right: 30px;
+    //     }
+    // }
     &__content {
         display: flex;
         flex-direction: column;
