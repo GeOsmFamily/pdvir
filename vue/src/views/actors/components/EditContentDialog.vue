@@ -12,7 +12,7 @@
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useActorsStore } from '@/stores/actorsStore';
 import ActorEditionForm from '@/views/actors/components/ActorEditionForm.vue';
-import AdminUserEditionForm from '@/views/admin/components/admin-content/AdminUserEditionForm.vue';
+import AdminUserEditionForm from '@/views/admin/components/AdminUserEditionForm.vue';
 import { useAdminStore } from '@/stores/adminStore';
 
 const appStore = useApplicationStore();

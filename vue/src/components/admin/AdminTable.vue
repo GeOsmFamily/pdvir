@@ -56,6 +56,7 @@ const columnWidths = props.columnWidths || defaultColumnWidths;
     }
     &--last {
         display: flex;
+        align-items: center;
         justify-content: flex-end;
         padding-right: 10px;
     }

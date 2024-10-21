@@ -24,9 +24,10 @@
                     <v-btn size="small" icon="mdi-arrow-right" class="text-main-blue" @click="editUser(item as User)"></v-btn>
                 </template> 
                 <template v-else>
-                    <v-btn density="comfortable" icon="mdi-contacts" class="mr-2"></v-btn>
-                    <v-btn density="comfortable" icon="mdi-rocket-launch" class="mr-2"></v-btn>
-                    <v-btn density="comfortable" icon="mdi-database-arrow-down" class="mr-2"></v-btn>
+                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_ACTORS) ? 'main-yellow' : 'main-grey'" icon="mdi-contacts" class="mr-1"></v-icon>
+                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_PROJECTS) ? 'main-yellow' : 'main-grey'" icon="mdi-rocket-launch" class="mr-1"></v-icon>
+                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_DATA) ? 'main-yellow' : 'main-grey'" icon="mdi-database-arrow-down" class="mr-1"></v-icon>
+                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_RESOURCES) ? 'main-yellow' : 'main-grey'" icon="mdi-account-group" class="mr-1"></v-icon>
                     <v-btn density="comfortable" icon="mdi-pencil-outline"></v-btn>
                 </template>
             </template>
@@ -39,6 +40,7 @@ import { computed, onBeforeMount, ref } from 'vue';
 import AdminTopBar from '@/components/admin/AdminTopBar.vue';
 import AdminTable from '@/components/admin/AdminTable.vue';
 import type { User } from '@/models/interfaces/auth/User';
+import { UserRoles } from '@/models/enums/auth/UserRoles';
 const adminStore = useAdminStore();
 onBeforeMount(() => {
     adminStore.getMembers()
