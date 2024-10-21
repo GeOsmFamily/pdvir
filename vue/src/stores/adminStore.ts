@@ -1,8 +1,11 @@
 import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels'
 import { StoresList } from '@/models/enums/app/StoresList'
+import type { User } from '@/models/interfaces/auth/User'
 import { UsersService } from '@/services/application/UsersService'
 import { defineStore } from 'pinia'
-import { ref, watch, type Ref } from 'vue'
+import { reactive, ref, watch, type Reactive, type Ref } from 'vue'
+import { useApplicationStore } from './applicationStore'
+import { AuthenticationService } from '@/services/auth/AuthenticationService'
 
 
 export const useAdminStore = defineStore(StoresList.ADMIN, () => {
@@ -15,5 +18,27 @@ export const useAdminStore = defineStore(StoresList.ADMIN, () => {
   const getMembers = async () => {
     appMembers.value = await UsersService.getMembers()
   }
-  return { selectedAdminPanel, selectedAdminItem, appMembers, getMembers }
+
+  const userEdition: Reactive<{active: boolean, user: User | null}> = reactive({
+    active: false,
+    user: null
+  })
+  watch(() => userEdition.active, () => {
+    if (!userEdition.active) {
+      useApplicationStore().showEditContentDialog = false
+    }
+  })
+  function setUserEditionMode(user: User | null) {
+    userEdition.user = user
+    userEdition.active = true
+    useApplicationStore().showEditContentDialog = true
+  }
+
+  async function editUser(values: Partial<User>) {
+    await AuthenticationService.patchUser(values, userEdition.user!.id)
+    await getMembers()
+    userEdition.active = false
+  }
+
+  return { selectedAdminPanel, selectedAdminItem, appMembers, getMembers, userEdition, setUserEditionMode, editUser }
 })

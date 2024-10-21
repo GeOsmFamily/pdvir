@@ -49,7 +49,7 @@ function createUser() {
 }
 
 function editUser(user: User) {
-    alert("not implemented")
+    adminStore.setUserEditionMode(user)
 }
 
 const sortingUsersSelectedMethod = ref("isValidated")
