@@ -5,6 +5,11 @@
   transition: all .15s ease-in;
 }
 
+.container-fluid {
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+}
+
 .text-action {
   text-decoration: underline;
   cursor: pointer;
@@ -66,8 +71,24 @@
   }
 }
 
-.show-sm {
+.disabled {
+  pointer-events: none;
+}
+
+.show-sm,
+.show-mobile {
   display: none !important;
+}
+
+
+@media (max-width: $bp-sm) {
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .show-mobile {
+    display: flex !important;
+  }
 }
 
 @media (max-width: $bp-xl) {

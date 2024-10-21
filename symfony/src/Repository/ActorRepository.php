@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Actor;
+use App\Enum\NewsType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,6 +17,15 @@ class ActorRepository extends ServiceEntityRepository
         parent::__construct($registry, Actor::class);
     }
 
+    public function findLatest(): array {
+        return $this->createQueryBuilder('a')
+            ->select("a.name, a.updatedAt, a.description, '" . NewsType::ACTOR->value . "' as type")
+            ->orderBy('a.updatedAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     //    /**
     //     * @return Actor[] Returns an array of Actor objects
     //     */

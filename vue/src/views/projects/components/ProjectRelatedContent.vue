@@ -2,9 +2,7 @@
     <div class="SheetView__contentCtn">
         <SectionBanner :text="$t('projectPage.keyNumbers')"/>
         <div class="ProjectSheetView__kpiCtn">
-            <KPI icon="contacts" :count="152" :label="$t('kpi.actors')" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
-            <KPI icon="account-group" :count="6" :label="$t('kpi.resources')" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
-            <KPI icon="database-arrow-down" :count="54" :label="$t('kpi.data')" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
+            <Kpi v-for="kpi in kpis" :kpi="kpi" :key="kpi.key" />
         </div>
     </div>
     <div class="SheetView__contentCtn">
@@ -19,11 +17,27 @@
 
 <script setup lang="ts">
 import SectionBanner from '@/components/banners/SectionBanner.vue';
-import KPI from '@/components/content/KPI.vue';
+import Kpi from '@/components/content/Kpi.vue';
+import { KpiKey } from '@/models/enums/app/KpiKey';
 import type { Project }  from '@/models/interfaces/Project';
 defineProps<{
     project: Project
 }>()
+
+const kpis = [
+    {
+        key: KpiKey.ACTOR,
+        count: 0,
+    },
+    {
+        key: KpiKey.DATA,
+        count: 0,
+    },
+    {
+        key: KpiKey.RESOURCE,
+        count: 0,
+    }
+]
 </script>
 
 <style lang="scss">

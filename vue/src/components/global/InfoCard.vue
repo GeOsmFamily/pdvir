@@ -23,13 +23,13 @@
 <script setup lang="ts">
 import type { RouteLocationAsRelativeGeneric } from 'vue-router';
 defineProps<{
-    to: string |RouteLocationAsRelativeGeneric,
+    to?: string | RouteLocationAsRelativeGeneric,
     light?: boolean
 }>()
 </script>
 
 <style lang="scss">
-.InfoCard {
+.InfoCard.v-card {
     width: 100%;
     padding: 25px;
     display: flex;

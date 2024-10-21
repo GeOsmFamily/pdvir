@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Enum\NewsType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,6 +17,15 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    public function findLatest(): array {
+        return $this->createQueryBuilder('p')
+            ->select("p.name, p.updatedAt, p.description, '" . NewsType::PROJECT->value . "' as type")
+            ->orderBy('p.updatedAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     public function findTwoSimilarProjectsByThematics(Project $project): array {
         return $this->createQueryBuilder('p')
