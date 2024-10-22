@@ -5,7 +5,8 @@
             :title="item.name"
             :description="item.description"
             :image="item.image"
-            :type="$t('newsType.' + item.type)"
+            :type="item.type"
+            :slug="item.slug"
             :key="item.id" />
     </div>
 </template>

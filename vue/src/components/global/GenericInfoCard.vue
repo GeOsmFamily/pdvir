@@ -1,5 +1,5 @@
 <template>
-    <InfoCard class="GenericInfoCard">
+    <InfoCard class="GenericInfoCard" :to="to">
         <template #content>
             <div class="GenericInfoCard__imgCtn">
                 <img class="GenericInfoCard__img" :src="image">
@@ -10,7 +10,7 @@
             </div>
         </template>
         <template #footer-left>
-            <v-chip class="mr-2">{{ type }}</v-chip>
+            <v-chip class="mr-2">{{ $t('itemType.' + type) }}</v-chip>
             <ShareButton />
             <LikeButton />
         </template>
@@ -24,18 +24,31 @@
 import InfoCard from '@/components/global/InfoCard.vue';
 import LikeButton from '@/components/global/LikeButton.vue';
 import ShareButton from '@/components/global/ShareButton.vue';
-defineProps<{
+import { ItemType } from '@/models/enums/app/ItemType';
+import { computed } from 'vue';
+
+const props = defineProps<{
     title: string,
     description: string,
     image?: string,
-    type: string,
+    type: ItemType,
+    slug: string,
 }>();
+
+const to = computed(() => {
+    switch (props.type) {
+        case ItemType.PROJECT:
+            return { name: 'projectPage', params: { slug: props.slug } };
+        case ItemType.ACTOR:
+            return { name: 'actorProfile', params: { name: props.title } };
+    }
+})
 </script>
 
 <style lang="scss">
 .GenericInfoCard {
-    padding: 1rem 1.25rem !important;
-    // max-width: 20rem;
+    // padding: 1rem 1.25rem !important;
+    padding: 0 !important;
     $dim-img-h: 11rem;
     $dim-text-max-h: 3rem;
     $dim-card-h: 23rem;
@@ -49,13 +62,19 @@ defineProps<{
         .GenericInfoCard__imgCtn {
             height: 0;
             min-height: 0;
+            opacity: 0;
         }
         .GenericInfoCard__infoCtn {
-            transition: $card-transition;
-            padding-top: 0;
-            max-height: calc($dim-card-h);
-            height: calc($dim-text-max-h + $dim-img-h + 2rem);
-            min-height: calc($dim-text-max-h + $dim-img-h + 2rem);
+            margin-top: 0;
+            // max-height: calc($dim-card-h);
+            // height: calc($dim-text-max-h + $dim-img-h);
+            // min-height: calc($dim-text-max-h + $dim-img-h);
+
+            .InfoCard__description  {
+                
+                max-height: calc($dim-text-max-h + $dim-img-h);
+                // min-height: calc($dim-text-max-h + $dim-img-h);
+            }
         }
     }
     
@@ -67,35 +86,36 @@ defineProps<{
         inset: 0;
         min-height: $dim-img-h;
         width: 100%;
-        z-index: 1;
+        // z-index: 1;
 
-        .GenericInfoCard__img {
-            max-width: 100%;
-            height: 100%;
+        .GenericInfoCard__img {            
+            width: 100%;
             object-fit: cover;
         }
     }
     .InfoCard__footer {
-        margin-top: 0.5rem !important;
+        margin: 1rem 1.25rem !important;
     }
     .GenericInfoCard__infoCtn {
-        transition: $card-transition;
-        padding-top: $dim-img-h;
+        transition: margin-top .15s ease-in;
+        padding: 1rem 1.25rem !important;
+        margin-top: $dim-img-h;
         display: flex;
         flex-flow: column nowrap;
         gap: .5rem;
         background: white;
+        overflow-y: hidden;
+        position: relative;
+        
         .InfoCard__title {
             font-size: $font-size-h5 !important;
         }
         .InfoCard__description {
             max-height: $dim-text-max-h;
             font-size: $font-size-sm;
+            transition: $card-transition;
         }
         
-        
-        overflow-y: hidden;
-        position: relative;
         &::after {
             content: "";
             position: absolute;

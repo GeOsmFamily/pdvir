@@ -2,7 +2,7 @@
     <div class="SheetView__contentCtn">
         <SectionBanner :text="$t('projectPage.keyNumbers')"/>
         <div class="ProjectSheetView__kpiCtn">
-            <Kpi v-for="kpi in kpis" :kpi="kpi" :key="kpi.key" />
+            <Kpi v-for="kpi in kpis" :kpi="kpi" :key="kpi.key" :showDescription="true" />
         </div>
     </div>
     <div class="SheetView__contentCtn">
