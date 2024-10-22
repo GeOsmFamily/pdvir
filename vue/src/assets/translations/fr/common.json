@@ -88,8 +88,35 @@
         "edit": "Modifier"
     },
     "kpi": {
-        "actors": "acteurs",
-        "resources": "ressources",
-        "data": "données"
+        "actor": {
+            "label": "acteur | acteur | acteurs",
+            "icon": "contacts",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        "member": {
+            "label": "membre | membre | membres",
+            "icon": "account-group",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        "project": {
+            "label": "projet | projet | projets",
+            "icon": "rocket-launch",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        "resource": {
+            "label": "ressource | ressource | ressources",
+            "icon": "database-arrow-down",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        "data": {
+            "label": "donnée | donnée | données",
+            "icon": "database-arrow-down",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        }
+    },
+    "itemType": {
+        "project": "Projet",
+        "actor": "Acteur",
+        "resource": "Ressource"
     }
 }

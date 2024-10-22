@@ -20,6 +20,7 @@ use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\SluggableEntity;
 use App\Entity\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
 use App\Services\State\Provider\ActorProvider;
@@ -64,8 +65,8 @@ class Actor
     private const ACTOR_WRITE = 'actor:write';
 
     use TimestampableEntity;
+    use SluggableEntity;
 
-    
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]

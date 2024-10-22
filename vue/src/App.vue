@@ -60,7 +60,7 @@ onBeforeMount(async () => {
 
   &[is-light-header="true"] {
     
-    --dim-container-w: 80rem;
+    --dim-container-w: 1200px;
 
     .App__content--desktop {
       padding-top: 0;
