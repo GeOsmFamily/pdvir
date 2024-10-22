@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Security\Voter\ActorVoter;
 use App\Entity\AdministrativeScope;
 use App\Repository\ActorRepository;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Trait\TimestampableEntity;
@@ -147,10 +148,6 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $projects;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
-    private ?string $logo = null;
-
     /**
      * @var Collection<int, AdministrativeScope>
      */
@@ -158,12 +155,30 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $administrativeScopes;
 
+    #[ORM\ManyToOne(targetEntity: MediaObject::class)]
+    #[ApiProperty(types: ['https://schema.org/image'])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
+    private ?MediaObject $logo = null;
+
+    /**
+     * @var Collection<int, MediaObject>
+     */
+    #[ORM\ManyToMany(targetEntity: MediaObject::class)]
+    #[ApiProperty(types: ['https://schema.org/image'])]
+    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private Collection $images;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private ?array $externalImages = null;
+
     public function __construct()
     {
         $this->expertises = new ArrayCollection();
         $this->thematics = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->administrativeScopes = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?Uuid {
@@ -404,18 +419,6 @@ class Actor
         return $this;
     }
 
-    public function getLogo(): ?string
-    {
-        return $this->logo;
-    }
-
-    public function setLogo(?string $logo): static
-    {
-        $this->logo = $logo;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, AdministrativeScope>
      */
@@ -436,6 +439,54 @@ class Actor
     public function removeAdministrativeScope(AdministrativeScope $administrativeScope): static
     {
         $this->administrativeScopes->removeElement($administrativeScope);
+
+        return $this;
+    }
+
+    public function getLogo(): ?MediaObject
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?MediaObject $logo): static
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MediaObject>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(MediaObject $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(MediaObject $image): static
+    {
+        $this->images->removeElement($image);
+
+        return $this;
+    }
+
+    public function getExternalImages(): ?array
+    {
+        return $this->externalImages;
+    }
+
+    public function setExternalImages(?array $externalImages): static
+    {
+        $this->externalImages = $externalImages;
 
         return $this;
     }

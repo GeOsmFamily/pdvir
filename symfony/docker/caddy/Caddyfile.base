@@ -20,7 +20,7 @@
 (main_domain) {
 	@pwa expression `(
 			!path(
-				'/api*', '/bundles*', '/contexts*', '/_profiler*', '/_wdt*', '/auth',
+				'/media*', '/api*', '/bundles*', '/contexts*', '/_profiler*', '/_wdt*', '/auth',
 				'*.csv', '*.yml', '*.yaml', '*.xml'
 			)
 		)`

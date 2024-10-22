@@ -2,7 +2,7 @@
     <template v-if="actor">
         <div class="ActorPage">
             <div class="ActorPage__leftBlock">
-                <img :src="actor.logo" alt="" v-if="appStore.mobile" class="mt-4 mb-4 ActorPage__logo">
+                <img :src="actor.logo.contentUrl" alt="" v-if="appStore.mobile && actor.logo" class="mt-4 mb-4 ActorPage__logo">
                 <SheetContentBanner
                     :title="actor.name"
                     :subtitle="actor.acronym"
@@ -18,7 +18,7 @@
                 <ActorRelatedContent :actor="actor" v-if="!appStore.mobile"/>
             </div>
             <div class="ActorPage__rightBlock">
-                <img :src="actor.logo" alt="" v-if="!appStore.mobile" class="ActorPage__logo">
+                <img :src="actor.logo.contentUrl" alt="" v-if="!appStore.mobile && actor.logo" class="ActorPage__logo">
                 <div class="mt-6">
                     <ChipList :items="actor.thematics" />
                 </div>
@@ -77,8 +77,8 @@ const isEditable = computed(() => {
     return userStore.userIsAdmin() || actor.value?.createdBy.id === userStore.currentUser?.id
 })
 
-function editActor(actor: Actor) {
-    actorsStore.setActorEditionMode(actor)
+function editActor() {
+    actorsStore.setActorEditionMode(actor.value)
 }
 </script>
 <style lang="scss">

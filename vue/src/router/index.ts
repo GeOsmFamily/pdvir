@@ -10,6 +10,8 @@ import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels'
 import { DialogKey } from '@/models/enums/app/DialogKey'
 import { useProjectStore } from '@/stores/projectStore'
 import { ProjectListDisplay } from '@/models/enums/app/ProjectListType';
+import { useActorsStore } from '@/stores/actorsStore';
+import type { Actor } from '@/models/interfaces/Actor';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +33,12 @@ const router = createRouter({
       path: '/actors/:name',
       name: 'actorProfile',
       component: ActorProfile,
+      beforeEnter: async (to, from, next) => {
+        const actorsStore = useActorsStore()
+        const actor: Actor | undefined = actorsStore.actors.find(actor => actor.name === to.params.name);
+        actorsStore.setSelectedActor(actor?.id as string);
+        next()
+      }
     },
     {
       path: '/projects',
