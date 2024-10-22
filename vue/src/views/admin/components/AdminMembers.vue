@@ -12,9 +12,10 @@
             :createFunction="createUser"
             searchKey="email"
             @updateSortingKey="sortingUsersSelectedMethod = $event"
+            @update-search-query="searchQuery = $event"
         />
         <AdminTable
-            :items="sortedUsers"
+            :items="filteredItems"
             :tableKeys="['lastName', 'firstName', 'email']"
             :columnWidths="['20%', '20%', '30%', '30%']"
             :plainText="true"
@@ -80,5 +81,18 @@ const sortedUsers = computed(() => {
         })
     }
     return adminStore.appMembers
+})
+
+const searchQuery = ref("")
+const filteredItems = computed(() => {
+    if (!searchQuery.value) {
+        return sortedUsers.value
+    }
+    return sortedUsers.value.filter((item: User) => {
+        return item.firstName.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        item.lastName.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        item.organisation?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        item.email.toLowerCase().includes(searchQuery.value.toLowerCase())
+    })
 })
 </script>

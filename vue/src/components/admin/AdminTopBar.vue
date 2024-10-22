@@ -3,17 +3,15 @@
     <div class="AdminTopBar--left">
         <SectionTitle :title="title" />
         <v-icon icon="mdi mdi-magnify" class="ml-5" color="main-blue"></v-icon>
-        <v-autocomplete
-            :items="items"
+        <v-text-field
+            clearable
             density="compact"
-            hide-details
+            :label="$t('admin.search')"
             variant="solo"
-            label="Search"
-            :item-value="searchKey"
-            :item-title="searchKey"
-            v-model="searchQuery"
-        >
-        </v-autocomplete>
+            hide-details
+            @update:modelValue="searchQuery = $event"
+        ></v-text-field>
+
     </div>
     <div class="AdminTopBar--right">
         <v-btn color="white" class="mr-3">

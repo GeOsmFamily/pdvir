@@ -7,9 +7,10 @@
             :createFunction="createActor"
             searchKey="name"
             @updateSortingKey="sortingActorsSelectedMethod = $event"
+            @update-search-query="searchQuery = $event"
         />
         <AdminTable
-            :items="sortedActors"
+            :items="filteredItems"
             :tableKeys="['acronym', 'name', 'category']"
         >
             <template #editContentCell="{ item }">
@@ -64,5 +65,17 @@ const sortedActors = computed(() => {
         })
     }
     return actorsStore.actors
+})
+
+const searchQuery = ref("")
+const filteredItems = computed(() => {
+    if (!searchQuery.value) {
+        return sortedActors.value
+    }
+    return sortedActors.value.filter((item: Actor) => {
+        return item.acronym.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        item.category.toLowerCase().includes(searchQuery.value.toLowerCase())
+    })
 })
 </script>
