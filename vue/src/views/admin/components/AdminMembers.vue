@@ -24,11 +24,11 @@
                     <v-btn size="small" icon="mdi-arrow-right" class="text-main-blue" @click="editUser(item as User)"></v-btn>
                 </template> 
                 <template v-else>
-                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_ACTORS) ? 'main-yellow' : 'main-grey'" icon="mdi-contacts" class="mr-1"></v-icon>
-                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_PROJECTS) ? 'main-yellow' : 'main-grey'" icon="mdi-rocket-launch" class="mr-1"></v-icon>
-                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_DATA) ? 'main-yellow' : 'main-grey'" icon="mdi-database-arrow-down" class="mr-1"></v-icon>
-                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_RESOURCES) ? 'main-yellow' : 'main-grey'" icon="mdi-account-group" class="mr-1"></v-icon>
-                    <v-btn density="comfortable" icon="mdi-pencil-outline"></v-btn>
+                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_ACTORS) ? 'main-blue' : 'main-grey'" icon="mdi-contacts" class="mr-1" size="small"></v-icon>
+                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_PROJECTS) ? 'main-blue' : 'main-grey'" icon="mdi-rocket-launch" class="mr-1" size="small"></v-icon>
+                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_DATA) ? 'main-blue' : 'main-grey'" icon="mdi-database-arrow-down" class="mr-1" size="small"></v-icon>
+                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_RESOURCES) ? 'main-blue' : 'main-grey'" icon="mdi-account-group" class="mr-1" size="small"></v-icon>
+                    <v-btn density="comfortable" icon="mdi-pencil-outline" @click="editUser(item as User)"></v-btn>
                 </template>
             </template>
         </AdminTable>
@@ -47,7 +47,7 @@ onBeforeMount(() => {
 })
 
 function createUser() {
-    alert("not implemented")
+    adminStore.userCreation = true
 }
 
 function editUser(user: User) {

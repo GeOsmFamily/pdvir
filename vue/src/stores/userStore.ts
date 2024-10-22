@@ -61,6 +61,7 @@ export const useUserStore = defineStore(StoresList.USER, () => {
   const signOut = async () => {
     currentUser.value = null
     JwtCookie.clearCookies()
+    router.push({ name: 'home' })
   }
 
   const checkAuthenticated = async () => {

@@ -66,13 +66,14 @@ import { useApplicationStore } from '@/stores/applicationStore';
 const appStore = useApplicationStore();
 const adminStore = useAdminStore();
 const userToEdit: User = adminStore.userEdition.user as User
-const { form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(userToEdit);
+const { form, handleSubmit, isSubmitting } = UserProfileForm.getUserAdminEditionForm(userToEdit);
 const requestedRoles = UserProfileForm.getRolesList()
 requestedRoles.map(x => {
+    console.log(userToEdit)
     if (userToEdit && userToEdit.roles.includes(x.value)) {
         x.selected.value = true
     }
-    if (userToEdit && userToEdit.requestedRoles.includes(x.value)) {
+    if (userToEdit.requestedRoles && userToEdit.requestedRoles.includes(x.value)) {
         x.requested.value = true
     }
 })

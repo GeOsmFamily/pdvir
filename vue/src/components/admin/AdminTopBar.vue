@@ -29,7 +29,7 @@
                 </v-list>
             </v-menu>
         </v-btn>
-        <v-btn @click="createFunction()" color="main-red">{{ $t("actors.form.createTitle")}}</v-btn>
+        <v-btn @click="createFunction()" color="main-red">{{ $t("admin.add")}}</v-btn>
     </div>
 </div>
 </template>

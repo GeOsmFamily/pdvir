@@ -82,7 +82,35 @@ export class UserProfileForm {
       return {form, errors, handleSubmit, isSubmitting}
     }
 
-    static getUserEditionForm(userToEdit: User | null) {
+    static getUserAdminCreationForm() {
+      const baseSchema = this.getSchema().pick({
+        firstName: true,
+        lastName: true,
+        email: true,
+        plainPassword: true,
+        confirmPassword: true,
+        organisation: true,
+        position: true,
+        phone: true,
+      })
+      const { errors, handleSubmit, isSubmitting } = useForm({
+        validationSchema: toTypedSchema(baseSchema)
+      });
+
+      const form = {
+        firstName: useField('firstName', '', { validateOnValueUpdate: false }),
+        lastName: useField('lastName', '', { validateOnValueUpdate: false }),
+        email: useField('email', '', { validateOnValueUpdate: false }),
+        plainPassword: useField('plainPassword', '', { validateOnValueUpdate: false }),
+        confirmPassword: useField('confirmPassword', '', { validateOnValueUpdate: false }),
+        organisation: useField('organisation', '', { validateOnValueUpdate: false }),
+        position: useField('position', '', { validateOnValueUpdate: false }),
+        phone: useField('phone', '', { validateOnValueUpdate: false })
+      }
+      return {form, errors, handleSubmit, isSubmitting}
+    }
+
+    static getUserAdminEditionForm(userToEdit: User | null) {
       const baseSchema = this.getSchema().pick({
         firstName: true,
         lastName: true,
