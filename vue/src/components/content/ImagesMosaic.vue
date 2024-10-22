@@ -2,8 +2,8 @@
     <div class="mosaic">
             <img 
                  v-for="image in images"
-                :key="(image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : image"
-                :src="(image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : image"
+                :key="(image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : (image as string)"
+                :src="(image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : (image as string)"
                 class="card card-tall card-wide"
             >
     </div>

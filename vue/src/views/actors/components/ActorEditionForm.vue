@@ -141,7 +141,7 @@ function handleImagesUpdate(lists: any) {
 const submitForm = handleSubmit(
     values => {
         const actorSubmission: ActorSubmission = {
-            ...values,
+            ...(values as any),
             logoToUpload: newLogo.value[0],
             images: existingHostedImages,
             externalImages: existingExternalImages,
