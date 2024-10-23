@@ -1,46 +1,69 @@
 <template>
-    <template v-if="actor">
-        <div class="ActorPage">
-            <div class="ActorPage__leftBlock">
-                <img :src="actor.logo.contentUrl" alt="" v-if="appStore.mobile && actor.logo" class="mt-4 mb-4 ActorPage__logo">
-                <SheetContentBanner
-                    :title="actor.name"
-                    :subtitle="actor.acronym"
-                    :phone="actor.phone"
-                    :email="actor.email"
-                    :website="actor.website"
-                    :isEditable="isEditable"
-                    :updatedAt="actor.lastUpdate"
-                    @edit="editActor"/>
-                <SectionTitle :title="$t('actorPage.description')" class="mt-12"/>
-                <ContentDivider class="mt-4"/>
-                <p class="mt-6 mr-8">{{ actor.description }}</p>
-                <ActorRelatedContent :actor="actor" v-if="!appStore.mobile"/>
+    <div class="ActorSheetView SheetView" v-if="actor ">
+        <div class="SheetView__block SheetView__block--left">
+            <div class="SheetView__logoCtn show-sm">
+                <img :src="actor.logo.contentUrl" class="SheetView__logo" v-if="actor.logo">
             </div>
-            <div class="ActorPage__rightBlock">
-                <img :src="actor.logo.contentUrl" alt="" v-if="!appStore.mobile && actor.logo" class="ActorPage__logo">
-                <div class="mt-6">
-                    <ChipList :items="actor.thematics" />
-                </div>
-                <SectionTitle :title="$t('actorPage.adminScope')" class="mt-12"/>
-                <ContentDivider class="mt-4"/>
-                {{ actor.administrativeScopes.map(x => x.name).join(", ") }}
-                <div class="ActorPage__contentCard">
+            <SheetContentBanner
+                :title="actor.name"
+                :subtitle="actor.acronym"
+                :phone="actor.phone"
+                :email="actor.email"
+                :website="actor.website"
+                :isEditable="isEditable"
+                :updatedAt="actor.lastUpdate"
+                @edit="editActor"
+            />
+            <div class="SheetView__contentCtn my-6">
+                <div class="SheetView__title SheetView__title--divider">{{ $t('actorPage.description') }}</div>
+                <p>{{actor.description}}</p>
+            </div>
+            <ActorRelatedContent :actor="actor" v-if="!appStore.mobile"/>
+        </div>
+        <div class="SheetView__block SheetView__block--right">
+            <div class="SheetView__updatedAtCtn hide-sm" >
+                <UpdatedAtLabel :date="actor.updatedAt" />
+                <PrintButton />
+            </div>
+            <div class="SheetView__logoCtn hide-sm">
+                <img :src="actor.logo.contentUrl" alt="" v-if="actor.logo" class="SheetView__logo">
+            </div>
+            <ChipList :items="actor.thematics" />
+
+            <div class="SheetView__title SheetView__title--divider mt-lg-12">{{ $t('actorPage.adminScope') }}</div>
+            {{ actor.administrativeScopes.map(x => x.name).join(", ") }}
+
+            <div class="SheetView__infoCard">
+                <div class="d-flex flex-row">
                     <v-icon icon="mdi-map-marker-outline" color="main-black" />
                     <div class="ml-1">
                         <p class="font-weight-bold">{{ actor.officeName }}</p>
                         <p>{{ actor.officeAddress}}</p>
                     </div>
                 </div>
-                <div class="ActorPage__contentCard flex-column mt-8">
-                    <SectionTitle :title="$t('actorPage.contact')"/>
-                    <span class="font-weight-bold mt-3">{{ actor.contactName }}</span>
-                    <span>{{ actor.contactPosition }}</span>
+            </div>
+
+            <div class="SheetView__infoCard">
+                <div>
+                    <h5 class="SheetView__title">{{ $t('projectPage.focalPoint') }}</h5>
+                    <ContactCard
+                        :name="actor.contactName"
+                        :description="actor.contactPosition"
+                        image="https://trustedexecutive.com/wp/wp-content/uploads/2016/06/morpheus-red-pill-blue-pill.jpg" />
                 </div>
-                <ActorRelatedContent :actor="actor" v-if="appStore.mobile"/>
             </div>
         </div>
-    </template>
+        <ActorRelatedContent :actor="actor" v-if="appStore.mobile"/>
+        <div class="SheetView__block SheetView__block--bottom">
+            <SectionBanner :text="$t('actorPage.images')"/>
+            <ImagesMosaic :images="[...actor.images, ...actor.externalImages]" />
+            <ContentDivider />
+            <SectionBanner :text="$t('actorPage.similar')" :hideHalfCircle="true" />
+            <!--<div class="ActorSheetView__projectCardCtn">
+                <ProjectCard v-for="project in similarProjects" :key="project.id" :project="project" />
+            </div>-->
+        </div>
+    </div>
     
 </template>
 <script setup lang="ts">
@@ -49,9 +72,14 @@ import { useActorsStore } from '@/stores/actorsStore';
 import { computed, onMounted, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import SheetContentBanner from '@/views/_layout/sheet/SheetContentBanner.vue';
-import SectionTitle from '@/components/text-elements/SectionTitle.vue';
 import ContentDivider from '@/components/content/ContentDivider.vue';
 import ActorRelatedContent from './ActorRelatedContent.vue';
+import PrintButton from '@/components/global/PrintButton.vue';
+import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue';
+import ProjectCard from '@/views/projects/components/ProjectCard.vue';
+import ImagesMosaic from '@/components/content/ImagesMosaic.vue';
+import SectionBanner from '@/components/banners/SectionBanner.vue';
+import ContactCard from '@/components/content/ContactCard.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useUserStore } from '@/stores/userStore';
 import ChipList from '@/components/content/ChipList.vue';
@@ -84,36 +112,17 @@ function editActor() {
 <style lang="scss">
 @import '@/assets/styles/views/SheetView';
 
-.ActorPage {
+.ActorSheetView__projectCardCtn {
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    flex-wrap: wrap;
-}
-.ActorPage__leftBlock {
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    padding-right: 1em;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 2rem;
+    > * {
+        flex: 1 0 25rem;
+    }
 }
 
-@media (max-width: 600px) {
-    .ActorPage__leftBlock {
-        width: 100%;
-    }
-}
-.ActorPage__rightBlock {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    flex-wrap: wrap;
-}
-@media (max-width: 600px) {
-    .ActorPage__rightBlock {
-        width: 100%;
-    }
-}
-.ActorPage {
+.ActorSheetView {
     &__logo {
         max-width: 100%;
     }
@@ -122,6 +131,14 @@ function editActor() {
         padding: 1.5em;
         width: 100%;
         background-color: rgb(var(--v-theme-light-yellow));
+    }
+}
+
+@media (max-width: $bp-xl) {
+    .ActorSheetView {
+        .SheetView__block--bottom {
+            display: none;
+        }
     }
 }
 </style>

@@ -42,6 +42,7 @@
         "services": "Services",
         "images": "En images",
         "adminScope": "Zone d'intervention",
-        "contact": "Point de contact"
+        "contact": "Point de contact",
+        "similar": "D’autres acteurs avec des thématiques communes"
     }
 }

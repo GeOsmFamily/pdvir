@@ -19,12 +19,9 @@ export class BreadcrumbsService {
                 const key = 'breadcrumbs.' + segment;
                 const text = i18n.t(key);
                 newRoute += segment
-                console.log(segment)
-                console.log(project)
                 if (appStore.currentContentPage === ContentPagesList.ACTOR && segment === actor?.slug) {
                     breadcrumbs.push({title: actor.name, to: newRoute});
                 } else if (appStore.currentContentPage === ContentPagesList.PROJECT && segment === project?.slug) {
-                    console.log(project.name)
                     breadcrumbs.push({title: project.name, to: newRoute});
                 } else {
                     // Check if traduction exists
