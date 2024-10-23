@@ -27,7 +27,6 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
 
   async function getActorsSelectListContent(): Promise<void> {
     actorsExpertises.push(...await ActorsService.getActorsExpertisesList())
-    actorsThematics.push(...await ActorsService.getActorsThematicsList())
     actorsAdministrativesScopes.push(...await ActorsService.getActorsAdministrativesScopesList())
 }
 

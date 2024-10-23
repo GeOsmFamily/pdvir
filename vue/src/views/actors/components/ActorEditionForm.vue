@@ -80,13 +80,14 @@
         </template>
     </Modal>
 </template>
+
 <script setup lang="ts">
 import { type Actor, type ActorSubmission } from '@/models/interfaces/Actor';
 import { ActorsFormService } from '@/services/actors/ActorsForm';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useApplicationStore } from '@/stores/applicationStore';
 import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue';
-import { onMounted, ref, type Ref } from 'vue';
+import { computed, onMounted, ref, type Ref } from 'vue';
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage';
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
 import type { ActorExpertise } from '@/models/interfaces/ActorExpertise';
@@ -95,22 +96,25 @@ import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScop
 import Modal from '@/components/global/Modal.vue';
 import type { MediaObject } from '@/models/interfaces/MediaObject';
 import ImagesLoader from '@/components/forms/ImagesLoader.vue';
+import { useThematicStore } from '@/stores/thematicStore';
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
-const actorToEdit: Actor | null = actorsStore.actorEdition.actor
+const thematicsStore = useThematicStore()
 
+const actorToEdit: Actor | null = actorsStore.actorEdition.actor
 const { form, handleSubmit, isSubmitting } = ActorsFormService.getActorsForm(actorToEdit);
 
 const categoryItems = Object.values(ActorsCategories)
 const expertisesItems = actorsStore.actorsExpertises
-const thematicsItems = actorsStore.actorsThematics
+const thematicsItems = computed(() => thematicsStore.thematics)
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 
 const existingLogo = ref<(MediaObject | string)[]>([]);
 const existingImages = ref<(MediaObject | string)[]>([])
 let existingHostedImages: MediaObject[] = []
 let existingExternalImages: string[] = []
-onMounted(() => {
+onMounted(async () => {
+    await thematicsStore.getAll()
     if (actorToEdit) {
         actorToEdit.logo ? existingLogo.value = [actorToEdit.logo] : existingLogo.value = []
         existingImages.value = [...actorToEdit.images, ...actorToEdit.externalImages]
