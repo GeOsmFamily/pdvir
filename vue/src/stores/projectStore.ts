@@ -9,6 +9,8 @@ import type { Status } from '@/models/enums/contents/Status';
 import type { Thematic } from '@/models/interfaces/Thematic';
 import type { AdministrativeScope } from '@/models/enums/AdministrativeScope';
 import type { Actor } from '@/models/interfaces/Actor';
+import { useApplicationStore } from './applicationStore';
+import { ContentPagesList } from '@/models/enums/app/ContentPagesList';
 
 export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const projects: Ref<Project[]> = ref([])
@@ -45,6 +47,8 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
 
   async function loadProjectBySlug(slug: string | string []): Promise<void> {
     if (project.value?.slug !== slug && typeof slug === 'string') {
+      const appStore = useApplicationStore()
+      appStore.currentContentPage = ContentPagesList.PROJECT
       project.value = await ProjectService.get({ slug })
     }
   }
