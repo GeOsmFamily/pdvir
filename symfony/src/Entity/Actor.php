@@ -19,17 +19,18 @@ use App\Entity\AdministrativeScope;
 use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\BlameableEntity;
 use App\Entity\Trait\SluggableEntity;
+use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use App\Services\State\Provider\ActorProvider;
 use App\Services\State\Processor\ActorProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Entity\Trait\BlameableEntity;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[UniqueEntity('name')]
@@ -117,6 +118,14 @@ class Actor
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $officeAddress = null;
+
+    #[ORM\Column(
+        type: PostGISType::GEOMETRY, 
+        options: ['geometry_type' => 'POINT'],
+        nullable: true
+    )]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private ?string $officeLocation = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
@@ -311,6 +320,28 @@ class Actor
     public function setOfficeAddress(?string $officeAddress): static
     {
         $this->officeAddress = $officeAddress;
+
+        return $this;
+    }
+
+    public function getOfficeLocation(): ?array {
+        if (preg_match('/POINT\(([-\d\.]+) ([-\d\.]+)\)/', $this->officeLocation, $matches)) {
+            return [(float)$matches[1], (float)$matches[2]];
+        }
+        return null;
+    }
+
+    public function setOfficeLocation(string $coords): static
+    {
+        // Convert lat/lng string into postgis point geometry
+        if (preg_match('/^\s*(-?\d+(\.\d+)?)\s*,\s*(-?\d+(\.\d+)?)\s*$/', $coords, $matches)) {
+            $lat = (float)$matches[1];
+            $lng = (float)$matches[3];
+
+            $this->officeLocation = sprintf('POINT(%f %f)', $lng, $lat);
+        } else {
+            throw new \InvalidArgumentException('Invalid coordinates format. Expected "lat, lng".');
+        }
 
         return $this;
     }

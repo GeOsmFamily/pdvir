@@ -36,9 +36,10 @@ export interface Actor {
     slug: string;
   }
 
-  export interface ActorSubmission extends Omit<Actor, "logo"> {
+  export interface ActorSubmission extends Omit<Actor, "logo" | "officeLocation" > {
     logo: string,
     logoToUpload: ContentImageFromUserFile
     imagesToUpload: ContentImageFromUserFile[]
+    officeLocation: string
   }
   

@@ -51,6 +51,10 @@
                         :error-messages="form.officeAddress.errorMessage.value"
                         @blur="form.officeAddress.handleChange" :label="$t('actors.form.officeAddress')"
                         class="mt-3" />
+                    <v-text-field density="compact" variant="outlined" v-model="form.officeLocation.value.value"
+                        :error-messages="form.officeLocation.errorMessage.value"
+                        @blur="form.officeLocation.handleChange" :label="$t('actors.form.officeLocation')"
+                        class="mt-3" />
                     <v-text-field density="compact" variant="outlined" v-model="form.contactName.value.value"
                         :error-messages="form.contactName.errorMessage.value" @blur="form.contactName.handleChange"
                         :label="$t('actors.form.contactName')" class="mt-3" />
