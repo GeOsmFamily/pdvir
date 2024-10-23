@@ -34,7 +34,7 @@ const props = defineProps<{
 const actorProfileRoute: ComputedRef<RouteLocationAsRelativeGeneric> = computed(() => ({
     name: 'actorProfile',
     params: {
-        name: props.actor.name
+        slug: props.actor.slug
     }
 }))
 </script>

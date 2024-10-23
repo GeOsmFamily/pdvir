@@ -33,7 +33,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   async function setSelectedActor(id: string, redirect: boolean = true) {
     selectedActor.value = await ActorsService.getActor(id)
     if (redirect) {
-      router.push('/actors/' + selectedActor.value.name)
+      router.push('/actors/' + selectedActor.value.slug)
     }
   }
 

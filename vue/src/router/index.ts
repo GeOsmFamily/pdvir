@@ -30,12 +30,12 @@ const router = createRouter({
       component: () => import('@/views/actors/ActorsView.vue')
     },
     {
-      path: '/actors/:name',
+      path: '/actors/:slug',
       name: 'actorProfile',
       component: ActorProfile,
       beforeEnter: async (to, from, next) => {
         const actorsStore = useActorsStore()
-        const actor: Actor | undefined = actorsStore.actors.find(actor => actor.name === to.params.name);
+        const actor: Actor | undefined = actorsStore.actors.find(actor => actor.slug === to.params.slug);
         actorsStore.setSelectedActor(actor?.id as string);
         next()
       }

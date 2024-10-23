@@ -60,13 +60,13 @@ const appStore = useApplicationStore();
 const userStore = useUserStore();
 const actorsStore = useActorsStore();
 const actor = computed(() => actorsStore.selectedActor)
-// Handle page openened directly by url
+// Handle page openened directly by shared url
 onMounted(() => {
     const route = useRoute();
     watchEffect(() => {
         if (actorsStore.dataLoaded) {
             if (actorsStore.selectedActor === null) {
-                const actor: Actor | undefined = actorsStore.actors.find(actor => actor.name === route.params.name);
+                const actor: Actor | undefined = actorsStore.actors.find(actor => actor.slug === route.params.slug);
                 actorsStore.setSelectedActor(actor?.id as string);
             }
         }

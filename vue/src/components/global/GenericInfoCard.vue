@@ -40,7 +40,7 @@ const to = computed(() => {
         case ItemType.PROJECT:
             return { name: 'projectPage', params: { slug: props.slug } };
         case ItemType.ACTOR:
-            return { name: 'actorProfile', params: { name: props.title } };
+            return { name: 'actorProfile', params: { slug: props.slug } };
     }
 })
 </script>

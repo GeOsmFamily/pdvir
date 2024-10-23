@@ -27,12 +27,13 @@ export interface Actor {
     contactName: string;
     contactPosition: string;
     projects: string[];
-    logo: MediaObject;//To add in form
+    logo: MediaObject;
     images: MediaObject[];
     externalImages: string[];
     website: string;
     phone: string;
     email: string;
+    slug: string;
   }
 
   export interface ActorSubmission extends Omit<Actor, "logo"> {
