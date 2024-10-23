@@ -29,6 +29,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\Trait\BlameableEntity;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[UniqueEntity('name')]
@@ -36,7 +37,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     operations: [
         new GetCollection(
             provider: ActorProvider::class,
-            normalizationContext: ['groups' => self::ACTOR_READ_ITEM_COLLECTION]
+            normalizationContext: ['groups' => self::ACTOR_READ_COLLECTION]
         ),
         new Get(),
         new Post(
@@ -60,46 +61,42 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 )]
 class Actor
 {
-    public const ACTOR_READ_ITEM_COLLECTION = 'actor:read_collection';
+    public const ACTOR_READ_COLLECTION = 'actor:read_collection';
     public const ACTOR_READ_ITEM = 'actor:read_item';
     private const ACTOR_WRITE = 'actor:write';
 
     use TimestampableEntity;
     use SluggableEntity;
+    use BlameableEntity;
 
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
     private ?string $acronym = null;
 
-    #[ORM\ManyToOne(inversedBy: 'actorsCreated')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([self::ACTOR_READ_ITEM])]
-    private ?User $createdBy = null;
-
     #[ORM\Column]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_READ_ITEM_COLLECTION])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_READ_COLLECTION])]
     private ?bool $isValidated = false;
 
     #[ORM\Column(enumType: ActorCategory::class)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
     private ?ActorCategory $category = null;
 
     /**
      * @var Collection<int, ActorExpertise>
      */
     #[ORM\ManyToMany(targetEntity: ActorExpertise::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $expertises;
 
     /**
@@ -158,7 +155,7 @@ class Actor
 
     #[ORM\ManyToOne(targetEntity: MediaObject::class)]
     #[ApiProperty(types: ['https://schema.org/image'])]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
+    #[Groups([self::ACTOR_READ_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
     private ?MediaObject $logo = null;
 
     /**
@@ -166,7 +163,7 @@ class Actor
      */
     #[ORM\ManyToMany(targetEntity: MediaObject::class)]
     #[ApiProperty(types: ['https://schema.org/image'])]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $images;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
@@ -206,18 +203,6 @@ class Actor
     public function setAcronym(string $acronym): static
     {
         $this->acronym = strtoupper($acronym);
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?User
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?User $createdBy): static
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }

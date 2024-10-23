@@ -2,6 +2,7 @@
 
 namespace App\Entity\Trait;
 
+use App\Entity\Actor;
 use App\Entity\Project;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,7 @@ trait TimestampableEntity
 
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups([Project::PROJECT_READ, Project::PROJECT_READ_ALL])]
+    #[Groups([Project::PROJECT_READ, Project::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_READ_COLLECTION])]
     protected ?\DateTimeInterface $updatedAt;
 
     public function getCreatedAt(): ?\DateTimeInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\State\Provider\Kpi;
+namespace App\Services\State\Provider;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;

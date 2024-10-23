@@ -4,7 +4,7 @@ namespace App\ApiResource;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use App\State\Provider\News\LatestNewsProvider;
+use App\Services\State\Provider\LatestNewsProvider;
 
 #[ApiResource(
   paginationEnabled: false,

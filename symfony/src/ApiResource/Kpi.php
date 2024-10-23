@@ -6,7 +6,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Enum\KpiKey;
-use App\State\Provider\Kpi\GlobalKpiProvider;
+use App\Services\State\Provider\GlobalKpiProvider;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
