@@ -12,6 +12,7 @@
             :item-value="itemValue"
             :custom-filter="customFilter"
             v-model="selectedItem"
+            @update:search="searchQuery = $event"
         >
             <template v-slot:prepend-inner>
                 <v-icon icon="mdi-magnify" color="main-blue"></v-icon>
@@ -21,12 +22,16 @@
 </template>
 <script setup lang="ts">
 import type { Actor } from '@/models/interfaces/Actor';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const selectedItem = ref(null);
-const emit = defineEmits(['updateSelect'])
+const emit = defineEmits(['updateSelect', 'update:search'])
 watch(selectedItem, () => {
     emit('updateSelect', selectedItem.value)
+})
+const searchQuery = ref('');
+watch(() => searchQuery.value, () => {
+    emit('update:search', searchQuery.value)
 })
 
 type FilterFunction = (value: string, query: string, item?: InternalItem) => FilterMatch;

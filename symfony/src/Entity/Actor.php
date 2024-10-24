@@ -104,7 +104,7 @@ class Actor
      * @var Collection<int, Thematics>
      */
     #[ORM\ManyToMany(targetEntity: Thematic::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $thematics;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -159,7 +159,7 @@ class Actor
      * @var Collection<int, AdministrativeScope>
      */
     #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $administrativeScopes;
 
     #[ORM\ManyToOne(targetEntity: MediaObject::class)]

@@ -14,28 +14,35 @@
                     <v-text-field density="compact" variant="outlined" v-model="form.name.value.value"
                         :error-messages="form.name.errorMessage.value" :label="$t('actors.form.name')"
                         @blur="form.name.handleChange" />
+                        
                     <v-text-field density="compact" variant="outlined" v-model="form.acronym.value.value"
                         :error-messages="form.acronym.errorMessage.value" :label="$t('actors.form.acronym')"
                         @blur="form.acronym.handleChange" />
+
                     <ImagesLoader @updateFiles="handleLogoUpdate" :existingImages="existingLogo" :uniqueImage="true" :externalImagesLoader="false"/>
+                    
                     <v-select density="compact" variant="outlined" :label="$t('actors.form.category')"
                         class="mt-3"
                         v-model="(form.category.value.value as ActorsCategories)" :items="categoryItems"
                         :error-messages="form.category.errorMessage.value" @blur="form.category.handleChange" />
+
                     <v-select density="compact" variant="outlined" :label="$t('actors.form.expertise')" multiple
                         v-model="(form.expertises.value.value as ActorExpertise[])" :items="expertisesItems"
                         item-title="name" item-value="@id" :error-messages="form.expertises.errorMessage.value"
                         @blur="form.expertises.handleChange(form.expertises.value.value)" return-object />
+
                     <v-select density="compact" variant="outlined" :label="$t('actors.form.thematic')" multiple
                         v-model="(form.thematics.value.value as Thematic[])" :items="thematicsItems"
                         item-title="name" item-value="@id" :error-messages="form.thematics.errorMessage.value"
                         @blur="form.thematics.handleChange(form.thematics.value.value)" return-object />
+
                     <v-select density="compact" variant="outlined" :label="$t('actors.form.adminScope')" multiple
                         v-model="(form.administrativeScopes.value.value as AdministrativeScope[])"
                         :items="administrativeScopesItems" item-title="name" item-value="@id"
                         :error-messages="form.administrativeScopes.errorMessage.value"
                         @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
                         return-object />
+
                     <v-textarea :label="$t('actors.form.description')" variant="outlined"
                         v-model="form.description.value.value" :error-messages="form.description.errorMessage.value"
                         @blur="form.description.handleChange" />
