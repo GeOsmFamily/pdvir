@@ -324,9 +324,9 @@ class Actor
         return $this;
     }
 
-    public function getOfficeLocation(): ?array {
+    public function getOfficeLocation(): ?string {
         if (preg_match('/POINT\(([-\d\.]+) ([-\d\.]+)\)/', $this->officeLocation, $matches)) {
-            return [(float)$matches[1], (float)$matches[2]];
+            return $matches[1] . ',' . $matches[2];
         }
         return null;
     }

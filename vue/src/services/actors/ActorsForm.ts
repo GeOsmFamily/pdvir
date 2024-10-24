@@ -29,14 +29,14 @@ export class ActorsFormService {
                 .min(50, { message: i18n.t('forms.errorMessages.minlength', { min: 50 }) }),
 
             ///////// Contact \\\\\\\\\
-            officeName: z.string().nullable(),
-            officeAddress: z.string().nullable(),
-            officeLocation: zodModels.latLngString.nullable(),
-            contactName: z.string().nullable(),
-            contactPosition: z.string().nullable(),
-            website: zodModels.website.nullable(),
-            email: zodModels.email.nullable(),
-            phone: zodModels.phone.nullable()
+            officeName: z.string().optional(),
+            officeAddress: z.string().optional(),
+            officeLocation: zodModels.latLngString.optional(),
+            contactName: z.string().optional(),
+            contactPosition: z.string().optional(),
+            website: zodModels.website,
+            email: zodModels.email,
+            phone: zodModels.phone
         })
         const { errors, handleSubmit, isSubmitting } = useForm<Actor>({
             initialValues: actorToEdit,

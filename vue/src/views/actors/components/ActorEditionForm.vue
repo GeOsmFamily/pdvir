@@ -19,6 +19,7 @@
                         :error-messages="form.acronym.errorMessage.value" :label="$t('actors.form.acronym')"
                         @blur="form.acronym.handleChange" />
 
+                    <span>Logo</span>
                     <ImagesLoader @updateFiles="handleLogoUpdate" :existingImages="existingLogo" :uniqueImage="true" :externalImagesLoader="false"/>
                     
                     <v-select density="compact" variant="outlined" :label="$t('actors.form.category')"
@@ -51,6 +52,27 @@
 
                     <!-- Contact infos -->
                     <FormSectionTitle :text="$t('actors.form.contact')" />
+                    <v-text-field density="compact" variant="outlined" v-model="form.website.value.value"
+                        :error-messages="form.website.errorMessage.value" @blur="form.website.handleChange"
+                        :label="$t('actors.form.website')" class="mt-3" />
+                    <v-text-field density="compact" variant="outlined" v-model="form.email.value.value"
+                        :error-messages="form.email.errorMessage.value" @blur="form.email.handleChange"
+                        label="Email" />
+                    <v-text-field density="compact" variant="outlined" v-model="form.phone.value.value"
+                        :error-messages="form.phone.errorMessage.value" @blur="form.phone.handleChange" type="tel"
+                        :label="$t('actors.form.phone')" />
+
+                    <FormSectionTitle :text="$t('actorPage.contact')" />
+                    <v-text-field density="compact" variant="outlined" v-model="form.contactName.value.value"
+                        :error-messages="form.contactName.errorMessage.value" @blur="form.contactName.handleChange"
+                        :label="$t('actors.form.contactName')" class="mt-3" />
+                    <v-text-field density="compact" variant="outlined" v-model="form.contactPosition.value.value"
+                        :error-messages="form.contactPosition.errorMessage.value"
+                        @blur="form.contactPosition.handleChange" :label="$t('actors.form.contactPosition')"
+                        class="mt-3" />
+
+                    <v-divider color="main-grey" class="border-opacity-100"></v-divider>
+                    <FormSectionTitle :text="$t('actors.form.office')" />
                     <v-text-field density="compact" variant="outlined" v-model="form.officeName.value.value"
                         :error-messages="form.officeName.errorMessage.value" @blur="form.officeName.handleChange"
                         :label="$t('actors.form.officeName')" class="mt-3" />
@@ -62,23 +84,9 @@
                         :error-messages="form.officeLocation.errorMessage.value"
                         @blur="form.officeLocation.handleChange" :label="$t('actors.form.officeLocation')"
                         class="mt-3" />
-                    <v-text-field density="compact" variant="outlined" v-model="form.contactName.value.value"
-                        :error-messages="form.contactName.errorMessage.value" @blur="form.contactName.handleChange"
-                        :label="$t('actors.form.contactName')" class="mt-3" />
-                    <v-text-field density="compact" variant="outlined" v-model="form.contactPosition.value.value"
-                        :error-messages="form.contactPosition.errorMessage.value"
-                        @blur="form.contactPosition.handleChange" :label="$t('actors.form.contactPosition')"
-                        class="mt-3" />
-                    <v-text-field density="compact" variant="outlined" v-model="form.website.value.value"
-                        :error-messages="form.website.errorMessage.value" @blur="form.website.handleChange"
-                        :label="$t('actors.form.website')" class="mt-3" />
-                    <v-text-field density="compact" variant="outlined" v-model="form.email.value.value"
-                        :error-messages="form.email.errorMessage.value" @blur="form.email.handleChange"
-                        label="Email" />
-                    <v-text-field density="compact" variant="outlined" v-model="form.phone.value.value"
-                        :error-messages="form.phone.errorMessage.value" @blur="form.phone.handleChange" type="tel"
-                        :label="$t('actors.form.phone')" />
 
+                    <v-divider color="main-grey" class="border-opacity-100"></v-divider>
+                    <FormSectionTitle :text="$t('actors.form.images')" />
                     <ImagesLoader @updateFiles="handleImagesUpdate" :existingImages="existingImages"/>
                 </v-form>
             </div>

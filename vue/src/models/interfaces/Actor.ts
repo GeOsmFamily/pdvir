@@ -24,7 +24,7 @@ export interface Actor extends Timestampable {
     administrativeScopes: AdministrativeScope[];
     officeName: string;
     officeAddress: string;
-    officeLocation: [number, number];//To add in form and SF Entity
+    officeLocation: string;
     contactName: string;
     contactPosition: string;
     projects: string[];
