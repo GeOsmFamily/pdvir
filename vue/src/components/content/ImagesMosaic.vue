@@ -6,9 +6,18 @@
         :key="index"
         :class="imageClasses[index]"
         :style="`background-image: url('${(image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : (image as string)}')`"
-      />
+        @click="viewImage(image)"
+        />
     </ul>
   </div>
+  <v-dialog
+      v-model="showImageViewer"
+      width="auto"
+    >
+      <img
+        :src="imageViewerSrc"
+        class="ImageViewer" />
+    </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -18,6 +27,12 @@ import type { MediaObject } from '@/models/interfaces/MediaObject';
 const props = defineProps<{
   images: (string | MediaObject)[];
 }>();
+
+onMounted(() => {
+  props.images.forEach((image, index) => {
+    classifyImage(image, index);
+  });
+});
 
 const imageClasses = ref<string[]>(Array(props.images.length).fill('MosaicImg--square'));
 
@@ -38,11 +53,16 @@ const classifyImage = (image: string | MediaObject, index: number) => {
   };
 };
 
-onMounted(() => {
-  props.images.forEach((image, index) => {
-    classifyImage(image, index);
-  });
-});
+const imageViewerSrc = ref<string>('');
+const showImageViewer = ref<boolean>(false);
+function viewImage(image: string | MediaObject) {
+  if (typeof image === 'string') {
+    imageViewerSrc.value = image;
+  } else {
+    imageViewerSrc.value = (image as MediaObject).contentUrl;
+  }
+  showImageViewer.value = true;
+}
 </script>
 
 <style lang="scss">
@@ -62,6 +82,7 @@ onMounted(() => {
       background-size: cover;
       border-radius: 0.5rem;
       overflow: hidden;
+      cursor: pointer;
 
       &.MosaicImg--square {
         width: 18rem;
@@ -79,5 +100,10 @@ onMounted(() => {
       }
     }
   }
+}
+.ImageViewer{
+  background-color: white;
+  max-width: 90vw;
+  max-height: 90vh;
 }
 </style>
