@@ -16,7 +16,7 @@
                     <slot name="custom-actions"></slot>
                     <ShareButton />
                     <LikeButton />
-                    <v-btn :to="{ name: 'map' }" class="text-main-blue px-2 hide-sm" variant="flat" ><img src="@/assets/images/icons/add_location_alt.svg" class="mr-1">{{ $t("content.createAMap") }}</v-btn>
+                    <v-btn :to="{ name: 'map' }" class="text-main-blue px-2 hide-sm" ><img src="@/assets/images/icons/add_location_alt.svg" class="mr-1">{{ $t("content.createAMap") }}</v-btn>
                     <UpdatedAtLabel :date="updatedAt" class="show-sm" />
                 </div>
             </template>

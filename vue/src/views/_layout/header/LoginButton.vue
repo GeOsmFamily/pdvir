@@ -5,6 +5,7 @@
         <v-btn
             color="main-red"
             prepend-icon="mdi-account-circle"
+            flat
         >
             {{ $t('header.login') }}
         </v-btn>
@@ -18,6 +19,7 @@
             class="text-main-blue"
             prepend-icon="mdi-account-circle"
             v-bind="props"
+            flat
         >
             {{ $t('header.account') }}
         </v-btn>

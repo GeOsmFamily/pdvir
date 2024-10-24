@@ -27,7 +27,6 @@ export const vuetify = createVuetify({
       },
     defaults: {
       VBtn: {
-        variant: 'flat',
         style: [{ 
           textTransform: 'none',
           fontWeight: 'bold',
