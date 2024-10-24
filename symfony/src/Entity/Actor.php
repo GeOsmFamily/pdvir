@@ -112,11 +112,11 @@ class Actor
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $officeName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $officeAddress = null;
 
     #[ORM\Column(
@@ -128,7 +128,7 @@ class Actor
     private ?string $officeLocation = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $contactName = null;
 
     #[ORM\Column(length: 255, nullable: true)]

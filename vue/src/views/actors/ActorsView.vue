@@ -120,6 +120,8 @@ import type { Actor } from '@/models/interfaces/Actor';
 import type { ActorExpertise } from '@/models/interfaces/ActorExpertise';
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories';
 import { useThematicStore } from '@/stores/thematicStore';
+import type { Thematic } from '@/models/interfaces/Thematic';
+import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
@@ -144,7 +146,12 @@ const filteredActors = computed(() => {
             return actor.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
                 actor.acronym.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
                 actor.category.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-                actor.expertises.some((exp) => exp.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+                actor.expertises.some((exp) => exp.name.toLowerCase().includes(searchQuery.value.toLowerCase())) ||
+                actor.thematics.some((thematic) => thematic.name.toLowerCase().includes(searchQuery.value.toLowerCase())) ||
+                actor.administrativeScopes.some((scope) => scope.name.toLowerCase().includes(searchQuery.value.toLowerCase())) ||
+                actor.officeName.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+                actor.officeAddress.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+                actor.contactName.toLowerCase().includes(searchQuery.value.toLowerCase())
         })
     }
     if (selectedExpertise.value && selectedExpertise.value.length > 0) {
@@ -217,7 +224,12 @@ function searchActors(value: string, queryText: string, itemText: any) {
         itemText.raw.name.toLowerCase().indexOf(searchText) > -1 ||
         itemText.raw.acronym.toLowerCase().indexOf(searchText) > -1 ||
         itemText.raw.category.toLowerCase().indexOf(searchText) > -1 ||
-        itemText.raw.expertises.some((exp: ActorExpertise) => exp.name.toLowerCase().includes(searchText))
+        itemText.raw.expertises.some((exp: ActorExpertise) => exp.name.toLowerCase().includes(searchText)) ||
+        itemText.raw.thematics.some((thematic: Thematic) => thematic.name.toLowerCase().includes(searchText)) ||
+        itemText.raw.administrativeScopes.some((scope: AdministrativeScope) => scope.name.toLowerCase().includes(searchText)) ||
+        itemText.raw.officeName.toLowerCase().indexOf(searchText) > -1 ||
+        itemText.raw.officeAddress.toLowerCase().indexOf(searchText) > -1 ||
+        itemText.raw.contactName.toLowerCase().indexOf(searchText) > -1
     )
 }
 function updateSelectedActor(id: string) {
