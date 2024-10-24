@@ -45,8 +45,11 @@
         }
     },
     "forms": {
+        "modify": "Modifier",
         "submit": "Valider",
         "cancel": "Annuler",
+        "create": "Créer",
+        "delete": "Supprimer",
         "errorMessages": {
                 "required": "Ce champs est requis",
                 "minlength": "Ce champs doit avoir au moins {min} caractères",

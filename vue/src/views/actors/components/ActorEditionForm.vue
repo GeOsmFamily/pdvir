@@ -92,10 +92,10 @@
             </div>
         </template>
         <template #footer-left>
-            <v-btn color="white" @click="actorsStore.setActorEditionMode(null)">{{ $t('forms.cancel') }}</v-btn>
+            <v-btn color="white" @click="actorsStore.setActorEditionMode(null)" flat>{{ $t('forms.cancel') }}</v-btn>
         </template>
         <template #footer-right>
-            <v-btn type="submit" form="actor-form" color="main-red" :loading="isSubmitting">{{ $t('forms.submit') }}</v-btn>
+            <v-btn type="submit" form="actor-form" color="main-red" :loading="isSubmitting">{{ actorToEdit ? $t('forms.modify') : $t('forms.create') }}</v-btn>
         </template>
     </Modal>
 </template>

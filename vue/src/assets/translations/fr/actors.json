@@ -16,7 +16,7 @@
         "add": "Ajouter un acteur",
         "form": {
             "createTitle": "Ajouter un acteur",
-            "editTitle": "Modifier un acteur",
+            "editTitle": "Modifier les informations",
             "name": "Nom de l'acteur*",
             "acronym": "Acronyme*",
             "category": "Catégorie*",
