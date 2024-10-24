@@ -1,58 +1,83 @@
 <template>
-    <div class="mosaic">
-            <img 
-                 v-for="image in images"
-                :key="(image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : (image as string)"
-                :src="(image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : (image as string)"
-                class="card card-tall card-wide"
-            >
-    </div>
+  <div class="MosaicCtn">
+    <ul class="Mosaic">
+      <li
+        v-for="(image, index) in images"
+        :key="index"
+        :class="imageClasses[index]"
+        :style="`background-image: url('${(image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : (image as string)}')`"
+      />
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import type { MediaObject } from '@/models/interfaces/MediaObject';
-import { onMounted } from 'vue';
 
-defineProps<{
-    images: (string | MediaObject)[]
-}>()
+const props = defineProps<{
+  images: (string | MediaObject)[];
+}>();
+
+const imageClasses = ref<string[]>(Array(props.images.length).fill('MosaicImg--square'));
+
+const classifyImage = (image: string | MediaObject, index: number) => {
+  const imgUrl = (image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : (image as string);
+  const img = new Image();
+  img.src = imgUrl;
+  img.onload = () => {
+    const { width, height } = img;
+    const ratio = width / height;
+    if (Math.abs(ratio - 1) <= 0.3) {
+      imageClasses.value[index] = 'MosaicImg--square';
+    } else if (ratio > 1) {
+      imageClasses.value[index] = 'MosaicImg--horizontal'
+    } else {
+      imageClasses.value[index] = 'MosaicImg--vertical';
+    }
+  };
+};
 
 onMounted(() => {
-    const images = document.querySelectorAll<HTMLImageElement>('.mosaic img');
-
-    images.forEach((img) => {
-        img.onload = () => {
-            if (img.naturalWidth > img.naturalHeight) {
-                img.classList.add('large');
-            } else if (img.naturalHeight > img.naturalWidth) {
-                img.classList.add('tall');
-            }
-        };
-    });
-})
+  props.images.forEach((image, index) => {
+    classifyImage(image, index);
+  });
+});
 </script>
 
 <style lang="scss">
-.mosaic {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  grid-auto-rows: 240px;
+.MosaicCtn {
+  padding: 1rem;
 
-  img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
+  .Mosaic {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 
-  img.large {
-    grid-column: span 2;
-    grid-row: span 1;
-  }
+    li {
+      background-position: center;
+      background-size: cover;
+      border-radius: 0.5rem;
+      overflow: hidden;
 
-  img.tall {
-    grid-row: span 2;
-    grid-column: span 1;
+      &.MosaicImg--square {
+        width: 18rem;
+        height: 18rem;
+      }
+
+      &.MosaicImg--horizontal {
+        width: 36rem;
+        height: 18rem;
+      }
+
+      &.MosaicImg--vertical {
+        width: 18rem;
+        height: 36rem;
+      }
+    }
   }
 }
 </style>

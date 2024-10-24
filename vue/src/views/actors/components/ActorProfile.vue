@@ -61,9 +61,9 @@
         <div class="SheetView__block SheetView__block--bottom">
             <SectionBanner :text="$t('actorPage.images')"/>
             <ImagesMosaic :images="[...actor.images, ...actor.externalImages]" />
-            <ContentDivider />
+            <!--<ContentDivider />
             <SectionBanner :text="$t('actorPage.similar')" :hideHalfCircle="true" />
-            <!--<div class="ActorSheetView__projectCardCtn">
+            <div class="ActorSheetView__projectCardCtn">
                 <ProjectCard v-for="project in similarProjects" :key="project.id" :project="project" />
             </div>-->
         </div>
