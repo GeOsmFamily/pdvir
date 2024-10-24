@@ -32,6 +32,10 @@
 
             <div class="SheetView__title SheetView__title--divider mt-lg-12">{{ $t('actorPage.adminScope') }}</div>
             {{ actor.administrativeScopes.map(x => x.name).join(", ") }}
+            <div class="ActorSheetView__toMap">
+                <span>{{ $t('actorPage.showInMap') }}</span>
+                <v-icon class="ml-2" color="main-green" icon="mdi-arrow-right-circle" size="large"></v-icon>
+            </div>
 
             <div class="SheetView__infoCard">
                 <div class="d-flex flex-row">
@@ -131,6 +135,14 @@ function editActor() {
         padding: 1.5em;
         width: 100%;
         background-color: rgb(var(--v-theme-light-yellow));
+    }
+    &__toMap {
+        cursor: pointer;
+        width: fit-content;
+        border: 1px solid rgb(var(--v-theme-main-blue));
+        border-radius: 5px;
+        font-weight: 500;
+        padding: 10px 12px 10px 15px;
     }
 }
 

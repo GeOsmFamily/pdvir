@@ -49,6 +49,7 @@
         "services": "Services",
         "images": "En images",
         "adminScope": "Zone d'intervention",
+        "showInMap": "Afficher dans l’outil Ma carte",
         "contact": "Point de contact",
         "similar": "D’autres acteurs avec des thématiques communes"
     }
