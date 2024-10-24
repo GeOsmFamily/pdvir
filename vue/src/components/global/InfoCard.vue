@@ -34,7 +34,7 @@ defineProps<{
     padding: 25px;
     display: flex;
     flex-direction: column;
-    height: fit-content;
+    height: 100%;
 
     &[light="true"] {
         box-shadow: none;
@@ -51,6 +51,7 @@ defineProps<{
     .InfoCard__content {
         display: flex;
         flex-flow: column nowrap;
+        flex-grow: 1;
 
         .InfoCard__subTitle {
             font-size: 14px;
