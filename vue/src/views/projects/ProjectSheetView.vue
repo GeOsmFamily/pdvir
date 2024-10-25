@@ -92,7 +92,10 @@ onBeforeRouteUpdate(async (to, from) => {
     }
 })
 
-onBeforeRouteLeave(() => { projectStore.project = null })
+onBeforeRouteLeave(() => {
+    projectStore.project = null
+    projectStore.resetFilters()
+})
 
 onMounted(async () => {
     await loadSimilarProjects()

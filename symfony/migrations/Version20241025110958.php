@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241023155547 extends AbstractMigration
+final class Version20241025110958 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -52,7 +52,7 @@ final class Version20241023155547 extends AbstractMigration
         $this->addSql('CREATE TABLE actor_expertise (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE administrative_scope (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE media_object (id INT NOT NULL, file_path VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE project (id INT NOT NULL, actor_id UUID NOT NULL, created_by INT DEFAULT NULL, updated_by INT DEFAULT NULL, name VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, coords geometry(POINT, 0) NOT NULL, status VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, images JSON DEFAULT NULL, partners JSON DEFAULT NULL, intervention_zone VARCHAR(255) NOT NULL, project_manager_name VARCHAR(255) DEFAULT NULL, project_manager_position VARCHAR(255) DEFAULT NULL, project_manager_email VARCHAR(255) DEFAULT NULL, project_manager_tel VARCHAR(255) DEFAULT NULL, project_manager_photo VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, logo VARCHAR(255) DEFAULT NULL, deliverables TEXT DEFAULT NULL, calendar TEXT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, slug VARCHAR(128) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE project (id INT NOT NULL, actor_id UUID NOT NULL, created_by INT DEFAULT NULL, updated_by INT DEFAULT NULL, name VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, coords geometry(POINT, 0) NOT NULL, status VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, images JSON DEFAULT NULL, partners JSON DEFAULT NULL, intervention_zone VARCHAR(255) NOT NULL, project_manager_name VARCHAR(255) DEFAULT NULL, project_manager_position VARCHAR(255) DEFAULT NULL, project_manager_email VARCHAR(255) DEFAULT NULL, project_manager_tel VARCHAR(255) DEFAULT NULL, project_manager_photo VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, logo VARCHAR(255) DEFAULT NULL, deliverables TEXT DEFAULT NULL, calendar TEXT DEFAULT NULL, beneficiary_types JSON DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, slug VARCHAR(128) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2FB3D0EE989D9B62 ON project (slug)');
         $this->addSql('CREATE INDEX IDX_2FB3D0EE10DAF24A ON project (actor_id)');
         $this->addSql('CREATE INDEX IDX_2FB3D0EEDE12AB56 ON project (created_by)');
