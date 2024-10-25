@@ -6,7 +6,7 @@
                     <span class="InfoCard__subTitle" >{{ project.location }}</span>
                     <span class="InfoCard__title">{{ project.name }}</span>
                     <div class="ProjectCard__infoCtn">
-                        <span>{{ project.actor.name }}</span>
+                        <span v-if="project.actor?.name">{{ project.actor.name }}</span>
                         <span v-if="!map" class="ProjectCard__updatedAt">{{ $t('labels.updatedAt') }} {{ getFormattedDate(project) }}</span>
                     </div>
                 </div>

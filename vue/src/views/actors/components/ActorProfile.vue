@@ -61,11 +61,7 @@
         <div class="SheetView__block SheetView__block--bottom">
             <SectionBanner :text="$t('actorPage.images')"/>
             <ImagesMosaic :images="[...actor.images, ...actor.externalImages]" />
-            <!--<ContentDivider />
-            <SectionBanner :text="$t('actorPage.similar')" :hideHalfCircle="true" />
-            <div class="ActorSheetView__projectCardCtn">
-                <ProjectCard v-for="project in similarProjects" :key="project.id" :project="project" />
-            </div>-->
+            <ContentDivider />
         </div>
     </div>
     
@@ -86,6 +82,7 @@ import ContactCard from '@/components/content/ContactCard.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useUserStore } from '@/stores/userStore';
 import ChipList from '@/components/content/ChipList.vue';
+import ProjectCard from '@/views/projects/components/ProjectCard.vue';
 
 const appStore = useApplicationStore();
 const userStore = useUserStore();
