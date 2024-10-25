@@ -49,7 +49,7 @@
 
             <div class="SheetView__infoCard">
                 <div>
-                    <h5 class="SheetView__title">{{ $t('projectPage.focalPoint') }}</h5>
+                    <h5 class="SheetView__title">{{ $t('actorPage.contact') }}</h5>
                     <ContactCard
                         :name="actor.contactName"
                         :description="actor.contactPosition"
@@ -80,7 +80,6 @@ import ContentDivider from '@/components/content/ContentDivider.vue';
 import ActorRelatedContent from './ActorRelatedContent.vue';
 import PrintButton from '@/components/global/PrintButton.vue';
 import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue';
-import ProjectCard from '@/views/projects/components/ProjectCard.vue';
 import ImagesMosaic from '@/components/content/ImagesMosaic.vue';
 import SectionBanner from '@/components/banners/SectionBanner.vue';
 import ContactCard from '@/components/content/ContactCard.vue';
