@@ -36,129 +36,6 @@ interface ProcessedImage {
 
 const imageData = ref<ProcessedImage[]>([]);
 
-const processedImages = computed(() => {
-  const maxRowWidth = 4;
-  let result: ProcessedImage[] = [];
-  
-  // Sort images by format to optimize placement
-  let sortedImages = [...imageData.value];
-  const horizontalImages = sortedImages.filter(img => img.format === 'horizontal');
-  const verticalImages = sortedImages.filter(img => img.format === 'vertical');
-  const squareImages = sortedImages.filter(img => img.format === 'square');
-  
-  let currentRow: ProcessedImage[] = [];
-  let currentRowWidth = 0;
-  let nextRowWidth = 0;
-
-  const addImageToRow = (image: ProcessedImage, imageClass: string, width: number) => {
-    currentRow.push({ ...image, class: imageClass });
-    currentRowWidth += width;
-  };
-
-
-  const finalizeRow = () => {
-    result.push(...currentRow);
-    currentRow = [];
-    currentRowWidth = nextRowWidth;
-    nextRowWidth = 0;
-  };
-
-  // While we have images, we create row by placing first vertical, horizontal or square image
-  while (horizontalImages.length > 0 || verticalImages.length > 0 || squareImages.length > 0) {
-    const remainingWidth = maxRowWidth - currentRowWidth;
-
-    // Filling strategy based on remaining space
-    if (remainingWidth === 4) {
-      if (verticalImages.length >= 2) {
-        addImageToRow(verticalImages.shift()!, 'MosaicImg--vertical', 1);
-        addImageToRow(verticalImages.shift()!, 'MosaicImg--vertical', 1);
-        nextRowWidth += 2;
-        if (squareImages.length >= 2) {
-          addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-          addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-        } else if (horizontalImages.length >= 1) {
-          addImageToRow(horizontalImages.shift()!, 'MosaicImg--horizontal', 2);
-        }
-      } else if (verticalImages.length === 1) {
-        // One vertical image with mix of other formats
-        addImageToRow(verticalImages.shift()!, 'MosaicImg--vertical', 1);
-        nextRowWidth += 1;
-        if (horizontalImages.length >= 1 && squareImages.length >= 1) {
-          addImageToRow(horizontalImages.shift()!, 'MosaicImg--horizontal', 2);
-          addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-        } else if (squareImages.length >= 3) {
-          for (let i = 0; i < 3; i++) {
-            addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-          }
-        }
-      } else if (horizontalImages.length >= 2) {
-        // Fallback to horizontal images if no vertical available
-        addImageToRow(horizontalImages.shift()!, 'MosaicImg--horizontal', 2);
-        addImageToRow(horizontalImages.shift()!, 'MosaicImg--horizontal', 2);
-      } else if (horizontalImages.length === 1 && squareImages.length >= 2) {
-        addImageToRow(horizontalImages.shift()!, 'MosaicImg--horizontal', 2);
-        addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-        addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-      } else if (squareImages.length >= 4) {
-        for (let i = 0; i < 4; i++) {
-          addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-        }
-      } else {
-        // Default case: use what we have
-        while (currentRowWidth < maxRowWidth && (horizontalImages.length > 0 || verticalImages.length > 0 || squareImages.length > 0)) {
-          if (verticalImages.length > 0) {
-            addImageToRow(verticalImages.shift()!, 'MosaicImg--vertical', 1);
-            nextRowWidth += 1;
-          } else if (remainingWidth >= 2 && horizontalImages.length > 0) {
-            addImageToRow(horizontalImages.shift()!, 'MosaicImg--horizontal', 2);
-          } else if (squareImages.length > 0) {
-            addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-          }
-        }
-      }
-    } else if (remainingWidth === 3) {
-      if (verticalImages.length >= 1 && squareImages.length >= 2) {
-        addImageToRow(verticalImages.shift()!, 'MosaicImg--vertical', 1);
-        nextRowWidth += 1;
-        addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-        addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-      } else if (horizontalImages.length >= 1 && squareImages.length >= 1) {
-        addImageToRow(horizontalImages.shift()!, 'MosaicImg--horizontal', 2);
-        addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-      } else if (squareImages.length >= 3) {
-        for (let i = 0; i < 3; i++) {
-          addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-        }
-      }
-    } else if (remainingWidth === 2) {
-      if (horizontalImages.length > 0) {
-        addImageToRow(horizontalImages.shift()!, 'MosaicImg--horizontal', 2);
-      } else if (squareImages.length >= 2) {
-        addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-        addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-      } else if (verticalImages.length >= 2) {
-        addImageToRow(verticalImages.shift()!, 'MosaicImg--vertical', 1);
-        addImageToRow(verticalImages.shift()!, 'MosaicImg--vertical', 1);
-      }
-    } else if (remainingWidth === 1) {
-      if (verticalImages.length > 0) {
-        addImageToRow(verticalImages.shift()!, 'MosaicImg--vertical', 1);
-        nextRowWidth += 1;
-      } else if (squareImages.length > 0) {
-        addImageToRow(squareImages.shift()!, 'MosaicImg--square', 1);
-      }
-    }
-
-    // Finalize row if it's full or if there are no more images
-    if (currentRowWidth >= maxRowWidth || 
-        (horizontalImages.length === 0 && verticalImages.length === 0 && squareImages.length === 0)) {
-      finalizeRow();
-    }
-  }
-
-  return result;
-});
-
 onMounted(() => {
   props.images.forEach((image) => {
     const imgUrl = (image as MediaObject).contentUrl ? (image as MediaObject).contentUrl : (image as string);
@@ -188,6 +65,171 @@ onMounted(() => {
       });
     };
   });
+});
+
+const maxRowWidth = 4;
+type GridCell = {
+    occupied: boolean;
+    verticalImage: boolean;
+  };
+type Grid = GridCell[][];
+
+const initRow = (grid: Grid) => {
+    const newRow = Array(maxRowWidth).fill(null).map(() => ({
+      occupied: false,
+      verticalImage: false
+    }));
+    grid.push(newRow);
+    return grid.length - 1;
+  };
+
+const placeImage = (image: ProcessedImage, row: number, col: number, result: ProcessedImage[], grid: Grid) => {
+  const width = image.format === 'horizontal' ? 2 : 1;
+  const height = image.format === 'vertical' ? 2 : 1;
+  const className = `MosaicImg--${image.format}`;
+  // If we are in the last row, we need to create a new one if we have a vertical image to place
+  if (row + height > grid.length) {
+    initRow(grid);
+  }
+  // Mark occupied cells in rows
+  for (let r = row; r < row + height; r++) {
+    for (let c = col; c < col + width; c++) {
+      grid[r][c].occupied = true;
+      grid[r][c].verticalImage = image.format === 'vertical';
+    }
+  }
+  result.push({ ...image, class: className });
+};
+
+const canPlaceImage = (row: number, col: number, width: number, height: number, grid: Grid): boolean => {
+  if (col + width > maxRowWidth) return false;
+  for (let r = row; r < row + height; r++) {
+    if (r >= grid.length) {
+      continue;
+    }
+    for (let c = col; c < col + width; c++) {
+      if (grid[r][c].occupied) return false;
+    }
+  }
+  return true;
+};
+
+const processedImages = computed(() => {
+  let result: ProcessedImage[] = [];
+
+  // Sort images by shape
+  let sortedImages = [...imageData.value];
+  const horizontalImages = sortedImages.filter(img => img.format === 'horizontal');
+  const verticalImages = sortedImages.filter(img => img.format === 'vertical');
+  const squareImages = sortedImages.filter(img => img.format === 'square');
+
+  // Initialise a 2 dimensional grid
+  let grid: Grid = [];
+  initRow(grid);
+  if (verticalImages.length > 0) {
+    initRow(grid);
+  }
+
+  // PLaces images by shape while ensuring we can fill the next line when vertical images are verticalImagePlaced
+  let currentRow = 0;
+  while (verticalImages.length > 0 || horizontalImages.length > 0 || squareImages.length > 0) {
+    // Ensure we have 2 lines for vertical images
+    while (currentRow + 1 >= grid.length) {
+      initRow(grid);
+    }
+
+    // Try to place first vertical image
+    let verticalImagePlaced = false;
+    for (let col = 0; col < maxRowWidth && verticalImages.length > 0; col++) {
+      if (canPlaceImage(currentRow, col, 1, 2, grid)) {
+        const remainingSpacesCurrentRow = maxRowWidth - col - 1;
+        const remainingSpacesNextRow = maxRowWidth - 1;
+
+        // Clone arrays of horizontal/square images to simulate filling lines
+        const tempHorizontal = [...horizontalImages];
+        const tempSquare = [...squareImages];
+        
+        let canFillCurrentRow = true;
+        let canFillNextRow = true;
+
+        // Simulates filling the current line
+        let spacesNeeded = remainingSpacesCurrentRow;
+        while (spacesNeeded > 0) {
+          if (spacesNeeded >= 2 && tempHorizontal.length > 0) {
+            tempHorizontal.shift();
+            spacesNeeded -= 2;
+          } else if (tempSquare.length > 0) {
+            tempSquare.shift();
+            spacesNeeded -= 1;
+          } else {
+            canFillCurrentRow = false;
+            break;
+          }
+        }
+
+        // Simulates filling the next line
+        spacesNeeded = remainingSpacesNextRow;
+        while (spacesNeeded > 0) {
+          if (spacesNeeded >= 2 && tempHorizontal.length > 0) {
+            tempHorizontal.shift();
+            spacesNeeded -= 2;
+          } else if (tempSquare.length > 0) {
+            tempSquare.shift();
+            spacesNeeded -= 1;
+          } else {
+            canFillNextRow = false;
+            break;
+          }
+        }
+
+        if (canFillCurrentRow && canFillNextRow) {
+          placeImage(verticalImages.shift()!, currentRow, col, result, grid);
+          verticalImagePlaced = true;
+          break;
+        }
+      }
+    }
+
+    // If no vertical images have been placed, try horizontal images
+    if (!verticalImagePlaced && horizontalImages.length > 0) {
+      for (let col = 0; col <= maxRowWidth - 2; col++) {
+        if (canPlaceImage(currentRow, col, 2, 1, grid)) {
+          placeImage(horizontalImages.shift()!, currentRow, col, result, grid);
+          verticalImagePlaced = true;
+          break;
+        }
+      }
+    }
+
+    // Then try square images
+    if (!verticalImagePlaced && squareImages.length > 0) {
+      for (let col = 0; col < maxRowWidth; col++) {
+        if (canPlaceImage(currentRow, col, 1, 1, grid)) {
+          placeImage(squareImages.shift()!, currentRow, col, result, grid);
+          verticalImagePlaced = true;
+          break;
+        }
+      }
+    }
+
+    // If the current line is complete and there is no vertical image that overflows,
+    // or if nothing more can be placed in the current line, go to the next line
+    if (grid[currentRow].every(cell => cell.occupied) || !verticalImagePlaced) {
+      let hasVerticalOverflow = false;
+      for (let col = 0; col < maxRowWidth; col++) {
+        if (grid[currentRow][col].verticalImage) {
+          hasVerticalOverflow = true;
+          break;
+        }
+      }
+      
+      if (!hasVerticalOverflow || !verticalImagePlaced) {
+        currentRow++;
+      }
+    }
+  }
+
+  return result;
 });
 
 const imageViewerSrc = ref<string>('');
