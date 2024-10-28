@@ -57,7 +57,7 @@
             <SectionBanner :text="$t('projectPage.inImages')"/>
             <ContentDivider />
             <SectionBanner :text="$t('projectPage.otherProjectsWithSameThematics')" :hideHalfCircle="true" />
-            <div class="ProjectSheetView__projectCardCtn">
+            <div class="SheetView__infoCardCtn">
                 <ProjectCard v-for="project in similarProjects" :key="project.id" :project="project" />
             </div>
         </div>
@@ -115,16 +115,6 @@ const editProject = (project: Project) => { return };
 
 <style lang="scss">
 @import '@/assets/styles/views/SheetView';
-
-.ProjectSheetView__projectCardCtn {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    gap: 2rem;
-    > * {
-        flex: 1 0 25rem;
-    }
-}
 
 .ProjectSheetView {
     &__logo {
