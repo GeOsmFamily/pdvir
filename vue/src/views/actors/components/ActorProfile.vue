@@ -14,7 +14,7 @@
                 :updatedAt="actor.lastUpdate"
                 @edit="editActor"
             />
-            <div class="SheetView__contentCtn my-6">
+            <div class="SheetView__contentCtn my-6" v-if="actor.description">
                 <div class="SheetView__title SheetView__title--divider">{{ $t('actorPage.description') }}</div>
                 <p>{{actor.description}}</p>
             </div>

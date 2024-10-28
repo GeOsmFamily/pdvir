@@ -23,7 +23,7 @@
             "expertise": "Principaux domaines d'expertise*",
             "thematic": "Principales thématiques*",
             "adminScope": "Zones d'intervention*",
-            "description": "Description*",
+            "description": "Description",
             "contact": "Contact",
             "office": "Etablissement",
             "officeName": "Nom du siège",
