@@ -15,6 +15,7 @@
       <v-breadcrumbs v-if="!appStore.mobile" class="Breadcrumbs" :items="appStore.breadcrumbs"></v-breadcrumbs>
       <RouterView />
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -28,6 +29,7 @@ import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';
 import EditContentDialog from '@/views/actors/components/EditContentDialog.vue';
 import { useThematicStore } from './stores/thematicStore';
+import Footer from './views/_layout/Footer.vue';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
