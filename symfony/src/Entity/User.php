@@ -107,7 +107,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $actorsCreated;
 
     #[ORM\Column]
-    #[Groups([self::GROUP_READ, self::GROUP_GETME])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_ADMIN])]
     private ?bool $isValidated = false;
 
     #[ORM\Column(nullable: true)]

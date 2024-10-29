@@ -15,6 +15,10 @@ export class AuthenticationService {
         return apiClient.post('/api/users', JSON.stringify(values), { headers: { 'Content-Type': 'application/ld+json' } })
     }
 
+    static async createUser(values: Partial<User>): Promise<AxiosResponse> {
+        return apiClient.post('/api/users', JSON.stringify(values), { headers: { 'Content-Type': 'application/ld+json' } })
+    }
+
     static async getAuthenticatedUser(): Promise<AxiosResponse<User>> {
         return apiClient.get('/api/users/me', { headers:  {'accept': 'application/ld+json'}})
     }

@@ -2,6 +2,9 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, useField, type TypedSchema } from "vee-validate";
 import { z } from "zod";
 import { i18n } from "@/assets/plugins/i18n";
+import type { User } from "@/models/interfaces/auth/User";
+import { UserRoles } from "@/models/enums/auth/UserRoles";
+import { ref } from "vue";
 
 export class UserProfileForm {
     static getSchema() {
@@ -24,6 +27,14 @@ export class UserProfileForm {
         }),
         signUpMessage: z.string().min(10).max(500, { message: i18n.t('forms.errorMessages.maxlength', { max: 500 }) }).optional().or(z.literal('')),
       })
+    }
+
+    static getRolesList() {
+      return [
+        { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addActors'), value: UserRoles.EDITOR_ACTORS, selected: ref(false), requested: ref(false)},
+        { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addProjects'), value: UserRoles.EDITOR_PROJECTS, selected: ref(false), requested: ref(false)},
+        { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addResources'), value: UserRoles.EDITOR_RESOURCES, selected: ref(false), requested: ref(false)}
+      ]
     }
 
     static getSignUpForm() {
@@ -67,6 +78,59 @@ export class UserProfileForm {
         position: useField('position', '', { validateOnValueUpdate: false }),
         phone: useField('phone', '', { validateOnValueUpdate: false }),
         signUpMessage: useField('signUpMessage', '', { validateOnValueUpdate: false })
+      }
+      return {form, errors, handleSubmit, isSubmitting}
+    }
+
+    static getUserAdminCreationForm() {
+      const baseSchema = this.getSchema().pick({
+        firstName: true,
+        lastName: true,
+        email: true,
+        plainPassword: true,
+        confirmPassword: true,
+        organisation: true,
+        position: true,
+        phone: true,
+      })
+      const { errors, handleSubmit, isSubmitting } = useForm({
+        validationSchema: toTypedSchema(baseSchema)
+      });
+
+      const form = {
+        firstName: useField('firstName', '', { validateOnValueUpdate: false }),
+        lastName: useField('lastName', '', { validateOnValueUpdate: false }),
+        email: useField('email', '', { validateOnValueUpdate: false }),
+        plainPassword: useField('plainPassword', '', { validateOnValueUpdate: false }),
+        confirmPassword: useField('confirmPassword', '', { validateOnValueUpdate: false }),
+        organisation: useField('organisation', '', { validateOnValueUpdate: false }),
+        position: useField('position', '', { validateOnValueUpdate: false }),
+        phone: useField('phone', '', { validateOnValueUpdate: false })
+      }
+      return {form, errors, handleSubmit, isSubmitting}
+    }
+
+    static getUserAdminEditionForm(userToEdit: User | null) {
+      const baseSchema = this.getSchema().pick({
+        firstName: true,
+        lastName: true,
+        email: true,
+        organisation: true,
+        position: true,
+        phone: true,
+      })
+      const { errors, handleSubmit, isSubmitting } = useForm({
+        initialValues: userToEdit,
+        validationSchema: toTypedSchema(baseSchema)
+      });
+
+      const form = {
+        firstName: useField('firstName', '', { validateOnValueUpdate: false }),
+        lastName: useField('lastName', '', { validateOnValueUpdate: false }),
+        email: useField('email', '', { validateOnValueUpdate: false }),
+        organisation: useField('organisation', '', { validateOnValueUpdate: false }),
+        position: useField('position', '', { validateOnValueUpdate: false }),
+        phone: useField('phone', '', { validateOnValueUpdate: false })
       }
       return {form, errors, handleSubmit, isSubmitting}
     }
