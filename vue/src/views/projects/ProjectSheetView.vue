@@ -41,7 +41,7 @@
             <div class="SheetView__infoCard">
                 <div class="SheetView__infoCardBlock">
                     <h5 class="SheetView__title">{{ $t('projectPage.projectOwner') }}</h5>
-                    <ActorCard :actor="project.actor" light="true" />
+                    <ActorCard :actor="(project.actor as Actor)" light="true" />
                 </div>
                 <div class="SheetView__infoCardBlock">
                     <h5 class="SheetView__title">{{ $t('projectPage.focalPoint') }}</h5>
@@ -81,6 +81,7 @@ import PrintButton from '@/components/global/PrintButton.vue';
 import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue';
 import SectionBanner from '@/components/banners/SectionBanner.vue';
 import { ProjectListDisplay } from '@/models/enums/app/ProjectListType';
+import type { Actor } from '@/models/interfaces/Actor';
 
 const userStore = useUserStore();
 const projectStore = useProjectStore();
