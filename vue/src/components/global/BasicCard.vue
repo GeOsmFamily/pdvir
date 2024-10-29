@@ -16,7 +16,9 @@ defineProps<{
 
 <style lang="scss">
 .BasicCard.Card {
-    height: 72px;
+    $dim-basic-card-h: 72px;
+    height: $dim-basic-card-h;
+    max-height: $dim-basic-card-h;
     display: flex;
     align-items: center;
     justify-content: center;

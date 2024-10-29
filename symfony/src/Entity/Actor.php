@@ -19,9 +19,12 @@ use App\Entity\AdministrativeScope;
 use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use App\Entity\Trait\BlameableEntity;
+use App\Entity\Trait\SluggableEntity;
 use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use App\Services\State\Provider\ActorProvider;
 use App\Services\State\Processor\ActorProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,7 +38,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     operations: [
         new GetCollection(
             provider: ActorProvider::class,
-            normalizationContext: ['groups' => self::ACTOR_READ_ITEM_COLLECTION]
+            normalizationContext: ['groups' => self::ACTOR_READ_COLLECTION]
         ),
         new Get(),
         new Post(
@@ -59,69 +62,73 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 )]
 class Actor
 {
-    public const ACTOR_READ_ITEM_COLLECTION = 'actor:read_collection';
+    public const ACTOR_READ_COLLECTION = 'actor:read_collection';
     public const ACTOR_READ_ITEM = 'actor:read_item';
     private const ACTOR_WRITE = 'actor:write';
 
     use TimestampableEntity;
+    use SluggableEntity;
+    use BlameableEntity;
 
-    
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
     private ?string $acronym = null;
 
-    #[ORM\ManyToOne(inversedBy: 'actorsCreated')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([self::ACTOR_READ_ITEM])]
-    private ?User $createdBy = null;
-
     #[ORM\Column]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_READ_ITEM_COLLECTION])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_READ_COLLECTION])]
     private ?bool $isValidated = false;
 
     #[ORM\Column(enumType: ActorCategory::class)]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
     private ?ActorCategory $category = null;
 
     /**
      * @var Collection<int, ActorExpertise>
      */
     #[ORM\ManyToMany(targetEntity: ActorExpertise::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $expertises;
 
     /**
      * @var Collection<int, Thematics>
      */
     #[ORM\ManyToMany(targetEntity: Thematic::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $thematics;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $officeName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $officeAddress = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(
+        type: PostGISType::GEOMETRY, 
+        options: ['geometry_type' => 'POINT'],
+        nullable: true
+    )]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private ?string $officeLocation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $contactName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -152,12 +159,12 @@ class Actor
      * @var Collection<int, AdministrativeScope>
      */
     #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $administrativeScopes;
 
     #[ORM\ManyToOne(targetEntity: MediaObject::class)]
     #[ApiProperty(types: ['https://schema.org/image'])]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
+    #[Groups([self::ACTOR_READ_COLLECTION,self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
     private ?MediaObject $logo = null;
 
     /**
@@ -165,7 +172,7 @@ class Actor
      */
     #[ORM\ManyToMany(targetEntity: MediaObject::class)]
     #[ApiProperty(types: ['https://schema.org/image'])]
-    #[Groups([self::ACTOR_READ_ITEM_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $images;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
@@ -205,18 +212,6 @@ class Actor
     public function setAcronym(string $acronym): static
     {
         $this->acronym = strtoupper($acronym);
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?User
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?User $createdBy): static
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }
@@ -325,6 +320,28 @@ class Actor
     public function setOfficeAddress(?string $officeAddress): static
     {
         $this->officeAddress = $officeAddress;
+
+        return $this;
+    }
+
+    public function getOfficeLocation(): ?string {
+        if (preg_match('/POINT\(([-\d\.]+) ([-\d\.]+)\)/', $this->officeLocation, $matches)) {
+            return $matches[1] . ',' . $matches[2];
+        }
+        return null;
+    }
+
+    public function setOfficeLocation(string $coords): static
+    {
+        // Convert lat/lng string into postgis point geometry
+        if (preg_match('/^\s*(-?\d+(\.\d+)?)\s*,\s*(-?\d+(\.\d+)?)\s*$/', $coords, $matches)) {
+            $lat = (float)$matches[1];
+            $lng = (float)$matches[3];
+
+            $this->officeLocation = sprintf('POINT(%f %f)', $lng, $lat);
+        } else {
+            throw new \InvalidArgumentException('Invalid coordinates format. Expected "lat, lng".');
+        }
 
         return $this;
     }

@@ -1,5 +1,10 @@
 <template>
-    <v-icon icon="mdi mdi-share-variant" color="main-blue" @click.stop="copyURL"></v-icon>
+    <v-btn
+        @click.stop="copyURL"
+        variant="text"
+        density="comfortable"
+        icon="mdi mdi-share-variant"
+        color="main-blue"></v-btn>
 </template>
 
 <script setup lang="ts">

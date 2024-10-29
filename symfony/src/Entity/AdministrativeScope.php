@@ -38,7 +38,7 @@ class AdministrativeScope
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM_COLLECTION, Actor::ACTOR_READ_ITEM, self::GROUP_READ, self::GROUP_WRITE])]
+    #[Groups([Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $name = null;
 
     /**

@@ -64,7 +64,7 @@ class Project
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM])]
     private ?string $location = null;
 
     #[ORM\Column(
@@ -109,6 +109,7 @@ class Project
     private ?string $projectManagerPosition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
     private ?string $projectManagerEmail = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -120,6 +121,7 @@ class Project
     private ?string $projectManagerPhoto = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::PROJECT_READ])]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -196,7 +198,7 @@ class Project
         if (preg_match('/POINT\(([-\d\.]+) ([-\d\.]+)\)/', $this->coords, $matches)) {
             return [
                 'lat' => (float)$matches[1],
-                'long' => (float)$matches[2],
+                'lng' => (float)$matches[2],
             ];
         }
         return null;

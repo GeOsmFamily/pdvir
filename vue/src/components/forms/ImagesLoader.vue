@@ -48,7 +48,7 @@
             <img
                 :src="selectedFile.preview"
                 :alt="(selectedFile as any).name ? (selectedFile as ContentImageFromUserFile).name : ''"
-                class="InputImage__dropzone__imageLoaded ma-2"
+                class="LoadedImages__preview ma-2"
             />
         </div>
     </div>

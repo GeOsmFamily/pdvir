@@ -27,24 +27,11 @@ class ActorProcessor implements ProcessorInterface
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if ($this->security->isGranted(UserRoles::ROLE_ADMIN)) {
-            $data->setIsValidated(true);
-        } else {
-            $data->setIsValidated(false);
-        }
-
-        if (!isset($data->updatedAt)) {
-            $data->setUpdatedAt(new \DateTimeImmutable());
-        }
-
-        if ($this->requestStack->getCurrentRequest()->getMethod() === 'POST') {
-            if (!isset($data->createdAt)) {
-                $data->setCreatedAt(new \DateTimeImmutable());
-            }
-
-            $user = $this->security->getUser();
-            if ($data instanceof Actor && null !== $user) {
-                $data->setCreatedBy($user);
+        if (!isset($data->isValidated) || $data->getIsValidated() == false) {
+            if ($this->security->isGranted(UserRoles::ROLE_ADMIN)) {
+                $data->setIsValidated(true);
+            } else {
+                $data->setIsValidated(false);
             }
         }
 

@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router'
 import type { ActorExpertise } from '@/models/interfaces/ActorExpertise'
 import type { Thematic } from '@/models/interfaces/Thematic'
 import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope'
+import { ContentPagesList } from '@/models/enums/app/ContentPagesList'
 
 
 export const useActorsStore = defineStore(StoresList.ACTORS, () => {
@@ -27,14 +28,15 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
 
   async function getActorsSelectListContent(): Promise<void> {
     actorsExpertises.push(...await ActorsService.getActorsExpertisesList())
-    actorsThematics.push(...await ActorsService.getActorsThematicsList())
     actorsAdministrativesScopes.push(...await ActorsService.getActorsAdministrativesScopesList())
 }
 
   async function setSelectedActor(id: string, redirect: boolean = true) {
     selectedActor.value = await ActorsService.getActor(id)
     if (redirect) {
-      router.push('/actors/' + selectedActor.value.name)
+      const appStore = useApplicationStore()
+      appStore.currentContentPage = ContentPagesList.ACTOR
+      router.push('/actors/' + selectedActor.value.slug)
     }
   }
 

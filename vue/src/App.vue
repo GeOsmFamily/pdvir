@@ -27,13 +27,16 @@ import { useApplicationStore } from '@/stores/applicationStore';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';
 import EditContentDialog from '@/views/actors/components/EditContentDialog.vue';
+import { useThematicStore } from './stores/thematicStore';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
 const userStore = useUserStore();
+const thematicStore = useThematicStore()
 onBeforeMount(async () => {
   await actorsStore.getActors()
   await actorsStore.getActorsSelectListContent()
+  await thematicStore.getAll()
   userStore.checkAuthenticated()
 })
 </script>
@@ -60,7 +63,7 @@ onBeforeMount(async () => {
 
   &[is-light-header="true"] {
     
-    --dim-container-w: 80rem;
+    --dim-container-w: 1200px;
 
     .App__content--desktop {
       padding-top: 0;

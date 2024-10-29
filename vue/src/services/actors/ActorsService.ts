@@ -10,9 +10,6 @@ export class ActorsService {
 
     static async getActors(): Promise<Actor[]> {
       const data = (await apiClient.get('/api/actors', { headers:  {'accept': 'application/ld+json'}})).data
-      data["hydra:member"].forEach((actor: any) => {
-        actor["expertises"] =  actor["expertises"].map((category: SymfonyRelation) => category["name"])
-      })
       return data["hydra:member"] as Actor[]
     }
 

@@ -23,18 +23,17 @@
 <script setup lang="ts">
 import type { RouteLocationAsRelativeGeneric } from 'vue-router';
 defineProps<{
-    to: string |RouteLocationAsRelativeGeneric,
+    to?: string | RouteLocationAsRelativeGeneric,
     light?: boolean
 }>()
 </script>
 
 <style lang="scss">
-.InfoCard {
+.InfoCard.v-card {
     width: 100%;
     padding: 25px;
     display: flex;
     flex-direction: column;
-    height: fit-content;
 
     &[light="true"] {
         box-shadow: none;
@@ -51,6 +50,7 @@ defineProps<{
     .InfoCard__content {
         display: flex;
         flex-flow: column nowrap;
+        flex-grow: 1;
 
         .InfoCard__subTitle {
             font-size: 14px;
@@ -75,7 +75,6 @@ defineProps<{
             display: flex;
             align-items: center;
             flex-flow: row nowrap;
-            gap: .5rem;
         }
     }
     

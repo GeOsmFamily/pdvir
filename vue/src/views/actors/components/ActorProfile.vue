@@ -1,46 +1,69 @@
 <template>
-    <template v-if="actor">
-        <div class="ActorPage">
-            <div class="ActorPage__leftBlock">
-                <img :src="actor.logo.contentUrl" alt="" v-if="appStore.mobile && actor.logo" class="mt-4 mb-4 ActorPage__logo">
-                <SheetContentBanner
-                    :title="actor.name"
-                    :subtitle="actor.acronym"
-                    :phone="actor.phone"
-                    :email="actor.email"
-                    :website="actor.website"
-                    :isEditable="isEditable"
-                    :updatedAt="actor.lastUpdate"
-                    @edit="editActor"/>
-                <SectionTitle :title="$t('actorPage.description')" class="mt-12"/>
-                <ContentDivider class="mt-4"/>
-                <p class="mt-6 mr-8">{{ actor.description }}</p>
-                <ActorRelatedContent :actor="actor" v-if="!appStore.mobile"/>
+    <div class="ActorSheetView SheetView" v-if="actor ">
+        <div class="SheetView__block SheetView__block--left">
+            <div class="SheetView__logoCtn show-sm">
+                <img :src="actor.logo.contentUrl" class="SheetView__logo" v-if="actor.logo">
             </div>
-            <div class="ActorPage__rightBlock">
-                <img :src="actor.logo.contentUrl" alt="" v-if="!appStore.mobile && actor.logo" class="ActorPage__logo">
-                <div class="mt-6">
-                    <ChipList :items="actor.thematics" />
-                </div>
-                <SectionTitle :title="$t('actorPage.adminScope')" class="mt-12"/>
-                <ContentDivider class="mt-4"/>
-                {{ actor.administrativeScopes.map(x => x.name).join(", ") }}
-                <div class="ActorPage__contentCard">
+            <SheetContentBanner
+                :title="actor.name"
+                :subtitle="actor.acronym"
+                :phone="actor.phone"
+                :email="actor.email"
+                :website="actor.website"
+                :isEditable="isEditable"
+                :updatedAt="actor.lastUpdate"
+                @edit="editActor"
+            />
+            <div class="SheetView__contentCtn my-6" v-if="actor.description">
+                <div class="SheetView__title SheetView__title--divider">{{ $t('actorPage.description') }}</div>
+                <p>{{actor.description}}</p>
+            </div>
+            <ActorRelatedContent :actor="actor" v-if="!appStore.mobile"/>
+        </div>
+        <div class="SheetView__block SheetView__block--right">
+            <div class="SheetView__updatedAtCtn hide-sm" >
+                <UpdatedAtLabel :date="actor.updatedAt" />
+                <PrintButton />
+            </div>
+            <div class="SheetView__logoCtn hide-sm">
+                <img :src="actor.logo.contentUrl" alt="" v-if="actor.logo" class="SheetView__logo">
+            </div>
+            <ChipList :items="actor.thematics" />
+
+            <div class="SheetView__title SheetView__title--divider mt-lg-12">{{ $t('actorPage.adminScope') }}</div>
+            {{ actor.administrativeScopes.map(x => x.name).join(", ") }}
+            <div class="ActorSheetView__toMap">
+                <span>{{ $t('actorPage.showInMap') }}</span>
+                <v-icon class="ml-2" color="main-green" icon="mdi-arrow-right-circle" size="large"></v-icon>
+            </div>
+
+            <div class="SheetView__infoCard">
+                <div class="d-flex flex-row">
                     <v-icon icon="mdi-map-marker-outline" color="main-black" />
                     <div class="ml-1">
                         <p class="font-weight-bold">{{ actor.officeName }}</p>
                         <p>{{ actor.officeAddress}}</p>
                     </div>
                 </div>
-                <div class="ActorPage__contentCard flex-column mt-8">
-                    <SectionTitle :title="$t('actorPage.contact')"/>
-                    <span class="font-weight-bold mt-3">{{ actor.contactName }}</span>
-                    <span>{{ actor.contactPosition }}</span>
+            </div>
+
+            <div class="SheetView__infoCard">
+                <div>
+                    <h5 class="SheetView__title">{{ $t('actorPage.contact') }}</h5>
+                    <ContactCard
+                        :name="actor.contactName"
+                        :description="actor.contactPosition"
+                        image="https://trustedexecutive.com/wp/wp-content/uploads/2016/06/morpheus-red-pill-blue-pill.jpg" />
                 </div>
-                <ActorRelatedContent :actor="actor" v-if="appStore.mobile"/>
             </div>
         </div>
-    </template>
+        <ActorRelatedContent :actor="actor" v-if="appStore.mobile"/>
+        <div class="SheetView__block SheetView__block--bottom">
+            <SectionBanner :text="$t('actorPage.images')"/>
+            <ImagesMosaic :images="[...actor.images, ...actor.externalImages]" />
+            <ContentDivider />
+        </div>
+    </div>
     
 </template>
 <script setup lang="ts">
@@ -49,24 +72,29 @@ import { useActorsStore } from '@/stores/actorsStore';
 import { computed, onMounted, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import SheetContentBanner from '@/views/_layout/sheet/SheetContentBanner.vue';
-import SectionTitle from '@/components/text-elements/SectionTitle.vue';
 import ContentDivider from '@/components/content/ContentDivider.vue';
 import ActorRelatedContent from './ActorRelatedContent.vue';
+import PrintButton from '@/components/global/PrintButton.vue';
+import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue';
+import ImagesMosaic from '@/components/content/ImagesMosaic.vue';
+import SectionBanner from '@/components/banners/SectionBanner.vue';
+import ContactCard from '@/components/content/ContactCard.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useUserStore } from '@/stores/userStore';
 import ChipList from '@/components/content/ChipList.vue';
+import ProjectCard from '@/views/projects/components/ProjectCard.vue';
 
 const appStore = useApplicationStore();
 const userStore = useUserStore();
 const actorsStore = useActorsStore();
 const actor = computed(() => actorsStore.selectedActor)
-// Handle page openened directly by url
+// Handle page openened directly by shared url
 onMounted(() => {
     const route = useRoute();
     watchEffect(() => {
         if (actorsStore.dataLoaded) {
             if (actorsStore.selectedActor === null) {
-                const actor: Actor | undefined = actorsStore.actors.find(actor => actor.name === route.params.name);
+                const actor: Actor | undefined = actorsStore.actors.find(actor => actor.slug === route.params.slug);
                 actorsStore.setSelectedActor(actor?.id as string);
             }
         }
@@ -84,36 +112,17 @@ function editActor() {
 <style lang="scss">
 @import '@/assets/styles/views/SheetView';
 
-.ActorPage {
+.ActorSheetView__projectCardCtn {
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    flex-wrap: wrap;
-}
-.ActorPage__leftBlock {
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    flex-wrap: wrap;
-    padding-right: 1em;
-}
-@media (max-width: 600px) {
-    .ActorPage__leftBlock {
-        width: 100%;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 2rem;
+    > * {
+        flex: 1 0 25rem;
     }
 }
-.ActorPage__rightBlock {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    flex-wrap: wrap;
-}
-@media (max-width: 600px) {
-    .ActorPage__rightBlock {
-        width: 100%;
-    }
-}
-.ActorPage {
+
+.ActorSheetView {
     &__logo {
         max-width: 100%;
     }
@@ -122,6 +131,22 @@ function editActor() {
         padding: 1.5em;
         width: 100%;
         background-color: rgb(var(--v-theme-light-yellow));
+    }
+    &__toMap {
+        cursor: pointer;
+        width: fit-content;
+        border: 1px solid rgb(var(--v-theme-main-blue));
+        border-radius: 5px;
+        font-weight: 500;
+        padding: 10px 12px 10px 15px;
+    }
+}
+
+@media (max-width: $bp-xl) {
+    .ActorSheetView {
+        .SheetView__block--bottom {
+            display: none;
+        }
     }
 }
 </style>

@@ -25,13 +25,14 @@
 import Map from '@/components/map/Map.vue';
 import MapService, { IControl } from '@/services/map/MapService';
 import { useProjectStore } from '@/stores/projectStore';
-import { computed, onMounted, useTemplateRef, watch } from 'vue';
+import { computed, onMounted, onUnmounted, useTemplateRef, watch } from 'vue';
 import projectIcon from '@/assets/images/icons/map/project_icon.png'
 import projectHoverIcon from '@/assets/images/icons/map/project_icon_hover.png'
 import ProjectCard from '@/views/projects/components/ProjectCard.vue';
 import ProjectFilterModal from '@/views/projects/components/ProjectFilterModal.vue';
 import { type ResolvedImageSpecification } from 'maplibre-gl';
 import ShowProjectFiltersModalControl from '@/views/projects/components/map-controls/ShowProjectFiltersModalControl.vue';
+import router from '@/router';
 
 type MapType = InstanceType<typeof Map>
 type ProjectCard = InstanceType<typeof ProjectCard>
@@ -64,15 +65,38 @@ watch(() => projectStore.hoveredProjectId, () => {
   updatePin()
 })
 
-watch(() => projectMap.value?.activeFeatureId, () => {
-  if (projectMap.value == null) return
+watch(() => projectMap.value?.activeFeatureId, (to, from) => {
+  const initializing = from === undefined
+  if (projectMap.value == null || initializing) return
   projectStore.activeProjectId = projectMap.value?.activeFeatureId
-  updatePin()
+  router.replace({ ...router.currentRoute.value, query: { ...router.currentRoute.value.query, project: projectStore.activeProjectId } });
 })
 
+watch(() => projectStore.activeProject, () => {
+  if (projectMap.value == null) return
+  updatePin()
+  showPopupOnInit()
+})
+
+const showPopupOnInit = () => {
+  if (projectStore.activeProject != null && projectMap.value) {
+    projectMap.value.addPopup(projectStore.activeProject.coords, activeProjectCard.value)
+  }
+}
+
 onMounted(() => {
-  if (map.value == null) return
-  map.value.addControl(new IControl(showProjectFiltersModalControl), 'top-right')
+  if (map.value != null) {
+    map.value.addControl(new IControl(showProjectFiltersModalControl), 'top-right')
+    map.value.on('load', async () => {
+      await setProjectLayer()
+      showPopupOnInit()
+    })
+  }
+})
+
+onUnmounted(() => {
+  projectStore.activeProjectId = null
+  projectStore.isProjectMapFullWidth = false
 })
 
 const updatePin = () => {
@@ -112,23 +136,21 @@ const setProjectLayer = async () => {
   }
   return;
 }
-
-onMounted(() => {
-  if (map.value != null) {
-    map.value.on('load', async () => {
-      if (projectMap.value) {
-        await setProjectLayer()
-      }
-    })
-  }
-})
 </script>
 
 <style lang="scss">
+
 .ProjectMap {
   width: 100%;
   height: 100%;
   position: relative;
+
+  .ProjectCard {
+    display: none;
+  }
+  .maplibregl-popup .ProjectCard {
+    display: flex;
+  }
 
   #map.ProjectMap__map {
     width: 100%;

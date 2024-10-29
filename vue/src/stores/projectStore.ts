@@ -9,6 +9,8 @@ import type { Status } from '@/models/enums/contents/Status';
 import type { Thematic } from '@/models/interfaces/Thematic';
 import type { AdministrativeScope } from '@/models/enums/AdministrativeScope';
 import type { Actor } from '@/models/interfaces/Actor';
+import { useApplicationStore } from './applicationStore';
+import { ContentPagesList } from '@/models/enums/app/ContentPagesList';
 
 export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const projects: Ref<Project[]> = ref([])
@@ -45,6 +47,8 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
 
   async function loadProjectBySlug(slug: string | string []): Promise<void> {
     if (project.value?.slug !== slug && typeof slug === 'string') {
+      const appStore = useApplicationStore()
+      appStore.currentContentPage = ContentPagesList.PROJECT
       project.value = await ProjectService.get({ slug })
     }
   }
@@ -102,9 +106,9 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
       case SortKey.UPDATED_AT_AZ:
         return sortedProjects.sort((a, b) => (new Date(b.updatedAt).valueOf() - new Date(a.updatedAt).valueOf()));
       case SortKey.ACTORS_AZ:
-        return sortedProjects.sort((a, b) => a.actor.name.localeCompare(b.actor.name));
+        return sortedProjects.sort((a, b) => (a.actor.name as string).localeCompare(b.actor.name as string));
       case SortKey.ACTORS_ZA:
-        return sortedProjects.sort((a, b) => b.actor.name.localeCompare(a.actor.name));
+        return sortedProjects.sort((a, b) => (b.actor.name as string).localeCompare(a.actor.name as string));
       default:
         return sortedProjects
     }
