@@ -131,6 +131,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups([self::GROUP_READ, self::GROUP_WRITE])]
     private ?string $signUpMessage = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?MediaObject $logo = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->actorsCreated = new ArrayCollection();
@@ -346,6 +352,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setsignUpMessage(?string $signUpMessage): static
     {
         $this->signUpMessage = $signUpMessage;
+
+        return $this;
+    }
+
+    public function getLogo(): ?MediaObject
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?MediaObject $logo): static
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

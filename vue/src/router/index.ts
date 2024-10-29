@@ -77,8 +77,8 @@ const router = createRouter({
       component: () => import('@/views/map/MapView.vue')
     },
     {
-      path: '/members',
-      name: 'members',
+      path: '/my-account',
+      name: 'userAccount',
       component: () => import('@/views/member/MemberView.vue')
     },
     {

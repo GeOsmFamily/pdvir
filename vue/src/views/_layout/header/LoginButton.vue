@@ -53,7 +53,7 @@
           <v-list-item-title>{{ $t('header.addData') }}</v-list-item-title>
         </v-list-item>
         <v-divider v-if="userStore.userIsEditor()"/>
-        <v-list-item>
+        <v-list-item :to="{ name: 'userAccount' }">
             <template v-slot:prepend>
                 <v-icon color="main-blue" icon="mdi-account-circle"></v-icon>
             </template>
