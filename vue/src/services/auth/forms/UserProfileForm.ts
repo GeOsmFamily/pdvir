@@ -110,7 +110,7 @@ export class UserProfileForm {
       return {form, errors, handleSubmit, isSubmitting}
     }
 
-    static getUserAdminEditionForm(userToEdit: User | null) {
+    static getUserEditionForm(userToEdit: User | null) {
       const baseSchema = this.getSchema().pick({
         firstName: true,
         lastName: true,
