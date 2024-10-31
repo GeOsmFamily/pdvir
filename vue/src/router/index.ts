@@ -80,7 +80,15 @@ const router = createRouter({
     {
       path: '/my-account',
       name: 'userAccount',
-      component: () => import('@/views/member/MemberView.vue')
+      component: () => import('@/views/member/MemberView.vue'),
+      beforeEnter: (to, from, next) => {
+        const userStore = useUserStore()
+        if (!userStore.userIsLogged) {
+          next({ path: '/' })
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/administration',

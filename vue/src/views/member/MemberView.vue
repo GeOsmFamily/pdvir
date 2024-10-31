@@ -1,65 +1,97 @@
 <template>
-    <div class="UserAccount">
+    <div class="UserAccount" v-if="userStore.userIsLogged">
         <SectionBanner :text="$t('account.title')"/>
         <v-form @submit.prevent="submitForm">
-            <div class="UserBlock UserBlock--left">
-                <div class="UserAccount__avatarBlock">
-                    <div class="UserAccount__avatarCtn" @click="triggerFileInput">
-                        <div class="UserAccount__avatar">
-                            <img v-if="selectedProfileImage.length > 0" :src="selectedProfileImage[0].preview">
-                            <img v-else src="@/assets/images/user/default_avatar.png" alt="">
+            <div class="UserAccount__ctn">
+                <div class="UserBlock UserBlock--left">
+                    <div class="UserAccount__avatarBlock">
+                        <div class="UserAccount__avatarCtn" @click="triggerFileInput">
+                            <div class="UserAccount__avatar">
+                                <img v-if="selectedProfileImage.length > 0" :src="selectedProfileImage[0].preview">
+                                <img v-else src="@/assets/images/user/default_avatar.png" alt="">
+                            </div>
+                            <v-btn icon="mdi-pencil" class="UserAccount__avatarEdit" @click.stop="triggerFileInput"></v-btn>
                         </div>
-                        <v-btn icon="mdi-pencil" class="UserAccount__avatarEdit" @click.stop="triggerFileInput"></v-btn>
+                        <div class="UserAccount__avatar--rightInputs">
+                            <v-text-field 
+                                v-model="form.firstName.value.value"
+                                :error-messages="form.firstName.errorMessage.value" 
+                                :label="$t('auth.becomeMember.form.firstName')"
+                                @submit="form.firstName.handleChange"  
+                            />
+                            <v-text-field 
+                                v-model="form.lastName.value.value"
+                                :error-messages="form.lastName.errorMessage.value" :label="$t('auth.becomeMember.form.lastName')"
+                                @submit="form.lastName.handleChange" 
+                            />
+                        </div>
                     </div>
-                    <div class="UserAccount__avatar--rightInputs">
-                        <v-text-field 
-                            v-model="form.firstName.value.value"
-                            :error-messages="form.firstName.errorMessage.value" 
-                            :label="$t('auth.becomeMember.form.firstName')"
-                            @submit="form.firstName.handleChange"  
-                        />
-                        <v-text-field 
-                            v-model="form.lastName.value.value"
-                            :error-messages="form.lastName.errorMessage.value" :label="$t('auth.becomeMember.form.lastName')"
-                            @submit="form.lastName.handleChange" 
-                        />
+                    <span class="UserAccount--avatarErrorMessage"> {{avatarErrorMessage}} </span>
+                    <v-text-field
+                        v-model="form.email.value.value"
+                        :error-messages="form.email.errorMessage.value"
+                        :label="$t('auth.becomeMember.form.email')"
+                        @submit="form.email.handleChange" 
+                    />
+                    <v-text-field 
+                        v-model="form.organisation.value.value"
+                        :error-messages="form.organisation.errorMessage.value"
+                        :label="$t('auth.becomeMemberThanks.form.organization')"
+                        @submit="form.organisation.handleChange" 
+                    />
+                    <v-text-field
+                        v-model="form.position.value.value"
+                        :error-messages="form.position.errorMessage.value"
+                        :label="$t('auth.becomeMemberThanks.form.functions')"
+                        @submit="form.position.handleChange" 
+                    />
+                    <v-text-field
+                        v-model="form.phone.value.value"
+                        :error-messages="form.phone.errorMessage.value"
+                        :label="$t('auth.becomeMemberThanks.form.telephone')"
+                        @submit="form.phone.handleChange" 
+                    />
+                    <a href="#">{{ $t('account.changePassword')}}</a>
+                    <div class="UserAccount__rolesBlock">
+                        <span>{{ $t("account.roles") }}</span>
+                        <div class="UserAccount__rolesItem" v-for="(role, index) in requestedRoles" :key="index">
+                            <v-checkbox v-model="role.selected.value" :label="role.label" hide-details="auto" />
+                            <Chip bg-color="main-yellow" :text="$t('auth.editForm.waitingValidation')" v-if="role.requested.value" class="ml-2"/>
+                        </div>
                     </div>
+                    <a href="#">{{ $t('account.deleteAccount')}}</a>
+                    <v-btn type="submit" color="main-red" :loading="isSubmitting" class="w-100">{{ $t('account.save') }}</v-btn>
                 </div>
-                <span class="UserAccount--avatarErrorMessage"> {{avatarErrorMessage}} </span>
-                <v-text-field
-                    v-model="form.email.value.value"
-                    :error-messages="form.email.errorMessage.value"
-                    :label="$t('auth.becomeMember.form.email')"
-                    @submit="form.email.handleChange" 
-                />
-                <v-text-field 
-                    v-model="form.organisation.value.value"
-                    :error-messages="form.organisation.errorMessage.value"
-                    :label="$t('auth.becomeMemberThanks.form.organization')"
-                    @submit="form.organisation.handleChange" 
-                />
-                <v-text-field
-                    v-model="form.position.value.value"
-                    :error-messages="form.position.errorMessage.value"
-                    :label="$t('auth.becomeMemberThanks.form.functions')"
-                    @submit="form.position.handleChange" 
-                />
-                <v-text-field
-                    v-model="form.phone.value.value"
-                    :error-messages="form.phone.errorMessage.value"
-                    :label="$t('auth.becomeMemberThanks.form.telephone')"
-                    @submit="form.phone.handleChange" 
-                />
-                <a href="#">{{ $t('account.changePassword')}}</a>
-                <div class="UserAccount__rolesBlock">
-                    <span>{{ $t("account.roles") }}</span>
-                    <div class="UserAccount__rolesItem" v-for="(role, index) in requestedRoles" :key="index">
-                        <v-checkbox v-model="role.selected.value" :label="role.label" hide-details="auto" />
-                        <Chip bg-color="main-yellow" :text="$t('auth.editForm.waitingValidation')" v-if="role.requested.value" class="ml-2"/>
+                <div class="UserBlock UserBlock--right">
+                    <div class="UserAccount__description">
+                        <v-textarea
+                            hide-details
+                            v-model="form.description.value.value"
+                            :error-messages="form.description.errorMessage.value"
+                            :label="$t('auth.becomeMemberThanks.form.description')"
+                            @submit="form.description.handleChange" 
+                            auto-grow
+                            row-height="30"
+                            rows="13"
+                        />
                     </div>
+                    <BasicCard icon="mdi-pencil-outline" class="mt-6">
+                        <span class="ml-2">{{ $t('header.content') }}</span>
+                    </BasicCard>
+                    <v-divider></v-divider>
+                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_ACTORS)" @click="actorsStore.setActorEditionMode(null)">
+                        <span class="ml-2">{{ $t('header.addActor') }}</span>
+                    </BasicCard>
+                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_PROJECTS)">
+                        <span class="ml-2">{{ $t('header.addProject') }}</span>
+                    </BasicCard>
+                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_DATA)">
+                        <span class="ml-2">{{ $t('header.addData') }}</span>
+                    </BasicCard>
+                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_RESOURCES)">
+                        <span class="ml-2">{{ $t('header.addResource') }}</span>
+                    </BasicCard>
                 </div>
-                <a href="#">{{ $t('account.deleteAccount')}}</a>
-                <v-btn type="submit" color="main-red" :loading="isSubmitting" class="w-100">{{ $t('account.save') }}</v-btn>
             </div>
         </v-form>
     </div>
@@ -73,20 +105,26 @@
 </template>
 <script setup lang="ts">
 import SectionBanner from '@/components/banners/SectionBanner.vue';
+import BasicCard from '@/components/global/BasicCard.vue';
 import { ContentImageType } from '@/models/enums/app/ContentImageType';
+import { UserRoles } from '@/models/enums/auth/UserRoles';
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage';
 import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
 import { InputImageValidator } from '@/services/files/InputImageValidator';
+import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';
-import { reactive, ref } from 'vue';
+import { ref, type Ref } from 'vue';
 const userStore = useUserStore();
+const actorsStore = useActorsStore();
 const requestedRoles = UserProfileForm.getRolesList()
-const me = userStore.currentUser
-const { form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(me);
+
+const { form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(userStore.currentUser);
+
 requestedRoles.map(x => {
-    if (me && me.roles.includes(x.value)) {
+    if (userStore.currentUser && userStore.currentUser.roles.includes(x.value)) {
         x.selected.value = true
     }
-    if (me && me.requestedRoles && me.requestedRoles.includes(x.value)) {
+    if (userStore.currentUser && userStore.currentUser.requestedRoles && userStore.currentUser.requestedRoles.includes(x.value)) {
         x.requested.value = true
     }
 })
@@ -125,6 +163,7 @@ const handleFileChange = (event: Event) => {
 const submitForm = handleSubmit(
     values => {
         console.log(values)
+        console.log(selectedProfileImage.value)
     },
     errors => {
         console.error('Form validation failed:', errors);
@@ -136,6 +175,10 @@ const submitForm = handleSubmit(
     display: flex;
     flex-flow: column wrap;
     width: 100%;
+    &__ctn{
+        display: flex;
+        flex-flow: row wrap;
+    }
 }
 .UserBlock{
     display: flex;
@@ -150,7 +193,6 @@ const submitForm = handleSubmit(
     }
     &--right {
         width: 30%;
-        background-color: red;
         @media (max-width: $bp-sm){
             width: 100%;
         }
@@ -173,7 +215,6 @@ const submitForm = handleSubmit(
         height: 8rem;
         width: 8rem;
         border-radius: 50%;
-        border-color: 1px solid rgb(var(--v-theme-main-blue));
         overflow: hidden;
         @media (max-width: $bp-sm){
             width: 8rem;
@@ -212,6 +253,10 @@ const submitForm = handleSubmit(
     &__rolesItem {
         display: flex;
         align-items: center;
+    }
+    &__description {
+        background-color: white;
+        border: 1px solid black;
     }
 }
 </style>

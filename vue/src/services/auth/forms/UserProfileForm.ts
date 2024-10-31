@@ -11,8 +11,8 @@ export class UserProfileForm {
       return z.object({
         firstName: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).min(2, { message: i18n.t('forms.errorMessages.minlength', { min: 2 }) }).max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }),
         lastName: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).min(2, { message: i18n.t('forms.errorMessages.minlength', { min: 2 }) }).max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }),
-        organisation: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }),
-        position: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }).min(2, { message: i18n.t('forms.errorMessages.minlength', { min: 2 }) }).max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }),
+        organisation: z.string().max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }).optional(),
+        position: z.string().max(255, { message: i18n.t('forms.errorMessages.maxlength', { max: 255 }) }).optional(),
         phone: z.string().refine((phone) => {
           const regex = /^(?:\+?[1-9]\d{1,3}[ .-]?)?(?:[1-9]\d{8}|0[1-9]\d{8})$/;
           return regex.test(phone);
@@ -26,6 +26,7 @@ export class UserProfileForm {
           message: i18n.t('auth.becomeMember.form.privacyPolicy.error'),
         }),
         signUpMessage: z.string().min(10).max(500, { message: i18n.t('forms.errorMessages.maxlength', { max: 500 }) }).optional().or(z.literal('')),
+        description: z.string().max(5000, { message: i18n.t('forms.errorMessages.maxlength', { max: 500 }) }).optional()
       })
     }
 
@@ -118,6 +119,7 @@ export class UserProfileForm {
         organisation: true,
         position: true,
         phone: true,
+        description: true
       })
       const { errors, handleSubmit, isSubmitting } = useForm({
         initialValues: userToEdit,
@@ -130,7 +132,8 @@ export class UserProfileForm {
         email: useField('email', '', { validateOnValueUpdate: false }),
         organisation: useField('organisation', '', { validateOnValueUpdate: false }),
         position: useField('position', '', { validateOnValueUpdate: false }),
-        phone: useField('phone', '', { validateOnValueUpdate: false })
+        phone: useField('phone', '', { validateOnValueUpdate: false }),
+        description: useField('description', '', { validateOnValueUpdate: false })
       }
       return {form, errors, handleSubmit, isSubmitting}
     }
