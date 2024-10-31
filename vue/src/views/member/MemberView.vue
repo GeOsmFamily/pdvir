@@ -8,6 +8,7 @@
                         <div class="UserAccount__avatarCtn" @click="triggerFileInput">
                             <div class="UserAccount__avatar">
                                 <img v-if="selectedProfileImage.length > 0" :src="selectedProfileImage[0].preview">
+                                <img v-else-if="userStore.currentUser?.logo" :src="userStore.currentUser.logo.contentUrl">
                                 <img v-else src="@/assets/images/user/default_avatar.png" alt="">
                             </div>
                             <v-btn icon="mdi-pencil" class="UserAccount__avatarEdit" @click.stop="triggerFileInput"></v-btn>
@@ -55,8 +56,10 @@
                     <div class="UserAccount__rolesBlock">
                         <span>{{ $t("account.roles") }}</span>
                         <div class="UserAccount__rolesItem" v-for="(role, index) in requestedRoles" :key="index">
-                            <v-checkbox v-model="role.selected.value" :label="role.label" hide-details="auto" />
-                            <Chip bg-color="main-yellow" :text="$t('auth.editForm.waitingValidation')" v-if="role.requested.value" class="ml-2"/>
+                            <v-checkbox v-model="role.selected.value" :label="role.label" hide-details="auto" :disabled="role.givenByAdmin.value"/>
+                            <Chip bg-color="main-green" :text="$t('auth.editForm.validated')" v-if="role.givenByAdmin.value" class="ml-2"/>
+                            <Chip bg-color="main-blue" :text="$t('auth.editForm.newRequest')" v-if="role.newlyRequested.value" class="ml-2"/>
+                            <Chip bg-color="main-yellow" :text="$t('auth.editForm.waitingValidation')" v-if="role.requested.value && role.selected.value" class="ml-2"/>
                         </div>
                     </div>
                     <a href="#">{{ $t('account.deleteAccount')}}</a>
@@ -88,7 +91,7 @@
                     <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_DATA)">
                         <span class="ml-2">{{ $t('header.addData') }}</span>
                     </BasicCard>
-                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_RESOURCES)">
+                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_RESSOURCES)">
                         <span class="ml-2">{{ $t('header.addResource') }}</span>
                     </BasicCard>
                 </div>
@@ -106,28 +109,56 @@
 <script setup lang="ts">
 import SectionBanner from '@/components/banners/SectionBanner.vue';
 import BasicCard from '@/components/global/BasicCard.vue';
+import Chip from '@/components/content/Chip.vue';
 import { ContentImageType } from '@/models/enums/app/ContentImageType';
 import { UserRoles } from '@/models/enums/auth/UserRoles';
+import type { UserSubmission } from '@/models/interfaces/auth/User';
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage';
 import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
 import { InputImageValidator } from '@/services/files/InputImageValidator';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';
-import { ref, type Ref } from 'vue';
+import { onMounted, ref, watch, type Ref } from 'vue';
 const userStore = useUserStore();
 const actorsStore = useActorsStore();
-const requestedRoles = UserProfileForm.getRolesList()
+let requestedRoles = UserProfileForm.getRolesList()
+let { form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(userStore.currentUser);
 
-const { form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(userStore.currentUser);
+watch(() => userStore.currentUser, () => {
+    // ({ form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(userStore.currentUser))
+    requestedRoles = UserProfileForm.getRolesList()
+    setRolesStatus()
+}, { deep: true })
 
-requestedRoles.map(x => {
-    if (userStore.currentUser && userStore.currentUser.roles.includes(x.value)) {
-        x.selected.value = true
-    }
-    if (userStore.currentUser && userStore.currentUser.requestedRoles && userStore.currentUser.requestedRoles.includes(x.value)) {
-        x.requested.value = true
-    }
+function setRolesStatus() {
+    requestedRoles.map(x => {
+        if (userStore.currentUser && userStore.currentUser.roles.includes(x.value)) {
+            x.selected.value = true
+            x.givenByAdmin.value = true
+        }
+        if (userStore.currentUser && userStore.currentUser.requestedRoles && userStore.currentUser.requestedRoles.includes(x.value)) {
+            x.selected.value = true
+            x.requested.value = true
+        }
+    })
+}
+
+onMounted(() => {
+    setRolesStatus()
 })
+
+watch(() => requestedRoles, () => {
+    requestedRoles.map(x => {
+        console.log(x)
+        if (x.selected.value) {
+            if (!x.requested.value) {
+                x.newlyRequested.value = true
+            }
+        } else {
+            x.newlyRequested.value = false
+        }
+    })
+}, { deep: true })
 
 const selectedProfileImage: Ref<ContentImageFromUserFile[]> = ref([])
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -162,13 +193,20 @@ const handleFileChange = (event: Event) => {
 
 const submitForm = handleSubmit(
     values => {
-        console.log(values)
-        console.log(selectedProfileImage.value)
+        const userSubmission: Partial<UserSubmission> = {
+            ...values,
+            requestedRoles: requestedRoles.filter(x => x.selected.value && !x.givenByAdmin.value).map(x => x.value)
+        }
+        userStore.patchUser(userSubmission, selectedProfileImage.value.length > 0, selectedProfileImage.value[0]?.file || null)
     },
     errors => {
         console.error('Form validation failed:', errors);
     }
 );
+
+function beforeUpdate(arg0: () => void) {
+    throw new Error('Function not implemented.');
+}
 </script>
 <style lang="scss">
 .UserAccount {

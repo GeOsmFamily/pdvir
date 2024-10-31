@@ -132,6 +132,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $signUpMessage = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?MediaObject $logo = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

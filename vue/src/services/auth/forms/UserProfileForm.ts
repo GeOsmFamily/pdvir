@@ -32,9 +32,9 @@ export class UserProfileForm {
 
     static getRolesList() {
       return [
-        { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addActors'), value: UserRoles.EDITOR_ACTORS, selected: ref(false), requested: ref(false)},
-        { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addProjects'), value: UserRoles.EDITOR_PROJECTS, selected: ref(false), requested: ref(false)},
-        { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addResources'), value: UserRoles.EDITOR_RESOURCES, selected: ref(false), requested: ref(false)}
+        { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addActors'), value: UserRoles.EDITOR_ACTORS, selected: ref(false), requested: ref(false), givenByAdmin: ref(false), newlyRequested: ref(false)},
+        { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addProjects'), value: UserRoles.EDITOR_PROJECTS, selected: ref(false), requested: ref(false), givenByAdmin: ref(false), newlyRequested: ref(false)},
+        { label: i18n.t('auth.becomeMemberThanks.form.actionsRequest.addResources'), value: UserRoles.EDITOR_RESSOURCES, selected: ref(false), requested: ref(false), givenByAdmin: ref(false), newlyRequested: ref(false)}
       ]
     }
 

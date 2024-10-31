@@ -28,7 +28,7 @@
                     <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_ACTORS) ? 'main-blue' : 'main-grey'" icon="mdi-contacts" class="mr-1" size="small"></v-icon>
                     <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_PROJECTS) ? 'main-blue' : 'main-grey'" icon="mdi-rocket-launch" class="mr-1" size="small"></v-icon>
                     <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_DATA) ? 'main-blue' : 'main-grey'" icon="mdi-database-arrow-down" class="mr-1" size="small"></v-icon>
-                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_RESOURCES) ? 'main-blue' : 'main-grey'" icon="mdi-account-group" class="mr-1" size="small"></v-icon>
+                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_RESSOURCES) ? 'main-blue' : 'main-grey'" icon="mdi-account-group" class="mr-1" size="small"></v-icon>
                     <v-btn density="comfortable" icon="mdi-pencil-outline" @click="editUser(item as User)"></v-btn>
                 </template>
             </template>
