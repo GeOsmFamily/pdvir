@@ -62,8 +62,8 @@
                             <Chip bg-color="main-yellow" :text="$t('auth.editForm.waitingValidation')" v-if="role.requested.value && role.selected.value" class="ml-2"/>
                         </div>
                     </div>
-                    <a href="#">{{ $t('account.deleteAccount')}}</a>
-                    <v-btn type="submit" color="main-red" :loading="isSubmitting" class="w-100">{{ $t('account.save') }}</v-btn>
+                    <a href="#" class="hide-sm">{{ $t('account.deleteAccount')}}</a>
+                    <v-btn type="submit" color="main-red hide-sm" :loading="isSubmitting" class="w-100">{{ $t('account.save') }}</v-btn>
                 </div>
                 <div class="UserBlock UserBlock--right">
                     <div class="UserAccount__description">
@@ -78,6 +78,8 @@
                             rows="13"
                         />
                     </div>
+                    <a href="#" class="show-sm">{{ $t('account.deleteAccount')}}</a>
+                    <v-btn type="submit" color="main-red show-sm" :loading="isSubmitting" class="w-100">{{ $t('account.save') }}</v-btn>
                     <BasicCard icon="mdi-pencil-outline" class="mt-6">
                         <span class="ml-2">{{ $t('header.content') }}</span>
                     </BasicCard>
@@ -227,6 +229,7 @@ function beforeUpdate(arg0: () => void) {
         padding-right: 10%;
         @media (max-width: $bp-sm){
             width: 100%;
+            padding-right: 0%;
         }
     }
     &--right {
