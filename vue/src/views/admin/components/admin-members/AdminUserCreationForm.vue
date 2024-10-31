@@ -1,14 +1,10 @@
 <template>
     <Modal
-        title="Edit User"
+        :title="$t('actors.form.createTitle')"
         :show="appStore.showEditContentDialog"
         @close="adminStore.userCreation = false"
     >
         <template #content>
-            <div class="ContentForm__toValidate mt-3" v-if="userToEdit && !userToEdit.isValidated">
-                <img src="@/assets/images/actorToValidate.svg" alt="">
-                <span class="ml-2">{{ $t("auth.editForm.newMember") }} 31 janvier 2025 à 11h30.</span>
-            </div>
             <div class="ContentForm__Ctn mt-4">
                 <v-form @submit.prevent="submitForm" id="user-form">
                 <v-text-field density="compact" variant="outlined" v-model="form.firstName.value.value"
