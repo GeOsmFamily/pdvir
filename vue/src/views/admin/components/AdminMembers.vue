@@ -25,10 +25,10 @@
                     <v-btn size="small" icon="mdi-arrow-right" class="text-main-blue" @click="editUser(item as User)"></v-btn>
                 </template> 
                 <template v-else>
-                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_ACTORS) ? 'main-blue' : 'main-grey'" icon="mdi-contacts" class="mr-1" size="small"></v-icon>
-                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_PROJECTS) ? 'main-blue' : 'main-grey'" icon="mdi-rocket-launch" class="mr-1" size="small"></v-icon>
-                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_DATA) ? 'main-blue' : 'main-grey'" icon="mdi-database-arrow-down" class="mr-1" size="small"></v-icon>
-                    <v-icon :color="(item as User).roles.includes(UserRoles.EDITOR_RESSOURCES) ? 'main-blue' : 'main-grey'" icon="mdi-account-group" class="mr-1" size="small"></v-icon>
+                    <v-icon :color="getRoleIconColor(item as User, UserRoles.EDITOR_ACTORS)" icon="mdi-contacts" class="mr-1" size="small"></v-icon>
+                    <v-icon :color="getRoleIconColor(item as User, UserRoles.EDITOR_PROJECTS)" icon="mdi-rocket-launch" class="mr-1" size="small"></v-icon>
+                    <v-icon :color="getRoleIconColor(item as User, UserRoles.EDITOR_DATA)" icon="mdi-database-arrow-down" class="mr-1" size="small"></v-icon>
+                    <v-icon :color="getRoleIconColor(item as User, UserRoles.EDITOR_RESSOURCES)" icon="mdi-account-group" class="mr-1" size="small"></v-icon>
                     <v-btn density="comfortable" icon="mdi-pencil-outline" @click="editUser(item as User)"></v-btn>
                 </template>
             </template>
@@ -95,4 +95,14 @@ const filteredItems = computed(() => {
         item.email.toLowerCase().includes(searchQuery.value.toLowerCase())
     })
 })
+
+const getRoleIconColor = (user: User, role: UserRoles) => {
+    if (user.roles.includes(role)) {
+        return 'main-green'
+    }
+    else if (user.requestedRoles?.includes(role)) {
+        return 'main-red'
+    }
+    return 'main-grey'
+}
 </script>

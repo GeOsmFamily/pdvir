@@ -145,20 +145,20 @@ function setRolesStatus() {
 
 onMounted(() => {
     setRolesStatus()
+    watch(() => requestedRoles, () => {
+        requestedRoles.map(x => {
+            if (x.selected.value) {
+                if (!x.requested.value && !x.givenByAdmin.value) {
+                    x.newlyRequested.value = true
+                }
+            } else {
+                x.newlyRequested.value = false
+            }
+        })
+    }, { deep: true })
 })
 
-watch(() => requestedRoles, () => {
-    requestedRoles.map(x => {
-        console.log(x)
-        if (x.selected.value) {
-            if (!x.requested.value) {
-                x.newlyRequested.value = true
-            }
-        } else {
-            x.newlyRequested.value = false
-        }
-    })
-}, { deep: true })
+
 
 const selectedProfileImage: Ref<ContentImageFromUserFile[]> = ref([])
 const fileInput = ref<HTMLInputElement | null>(null);

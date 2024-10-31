@@ -38,8 +38,8 @@
                 <div class="ContentForm__rolesRequestCtn">
                     <span>{{ $t("auth.editForm.requestedRoles") }}</span>
                     <div class="ContentForm__rolesRequestItem" v-for="(role, index) in requestedRoles" :key="index">
-                        <v-checkbox v-model="role.selected" :label="role.label" hide-details="auto" />
-                        <Chip bg-color="main-yellow" :text="$t('auth.editForm.waitingValidation')" v-if="role.requested" class="ml-2"/>
+                        <v-checkbox v-model="role.selected.value" :label="role.label" hide-details="auto" />
+                        <Chip bg-color="main-yellow" :text="$t('auth.editForm.waitingValidation')" v-if="role.requested.value" class="ml-2"/>
                     </div>
                 </div>
             </v-form>
