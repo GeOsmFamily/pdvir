@@ -127,7 +127,6 @@ let requestedRoles = UserProfileForm.getRolesList()
 let { form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(userStore.currentUser);
 
 watch(() => userStore.currentUser, () => {
-    // ({ form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(userStore.currentUser))
     requestedRoles = UserProfileForm.getRolesList()
     setRolesStatus()
 }, { deep: true })

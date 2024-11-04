@@ -136,6 +136,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?MediaObject $logo = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?string $description = null;
 
     public function __construct()
