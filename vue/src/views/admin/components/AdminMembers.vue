@@ -48,7 +48,7 @@ onBeforeMount(() => {
 })
 
 function createUser() {
-    adminStore.userCreation = true
+    adminStore.setUserEditionMode(null)
 }
 
 function editUser(user: User) {
