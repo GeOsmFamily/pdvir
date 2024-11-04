@@ -5,7 +5,6 @@
     persistent
   >
     <ActorEditionForm v-if="actorsStore.actorEdition.active"/>
-    <AdminUserCreationForm v-if="adminStore.userCreation"/>
     <AdminUserEditionForm v-if="adminStore.userEdition.active"/>
   </v-dialog>
 </template>
@@ -13,7 +12,6 @@
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useActorsStore } from '@/stores/actorsStore';
 import ActorEditionForm from '@/views/actors/components/ActorEditionForm.vue';
-import AdminUserCreationForm from '@/views/admin/components/admin-members/AdminUserCreationForm.vue';
 import AdminUserEditionForm from '@/views/admin/components/admin-members/AdminUserEditionForm.vue';
 import { useAdminStore } from '@/stores/adminStore';
 

@@ -41,11 +41,9 @@
                         <v-checkbox v-model="role.selected.value" :label="role.label" hide-details="auto" />
                         <Chip bg-color="main-yellow" :text="$t('auth.editForm.waitingValidation')" v-if="role.requested.value" class="ml-2"/>
                     </div>
-                    
                 </div>
             </v-form>
             </div>
-            
         </template>
         <template #footer-left>
             <v-btn color="white" @click="adminStore.userEdition.active = false">{{ $t('forms.cancel') }}</v-btn>
@@ -65,18 +63,20 @@ import { useAdminStore } from '@/stores/adminStore';
 import { useApplicationStore } from '@/stores/applicationStore';
 const appStore = useApplicationStore();
 const adminStore = useAdminStore();
-const userToEdit: User = adminStore.userEdition.user as User
+const userToEdit: User | null = adminStore.userEdition.user
 const { form, handleSubmit, isSubmitting } = UserProfileForm.getUserAdminEditionForm(userToEdit);
 const requestedRoles = UserProfileForm.getRolesList()
-requestedRoles.map(x => {
-    console.log(userToEdit)
-    if (userToEdit && userToEdit.roles.includes(x.value)) {
-        x.selected.value = true
-    }
-    if (userToEdit.requestedRoles && userToEdit.requestedRoles.includes(x.value)) {
-        x.requested.value = true
-    }
-})
+if (userToEdit) {
+    requestedRoles.map(x => {
+        if (userToEdit.roles.includes(x.value)) {
+            x.selected.value = true
+        }
+        if (userToEdit.requestedRoles && userToEdit.requestedRoles.includes(x.value)) {
+            x.requested.value = true
+        }
+    })
+}
+
 
 const submitForm = handleSubmit(
     values => {
@@ -86,7 +86,11 @@ const submitForm = handleSubmit(
             requestedRoles: [],
             isValidated: true
         }
-        adminStore.editUser(userSubmission);
+        if (userToEdit) {
+            adminStore.editUser(userSubmission);
+        } else {
+            adminStore.createUser(userSubmission);
+        }
     },
     errors => {
         console.error('Form validation failed:', errors);
