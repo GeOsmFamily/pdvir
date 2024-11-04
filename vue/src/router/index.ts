@@ -78,7 +78,7 @@ const router = createRouter({
       component: () => import('@/views/map/MapView.vue')
     },
     {
-      path: '/my-account',
+      path: '/myAccount',
       name: 'userAccount',
       component: () => import('@/views/member/MemberView.vue'),
       beforeEnter: (to, from, next) => {

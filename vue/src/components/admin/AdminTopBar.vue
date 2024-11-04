@@ -54,12 +54,12 @@ watch(() => sortingKey.value, () => {
 })
 const title = computed(() => {
         if (props.page === 'Members') {
-            return `${props.items.length.toString()} ${props.items.length > 1 ? i18n.t('admin.members') : i18n.t('admin.member')}`
+            return `${props.items.length.toString()} ${i18n.t('admin.member', props.items.length)}`
         }
         if (props.page === 'Actors') {
-            return `${props.items.length.toString()} ${props.items.length > 1 ? i18n.t('actors.actors') : i18n.t('actors.actor')}`
+            return `${props.items.length.toString()} ${i18n.t('actors.actor', props.items.length)}`
         }
-        return `${props.items.length.toString()} ${props.items.length > 1 ? i18n.t('actors.actors') : i18n.t('actors.actor')}`
+        return `${props.items.length.toString()} ${i18n.t('actors.actor', props.items.length)}`
     }
 )
 

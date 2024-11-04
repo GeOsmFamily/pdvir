@@ -9,7 +9,7 @@
                 <img src="@/assets/images/actorToValidate.svg" alt="">
                 <span class="ml-2">{{ $t("auth.editForm.newMember") }} 31 janvier 2025 à 11h30.</span>
             </div>
-            <div class="ContentForm__Ctn mt-4">
+            <div class="ContentForm__ctn mt-4">
                 <v-form @submit.prevent="submitForm" id="user-form">
                 <v-text-field density="compact" variant="outlined" v-model="form.firstName.value.value"
                     :error-messages="form.firstName.errorMessage.value" :label="$t('auth.becomeMember.form.firstName')"
