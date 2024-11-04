@@ -58,13 +58,13 @@
 import Modal from '@/components/global/Modal.vue';
 import Chip from '@/components/content/Chip.vue';
 import type { User } from '@/models/interfaces/auth/User';
-import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
+import { UserProfileForm } from '@/services/userAndAuth/forms/UserProfileForm';
 import { useAdminStore } from '@/stores/adminStore';
 import { useApplicationStore } from '@/stores/applicationStore';
 const appStore = useApplicationStore();
 const adminStore = useAdminStore();
 const userToEdit: User | null = adminStore.userEdition.user
-const { form, handleSubmit, isSubmitting } = UserProfileForm.getUserAdminEditionForm(userToEdit);
+const { form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(userToEdit);
 const requestedRoles = UserProfileForm.getRolesList()
 if (userToEdit) {
     requestedRoles.map(x => {

@@ -2,8 +2,8 @@ import { DialogKey } from '@/models/enums/app/DialogKey'
 import { StoresList } from '@/models/enums/app/StoresList'
 import type { SignInValues, SignUpValues } from '@/models/interfaces/auth/AuthenticationsValues'
 import type { User, UserSubmission } from '@/models/interfaces/auth/User'
-import { AuthenticationService } from '@/services/auth/AuthenticationService'
-import JwtCookie from '@/services/auth/JWTCookie'
+import { AuthenticationService } from '@/services/userAndAuth/AuthenticationService'
+import JwtCookie from '@/services/userAndAuth/JWTCookie'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -11,6 +11,7 @@ import * as Sentry from "@sentry/browser";
 import { UserRoles } from '@/models/enums/auth/UserRoles'
 import { ImageLoader } from '@/services/files/ImageLoader'
 import type { MediaObject } from '@/models/interfaces/MediaObject'
+import { UserService } from '@/services/userAndAuth/UserService'
 
 
 export const useUserStore = defineStore(StoresList.USER, () => {
@@ -47,7 +48,7 @@ export const useUserStore = defineStore(StoresList.USER, () => {
 
   const signUp = async (values: SignUpValues) => {
     try {
-      await AuthenticationService.signUp(values)
+      await UserService.createUser(values)
       signIn({
           email: values.email,
           password: values.plainPassword
@@ -81,7 +82,7 @@ export const useUserStore = defineStore(StoresList.USER, () => {
       const newLogo = await ImageLoader.loadImage(logo)
       values.logo = newLogo['@id']
     }
-    await AuthenticationService.patchUser((values as User), currentUser.value!.id)
+    await UserService.patchUser((values as User), currentUser.value!.id)
     setCurrentUser()
     router.replace({ query: { ...route.query, dialog: undefined } })
   }

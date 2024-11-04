@@ -5,7 +5,8 @@ import { UsersService } from '@/services/application/UsersService'
 import { defineStore } from 'pinia'
 import { reactive, ref, watch, type Reactive, type Ref } from 'vue'
 import { useApplicationStore } from './applicationStore'
-import { AuthenticationService } from '@/services/auth/AuthenticationService'
+import { AuthenticationService } from '@/services/userAndAuth/AuthenticationService'
+import { UserService } from '@/services/userAndAuth/UserService'
 
 
 export const useAdminStore = defineStore(StoresList.ADMIN, () => {
@@ -20,7 +21,7 @@ export const useAdminStore = defineStore(StoresList.ADMIN, () => {
   }
 
   async function createUser(user: Partial<User>) {
-    await AuthenticationService.createUser(user)
+    await UserService.createUser(user)
     await getMembers()
     userEdition.active = false
   }
@@ -39,7 +40,7 @@ export const useAdminStore = defineStore(StoresList.ADMIN, () => {
   }
 
   async function editUser(values: Partial<User>) {
-    await AuthenticationService.patchUser(values, userEdition.user!.id)
+    await UserService.patchUser(values, userEdition.user!.id)
     await getMembers()
     userEdition.active = false
   }

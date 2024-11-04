@@ -116,7 +116,7 @@ import { ContentImageType } from '@/models/enums/app/ContentImageType';
 import { UserRoles } from '@/models/enums/auth/UserRoles';
 import type { UserSubmission } from '@/models/interfaces/auth/User';
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage';
-import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
+import { UserProfileForm } from '@/services/userAndAuth/forms/UserProfileForm';
 import { InputImageValidator } from '@/services/files/InputImageValidator';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';

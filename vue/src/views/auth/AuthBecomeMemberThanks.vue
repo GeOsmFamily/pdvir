@@ -45,7 +45,7 @@
 import AuthDialog from '@/views/auth/AuthDialog.vue';
 import Form from '@/components/forms/Form.vue';
 import CheckPoint from '@/components/global/CheckPoint.vue';
-import { UserProfileForm } from '@/services/auth/forms/UserProfileForm';
+import { UserProfileForm } from '@/services/userAndAuth/forms/UserProfileForm';
 import { useUserStore } from '@/stores/userStore';
 const userStore = useUserStore();
 
