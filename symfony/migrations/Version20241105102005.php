@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241023155547 extends AbstractMigration
+final class Version20241105102005 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,7 +26,7 @@ final class Version20241023155547 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE project_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE thematic_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE actor (id UUID NOT NULL, logo_id INT DEFAULT NULL, created_by INT DEFAULT NULL, updated_by INT DEFAULT NULL, name VARCHAR(255) NOT NULL, acronym VARCHAR(255) NOT NULL, is_validated BOOLEAN NOT NULL, category VARCHAR(255) NOT NULL, description TEXT NOT NULL, office_name VARCHAR(255) DEFAULT NULL, office_address VARCHAR(255) DEFAULT NULL, office_location geometry(POINT, 0) DEFAULT NULL, contact_name VARCHAR(255) DEFAULT NULL, contact_position VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, email VARCHAR(255) DEFAULT NULL, external_images TEXT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, slug VARCHAR(128) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE actor (id UUID NOT NULL, logo_id INT DEFAULT NULL, created_by INT DEFAULT NULL, updated_by INT DEFAULT NULL, name VARCHAR(255) NOT NULL, acronym VARCHAR(255) NOT NULL, is_validated BOOLEAN NOT NULL, category VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, office_name VARCHAR(255) DEFAULT NULL, office_address VARCHAR(255) DEFAULT NULL, office_location geometry(POINT, 0) DEFAULT NULL, contact_name VARCHAR(255) DEFAULT NULL, contact_position VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, email VARCHAR(255) DEFAULT NULL, external_images TEXT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, slug VARCHAR(128) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_447556F9989D9B62 ON actor (slug)');
         $this->addSql('CREATE INDEX IDX_447556F9F98F144A ON actor (logo_id)');
         $this->addSql('CREATE INDEX IDX_447556F9DE12AB56 ON actor (created_by)');
@@ -70,7 +70,8 @@ final class Version20241023155547 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_E73AB79010DAF24A ON contracted_projects_actors (actor_id)');
         $this->addSql('COMMENT ON COLUMN contracted_projects_actors.actor_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE thematic (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) DEFAULT NULL, is_validated BOOLEAN NOT NULL, requested_roles JSON DEFAULT NULL, organisation VARCHAR(255) DEFAULT NULL, position VARCHAR(255) DEFAULT NULL, phone VARCHAR(20) DEFAULT NULL, sign_up_message TEXT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, logo_id INT DEFAULT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) DEFAULT NULL, is_validated BOOLEAN NOT NULL, requested_roles JSON DEFAULT NULL, organisation VARCHAR(255) DEFAULT NULL, position VARCHAR(255) DEFAULT NULL, phone VARCHAR(20) DEFAULT NULL, sign_up_message TEXT DEFAULT NULL, description TEXT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649F98F144A ON "user" (logo_id)');
         $this->addSql('ALTER TABLE actor ADD CONSTRAINT FK_447556F9F98F144A FOREIGN KEY (logo_id) REFERENCES media_object (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE actor ADD CONSTRAINT FK_447556F9DE12AB56 FOREIGN KEY (created_by) REFERENCES "user" (id) ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE actor ADD CONSTRAINT FK_447556F916FE72E1 FOREIGN KEY (updated_by) REFERENCES "user" (id) ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -91,6 +92,7 @@ final class Version20241023155547 extends AbstractMigration
         $this->addSql('ALTER TABLE financed_projects_actors ADD CONSTRAINT FK_50C6B8EC10DAF24A FOREIGN KEY (actor_id) REFERENCES actor (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE contracted_projects_actors ADD CONSTRAINT FK_E73AB790166D1F9C FOREIGN KEY (project_id) REFERENCES project (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE contracted_projects_actors ADD CONSTRAINT FK_E73AB79010DAF24A FOREIGN KEY (actor_id) REFERENCES actor (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE "user" ADD CONSTRAINT FK_8D93D649F98F144A FOREIGN KEY (logo_id) REFERENCES media_object (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void
@@ -123,6 +125,7 @@ final class Version20241023155547 extends AbstractMigration
         $this->addSql('ALTER TABLE financed_projects_actors DROP CONSTRAINT FK_50C6B8EC10DAF24A');
         $this->addSql('ALTER TABLE contracted_projects_actors DROP CONSTRAINT FK_E73AB790166D1F9C');
         $this->addSql('ALTER TABLE contracted_projects_actors DROP CONSTRAINT FK_E73AB79010DAF24A');
+        $this->addSql('ALTER TABLE "user" DROP CONSTRAINT FK_8D93D649F98F144A');
         $this->addSql('DROP TABLE actor');
         $this->addSql('DROP TABLE actor_actor_expertise');
         $this->addSql('DROP TABLE actor_thematic');
