@@ -7,9 +7,9 @@
             <SheetContentBanner
                 :title="project.name"
                 :subtitle="project.location"
-                :email="project.projectManagerEmail"
+                :email="project.focalPointEmail"
                 :website="project.website"
-                :phone="project.projectManagerTel"
+                :phone="project.focalPointTel"
                 :isEditable="isEditable"
                 :updatedAt="project.updatedAt"
                 @edit="editProject">
@@ -23,6 +23,13 @@
                         color="main-blue"></v-btn>
                 </template>
             </SheetContentBanner>
+            <ProjectForm
+                v-if="isEditable"
+                :type="FormType.EDIT"
+                :project="project"
+                :isShown="isFormShown"
+                @close="isFormShown = false"
+                @submitted="project => updateProject(project)"/>
             <div class="SheetView__contentCtn my-6">
                 <div class="SheetView__title SheetView__title--divider">{{ $t('projectPage.about') }}</div>
                 <p>{{project.description}}</p>
@@ -46,9 +53,9 @@
                 <div class="SheetView__infoCardBlock">
                     <h5 class="SheetView__title">{{ $t('projectPage.focalPoint') }}</h5>
                     <ContactCard
-                        :name="project.projectManagerName"
-                        :description="project.projectManagerPosition"
-                        :image="project.projectManagerPhoto" />
+                        :name="project.focalPointName"
+                        :description="project.focalPointPosition"
+                        :image="project.focalPointPhoto" />
                 </div>
             </div>
             <div class="SheetView__title SheetView__title--divider">{{ $t('projectPage.partners') }}</div>
@@ -67,7 +74,7 @@
 <script setup lang="ts">
 import type { Project }  from '@/models/interfaces/Project';
 import { useProjectStore } from '@/stores/projectStore';
-import { computed, onMounted, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import SheetContentBanner from '@/views/_layout/sheet/SheetContentBanner.vue';
 import ContentDivider from '@/components/content/ContentDivider.vue';
 import { useUserStore } from '@/stores/userStore';
@@ -81,10 +88,14 @@ import PrintButton from '@/components/global/PrintButton.vue';
 import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue';
 import SectionBanner from '@/components/banners/SectionBanner.vue';
 import { ProjectListDisplay } from '@/models/enums/app/ProjectListType';
+import ProjectForm from '@/views/projects/components/ProjectForm.vue';
+import { FormType } from '@/models/enums/app/FormType';
+import router from '@/router';
 
 const userStore = useUserStore();
 const projectStore = useProjectStore();
 const project = computed(() => projectStore.project)
+const isFormShown = ref(false)
 
 onBeforeRouteUpdate(async (to, from) => {
     if ((projectStore.project?.slug && projectStore.project.slug !== to.params.slug) || typeof to.params.slug === 'string') {
@@ -107,13 +118,23 @@ const loadSimilarProjects = async () => {
     if (projectStore.project != null) await projectStore.loadSimilarProjects()
 }
 
+const updateProject = (project: Project) => {
+    console.log('project.slug', project.slug);
+    console.log('projectStore.project?.slug', projectStore.project?.slug);
+    projectStore.project = project
+    isFormShown.value = false
+    router.push({ name: 'projectPage', params: { slug: projectStore.project?.slug } })
+}
+
 const similarProjects = computed(() => projectStore.similarProjects)
 
 const isEditable = computed(() => {
-    return userStore.userIsAdmin() || projectStore.project?.createdBy?.id === userStore.currentUser?.id
+    return userStore.userIsAdmin() || (projectStore.project?.createdBy?.id === userStore.currentUser?.id && userStore.currentUser?.id != null)
 })
 
-const editProject = (project: Project) => { return };
+const editProject = (project: Project) => {
+    isFormShown.value = true
+};
 </script>
 
 <style lang="scss">

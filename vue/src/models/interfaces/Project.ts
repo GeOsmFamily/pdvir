@@ -5,6 +5,7 @@ import type { Timestampable } from "@/models/interfaces/common/Timestampable";
 import type { Status } from "@/models/enums/contents/Status";
 import type { User } from "@/models/interfaces/auth/User";
 import type { BeneficiaryType } from "@/models/enums/contents/BeneficiaryType";
+import type { iri } from "./SymfonyRelation";
 
 export interface Project extends Timestampable {
   id: number;
@@ -24,12 +25,12 @@ export interface Project extends Timestampable {
   partners: string[];
   interventionZone: AdministrativeScope;
   beneficiaryTypes: BeneficiaryType[];
-  thematics: Thematic[];
-  projectManagerName: string;
-  projectManagerPosition: string;
-  projectManagerEmail: string;
-  projectManagerTel: string;
-  projectManagerPhoto: string;
+  thematics: Thematic[] | iri[];
+  focalPointName: string;
+  focalPointPosition: string;
+  focalPointEmail: string;
+  focalPointTel: string;
+  focalPointPhoto: string;
   website: string;
   logo: string;
   financialActors: Actor[];

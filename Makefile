@@ -44,6 +44,9 @@ restart:
 restart-db-container:
 	make restart postgres
 
+rm-vue-volume:
+	$(DOCKER_COMP) down vue -v
+
 down-remove-all:
 	$(DOCKER_COMP) down --remove-orphans --rmi all -v
 

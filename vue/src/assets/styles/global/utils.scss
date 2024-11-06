@@ -2,7 +2,10 @@
   width: var(--dim-container-w);
   margin: 0 auto;
   max-width: 100%;
-  transition: all .15s ease-in;
+  
+  &--transition {
+    transition: all .1s ease-in;
+  }
 }
 
 .container-fluid {

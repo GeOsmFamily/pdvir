@@ -12,6 +12,7 @@ import type { Actor } from '@/models/interfaces/Actor';
 import { useApplicationStore } from './applicationStore';
 import { ContentPagesList } from '@/models/enums/app/ContentPagesList';
 import { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType';
+import { FormType } from '@/models/enums/app/FormType';
 
 export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const projects: Ref<Project[]> = ref([])
@@ -124,6 +125,15 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     }
   })
 
+
+  const submitProject = async (project: Partial<Project>, type: FormType) => {
+    if (type === FormType.CREATE) {
+      return await ProjectService.post(project)
+    } else if (type === FormType.EDIT) {
+      return await ProjectService.patch(project)
+    }
+  }
+
   const resetFilters = () => {
     filters.searchValue = ''
     filters.thematics = []
@@ -136,6 +146,6 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
 
   return {
     projects, project, similarProjects,filters, isProjectMapFullWidth, isFilterModalShown, sortingProjectsSelectedMethod, hoveredProjectId, hoveredProject, activeProjectId, activeProject, filteredProjects, orderedProjects, map,
-    getAll, resetFilters, loadProjectBySlug, loadSimilarProjects
+    getAll, resetFilters, loadProjectBySlug, loadSimilarProjects, submitProject
   }
 })

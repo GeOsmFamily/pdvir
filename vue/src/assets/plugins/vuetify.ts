@@ -37,11 +37,21 @@ export const vuetify = createVuetify({
       },
     defaults: {
       VBtn: {
+        variant: 'flat',
         style: [{ 
           textTransform: 'none',
           fontWeight: 'bold',
           letterSpacing: '.045rem'
         }],
+      },
+      VTextField: {
+        hideDetails: "auto"
+      },
+      VTextarea: {
+        hideDetails: "auto"
+      },
+      VSelect: {
+        hideDetails: "auto"
       },
       VPagination: {
         rounded: 'circle',

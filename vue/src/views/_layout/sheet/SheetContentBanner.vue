@@ -2,22 +2,26 @@
     <div class="SheetContentBanner">
         <PageBanner :title="title" :subtitle="subtitle" :isEditable="isEditable" :updatedAt="updatedAt">
             <template #actions>
-                <div class="SheetContentBanner__shareBar mt-1">
-                    <v-btn 
-                        class="PageBanner__editBtn fixed-btn mr-2"
-                        prepend-icon="mdi-pencil-outline"
-                        color="main-red"
-                        variant="flat"
-                        v-if="isEditable"
-                        @click="$emit('edit')"
-                    >
-                        {{ $t("content.edit") }}
-                    </v-btn>
-                    <slot name="custom-actions"></slot>
-                    <ShareButton />
-                    <LikeButton />
-                    <v-btn :to="{ name: 'map' }" class="text-main-blue px-2 hide-sm" ><img src="@/assets/images/icons/add_location_alt.svg" class="mr-1">{{ $t("content.createAMap") }}</v-btn>
-                    <UpdatedAtLabel :date="updatedAt" class="show-sm" />
+                <div class="SheetContentBanner__actionsBar mt-1">
+                    <div class="SheetContentBanner__shareBar">
+                        <slot name="custom-actions"></slot>
+                        <ShareButton />
+                        <LikeButton />
+                        <v-btn variant="elevated" :to="{ name: 'map' }" class="elevation-1 text-main-blue px-3 mx-2 hide-sm" ><img src="@/assets/images/icons/add_location_alt.svg" class="mr-1">{{ $t("content.createAMap") }}</v-btn>
+                        <UpdatedAtLabel :date="updatedAt" class="show-sm" />
+                    </div>
+                    <div class="SheetContentBanner__editBar">
+                        <v-btn 
+                            class="PageBanner__editBtn fixed-btn"
+                            prepend-icon="mdi-pencil-outline"
+                            color="main-red"
+                            variant="flat"
+                            v-if="isEditable"
+                            @click="$emit('edit')"
+                            >
+                            {{ $t("content.edit") }}
+                        </v-btn>
+                    </div>
                 </div>
             </template>
         </PageBanner>
@@ -50,9 +54,23 @@ defineProps<{
     gap: 2rem;
     height: fit-content;
 
-    &__shareBar {
+    .SheetContentBanner__actionsBar {
         display: flex;
+        flex-flow: row nowrap;
         align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        .SheetContentBanner__shareBar {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+        }
+
+        .SheetContentBanner__editBar {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+        }        
     }
 
     > * {

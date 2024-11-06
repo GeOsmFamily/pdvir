@@ -15,21 +15,25 @@ export class CommonZodSchema {
                     message: i18n.t('forms.errorMessages.required'),
                 }),
             website: z
-                .string()
-                .optional()
-                .refine((url) => {
-                    if (!url) return true;
-                    const regex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?(\/.*)?$/;
-                    return regex.test(url);
-                }, {
-                    message: i18n.t('forms.errorMessages.url'),
-                }),
+              .string()
+              .optional()
+              .refine((url) => {
+                  if (!url) return true;
+                  const regex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?(\/.*)?$/;
+                  return regex.test(url);
+              }, {
+                  message: i18n.t('forms.errorMessages.url'),
+              }),
             email: z
-            .string()
-            .optional()
-            .refine((value) => value === undefined || value === "" || z.string().email().safeParse(value).success, {
-              message: i18n.t('forms.errorMessages.email'),
-            }),
+              .string()
+              .optional()
+              .refine((value) => value === undefined || value === "" || z.string().email().safeParse(value).success, {
+                message: i18n.t('forms.errorMessages.email'),
+              }),
+            description: z
+              .string()
+              .min(1, { message: i18n.t('forms.errorMessages.required') })
+              .min(50, { message: i18n.t('forms.errorMessages.minlength', { min: 50 }) }),
             phone: z.string().optional().refine((phone) => {
                 if (!phone) return true;
                 const regex = /^(?:\+?[1-9]\d{1,3}[ .-]?)?(?:[1-9]\d{8}|0[1-9]\d{8})$/;

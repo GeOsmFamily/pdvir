@@ -25,7 +25,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         new Delete(
             security: 'is_granted("ROLE_ADMIN")'
         )
-    ]
+        ],
+    normalizationContext: ['groups' => [self::THEMATIC_READ]],
 )]
 class Thematic
 {

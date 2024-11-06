@@ -15,6 +15,49 @@
         "map": {
             "filterProjects": "Filtrer les projets"
         },
+        "form": {
+            "title": {
+                "create": "Ajouter un projet",
+                "edit": "Modifier un projet"
+            },
+            "fields": {
+                "name": {
+                    "label": "Nom du projet",
+                    "placeholder": "Nom du projet"
+                },
+                "website": {
+                    "label": "Site internet",
+                    "placeholder": "Site internet"
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Nom du projet"
+                },
+                "focalPointEmail": {
+                    "label": "Email",
+                    "placeholder": "mail@siteinternet.com"
+                },
+                "focalPointTel": {
+                    "label": "Téléphone (Whatsapp)",
+                    "placeholder": "0000000000"
+                },
+                "focalPointName": {
+                    "label": "Nom complet du Point de contact",
+                    "placeholder": "Prénom NOM"
+                },
+                "focalPointPosition": {
+                    "label": "Intitulé du Point de contact",
+                    "placeholder": ""
+                }
+            },
+            "section": {
+                "thematics": "Thématiques",
+                "localization": "Localisation",
+                "projectOwner": "Responsable du projet",
+                "focalPoint": "Point de contact"
+            }
+
+        },
         "popup": {
             "filters": {
                 "title": "Filtres",

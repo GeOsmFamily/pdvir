@@ -12,6 +12,8 @@ use App\Enum\Status;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\QueryParameter;
 use App\Controller\Project\SimilarProjectsAction;
 use App\Repository\ProjectRepository;
@@ -45,6 +47,18 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
     ]
 )]
+#[ApiResource(
+    operations: [
+        new Post(
+            security: 'is_granted("ROLE_ADMIN") or object.getCreatedBy() == user',
+        ),
+        new Patch(
+            security: 'is_granted("ROLE_ADMIN") or object.getCreatedBy() == user',
+        ),
+    ],
+    normalizationContext: ['groups' => [self::PROJECT_READ]],
+    denormalizationContext: ['groups' => [self::PROJECT_WRITE]],
+)]
 class Project
 {
     use TimestampableEntity;
@@ -53,6 +67,7 @@ class Project
 
     public const PROJECT_READ = 'project:read';
     public const PROJECT_READ_ALL = 'project:read:all';
+    public const PROJECT_WRITE = 'project:write';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -61,18 +76,18 @@ class Project
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE, Actor::ACTOR_READ_ITEM])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private ?string $location = null;
 
     #[ORM\Column(
         type: PostGISType::GEOMETRY, 
         options: ['geometry_type' => 'POINT'],
     )]
-    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private ?string $coords = null;
 
     #[ORM\Column(enumType: Status::class)]
@@ -80,7 +95,7 @@ class Project
     private ?Status $status = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups([self::PROJECT_READ])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
@@ -98,31 +113,31 @@ class Project
      * @var Collection<int, Thematic>
      */
     #[ORM\ManyToMany(targetEntity: Thematic::class, inversedBy: 'projects')]
-    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private Collection $thematics;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::PROJECT_READ])]
-    private ?string $projectManagerName = null;
+    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    private ?string $focalPointName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::PROJECT_READ])]
-    private ?string $projectManagerPosition = null;
+    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    private ?string $focalPointPosition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::PROJECT_READ])]
-    private ?string $projectManagerEmail = null;
+    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    private ?string $focalPointEmail = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::PROJECT_READ])]
-    private ?string $projectManagerTel = null;
+    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    private ?string $focalPointTel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::PROJECT_READ])]
-    private ?string $projectManagerPhoto = null;
+    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    private ?string $focalPointPhoto = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::PROJECT_READ])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -300,62 +315,62 @@ class Project
         return $this;
     }
 
-    public function getProjectManagerName(): ?string
+    public function getFocalPointName(): ?string
     {
-        return $this->projectManagerName;
+        return $this->focalPointName;
     }
 
-    public function setProjectManagerName(?string $projectManagerName): static
+    public function setFocalPointName(?string $focalPointName): static
     {
-        $this->projectManagerName = $projectManagerName;
+        $this->focalPointName = $focalPointName;
 
         return $this;
     }
 
-    public function getProjectManagerPosition(): ?string
+    public function getFocalPointPosition(): ?string
     {
-        return $this->projectManagerPosition;
+        return $this->focalPointPosition;
     }
 
-    public function setProjectManagerPosition(?string $projectManagerPosition): static
+    public function setFocalPointPosition(?string $focalPointPosition): static
     {
-        $this->projectManagerPosition = $projectManagerPosition;
+        $this->focalPointPosition = $focalPointPosition;
 
         return $this;
     }
 
-    public function getProjectManagerEmail(): ?string
+    public function getFocalPointEmail(): ?string
     {
-        return $this->projectManagerEmail;
+        return $this->focalPointEmail;
     }
 
-    public function setProjectManagerEmail(?string $projectManagerEmail): static
+    public function setFocalPointEmail(?string $focalPointEmail): static
     {
-        $this->projectManagerEmail = $projectManagerEmail;
+        $this->focalPointEmail = $focalPointEmail;
 
         return $this;
     }
 
-    public function getProjectManagerTel(): ?string
+    public function getFocalPointTel(): ?string
     {
-        return $this->projectManagerTel;
+        return $this->focalPointTel;
     }
 
-    public function setProjectManagerTel(?string $projectManagerTel): static
+    public function setFocalPointTel(?string $focalPointTel): static
     {
-        $this->projectManagerTel = $projectManagerTel;
+        $this->focalPointTel = $focalPointTel;
 
         return $this;
     }
 
-    public function getProjectManagerPhoto(): ?string
+    public function getFocalPointPhoto(): ?string
     {
-        return $this->projectManagerPhoto;
+        return $this->focalPointPhoto;
     }
 
-    public function setProjectManagerPhoto(?string $projectManagerPhoto): static
+    public function setFocalPointPhoto(?string $focalPointPhoto): static
     {
-        $this->projectManagerPhoto = $projectManagerPhoto;
+        $this->focalPointPhoto = $focalPointPhoto;
 
         return $this;
     }

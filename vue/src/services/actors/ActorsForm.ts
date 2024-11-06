@@ -24,9 +24,7 @@ export class ActorsFormService {
             expertises: zodModels.symfonyRelations,
             thematics: zodModels.symfonyRelations,
             administrativeScopes: zodModels.symfonyRelations,
-            description: z.string()
-                .min(1, { message: i18n.t('forms.errorMessages.required') })
-                .min(50, { message: i18n.t('forms.errorMessages.minlength', { min: 50 }) }),
+            description: zodModels.description,
 
             ///////// Contact \\\\\\\\\
             officeName: z.string().optional(),
