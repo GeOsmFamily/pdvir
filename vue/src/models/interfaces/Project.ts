@@ -35,5 +35,5 @@ export interface Project extends Timestampable {
   logo: string;
   financialActors: Actor[];
   contractingActors: Actor[];
-  actor: Actor;
+  actor: Partial<Actor>;
 }

@@ -33,7 +33,8 @@ export class CommonZodSchema {
             description: z
               .string()
               .min(1, { message: i18n.t('forms.errorMessages.required') })
-              .min(50, { message: i18n.t('forms.errorMessages.minlength', { min: 50 }) }),
+              .min(50, { message: i18n.t('forms.errorMessages.minlength', { min: 50 }) })
+              .optional(),
             phone: z.string().optional().refine((phone) => {
                 if (!phone) return true;
                 const regex = /^(?:\+?[1-9]\d{1,3}[ .-]?)?(?:[1-9]\d{8}|0[1-9]\d{8})$/;
