@@ -44,9 +44,6 @@ class UserLike
     #[ORM\Column(type: 'uuid', nullable: false)]
     private ?Uuid $contentId = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private ?string $contentType = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -72,18 +69,6 @@ class UserLike
     public function setContentId(Uuid $contentId): static
     {
         $this->contentId = $contentId;
-
-        return $this;
-    }
-
-    public function getContentType(): ?string
-    {
-        return $this->contentType;
-    }
-
-    public function setContentType(string $contentType): static
-    {
-        $this->contentType = $contentType;
 
         return $this;
     }

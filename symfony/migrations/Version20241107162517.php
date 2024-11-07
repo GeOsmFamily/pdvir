@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241107131550 extends AbstractMigration
+final class Version20241107162517 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -23,7 +23,6 @@ final class Version20241107131550 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE actor_expertise_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE administrative_scope_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE media_object_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE project_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE thematic_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE user_like_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -53,27 +52,31 @@ final class Version20241107131550 extends AbstractMigration
         $this->addSql('CREATE TABLE actor_expertise (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE administrative_scope (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE media_object (id INT NOT NULL, file_path VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE project (id INT NOT NULL, actor_id UUID NOT NULL, created_by INT DEFAULT NULL, updated_by INT DEFAULT NULL, name VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, coords geometry(POINT, 0) NOT NULL, status VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, images JSON DEFAULT NULL, partners JSON DEFAULT NULL, intervention_zone VARCHAR(255) NOT NULL, project_manager_name VARCHAR(255) DEFAULT NULL, project_manager_position VARCHAR(255) DEFAULT NULL, project_manager_email VARCHAR(255) DEFAULT NULL, project_manager_tel VARCHAR(255) DEFAULT NULL, project_manager_photo VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, logo VARCHAR(255) DEFAULT NULL, deliverables TEXT DEFAULT NULL, calendar TEXT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, slug VARCHAR(128) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE project (id UUID NOT NULL, actor_id UUID NOT NULL, created_by INT DEFAULT NULL, updated_by INT DEFAULT NULL, name VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, coords geometry(POINT, 0) NOT NULL, status VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, images JSON DEFAULT NULL, partners JSON DEFAULT NULL, intervention_zone VARCHAR(255) NOT NULL, project_manager_name VARCHAR(255) DEFAULT NULL, project_manager_position VARCHAR(255) DEFAULT NULL, project_manager_email VARCHAR(255) DEFAULT NULL, project_manager_tel VARCHAR(255) DEFAULT NULL, project_manager_photo VARCHAR(255) DEFAULT NULL, website VARCHAR(255) DEFAULT NULL, logo VARCHAR(255) DEFAULT NULL, deliverables TEXT DEFAULT NULL, calendar TEXT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, slug VARCHAR(128) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2FB3D0EE989D9B62 ON project (slug)');
         $this->addSql('CREATE INDEX IDX_2FB3D0EE10DAF24A ON project (actor_id)');
         $this->addSql('CREATE INDEX IDX_2FB3D0EEDE12AB56 ON project (created_by)');
         $this->addSql('CREATE INDEX IDX_2FB3D0EE16FE72E1 ON project (updated_by)');
+        $this->addSql('COMMENT ON COLUMN project.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN project.actor_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE project_thematic (project_id INT NOT NULL, thematic_id INT NOT NULL, PRIMARY KEY(project_id, thematic_id))');
+        $this->addSql('CREATE TABLE project_thematic (project_id UUID NOT NULL, thematic_id INT NOT NULL, PRIMARY KEY(project_id, thematic_id))');
         $this->addSql('CREATE INDEX IDX_415254A9166D1F9C ON project_thematic (project_id)');
         $this->addSql('CREATE INDEX IDX_415254A92395FCED ON project_thematic (thematic_id)');
-        $this->addSql('CREATE TABLE financed_projects_actors (project_id INT NOT NULL, actor_id UUID NOT NULL, PRIMARY KEY(project_id, actor_id))');
+        $this->addSql('COMMENT ON COLUMN project_thematic.project_id IS \'(DC2Type:uuid)\'');
+        $this->addSql('CREATE TABLE financed_projects_actors (project_id UUID NOT NULL, actor_id UUID NOT NULL, PRIMARY KEY(project_id, actor_id))');
         $this->addSql('CREATE INDEX IDX_50C6B8EC166D1F9C ON financed_projects_actors (project_id)');
         $this->addSql('CREATE INDEX IDX_50C6B8EC10DAF24A ON financed_projects_actors (actor_id)');
+        $this->addSql('COMMENT ON COLUMN financed_projects_actors.project_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN financed_projects_actors.actor_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE contracted_projects_actors (project_id INT NOT NULL, actor_id UUID NOT NULL, PRIMARY KEY(project_id, actor_id))');
+        $this->addSql('CREATE TABLE contracted_projects_actors (project_id UUID NOT NULL, actor_id UUID NOT NULL, PRIMARY KEY(project_id, actor_id))');
         $this->addSql('CREATE INDEX IDX_E73AB790166D1F9C ON contracted_projects_actors (project_id)');
         $this->addSql('CREATE INDEX IDX_E73AB79010DAF24A ON contracted_projects_actors (actor_id)');
+        $this->addSql('COMMENT ON COLUMN contracted_projects_actors.project_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN contracted_projects_actors.actor_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE thematic (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE "user" (id INT NOT NULL, logo_id INT DEFAULT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) DEFAULT NULL, is_validated BOOLEAN NOT NULL, requested_roles JSON DEFAULT NULL, organisation VARCHAR(255) DEFAULT NULL, position VARCHAR(255) DEFAULT NULL, phone VARCHAR(20) DEFAULT NULL, sign_up_message TEXT DEFAULT NULL, description TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649F98F144A ON "user" (logo_id)');
-        $this->addSql('CREATE TABLE user_like (id INT NOT NULL, user_id_id INT NOT NULL, content_id UUID NOT NULL, content_type VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE user_like (id INT NOT NULL, user_id_id INT NOT NULL, content_id UUID NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_D6E20C7A9D86650F ON user_like (user_id_id)');
         $this->addSql('CREATE UNIQUE INDEX unique_like_idx ON user_like (user_id_id, content_id)');
         $this->addSql('COMMENT ON COLUMN user_like.content_id IS \'(DC2Type:uuid)\'');
@@ -108,7 +111,6 @@ final class Version20241107131550 extends AbstractMigration
         $this->addSql('DROP SEQUENCE actor_expertise_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE administrative_scope_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE media_object_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE project_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE thematic_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
         $this->addSql('DROP SEQUENCE user_like_id_seq CASCADE');
