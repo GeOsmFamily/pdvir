@@ -4,13 +4,14 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\Post;
 use Symfony\Component\Uid\Uuid;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
 use App\Repository\UserLikeRepository;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Services\State\Provider\UserLikeProvider;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Services\State\Processor\UserLikeDeleteProcessor;
 
 #[ORM\Entity(repositoryClass: UserLikeRepository::class)]
 #[ORM\UniqueConstraint(
@@ -26,7 +27,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             security: 'is_granted(\'IS_AUTHENTICATED_FULLY\')'
         ),
         new Delete(
-            security: 'is_granted(\'IS_AUTHENTICATED_FULLY\')'
+            uriTemplate: '/user_likes/{contentId}',
+            security: 'is_granted(\'IS_AUTHENTICATED_FULLY\')',
+            processor: UserLikeDeleteProcessor::class,
+            uriVariables: [
+                'contentId' => [
+                    'from_class' => UserLike::class,
+                    'property' => 'contentId',
+                ],
+            ],
         )
     ]
 )]

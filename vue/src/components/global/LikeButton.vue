@@ -4,23 +4,41 @@
             variant="text"
             density="comfortable"
             :icon=" liked ? 'mdi mdi-heart' : 'mdi mdi-heart-outline'"
-            color="main-blue">
+            color="main-blue"
+            @click.stop="switchLike()"
+            >
         </v-btn>
-        {{ count }}
+        {{ count > 0 ? count : '' }}
     </div>
 </template>
 
 <script setup lang="ts">
+import { LikeService } from '@/services/likeSystem/LikeService';
 import { useApplicationStore } from '@/stores/applicationStore';
-import { computed, onMounted } from 'vue';
+import { useUserStore } from '@/stores/userStore';
+import { computed, onMounted, ref } from 'vue';
 const props = defineProps<{
   id: string
 }>()
 const appStore = useApplicationStore()
+const userStore = useUserStore()
 
-const liked = computed(() => appStore.likesList?.[props.id]?.liked)
-const count = computed(() => appStore.likesList?.[props.id]?.count)
+const liked = ref(false)
+const count = ref(0)
 onMounted(() => {
-    console.log(props.id)
+    liked.value = appStore.likesList?.[props.id]?.liked || false
+    count.value = appStore.likesList?.[props.id]?.count || 0
 })
+
+function switchLike() {
+    if (userStore.userIsLogged) {
+        liked.value = !liked.value
+        if (liked.value) {
+            count.value++
+            LikeService.addLike(props.id)
+        } else {
+            count.value--
+        }
+    }
+}
 </script>

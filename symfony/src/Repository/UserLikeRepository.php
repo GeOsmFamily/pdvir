@@ -27,6 +27,23 @@ class UserLikeRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findOneByContentAndUserId(string $contentId, int $userId): ?UserLike
+    {
+        return $this->createQueryBuilder('ul')
+            ->andWhere('ul.contentId = :contentId')
+            ->andWhere('ul.userId = :userId')
+            ->setParameter('contentId', $contentId)
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function remove(UserLike $like): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->remove($like);
+        $entityManager->flush();
+    }
 
 
     //    /**
