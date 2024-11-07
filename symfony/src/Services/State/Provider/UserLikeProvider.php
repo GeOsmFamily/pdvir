@@ -2,11 +2,12 @@
 
 namespace App\Services\State\Provider;
 
-use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\ProviderInterface;
-use App\Repository\UserLikeRepository;
 use App\Repository\UserRepository;
+use ApiPlatform\Metadata\Operation;
+use App\Repository\UserLikeRepository;
+use ApiPlatform\State\ProviderInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserLikeProvider implements ProviderInterface
 {
@@ -44,6 +45,6 @@ class UserLikeProvider implements ProviderInterface
             ];
         }
 
-        return $output;
+        return new JsonResponse($output);
     }
 }
