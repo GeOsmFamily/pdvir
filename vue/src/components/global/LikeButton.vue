@@ -3,7 +3,7 @@
         <v-btn
             variant="text"
             density="comfortable"
-            :icon=" liked ? 'mdi mdi-heart' : 'mdi mdi-heart-outline'"
+            :icon=" likeId > 0 ? 'mdi mdi-heart' : 'mdi mdi-heart-outline'"
             color="main-blue"
             @click.stop="switchLike()"
             >
@@ -23,21 +23,16 @@ const props = defineProps<{
 const appStore = useApplicationStore()
 const userStore = useUserStore()
 
-const liked = ref(false)
-const count = ref(0)
-onMounted(() => {
-    liked.value = appStore.likesList?.[props.id]?.liked || false
-    count.value = appStore.likesList?.[props.id]?.count || 0
-})
+const likeId = computed(() => appStore.likesList?.[props.id]?.likeId || 0)
+const count = computed(() => appStore.likesList?.[props.id]?.count || 0)
 
 function switchLike() {
     if (userStore.userIsLogged) {
-        liked.value = !liked.value
-        if (liked.value) {
-            count.value++
-            LikeService.addLike(props.id)
+        const newLike = likeId.value === 0 
+        if (newLike) {
+            appStore.addLike(props.id)
         } else {
-            count.value--
+            appStore.deleteLike(likeId.value)
         }
     }
 }

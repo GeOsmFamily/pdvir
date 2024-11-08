@@ -42,6 +42,16 @@ export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
     likesList.value = await LikeService.getLikesList()
   }
 
+  async function addLike(id: string) {
+    await LikeService.addLike(id)
+    await getLikesList()
+  }
+
+  async function deleteLike(id: number) {
+    await LikeService.deleteLike(id)
+    await getLikesList()
+  }
+
   return { 
     mobile,
     showSnackBar,
@@ -55,6 +65,8 @@ export const useApplicationStore = defineStore(StoresList.APPLICATION, () => {
     showEditContentDialog,
     currentContentPage,
     likesList,
-    getLikesList
+    getLikesList,
+    addLike,
+    deleteLike
   }
 })

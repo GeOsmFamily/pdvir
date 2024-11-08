@@ -27,15 +27,7 @@ use App\Services\State\Processor\UserLikeDeleteProcessor;
             security: 'is_granted(\'IS_AUTHENTICATED_FULLY\')'
         ),
         new Delete(
-            uriTemplate: '/user_likes/{contentId}',
             security: 'is_granted(\'IS_AUTHENTICATED_FULLY\')',
-            processor: UserLikeDeleteProcessor::class,
-            uriVariables: [
-                'contentId' => [
-                    'from_class' => UserLike::class,
-                    'property' => 'contentId',
-                ],
-            ],
         )
     ]
 )]

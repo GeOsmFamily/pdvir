@@ -12,13 +12,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class UserLikeProvider implements ProviderInterface
 {
     private UserLikeRepository $userLikeRepository;
-    private UserRepository $userRepository;
     private Security $security;
 
-    public function __construct(UserLikeRepository $userLikeRepository, UserRepository $userRepository, Security $security)
+    public function __construct(UserLikeRepository $userLikeRepository, Security $security)
     {
         $this->userLikeRepository = $userLikeRepository;
-        $this->userRepository = $userRepository;
         $this->security = $security;
     }
 
@@ -29,19 +27,18 @@ class UserLikeProvider implements ProviderInterface
         // Get User ID
         $userId = null;
         if ($user) {
-            $userEmail = $user->getUserIdentifier();
-            $userEntity = $this->userRepository->findOneBy(['email' => $userEmail]);
-            $userId = $userEntity ? $userEntity->getId() : null;
+            /** @var User $user */
+            $userId = $user->getId();
         }
 
-        // Get Like list with liked by user status
+        // Get Likes list with ID of the like if user has liked the entity
         $results = $this->userLikeRepository->findContentLikesWithCountAndUserLike($userId);
 
         $output = [];
         foreach ($results as $result) {
             $output[$result['contentId']->toRfc4122()] = [
                 'count' => $result['likeCount'],
-                'liked' => (bool) $result['userLiked'],
+                'likeId' => $result['userLikedId'],
             ];
         }
 

@@ -16,7 +16,7 @@ export class LikeService {
         }), { headers: { 'Content-Type': 'application/ld+json' } })
     }
 
-    static async deleteLike(id: string): Promise<AxiosResponse> {
+    static async deleteLike(id: number): Promise<AxiosResponse> {
         return apiClient.delete(`/api/user_likes/${id}`)
     }
 }
