@@ -68,7 +68,7 @@ const sortOptions = Object.values(SortKey).map((key) => {
     }
 })
 
-const setHoveredProject = (id: number) => {
+const setHoveredProject = (id: string) => {
     projectStore.hoveredProjectId = id
 }
 
