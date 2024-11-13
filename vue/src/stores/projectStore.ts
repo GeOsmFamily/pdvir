@@ -8,16 +8,13 @@ import { SortKey } from '@/models/enums/SortKey'
 import type { Status } from '@/models/enums/contents/Status';
 import type { Thematic } from '@/models/interfaces/Thematic';
 import type { AdministrativeScope } from '@/models/enums/AdministrativeScope';
-import type { Actor } from '@/models/interfaces/Actor';
 import { useApplicationStore } from './applicationStore';
 import { ContentPagesList } from '@/models/enums/app/ContentPagesList';
 import { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType';
 import { FormType } from '@/models/enums/app/FormType';
 import type { Organisation } from '@/models/interfaces/Organisation';
 import { OrganisationService } from '@/services/organisations/OrganisationService';
-import * as Sentry from '@sentry/browser';
 import { i18n } from '@/assets/plugins/i18n';
-import { uniqueArray } from '@/services/utils/UtilsService';
 
 export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const projects: Ref<Project[]> = ref([])
@@ -119,7 +116,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   })
 
   const valuesToSearchOn = (project: Project) => {
-    return [...new Set([
+    return ([...new Set([
       project.name,
       project.actor.name,
       project.geoData.name,
@@ -130,7 +127,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
       ...project.thematics.map((thematic) => thematic.name),
       ...project.donors.map((donor) => donor.name),
       ...project.beneficiaryTypes.map((beneficiaryType) => i18n.t(`beneficiaryType.${beneficiaryType}`)),
-    ])].filter(v => v).map((value) => value.toLowerCase())
+    ])].filter(v => v) as any[]).map((value) => value.toLowerCase())
   }
 
   const orderedProjects = computed(async () => {

@@ -5,10 +5,14 @@ import { z, ZodType } from "zod";
 import { i18n } from "@/assets/plugins/i18n";
 import { CommonZodSchema } from "../forms/CommonZodSchema";
 import GeocodingService from "../map/GeocodingService";
+import { Status } from "@/models/enums/contents/Status";
+import { AdministrativeScope } from "@/models/enums/AdministrativeScope";
+import { BeneficiaryType } from "@/models/enums/contents/BeneficiaryType";
 
 export class ProjectFormService {
     static getForm(project: Project | null) {
         const zodModels = CommonZodSchema.getDefinitions()
+        // @ts-ignore
         const projectSchema: z.ZodType<Partial<Project>> = z.object({
             name: z
                 .string()
@@ -19,19 +23,19 @@ export class ProjectFormService {
             focalPointName: z.string().optional(),
             focalPointPosition: z.string().optional(),
             focalPointEmail: zodModels.email,
-            interventionZone: z.string(),
+            interventionZone: z.nativeEnum(AdministrativeScope),
             focalPointTel: zodModels.phone,
             osmData: zodModels.osmData,
             actor: zodModels.symfonyRelation,
-            status: z.string(),
+            status: z.nativeEnum(Status),
             donors: zodModels.symfonyRelations,
             contractingOrganisation: zodModels.symfonyRelation,
             thematics: zodModels.symfonyRelations,
-            beneficiaryTypes: z.array(z.string()),
+            beneficiaryTypes: z.array(z.nativeEnum(BeneficiaryType)),
             website: z.string().url().optional(),
         })
 
-        const { errors, handleSubmit, isSubmitting } = useForm<Partial<ProjectSubmission>>({
+        const { errors, handleSubmit, isSubmitting } = useForm<Partial<Project | ProjectSubmission>>({
             initialValues: {
                 ...project,
                 osmData: project?.geoData ? GeocodingService.geoDataToGeocodingItem(project?.geoData) : null,

@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import type { Actor } from '@/models/interfaces/Actor';
-import { getNestedObjectValue } from '@/services/utils/UtilsService';
+import { getNestedObjectValue, localizeDate } from '@/services/utils/UtilsService';
 import { ref,  type Ref } from 'vue';
 import Pagination from '@/components/global/Pagination.vue';
 import type { Project } from '@/models/interfaces/Project';

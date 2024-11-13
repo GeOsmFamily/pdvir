@@ -20,8 +20,8 @@
             />
         <AdminTable
             :items="sortedProjects"
-            :tableKeys="['name', 'actor.acronym']"
-            :column-widths="['auto', '15%', '15%']"
+            :tableKeys="['name', 'actor.acronym', 'updatedAt']"
+            :column-widths="['auto', '15%', '15%', '15%']"
         >
             <template #editContentCell="{ item } " >
                 <template v-if="!item.isValidated">
