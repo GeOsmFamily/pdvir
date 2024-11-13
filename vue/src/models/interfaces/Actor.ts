@@ -3,17 +3,18 @@ import type { ActorExpertise } from "./ActorExpertise";
 import type { AdministrativeScope } from "./AdministrativeScope";
 import type { User } from "./auth/User";
 import type { Timestampable } from "./common/Timestampable";
+import type { Validateable } from "./common/Validateable";
 import type { ContentImageFromUserFile } from "./ContentImage";
 import type { MediaObject } from "./MediaObject";
 import type { Project } from "./Project";
 import type { Thematic } from "./Thematic";
 
-export interface Actor extends Timestampable {
+export interface Actor extends Timestampable, Validateable {
     id: string;
+    '@id': string;
     createdBy: {
         id: User["id"]
     };
-    isValidated: boolean;
     name: string;
     acronym: string;
     category: ActorsCategories;

@@ -6,7 +6,7 @@
             </div>
             <SheetContentBanner
                 :title="project.name"
-                :subtitle="project.location"
+                :subtitle="project.geoData.name"
                 :email="project.focalPointEmail"
                 :website="project.website"
                 :phone="project.focalPointTel"
@@ -120,15 +120,12 @@ const loadSimilarProjects = async () => {
 }
 
 const updateProject = (project: Project) => {
-    console.log('project.slug', project.slug);
-    console.log('projectStore.project?.slug', projectStore.project?.slug);
     projectStore.project = project
     isFormShown.value = false
     router.push({ name: 'projectPage', params: { slug: projectStore.project?.slug } })
 }
 
 const similarProjects = computed(() => projectStore.similarProjects)
-
 const isEditable = computed(() => {
     return userStore.userIsAdmin() || (projectStore.project?.createdBy?.id === userStore.currentUser?.id && userStore.currentUser?.id != null)
 })

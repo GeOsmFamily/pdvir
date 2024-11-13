@@ -1,0 +1,2501 @@
+App\Entity\GeoData:
+  geoData_500:
+    osmId: 247716907
+    longitude: 10.6867788
+    latitude: 6.2108889
+    name: Kumbo
+  geoData_499:
+    osmId: 247716908
+    longitude: 10.5058304
+    latitude: 6.2484436
+    name: Oku
+  geoData_498:
+    osmId: 247717281
+    longitude: 10.1516505
+    latitude: 5.9614117
+    name: Bamenda
+  geoData_497:
+    osmId: 248096278
+    longitude: 10.7062394
+    latitude: 6.5783833
+    name: Nkambe
+  geoData_496:
+    osmId: 248096285
+    longitude: 10.0110260
+    latitude: 5.8878970
+    name: Bali
+  geoData_495:
+    osmId: 248096516
+    longitude: 10.8971603
+    latitude: 5.7282262
+    name: Foumban
+  geoData_494:
+    osmId: 248159609
+    longitude: 10.0766388
+    latitude: 6.3877985
+    name: Wum
+  geoData_493:
+    osmId: 248411873
+    longitude: 11.1178029
+    latitude: 5.7127189
+    name: Malentouen
+  geoData_492:
+    osmId: 248764852
+    longitude: 13.3934527
+    latitude: 9.3070698
+    name: Garoua
+  geoData_491:
+    osmId: 249536837
+    longitude: 10.2758119
+    latitude: 5.1487615
+    name: Bana
+  geoData_490:
+    osmId: 249621505
+    longitude: 13.7395048
+    latitude: 4.5938842
+    name: Mandjou
+  geoData_489:
+    osmId: 249658081
+    longitude: 11.9024619
+    latitude: 4.4461951
+    name: Mbandjock
+  geoData_488:
+    osmId: 249672731
+    longitude: 10.5235407
+    latitude: 5.1396127
+    name: Bangangté
+  geoData_487:
+    osmId: 249672792
+    longitude: 10.6993080
+    latitude: 4.9694090
+    name: Tonga
+  geoData_486:
+    osmId: 249730690
+    longitude: 10.0138400
+    latitude: 6.0032240
+    name: Mbengwi
+  geoData_485:
+    osmId: 249863453
+    longitude: 9.7274994
+    latitude: 4.7200545
+    name: Loum
+  geoData_484:
+    osmId: 249863482
+    longitude: 9.7498187
+    latitude: 4.7652044
+    name: Nlohe
+  geoData_483:
+    osmId: 249863730
+    longitude: 9.6691991
+    latitude: 4.7500070
+    name: Tombel
+  geoData_482:
+    osmId: 249863738
+    longitude: 9.6829140
+    latitude: 4.6407990
+    name: Penja
+  geoData_481:
+    osmId: 250154511
+    longitude: 9.7371294
+    latitude: 4.3397767
+    name: Bonaléa
+  geoData_480:
+    osmId: 250206640
+    longitude: 13.5704040
+    latitude: 10.6081230
+    name: Mogodé
+  geoData_479:
+    osmId: 250206870
+    longitude: 14.1402180
+    latitude: 10.5365460
+    name: Gazawa
+  geoData_478:
+    osmId: 250206871
+    longitude: 13.5853261
+    latitude: 10.5123086
+    name: Roumsiki
+  geoData_477:
+    osmId: 250206941
+    longitude: 14.1342835
+    latitude: 11.0484452
+    name: Mora
+  geoData_476:
+    osmId: 250288476
+    longitude: 13.7630218
+    latitude: 9.5577401
+    name: Boula-Ibi
+  geoData_475:
+    osmId: 250288772
+    longitude: 13.5640503
+    latitude: 8.5243410
+    name: Gouna
+  geoData_474:
+    osmId: 250346326
+    longitude: 11.8045776
+    latitude: 6.7485470
+    name: Banyo
+  geoData_473:
+    osmId: 250346812
+    longitude: 13.0113052
+    latitude: 6.6066702
+    name: Mambal
+  geoData_472:
+    osmId: 250346916
+    longitude: 13.1110189
+    latitude: 6.7477134
+    name: Béka Goto
+  geoData_471:
+    osmId: 250346948
+    longitude: 13.1741066
+    latitude: 6.8050465
+    name: Tékel
+  geoData_470:
+    osmId: 250527255
+    longitude: 14.0939127
+    latitude: 8.2955454
+    name: Youkout
+  geoData_469:
+    osmId: 250527262
+    longitude: 14.0819085
+    latitude: 8.2786806
+    name: Yet
+  geoData_468:
+    osmId: 250527273
+    longitude: 14.0468520
+    latitude: 8.2388860
+    name: Taboun
+  geoData_467:
+    osmId: 250528328
+    longitude: 14.2044729
+    latitude: 6.7291395
+    name: Garga
+  geoData_466:
+    osmId: 250528394
+    longitude: 14.2539791
+    latitude: 6.5909484
+    name: Gangi
+  geoData_465:
+    osmId: 250692571
+    longitude: 13.7847621
+    latitude: 6.3667434
+    name: Bindiba
+  geoData_464:
+    osmId: 250692572
+    longitude: 14.0860674
+    latitude: 6.5078512
+    name: Bindiba
+  geoData_463:
+    osmId: 250801554
+    longitude: 13.5503022
+    latitude: 9.7116148
+    name: Dembo
+  geoData_462:
+    osmId: 250801894
+    longitude: 13.5103834
+    latitude: 8.9183611
+    name: Tongo
+  geoData_461:
+    osmId: 250804421
+    longitude: 15.0566515
+    latitude: 10.8467761
+    name: Pouss
+  geoData_460:
+    osmId: 250810233
+    longitude: 15.0191262
+    latitude: 12.0831175
+    name: Kousséri
+  geoData_459:
+    osmId: 250810426
+    longitude: 14.6487497
+    latitude: 11.6831006
+    name: Zgagué
+  geoData_458:
+    osmId: 250810588
+    longitude: 14.5681220
+    latitude: 11.4004548
+    name: Waza
+  geoData_457:
+    osmId: 250811177
+    longitude: 14.2246920
+    latitude: 12.3767720
+    name: Fotokol
+  geoData_456:
+    osmId: 250988233
+    longitude: 15.1103762
+    latitude: 3.9336950
+    name: Gari-Gombo
+  geoData_455:
+    osmId: 250988292
+    longitude: 15.0219578
+    latitude: 4.0248297
+    name: Yola
+  geoData_454:
+    osmId: 250988434
+    longitude: 14.9282168
+    latitude: 4.0419186
+    name: Ndélélé
+  geoData_453:
+    osmId: 251273478
+    longitude: 9.8299258
+    latitude: 2.3779586
+    name: Campo
+  geoData_452:
+    osmId: 251375289
+    longitude: 10.4112806
+    latitude: 3.0779049
+    name: Bipindi
+  geoData_451:
+    osmId: 251480857
+    longitude: 10.4687480
+    latitude: 5.0628220
+    name: Bazou
+  geoData_450:
+    osmId: 251696527
+    longitude: 12.6780673
+    latitude: 2.6722719
+    name: Djoum
+  geoData_449:
+    osmId: 251697783
+    longitude: 12.2067670
+    latitude: 2.8169820
+    name: Meyomessi
+  geoData_448:
+    osmId: 251774794
+    longitude: 13.5108950
+    latitude: 10.2517253
+    name: Bourah
+  geoData_447:
+    osmId: 252509362
+    longitude: 14.5098663
+    latitude: 10.1788831
+    name: LaraLara
+  geoData_446:
+    osmId: 252558674
+    longitude: 10.2647678
+    latitude: 5.2344630
+    name: Bandoumgia
+  geoData_445:
+    osmId: 252566641
+    longitude: 13.2869588
+    latitude: 2.6952455
+    name: Mintom II
+  geoData_444:
+    osmId: 252925633
+    longitude: 12.5244504
+    latitude: 3.9031868
+    name: Ayos
+  geoData_443:
+    osmId: 252925930
+    longitude: 12.0598130
+    latitude: 3.8910430
+    name: Mengang
+  geoData_442:
+    osmId: 254304914
+    longitude: 12.6607760
+    latitude: 7.0115389
+    name: Doualayel
+  geoData_441:
+    osmId: 254305588
+    longitude: 12.5741567
+    latitude: 7.1643836
+    name: Gassaguel
+  geoData_440:
+    osmId: 254305835
+    longitude: 12.4739570
+    latitude: 7.0981176
+    name: Galim-Tignère
+  geoData_439:
+    osmId: 331130530
+    longitude: 9.5606700
+    latitude: 5.5589120
+    name: Bakebe
+  geoData_438:
+    osmId: 331130780
+    longitude: 9.2070580
+    latitude: 4.0102890
+    name: Limbé
+  geoData_437:
+    osmId: 331130781
+    longitude: 9.3169578
+    latitude: 4.0901100
+    name: Mutengene
+  geoData_436:
+    osmId: 331130782
+    longitude: 9.2315915
+    latitude: 4.1567895
+    name: Buea
+  geoData_435:
+    osmId: 331132272
+    longitude: 9.6181971
+    latitude: 4.1065854
+    name: Minkwélé
+  geoData_434:
+    osmId: 331133522
+    longitude: 10.1265567
+    latitude: 3.7990131
+    name: Edéa
+  geoData_433:
+    osmId: 331134393
+    longitude: 9.9126989
+    latitude: 2.9434098
+    name: Kribi
+  geoData_432:
+    osmId: 331136682
+    longitude: 11.5213344
+    latitude: 3.8689867
+    name: Yaoundé
+  geoData_431:
+    osmId: 331136683
+    longitude: 11.5346644
+    latitude: 4.1657131
+    name: Obala
+  geoData_430:
+    osmId: 401789115
+    longitude: 11.5577191
+    latitude: 3.9943472
+    name: Akak
+  geoData_429:
+    osmId: 401815609
+    longitude: 10.8086309
+    latitude: 4.8826332
+    name: Makenene
+  geoData_428:
+    osmId: 427537066
+    longitude: 11.2402436
+    latitude: 4.6900986
+    name: Goufan II
+  geoData_427:
+    osmId: 448853691
+    longitude: 11.4512948
+    latitude: 3.9619718
+    name: Ngoya 1
+  geoData_426:
+    osmId: 448854486
+    longitude: 11.4521629
+    latitude: 3.9842468
+    name: Obak
+  geoData_425:
+    osmId: 448854490
+    longitude: 11.4650263
+    latitude: 3.9319206
+    name: Ngoya II
+  geoData_424:
+    osmId: 501359854
+    longitude: 10.5833330
+    latitude: 7.0333330
+    name: Jato
+  geoData_423:
+    osmId: 501359901
+    longitude: 13.9595860
+    latitude: 11.2625213
+    name: Unknown
+  geoData_422:
+    osmId: 501382177
+    longitude: 12.9237751
+    latitude: 9.3557166
+    name: Kocciel
+  geoData_421:
+    osmId: 501407062
+    longitude: 14.5166670
+    latitude: 12.3000000
+    name: Segel
+  geoData_420:
+    osmId: 501474595
+    longitude: 13.7305504
+    latitude: 10.9268038
+    name: Tourou
+  geoData_419:
+    osmId: 501474756
+    longitude: 13.4306277
+    latitude: 10.1229153
+    name: Mbabi
+  geoData_418:
+    osmId: 501491791
+    longitude: 14.3166670
+    latitude: 12.3666670
+    name: Jokhanna
+  geoData_417:
+    osmId: 501501433
+    longitude: 13.1666670
+    latitude: 9.0166670
+    name: Jagogi
+  geoData_416:
+    osmId: 501517253
+    longitude: 10.5833330
+    latitude: 7.0666670
+    name: Gidan Boro
+  geoData_415:
+    osmId: 501524902
+    longitude: 12.9020992
+    latitude: 9.3861275
+    name: Dasin
+  geoData_414:
+    osmId: 501526340
+    longitude: 13.4012287
+    latitude: 10.1157214
+    name: Girimburum
+  geoData_413:
+    osmId: 501526452
+    longitude: 14.6387433
+    latitude: 11.9846743
+    name: Ardo Rumeila
+  geoData_412:
+    osmId: 559417685
+    longitude: 9.0982292
+    latitude: 4.0321900
+    name: Batoke Village
+  geoData_411:
+    osmId: 566186474
+    longitude: 13.8880155
+    latitude: 4.5413913
+    name: Bazzama
+  geoData_410:
+    osmId: 566187023
+    longitude: 15.0316073
+    latitude: 4.1735300
+    name: Kentzou
+  geoData_409:
+    osmId: 566212334
+    longitude: 14.0499955
+    latitude: 4.2716501
+    name: Nguélébok
+  geoData_408:
+    osmId: 566214166
+    longitude: 14.3645181
+    latitude: 4.4357583
+    name: Batouri
+  geoData_407:
+    osmId: 566425020
+    longitude: 14.0509222
+    latitude: 4.4833785
+    name: Gadji
+  geoData_406:
+    osmId: 582070346
+    longitude: 9.2109274
+    latitude: 3.9990962
+    name: Ladja
+  geoData_405:
+    osmId: 582987934
+    longitude: 9.1680607
+    latitude: 4.0140584
+    name: Mokindi chief palace
+  geoData_404:
+    osmId: 591909627
+    longitude: 9.1343306
+    latitude: 4.0206517
+    name: Bobende
+  geoData_403:
+    osmId: 619207753
+    longitude: 10.2050757
+    latitude: 5.6786237
+    name: Babadjou
+  geoData_402:
+    osmId: 619629012
+    longitude: 9.5062972
+    latitude: 4.1442458
+    name: Bonakoh
+  geoData_401:
+    osmId: 619629783
+    longitude: 10.8029953
+    latitude: 5.6847800
+    name: Noun
+  geoData_400:
+    osmId: 619630684
+    longitude: 11.2251710
+    latitude: 5.9657420
+    name: Magba
+  geoData_399:
+    osmId: 619712689
+    longitude: 10.1628000
+    latitude: 5.5686200
+    name: Bangang
+  geoData_398:
+    osmId: 619713263
+    longitude: 10.2018416
+    latitude: 5.5782259
+    name: Batcham
+  geoData_397:
+    osmId: 639162004
+    longitude: 9.9391669
+    latitude: 4.9525115
+    name: Nkongsamba
+  geoData_396:
+    osmId: 639216548
+    longitude: 10.5698025
+    latitude: 5.1314127
+    name: Banékané
+  geoData_395:
+    osmId: 639566766
+    longitude: 10.0065212
+    latitude: 5.0646648
+    name: Ekom-Nkam
+  geoData_394:
+    osmId: 732125487
+    longitude: 9.7062018
+    latitude: 4.0429389
+    name: Douala
+  geoData_393:
+    osmId: 869939415
+    longitude: 11.3845826
+    latitude: 4.9591982
+    name: Ngoro
+  geoData_392:
+    osmId: 907983288
+    longitude: 10.6381470
+    latitude: 5.5108610
+    name: Foumbot
+  geoData_391:
+    osmId: 921136374
+    longitude: 11.7651630
+    latitude: 3.4418253
+    name: Nkolmetet
+  geoData_390:
+    osmId: 921137780
+    longitude: 12.4480581
+    latitude: 3.4521910
+    name: Mindimi
+  geoData_389:
+    osmId: 921144061
+    longitude: 12.4272529
+    latitude: 3.1188900
+    name: Nlobessé
+  geoData_388:
+    osmId: 921144583
+    longitude: 12.1215779
+    latitude: 3.3172158
+    name: Biba
+  geoData_387:
+    osmId: 921217193
+    longitude: 12.5259271
+    latitude: 3.1752422
+    name: Mékas
+  geoData_386:
+    osmId: 923991888
+    longitude: 9.7409587
+    latitude: 4.0638116
+    name: Makepe
+  geoData_385:
+    osmId: 923991906
+    longitude: 9.7151827
+    latitude: 4.0637626
+    name: Deido
+  geoData_384:
+    osmId: 925364796
+    longitude: 14.1736011
+    latitude: 10.1981506
+    name: Moutourwa
+  geoData_383:
+    osmId: 925364980
+    longitude: 14.2358289
+    latitude: 10.3436507
+    name: Moussourtouk
+  geoData_382:
+    osmId: 925365962
+    longitude: 14.3281625
+    latitude: 10.6033083
+    name: Maroua
+  geoData_381:
+    osmId: 925366326
+    longitude: 13.9599740
+    latitude: 9.7605307
+    name: Figuil
+  geoData_380:
+    osmId: 925366359
+    longitude: 14.1702728
+    latitude: 11.2320260
+    name: Limani
+  geoData_379:
+    osmId: 925366978
+    longitude: 14.1112665
+    latitude: 11.0871406
+    name: Kourgui
+  geoData_378:
+    osmId: 926085634
+    longitude: 11.3061646
+    latitude: 2.2956368
+    name: Ngoazik
+  geoData_377:
+    osmId: 928411132
+    longitude: 11.4471783
+    latitude: 2.3002728
+    name: Abang Minko'o
+  geoData_376:
+    osmId: 928411196
+    longitude: 11.4403349
+    latitude: 2.3099040
+    name: Ntemsi
+  geoData_375:
+    osmId: 928414329
+    longitude: 11.4222498
+    latitude: 3.0811210
+    name: Ngoulemakong
+  geoData_374:
+    osmId: 928414346
+    longitude: 11.4005360
+    latitude: 2.9367436
+    name: Mengong
+  geoData_373:
+    osmId: 928414928
+    longitude: 11.1516632
+    latitude: 2.9193840
+    name: Ebolowa
+  geoData_372:
+    osmId: 929329945
+    longitude: 10.0533090
+    latitude: 5.4469923
+    name: Dschang
+  geoData_371:
+    osmId: 929331279
+    longitude: 10.1625180
+    latitude: 5.7961640
+    name: Santa
+  geoData_370:
+    osmId: 929331795
+    longitude: 9.5892236
+    latitude: 5.5453912
+    name: Tinto
+  geoData_369:
+    osmId: 929332296
+    longitude: 9.4077181
+    latitude: 4.2862078
+    name: Muyuka
+  geoData_368:
+    osmId: 929334616
+    longitude: 9.4409446
+    latitude: 4.6378368
+    name: Kumba
+  geoData_367:
+    osmId: 929336668
+    longitude: 9.4227881
+    latitude: 5.3311020
+    name: Nguti
+  geoData_366:
+    osmId: 929338646
+    longitude: 9.9849773
+    latitude: 5.5108581
+    name: Fongo-Tongo
+  geoData_365:
+    osmId: 929836617
+    longitude: 9.8887873
+    latitude: 5.8382171
+    name: Batibo
+  geoData_364:
+    osmId: 929837346
+    longitude: 8.9839977
+    latitude: 5.7681748
+    name: Eyumodjock
+  geoData_363:
+    osmId: 929837876
+    longitude: 9.3020807
+    latitude: 5.7108379
+    name: Besongabang
+  geoData_362:
+    osmId: 929855846
+    longitude: 12.3194888
+    latitude: 6.5545599
+    name: Yaro
+  geoData_361:
+    osmId: 929855901
+    longitude: 12.4782899
+    latitude: 6.5104240
+    name: Djoa
+  geoData_360:
+    osmId: 929855914
+    longitude: 12.2459006
+    latitude: 6.5927366
+    name: Bingari
+  geoData_359:
+    osmId: 929892106
+    longitude: 10.5493400
+    latitude: 6.5856180
+    name: Misaje
+  geoData_358:
+    osmId: 930261637
+    longitude: 14.5471591
+    latitude: 5.8948457
+    name: Garoua-Boulaï
+  geoData_357:
+    osmId: 930266542
+    longitude: 15.3470240
+    latitude: 7.7689220
+    name: Touboro
+  geoData_356:
+    osmId: 937666556
+    longitude: 13.5390492
+    latitude: 6.3286484
+    name: Dir
+  geoData_355:
+    osmId: 937668169
+    longitude: 14.2182728
+    latitude: 6.4193219
+    name: Meidougou
+  geoData_354:
+    osmId: 943248746
+    longitude: 11.9756460
+    latitude: 2.9361760
+    name: Sangmélima
+  geoData_353:
+    osmId: 943256281
+    longitude: 10.8077880
+    latitude: 3.7327155
+    name: Bokso
+  geoData_352:
+    osmId: 1012761434
+    longitude: 11.6661179
+    latitude: 3.8544908
+    name: Nkolafamba
+  geoData_351:
+    osmId: 1047196051
+    longitude: 10.4361790
+    latitude: 5.9892480
+    name: Ndop
+  geoData_350:
+    osmId: 1047237485
+    longitude: 11.3814755
+    latitude: 4.0241114
+    name: Okola
+  geoData_349:
+    osmId: 1049705810
+    longitude: 13.6610872
+    latitude: 9.4811290
+    name: Djaouro (Chefferie) de Lagam Bainere
+  geoData_348:
+    osmId: 1049705886
+    longitude: 13.6788152
+    latitude: 9.4913410
+    name: Djaouro (Chefferie)Mbor de Badjengo
+  geoData_347:
+    osmId: 1049705943
+    longitude: 13.7326991
+    latitude: 9.4808350
+    name: Lawane Mboulouwol
+  geoData_346:
+    osmId: 1049716162
+    longitude: 13.6451414
+    latitude: 9.4222702
+    name: Djaouro (Chefferie) de Wouro Bocki
+  geoData_345:
+    osmId: 1049849474
+    longitude: 13.6557154
+    latitude: 9.4108276
+    name: Djaouro (Chefferie) de Foudji
+  geoData_344:
+    osmId: 1049849494
+    longitude: 13.6452079
+    latitude: 9.4131976
+    name: Djaouro (Chefferie) de Woulo tardo
+  geoData_343:
+    osmId: 1049849498
+    longitude: 13.6956763
+    latitude: 9.4070728
+    name: Djaouro (Chefferie) de Wouro Walewol Bouski
+  geoData_342:
+    osmId: 1049849521
+    longitude: 13.6121078
+    latitude: 9.4061198
+    name: Djaouro (Chefferie) de Mayo Habaye
+  geoData_341:
+    osmId: 1050198404
+    longitude: 13.7043117
+    latitude: 9.3917674
+    name: Chefferie de Babaye
+  geoData_340:
+    osmId: 1050198409
+    longitude: 13.5991720
+    latitude: 9.3347772
+    name: lawanat de Langui
+  geoData_339:
+    osmId: 1067300973
+    longitude: 13.6081909
+    latitude: 9.5698615
+    name: Sokanga
+  geoData_338:
+    osmId: 1067300976
+    longitude: 13.5991819
+    latitude: 9.3347990
+    name: Chefferie deLangui
+  geoData_337:
+    osmId: 1067300985
+    longitude: 13.5774966
+    latitude: 9.3299262
+    name: Cheferie de Bouli Mal Alim
+  geoData_336:
+    osmId: 1067300989
+    longitude: 13.5102993
+    latitude: 9.4926350
+    name: Chefferie de Ram II
+  geoData_335:
+    osmId: 1067301009
+    longitude: 13.5067209
+    latitude: 9.4600141
+    name: Chefferie de Banaye
+  geoData_334:
+    osmId: 1067301056
+    longitude: 13.5741380
+    latitude: 9.3485562
+    name: Cheferie de Bouli Mango
+  geoData_333:
+    osmId: 1067301078
+    longitude: 13.4408739
+    latitude: 9.3803119
+    name: Cheferie de Sonayo
+  geoData_332:
+    osmId: 1067301097
+    longitude: 13.4565589
+    latitude: 9.3792233
+    name: Cheferie de Mberi
+  geoData_331:
+    osmId: 1067301107
+    longitude: 13.6200121
+    latitude: 9.5805151
+    name: Chefferie de Pene
+  geoData_330:
+    osmId: 1067301116
+    longitude: 13.5120946
+    latitude: 9.5610510
+    name: Kefero
+  geoData_329:
+    osmId: 1067304089
+    longitude: 13.5391320
+    latitude: 9.4727763
+    name: Chefferie de Kirimbo
+  geoData_328:
+    osmId: 1067304110
+    longitude: 13.5562323
+    latitude: 9.3535577
+    name: Chefferie de Lawane Gnobi
+  geoData_327:
+    osmId: 1067304147
+    longitude: 13.5217660
+    latitude: 9.3814155
+    name: Chefferie deDoumde Godouji
+  geoData_326:
+    osmId: 1067304172
+    longitude: 13.5898018
+    latitude: 9.4008680
+    name: Chefferie de Guidjaro
+  geoData_325:
+    osmId: 1067306174
+    longitude: 13.5047166
+    latitude: 9.3928116
+    name: Chefferie de Guizigare
+  geoData_324:
+    osmId: 1067306178
+    longitude: 13.5253977
+    latitude: 9.3807110
+    name: Chefferie de Zac
+  geoData_323:
+    osmId: 1067306183
+    longitude: 13.5121405
+    latitude: 9.3941685
+    name: Chefferie de Winde Liroma
+  geoData_322:
+    osmId: 1067306192
+    longitude: 13.5101434
+    latitude: 9.4043647
+    name: Chefferie de Dollere I
+  geoData_321:
+    osmId: 1067306231
+    longitude: 13.5000709
+    latitude: 9.3851524
+    name: Chefferie de Moundang
+  geoData_320:
+    osmId: 1067306236
+    longitude: 13.5014928
+    latitude: 9.3889746
+    name: Chefferie de Ouro Kessoum
+  geoData_319:
+    osmId: 1067306239
+    longitude: 13.4986588
+    latitude: 9.3964233
+    name: Chefferie de Djantari
+  geoData_318:
+    osmId: 1067306241
+    longitude: 13.4992400
+    latitude: 9.3833710
+    name: Chefferie de Bounguel
+  geoData_317:
+    osmId: 1067306250
+    longitude: 13.5041310
+    latitude: 9.3914676
+    name: Chefferie de Bainaware
+  geoData_316:
+    osmId: 1067306255
+    longitude: 13.5157386
+    latitude: 9.4057385
+    name: Commune de Pitoa
+  geoData_315:
+    osmId: 1067306256
+    longitude: 13.5033838
+    latitude: 9.3956969
+    name: Chefferie de Gadamayo
+  geoData_314:
+    osmId: 1067306258
+    longitude: 13.5225050
+    latitude: 9.3945753
+    name: Chefferie de Tokombere
+  geoData_313:
+    osmId: 1067306275
+    longitude: 13.4961461
+    latitude: 9.3950957
+    name: Chefferie de Ribadou
+  geoData_312:
+    osmId: 1067306313
+    longitude: 13.5184794
+    latitude: 9.3927174
+    name: Chefferie de Wafango
+  geoData_311:
+    osmId: 1067306324
+    longitude: 13.5062836
+    latitude: 9.3868488
+    name: Chefferie de Sara
+  geoData_310:
+    osmId: 1067306403
+    longitude: 13.5080630
+    latitude: 9.3885178
+    name: Chefferie de Pitoa Centre
+  geoData_309:
+    osmId: 1069886525
+    longitude: 10.3935379
+    latitude: 5.9837514
+    name: Sub Palace Akeh
+  geoData_308:
+    osmId: 1106177514
+    longitude: 10.3684380
+    latitude: 5.3346120
+    name: Baham
+  geoData_307:
+    osmId: 1227765836
+    longitude: 10.3371407
+    latitude: 5.2888212
+    name: Bapa
+  geoData_306:
+    osmId: 1227765838
+    longitude: 10.3462087
+    latitude: 5.2549261
+    name: Bandenkop
+  geoData_305:
+    osmId: 1292944810
+    longitude: 10.3466800
+    latitude: 6.1756150
+    name: Belo
+  geoData_304:
+    osmId: 1316921848
+    longitude: 11.5869673
+    latitude: 3.8641994
+    name: Nkoabang
+  geoData_303:
+    osmId: 1365229876
+    longitude: 11.6432106
+    latitude: 3.7158818
+    name: Mfou
+  geoData_302:
+    osmId: 1366949428
+    longitude: 11.4526470
+    latitude: 3.9692355
+    name: Nkong
+  geoData_301:
+    osmId: 1366949514
+    longitude: 11.4750404
+    latitude: 3.9168496
+    name: Nkol Ngon
+  geoData_300:
+    osmId: 1375481575
+    longitude: 11.5067510
+    latitude: 4.0262769
+    name: Esesang
+  geoData_299:
+    osmId: 1397736816
+    longitude: 9.7666084
+    latitude: 5.0844069
+    name: Bangem
+  geoData_298:
+    osmId: 1536637254
+    longitude: 11.4277106
+    latitude: 4.4385378
+    name: Polo
+  geoData_297:
+    osmId: 1595553991
+    longitude: 9.5657366
+    latitude: 4.4990780
+    name: Mbanga
+  geoData_296:
+    osmId: 1595554030
+    longitude: 9.6529320
+    latitude: 4.5867240
+    name: Njombé
+  geoData_295:
+    osmId: 1695198257
+    longitude: 11.2607910
+    latitude: 4.9379260
+    name: Deuk
+  geoData_294:
+    osmId: 1735296010
+    longitude: 10.7142877
+    latitude: 3.9212232
+    name: Peslipan
+  geoData_293:
+    osmId: 1744470346
+    longitude: 10.2573289
+    latitude: 6.0043318
+    name: Bambili
+  geoData_292:
+    osmId: 1809741111
+    longitude: 10.4217852
+    latitude: 5.4758844
+    name: Bafoussam
+  geoData_291:
+    osmId: 1837099271
+    longitude: 12.2365909
+    latitude: 7.9736520
+    name: Kontcha
+  geoData_290:
+    osmId: 1837117204
+    longitude: 10.3582945
+    latitude: 5.8922916
+    name: Balikumbat
+  geoData_289:
+    osmId: 1842754557
+    longitude: 11.3380027
+    latitude: 3.5835654
+    name: Nkoakom
+  geoData_288:
+    osmId: 1989405596
+    longitude: 10.6382708
+    latitude: 6.0845587
+    name: Jakiri
+  geoData_287:
+    osmId: 2010689083
+    longitude: 15.6269306
+    latitude: 2.0399923
+    name: Zega
+  geoData_286:
+    osmId: 2014444189
+    longitude: 14.8355925
+    latitude: 10.1821434
+    name: Touloum
+  geoData_285:
+    osmId: 2015910608
+    longitude: 13.8512345
+    latitude: 10.3687857
+    name: Hina
+  geoData_284:
+    osmId: 2017132006
+    longitude: 14.1675240
+    latitude: 8.4033303
+    name: Tcholliré
+  geoData_283:
+    osmId: 2017158488
+    longitude: 13.2423922
+    latitude: 8.4764354
+    name: Poli
+  geoData_282:
+    osmId: 2017297574
+    longitude: 14.4425653
+    latitude: 10.4014393
+    name: Mindif
+  geoData_281:
+    osmId: 2058639564
+    longitude: 11.5931287
+    latitude: 3.9781803
+    name: Soa
+  geoData_280:
+    osmId: 2072687142
+    longitude: 9.7082969
+    latitude: 6.5150473
+    name: Makumo
+  geoData_279:
+    osmId: 2074704995
+    longitude: 10.5843190
+    latitude: 6.3913920
+    name: Nkor
+  geoData_278:
+    osmId: 2080485730
+    longitude: 14.9710203
+    latitude: 10.1185289
+    name: Doukoula
+  geoData_277:
+    osmId: 2080485751
+    longitude: 15.1082547
+    latitude: 10.0122085
+    name: Datchéka
+  geoData_276:
+    osmId: 2093888241
+    longitude: 11.3571094
+    latitude: 3.5952209
+    name: Nkolngok III
+  geoData_275:
+    osmId: 2093891168
+    longitude: 11.3320334
+    latitude: 3.6489329
+    name: Obokoué II
+  geoData_274:
+    osmId: 2093891179
+    longitude: 11.3401134
+    latitude: 3.6549174
+    name: Obokoué I
+  geoData_273:
+    osmId: 2094171294
+    longitude: 11.3143375
+    latitude: 3.4696285
+    name: Mfida I
+  geoData_272:
+    osmId: 2094195659
+    longitude: 11.3281690
+    latitude: 3.5015340
+    name: Akono
+  geoData_271:
+    osmId: 2094926787
+    longitude: 11.3929908
+    latitude: 2.9256621
+    name: Néméyong
+  geoData_270:
+    osmId: 2099747940
+    longitude: 11.0278358
+    latitude: 3.5479744
+    name: Makak
+  geoData_269:
+    osmId: 2099810888
+    longitude: 11.4698226
+    latitude: 3.3977011
+    name: Ebogo
+  geoData_268:
+    osmId: 2099813678
+    longitude: 11.5339777
+    latitude: 3.3917759
+    name: Abang
+  geoData_267:
+    osmId: 2101738113
+    longitude: 11.2638122
+    latitude: 3.8386752
+    name: Méfomo
+  geoData_266:
+    osmId: 2101805815
+    longitude: 10.9716645
+    latitude: 3.2879253
+    name: Mvengue
+  geoData_265:
+    osmId: 2101830082
+    longitude: 11.0521653
+    latitude: 3.2884728
+    name: Ebom
+  geoData_264:
+    osmId: 2101830108
+    longitude: 11.3962166
+    latitude: 3.2436959
+    name: Menguémé
+  geoData_263:
+    osmId: 2107670862
+    longitude: 13.7987420
+    latitude: 10.7410300
+    name: Mokolo
+  geoData_262:
+    osmId: 2110473498
+    longitude: 11.8847560
+    latitude: 4.0966180
+    name: Esse
+  geoData_261:
+    osmId: 2114500099
+    longitude: 11.5546734
+    latitude: 6.5016497
+    name: Mayo Darlé
+  geoData_260:
+    osmId: 2121675849
+    longitude: 9.8230312
+    latitude: 4.8475223
+    name: Manjo
+  geoData_259:
+    osmId: 2123937944
+    longitude: 10.0180602
+    latitude: 3.7465887
+    name: Dizangué
+  geoData_258:
+    osmId: 2124286085
+    longitude: 11.2142870
+    latitude: 4.5808218
+    name: Guéboba
+  geoData_257:
+    osmId: 2125537706
+    longitude: 12.6529210
+    latitude: 7.3732480
+    name: Tignère
+  geoData_256:
+    osmId: 2125801475
+    longitude: 13.0496750
+    latitude: 6.8910517
+    name: Martap
+  geoData_255:
+    osmId: 2126281330
+    longitude: 9.9760978
+    latitude: 5.2815650
+    name: Santchou
+  geoData_254:
+    osmId: 2127350893
+    longitude: 9.4707997
+    latitude: 5.6521997
+    name: Unknown
+  geoData_253:
+    osmId: 2127454468
+    longitude: 12.3299420
+    latitude: 7.6627730
+    name: Mayo-Baléo
+  geoData_252:
+    osmId: 2129783338
+    longitude: 14.7072820
+    latitude: 10.1349490
+    name: Guidiguis
+  geoData_251:
+    osmId: 2132419985
+    longitude: 14.8335238
+    latitude: 10.8881645
+    name: Guirvidig
+  geoData_250:
+    osmId: 2132436741
+    longitude: 14.9526862
+    latitude: 10.8416007
+    name: Maga
+  geoData_249:
+    osmId: 2133824531
+    longitude: 13.2693000
+    latitude: 6.4683420
+    name: Ngaoundal
+  geoData_248:
+    osmId: 2135044799
+    longitude: 14.8546325
+    latitude: 10.4081968
+    name: Moulvoudaye
+  geoData_247:
+    osmId: 2136710732
+    longitude: 13.3737078
+    latitude: 9.6712607
+    name: Baschéo
+  geoData_246:
+    osmId: 2140812000
+    longitude: 13.3647798
+    latitude: 9.4322715
+    name: Gaschiga
+  geoData_245:
+    osmId: 2141804691
+    longitude: 14.4973509
+    latitude: 10.9719873
+    name: Pétté
+  geoData_244:
+    osmId: 2142605912
+    longitude: 11.6543410
+    latitude: 4.2866830
+    name: Batchenga
+  geoData_243:
+    osmId: 2145356057
+    longitude: 9.9491550
+    latitude: 5.1215820
+    name: Melong
+  geoData_242:
+    osmId: 2146570303
+    longitude: 13.3831193
+    latitude: 5.2042713
+    name: Goyoum
+  geoData_241:
+    osmId: 2146606831
+    longitude: 12.2449170
+    latitude: 3.7733900
+    name: Akonolinga
+  geoData_240:
+    osmId: 2146643188
+    longitude: 13.4043970
+    latitude: 3.5644429
+    name: Mindourou I
+  geoData_239:
+    osmId: 2146652502
+    longitude: 13.8642262
+    latitude: 3.1960079
+    name: Kongo
+  geoData_238:
+    osmId: 2146658880
+    longitude: 13.8996561
+    latitude: 2.9001441
+    name: Zoulabot II
+  geoData_237:
+    osmId: 2146672495
+    longitude: 11.6322437
+    latitude: 4.3562661
+    name: Nachtigal
+  geoData_236:
+    osmId: 2146677215
+    longitude: 10.3701499
+    latitude: 4.0735822
+    name: Ngonga
+  geoData_235:
+    osmId: 2146722069
+    longitude: 9.8688563
+    latitude: 2.2993696
+    name: Mabiogo
+  geoData_234:
+    osmId: 2147238995
+    longitude: 11.4367506
+    latitude: 3.7121806
+    name: Nkolbiyen
+  geoData_233:
+    osmId: 2153239000
+    longitude: 11.4054985
+    latitude: 3.7565823
+    name: Binguela
+  geoData_232:
+    osmId: 2153352914
+    longitude: 11.5031140
+    latitude: 3.5151970
+    name: Mbalmayo
+  geoData_231:
+    osmId: 2153406384
+    longitude: 13.6182935
+    latitude: 3.1598199
+    name: Lomié
+  geoData_230:
+    osmId: 2154276105
+    longitude: 11.2006355
+    latitude: 3.2651191
+    name: Ngomedzap
+  geoData_229:
+    osmId: 2154279555
+    longitude: 11.1418559
+    latitude: 3.1472619
+    name: Djom
+  geoData_228:
+    osmId: 2161042167
+    longitude: 15.0510331
+    latitude: 3.5152789
+    name: Yokadouma
+  geoData_227:
+    osmId: 2163574323
+    longitude: 11.4060565
+    latitude: 3.6483361
+    name: Zoassel II
+  geoData_226:
+    osmId: 2163574441
+    longitude: 11.4055462
+    latitude: 3.6929949
+    name: Biyan
+  geoData_225:
+    osmId: 2163575125
+    longitude: 14.6448241
+    latitude: 11.9181750
+    name: Dabanga
+  geoData_224:
+    osmId: 2183412258
+    longitude: 10.7567022
+    latitude: 3.3454171
+    name: Ngoyang
+  geoData_223:
+    osmId: 2189685371
+    longitude: 10.3312054
+    latitude: 5.3894025
+    name: Bamendjou
+  geoData_222:
+    osmId: 2196039594
+    longitude: 10.3622150
+    latitude: 5.3706310
+    name: Bahouan
+  geoData_221:
+    osmId: 2196096996
+    longitude: 10.3206896
+    latitude: 5.3582105
+    name: Mboum
+  geoData_220:
+    osmId: 2196097009
+    longitude: 10.3573212
+    latitude: 5.3894722
+    name: Ndang
+  geoData_219:
+    osmId: 2196097012
+    longitude: 10.2837876
+    latitude: 5.3802561
+    name: Tchunkang
+  geoData_218:
+    osmId: 2196097020
+    longitude: 10.3474478
+    latitude: 5.3624725
+    name: Tcha'ave
+  geoData_217:
+    osmId: 2196107053
+    longitude: 10.3241571
+    latitude: 5.3134898
+    name: Batié
+  geoData_216:
+    osmId: 2196159987
+    longitude: 10.2413100
+    latitude: 5.4683338
+    name: Penka-Michel
+  geoData_215:
+    osmId: 2201869819
+    longitude: 14.4564800
+    latitude: 12.5771430
+    name: Makary
+  geoData_214:
+    osmId: 2201890265
+    longitude: 14.7543157
+    latitude: 12.6675094
+    name: Hilelé
+  geoData_213:
+    osmId: 2201890266
+    longitude: 14.3207955
+    latitude: 12.6904187
+    name: Hilé-Alifa
+  geoData_212:
+    osmId: 2201924456
+    longitude: 14.8473645
+    latitude: 12.5274887
+    name: Goulfey Gana
+  geoData_211:
+    osmId: 2202393278
+    longitude: 14.8985613
+    latitude: 12.2204578
+    name: Mara مارا
+  geoData_210:
+    osmId: 2202473684
+    longitude: 14.8180450
+    latitude: 12.1789099
+    name: Maltam
+  geoData_209:
+    osmId: 2202494525
+    longitude: 14.8407093
+    latitude: 12.0927841
+    name: Kala Kafra
+  geoData_208:
+    osmId: 2202976011
+    longitude: 15.1039120
+    latitude: 11.7806270
+    name: Logone-Birni
+  geoData_207:
+    osmId: 2202993784
+    longitude: 15.0075097
+    latitude: 11.4009983
+    name: Nkhodeuni
+  geoData_206:
+    osmId: 2203009479
+    longitude: 14.9540647
+    latitude: 11.2609374
+    name: Dagueum
+  geoData_205:
+    osmId: 2203009480
+    longitude: 14.9648298
+    latitude: 11.2638153
+    name: Zina
+  geoData_204:
+    osmId: 2203020841
+    longitude: 14.4046534
+    latitude: 11.3492496
+    name: Boundéri
+  geoData_203:
+    osmId: 2203028870
+    longitude: 14.4229139
+    latitude: 11.3579593
+    name: Touchki
+  geoData_202:
+    osmId: 2203040131
+    longitude: 14.2460615
+    latitude: 11.1769601
+    name: Doublé-Alagarno
+  geoData_201:
+    osmId: 2203040132
+    longitude: 14.2348553
+    latitude: 11.1733867
+    name: Magdémé
+  geoData_200:
+    osmId: 2203112971
+    longitude: 13.9686332
+    latitude: 11.0234362
+    name: Kouyapé
+  geoData_199:
+    osmId: 2209685258
+    longitude: 14.8403561
+    latitude: 11.1930449
+    name: Tchidi
+  geoData_198:
+    osmId: 2212936534
+    longitude: 10.2589923
+    latitude: 5.3408805
+    name: Bangam
+  geoData_197:
+    osmId: 2212936539
+    longitude: 10.2272130
+    latitude: 5.3222917
+    name: Fotouni
+  geoData_196:
+    osmId: 2213062560
+    longitude: 10.2238464
+    latitude: 5.4031710
+    name: Baloum
+  geoData_195:
+    osmId: 2213083072
+    longitude: 10.2515037
+    latitude: 5.4018210
+    name: Metsam
+  geoData_194:
+    osmId: 2213842283
+    longitude: 11.0608450
+    latitude: 3.8221170
+    name: Matomb
+  geoData_193:
+    osmId: 2213842466
+    longitude: 11.2290160
+    latitude: 3.8955250
+    name: Lobo
+  geoData_192:
+    osmId: 2214468425
+    longitude: 11.4064003
+    latitude: 3.9902279
+    name: Nkolnyada
+  geoData_191:
+    osmId: 2215338069
+    longitude: 11.1087227
+    latitude: 3.6124468
+    name: Bondjock
+  geoData_190:
+    osmId: 2215404212
+    longitude: 11.4150282
+    latitude: 3.5287464
+    name: Bikop
+  geoData_189:
+    osmId: 2215404497
+    longitude: 11.2698591
+    latitude: 3.6162614
+    name: Nkol-Emomodo
+  geoData_188:
+    osmId: 2216096083
+    longitude: 11.3559375
+    latitude: 3.6882890
+    name: Zoassel II
+  geoData_187:
+    osmId: 2216336737
+    longitude: 11.3872499
+    latitude: 3.9820046
+    name: Nkolakié
+  geoData_186:
+    osmId: 2216413294
+    longitude: 11.3224260
+    latitude: 4.0139322
+    name: Ntuissong
+  geoData_185:
+    osmId: 2216479797
+    longitude: 10.0193090
+    latitude: 5.1576710
+    name: Kékem
+  geoData_184:
+    osmId: 2216479801
+    longitude: 10.0163845
+    latitude: 5.1361725
+    name: Mbafam
+  geoData_183:
+    osmId: 2216725013
+    longitude: 11.4708915
+    latitude: 4.1806397
+    name: Efok
+  geoData_182:
+    osmId: 2216885598
+    longitude: 11.3519693
+    latitude: 4.1603593
+    name: Elig-Mfomo
+  geoData_181:
+    osmId: 2216991195
+    longitude: 11.2044170
+    latitude: 4.2589130
+    name: Monatélé
+  geoData_180:
+    osmId: 2217007258
+    longitude: 11.2936044
+    latitude: 4.3158294
+    name: Néna
+  geoData_179:
+    osmId: 2217580170
+    longitude: 11.2722102
+    latitude: 3.8439554
+    name: Nkadip
+  geoData_178:
+    osmId: 2217604269
+    longitude: 11.3929248
+    latitude: 3.9857282
+    name: Nkolfep
+  geoData_177:
+    osmId: 2218313188
+    longitude: 12.3186341
+    latitude: 5.5406812
+    name: Yoko
+  geoData_176:
+    osmId: 2218335289
+    longitude: 11.6281209
+    latitude: 4.4459307
+    name: Ntui
+  geoData_175:
+    osmId: 2218409901
+    longitude: 13.0043448
+    latitude: 7.3842146
+    name: Libong
+  geoData_174:
+    osmId: 2218582353
+    longitude: 14.0595074
+    latitude: 3.2865242
+    name: Mpan
+  geoData_173:
+    osmId: 2218590206
+    longitude: 10.7741756
+    latitude: 3.6413071
+    name: Éséka
+  geoData_172:
+    osmId: 2219667213
+    longitude: 10.4511732
+    latitude: 3.6947088
+    name: Messondo
+  geoData_171:
+    osmId: 2222805840
+    longitude: 10.5251920
+    latitude: 3.8546259
+    name: Pouma
+  geoData_170:
+    osmId: 2223634931
+    longitude: 11.4462701
+    latitude: 3.9213197
+    name: Leboudi II
+  geoData_169:
+    osmId: 2225468551
+    longitude: 13.1717237
+    latitude: 3.9884092
+    name: Abong-Mbang
+  geoData_168:
+    osmId: 2225469458
+    longitude: 13.4529706
+    latitude: 4.2400617
+    name: Doumé
+  geoData_167:
+    osmId: 2225509232
+    longitude: 14.2115679
+    latitude: 4.4051788
+    name: Bandongwé
+  geoData_166:
+    osmId: 2225524288
+    longitude: 14.1133066
+    latitude: 4.1772683
+    name: Bimba
+  geoData_165:
+    osmId: 2225537481
+    longitude: 13.9722307
+    latitude: 4.2407558
+    name: Kamba-Miéri
+  geoData_164:
+    osmId: 2229550336
+    longitude: 14.0727948
+    latitude: 4.3055407
+    name: Bitamyen
+  geoData_163:
+    osmId: 2229556048
+    longitude: 14.5047101
+    latitude: 4.0992349
+    name: Kagnol II
+  geoData_162:
+    osmId: 2229559020
+    longitude: 14.4739815
+    latitude: 4.1484193
+    name: Lila
+  geoData_161:
+    osmId: 2229562703
+    longitude: 14.4079080
+    latitude: 4.3164883
+    name: Bakombélé
+  geoData_160:
+    osmId: 2229562704
+    longitude: 14.4077517
+    latitude: 4.3008156
+    name: Moundia
+  geoData_159:
+    osmId: 2229569953
+    longitude: 14.6743246
+    latitude: 4.2234392
+    name: Pana I
+  geoData_158:
+    osmId: 2229569954
+    longitude: 14.6760204
+    latitude: 4.2103080
+    name: Pana II
+  geoData_157:
+    osmId: 2229574409
+    longitude: 14.4136302
+    latitude: 4.0562947
+    name: Ndjang
+  geoData_156:
+    osmId: 2229585718
+    longitude: 14.4933066
+    latitude: 4.0762603
+    name: Djampièl
+  geoData_155:
+    osmId: 2229585719
+    longitude: 14.4662792
+    latitude: 4.0581219
+    name: Djout II
+  geoData_154:
+    osmId: 2229605486
+    longitude: 14.0678292
+    latitude: 4.0244468
+    name: Djout I
+  geoData_153:
+    osmId: 2229605493
+    longitude: 14.2552149
+    latitude: 3.9441669
+    name: Kouemkouem
+  geoData_152:
+    osmId: 2229605531
+    longitude: 14.2680001
+    latitude: 3.9692279
+    name: Mbang
+  geoData_151:
+    osmId: 2229614532
+    longitude: 14.3789194
+    latitude: 4.0277847
+    name: Domiaka
+  geoData_150:
+    osmId: 2229614533
+    longitude: 14.3345615
+    latitude: 3.9968681
+    name: Molobo
+  geoData_149:
+    osmId: 2229614534
+    longitude: 14.3972021
+    latitude: 4.0349601
+    name: Mombèl II
+  geoData_148:
+    osmId: 2231630292
+    longitude: 14.7558324
+    latitude: 4.1881842
+    name: Ngotto
+  geoData_147:
+    osmId: 2231653373
+    longitude: 14.7848455
+    latitude: 4.1937615
+    name: Sobolo
+  geoData_146:
+    osmId: 2248254750
+    longitude: 10.2593036
+    latitude: 5.3827475
+    name: Batchum
+  geoData_145:
+    osmId: 2248417166
+    longitude: 10.3845932
+    latitude: 5.3972831
+    name: Tsela
+  geoData_144:
+    osmId: 2248611390
+    longitude: 10.2481790
+    latitude: 5.5020260
+    name: Balessing
+  geoData_143:
+    osmId: 2249019106
+    longitude: 10.2288462
+    latitude: 5.2649943
+    name: Bandja
+  geoData_142:
+    osmId: 2249975205
+    longitude: 15.4695340
+    latitude: 3.4644036
+    name: Mboy
+  geoData_141:
+    osmId: 2249975214
+    longitude: 15.4299094
+    latitude: 3.4602581
+    name: Mparo
+  geoData_140:
+    osmId: 2250019844
+    longitude: 15.2165729
+    latitude: 2.0436027
+    name: Mouloundou
+  geoData_139:
+    osmId: 2250109721
+    longitude: 14.5458932
+    latitude: 3.4143449
+    name: Bembon
+  geoData_138:
+    osmId: 2250130772
+    longitude: 14.6268054
+    latitude: 3.4453843
+    name: Mbol II
+  geoData_137:
+    osmId: 2255031294
+    longitude: 10.4641635
+    latitude: 5.2976647
+    name: Bayangam
+  geoData_136:
+    osmId: 2255241973
+    longitude: 14.6396450
+    latitude: 3.4367857
+    name: Bankwam
+  geoData_135:
+    osmId: 2255241981
+    longitude: 14.7175793
+    latitude: 3.4571229
+    name: Mwapak
+  geoData_134:
+    osmId: 2258421497
+    longitude: 14.5221295
+    latitude: 4.1080289
+    name: Bangué
+  geoData_133:
+    osmId: 2260644708
+    longitude: 13.6164330
+    latitude: 9.9659420
+    name: Mayo-Oulo
+  geoData_132:
+    osmId: 2261447274
+    longitude: 10.2928058
+    latitude: 5.2137157
+    name: Babouantou
+  geoData_131:
+    osmId: 2261569592
+    longitude: 14.0736003
+    latitude: 4.1107214
+    name: Djemiong
+  geoData_130:
+    osmId: 2261658847
+    longitude: 13.9676957
+    latitude: 3.9628810
+    name: Djébadop
+  geoData_129:
+    osmId: 2261658853
+    longitude: 13.8916757
+    latitude: 3.9138430
+    name: Mayos
+  geoData_128:
+    osmId: 2261746506
+    longitude: 10.3819252
+    latitude: 5.1729018
+    name: Batchingou
+  geoData_127:
+    osmId: 2261989304
+    longitude: 10.1487977
+    latitude: 5.3246565
+    name: Fomopéa
+  geoData_126:
+    osmId: 2270515806
+    longitude: 10.0849347
+    latitude: 5.3393361
+    name: Fontsa
+  geoData_125:
+    osmId: 2270536647
+    longitude: 10.1643607
+    latitude: 5.2798902
+    name: Fondjomekwet
+  geoData_124:
+    osmId: 2270652284
+    longitude: 9.9494081
+    latitude: 5.3506358
+    name: Fondonera
+  geoData_123:
+    osmId: 2270652287
+    longitude: 10.0137382
+    latitude: 5.3331650
+    name: Fombap
+  geoData_122:
+    osmId: 2270652290
+    longitude: 9.9497471
+    latitude: 5.3843731
+    name: Fossong Wentcheng
+  geoData_121:
+    osmId: 2270652297
+    longitude: 10.1042466
+    latitude: 5.3769559
+    name: Fotomena
+  geoData_120:
+    osmId: 2270745463
+    longitude: 10.0370640
+    latitude: 5.6353272
+    name: Baranka
+  geoData_119:
+    osmId: 2271161005
+    longitude: 10.0374623
+    latitude: 4.0803316
+    name: Bonepoupá
+  geoData_118:
+    osmId: 2271161010
+    longitude: 10.5701519
+    latitude: 4.0525817
+    name: Sackbayémé
+  geoData_117:
+    osmId: 2271161114
+    longitude: 10.8377284
+    latitude: 3.9474481
+    name: Ngog-Mapubi
+  geoData_116:
+    osmId: 2271161226
+    longitude: 10.7188780
+    latitude: 3.9984127
+    name: Dibang
+  geoData_115:
+    osmId: 2272037979
+    longitude: 10.2440476
+    latitude: 4.9693124
+    name: Sohok
+  geoData_114:
+    osmId: 2272136066
+    longitude: 11.8834238
+    latitude: 3.8996099
+    name: Awaé
+  geoData_113:
+    osmId: 2272651606
+    longitude: 10.1891579
+    latitude: 5.2035246
+    name: Bamfélouk
+  geoData_112:
+    osmId: 2272651609
+    longitude: 10.1494489
+    latitude: 5.2507853
+    name: Fondanti
+  geoData_111:
+    osmId: 2272651611
+    longitude: 10.0994545
+    latitude: 5.1657779
+    name: Fonkouakem
+  geoData_110:
+    osmId: 2272651612
+    longitude: 10.1083113
+    latitude: 5.2350296
+    name: Mboebo
+  geoData_109:
+    osmId: 2272763539
+    longitude: 11.2565460
+    latitude: 4.6030440
+    name: Ombessa
+  geoData_108:
+    osmId: 2273162684
+    longitude: 11.0018554
+    latitude: 5.4258505
+    name: Massangam
+  geoData_107:
+    osmId: 2274107122
+    longitude: 10.8628550
+    latitude: 6.5498006
+    name: Mbokop
+  geoData_106:
+    osmId: 2274108402
+    longitude: 10.8571517
+    latitude: 6.4700238
+    name: Ntisaw
+  geoData_105:
+    osmId: 2276730516
+    longitude: 10.4267980
+    latitude: 5.2177570
+    name: Baloumgou
+  geoData_104:
+    osmId: 2276730517
+    longitude: 10.4624850
+    latitude: 5.2106500
+    name: Bangoua
+  geoData_103:
+    osmId: 2276734361
+    longitude: 10.4904200
+    latitude: 5.2454530
+    name: Bandrefam
+  geoData_102:
+    osmId: 2276773323
+    longitude: 10.2251777
+    latitude: 5.1555581
+    name: Banfeko
+  geoData_101:
+    osmId: 2276774018
+    longitude: 10.2190837
+    latitude: 5.2210521
+    name: Basseu
+  geoData_100:
+    osmId: 2276885755
+    longitude: 10.0793881
+    latitude: 5.2334428
+    name: Bamengui
+  geoData_99:
+    osmId: 2276885757
+    longitude: 10.0729273
+    latitude: 5.2094410
+    name: Foyemtcha
+  geoData_98:
+    osmId: 2276942007
+    longitude: 10.0437215
+    latitude: 5.4324889
+    name: Foreke Dschang
+  geoData_97:
+    osmId: 2276973509
+    longitude: 10.4516013
+    latitude: 5.3221221
+    name: Semto
+  geoData_96:
+    osmId: 2278113963
+    longitude: 10.3508412
+    latitude: 5.1059031
+    name: Batcha
+  geoData_95:
+    osmId: 2278113966
+    longitude: 10.1126077
+    latitude: 5.3329173
+    name: Touala
+  geoData_94:
+    osmId: 2281418485
+    longitude: 12.7613356
+    latitude: 3.9771462
+    name: Mbama
+  geoData_93:
+    osmId: 2282618085
+    longitude: 12.9156870
+    latitude: 4.2112350
+    name: Mboma
+  geoData_92:
+    osmId: 2282995489
+    longitude: 11.4683734
+    latitude: 3.9819532
+    name: Ebot
+  geoData_91:
+    osmId: 2282995490
+    longitude: 11.4119130
+    latitude: 3.9985895
+    name: Léboth
+  geoData_90:
+    osmId: 2282995491
+    longitude: 11.4807528
+    latitude: 3.9825398
+    name: Nkolondom
+  geoData_89:
+    osmId: 2295707414
+    longitude: 9.7385481
+    latitude: 6.1510477
+    name: Alunfa
+  geoData_88:
+    osmId: 2295707417
+    longitude: 9.7688150
+    latitude: 6.1866459
+    name: Amassi
+  geoData_87:
+    osmId: 2295707422
+    longitude: 9.7244000
+    latitude: 6.3181000
+    name: Assaka
+  geoData_86:
+    osmId: 2295707424
+    longitude: 9.7502634
+    latitude: 6.1687457
+    name: Ayi
+  geoData_85:
+    osmId: 2295707427
+    longitude: 9.5596156
+    latitude: 6.3142025
+    name: Manko
+  geoData_84:
+    osmId: 2295707431
+    longitude: 9.5572714
+    latitude: 6.3023169
+    name: Okagle
+  geoData_83:
+    osmId: 2295707438
+    longitude: 9.7578492
+    latitude: 6.2680963
+    name: Ossatu
+  geoData_82:
+    osmId: 2295707463
+    longitude: 9.5594109
+    latitude: 6.3369988
+    name: Yeye
+  geoData_81:
+    osmId: 2298615714
+    longitude: 14.5432355
+    latitude: 4.8959887
+    name: Kétté
+  geoData_80:
+    osmId: 2303774030
+    longitude: 14.2301412
+    latitude: 10.3594660
+    name: Mouda
+  geoData_79:
+    osmId: 2308967206
+    longitude: 11.2987693
+    latitude: 3.8421175
+    name: Edipkombo
+  geoData_78:
+    osmId: 2308967297
+    longitude: 11.3970011
+    latitude: 3.8605428
+    name: Nlolnkoumou
+  geoData_77:
+    osmId: 2309876224
+    longitude: 9.9709058
+    latitude: 4.4604320
+    name: Yabassi
+  geoData_76:
+    osmId: 2313454228
+    longitude: 11.9116398
+    latitude: 4.1196867
+    name: Bikoué
+  geoData_75:
+    osmId: 2313454229
+    longitude: 11.8869195
+    latitude: 4.1297232
+    name: Nsimi
+  geoData_74:
+    osmId: 2313461690
+    longitude: 11.8239950
+    latitude: 3.1660722
+    name: Nsimi
+  geoData_73:
+    osmId: 2316248052
+    longitude: 10.6698544
+    latitude: 6.2063036
+    name: Tobin
+  geoData_72:
+    osmId: 2329395765
+    longitude: 10.3967165
+    latitude: 5.2497379
+    name: Bangou
+  geoData_71:
+    osmId: 2338264271
+    longitude: 10.4863200
+    latitude: 5.7006320
+    name: Bamendjing
+  geoData_70:
+    osmId: 2339170455
+    longitude: 10.4059132
+    latitude: 5.5822606
+    name: Banefo-mifi
+  geoData_69:
+    osmId: 2340296657
+    longitude: 10.4121552
+    latitude: 5.3748573
+    name: Bandjoun
+  geoData_68:
+    osmId: 2340658895
+    longitude: 9.8968677
+    latitude: 5.5070203
+    name: Alou
+  geoData_67:
+    osmId: 2340658903
+    longitude: 9.9844808
+    latitude: 5.6829885
+    name: Wabane
+  geoData_66:
+    osmId: 2351564308
+    longitude: 9.8656970
+    latitude: 6.1264370
+    name: Oshie
+  geoData_65:
+    osmId: 2351567271
+    longitude: 9.9173020
+    latitude: 6.4135330
+    name: Benakuma
+  geoData_64:
+    osmId: 2354980118
+    longitude: 10.3128131
+    latitude: 5.1810895
+    name: Batack
+  geoData_63:
+    osmId: 2354980122
+    longitude: 10.2752176
+    latitude: 5.1808570
+    name: Ndoumla
+  geoData_62:
+    osmId: 2362867050
+    longitude: 11.3042573
+    latitude: 3.5934319
+    name: Ngoumou
+  geoData_61:
+    osmId: 2363034290
+    longitude: 10.4100890
+    latitude: 5.5173095
+    name: Baleng
+  geoData_60:
+    osmId: 2363063920
+    longitude: 11.3334371
+    latitude: 2.9709855
+    name: Bernbé
+  geoData_59:
+    osmId: 2364379086
+    longitude: 12.8298452
+    latitude: 3.7369491
+    name: Messamena
+  geoData_58:
+    osmId: 2365588520
+    longitude: 10.6247616
+    latitude: 5.6447295
+    name: Mbamkouop
+  geoData_57:
+    osmId: 2366289114
+    longitude: 11.5734436
+    latitude: 3.1916601
+    name: Akoéman
+  geoData_56:
+    osmId: 2367779376
+    longitude: 11.4064282
+    latitude: 3.9091262
+    name: Nkolkos
+  geoData_55:
+    osmId: 2367780169
+    longitude: 11.3920944
+    latitude: 3.8986577
+    name: Ozom III
+  geoData_54:
+    osmId: 2367802684
+    longitude: 11.4525933
+    latitude: 3.8745876
+    name: Nkolbisson
+  geoData_53:
+    osmId: 2367907559
+    longitude: 11.5837764
+    latitude: 4.0108781
+    name: Ngali
+  geoData_52:
+    osmId: 2367909544
+    longitude: 11.5584296
+    latitude: 4.0052929
+    name: Ebang II
+  geoData_51:
+    osmId: 2367915814
+    longitude: 11.4314171
+    latitude: 3.8758495
+    name: Minkoameyos
+  geoData_50:
+    osmId: 2368383166
+    longitude: 11.4874150
+    latitude: 6.0827830
+    name: Bankim
+  geoData_49:
+    osmId: 2370559680
+    longitude: 11.4714617
+    latitude: 3.9219322
+    name: Ngoya III
+  geoData_48:
+    osmId: 2372383679
+    longitude: 11.3068937
+    latitude: 3.5857031
+    name: Kamba
+  geoData_47:
+    osmId: 2372666721
+    longitude: 11.3111100
+    latitude: 3.6111100
+    name: Ngoumou 2
+  geoData_46:
+    osmId: 2372666726
+    longitude: 11.3061711
+    latitude: 3.5997655
+    name: Ngoumou-Centre
+  geoData_45:
+    osmId: 2372666747
+    longitude: 11.2916700
+    latitude: 3.5861100
+    name: Nkol-Meding
+  geoData_44:
+    osmId: 2372666815
+    longitude: 11.2722200
+    latitude: 3.5861100
+    name: Yena-Yena
+  geoData_43:
+    osmId: 2373559397
+    longitude: 10.2840890
+    latitude: 6.2802810
+    name: Fundong
+  geoData_42:
+    osmId: 2377966604
+    longitude: 12.9886301
+    latitude: 4.0763205
+    name: Angossas
+  geoData_41:
+    osmId: 2378823984
+    longitude: 13.8160156
+    latitude: 2.2235680
+    name: Mbalam
+  geoData_40:
+    osmId: 2379887148
+    longitude: 14.2947879
+    latitude: 6.5172123
+    name: Meiganga
+  geoData_39:
+    osmId: 2386590585
+    longitude: 9.2569145
+    latitude: 4.4654398
+    name: Barombi
+  geoData_38:
+    osmId: 2386680415
+    longitude: 9.6223231
+    latitude: 4.0270124
+    name: Bwapé
+  geoData_37:
+    osmId: 2386680418
+    longitude: 9.3587619
+    latitude: 4.3311713
+    name: Ikata
+  geoData_36:
+    osmId: 2386680421
+    longitude: 9.3207857
+    latitude: 4.3964527
+    name: Likoko
+  geoData_35:
+    osmId: 2386680424
+    longitude: 9.2987472
+    latitude: 4.4019452
+    name: Lilale
+  geoData_34:
+    osmId: 2386680427
+    longitude: 9.2895578
+    latitude: 3.9930600
+    name: Mabeta
+  geoData_33:
+    osmId: 2386680430
+    longitude: 9.3230211
+    latitude: 3.9279614
+    name: Mbomo
+  geoData_32:
+    osmId: 2386680434
+    longitude: 9.2726747
+    latitude: 4.4042721
+    name: Munyenge
+  geoData_31:
+    osmId: 2386680443
+    longitude: 9.3171899
+    latitude: 4.3536202
+    name: Bafia
+  geoData_30:
+    osmId: 2386680461
+    longitude: 9.3475271
+    latitude: 3.9105253
+    name: Kangué
+  geoData_29:
+    osmId: 2386681089
+    longitude: 9.3650187
+    latitude: 4.0755710
+    name: Tiko
+  geoData_28:
+    osmId: 2388686624
+    longitude: 11.4399000
+    latitude: 4.3614540
+    name: Sa'a
+  geoData_27:
+    osmId: 2388712847
+    longitude: 11.3902535
+    latitude: 4.1635705
+    name: Endama II
+  geoData_26:
+    osmId: 2388712851
+    longitude: 11.3899746
+    latitude: 4.1559106
+    name: Nkolobang I
+  geoData_25:
+    osmId: 2388726274
+    longitude: 11.4507043
+    latitude: 4.1741170
+    name: Essong
+  geoData_24:
+    osmId: 2388739368
+    longitude: 11.3920200
+    latitude: 4.5557312
+    name: Mbangassina
+  geoData_23:
+    osmId: 2388967411
+    longitude: 14.0280567
+    latitude: 10.2747771
+    name: Ndoukoula
+  geoData_22:
+    osmId: 2389012697
+    longitude: 10.4691100
+    latitude: 4.1330050
+    name: Massok
+  geoData_21:
+    osmId: 2389015584
+    longitude: 10.6212017
+    latitude: 4.2294051
+    name: Ngambe
+  geoData_20:
+    osmId: 2389018053
+    longitude: 10.9536880
+    latitude: 4.2652708
+    name: Nyanon
+  geoData_19:
+    osmId: 2389019459
+    longitude: 10.8686925
+    latitude: 4.6393821
+    name: Nitoukou
+  geoData_18:
+    osmId: 2389025055
+    longitude: 10.9367490
+    latitude: 4.0112560
+    name: Bot-Makak
+  geoData_17:
+    osmId: 2389032630
+    longitude: 10.1026748
+    latitude: 3.9750181
+    name: Logbadjek
+  geoData_16:
+    osmId: 2389037213
+    longitude: 9.7940413
+    latitude: 3.6408391
+    name: Mouanko
+  geoData_15:
+    osmId: 2389041504
+    longitude: 10.2940197
+    latitude: 4.5280674
+    name: Yingui
+  geoData_14:
+    osmId: 2389047662
+    longitude: 10.1822663
+    latitude: 5.0764183
+    name: Bakou
+  geoData_13:
+    osmId: 2389528325
+    longitude: 12.0553332
+    latitude: 2.2983717
+    name: Aboulou
+  geoData_12:
+    osmId: 2389528482
+    longitude: 12.2601387
+    latitude: 2.4210270
+    name: Oveng
+  geoData_11:
+    osmId: 2389531776
+    longitude: 11.0907626
+    latitude: 2.2115140
+    name: Olamzé
+  geoData_10:
+    osmId: 2389748185
+    longitude: 10.5443068
+    latitude: 2.8132905
+    name: Akom II
+  geoData_9:
+    osmId: 2389822741
+    longitude: 11.8879870
+    latitude: 3.7616600
+    name: Dzeng
+  geoData_8:
+    osmId: 2390206140
+    longitude: 10.8492783
+    latitude: 3.8838870
+    name: Boumnyébel
+  geoData_7:
+    osmId: 2402664169
+    longitude: 12.8282003
+    latitude: 4.5603526
+    name: Minta
+  geoData_6:
+    osmId: 2402664444
+    longitude: 13.3552820
+    latitude: 4.5801290
+    name: Diang
+  geoData_5:
+    osmId: 2402673949
+    longitude: 12.9378060
+    latitude: 4.8928690
+    name: Nsem
+  geoData_4:
+    osmId: 2402677767
+    longitude: 13.1035685
+    latitude: 4.3403813
+    name: Doumaintang
+  geoData_3:
+    osmId: 2402679334
+    longitude: 12.7305205
+    latitude: 4.0289509
+    name: Kobdombo
+  geoData_2:
+    osmId: 2402683881
+    longitude: 12.7791765
+    latitude: 4.0075670
+    name: Atok
+  geoData_1:
+    osmId: 2411931751
+    longitude: 11.9779442
+    latitude: 2.9436491
+    name: Akon

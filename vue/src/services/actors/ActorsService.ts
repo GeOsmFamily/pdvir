@@ -1,5 +1,5 @@
 import type { Actor, ActorSubmission } from "@/models/interfaces/Actor";
-import { apiClient } from '@/assets/plugins/axios';
+import { apiClient } from '@/assets/plugins/axios/api';
 import type { SymfonyRelation } from "@/models/interfaces/SymfonyRelation";
 import type { ActorExpertise } from "@/models/interfaces/ActorExpertise";
 import type { Thematic } from "@/models/interfaces/Thematic";
@@ -11,6 +11,10 @@ export class ActorsService {
     static async getActors(): Promise<Actor[]> {
       const data = (await apiClient.get('/api/actors', { headers:  {'accept': 'application/ld+json'}})).data
       return data["hydra:member"] as Actor[]
+    }
+
+    static async getAll(): Promise<Actor[]> {
+      return (await apiClient.get('/api/actors/all')).data["hydra:member"]
     }
 
     static async getActor(id: string): Promise<Actor> {

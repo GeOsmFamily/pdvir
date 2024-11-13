@@ -1,4 +1,4 @@
-import { apiClient } from "@/assets/plugins/axios";
+import { apiClient } from "@/assets/plugins/axios/api";
 import type { News } from "@/models/interfaces/News";
 
 export class NewsService {

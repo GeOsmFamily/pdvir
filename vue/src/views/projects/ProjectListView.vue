@@ -32,13 +32,8 @@
                     v-for="project in paginatedProjects"
                     :key="project.id"
                     :project="project"
-                    @mouseover="setHoveredProject(project.id)" />
-                <v-pagination
-                    v-model="page"
-                    :length="totalPages"
-                    :total-visible="5"
-                    class="mt-4"
-                ></v-pagination>
+                    @mouseover="setHoveredProject(project.id)" />               
+                <Pagination :items="filteredProjects" v-model="paginatedProjects" />
             </div>
         </div>
         <div class="ProjectsView__mapCtn" v-if="!useApplicationStore().mobile">
@@ -47,7 +42,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, type Ref } from 'vue';
 import { useProjectStore } from '@/stores/projectStore';
 import ProjectCard from '@/views/projects/components/ProjectCard.vue';
 import ProjectMap from '@/views/projects/components/ProjectMap.vue';
@@ -56,9 +51,9 @@ import { i18n } from '@/assets/plugins/i18n';
 import { ref } from 'vue';
 import { SortKey } from '@/models/enums/SortKey';
 import type { Project } from '@/models/interfaces/Project';
+import Pagination from '@/components/global/Pagination.vue';
 
 const projectStore = useProjectStore();
-const applicationStore = useApplicationStore();
 
 const sortOptions = Object.values(SortKey).map((key) => {
     return {
@@ -77,20 +72,10 @@ const setSortKey = (key: SortKey) => {
 
 onBeforeMount(async () => await projectStore.getAll())
 
-const projects = computed(() => projectStore.projects)
 const filteredProjects = computed(() => projectStore.filteredProjects)
 const isProjectMapFullWidth = computed(() => projectStore.isProjectMapFullWidth)
 const projectsCount = computed(() => filteredProjects.value.length)
-const projectNames = computed(() => projects.value.map((project: Project) => project.name))
-
-const page = ref(1);
-const itemsPerPage = ref(applicationStore.mobile ? 5 : 10)
-const paginatedProjects = computed(() => {
-    const start = (page.value - 1) * itemsPerPage.value;
-    const end = start + itemsPerPage.value;
-    return projectStore.orderedProjects.slice(start, end);
-})
-const totalPages = computed(() => Math.ceil(projectsCount.value / itemsPerPage.value));
+const paginatedProjects: Ref<Project[]> = ref([])
 </script>
 
 <style lang="scss">

@@ -11,7 +11,8 @@
         />
         <AdminTable
             :items="filteredItems"
-            :tableKeys="['acronym', 'name', 'category']"
+            :table-keys="['acronym', 'name', 'category']"
+            :column-widths="['15%', '40%', '30%', '15%']"
         >
             <template #editContentCell="{ item }">
                 <template v-if="!item.isValidated">

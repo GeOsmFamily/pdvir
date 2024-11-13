@@ -12,6 +12,7 @@ use App\Enum\Status;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\QueryParameter;
@@ -20,8 +21,11 @@ use App\Repository\ProjectRepository;
 use App\Entity\Trait\SluggableEntity;
 use App\Entity\Trait\TimestampableEntity;
 use App\Entity\Trait\BlameableEntity;
+use App\Entity\Trait\LocalizableEntity;
+use App\Entity\Trait\ValidateableEntity;
+use App\Services\State\Processor\GeoDataProcessor;
+use App\Services\State\Processor\ProjectProcessor;
 use Doctrine\Common\Collections\Collection;
-use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -50,13 +54,18 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(
     operations: [
         new Post(
-            security: 'is_granted("ROLE_ADMIN") or object.getCreatedBy() == user',
+            security: 'is_granted("ROLE_ADMIN")',
+            processor: ProjectProcessor::class
         ),
         new Patch(
             security: 'is_granted("ROLE_ADMIN") or object.getCreatedBy() == user',
+            processor: ProjectProcessor::class
+        ),
+        new Delete(
+            security: 'is_granted("ROLE_ADMIN") or object.getCreatedBy() == user',
         ),
     ],
-    normalizationContext: ['groups' => [self::PROJECT_READ]],
+    normalizationContext: ['groups' => [self::PROJECT_READ, self::PROJECT_READ_ALL]],
     denormalizationContext: ['groups' => [self::PROJECT_WRITE]],
 )]
 class Project
@@ -64,6 +73,8 @@ class Project
     use TimestampableEntity;
     use BlameableEntity;
     use SluggableEntity;
+    use LocalizableEntity;
+    use ValidateableEntity;
 
     public const PROJECT_READ = 'project:read';
     public const PROJECT_READ_ALL = 'project:read:all';
@@ -79,19 +90,15 @@ class Project
     #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE, Actor::ACTOR_READ_ITEM])]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE, Actor::ACTOR_READ_ITEM])]
-    private ?string $location = null;
-
-    #[ORM\Column(
-        type: PostGISType::GEOMETRY, 
-        options: ['geometry_type' => 'POINT'],
-    )]
-    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
-    private ?string $coords = null;
+    // #[ORM\Column(
+    //     type: PostGISType::GEOMETRY, 
+    //     options: ['geometry_type' => 'POINT'],
+    // )]
+    // #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
+    // private ?string $coords = null;
 
     #[ORM\Column(enumType: Status::class)]
-    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private ?Status $status = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -106,7 +113,7 @@ class Project
     private ?array $partners = null;
 
     #[ORM\Column(enumType: AdministrativeScope::class)]
-    #[Groups([self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private ?AdministrativeScope $interventionZone = null;
 
     /**
@@ -117,7 +124,7 @@ class Project
     private Collection $thematics;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private ?string $focalPointName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -144,45 +151,37 @@ class Project
     #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
     private ?string $logo = null;
 
-    /**
-     * @var Collection<int, Actor>
-     */
-    #[ORM\JoinTable(name: 'financed_projects_actors')]
-    #[ORM\ManyToMany(targetEntity: Actor::class)]
-    #[Groups([self::PROJECT_READ_ALL])]
-    private Collection $financialActors;
-
-    /**
-     * @var Collection<int, Actor>
-     */
-    
-    #[ORM\JoinTable(name: 'contracted_projects_actors')]
-    #[ORM\ManyToMany(targetEntity: Actor::class)]
-    #[Groups([self::PROJECT_READ_ALL])]
-    private Collection $contractingActors;
-
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private ?Actor $actor = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups([self::PROJECT_READ])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
     private ?string $deliverables = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups([self::PROJECT_READ])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
     private ?string $calendar = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    #[Groups([self::PROJECT_READ_ALL])]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private ?array $beneficiaryTypes = null;
+
+    #[ORM\JoinTable(name: 'projects_donors')]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
+    #[ORM\ManyToMany(targetEntity: Organisation::class)]
+    private Collection $donors;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
+    private ?Organisation $contractingOrganisation = null;
 
     public function __construct()
     {
         $this->thematics = new ArrayCollection();
-        $this->financialActors = new ArrayCollection();
-        $this->contractingActors = new ArrayCollection();
+        $this->donors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,35 +197,6 @@ class Project
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(string $location): static
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    public function getCoords(): ?array {
-        if (preg_match('/POINT\(([-\d\.]+) ([-\d\.]+)\)/', $this->coords, $matches)) {
-            return [
-                'lat' => (float)$matches[1],
-                'lng' => (float)$matches[2],
-            ];
-        }
-        return null;
-    }
-
-    public function setCoords(string $coords): static
-    {
-        $this->coords = $coords;
 
         return $this;
     }
@@ -399,54 +369,6 @@ class Project
         return $this;
     }
 
-    /**
-     * @return Collection<int, Actor>
-     */
-    public function getFinancialActors(): Collection
-    {
-        return $this->financialActors;
-    }
-
-    public function addFinancialActor(Actor $financialActor): static
-    {
-        if (!$this->financialActors->contains($financialActor)) {
-            $this->financialActors->add($financialActor);
-        }
-
-        return $this;
-    }
-
-    public function removeFinancialActor(Actor $financialActor): static
-    {
-        $this->financialActors->removeElement($financialActor);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Actor>
-     */
-    public function getContractingActors(): Collection
-    {
-        return $this->contractingActors;
-    }
-
-    public function addContractingActor(Actor $contractingActor): static
-    {
-        if (!$this->contractingActors->contains($contractingActor)) {
-            $this->contractingActors->add($contractingActor);
-        }
-
-        return $this;
-    }
-
-    public function removeContractingActor(Actor $contractingActor): static
-    {
-        $this->contractingActors->removeElement($contractingActor);
-
-        return $this;
-    }
-
     public function getActor(): ?Actor
     {
         return $this->actor;
@@ -494,6 +416,42 @@ class Project
     public function setBeneficiaryTypes(?array $beneficiaryTypes): static
     {
         $this->beneficiaryTypes = $beneficiaryTypes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Organisation>
+     */
+    public function getDonors(): Collection
+    {
+        return $this->donors;
+    }
+
+    public function addDonor(Organisation $donor): static
+    {
+        if (!$this->donors->contains($donor)) {
+            $this->donors->add($donor);
+        }
+
+        return $this;
+    }
+
+    public function removeDonor(Organisation $donor): static
+    {
+        $this->donors->removeElement($donor);
+
+        return $this;
+    }
+
+    public function getContractingOrganisation(): ?Organisation
+    {
+        return $this->contractingOrganisation;
+    }
+
+    public function setContractingOrganisation(?Organisation $contractingOrganisation): static
+    {
+        $this->contractingOrganisation = $contractingOrganisation;
 
         return $this;
     }

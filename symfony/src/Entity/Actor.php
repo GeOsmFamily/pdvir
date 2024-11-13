@@ -23,6 +23,7 @@ use App\Entity\Trait\BlameableEntity;
 use App\Entity\Trait\SluggableEntity;
 use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Trait\TimestampableEntity;
+use App\Entity\Trait\ValidateableEntity;
 use Doctrine\Common\Collections\Collection;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use App\Services\State\Provider\ActorProvider;
@@ -39,6 +40,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         new GetCollection(
             provider: ActorProvider::class,
             normalizationContext: ['groups' => self::ACTOR_READ_COLLECTION]
+        ),
+        new GetCollection(
+            uriTemplate: '/actors/all',
+            paginationEnabled: false,
+            normalizationContext: ['groups' => self::ACTOR_READ_COLLECTION_ALL]
         ),
         new Get(),
         new Post(
@@ -63,31 +69,29 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Actor
 {
     public const ACTOR_READ_COLLECTION = 'actor:read_collection';
+    public const ACTOR_READ_COLLECTION_ALL = 'actor:read_collection:all';
     public const ACTOR_READ_ITEM = 'actor:read_item';
     private const ACTOR_WRITE = 'actor:write';
 
     use TimestampableEntity;
     use SluggableEntity;
     use BlameableEntity;
+    use ValidateableEntity;
 
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
-    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_READ_COLLECTION_ALL])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_COLLECTION_ALL, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ_ALL, Project::PROJECT_READ])]
     private ?string $acronym = null;
-
-    #[ORM\Column]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_READ_COLLECTION])]
-    private ?bool $isValidated = false;
 
     #[ORM\Column(enumType: ActorCategory::class)]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::PROJECT_READ])]
@@ -212,18 +216,6 @@ class Actor
     public function setAcronym(string $acronym): static
     {
         $this->acronym = strtoupper($acronym);
-
-        return $this;
-    }
-
-    public function getIsValidated(): ?bool
-    {
-        return $this->isValidated;
-    }
-
-    public function setIsValidated(bool $isValidated): static
-    {
-        $this->isValidated = $isValidated;
 
         return $this;
     }

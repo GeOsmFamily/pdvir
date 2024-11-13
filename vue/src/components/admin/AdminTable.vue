@@ -1,40 +1,39 @@
 <template>
     <div class="AdminTable">
         <div 
-            class="AdminTableItem"
-            :class="{ 'AdminTableItem--overlay': !item.isValidated }"
-            v-for="item in items" :key="item.id"
+            class="AdminTable__row"
+            v-for="item in paginatedItems" :key="item.id"
+            :class="{ 'AdminTable__row--overlay': !item.isValidated }"
             :style="{ gridTemplateColumns: columnWidths.join(' ') }"
         >
-            <div class="AdminTableItem">
-                {{ plainText ? item[tableKeys[0] as keyof typeof item] : reduceText(item[tableKeys[0] as keyof typeof item], 5) }}
+            <div class="AdminTable__item" v-for="key in tableKeys">
+                {{ getNestedObjectValue(item, key) }}
             </div>
-            <div class="AdminTableItem">
-                {{ plainText ? item[tableKeys[1] as keyof typeof item] : reduceText(item[tableKeys[1] as keyof typeof item], 25) }}
-            </div>
-            <div class="AdminTableItem">
-                {{ plainText ? item[tableKeys[2] as keyof typeof item] : reduceText(item[tableKeys[2] as keyof typeof item], 20) }}
-            </div>
-            <div class="AdminTableItem--last">
+            <div class="AdminTable__item AdminTable__item--last">
                 <slot name="editContentCell" :item="item"></slot>
             </div>
         </div>
+        <Pagination :items="items" v-model="paginatedItems" />
     </div>
 </template>
 
 <script setup lang="ts">
 import type { Actor } from '@/models/interfaces/Actor';
-import { reduceText } from '@/services/utils/UtilsService';
-import type { User } from '@sentry/vue';
+import { getNestedObjectValue } from '@/services/utils/UtilsService';
+import { ref,  type Ref } from 'vue';
+import Pagination from '@/components/global/Pagination.vue';
+import type { Project } from '@/models/interfaces/Project';
+import type { User } from '@/models/interfaces/auth/User';
 
 const props = defineProps<{
-  items: Actor[] | User[];
-  tableKeys: (keyof Actor | keyof User)[];
+  items: Actor[] | User[] | Project[];
+  tableKeys: string[];
   columnWidths?: string[];
   plainText?: boolean;
 }>()
 const defaultColumnWidths = ['15%', '40%', '25%', '20%'];
 const columnWidths = props.columnWidths || defaultColumnWidths;
+const paginatedItems: Ref<typeof props.items> = ref([]);
 </script>
 
 <style lang="scss">
@@ -44,7 +43,7 @@ const columnWidths = props.columnWidths || defaultColumnWidths;
     width: 100%;
     margin-top: 30px;
 }
-.AdminTableItem {
+.AdminTable__row {
     display: grid;
     flex-direction: row;
     height: 3.5rem;
@@ -54,11 +53,16 @@ const columnWidths = props.columnWidths || defaultColumnWidths;
     &--overlay {
         background-color: rgb(var(--v-theme-light-yellow));
     }
-    &--last {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding-right: 10px;
+    .AdminTable__item {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        &--last {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+        }
     }
 }
 </style>

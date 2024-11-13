@@ -53,6 +53,9 @@ export const vuetify = createVuetify({
       VSelect: {
         hideDetails: "auto"
       },
+      VAutocomplete: {
+        hideDetails: "auto"
+      },
       VPagination: {
         rounded: 'circle',
         color: 'main-blue',

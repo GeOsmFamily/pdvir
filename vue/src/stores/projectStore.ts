@@ -1,7 +1,7 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
 import { computed, reactive, ref, type Ref, type Reactive, watch } from 'vue';
-import type { Project } from '@/models/interfaces/Project'
+import type { Project, ProjectSubmission } from '@/models/interfaces/Project'
 import { ProjectService } from '@/services/projects/ProjectService'
 import maplibregl from 'maplibre-gl';
 import { SortKey } from '@/models/enums/SortKey'
@@ -13,6 +13,11 @@ import { useApplicationStore } from './applicationStore';
 import { ContentPagesList } from '@/models/enums/app/ContentPagesList';
 import { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType';
 import { FormType } from '@/models/enums/app/FormType';
+import type { Organisation } from '@/models/interfaces/Organisation';
+import { OrganisationService } from '@/services/organisations/OrganisationService';
+import * as Sentry from '@sentry/browser';
+import { i18n } from '@/assets/plugins/i18n';
+import { uniqueArray } from '@/services/utils/UtilsService';
 
 export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const projects: Ref<Project[]> = ref([])
@@ -24,6 +29,8 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const isFilterModalShown: Ref<boolean> = ref(false)
   const sortingProjectsSelectedMethod = ref(SortKey.PROJECTS_AZ)
   const isProjectMapFullWidth = ref(false)
+  const donors: Ref<Organisation[]> = ref([])
+  const contractingOrganisations: Ref<Organisation[]> = ref([])
 
   const filters: Reactive<{
     searchValue: string,
@@ -31,17 +38,28 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     statuses: Status[],
     interventionZones: AdministrativeScope[],
     beneficiaryTypes: BeneficiaryType[],
-    contractingActors: Actor['id'][],
-    financialActors: Actor['id'][],
+    contractingOrganisations: Organisation['id'][],
+    donors: Organisation['id'][],
   }> = reactive({
     searchValue: '',
     thematics: [],
     statuses: [],
     interventionZones: [],
     beneficiaryTypes: [],
-    contractingActors: [],
-    financialActors: [],
+    contractingOrganisations: [],
+    donors: [],
   })
+
+  async function getAllDonors(): Promise<void> {
+    if (donors.value.length === 0) {
+      donors.value = await OrganisationService.getAllDonors()
+    }
+  }
+  async function getAllContractingOrganisations(): Promise<void> {
+    if (contractingOrganisations.value.length === 0) {
+      contractingOrganisations.value = await OrganisationService.getAllContractingOrganisations()
+    }
+  }
 
   async function getAll(): Promise<void> {
     if (projects.value.length === 0) {
@@ -86,28 +104,36 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const filteredProjects = computed(() => {
     return projects.value.filter((project) => {
       const projectThematicIds = project.thematics.map((projectThematic) => projectThematic.id)
-      const projectContractingActorIds = project.contractingActors.map((contractingActor) => contractingActor.id)
-      const projectFinancialActorIds = project.financialActors.map((financialActor) => financialActor.id)
-      const searchValue = filters.searchValue.toLowerCase()
-      const valuesToSearchOn = [
-        project.name,
-        project.actor.name,
-        project.location
-      ].map((value) => value.toLowerCase())
+      const projectDonorIds = project.donors.map((donor) => donor.id)
 
       return (
-        valuesToSearchOn.some((value) => value.includes(searchValue)) &&
+        (filters.searchValue === '' || valuesToSearchOn(project).some((value) => value.includes(filters.searchValue.toLowerCase()))) &&
         (filters.thematics.length === 0 || filters.thematics.some((thematic) => projectThematicIds.includes(thematic))) &&
         (filters.statuses.length === 0  || filters.statuses.some((status) => project.status === status)) &&
-        (filters.interventionZones.length === 0  || filters.interventionZones.some((interventionZone) => project.interventionZone === interventionZone)) &&
-        (filters.contractingActors.length === 0  || filters.contractingActors.some((contractingActor) => projectContractingActorIds.includes(contractingActor))) &&
-        (filters.financialActors.length === 0  || filters.financialActors.some((financialActor) => projectFinancialActorIds.includes(financialActor))) &&
+        (filters.interventionZones.length === 0 || filters.interventionZones.some((interventionZone) => project.interventionZone === interventionZone)) &&
+        (filters.contractingOrganisations.length === 0 || filters.contractingOrganisations.some((contractingOrganisation) => project.contractingOrganisation.id ===contractingOrganisation)) &&
+        (filters.donors.length === 0   || filters.donors.some((donor) => projectDonorIds.includes(donor))) &&
         (filters.beneficiaryTypes.length === 0  || filters.beneficiaryTypes.some((beneficiaryType) => project.beneficiaryTypes.includes(beneficiaryType)))
       )
     })
   })
 
-  const orderedProjects = computed(() => {
+  const valuesToSearchOn = (project: Project) => {
+    return [...new Set([
+      project.name,
+      project.actor.name,
+      project.geoData.name,
+      project.contractingOrganisation.name,
+      project.interventionZone,
+      i18n.t(`projects.status.${project.status}`),
+      project.focalPointName,
+      ...project.thematics.map((thematic) => thematic.name),
+      ...project.donors.map((donor) => donor.name),
+      ...project.beneficiaryTypes.map((beneficiaryType) => i18n.t(`beneficiaryType.${beneficiaryType}`)),
+    ])].filter(v => v).map((value) => value.toLowerCase())
+  }
+
+  const orderedProjects = computed(async () => {
     const sortedProjects = [...filteredProjects.value]; 
     switch (sortingProjectsSelectedMethod.value) {
       case SortKey.PROJECTS_AZ:
@@ -126,12 +152,27 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   })
 
 
-  const submitProject = async (project: Partial<Project>, type: FormType) => {
+  const submitProject = async (project: ProjectSubmission, type: FormType) => {
+    const submittedProject = type === FormType.CREATE ? await ProjectService.post(project) : await ProjectService.patch(project)
     if (type === FormType.CREATE) {
-      return await ProjectService.post(project)
-    } else if (type === FormType.EDIT) {
-      return await ProjectService.patch(project)
+      projects.value.push(submittedProject)
+    } else if (type === FormType.EDIT || type === FormType.VALIDATE) {
+      projects.value.forEach((project, key) => {
+        if (project.id === submittedProject.id) {
+          projects.value[key] = submittedProject
+        }
+      })
     }
+    return submittedProject
+  }
+
+  const deleteProject = async (project: Project) => {
+    await ProjectService.delete(project)
+    projects.value.forEach((p, key) => {
+      if (p.id === project.id) {
+        projects.value.splice(key, 1)
+      }
+    })
   }
 
   const resetFilters = () => {
@@ -140,12 +181,12 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     filters.statuses = []
     filters.interventionZones = []
     filters.beneficiaryTypes = []
-    filters.contractingActors = []
-    filters.financialActors = []
+    filters.contractingOrganisations = []
+    filters.donors = []
   }
 
   return {
-    projects, project, similarProjects,filters, isProjectMapFullWidth, isFilterModalShown, sortingProjectsSelectedMethod, hoveredProjectId, hoveredProject, activeProjectId, activeProject, filteredProjects, orderedProjects, map,
-    getAll, resetFilters, loadProjectBySlug, loadSimilarProjects, submitProject
+    projects, project, donors, contractingOrganisations, similarProjects,filters, isProjectMapFullWidth, isFilterModalShown, sortingProjectsSelectedMethod, hoveredProjectId, hoveredProject, activeProjectId, activeProject, filteredProjects, orderedProjects, map,
+    getAll, getAllDonors, getAllContractingOrganisations, resetFilters, loadProjectBySlug, loadSimilarProjects, submitProject, deleteProject
   }
 })

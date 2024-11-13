@@ -46,7 +46,9 @@
     },
     "forms": {
         "modify": "Modifier",
+        "edit": "Modifier",
         "submit": "Valider",
+        "validate": "Valider",
         "cancel": "Annuler",
         "create": "Créer",
         "delete": "Supprimer",
@@ -130,5 +132,9 @@
         "regions": "Régions",
         "local_institutions": "Institutions locales",
         "associations_ngos": "Associations / ONG"
+    },
+    "geocoding": {
+        "placeholder": "Rechercher un lieu",
+        "noData": "Aucun résultats"
     }
 }

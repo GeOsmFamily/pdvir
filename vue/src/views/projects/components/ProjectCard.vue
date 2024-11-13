@@ -3,7 +3,7 @@
         <template #content>
             <div class="ProjectCard__content">
                 <div class="ProjectCard__block ProjectCard__block--left">
-                    <span class="InfoCard__subTitle" >{{ project.location }}</span>
+                    <span class="InfoCard__subTitle" >{{ project.geoData.name }}</span>
                     <span class="InfoCard__title">{{ project.name }}</span>
                     <div class="ProjectCard__infoCtn">
                         <span v-if="project.actor?.name">{{ project.actor.name }}</span>
@@ -30,31 +30,18 @@
 import type { Project }  from '@/models/interfaces/Project';
 import InfoCard from '@/components/global/InfoCard.vue';
 import ChipList from '@/components/content/ChipList.vue';
-import { useDate } from '@/composables/useDate';
 import LikeButton from '@/components/global/LikeButton.vue';
 import ShareButton from '@/components/global/ShareButton.vue';
-import { onBeforeMount } from 'vue';
+import { localizeDate } from '@/services/utils/UtilsService';
+
 const props = defineProps<{
   project: Project | null;
   map?: boolean;
   key?: any;
 }>();
 
-onBeforeMount(() => {
-  if (props.project) {
-    console.log(props.project);
-  } else {
-    console.log('Project not defined yet');
-  }
-});
-
 const getFormattedDate = (project: Project) => {
-    const { localeDate } = useDate(new Date(project.updatedAt));
-    return localeDate;
-}
-
-const getProjectsUrl = (project: Project) => {
-    return `/projects/${project.id}`
+    return localizeDate(project.updatedAt, { year: 'numeric', month: 'long', day: 'numeric' });
 }
 </script>
 

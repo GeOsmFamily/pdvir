@@ -48,6 +48,7 @@ export default defineConfig({
         text: 'Development',
         items: [
           { text: 'Request the API', link: '/development/request-the-api' },
+          { text: 'Components', link: '/development/components' },
         ]
       }
     ],

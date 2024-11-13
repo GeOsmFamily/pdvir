@@ -1,19 +1,27 @@
 import { i18n } from "@/assets/plugins/i18n";
+import type { OsmData } from "@/models/interfaces/common/LocalizableSubmission";
 import type { SymfonyRelation } from "@/models/interfaces/SymfonyRelation";
 import { z, ZodType } from "zod";
 
 export class CommonZodSchema {
 
     static getDefinitions() {
-        const SymfonyRelationSchema = z.object({
-            "@id": z.string(),
-            name: z.string()
-        }) satisfies ZodType<SymfonyRelation>
+      const SymfonyRelationSchema = z.object({
+          "@id": z.string(),
+          name: z.string()
+      }) satisfies ZodType<SymfonyRelation>
+      const OsmDataSchema = z.object({
+          osmId: z.number(),
+          osmType: z.string(),
+          osmName: z.string(),
+      }) satisfies ZodType<OsmData>
 
         return {
             symfonyRelations: z.array(SymfonyRelationSchema).nonempty({
-                    message: i18n.t('forms.errorMessages.required'),
-                }),
+                message: i18n.t('forms.errorMessages.required'),
+            }),
+            symfonyRelation: SymfonyRelationSchema,
+            osmData: OsmDataSchema,
             website: z
               .string()
               .optional()

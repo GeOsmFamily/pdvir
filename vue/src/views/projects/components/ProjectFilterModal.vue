@@ -8,8 +8,8 @@
                     hide-details="auto"
                     density="compact"
                     :placeholder="$t('placeholders.all')"
-                    v-model="projectStore.filters.contractingActors"
-                    :items="contractingActors"
+                    v-model="projectStore.filters.contractingOrganisations"
+                    :items="contractingOrganisations"
                     item-title="name"
                     item-value="id"
                     multiple
@@ -22,8 +22,8 @@
                     hide-details="auto"
                     density="compact"
                     :placeholder="$t('placeholders.all')"
-                    v-model="projectStore.filters.financialActors"
-                    :items="financialActors"
+                    v-model="projectStore.filters.donors"
+                    :items="donors"
                     item-title="name"
                     item-value="id"
                     multiple
@@ -76,8 +76,8 @@ const thematicsStore = useThematicStore()
 onBeforeMount(async () => await thematicsStore.getAll())
 
 const projectStore = useProjectStore()
-const contractingActors = computed(() => uniqueArray(projectStore.projects.map((project) => project.contractingActors).flat()))
-const financialActors = computed(() => uniqueArray(projectStore.projects.map((project) => project.financialActors).flat()))
+const contractingOrganisations = computed(() => uniqueArray(projectStore.projects.map((project) => project.contractingOrganisation)))
+const donors = computed(() => uniqueArray(projectStore.projects.map((project) => project.donors).flat()))
 const thematics = computed(() => thematicsStore.thematics)
 
 const resetFilters = () => {

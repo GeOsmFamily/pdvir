@@ -32,7 +32,6 @@ up:
 down:
 	$(DOCKER_COMP) down
 
-
 ifeq (restart, $(firstword $(MAKECMDGOALS)))
   RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
   $(eval $(RUN_ARGS):;@:)
@@ -66,15 +65,16 @@ NC=\033[0m # No Color
 
 show-urls:
 	@echo ""
-	@printf "${BLUE}+------------------------------------------------+\n"
-	@printf "${BLUE}| Cameroon Urban Platform                        |\n"
-	@printf "${BLUE}+------------------------------------------------+\n"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-26s${BLUE} |\n" "🚀  Main website" 	"https://puc.local"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-26s${BLUE} |\n" "🔒  REST API Doc" 			"https://puc.local/api/docs"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-26s${BLUE} |\n" "🌍  QGIS server" 	 	"https://qgis.puc.local"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-26s${BLUE} |\n" "📨  SMTP server" 		"https://mail.puc.local"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-26s${BLUE} |\n" "💡  Documentation" 	"https://docs.puc.local"
-	@printf "${BLUE}+------------------------------------------------+${NC}\n"
+	@printf "${BLUE}+-------------------------------------------------+\n"
+	@printf "${BLUE}| Cameroon Urban Platform                         |\n"
+	@printf "${BLUE}+-------------------------------------------------+\n"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🚀  Main website" 	"https://puc.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🔒  REST API Doc" 			"https://puc.local/api/docs"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🔭  Nominatim API" 			"https://puc.local/nominatim"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🌍  QGIS server" 	 	"https://qgis.puc.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "📨  SMTP server" 		"https://mail.puc.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "💡  Documentation" 	"https://docs.puc.local"
+	@printf "${BLUE}+-------------------------------------------------+${NC}\n"
 	@echo ""
 
 HOST_ENTRIES = \

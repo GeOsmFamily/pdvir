@@ -7,7 +7,7 @@
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
 	}
-
+	order reverse_proxy first
 	order php_server before file_server
 }
 
@@ -18,9 +18,15 @@
 {$CADDY_EXTRA_CONFIG}
 
 (main_domain) {
+	
+	#@nominatim expression (path('/nominatim*'))
+	handle_path /nominatim* {
+		reverse_proxy nominatim:8080
+	}
+
 	@pwa expression `(
 			!path(
-				'/media*', '/api*', '/bundles*', '/contexts*', '/_profiler*', '/_wdt*', '/auth',
+				'/nominatim*', '/media*', '/api*', '/bundles*', '/contexts*', '/_profiler*', '/_wdt*', '/auth',
 				'*.csv', '*.yml', '*.yaml', '*.xml'
 			)
 		)`
