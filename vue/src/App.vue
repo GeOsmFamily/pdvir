@@ -23,13 +23,13 @@
 import { RouterView } from 'vue-router'
 import { onBeforeMount } from 'vue';
 import Header from '@/views/_layout/header/Header.vue';
+import Footer from '@/views/_layout/footer/Footer.vue';
 import DialogController from '@/components/global/DialogController.vue';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';
 import EditContentDialog from '@/views/actors/components/EditContentDialog.vue';
 import { useThematicStore } from './stores/thematicStore';
-import Footer from './views/_layout/Footer.vue';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
@@ -49,10 +49,8 @@ onBeforeMount(async () => {
 .App {
   display: flex;
   flex-flow: column nowrap;
-  height: 100vh;
 
   &[is-100-vh="true"] {
-    max-height: 100vh;
     min-height: 100vh;
     .App__content {
       padding: 0;
@@ -72,7 +70,7 @@ onBeforeMount(async () => {
       padding-bottom: 0;
     }
     .Header--desktop .Header__nav {
-        height: 5rem;
+        height: var(--dim-header-nav-h);
         border-bottom: solid 1px #d9d9d9;
     }
     .Header--mobile {

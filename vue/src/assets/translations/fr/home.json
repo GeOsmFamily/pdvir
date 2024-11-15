@@ -44,13 +44,5 @@
             "title": "Pourquoi adhérer ?",
             "action": "Créer un compte"
         }
-    },
-    "footer": {
-        "contact": "Contact",
-        "email": "Contactez nous par mail",
-        "partners": "Partenaires",
-        "legal": "Mentions legales",
-        "plan": "Plan du site",
-        "cookies": "Cookies"
     }
 }
