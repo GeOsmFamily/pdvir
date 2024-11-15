@@ -59,6 +59,7 @@ h4 {
         flex-direction: column;
         flex-grow: 1;
         position: relative;
+        min-height: calc(100vh - var(--dim-header-h));
 
         &--desktop{
             padding: 0 0 30px 0;
@@ -66,7 +67,7 @@ h4 {
         }
     
         &--mobile{
-            padding: 0 20px;
+            // padding: 0 20px;
             background-size: 100% auto;
         }
     }
