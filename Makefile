@@ -46,6 +46,11 @@ restart-db-container:
 rm-vue-volume:
 	$(DOCKER_COMP) down vue -v
 
+reload-caddy:
+	$(DOCKER_COMP) down frankenphp
+	$(DOCKER_COMP) build frankenphp
+	$(DOCKER_COMP) up -d frankenphp
+
 down-remove-all:
 	$(DOCKER_COMP) down --remove-orphans --rmi all -v
 

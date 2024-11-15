@@ -21,6 +21,9 @@ services:
       - ./symfony/docker/caddy/worker.Caddyfile:/etc/caddy/worker.Caddyfile
     networks:
       - puc-network
+  nominatim:
+    networks:
+      - puc-network
 
 networks:
   puc-network:

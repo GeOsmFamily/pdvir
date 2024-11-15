@@ -7,6 +7,9 @@ services:
   postgres:
     networks:
       - puc-network
+  nominatim:
+    networks:
+      - puc-network
 
 networks:
   puc-network:

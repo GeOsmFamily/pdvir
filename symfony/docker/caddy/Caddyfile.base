@@ -7,8 +7,11 @@
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
 	}
-	order reverse_proxy first
+
+	order uri first
 	order php_server before file_server
+	order handle before root
+	order reverse_proxy before root
 }
 
 {$CADDY_PROTOCOL}://qgis.{$DOMAIN} {
@@ -19,8 +22,8 @@
 
 (main_domain) {
 	
-	#@nominatim expression (path('/nominatim*'))
-	handle_path /nominatim* {
+	handle /nominatim* {
+		uri strip_prefix /nominatim
 		reverse_proxy nominatim:8080
 	}
 
