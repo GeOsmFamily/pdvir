@@ -136,5 +136,15 @@
     "geocoding": {
         "placeholder": "Rechercher un lieu",
         "noData": "Aucun résultats"
+    },
+    "footer": {
+        "contact": "Contact",
+        "email": "Contactez-nous par mail",
+        "partners": "Partenaires",
+        "legal": "Mentions légales",
+        "cgu": "CGU",
+        "privacy": "Politique de confidentialité",
+        "plan": "Plan du site",
+        "cookies": "Cookies"
     }
 }

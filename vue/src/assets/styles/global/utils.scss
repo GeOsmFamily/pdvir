@@ -2,6 +2,8 @@
   width: var(--dim-container-w);
   margin: 0 auto;
   max-width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
   
   &--transition {
     transition: all .1s ease-in;

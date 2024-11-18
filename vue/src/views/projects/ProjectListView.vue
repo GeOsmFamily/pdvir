@@ -105,6 +105,7 @@ const paginatedProjects: Ref<Project[]> = ref([])
     .ProjectsView__listCtn {
         flex: 1 0 55%;
         margin-top: 3rem;
+        margin-bottom: 5rem;
         display: flex;
         flex-flow: column nowrap;
         gap: 1rem;
