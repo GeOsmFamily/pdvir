@@ -8,15 +8,14 @@
             @click.prevent="switchLike()"
             >
         </v-btn>
-        {{ count > 0 ? count : '' }}
+        <span class="LikeButton__count" v-if="count > 0" >{{ count }}</span>
     </div>
 </template>
 
 <script setup lang="ts">
-import { LikeService } from '@/services/likeSystem/LikeService';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { useUserStore } from '@/stores/userStore';
-import { computed, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 const props = defineProps<{
   id: string
 }>()
@@ -37,3 +36,15 @@ function switchLike() {
     }
 }
 </script>
+
+<style lang="scss">
+.LikeButton {
+    display: flex;
+    align-items: center;
+
+    .LikeButton__count {
+        color: var(--v-theme-main-blue);
+        font-size: $font-size-sm;
+    }
+}
+</style>
