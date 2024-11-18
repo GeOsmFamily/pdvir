@@ -19,6 +19,16 @@ const pucCustomTheme: ThemeDefinition = {
   }
 
 export const vuetify = createVuetify({
+    display: {
+      mobileBreakpoint: 'lg',
+      thresholds: {
+        xs: 0,
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: 1100,
+      },
+    },
     theme: {
         defaultTheme: 'pucCustomTheme',
         themes: {
@@ -27,11 +37,24 @@ export const vuetify = createVuetify({
       },
     defaults: {
       VBtn: {
+        variant: 'flat',
         style: [{ 
           textTransform: 'none',
           fontWeight: 'bold',
           letterSpacing: '.045rem'
         }],
+      },
+      VTextField: {
+        hideDetails: "auto"
+      },
+      VTextarea: {
+        hideDetails: "auto"
+      },
+      VSelect: {
+        hideDetails: "auto"
+      },
+      VAutocomplete: {
+        hideDetails: "auto"
       },
       VPagination: {
         rounded: 'circle',

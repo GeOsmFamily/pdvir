@@ -5,11 +5,11 @@
             <Kpi v-for="kpi in kpis" :kpi="kpi" :key="kpi.key" :showDescription="true" />
         </div>
     </div>
-    <div class="SheetView__contentCtn">
+    <div class="SheetView__contentCtn" v-if="project.calendar">
         <SectionBanner :text="$t('projectPage.projectCalendar')"/>
         <p>{{ project.calendar }}</p>
     </div>
-    <div class="SheetView__contentCtn">
+    <div class="SheetView__contentCtn" v-if="project.deliverables">
         <SectionBanner :text="$t('projectPage.projectDeliverables')"/>
         <p>{{ project.deliverables }}</p>
     </div>

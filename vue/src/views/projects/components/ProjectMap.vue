@@ -80,7 +80,7 @@ watch(() => projectStore.activeProject, () => {
 
 const showPopupOnInit = () => {
   if (projectStore.activeProject != null && projectMap.value) {
-    projectMap.value.addPopup(projectStore.activeProject.coords, activeProjectCard.value)
+    projectMap.value.addPopup(projectStore.activeProject.geoData.coords, activeProjectCard.value)
   }
 }
 

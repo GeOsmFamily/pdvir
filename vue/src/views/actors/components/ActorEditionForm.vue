@@ -1,101 +1,131 @@
 <template>
-    <Modal
-        :title="actorToEdit ? $t('actors.form.editTitle') : $t('actors.form.createTitle')"
-        :show="appStore.showEditContentDialog"
-        @close="actorsStore.actorEdition.active = false">
+    <Modal :title="actorToEdit ? $t('actors.form.editTitle') : $t('actors.form.createTitle')"
+        :show="appStore.showEditContentDialog" @close="actorsStore.actorEdition.active = false">
         <template #content>
             <div class="ContentForm__toValidate mt-3" v-if="actorToEdit && !actorToEdit.isValidated">
                 <img src="@/assets/images/actorToValidate.svg" alt="">
                 <span class="ml-2">Nouvelle soumission de Prénom NOM reçue le 31 janvier 2025 à 11h30.</span>
             </div>
-            <div class="ContentForm__ctn mt-4">
-                <v-form @submit.prevent="submitForm" id="actor-form">
-                    <!-- General infos -->
+            <v-form @submit.prevent="submitForm" id="actor-form" class="Form Form--actor">
+                <!-- General infos -->
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.name') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.name.value.value"
-                        :error-messages="form.name.errorMessage.value" :label="$t('actors.form.name')"
-                        @blur="form.name.handleChange" />
-                        
+                        :error-messages="form.name.errorMessage.value" @blur="form.name.handleChange" />
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.acronym') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.acronym.value.value"
-                        :error-messages="form.acronym.errorMessage.value" :label="$t('actors.form.acronym')"
-                        @blur="form.acronym.handleChange" />
+                        :error-messages="form.acronym.errorMessage.value" @blur="form.acronym.handleChange" />
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.logo') }}</label>
+                    <ImagesLoader @updateFiles="handleLogoUpdate" :existingImages="existingLogo" :uniqueImage="true"
+                        :externalImagesLoader="false" />
+                </div>
 
-                    <span>Logo</span>
-                    <ImagesLoader @updateFiles="handleLogoUpdate" :existingImages="existingLogo" :uniqueImage="true" :externalImagesLoader="false"/>
-                    
-                    <v-select density="compact" variant="outlined" :label="$t('actors.form.category')"
-                        class="mt-3"
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.category') }}</label>
+                    <v-select density="compact" variant="outlined"
                         v-model="(form.category.value.value as ActorsCategories)" :items="categoryItems"
                         :error-messages="form.category.errorMessage.value" @blur="form.category.handleChange" />
 
-                    <v-select density="compact" variant="outlined" :label="$t('actors.form.expertise')" multiple
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.expertise') }}</label>
+                    <v-select density="compact" variant="outlined" multiple
                         v-model="(form.expertises.value.value as ActorExpertise[])" :items="expertisesItems"
                         item-title="name" item-value="@id" :error-messages="form.expertises.errorMessage.value"
                         @blur="form.expertises.handleChange(form.expertises.value.value)" return-object />
 
-                    <v-select density="compact" variant="outlined" :label="$t('actors.form.thematic')" multiple
-                        v-model="(form.thematics.value.value as Thematic[])" :items="thematicsItems"
-                        item-title="name" item-value="@id" :error-messages="form.thematics.errorMessage.value"
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.thematic') }}</label>
+                    <v-select density="compact" variant="outlined" multiple
+                        v-model="(form.thematics.value.value as Thematic[])" :items="thematicsItems" item-title="name"
+                        item-value="@id" :error-messages="form.thematics.errorMessage.value"
                         @blur="form.thematics.handleChange(form.thematics.value.value)" return-object />
 
-                    <v-select density="compact" variant="outlined" :label="$t('actors.form.adminScope')" multiple
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.adminScope') }}</label>
+                    <v-select density="compact" variant="outlined" multiple
                         v-model="(form.administrativeScopes.value.value as AdministrativeScope[])"
                         :items="administrativeScopesItems" item-title="name" item-value="@id"
                         :error-messages="form.administrativeScopes.errorMessage.value"
                         @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
                         return-object />
 
-                    <v-textarea :label="$t('actors.form.description')" variant="outlined"
-                        v-model="form.description.value.value" :error-messages="form.description.errorMessage.value"
-                        @blur="form.description.handleChange" />
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.description') }}</label>
+                    <v-textarea variant="outlined" v-model="form.description.value.value"
+                        :error-messages="form.description.errorMessage.value" @blur="form.description.handleChange" />
+                </div>
+                <v-divider color="main-grey" class="border-opacity-100"></v-divider>
 
-                    <v-divider color="main-grey" class="border-opacity-100"></v-divider>
-
-                    <!-- Contact infos -->
-                    <FormSectionTitle :text="$t('actors.form.contact')" />
+                <!-- Contact infos -->
+                <FormSectionTitle :text="$t('actors.form.contact')" />
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.website') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.website.value.value"
-                        :error-messages="form.website.errorMessage.value" @blur="form.website.handleChange"
-                        :label="$t('actors.form.website')" class="mt-3" />
+                        :error-messages="form.website.errorMessage.value" @blur="form.website.handleChange" />
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.email') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.email.value.value"
-                        :error-messages="form.email.errorMessage.value" @blur="form.email.handleChange"
-                        label="Email" />
+                        :error-messages="form.email.errorMessage.value" @blur="form.email.handleChange" />
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.phone') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.phone.value.value"
-                        :error-messages="form.phone.errorMessage.value" @blur="form.phone.handleChange" type="tel"
-                        :label="$t('actors.form.phone')" />
+                        :error-messages="form.phone.errorMessage.value" @blur="form.phone.handleChange" type="tel" />
+                </div>
 
-                    <FormSectionTitle :text="$t('actorPage.contact')" />
+                <FormSectionTitle :text="$t('actorPage.contact')" />
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.contactName') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.contactName.value.value"
-                        :error-messages="form.contactName.errorMessage.value" @blur="form.contactName.handleChange"
-                        :label="$t('actors.form.contactName')" class="mt-3" />
+                        :error-messages="form.contactName.errorMessage.value" @blur="form.contactName.handleChange" />
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.contactPosition') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.contactPosition.value.value"
                         :error-messages="form.contactPosition.errorMessage.value"
-                        @blur="form.contactPosition.handleChange" :label="$t('actors.form.contactPosition')"
-                        class="mt-3" />
+                        @blur="form.contactPosition.handleChange" />
+                </div>
 
-                    <v-divider color="main-grey" class="border-opacity-100"></v-divider>
-                    <FormSectionTitle :text="$t('actors.form.office')" />
+                <v-divider color="main-grey" class="border-opacity-100"></v-divider>
+                <FormSectionTitle :text="$t('actors.form.office')" />
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.officeName') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.officeName.value.value"
-                        :error-messages="form.officeName.errorMessage.value" @blur="form.officeName.handleChange"
-                        :label="$t('actors.form.officeName')" class="mt-3" />
+                        :error-messages="form.officeName.errorMessage.value" @blur="form.officeName.handleChange" />
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.officeAddress') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.officeAddress.value.value"
                         :error-messages="form.officeAddress.errorMessage.value"
-                        @blur="form.officeAddress.handleChange" :label="$t('actors.form.officeAddress')"
-                        class="mt-3" />
+                        @blur="form.officeAddress.handleChange" />
+                </div>
+                <div class="Form__fieldCtn">
+                    <label class="Form__label">{{ $t('actors.form.officeLocation') }}</label>
                     <v-text-field density="compact" variant="outlined" v-model="form.officeLocation.value.value"
                         :error-messages="form.officeLocation.errorMessage.value"
-                        @blur="form.officeLocation.handleChange" :label="$t('actors.form.officeLocation')"
-                        class="mt-3" />
+                        @blur="form.officeLocation.handleChange" />
+                </div>
 
-                    <v-divider color="main-grey" class="border-opacity-100"></v-divider>
-                    <FormSectionTitle :text="$t('actors.form.images')" />
-                    <ImagesLoader @updateFiles="handleImagesUpdate" :existingImages="existingImages"/>
-                </v-form>
-            </div>
+                <v-divider color="main-grey" class="border-opacity-100"></v-divider>
+                <FormSectionTitle :text="$t('actors.form.images')" />
+                <ImagesLoader @updateFiles="handleImagesUpdate" :existingImages="existingImages" />
+            </v-form>
         </template>
         <template #footer-left>
             <v-btn color="white" @click="actorsStore.actorEdition.active = false">{{ $t('forms.cancel') }}</v-btn>
         </template>
         <template #footer-right>
-            <v-btn type="submit" form="actor-form" color="main-red" :loading="isSubmitting">{{ actorToEdit ? $t('forms.modify') : $t('forms.create') }}</v-btn>
+            <v-btn type="submit" form="actor-form" color="main-red" :loading="isSubmitting">{{ actorToEdit ?
+                $t('forms.modify') : $t('forms.create') }}</v-btn>
         </template>
     </Modal>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div class="Header Header--desktop">
         <div class="Header__banner">
-            <div class="Header__bannerContent container">
+            <div class="Header__bannerContent container container--transition">
                 <router-link :to="{ name: 'home' }" class="Header__bannerLink">
                     <v-icon icon="mdi-help-circle-outline" />
                     <span class="mr-6">{{ $t('header.help') }}</span>
@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="Header__nav">
-            <div class="Header__navContent container">
+            <div class="Header__navContent container container--transition">
                 <div class="Header__navBlock Header__navBlock--left">
                     <img src="@/assets/images/Logo.png" alt="Accueil" class="Header__appLogo">
                 </div>

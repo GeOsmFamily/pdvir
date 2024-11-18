@@ -11,17 +11,13 @@
             hide-details
             @update:modelValue="searchQuery = $event"
         ></v-text-field>
-
     </div>
     <div class="AdminTopBar--right">
         <v-btn color="white" class="mr-3">
-            <span>{{ $t('placeholders.sortBy') }}</span><v-icon icon="mdi mdi-arrow-down-drop-circle-outline" class="ml-2"></v-icon>
+            <span class="font-weight-regular">{{ $t('placeholders.sortBy') }}</span><v-icon icon="mdi mdi-menu-down" class="ml-1"></v-icon>
             <v-menu activator="parent">
                 <v-list>
-                    <v-list-item 
-                        v-for="item in sortingListItems" 
-                        @click="sortingKey = item.sortingKey"
-                    >
+                    <v-list-item v-for="item in sortingListItems" @click="sortingKey = item.sortingKey">
                         {{ item.text }}
                     </v-list-item>
                 </v-list>
@@ -53,15 +49,16 @@ watch(() => sortingKey.value, () => {
     emit('updateSortingKey', sortingKey.value)
 })
 const title = computed(() => {
-        if (props.page === 'Members') {
-            return `${props.items.length.toString()} ${i18n.t('admin.member', props.items.length)}`
-        }
-        if (props.page === 'Actors') {
-            return `${props.items.length.toString()} ${i18n.t('actors.actor', props.items.length)}`
-        }
-        return `${props.items.length.toString()} ${i18n.t('actors.actor', props.items.length)}`
+    switch (props.page) {
+        case 'Projects':
+            return `${props.items.length} ${i18n.t('projects.projects', props.items.length)}`
+        case 'Members':
+            return `${props.items.length} ${i18n.t('admin.member', props.items.length)}`
+        case 'Actors':
+        default:
+            return `${props.items.length} ${i18n.t('actors.actors', props.items.length)}`
     }
-)
+})
 
 const searchQuery = ref("")
 watch(() => searchQuery.value, () => {

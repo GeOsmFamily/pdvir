@@ -13,7 +13,7 @@ export default class MapService {
         },
         'geometry': {
           'type': 'Point',
-          'coordinates': [item.coords.lng, item.coords.lat]
+          'coordinates': [item.geoData.coords.lng, item.geoData.coords.lat]
         }
       })
     })

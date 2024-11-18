@@ -2,9 +2,12 @@
   width: var(--dim-container-w);
   margin: 0 auto;
   max-width: 100%;
-  transition: all .15s ease-in;
   padding-left: 1rem;
   padding-right: 1rem;
+  
+  &--transition {
+    transition: all .1s ease-in;
+  }
 }
 
 .container-fluid {

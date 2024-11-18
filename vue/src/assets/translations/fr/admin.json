@@ -9,6 +9,9 @@
         "panelComments": "Gérer les commentaires",
         "member": "Membre | Membres",
         "add": "Ajouter",
-        "search": "Rechercher"
+        "search": "Rechercher",
+        "form": {
+            "newSubmission": "Nouvelle soumission de {fullName} reçue le {date} à {time}."
+        }
     }
 }

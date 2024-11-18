@@ -22,26 +22,20 @@
             <v-expansion-panel
                 :title="$t('admin.panelContent')"
                 :value="AdministrationPanels.CONTENT"
-                @click="adminStore.selectedAdminPanel = AdministrationPanels.CONTENT"
                 :class="{'Admin__selectedPanel': adminStore.selectedAdminPanel === AdministrationPanels.CONTENT}"
                 class="text-main-blue"
             >
                 <v-expansion-panel-text>
-                    <div class="Admin__itemSelector"
-                        :class="{'Admin__itemSelected': adminStore.selectedAdminItem === AdministrationPanels.CONTENT_ACTORS}"
-                        @click="adminStore.selectedAdminItem = AdministrationPanels.CONTENT_ACTORS"
-                    >
+                    <router-link class="Admin__itemSelector" :to="{ name: 'adminActors' }">
                         <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
                         {{ $t('admin.panelContentActors') }}
                         <div class="Admin__itemToValidateCounter">{{ actorsToValidate }}</div>
-                    </div>
-                    <div class="Admin__itemSelector"
-                        :class="{'Admin__itemSelected': adminStore.selectedAdminItem === AdministrationPanels.CONTENT_PROJECTS}"
-                        @click="adminStore.selectedAdminItem = AdministrationPanels.CONTENT_PROJECTS"
-                    >
+                    </router-link>
+                    <router-link class="Admin__itemSelector" :to="{ name: 'adminProjects' }">
                         <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
                         {{ $t('admin.panelContentProjects') }}
-                    </div>
+                        <div class="Admin__itemToValidateCounter">{{ projectsToValidate }}</div>
+                    </router-link>
                     <div class="Admin__itemSelector"
                         :class="{'Admin__itemSelected': adminStore.selectedAdminItem === AdministrationPanels.CONTENT_RESOURCES}"
                         @click="adminStore.selectedAdminItem = AdministrationPanels.CONTENT_RESOURCES"
@@ -72,25 +66,28 @@
 import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useAdminStore } from '@/stores/adminStore';
+import { useProjectStore } from '@/stores/projectStore';
 import { computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 const adminStore = useAdminStore();
 const actorsStore = useActorsStore();
+const projectStore = useProjectStore();
 const router = useRouter();
 watch(() => adminStore.selectedAdminPanel, () => {
     if (adminStore.selectedAdminPanel === AdministrationPanels.MEMBERS) {
-        router.push({ path: "/administration/membersPanel" })
+        router.push({ name: "adminMembers" })
         adminStore.selectedAdminItem = null
     }
     else if (adminStore.selectedAdminPanel === AdministrationPanels.CONTENT) {
-        router.push({ path: "/administration/contentPanel" })
+        router.push({ name: "adminActors" })
         adminStore.selectedAdminItem = AdministrationPanels.CONTENT_ACTORS
     } else {
-        router.push({ path: "/administration/commentPanel" })
+        router.push({ name: "adminComments" })
         adminStore.selectedAdminItem = null
     }
 })
 const actorsToValidate = computed(() => actorsStore.actors.filter(x => !x.isValidated).length)
+const projectsToValidate = computed(() => projectStore.projects.filter(x => !x.isValidated).length)
 </script>
 
 <style lang="scss">
@@ -108,22 +105,25 @@ const actorsToValidate = computed(() => actorsStore.actors.filter(x => !x.isVali
         font-weight: 500;
         cursor: pointer;
         height: 40px;
-        &:hover{
-            background-color: rgb(var(--v-theme-main-yellow));
+        text-decoration: none;
+        color: rgb(var(--v-theme-main-blue));
+        &:hover {
+            background-color: rgb(var(--v-theme-light-yellow));
         }
-    }
-    &__itemSelected{
-        font-weight: 700;
-        background-color: rgb(var(--v-theme-light-yellow));
+        &.router-link-exact-active {
+            font-weight: 700;
+            background-color: rgb(var(--v-theme-light-yellow));
+        }
     }
     &__itemToValidateCounter{
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: rgb(var(--v-theme-main-red));
-        border-radius: 50%;
+        border-radius: 1rem;
         height: 16px;
-        width: 16px;
+        min-width: 16px;
+        padding: .25rem;
         color: white;
         font-size: 10px;
         font-weight: 400;

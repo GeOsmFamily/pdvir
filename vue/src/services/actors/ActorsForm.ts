@@ -24,8 +24,8 @@ export class ActorsFormService {
             expertises: zodModels.symfonyRelations,
             thematics: zodModels.symfonyRelations,
             administrativeScopes: zodModels.symfonyRelations,
-            description: z.string()
-                .optional(),
+            description: zodModels.description,
+
             ///////// Contact \\\\\\\\\
             officeName: z.string().optional(),
             officeAddress: z.string().optional(),

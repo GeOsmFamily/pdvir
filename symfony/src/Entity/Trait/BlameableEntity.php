@@ -14,7 +14,7 @@ trait BlameableEntity
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL', name: 'created_by')]
     #[Gedmo\Blameable(on: 'create')]
-    #[Groups([Project::PROJECT_READ, Actor::ACTOR_READ_ITEM])]
+    #[Groups([Project::PROJECT_READ, Project::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM])]
     protected ?User $createdBy;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
