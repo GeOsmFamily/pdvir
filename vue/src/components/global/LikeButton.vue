@@ -5,7 +5,7 @@
             density="comfortable"
             :icon=" likeId > 0 ? 'mdi mdi-heart' : 'mdi mdi-heart-outline'"
             color="main-blue"
-            @click.stop="switchLike()"
+            @click.prevent="switchLike()"
             >
         </v-btn>
         {{ count > 0 ? count : '' }}
