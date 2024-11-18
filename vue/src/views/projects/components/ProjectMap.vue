@@ -115,7 +115,7 @@ const imageHoverFilter = (imageName: string, imageHoverName: string): maplibregl
   return [
     'match',
     ['get', 'id'],
-    [...new Set([projectStore.hoveredProjectId ?? -1, projectStore.activeProjectId ?? -1])]
+    [...new Set([projectStore.hoveredProjectId ?? '', projectStore.activeProjectId ?? ''])]
     , imageHoverName,
     imageName
   ]
