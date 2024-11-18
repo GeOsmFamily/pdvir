@@ -24,8 +24,8 @@ const props = withDefaults(defineProps<{
     bounds: () => new maplibregl.LngLatBounds([8.48881554529, 1.72767263428], [16.0128524106, 12.8593962671])
 })
 const popup = ref(new maplibregl.Popup({ closeOnClick: false }));
-const hoveredFeatureId: Ref<number | null> = ref(null)
-const activeFeatureId: Ref<number | null> = ref(null)
+const hoveredFeatureId: Ref<string | null> = ref(null)
+const activeFeatureId: Ref<string | null> = ref(null)
 
 onMounted(() => {
     map.value = new maplibregl.Map({

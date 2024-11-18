@@ -12,7 +12,7 @@ import type { Organisation } from "@/models/interfaces/Organisation";
 import type { Validateable } from '@/models/interfaces/common/Validateable';
 
 export interface Project extends Timestampable, Validateable {
-  id: number;
+  id: string;
   name: string;
   slug: string;
   createdBy: User;

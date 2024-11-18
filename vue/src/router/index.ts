@@ -56,7 +56,7 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const projectStore = useProjectStore()
         projectStore.isProjectMapFullWidth = to.query.type === ProjectListDisplay.MAP ? true : false
-        projectStore.activeProjectId = to.query.project ? +to.query.project : null
+        projectStore.activeProjectId = to.query.project ? to.query.project.toString() : null
         next()
       }
     },

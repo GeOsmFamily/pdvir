@@ -6,7 +6,7 @@
                     <div class="SheetContentBanner__shareBar">
                         <slot name="custom-actions"></slot>
                         <ShareButton />
-                        <LikeButton />
+                        <LikeButton :id="id" />
                         <v-btn variant="elevated" :to="{ name: 'map' }" class="elevation-1 text-main-blue px-3 mx-2 hide-sm" ><img src="@/assets/images/icons/add_location_alt.svg" class="mr-1">{{ $t("content.createAMap") }}</v-btn>
                         <UpdatedAtLabel :date="updatedAt" class="show-sm" />
                     </div>
@@ -37,6 +37,7 @@ import LikeButton from '@/components/global/LikeButton.vue';
 import SheetContactActions from './SheetContactActions.vue';
 
 defineProps<{
+    id: string,
     title: string,
     subtitle: string,
     email: string,

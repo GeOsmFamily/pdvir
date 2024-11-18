@@ -28,6 +28,7 @@ use App\Services\State\Processor\ProjectProcessor;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['slug' => SearchFilterInterface::STRATEGY_EXACT])]
@@ -81,10 +82,11 @@ class Project
     public const PROJECT_WRITE = 'project:write';
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
     #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL])]
-    private ?int $id = null;
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
     #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE, Actor::ACTOR_READ_ITEM])]
@@ -184,7 +186,7 @@ class Project
         $this->donors = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

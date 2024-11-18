@@ -1,6 +1,6 @@
 <template>
     <v-btn
-        @click.stop="copyURL"
+        @click.prevent="copyURL"
         variant="text"
         density="comfortable"
         icon="mdi mdi-share-variant"
