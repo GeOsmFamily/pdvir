@@ -1,25 +1,25 @@
 App\Entity\Project:
   project_{1..500}:
-    name: <city()> Urban Development
-    location: <city()>
-    # coords: 'POINT(<longitude()> <latitude()>)'
-    coords: 'POINT(<randomFloat(11, 12.8593962671, 1.72767263428)> <randomFloat(11, 16.0128524106, 8.48881554529)>)'
+    name: '@geoData_<current()>->name Urban Development'
     status: '<randomElement(<(App\Enum\Status::toArray())>)>'
     description: <paragraph(8)>
     deliverables: <paragraph(8)>
     calendar: <paragraph(8)>
+    geoData: '@geoData_<current()>'
     images: []
     partners: []
     interventionZone: '<randomElement(<(App\Enum\AdministrativeScope::toArray())>)>'
-    financialActors: '<numberBetween(1, 5)>x @actor_*'
+    beneficiaryTypes: ['<randomElement(<(App\Enum\BeneficiaryType::toArray())>)>']
+    donors: '<numberBetween(1, 2)>x  @organisation_<numberBetween(4, 6)>'
+    contractingOrganisation: '@organisation_<numberBetween(1, 3)>'
     actor: '@actor_*'
-    contractingActors: '<numberBetween(1, 5)>x @actor_*'
     thematics: '<numberBetween(1, 3)>x @thematic_*'
-    projectManagerName: <firstName()> <lastName()>
-    projectManagerPosition: <jobTitle()>
-    projectManagerEmail: <email()>
-    projectManagerTel: <phoneNumber()>
-    projectManagerPhoto: 'https://randomuser.me/api/portraits/men/<randomNumber(1, 92)>.jpg'
+    focalPointName: <firstName()> <lastName()>
+    focalPointPosition: <jobTitle()>
+    focalPointEmail: <email()>
+    focalPointTel: <numerify('6########')>
+    focalPointPhoto: 'https://randomuser.me/api/portraits/men/<randomNumber(1, 92)>.jpg'
     website: <url()>
     logo: <imageUrl(200, 100)>
     createdBy: '@user_*'
+    isValidated: <boolean(70)>

@@ -1,4 +1,4 @@
-import { apiClient } from "@/assets/plugins/axios"
+import { apiClient } from "@/assets/plugins/axios/api"
 import type { User } from "@sentry/vue"
 import type { AxiosResponse } from "axios"
 

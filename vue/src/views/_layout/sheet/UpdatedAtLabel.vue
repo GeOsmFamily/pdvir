@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDate } from '@/composables/useDate';
+import { localizeDate } from '@/services/utils/UtilsService';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -11,8 +11,7 @@ const props = defineProps<{
 }>()
 
 const formattedDate = computed(() => {
-    const { localeDate } = useDate(new Date(props.date), { year: 'numeric', month: 'long', day: 'numeric' });
-    return localeDate;
+    return localizeDate(props.date, { year: 'numeric', month: 'long', day: 'numeric' });
 })
 </script>
 

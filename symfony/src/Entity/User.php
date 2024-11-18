@@ -14,6 +14,7 @@ use App\Security\Voter\UserVoter;
 use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\ValidateableEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -58,6 +59,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public const GROUP_WRITE = 'user:write';
     public const GROUP_ADMIN = 'user:admin';
     private const ACCEPTED_ROLES = [UserRoles::ROLE_USER, UserRoles::ROLE_EDITOR_ACTORS, UserRoles::ROLE_EDITOR_PROJECTS, UserRoles::ROLE_EDITOR_RESSOURCES];
+
+    use ValidateableEntity;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -105,10 +108,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Actor::class, mappedBy: 'createdBy', orphanRemoval: true)]
     private Collection $actorsCreated;
-
-    #[ORM\Column]
-    #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_ADMIN])]
-    private ?bool $isValidated = false;
 
     #[ORM\Column(nullable: true)]
     #[Assert\Choice(choices: self::ACCEPTED_ROLES, multiple: true)]
@@ -286,16 +285,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getIsValidated(): ?bool
+    #[Groups([Project::PROJECT_READ, Project::PROJECT_READ_ALL])]
+    public function getFullName(): ?string
     {
-        return $this->isValidated;
-    }
-
-    public function setIsValidated(bool $isValidated): static
-    {
-        $this->isValidated = $isValidated;
-
-        return $this;
+        return $this->firstName.' '.$this->lastName;
     }
 
     public function getRequestedRoles(): ?array

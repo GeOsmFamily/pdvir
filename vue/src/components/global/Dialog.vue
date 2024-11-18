@@ -43,7 +43,7 @@ const closeDialog = () => router.replace({ query: { dialog: undefined }});
   display: flex;
   flex-flow: column nowrap; 
   align-items: center;
-  border-radius: $dim-radius;
+  border-radius: 3px;
   box-shadow: $mixin-shadow;
   white-space: pre-line;
 

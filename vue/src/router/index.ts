@@ -26,6 +26,14 @@ const router = createRouter({
       component: HomeView
     },
     {
+      name: 'ui',
+      path: '/ui',
+      beforeEnter: (to, from, next) => {
+        import.meta.env.MODE === 'production' ? next({ name: 'home' }) : next()
+      },
+      component: () => import('@/views/_layout/ui/UiView.vue'),
+    },
+    {
       path: '/actors',
       name: 'actors',
       component: () => import('@/views/actors/ActorsView.vue')
@@ -91,40 +99,56 @@ const router = createRouter({
       }
     },
     {
-      path: '/administration',
+      path: '/admin',
       name: 'admin',
       redirect: to => {
         const adminStore = useAdminStore()
         adminStore.selectedAdminPanel = AdministrationPanels.MEMBERS
         return {
-          path: '/administration/membersPanel'
+          name: 'adminMembers'
         }
       },
       component: () => import('@/views/admin/AdminView.vue'),
       beforeEnter: (to, from, next) => {
         const userStore = useUserStore()
-        if (!userStore.userIsAdmin()) {
-          next({ path: '/' })
-        } else {
+        // if (!userStore.userIsAdmin()) {
+        //   next({ path: '/' })
+        // } else {
           next()
-        }
+        // }
       },
       children: [
         {
-          path: 'membersPanel',
+          path: 'membres',
+          name: 'adminMembers',
           component: AdminMembers,
         },
         {
-          path: 'contentPanel',
+          path: 'content',
+          name: 'adminContent',
           component: AdminContent,
+          redirect: to => ({ name: 'adminActors'}),
+          children: [
+            {
+              name: 'adminActors',
+              path: 'actors',
+              component: () => import('@/views/admin/components/admin-content/AdminActorsPanel.vue'),
+            },
+            {
+              name: 'adminProjects',
+              path: 'projects',
+              component: () => import('@/views/admin/components/admin-content/AdminProjectsPanel.vue'),
+            },
+          ]
         },
         {
-          path: 'commentPanel',
+          name: 'adminComments',
+          path: 'comments',
           component: AdminComments,
         },
       ]
     },
-  ]
+  ],
 })
 
 router.beforeEach((to, from, next) => {

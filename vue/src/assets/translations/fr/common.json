@@ -46,7 +46,9 @@
     },
     "forms": {
         "modify": "Modifier",
+        "edit": "Modifier",
         "submit": "Valider",
+        "validate": "Valider",
         "cancel": "Annuler",
         "create": "Créer",
         "delete": "Supprimer",
@@ -122,6 +124,18 @@
         "project": "Projet",
         "actor": "Acteur",
         "resource": "Ressource"
+    },
+    "beneficiaryType": {
+        "population": "Population",
+        "local_communities": "Communautés locales",
+        "communities_of_communes": "Communautés de communes",
+        "regions": "Régions",
+        "local_institutions": "Institutions locales",
+        "associations_ngos": "Associations / ONG"
+    },
+    "geocoding": {
+        "placeholder": "Rechercher un lieu",
+        "noData": "Aucun résultats"
     },
     "footer": {
         "contact": "Contact",

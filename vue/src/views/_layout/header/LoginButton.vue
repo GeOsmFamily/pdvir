@@ -65,7 +65,7 @@
             </template>
           <v-list-item-title>{{ $t('header.content') }}</v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="userStore.userIsAdmin()" to="/administration">
+        <v-list-item v-if="userStore.userIsAdmin()" :to="{ name: 'admin' }">
             <template v-slot:prepend>
                 <v-icon color="main-blue" icon="mdi-tune"></v-icon>
             </template>

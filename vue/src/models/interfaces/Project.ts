@@ -4,17 +4,19 @@ import type { AdministrativeScope } from "@/models/enums/AdministrativeScope";
 import type { Timestampable } from "@/models/interfaces/common/Timestampable";
 import type { Status } from "@/models/enums/contents/Status";
 import type { User } from "@/models/interfaces/auth/User";
+import type { BeneficiaryType } from "@/models/enums/contents/BeneficiaryType";
+import type { iri } from "./SymfonyRelation";
+import type { GeoData } from "@/models/interfaces/geo/GeoData";
+import type { LocalizableSubmission } from "@/models/interfaces/common/LocalizableSubmission";
+import type { Organisation } from "@/models/interfaces/Organisation";
+import type { Validateable } from '@/models/interfaces/common/Validateable';
 
-export interface Project extends Timestampable {
+export interface Project extends Timestampable, Validateable {
   id: number;
   name: string;
   slug: string;
   createdBy: User;
-  location: string;
-  coords: {
-    lng: number,
-    lat: number
-  };
+  geoData: GeoData;
   calendar: string;
   deliverables: string;
   status: Status;
@@ -22,15 +24,21 @@ export interface Project extends Timestampable {
   images: string[];
   partners: string[];
   interventionZone: AdministrativeScope;
+  beneficiaryTypes: BeneficiaryType[];
   thematics: Thematic[];
-  projectManagerName: string;
-  projectManagerPosition: string;
-  projectManagerEmail: string;
-  projectManagerTel: string;
-  projectManagerPhoto: string;
+  focalPointName: string;
+  focalPointPosition: string;
+  focalPointEmail: string;
+  focalPointTel: string;
+  focalPointPhoto: string;
   website: string;
   logo: string;
-  financialActors: Actor[];
-  contractingActors: Actor[];
+  donors: Organisation[];
+  contractingOrganisation: Organisation;
   actor: Partial<Actor>;
+}
+
+export interface ProjectSubmission extends Omit<Project, "actor" | "thematics" >, LocalizableSubmission {
+  actor: iri;
+  thematics: iri[];
 }

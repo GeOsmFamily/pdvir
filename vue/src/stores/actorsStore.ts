@@ -15,6 +15,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   const dataLoaded = ref(false)
   const router = useRouter();
   const actors: Actor[] = reactive([])
+  const actorsList: Ref<Partial<Actor>[]> = ref([])
   const selectedActor: Ref<Actor | null> = ref(null)
   const actorsExpertises: ActorExpertise[] = reactive([])
   const actorsThematics: Thematic[] = reactive([])
@@ -24,6 +25,13 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
       actors.splice(0, actors.length)
       actors.push(...await ActorsService.getActors())
       dataLoaded.value = true
+  }
+
+
+  async function getAll(): Promise<void> {
+    if (actorsList.value.length === 0) {
+      actorsList.value = await ActorsService.getAll()
+    }
   }
 
   async function getActorsSelectListContent(): Promise<void> {
@@ -74,18 +82,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   }
 
   return { 
-    dataLoaded,
-    actors,
-    actorsExpertises,
-    actorsThematics,
-    actorsAdministrativesScopes,
-    selectedActor,
-    getActors,
-    getActorsSelectListContent,
-    setSelectedActor,
-    actorEdition,
-    setActorEditionMode,
-    createOrEditActor,
-    deleteActor
+    dataLoaded, actors, actorsExpertises, actorsThematics, actorsAdministrativesScopes, selectedActor, actorEdition, actorsList,
+    getActors, getAll, getActorsSelectListContent, setSelectedActor, setActorEditionMode, createOrEditActor, deleteActor
   }
 })

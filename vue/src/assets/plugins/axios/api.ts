@@ -19,4 +19,14 @@ axiosInstance.interceptors.response.use(undefined, (error: AxiosError) => {
   return Promise.reject(error)
 })
 
+axiosInstance.interceptors.request.use(function (config) {
+  config.headers.Accept = 'application/ld+json';
+  if (config.method === 'post') {
+    config.headers['Content-Type'] = 'application/ld+json';
+  } else if (config.method === 'patch') {
+    config.headers['Content-Type'] = 'application/merge-patch+json';
+  }
+  return config;
+});
+
 export const apiClient: AxiosInstance = axiosInstance;

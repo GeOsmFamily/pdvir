@@ -11,6 +11,10 @@
     text-overflow: unset;
 }
 
+.v-text-field .v-input__details {
+    padding-inline: 0;
+}
+
 .v-dialog {
     button {
         min-width: 0;

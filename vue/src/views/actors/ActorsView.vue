@@ -72,7 +72,7 @@
 
         <div class="d-flex w-100 justify-space-between align-center">
             <div class="d-flex ">
-                <span class="text-body-2"> {{ `${actorsStore.actors.length.toString()} ${actorsStore.actors.length > 1 ? $t('actors.actors') : $t('actors.actor')}` }}</span>
+                <span class="text-body-2">{{ actorsStore.actors.length }} {{ $t('actors.actors', actorsStore.actors.length) }}</span>
                 <span class="ml-3 cursor-pointer text-caption text-main-blue" @click="resetFilters">{{ $t('actors.resetFilters') }}</span>
                 <div class="Actors__filteredItemsCount ml-1">{{ filteredActors.length }}</div>
             </div>
@@ -97,12 +97,7 @@
                     <ActorCard :actor="actor"/>
                 </v-col>
             </v-row>
-            <v-pagination
-                v-model="page"
-                :length="totalPages"
-                :total-visible="5"
-                class="mt-4"
-            ></v-pagination>
+            <Pagination :items="sortedActors" v-model="paginatedActors" :items-per-page="itemsPerPage" />
         </v-container>
     </div>
 </template>
@@ -122,6 +117,7 @@ import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategorie
 import { useThematicStore } from '@/stores/thematicStore';
 import type { Thematic } from '@/models/interfaces/Thematic';
 import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope';
+import Pagination from '@/components/global/Pagination.vue';
 
 const appStore = useApplicationStore();
 const actorsStore = useActorsStore();
@@ -205,14 +201,8 @@ const sortedActors = computed(() => {
     return filteredActors.value
 })
 
-const page = ref(1);
 const itemsPerPage = appStore.mobile ? 5 : 15
-const paginatedActors = computed(() => {
-      const start = (page.value - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
-      return sortedActors.value.slice(start, end);
-    })
-const totalPages = computed(() => Math.ceil(sortedActors.value.length / itemsPerPage));
+const paginatedActors: Ref<Actor[]> = ref([])
 
 function addActor() {
     actorsStore.setActorEditionMode(null);
@@ -237,7 +227,12 @@ function updateSelectedActor(id: string) {
 }
 </script>
 
-<style>
+<style lang="scss">
+.Actors__content {
+    .ActorCard {
+        height: 100%;
+    }
+}
 .Actors__filteredItemsCount{
     background-color: rgb(var(--v-theme-main-green));
     color: white;

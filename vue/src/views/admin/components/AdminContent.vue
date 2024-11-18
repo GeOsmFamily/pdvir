@@ -1,9 +1,3 @@
 <template>
-    <AdminActorsPanel v-if="adminStore.selectedAdminItem === AdministrationPanels.CONTENT_ACTORS" />
+    <router-view></router-view>
 </template>
-<script setup lang="ts">
-import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels';
-import { useAdminStore } from '@/stores/adminStore';
-import AdminActorsPanel from './admin-content/AdminActorsPanel.vue';
-const adminStore = useAdminStore();
-</script>

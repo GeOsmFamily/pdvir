@@ -13,6 +13,7 @@ trait TimestampableEntity
 {
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups([Project::PROJECT_READ, Project::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_READ_COLLECTION])]
     protected ?\DateTimeInterface $createdAt;
 
     #[Gedmo\Timestampable(on: 'update')]

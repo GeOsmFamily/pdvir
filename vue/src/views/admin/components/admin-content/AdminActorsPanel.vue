@@ -11,7 +11,8 @@
         />
         <AdminTable
             :items="filteredItems"
-            :tableKeys="['acronym', 'name', 'category']"
+            :table-keys="['acronym', 'name', 'category']"
+            :column-widths="['15%', '40%', '30%', '15%']"
         >
             <template #editContentCell="{ item }">
                 <template v-if="!item.isValidated">
@@ -23,7 +24,7 @@
                         <v-icon icon="mdi-dots-vertical"></v-icon>
                         <v-menu activator="parent" location="left">
                             <v-list class="AdminPanel__additionnalMenu">
-                                <v-list-item :to="`/actors/${item.name}`">{{ $t('actors.admin.goToPage')}}</v-list-item>
+                            <v-list-item :to="`/actors/${(item as Actor).name}`">{{ $t('actors.admin.goToPage')}}</v-list-item>
                                 <v-list-item @click="actorsStore.deleteActor((item as Actor).id)">{{ $t('actors.admin.delete')}}</v-list-item>
                             </v-list>
                         </v-menu>

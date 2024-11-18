@@ -8,9 +8,10 @@ import Caddyfile.base
 
 {$CADDY_PROTOCOL}://{$DOMAIN} {
 	import main_domain
-	root * /app/public
 	import spa
 	root @pwa /var/www/vue
+	
+	root * /app/public
 	php_server
 }
 
