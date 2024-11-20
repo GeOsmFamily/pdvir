@@ -1,21 +1,4 @@
 .ListView {
-    .ListView__header {
-        display: flex;
-        flex-flow: row-reverse nowrap;
-        margin-bottom: 2rem;
-        gap: 3rem;
-        img {
-            max-width: 40%;
-        }
-        
-        .ListView__headerDesc {
-            display: flex;
-            flex-direction: column;
-            width: 60%;
-            gap: 1.5rem;
-        }
-    }
-
     .ListView__filters{
         display: flex;
         flex-direction: column;
@@ -42,25 +25,4 @@
         justify-content: center;
         align-items: center;
     }
-}
-
-@media (max-width: $bp-lg) {
-    .ListView {
-        .ListView__header {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            align-items: center;
-            gap: 1.5rem;
-            img {
-                max-width: 60%;
-            }
-            .ListView__headerDesc {
-                width: 100%;
-            }
-            .ListSearchBar  {
-                display: none;
-            }
-        }
-    }    
 }

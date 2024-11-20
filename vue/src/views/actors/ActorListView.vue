@@ -1,16 +1,11 @@
 <template>
     <div class="ListView ListView--actor">
-        <div class="ListView__header">
-            <img src="@/assets/images/Mosaic_actors_page.svg" alt="">
-            <div class="ListView__headerDesc">
-                <PageTitle :title="$t('actors.title')"/>
-                <span class="ListView__desc">{{ $t('actors.desc') }}</span>
-                <ListSearchBar
-                    :placeholder="$t('actors.search')"
-                    v-model="searchQuery"
-                />
-            </div>
-        </div>
+        <ListHeader
+            :title="$t('actors.title')"
+            :description="$t('actors.desc')"
+            :searchPlaceholder="$t('actors.search')"
+            v-model="searchQuery"
+        />
         <div class="ListView__filters">
             <ListFilterBox>
                 <ListFilterSelect v-model="selectedExpertise" :items="expertisesItems" :label="$t('actors.expertise')"/>
@@ -45,13 +40,11 @@
 
 <script setup lang="ts">
 import { useActorsStore } from '@/stores/actorsStore';
-import ListSearchBar from '@/views/_layout/list/ListSearchBar.vue';
 import ListFilterBox from '@/views/_layout/list/ListFilterBox.vue';
 import ListSortBy from '@/views/_layout/list/ListSortBy.vue';
 import ListFilterResetButton from '@/views/_layout/list/ListFilterResetButton.vue';
 import ListItems from '@/views/_layout/list/ListItems.vue';
 import ListFilterSelect from '@/views/_layout/list/ListFilterSelect.vue';
-import PageTitle from '@/components/text-elements/PageTitle.vue';
 import ActorCard from '@/views/actors/components/ActorCard.vue';
 import { useUserStore } from '@/stores/userStore';
 import { computed, ref, type Ref } from 'vue';
@@ -62,6 +55,7 @@ import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategorie
 import { useThematicStore } from '@/stores/thematicStore';
 import type { Thematic } from '@/models/interfaces/Thematic';
 import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope';
+import ListHeader from '@/views/_layout/list/ListHeader.vue';
 
 const actorsStore = useActorsStore();
 const userStore = useUserStore();
