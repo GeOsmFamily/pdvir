@@ -292,7 +292,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    #[Groups([Project::PROJECT_READ, Project::PROJECT_READ_ALL])]
+    #[Groups([Project::PROJECT_READ, Project::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM])]
     public function getFullName(): ?string
     {
         return $this->firstName.' '.$this->lastName;

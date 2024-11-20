@@ -23,12 +23,12 @@ use App\Entity\Trait\TimestampableEntity;
 use App\Entity\Trait\BlameableEntity;
 use App\Entity\Trait\LocalizableEntity;
 use App\Entity\Trait\ValidateableEntity;
-use App\Services\State\Processor\GeoDataProcessor;
 use App\Services\State\Processor\ProjectProcessor;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['slug' => SearchFilterInterface::STRATEGY_EXACT])]
@@ -92,19 +92,13 @@ class Project
     #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE, Actor::ACTOR_READ_ITEM])]
     private ?string $name = null;
 
-    // #[ORM\Column(
-    //     type: PostGISType::GEOMETRY, 
-    //     options: ['geometry_type' => 'POINT'],
-    // )]
-    // #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
-    // private ?string $coords = null;
-
     #[ORM\Column(enumType: Status::class)]
     #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private ?Status $status = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    #[Assert\Length(max: 500)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
@@ -125,20 +119,24 @@ class Project
     #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
     private Collection $thematics;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     #[Groups([self::PROJECT_READ, self::PROJECT_READ_ALL, self::PROJECT_WRITE])]
+    #[Assert\Length(max: 100)]
     private ?string $focalPointName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    #[Assert\Length(max: 100)]
     private ?string $focalPointPosition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    #[Assert\Email]
     private ?string $focalPointEmail = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    #[Assert\Regex(pattern: '/^[0-9]{4,15}$/')]
     private ?string $focalPointTel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -147,6 +145,7 @@ class Project
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    #[Assert\Url(protocols: ['https'])]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -160,10 +159,12 @@ class Project
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    #[Assert\Length(max: 500)]
     private ?string $deliverables = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups([self::PROJECT_READ, self::PROJECT_WRITE])]
+    #[Assert\Length(max: 500)]
     private ?string $calendar = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]

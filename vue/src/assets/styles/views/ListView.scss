@@ -1,0 +1,66 @@
+.ListView {
+    .ListView__header {
+        display: flex;
+        flex-flow: row-reverse nowrap;
+        margin-bottom: 2rem;
+        gap: 3rem;
+        img {
+            max-width: 40%;
+        }
+        
+        .ListView__headerDesc {
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+            gap: 1.5rem;
+        }
+    }
+
+    .ListView__filters{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        width: 100%;
+
+        .ListView__actions {
+            width: 100%;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+    }
+    
+    .ListView__filteredItemsCount {
+        background-color: rgb(var(--v-theme-main-green));
+        color: white;
+        border-radius: 50%;
+        height: 1rem;
+        width: 1rem;
+        font-size: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: $bp-lg) {
+    .ListView {
+        .ListView__header {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+            gap: 1.5rem;
+            img {
+                max-width: 60%;
+            }
+            .ListView__headerDesc {
+                width: 100%;
+            }
+            .ListSearchBar  {
+                display: none;
+            }
+        }
+    }    
+}
