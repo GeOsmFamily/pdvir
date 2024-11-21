@@ -1,7 +1,7 @@
 <template>
   <div class="ListFilterResetButton">
     <span class="text-body-2">{{ itemsCount }} {{ $t(itemsLabelKey, itemsCount) }}</span>
-    <span class="ml-3 cursor-pointer text-caption text-main-blue" @click="() => resetFunction">{{ $t('list.resetFilters') }}</span>
+    <span class="ml-3 cursor-pointer text-caption text-main-blue" @click="() => resetFunction()">{{ $t('list.resetFilters') }}</span>
     <div class="ListView__filteredItemsCount ml-1">{{ filteredItemsCount }}</div>
   </div>
 </template>

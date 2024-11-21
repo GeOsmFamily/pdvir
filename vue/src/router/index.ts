@@ -73,7 +73,7 @@ const router = createRouter({
     {
       path: '/resources',
       name: 'resources',
-      component: () => import('@/views/resources/ResourcesView.vue')
+      component: () => import('@/views/resources/ResourceListView.vue')
     },
     {
       path: '/services',

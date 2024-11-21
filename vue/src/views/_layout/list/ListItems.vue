@@ -7,23 +7,24 @@
                 :item="item"
                 class="ListItems__card"></slot>
         </div>
-        <Pagination :items="items" v-model="paginatedItems" :items-per-page="itemsPerPage" />
+        <Pagination class="ListItems__pagination" :items="items" v-model="paginatedItems" :items-per-page="itemsPerPage" />
     </div>
 </template>
 
 <script setup lang="ts">
 import Pagination from '@/components/global/Pagination.vue';
 import type { Actor } from '@/models/interfaces/Actor';
+import type { Resource } from '@/models/interfaces/Resource';
 import { useApplicationStore } from '@/stores/applicationStore';
 import { ref, type Ref } from 'vue';
 const appStore = useApplicationStore();
 
 defineProps<{
-    items: Actor[]
+    items: Actor[] | Resource[]
 }>()
 
 const itemsPerPage = appStore.mobile ? 5 : 15
-const paginatedItems: Ref<Actor[]> = ref([])
+const paginatedItems: Ref<Actor[] | Resource[]> = ref([])
 </script>
 
 <style lang="scss">
@@ -37,9 +38,9 @@ const paginatedItems: Ref<Actor[]> = ref([])
         grid-template-columns: repeat(3, minmax(0, 1fr));;
         gap: 1.5rem;
         width: 100%;
-    }
-    .ListItems__card {
-        height: 100%;
+        .ListItems__card {
+            height: 100%;
+        }
     }
 }
 

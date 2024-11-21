@@ -2,10 +2,10 @@
   <div class="ListHeader">
       <img src="@/assets/images/Mosaic_actors_page.svg" alt="">
       <div class="ListHeader__content">
-          <PageTitle :title="$t('actors.title')"/>
-          <span class="ListHeader__desc">{{ $t('actors.desc') }}</span>
+          <PageTitle :title="title"/>
+          <span class="ListHeader__desc">{{ description }}</span>
           <ListSearchBar
-              :placeholder="$t('actors.search')"
+              :placeholder="searchPlaceholder"
               v-model="searchQuery"
           />
       </div>
@@ -17,6 +17,11 @@ import ListSearchBar from '@/views/_layout/list/ListSearchBar.vue';
 import PageTitle from '@/components/text-elements/PageTitle.vue';
 
 const searchQuery = defineModel()
+defineProps<{
+  title: string
+  description: string
+  searchPlaceholder: string
+}>()
 </script>
 
 <style lang="scss">
