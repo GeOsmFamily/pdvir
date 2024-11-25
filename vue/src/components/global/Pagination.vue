@@ -17,7 +17,10 @@ const paginatedItems = defineModel()
 const emit = defineEmits(['update:page'])
 onMounted(() => updatePaginatedItems())
 watch(page, () => updatePaginatedItems())
-watch(() => props.items, () => updatePaginatedItems())
+watch(() => props.items, () => {
+    page.value = 1
+    updatePaginatedItems()
+})
 
 const itemsCount = computed(() => props.items.length)
 const totalPages = computed(() => Math.ceil(itemsCount.value / props.itemsPerPage));
