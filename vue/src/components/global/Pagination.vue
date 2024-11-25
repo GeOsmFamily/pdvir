@@ -1,5 +1,5 @@
 <template>
-    <v-pagination v-model="page" :length="totalPages" :total-visible="5" class="mt-4"></v-pagination>
+    <v-pagination class="Pagination" v-model="page" :length="totalPages" :total-visible="5"></v-pagination>
 </template>
 
 <script setup lang="ts">
@@ -31,3 +31,13 @@ const updatePaginatedItems = () => {
     paginatedItems.value = props.items.slice(start, end);
 }
 </script>
+
+<style lang="scss">
+.Pagination {
+    padding-top: 1rem;
+    width: 100%;
+    // position: sticky;
+    // bottom: 0;
+    // background: linear-gradient(to bottom, transparent 0%, rgba(white, 60%) 50%);
+}
+</style>

@@ -28,6 +28,7 @@ import SectionTitle from '@/components/text-elements/SectionTitle.vue';
     max-width: 100%;
 
     > * {
+      max-width: calc($dim-container-w / 4);
       flex: 1 0 calc(25% - $dim-filter-gap * 4);
     }
   }

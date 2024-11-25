@@ -3,7 +3,7 @@
         <ListHeader
             :title="$t('actors.title')"
             :description="$t('actors.desc')"
-            :searchPlaceholder="$t('actors.search')"
+            :search-placeholder="$t('actors.search')"
             v-model="searchQuery"
         />
         <div class="ListView__filters">
@@ -32,7 +32,7 @@
         </div>
         <ListItems :items="sortedActors">
             <template #card="{ item }">
-                <ActorCard :actor="item" :key="item['@id']" />
+                <ActorCard :actor="(item as Actor)" :key="item.id" />
             </template>
         </ListItems>
     </div>
@@ -143,9 +143,9 @@ function searchActors(actors: Actor[]) {
         actor.expertises.some((exp: ActorExpertise) => exp.name.toLowerCase().includes(searchText)) ||
         actor.thematics.some((thematic: Thematic) => thematic.name.toLowerCase().includes(searchText)) ||
         actor.administrativeScopes.some((scope: AdministrativeScope) => scope.name.toLowerCase().includes(searchText)) ||
-        actor.officeName.toLowerCase().indexOf(searchText) > -1 ||
-        actor.officeAddress.toLowerCase().indexOf(searchText) > -1 ||
-        actor.contactName.toLowerCase().indexOf(searchText) > -1
+        (actor.officeName && actor.officeName.toLowerCase().indexOf(searchText) > -1) ||
+        (actor.officeAddress && actor.officeAddress.toLowerCase().indexOf(searchText) > -1) ||
+        (actor.contactName && actor.contactName.toLowerCase().indexOf(searchText) > -1)
     ))
 }
 </script>
