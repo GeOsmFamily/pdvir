@@ -2,7 +2,7 @@
     <InfoCard class="GenericInfoCard" :to="to">
         <template #content>
             <div class="GenericInfoCard__imgCtn">
-                <img class="GenericInfoCard__img" :src="image">
+                <img class="GenericInfoCard__img" :src="image" v-if="image">
             </div>
             <div class="GenericInfoCard__infoCtn">
                 <span class="InfoCard__title">{{ title }}</span>
