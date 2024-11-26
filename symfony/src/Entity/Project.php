@@ -23,6 +23,7 @@ use App\Entity\Trait\TimestampableEntity;
 use App\Entity\Trait\BlameableEntity;
 use App\Entity\Trait\LocalizableEntity;
 use App\Entity\Trait\ValidateableEntity;
+use App\Model\Enums\UserRoles;
 use App\Services\State\Processor\ProjectProcessor;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -55,15 +56,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Post(
-            security: 'is_granted("ROLE_ADMIN")',
+            security: "is_granted('".UserRoles::ROLE_EDITOR_PROJECTS."')",
             processor: ProjectProcessor::class
         ),
         new Patch(
-            security: 'is_granted("ROLE_ADMIN") or object.getCreatedBy() == user',
+            security: "is_granted('ROLE_ADMIN') or (is_granted('".UserRoles::ROLE_EDITOR_PROJECTS."') and object.getCreatedBy() == user)",
             processor: ProjectProcessor::class
         ),
         new Delete(
-            security: 'is_granted("ROLE_ADMIN") or object.getCreatedBy() == user',
+            security: 'is_granted("ROLE_ADMIN")',
         ),
     ],
     normalizationContext: ['groups' => [self::PROJECT_READ, self::PROJECT_READ_ALL]],
