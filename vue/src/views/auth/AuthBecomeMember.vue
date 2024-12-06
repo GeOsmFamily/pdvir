@@ -93,7 +93,7 @@ import { I18nT } from 'vue-i18n'
 import { UserProfileForm } from '@/services/userAndAuth/forms/UserProfileForm'
 import { useUserStore } from '@/stores/userStore'
 
-const { form, errors, handleSubmit, isSubmitting } = UserProfileForm.getSignUpForm()
+const { form, handleSubmit } = UserProfileForm.getSignUpForm()
 const userStore = useUserStore()
 
 const onSubmit = handleSubmit(

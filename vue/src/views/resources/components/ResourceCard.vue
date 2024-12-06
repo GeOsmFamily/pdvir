@@ -37,6 +37,8 @@ const icon = computed(() => {
       return 'mdi-download'
     case ResourceType.IMAGE:
       return 'mdi-arrow-right'
+    default:
+      return undefined
   }
 })
 

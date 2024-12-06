@@ -57,7 +57,7 @@ const userStore = useUserStore()
 
 const actionList = UserProfileForm.getRolesList()
 
-const { form, errors, handleSubmit, isSubmitting } = UserProfileForm.getSignUpThanksForm()
+const { form, handleSubmit } = UserProfileForm.getSignUpThanksForm()
 
 const onSubmit = handleSubmit(
   (values) => {

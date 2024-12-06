@@ -46,10 +46,9 @@ import LikeButton from '@/components/global/LikeButton.vue'
 import ShareButton from '@/components/global/ShareButton.vue'
 import { localizeDate } from '@/services/utils/UtilsService'
 
-const props = defineProps<{
+defineProps<{
   project: Project | null
   map?: boolean
-  key?: any
 }>()
 
 const getFormattedDate = (project: Project) => {

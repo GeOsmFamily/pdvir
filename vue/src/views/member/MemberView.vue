@@ -265,10 +265,6 @@ const submitForm = handleSubmit(
     console.error('Form validation failed:', errors)
   }
 )
-
-function beforeUpdate(arg0: () => void) {
-  throw new Error('Function not implemented.')
-}
 </script>
 <style lang="scss">
 .UserAccount {

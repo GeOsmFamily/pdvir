@@ -106,7 +106,7 @@ const projectStore = useProjectStore()
 const project = computed(() => projectStore.project)
 const isFormShown = ref(false)
 
-onBeforeRouteUpdate(async (to, from) => {
+onBeforeRouteUpdate(async (to) => {
   if (
     (projectStore.project?.slug && projectStore.project.slug !== to.params.slug) ||
     typeof to.params.slug === 'string'
@@ -148,7 +148,7 @@ const isEditable = computed(() => {
   )
 })
 
-const editProject = (project: Project) => {
+const editProject = () => {
   isFormShown.value = true
 }
 </script>

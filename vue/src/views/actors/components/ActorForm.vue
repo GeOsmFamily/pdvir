@@ -262,7 +262,7 @@ let existingExternalImages: string[] = []
 onMounted(async () => {
   await thematicsStore.getAll()
   if (actorToEdit) {
-    actorToEdit.logo ? (existingLogo.value = [actorToEdit.logo]) : (existingLogo.value = [])
+    existingLogo.value = actorToEdit.logo ? [actorToEdit.logo] : []
     existingImages.value = [...actorToEdit.images, ...actorToEdit.externalImages]
     existingHostedImages = actorToEdit.images
     existingExternalImages = actorToEdit.externalImages
@@ -299,6 +299,6 @@ const submitForm = handleSubmit(
     }
     actorsStore.createOrEditActor(actorSubmission, actorToEdit !== null)
   },
-  (error) => onInvalidSubmit
+  () => onInvalidSubmit
 )
 </script>

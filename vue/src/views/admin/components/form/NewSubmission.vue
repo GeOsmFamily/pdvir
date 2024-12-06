@@ -14,14 +14,11 @@
 <script setup lang="ts">
 import type { User } from '@/models/interfaces/auth/User'
 import { localizeDate, localizeTime } from '@/services/utils/UtilsService'
-import { computed } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   createdBy: User
   createdAt: Date
 }>()
-
-const fullName = computed(() => `${props.createdBy.firstName} ${props.createdBy.lastName}`)
 </script>
 
 <style lang="scss">
