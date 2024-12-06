@@ -59,7 +59,7 @@ onBeforeMount(() => {
   }
 
   &[is-light-header="true"] {
-    
+
     --dim-container-w: 1200px;
 
     .App__content--desktop {
@@ -67,21 +67,21 @@ onBeforeMount(() => {
       padding-bottom: 0;
     }
     .Header--desktop .Header__nav {
-        height: var(--dim-header-nav-h);
-        border-bottom: solid 1px #d9d9d9;
+      height: var(--dim-header-nav-h);
+      border-bottom: solid 1px #d9d9d9;
     }
     .Header--mobile {
       margin-top: 0;
     }
     .Header::after {
-        content: "";
-        transition: opacity 0.25s ease-in-out;
-        opacity: 0;
+      content: "";
+      transition: opacity 0.25s ease-in-out;
+      opacity: 0;
     }
     .v-breadcrumbs {
-        display: none;
+      display: none;
     }
   }
-  
+
 }
 </style>
