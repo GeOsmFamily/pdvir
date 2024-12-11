@@ -3,14 +3,16 @@
     <div class="HomeView__ctn HomeView__ctn--main">
       <div class="HomeView__mainContent">
         <div class="HomeView__mainContentInfo">
-          <PageTitle :title="$t('home.main.title')"/>
+          <PageTitle :title="$t('home.main.title')" />
           <p>{{ $t('home.main.desc') }}</p>
-          <v-btn class="HomeView__mainAction" color="main-blue" :to="{ name: 'projects' }">{{ $t('home.main.action') }}</v-btn>
+          <v-btn class="HomeView__mainAction" color="main-blue" :to="{ name: 'projects' }">{{
+            $t('home.main.action')
+          }}</v-btn>
         </div>
         <HomeKpis class="HomeView__mainContentKpis" />
       </div>
       <div class="HomeView__mainImagesCtn">
-        <img src="@/assets/images/home_iconography.svg" alt="">
+        <img src="@/assets/images/home_iconography.svg" alt="" />
       </div>
     </div>
     <div class="HomeView__ctn HomeView__ctn--news">
@@ -59,12 +61,12 @@ onMounted(async () => await homeStore.getGlobalKpis())
     display: flex;
     flex-flow: column nowrap;
     margin: 4rem 0 4rem 0;
-    gap: .5rem;
+    gap: 0.5rem;
     &--main {
       flex-flow: row nowrap;
       gap: 3rem;
       margin: 0;
-      
+
       .HomeView__mainContent {
         display: flex;
         flex-flow: column nowrap;
@@ -75,7 +77,6 @@ onMounted(async () => await homeStore.getGlobalKpis())
           flex-flow: column nowrap;
           gap: 1rem;
           align-items: flex-start;
-          
         }
       }
       .HomeView__mainImagesCtn {
@@ -94,7 +95,7 @@ onMounted(async () => await homeStore.getGlobalKpis())
       position: relative;
 
       &::after {
-        content: "";
+        content: '';
         right: 0;
         z-index: 1;
         pointer-events: none;
@@ -109,7 +110,6 @@ onMounted(async () => await homeStore.getGlobalKpis())
       }
 
       > * {
-
         z-index: 2;
       }
     }
@@ -118,7 +118,6 @@ onMounted(async () => await homeStore.getGlobalKpis())
 
 @media (max-width: $bp-xl) {
   .HomeView {
-
     .HomeKpis,
     .HomeMapDescription__mapImg,
     .HomeBecomeMember {
@@ -157,7 +156,7 @@ onMounted(async () => await homeStore.getGlobalKpis())
           width: 100%;
           background-size: 40rem;
         }
-      } 
+      }
     }
   }
 }

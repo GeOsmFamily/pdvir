@@ -38,7 +38,9 @@ export interface Project extends Timestampable, Validateable, Blameable, Localiz
   actor: Partial<Actor>;
 }
 
-export interface ProjectSubmission extends Omit<Project, "actor" | "thematics" >, LocalizableSubmission {
-  actor: iri;
-  thematics: iri[];
+export interface ProjectSubmission
+  extends Omit<Project, 'actor' | 'thematics'>,
+    LocalizableSubmission {
+  actor: iri
+  thematics: iri[]
 }

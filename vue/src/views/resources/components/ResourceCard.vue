@@ -51,8 +51,8 @@ import { ResourceService } from '@/services/resources/ResourceService';
 
 const resourceStore = useResourceStore()
 const props = defineProps<{
-  resource: Resource;
-}>();
+  resource: Resource
+}>()
 
 const icon = computed(() => {
   switch (props.resource.format) {
@@ -64,12 +64,14 @@ const icon = computed(() => {
       return 'mdi-download'
     case ResourceFormat.IMAGE:
       return 'mdi-arrow-right'
+    default:
+      return undefined
   }
 })
 
 const editResource = () => {
-    resourceStore.isResourceFormShown = true;
-    resourceStore.editedResourceId = props.resource.id;
+  resourceStore.isResourceFormShown = true
+  resourceStore.editedResourceId = props.resource.id
 }
 const locationName = computed(() => GeocodingService.getLocationName(props.resource.geoData))
 const dateRangeLabel = computed(() => getDateRangeLabel(props.resource.startAt, props.resource.endAt))

@@ -70,12 +70,12 @@
   </v-menu>
 </template>
 <script setup lang="ts">
-import { UserRoles } from '@/models/enums/auth/UserRoles';
-import { DialogKey } from '@/models/enums/app/DialogKey';
-import { useActorsStore } from '@/stores/actorsStore';
-import { useUserStore } from '@/stores/userStore';
-import { useProjectStore } from '@/stores/projectStore';
-import { useResourceStore } from '@/stores/resourceStore';
+import { UserRoles } from '@/models/enums/auth/UserRoles'
+import { DialogKey } from '@/models/enums/app/DialogKey'
+import { useActorsStore } from '@/stores/actorsStore'
+import { useUserStore } from '@/stores/userStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { useResourceStore } from '@/stores/resourceStore'
 
 const userStore = useUserStore()
 const actorsStore = useActorsStore()

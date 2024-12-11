@@ -58,4 +58,7 @@ export class ResourceFormService {
 
         return {form, errors, handleSubmit, isSubmitting, setFieldValue}
     }
+
+    return { form, errors, handleSubmit, isSubmitting }
+  }
 }

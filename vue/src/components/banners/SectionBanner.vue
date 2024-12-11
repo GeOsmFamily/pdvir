@@ -50,5 +50,6 @@ defineProps<{
             color: white;
         }
     }
+  }
 }
 </style>

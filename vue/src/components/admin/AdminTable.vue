@@ -1,20 +1,21 @@
 <template>
-    <div class="AdminTable">
-        <div 
-            class="AdminTable__row"
-            v-for="item in paginatedItems" :key="item.id"
-            :class="{ 'AdminTable__row--overlay': !item.isValidated }"
-            :style="{ gridTemplateColumns: columnWidths.join(' ') }"
-        >
-            <div class="AdminTable__item" v-for="key in tableKeys">
-                {{ getNestedObjectValue(item, key) }}
-            </div>
-            <div class="AdminTable__item AdminTable__item--last">
-                <slot name="editContentCell" :item="item"></slot>
-            </div>
-        </div>
-        <Pagination :items="items" v-model="paginatedItems" />
+  <div class="AdminTable">
+    <div
+      class="AdminTable__row"
+      v-for="item in paginatedItems"
+      :key="item.id"
+      :class="{ 'AdminTable__row--overlay': !item.isValidated }"
+      :style="{ gridTemplateColumns: columnWidths.join(' ') }"
+    >
+      <div class="AdminTable__item" v-for="(tableKey, index) in tableKeys" :key="index">
+        {{ getNestedObjectValue(item, tableKey) }}
+      </div>
+      <div class="AdminTable__item AdminTable__item--last">
+        <slot name="editContentCell" :item="item"></slot>
+      </div>
     </div>
+    <Pagination :items="items" v-model="paginatedItems" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -32,38 +33,38 @@ const props = defineProps<{
   columnWidths?: string[];
   plainText?: boolean;
 }>()
-const defaultColumnWidths = ['15%', '40%', '25%', '20%'];
-const columnWidths = props.columnWidths || defaultColumnWidths;
-const paginatedItems: Ref<typeof props.items> = ref([]);
+const defaultColumnWidths = ['15%', '40%', '25%', '20%']
+const columnWidths = props.columnWidths || defaultColumnWidths
+const paginatedItems: Ref<typeof props.items> = ref([])
 </script>
 
 <style lang="scss">
 .AdminTable {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 30px;
 }
 .AdminTable__row {
-    display: grid;
-    flex-direction: row;
-    height: 3.5rem;
-    align-items: center;
-    padding-left: 10px;
-    border-bottom: 1px solid rgb(var(--v-theme-main-grey));
-    &--overlay {
-        background-color: rgb(var(--v-theme-light-yellow));
+  display: grid;
+  flex-direction: row;
+  height: 3.5rem;
+  align-items: center;
+  padding-left: 10px;
+  border-bottom: 1px solid rgb(var(--v-theme-main-grey));
+  &--overlay {
+    background-color: rgb(var(--v-theme-light-yellow));
+  }
+  .AdminTable__item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    &--last {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
     }
-    .AdminTable__item {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        &--last {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 10px;
-        }
-    }
+  }
 }
 </style>

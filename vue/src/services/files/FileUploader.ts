@@ -1,5 +1,5 @@
-import { apiClient } from "@/assets/plugins/axios/api";
-import type { MediaObject } from "@/models/interfaces/MediaObject";
+import { apiClient } from '@/assets/plugins/axios/api'
+import type { MediaObject } from '@/models/interfaces/MediaObject'
 
 export default class FileUploader {
     public static async uploadFile(file: File): Promise<MediaObject> {

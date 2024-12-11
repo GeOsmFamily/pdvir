@@ -6,5 +6,6 @@ export const nestedObjectsToIri = (payload: any) => {
             payload[key] = payload[key]["@id"]
         }
     }
-    return payload;
+  }
+  return payload
 }

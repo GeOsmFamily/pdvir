@@ -75,15 +75,14 @@ const resourceStore = useResourceStore();
 const router = useRouter();
 watch(() => adminStore.selectedAdminPanel, () => {
     if (adminStore.selectedAdminPanel === AdministrationPanels.MEMBERS) {
-        router.push({ name: "adminMembers" })
-        adminStore.selectedAdminItem = null
-    }
-    else if (adminStore.selectedAdminPanel === AdministrationPanels.CONTENT) {
-        router.push({ name: "adminActors" })
-        adminStore.selectedAdminItem = AdministrationPanels.CONTENT_ACTORS
+      router.push({ name: 'adminMembers' })
+      adminStore.selectedAdminItem = null
+    } else if (adminStore.selectedAdminPanel === AdministrationPanels.CONTENT) {
+      router.push({ name: 'adminActors' })
+      adminStore.selectedAdminItem = AdministrationPanels.CONTENT_ACTORS
     } else {
-        router.push({ name: "adminComments" })
-        adminStore.selectedAdminItem = null
+      router.push({ name: 'adminComments' })
+      adminStore.selectedAdminItem = null
     }
 })
 const actorsToValidate = computed(() => actorsStore.actors.filter(x => !x.isValidated).length)
@@ -93,42 +92,42 @@ const resourcesToValidate = computed(() => resourceStore.resources.filter(x => !
 
 <style lang="scss">
 .Admin {
-    &__panelSelector_container {
-        width: 100%;
+  &__panelSelector_container {
+    width: 100%;
+  }
+  &__selectedPanel {
+    border-left: 4px solid rgb(var(--v-theme-main-blue));
+    font-weight: 700;
+  }
+  &__itemSelector {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    cursor: pointer;
+    height: 40px;
+    text-decoration: none;
+    color: rgb(var(--v-theme-main-blue));
+    &:hover {
+      background-color: rgb(var(--v-theme-light-yellow));
     }
-    &__selectedPanel{
-        border-left: 4px solid rgb(var(--v-theme-main-blue)); 
-        font-weight: 700;
+    &.router-link-exact-active {
+      font-weight: 700;
+      background-color: rgb(var(--v-theme-light-yellow));
     }
-    &__itemSelector{
-        display: flex;
-        align-items: center;
-        font-weight: 500;
-        cursor: pointer;
-        height: 40px;
-        text-decoration: none;
-        color: rgb(var(--v-theme-main-blue));
-        &:hover {
-            background-color: rgb(var(--v-theme-light-yellow));
-        }
-        &.router-link-exact-active {
-            font-weight: 700;
-            background-color: rgb(var(--v-theme-light-yellow));
-        }
-    }
-    &__itemToValidateCounter{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgb(var(--v-theme-main-red));
-        border-radius: 1rem;
-        height: 16px;
-        min-width: 16px;
-        padding: .25rem;
-        color: white;
-        font-size: 10px;
-        font-weight: 400;
-        margin-left: 8px;
-    }
+  }
+  &__itemToValidateCounter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(var(--v-theme-main-red));
+    border-radius: 1rem;
+    height: 16px;
+    min-width: 16px;
+    padding: 0.25rem;
+    color: white;
+    font-size: 10px;
+    font-weight: 400;
+    margin-left: 8px;
+  }
 }
 </style>

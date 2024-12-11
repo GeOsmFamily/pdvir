@@ -3,10 +3,10 @@ import { defineStore } from 'pinia'
 import { ref, type Ref, computed, watch } from 'vue';
 import type { Resource, ResourceEvent, ResourceSubmission } from '@/models/interfaces/Resource'
 import { ResourceService } from '@/services/resources/ResourceService'
-import { FormType } from '@/models/enums/app/FormType';
-import { i18n } from '@/assets/plugins/i18n';
-import { addNotification } from '@/services/notifications/NotificationService';
-import { NotificationType } from '@/models/enums/app/NotificationType';
+import { FormType } from '@/models/enums/app/FormType'
+import { i18n } from '@/assets/plugins/i18n'
+import { addNotification } from '@/services/notifications/NotificationService'
+import { NotificationType } from '@/models/enums/app/NotificationType'
 
 export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
   const resources: Ref<Resource[]> = ref([])
@@ -33,7 +33,10 @@ export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
   }
 
   const submitResource = async (resource: ResourceSubmission, type: FormType) => {
-    const submittedResource = type === FormType.CREATE ? await ResourceService.post(resource) : await ResourceService.patch(resource)
+    const submittedResource =
+      type === FormType.CREATE
+        ? await ResourceService.post(resource)
+        : await ResourceService.patch(resource)
     if (type === FormType.CREATE) {
       resources.value.push(submittedResource)
     } else if (type === FormType.EDIT || type === FormType.VALIDATE) {

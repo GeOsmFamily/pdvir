@@ -121,9 +121,9 @@ const resourceStore = useResourceStore();
 const thematicsStore = useThematicStore();
 
 const props = defineProps<{
-  type: FormType,
-  resource: Resource | null,
-  isShown: boolean,
+  type: FormType
+  resource: Resource | null
+  isShown: boolean
 }>()
 
 const isResourceValidated = computed(() => props.resource?.isValidated)
@@ -147,15 +147,15 @@ onMounted(async () => {
 })
 
 const submitForm = handleSubmit(
-    async (values) => {
-        const resourceSubmission: ResourceSubmission = nestedObjectsToIri(values)
-        if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.resource) {
-            resourceSubmission.id = props.resource.id
-        }
-        
-        const submittedResource = await resourceStore.submitResource(resourceSubmission, props.type)
-        emit('submitted', submittedResource)
-    },
-    () => onInvalidSubmit
-);
+  async (values) => {
+    const resourceSubmission: ResourceSubmission = nestedObjectsToIri(values)
+    if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.resource) {
+      resourceSubmission.id = props.resource.id
+    }
+
+    const submittedResource = await resourceStore.submitResource(resourceSubmission, props.type)
+    emit('submitted', submittedResource)
+  },
+  () => onInvalidSubmit
+)
 </script>

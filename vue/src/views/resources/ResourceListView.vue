@@ -1,10 +1,17 @@
 <template>
-    <div class="ListView ListView--resource">
-        <ListHeader
-            :title="$t('resources.title')"
-            :description="$t('resources.desc')"
-            :search-placeholder="$t('resources.search')"
-            v-model="searchQuery"
+  <div class="ListView ListView--resource">
+    <ListHeader
+      :title="$t('resources.title')"
+      :description="$t('resources.desc')"
+      :search-placeholder="$t('resources.search')"
+      v-model="searchQuery"
+    />
+    <div class="ListView__filters">
+      <ListFilterBox>
+        <ListFilterSelect
+          v-model="selectedThematic"
+          :items="thematicsItems"
+          :label="$t('resources.thematic')"
         />
         <div class="ListView__filters">
             <ListFilterBox>
@@ -34,12 +41,14 @@
                 </div>
             </div>
         </div>
-        <ListItems :items="sortedResources">
-            <template #card="{ item }">
-                <ResourceCard :resource="(item as Resource)" :key="item.id" />
-            </template>
-        </ListItems>
+      </div>
     </div>
+    <ListItems :items="sortedResources">
+      <template #card="{ item }">
+        <ResourceCard :resource="item as Resource" :key="item.id" />
+      </template>
+    </ListItems>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -61,8 +70,8 @@ import { ResourceFormat } from '@/models/enums/contents/ResourceFormat';
 import { ResourceType } from '@/models/enums/contents/ResourceType';
 import { useRoute } from 'vue-router';
 
-const resourceStore = useResourceStore();
-const userStore = useUserStore();
+const resourceStore = useResourceStore()
+const userStore = useUserStore()
 const thematicsStore = useThematicStore()
 const route = useRoute()
 
@@ -81,11 +90,11 @@ onMounted(async () => {
 })
 
 const filteredResources = computed(() => {
-    let filteredResources = [...resourceStore.resources]
+  let filteredResources = [...resourceStore.resources]
 
-    if (searchQuery.value) {
-        filteredResources = searchResources(filteredResources)
-    }
+  if (searchQuery.value) {
+    filteredResources = searchResources(filteredResources)
+  }
 
     if (!arePassedEventsShown.value) {
         const todayDate = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
