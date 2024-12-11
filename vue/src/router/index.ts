@@ -110,11 +110,11 @@ const router = createRouter({
       },
       component: () => import('@/views/admin/AdminView.vue'),
       beforeEnter: (to, from, next) => {
-        const userStore = useUserStore()
+        // const userStore = useUserStore()
         // if (!userStore.userIsAdmin()) {
         //   next({ path: '/' })
         // } else {
-          next()
+        next()
         // }
       },
       children: [
@@ -164,6 +164,25 @@ router.beforeEach((to, from, next) => {
     applicationStore.activeDialog = null
   }
   next()
+})
+
+// Workaround for https://github.com/vitejs/vite/issues/11804
+router.onError((err, to) => {
+  if (err?.message?.includes?.('Failed to fetch dynamically imported module')) {
+    if (!localStorage.getItem('vuetify:dynamic-reload')) {
+      console.log('Reloading page to fix dynamic import error')
+      localStorage.setItem('vuetify:dynamic-reload', 'true')
+      location.assign(to.fullPath)
+    } else {
+      console.error('Dynamic import error, reloading page did not fix it', err)
+    }
+  } else {
+    console.error(err)
+  }
+})
+
+router.isReady().then(() => {
+  localStorage.removeItem('vuetify:dynamic-reload')
 })
 
 export default router
