@@ -19,14 +19,15 @@
 
 <script setup lang="ts">
 import type { Actor } from '@/models/interfaces/Actor';
-import { getNestedObjectValue, localizeDate } from '@/services/utils/UtilsService';
+import { getNestedObjectValue } from '@/services/utils/UtilsService';
 import { ref,  type Ref } from 'vue';
 import Pagination from '@/components/global/Pagination.vue';
 import type { Project } from '@/models/interfaces/Project';
 import type { User } from '@/models/interfaces/auth/User';
+import type { Resource } from '@/models/interfaces/Resource';
 
 const props = defineProps<{
-  items: Actor[] | User[] | Project[];
+  items: Actor[] | User[] | Project[] | Resource[];
   tableKeys: string[];
   columnWidths?: string[];
   plainText?: boolean;

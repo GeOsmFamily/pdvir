@@ -4,6 +4,7 @@ import { createVuetify, type ThemeDefinition }  from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import '@mdi/font/css/materialdesignicons.css'
+import { VDateInput } from 'vuetify/labs/VDateInput'
 
 const pucCustomTheme: ThemeDefinition = {
     colors: {
@@ -19,6 +20,10 @@ const pucCustomTheme: ThemeDefinition = {
   }
 
 export const vuetify = createVuetify({
+    components: {
+      ...components,
+      VDateInput,
+    },
     display: {
       mobileBreakpoint: 'lg',
       thresholds: {
@@ -76,6 +81,5 @@ export const vuetify = createVuetify({
         }],
       },
     },
-    components,
     directives,
   })

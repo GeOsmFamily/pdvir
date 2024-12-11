@@ -6,7 +6,8 @@
             "action": "Découvrir les projets"
         },
         "news": {
-            "title": "À la une"
+            "title": "À la une",
+            "action": "Toutes les actualités"
         },
         "map": {
             "title": "La carte interactive\ndu Cameroun",
@@ -38,7 +39,8 @@
             "welcomeDescription": "Composez votre carte thématique grâce aux différents données mises à disposition sur la Plateforme Urbaine du Cameroun."
         },
         "agenda": {
-            "title": "Agenda"
+            "title": "Agenda",
+            "action": "Tous les événements"
         },
         "becomeMember": {
             "title": "Pourquoi adhérer ?",

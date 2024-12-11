@@ -1,7 +1,7 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
 import { ref, type Ref, computed, watch } from 'vue';
-import type { Resource, ResourceSubmission } from '@/models/interfaces/Resource'
+import type { Resource, ResourceEvent, ResourceSubmission } from '@/models/interfaces/Resource'
 import { ResourceService } from '@/services/resources/ResourceService'
 import { FormType } from '@/models/enums/app/FormType';
 import { i18n } from '@/assets/plugins/i18n';
@@ -11,14 +11,24 @@ import { NotificationType } from '@/models/enums/app/NotificationType';
 export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
   const resources: Ref<Resource[]> = ref([])
   const resource: Ref<Resource | null> = ref(null)
+  const nearestEvents: Ref<ResourceEvent[]> = ref([])
   const editedResourceId: Ref<Resource['id'] | null> = ref(null)
   const isResourceFormShown = ref(false)
 
-  const editedResource = computed(() => resources.value.find((resource) => resource.id === editedResourceId.value))
+  const editedResource = computed(() => {
+    return resources.value.find((resource) => resource.id === editedResourceId.value)
+  })
 
   async function getAll(): Promise<void> {
-    if (resources.value.length === 0) {
+    if (resources.value.length <= 3) {
       resources.value = await ResourceService.getAll()
+    }
+  }
+  const getNearestEvents = async () => {
+    if (nearestEvents.value.length > 0) return
+    nearestEvents.value = await ResourceService.getNearestEvents()
+    if (resources.value.length === 0) {
+      resources.value = nearestEvents.value
     }
   }
 
@@ -37,12 +47,11 @@ export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
     return submittedResource
   }
 
-  watch(() => isResourceFormShown.value, (newValue, oldValue) => {
-    
+  watch(() => isResourceFormShown.value, (newValue) => {
     if (newValue == false) {
       editedResourceId.value = null
     }
-  } )
+  })
 
   const deleteResource = async (resource: Resource) => {
     await ResourceService.delete(resource)
@@ -55,7 +64,7 @@ export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
   }
 
   return {
-    resources, resource, isResourceFormShown, editedResourceId, editedResource,
-    getAll, submitResource, deleteResource
+    resources, resource, isResourceFormShown, editedResourceId, editedResource, nearestEvents,
+    getAll, submitResource, deleteResource, getNearestEvents
   }
 })

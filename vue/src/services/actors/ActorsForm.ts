@@ -1,9 +1,8 @@
 import type { Actor } from "@/models/interfaces/Actor";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useField, useForm } from "vee-validate";
-import { z, ZodType } from "zod";
+import { z } from "zod";
 import { i18n } from "@/assets/plugins/i18n";
-import type { SymfonyRelation } from "@/models/interfaces/SymfonyRelation";
 import { CommonZodSchema } from "../forms/CommonZodSchema";
 
 export class ActorsFormService {

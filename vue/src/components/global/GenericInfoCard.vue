@@ -1,12 +1,15 @@
 <template>
-    <InfoCard class="GenericInfoCard" :to="to">
+    <InfoCard class="GenericInfoCard" :to="to" :href="href" :target="href ? '_blank' : undefined">
         <template #content>
             <div class="GenericInfoCard__imgCtn">
                 <img class="GenericInfoCard__img" :src="image" v-if="image">
+                <slot name="image"></slot>
             </div>
             <div class="GenericInfoCard__infoCtn">
-                <span class="InfoCard__title">{{ title }}</span>
-                <span class="InfoCard__description" >{{ description }}</span>
+                <slot name="description">
+                    <span class="InfoCard__title">{{ title }}</span>
+                    <span class="InfoCard__description" >{{ description }}</span>
+                </slot>
             </div>
         </template>
         <template #footer-left>
@@ -49,6 +52,7 @@ const props = withDefaults(defineProps<{
     actionIcon?: string
     isEditable?: boolean
     editFunction?: Function
+    href?: string,
 }>(), {
     image: imageDefault
 });

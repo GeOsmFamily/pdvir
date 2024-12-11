@@ -4,34 +4,58 @@ import { useField, useForm } from "vee-validate";
 import { z } from "zod";
 import { i18n } from "@/assets/plugins/i18n";
 import { CommonZodSchema } from "@/services/forms/CommonZodSchema";
+import { ResourceFormat } from "@/models/enums/contents/ResourceFormat";
 import { ResourceType } from "@/models/enums/contents/ResourceType";
+import GeocodingService from "../map/GeocodingService";
 
 export class ResourceFormService {
     static getForm(resource: Resource | null) {
         const zodModels = CommonZodSchema.getDefinitions()
+        // @ts-ignore
         const resourceSchema: z.ZodType<Partial<Resource>> = z.object({
             name: z
                 .string()
                 .min(1, { message: i18n.t('forms.errorMessages.required') }),
             description: zodModels.description,
             type: z.nativeEnum(ResourceType),
-            // thematics: zodModels.symfonyRelations,
-            link: zodModels.website,
+            osmData: zodModels.osmData.nullable(),
+            startAt: z.coerce.date().nullable().optional(),
+            endAt: z.coerce.date().nullable().optional(),
+            file: zodModels.file.nullable().optional(),
+            link: zodModels.website.nullable().optional(),
+            format: z.nativeEnum(ResourceFormat),
+            thematics: zodModels.symfonyRelations,
         })
+        .refine(schema => { return (schema.file || schema.link) }, {
+            message: i18n.t("resources.form.errorMessages.atLeastOneField"),
+            path: ["link", "file"],
+        })
+        .refine(schema => ((schema.type === ResourceType.EVENTS && schema.startAt) || schema.type !== ResourceType.EVENTS), {
+            message: i18n.t("forms.errorMessages.required"),
+            path: ["startAt"],
+        });
 
-        const { errors, handleSubmit, isSubmitting } = useForm<Partial<Resource | ResourceSubmission>>({
-            initialValues: resource,
+        const { errors, handleSubmit, isSubmitting, setFieldValue } = useForm<Partial<Resource | ResourceSubmission>>({
+            initialValues: {
+                ...resource,
+                osmData: resource?.geoData ? GeocodingService.geoDataToGeocodingItem(resource?.geoData) : null,
+            },
             validationSchema: toTypedSchema(resourceSchema),
         });
 
-        const form = {
+        const form: any = {
             name: useField('name'),
             description: useField('description'),
             type: useField('type'),
-            // thematics: useField('thematics'),
+            file: useField('file'),
+            format: useField('format'),
+            osmData: useField('osmData'),
+            startAt: useField('startAt'),
+            endAt: useField('endAt'),
+            thematics: useField('thematics'),
             link: useField('link'),
         }
 
-        return {form, errors, handleSubmit, isSubmitting}
+        return {form, errors, handleSubmit, isSubmitting, setFieldValue}
     }
 }

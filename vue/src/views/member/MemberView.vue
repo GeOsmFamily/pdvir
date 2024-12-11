@@ -83,17 +83,17 @@
                     <BasicCard icon="mdi-pencil-outline" class="mt-6">
                         <span class="ml-2">{{ $t('header.content') }}</span>
                     </BasicCard>
-                    <v-divider></v-divider>
+                    <v-divider color="main-grey" class="border-opacity-100"></v-divider>
                     <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_ACTORS)" @click="actorsStore.setActorEditionMode(null)">
                         <span class="ml-2">{{ $t('header.addActor') }}</span>
                     </BasicCard>
-                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_PROJECTS)">
+                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_PROJECTS)" @click="projectStore.isProjectFormShown = true">
                         <span class="ml-2">{{ $t('header.addProject') }}</span>
                     </BasicCard>
                     <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_DATA)">
                         <span class="ml-2">{{ $t('header.addData') }}</span>
                     </BasicCard>
-                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_RESSOURCES)">
+                    <BasicCard icon="mdi-plus" v-if="userStore.userHasRole(UserRoles.EDITOR_RESSOURCES)" @click="resourceStore.isResourceFormShown = true">
                         <span class="ml-2">{{ $t('header.addResource') }}</span>
                     </BasicCard>
                 </div>
@@ -121,8 +121,13 @@ import { InputImageValidator } from '@/services/files/InputImageValidator';
 import { useActorsStore } from '@/stores/actorsStore';
 import { useUserStore } from '@/stores/userStore';
 import { onMounted, ref, watch, type Ref } from 'vue';
+import { useProjectStore } from '@/stores/projectStore';
+import { useResourceStore } from '@/stores/resourceStore';
+
 const userStore = useUserStore();
 const actorsStore = useActorsStore();
+const projectStore = useProjectStore()
+const resourceStore = useResourceStore()
 let requestedRoles = UserProfileForm.getRolesList()
 let { form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(userStore.currentUser);
 

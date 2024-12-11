@@ -55,6 +55,16 @@ defineProps<{
             font-size: 14px;
             font-weight: 700;
             color: rgb(var(--v-theme-light-blue));
+            display: flex;
+            flex-flow: column nowrap;
+            gap: .125rem;
+
+            > * {
+                display: flex;
+                flex-flow: row nowrap;
+                gap: .25rem;
+                align-items: center;
+            }
         }
 
         .InfoCard__title {
