@@ -27,7 +27,7 @@ class NominatimService
     public function fetchOsmPlaceById(int $osmId, string $osmType): ?array
     {
         $osmIdentifier = strtoupper($osmType)[0].$osmId;
-        
+
         try {
             $url = sprintf('https://'.$this->params->get('domain').'/nominatim/lookup?osm_ids='.$osmIdentifier.'&format=json');
             $response = $this->httpClient->request('GET', $url);
@@ -35,7 +35,7 @@ class NominatimService
         } catch (\Exception $e) {
             // use public Nominatim service if issue with local one
             $url = sprintf('https://nominatim.openstreetmap.org/lookup?osm_ids='.$osmIdentifier.'&format=json');
-            $response = $this->httpClient->request('GET', $url);   
+            $response = $this->httpClient->request('GET', $url);
             $data = $response->toArray();
         }
 

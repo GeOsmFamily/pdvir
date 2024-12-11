@@ -91,7 +91,7 @@ class Resource
     #[ORM\Column(enumType: ResourceFormat::class)]
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?ResourceFormat $format = null;
-    
+
     /**
      * @var Collection<int, Thematic>
      */
@@ -115,7 +115,7 @@ class Resource
     #[ORM\Column(nullable: true)]
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?\DateTimeImmutable $endAt = null;
-    
+
     #[ORM\ManyToOne(targetEntity: MediaObject::class)]
     #[ApiProperty(types: ['https://schema.org/file'])]
     #[Groups([self::GET_FULL, self::WRITE])]
@@ -130,7 +130,7 @@ class Resource
     {
         return $this->id;
     }
-    
+
     public function getName(): ?string
     {
         return $this->name;
@@ -154,7 +154,7 @@ class Resource
 
         return $this;
     }
-    
+
     public function getFile(): ?MediaObject
     {
         return $this->file;
@@ -250,5 +250,4 @@ class Resource
 
         return $this;
     }
-
 }
