@@ -67,8 +67,7 @@ onBeforeMount(() => {
     flex: 1 1 auto;
   }
 
-  &[is-light-header="true"] {
-
+  &[is-light-header='true'] {
     --dim-container-w: 1200px;
 
     .App__content--desktop {
@@ -83,7 +82,7 @@ onBeforeMount(() => {
       margin-top: 0;
     }
     .Header::after {
-      content: "";
+      content: '';
       transition: opacity 0.25s ease-in-out;
       opacity: 0;
     }

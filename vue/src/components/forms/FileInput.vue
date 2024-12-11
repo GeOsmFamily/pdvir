@@ -1,28 +1,47 @@
 <template>
   <div class="FileInput">
     <div class="FileInput__btnCtn">
-      <v-btn class="FileInput__btn text-main-blue align-self-start" :extension="fileExtension" variant="elevated" :loading="isSelecting" @click="handleFileImport">
-        <span class="FileInput__fileNameLabel">{{ file ? fileNameWithoutExtension : $t('resources.form.fields.file.browse') }}</span>
-        <span v-if="file" >{{ "." + fileExtension }}</span>
+      <v-btn
+        class="FileInput__btn text-main-blue align-self-start"
+        :extension="fileExtension"
+        variant="elevated"
+        :loading="isSelecting"
+        @click="handleFileImport"
+      >
+        <span class="FileInput__fileNameLabel">{{
+          file ? fileNameWithoutExtension : $t('resources.form.fields.file.browse')
+        }}</span>
+        <span v-if="file">{{ '.' + fileExtension }}</span>
       </v-btn>
-      <v-btn v-if="file" variant="text" density="comfortable" icon="mdi-trash-can-outline" color="main-blue" @click="file = null"></v-btn>
+      <v-btn
+        v-if="file"
+        variant="text"
+        density="comfortable"
+        icon="mdi-trash-can-outline"
+        color="main-blue"
+        @click="file = null"
+      ></v-btn>
     </div>
-    <v-text-field :error-messages="errorMessages" hide-details="auto" class="FileInput__errorMessage" />
-    <input ref="uploader" class="d-none" type="file" @change="onFileChanged">
+    <v-text-field
+      :error-messages="errorMessages"
+      hide-details="auto"
+      class="FileInput__errorMessage"
+    />
+    <input ref="uploader" class="d-none" type="file" @change="onFileChanged" />
     <!--<div class="FileInput__maxSize" v-if="maxSize">{{ $t('resources.form.fields.file.maxSize', { maxSize }) }}</div>-->
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import type { MediaObject } from '@/models/interfaces/MediaObject';
+import { computed, ref } from 'vue'
+import type { MediaObject } from '@/models/interfaces/MediaObject'
 
 const isSelecting = ref(false)
 const file = defineModel<File | MediaObject | null>()
 
 const fileName = computed(() => {
   if (file.value == null) {
-    return '' 
+    return ''
   } else if (file.value instanceof File) {
     return file.value.name + (file.value.size ? ` (${fileSize.value})` : '')
   } else {
@@ -50,21 +69,28 @@ const fileSize = computed(() => {
 
 const uploader = ref()
 
-withDefaults(defineProps<{
-  maxSize?: number
-  errorMessages?: string
-}>(), {
-  maxSize: 5
-})
+withDefaults(
+  defineProps<{
+    maxSize?: number
+    errorMessages?: string
+  }>(),
+  {
+    maxSize: 5
+  }
+)
 
 const handleFileImport = () => {
-  isSelecting.value = true;
+  isSelecting.value = true
 
-  window.addEventListener('focus', () => {
-    isSelecting.value = false
-  }, { once: true });
+  window.addEventListener(
+    'focus',
+    () => {
+      isSelecting.value = false
+    },
+    { once: true }
+  )
 
-  uploader.value.click();
+  uploader.value.click()
 }
 
 const onFileChanged = (event: any) => {
@@ -76,7 +102,7 @@ const onFileChanged = (event: any) => {
 .FileInput {
   display: flex;
   flex-flow: column nowrap;
-  gap: .5rem;
+  gap: 0.5rem;
 
   .FileInput__maxSize {
     font-size: $font-size-xs;
@@ -86,7 +112,7 @@ const onFileChanged = (event: any) => {
     position: relative;
     display: flex;
     max-width: 100%;
-    gap: .5rem;
+    gap: 0.5rem;
     .FileInput__btn {
       position: relative;
       flex: 1 0 auto;

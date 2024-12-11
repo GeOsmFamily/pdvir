@@ -1,6 +1,6 @@
-import { apiClient } from "@/assets/plugins/axios/api";
-import type { Resource, ResourceEvent, ResourceSubmission } from "@/models/interfaces/Resource";
-import { handleFileUpload } from "@/services/forms/FormService";
+import { apiClient } from '@/assets/plugins/axios/api'
+import type { Resource, ResourceEvent, ResourceSubmission } from '@/models/interfaces/Resource'
+import { handleFileUpload } from '@/services/forms/FormService'
 
 export class ResourceService {
   static async getAll(): Promise<Resource[]> {
@@ -15,22 +15,23 @@ export class ResourceService {
 
   static async post(resource: ResourceSubmission): Promise<Resource> {
     resource = await handleFileUpload(resource)
-    return await apiClient.post('/api/resources', resource)
-      .then((response) => response.data)
+    return await apiClient.post('/api/resources', resource).then((response) => response.data)
   }
 
   static async patch(resource: ResourceSubmission): Promise<Resource> {
     resource = await handleFileUpload(resource)
-    return await apiClient.patch('/api/resources/' + resource.id, resource)
+    return await apiClient
+      .patch('/api/resources/' + resource.id, resource)
       .then((response) => response.data)
   }
 
   static async delete(resource: Resource): Promise<Resource> {
     return await apiClient.delete('/api/resources/' + resource.id).then((response) => response.data)
   }
-  
+
   static async getNearestEvents(): Promise<ResourceEvent[]> {
-    return await apiClient.get('/api/resources/events/nearest')
+    return await apiClient
+      .get('/api/resources/events/nearest')
       .then((response) => response.data['hydra:member'])
   }
 

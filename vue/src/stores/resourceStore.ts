@@ -1,6 +1,6 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
-import { ref, type Ref, computed, watch } from 'vue';
+import { ref, type Ref, computed, watch } from 'vue'
 import type { Resource, ResourceEvent, ResourceSubmission } from '@/models/interfaces/Resource'
 import { ResourceService } from '@/services/resources/ResourceService'
 import { FormType } from '@/models/enums/app/FormType'
@@ -50,11 +50,14 @@ export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
     return submittedResource
   }
 
-  watch(() => isResourceFormShown.value, (newValue) => {
-    if (newValue == false) {
-      editedResourceId.value = null
+  watch(
+    () => isResourceFormShown.value,
+    (newValue) => {
+      if (newValue == false) {
+        editedResourceId.value = null
+      }
     }
-  })
+  )
 
   const deleteResource = async (resource: Resource) => {
     await ResourceService.delete(resource)
@@ -67,7 +70,15 @@ export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
   }
 
   return {
-    resources, resource, isResourceFormShown, editedResourceId, editedResource, nearestEvents,
-    getAll, submitResource, deleteResource, getNearestEvents
+    resources,
+    resource,
+    isResourceFormShown,
+    editedResourceId,
+    editedResource,
+    nearestEvents,
+    getAll,
+    submitResource,
+    deleteResource,
+    getNearestEvents
   }
 })

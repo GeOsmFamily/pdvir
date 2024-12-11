@@ -1,36 +1,40 @@
 <template>
-    <InfoCard class="GenericInfoCard" :to="to" :href="href" :target="href ? '_blank' : undefined">
-        <template #content>
-            <div class="GenericInfoCard__imgCtn">
-                <img class="GenericInfoCard__img" :src="image" v-if="image">
-                <slot name="image"></slot>
-            </div>
-            <div class="GenericInfoCard__infoCtn">
-                <slot name="description">
-                    <span class="InfoCard__title">{{ title }}</span>
-                    <span class="InfoCard__description" >{{ description }}</span>
-                </slot>
-            </div>
-        </template>
-        <template #footer-left>
-            <v-chip class="mr-2">{{ typeLabel }}</v-chip>
-            <ShareButton />
-            <LikeButton :id="id" />
-            <v-btn
-                class="GenericInfoCard__editBtn"
-                v-if="isEditable"
-                variant="text"
-                density="comfortable"
-                icon="mdi-pencil-outline"
-                color="main-blue"
-                @click.prevent="editFunction"
-                >
-        </v-btn>
-        </template>
-        <template #footer-right>
-            <v-icon class="InfoCard__actionIcon" :icon="actionIcon ?? 'mdi-open-in-new'" color="light-blue"></v-icon>
-        </template>
-    </InfoCard>
+  <InfoCard class="GenericInfoCard" :to="to" :href="href" :target="href ? '_blank' : undefined">
+    <template #content>
+      <div class="GenericInfoCard__imgCtn">
+        <img class="GenericInfoCard__img" :src="image" v-if="image" />
+        <slot name="image"></slot>
+      </div>
+      <div class="GenericInfoCard__infoCtn">
+        <slot name="description">
+          <span class="InfoCard__title">{{ title }}</span>
+          <span class="InfoCard__description">{{ description }}</span>
+        </slot>
+      </div>
+    </template>
+    <template #footer-left>
+      <v-chip class="mr-2">{{ typeLabel }}</v-chip>
+      <ShareButton />
+      <LikeButton :id="id" />
+      <v-btn
+        class="GenericInfoCard__editBtn"
+        v-if="isEditable"
+        variant="text"
+        density="comfortable"
+        icon="mdi-pencil-outline"
+        color="main-blue"
+        @click.prevent="editFunction"
+      >
+      </v-btn>
+    </template>
+    <template #footer-right>
+      <v-icon
+        class="InfoCard__actionIcon"
+        :icon="actionIcon ?? 'mdi-open-in-new'"
+        color="light-blue"
+      ></v-icon>
+    </template>
+  </InfoCard>
 </template>
 
 <script setup lang="ts">
@@ -53,8 +57,9 @@ const props = withDefaults(
     actionIcon?: string
     isEditable?: boolean
     editFunction?: Function
-    href?: string,
-}>(), {
+    href?: string
+  }>(),
+  {
     image: imageDefault
   }
 )

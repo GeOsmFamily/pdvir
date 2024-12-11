@@ -1,19 +1,27 @@
 <template>
-    <div class="SectionBanner">
-        <h3 class="SectionBanner__title half-circle" :hide-half-circle="hideHalfCircle || false" >{{ text }}</h3>
-        <v-btn v-if="actionLabel" :to="actionLink" class="mt-3 px-2" variant="text" append-icon="mdi-arrow-right">
-            {{ actionLabel }}
-        </v-btn>
-    </div>
+  <div class="SectionBanner">
+    <h3 class="SectionBanner__title half-circle" :hide-half-circle="hideHalfCircle || false">
+      {{ text }}
+    </h3>
+    <v-btn
+      v-if="actionLabel"
+      :to="actionLink"
+      class="mt-3 px-2"
+      variant="text"
+      append-icon="mdi-arrow-right"
+    >
+      {{ actionLabel }}
+    </v-btn>
+  </div>
 </template>
 <script setup lang="ts">
-import type { RouteLocationAsRelativeGeneric } from 'vue-router';
+import type { RouteLocationAsRelativeGeneric } from 'vue-router'
 
 defineProps<{
-    text: string,
-    hideHalfCircle?: boolean,
-    actionLabel?: string
-    actionLink?: RouteLocationAsRelativeGeneric
+  text: string
+  hideHalfCircle?: boolean
+  actionLabel?: string
+  actionLink?: RouteLocationAsRelativeGeneric
 }>()
 </script>
 <style lang="scss">
@@ -27,7 +35,7 @@ defineProps<{
         font-size: $font-size-h3;
         font-weight: 700;
         color: rgb(var(--v-theme-main-blue));
-    
+
         &[hide-half-circle="true"] {
             padding: 0;
             margin-top: 0;

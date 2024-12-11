@@ -61,6 +61,6 @@ export default class GeocodingService {
 
   static getLocationName(geoData: GeoData): string {
     if (!geoData) return ''
-    return  geoData.name.split(', ').splice(0, 2).join(', ')
+    return geoData.name.split(', ').splice(0, 2).join(', ')
   }
 }

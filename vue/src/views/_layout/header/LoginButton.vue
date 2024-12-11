@@ -1,35 +1,50 @@
 <template>
-  <router-link v-if="!userStore.userIsLogged" append
-    :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_SIGN_IN } }">
+  <router-link
+    v-if="!userStore.userIsLogged"
+    append
+    :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_SIGN_IN } }"
+  >
     <v-btn color="main-red" prepend-icon="mdi-account-circle" flat>
       {{ $t('header.login') }}
     </v-btn>
   </router-link>
   <v-menu location="bottom right" class="AuthMenu" v-else>
     <template v-slot:activator="{ props }">
-      <v-btn base-color="white" class="text-main-blue" prepend-icon="mdi-account-circle" append-icon="mdi-chevron-down"
-        v-bind="props" flat>
+      <v-btn
+        base-color="white"
+        class="text-main-blue"
+        prepend-icon="mdi-account-circle"
+        append-icon="mdi-chevron-down"
+        v-bind="props"
+        flat
+      >
         {{ $t('header.account') }}
       </v-btn>
     </template>
 
     <v-list class="mt-2">
-      <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_PROJECTS) || userStore.userIsAdmin()"
-        @click="projectStore.isProjectFormShown = true">
+      <v-list-item
+        v-if="userStore.userHasRole(UserRoles.EDITOR_PROJECTS) || userStore.userIsAdmin()"
+        @click="projectStore.isProjectFormShown = true"
+      >
         <template v-slot:prepend>
           <v-icon color="main-blue" icon="mdi-plus"></v-icon>
         </template>
         <v-list-item-title>{{ $t('header.addProject') }}</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_ACTORS) || userStore.userIsAdmin()"
-        @click="actorsStore.setActorEditionMode(null)">
+      <v-list-item
+        v-if="userStore.userHasRole(UserRoles.EDITOR_ACTORS) || userStore.userIsAdmin()"
+        @click="actorsStore.setActorEditionMode(null)"
+      >
         <template v-slot:prepend>
           <v-icon color="main-blue" icon="mdi-plus"></v-icon>
         </template>
         <v-list-item-title>{{ $t('header.addActor') }}</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_RESSOURCES) || userStore.userIsAdmin()"
-        @click="resourceStore.isResourceFormShown = true">
+      <v-list-item
+        v-if="userStore.userHasRole(UserRoles.EDITOR_RESSOURCES) || userStore.userIsAdmin()"
+        @click="resourceStore.isResourceFormShown = true"
+      >
         <template v-slot:prepend>
           <v-icon color="main-blue" icon="mdi-plus"></v-icon>
         </template>
@@ -46,7 +61,9 @@
         <template v-slot:prepend>
           <v-icon color="main-blue" icon="mdi-account-circle"></v-icon>
         </template>
-        <v-list-item-title color="main-blue" class="text-weight-bold">{{ $t('header.account') }}</v-list-item-title>
+        <v-list-item-title color="main-blue" class="text-weight-bold">{{
+          $t('header.account')
+        }}</v-list-item-title>
       </v-list-item>
       <v-list-item v-if="userStore.userIsEditor()">
         <template v-slot:prepend>
@@ -85,14 +102,14 @@ const resourceStore = useResourceStore()
 
 <style lang="scss">
 .AuthMenu {
-  .v-menu>.v-overlay__content {
+  .v-menu > .v-overlay__content {
     border-radius: 6px;
   }
 
   .v-list-item-title {
     color: rgb(var(--v-theme-main-blue));
     font-weight: 600;
-    font-size: .875rem;
+    font-size: 0.875rem;
   }
 
   .v-list-item__prepend {

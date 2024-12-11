@@ -1,5 +1,5 @@
 export interface SymfonyRelation {
-    '@id': string;
+  '@id': string
 }
 
 export type iri = string

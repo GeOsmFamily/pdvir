@@ -1,4 +1,4 @@
-import { i18n } from "@/assets/plugins/i18n";
+import { i18n } from '@/assets/plugins/i18n'
 
 export const uniqueArray = (array: any[], key = 'id') => {
   return array.filter((obj1, i, arr) => arr.findIndex((obj2) => obj2[key] === obj1[key]) === i)
@@ -47,16 +47,21 @@ export function getDateRangeLabel(startAt: string | Date | null, endAt: string |
   startAt = new Date(startAt)
   startAt.setHours(0, 0, 0, 0)
 
-  if (!endAt || isSameDay(startAt, endAt)) return localizeDate(startAt, { year: 'numeric', month: 'long', day: 'numeric' })
+  if (!endAt || isSameDay(startAt, endAt))
+    return localizeDate(startAt, { year: 'numeric', month: 'long', day: 'numeric' })
 
   endAt = new Date(endAt)
   endAt.setHours(0, 0, 0, 0)
 
   const showStartAtMonth = startAt.getMonth() !== endAt.getMonth()
   const showStartAtYear = startAt.getFullYear() !== endAt.getFullYear()
-  const localizedStartAt = localizeDate(startAt, { year: showStartAtYear ? 'numeric' : undefined, month: showStartAtMonth ? 'long' : undefined, day: 'numeric' })
+  const localizedStartAt = localizeDate(startAt, {
+    year: showStartAtYear ? 'numeric' : undefined,
+    month: showStartAtMonth ? 'long' : undefined,
+    day: 'numeric'
+  })
   const localizedEndAt = localizeDate(endAt, { year: 'numeric', month: 'long', day: 'numeric' })
-  return i18n.t('date.dateRangeLabel', { startAt: localizedStartAt, endAt: localizedEndAt }) 
+  return i18n.t('date.dateRangeLabel', { startAt: localizedStartAt, endAt: localizedEndAt })
 }
 
 export function getDateDiff(date1: string | Date, date2: string | Date): number {

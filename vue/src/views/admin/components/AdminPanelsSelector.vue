@@ -1,79 +1,83 @@
 <template>
-    <div class="Admin__panelSelector_container">
-        <v-expansion-panels 
-            variant="accordion"
-            v-model="adminStore.selectedAdminPanel"
-            elevation="0"
-        >
-            <v-expansion-panel
-                :readonly="true"
-                :value="AdministrationPanels.MEMBERS"
-                @click="adminStore.selectedAdminPanel = AdministrationPanels.MEMBERS"
-                class="text-main-blue"
-                :class="{'Admin__selectedPanel': adminStore.selectedAdminPanel === AdministrationPanels.MEMBERS}"
-            >
-                <v-expansion-panel-title>
-                    {{$t('admin.panelMembers')}}
-                    <template v-slot:actions="{ expanded }">
-                        <v-icon color="main-blue" icon="mdi-chevron-right"></v-icon>
-                    </template>
-                </v-expansion-panel-title>
-            </v-expansion-panel>
-            <v-expansion-panel
-                :title="$t('admin.panelContent')"
-                :value="AdministrationPanels.CONTENT"
-                :class="{'Admin__selectedPanel': adminStore.selectedAdminPanel === AdministrationPanels.CONTENT}"
-                class="text-main-blue"
-            >
-                <v-expansion-panel-text>
-                    <router-link class="Admin__itemSelector" :to="{ name: 'adminActors' }">
-                        <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
-                        {{ $t('admin.panelContentActors') }}
-                        <div class="Admin__itemToValidateCounter">{{ actorsToValidate }}</div>
-                    </router-link>
-                    <router-link class="Admin__itemSelector" :to="{ name: 'adminProjects' }">
-                        <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
-                        {{ $t('admin.panelContentProjects') }}
-                        <div class="Admin__itemToValidateCounter">{{ projectsToValidate }}</div>
-                    </router-link>
-                    <router-link class="Admin__itemSelector" :to="{ name: 'adminResources' }">
-                        <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
-                        {{ $t('admin.panelContentResources') }}
-                        <div class="Admin__itemToValidateCounter">{{ resourcesToValidate }}</div>
-                    </router-link>
-                </v-expansion-panel-text>
-            </v-expansion-panel>
-            <v-expansion-panel
-                :readonly="true"
-                :value="AdministrationPanels.COMMENTS"
-                @click="adminStore.selectedAdminPanel = AdministrationPanels.COMMENTS"
-                class="text-main-blue"
-                :class="{'Admin__selectedPanel': adminStore.selectedAdminPanel === AdministrationPanels.COMMENTS}"
-            >
-                <v-expansion-panel-title>
-                    {{$t('admin.panelComments')}}
-                    <template v-slot:actions="{ expanded }">
-                        <v-icon color="main-blue" icon="mdi-chevron-right"></v-icon>
-                    </template>
-                </v-expansion-panel-title>
-            </v-expansion-panel>
-        </v-expansion-panels>
-    </div>
+  <div class="Admin__panelSelector_container">
+    <v-expansion-panels variant="accordion" v-model="adminStore.selectedAdminPanel" elevation="0">
+      <v-expansion-panel
+        :readonly="true"
+        :value="AdministrationPanels.MEMBERS"
+        @click="adminStore.selectedAdminPanel = AdministrationPanels.MEMBERS"
+        class="text-main-blue"
+        :class="{
+          Admin__selectedPanel: adminStore.selectedAdminPanel === AdministrationPanels.MEMBERS
+        }"
+      >
+        <v-expansion-panel-title>
+          {{ $t('admin.panelMembers') }}
+          <template v-slot:actions="{ expanded }">
+            <v-icon color="main-blue" icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-expansion-panel-title>
+      </v-expansion-panel>
+      <v-expansion-panel
+        :title="$t('admin.panelContent')"
+        :value="AdministrationPanels.CONTENT"
+        :class="{
+          Admin__selectedPanel: adminStore.selectedAdminPanel === AdministrationPanels.CONTENT
+        }"
+        class="text-main-blue"
+      >
+        <v-expansion-panel-text>
+          <router-link class="Admin__itemSelector" :to="{ name: 'adminActors' }">
+            <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
+            {{ $t('admin.panelContentActors') }}
+            <div class="Admin__itemToValidateCounter">{{ actorsToValidate }}</div>
+          </router-link>
+          <router-link class="Admin__itemSelector" :to="{ name: 'adminProjects' }">
+            <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
+            {{ $t('admin.panelContentProjects') }}
+            <div class="Admin__itemToValidateCounter">{{ projectsToValidate }}</div>
+          </router-link>
+          <router-link class="Admin__itemSelector" :to="{ name: 'adminResources' }">
+            <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
+            {{ $t('admin.panelContentResources') }}
+            <div class="Admin__itemToValidateCounter">{{ resourcesToValidate }}</div>
+          </router-link>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+      <v-expansion-panel
+        :readonly="true"
+        :value="AdministrationPanels.COMMENTS"
+        @click="adminStore.selectedAdminPanel = AdministrationPanels.COMMENTS"
+        class="text-main-blue"
+        :class="{
+          Admin__selectedPanel: adminStore.selectedAdminPanel === AdministrationPanels.COMMENTS
+        }"
+      >
+        <v-expansion-panel-title>
+          {{ $t('admin.panelComments') }}
+          <template v-slot:actions="{ expanded }">
+            <v-icon color="main-blue" icon="mdi-chevron-right"></v-icon>
+          </template>
+        </v-expansion-panel-title>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </div>
 </template>
 <script setup lang="ts">
-import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels';
-import { useActorsStore } from '@/stores/actorsStore';
-import { useAdminStore } from '@/stores/adminStore';
-import { useProjectStore } from '@/stores/projectStore';
-import { useResourceStore } from '@/stores/resourceStore';
-import { computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
-const adminStore = useAdminStore();
-const actorsStore = useActorsStore();
-const projectStore = useProjectStore();
-const resourceStore = useResourceStore();
-const router = useRouter();
-watch(() => adminStore.selectedAdminPanel, () => {
+import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels'
+import { useActorsStore } from '@/stores/actorsStore'
+import { useAdminStore } from '@/stores/adminStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { useResourceStore } from '@/stores/resourceStore'
+import { computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
+const adminStore = useAdminStore()
+const actorsStore = useActorsStore()
+const projectStore = useProjectStore()
+const resourceStore = useResourceStore()
+const router = useRouter()
+watch(
+  () => adminStore.selectedAdminPanel,
+  () => {
     if (adminStore.selectedAdminPanel === AdministrationPanels.MEMBERS) {
       router.push({ name: 'adminMembers' })
       adminStore.selectedAdminItem = null
@@ -84,10 +88,15 @@ watch(() => adminStore.selectedAdminPanel, () => {
       router.push({ name: 'adminComments' })
       adminStore.selectedAdminItem = null
     }
-})
-const actorsToValidate = computed(() => actorsStore.actors.filter(x => !x.isValidated).length)
-const projectsToValidate = computed(() => projectStore.projects.filter(x => !x.isValidated).length)
-const resourcesToValidate = computed(() => resourceStore.resources.filter(x => !x.isValidated).length)
+  }
+)
+const actorsToValidate = computed(() => actorsStore.actors.filter((x) => !x.isValidated).length)
+const projectsToValidate = computed(
+  () => projectStore.projects.filter((x) => !x.isValidated).length
+)
+const resourcesToValidate = computed(
+  () => resourceStore.resources.filter((x) => !x.isValidated).length
+)
 </script>
 
 <style lang="scss">

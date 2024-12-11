@@ -138,13 +138,15 @@ const router = createRouter({
             {
               name: 'adminProjects',
               path: 'projects',
-              component: () => import('@/views/admin/components/admin-content/AdminProjectsPanel.vue'),
+              component: () =>
+                import('@/views/admin/components/admin-content/AdminProjectsPanel.vue')
             },
             {
               name: 'adminResources',
               path: 'resources',
-              component: () => import('@/views/admin/components/admin-content/AdminResourcesPanel.vue'),
-            },
+              component: () =>
+                import('@/views/admin/components/admin-content/AdminResourcesPanel.vue')
+            }
           ]
         },
         {

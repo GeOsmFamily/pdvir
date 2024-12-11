@@ -16,10 +16,7 @@
       </div>
     </div>
     <div class="HomeView__ctn HomeView__ctn--news">
-      <SectionBanner
-        :text="$t('home.news.title')"
-        :action-label="$t('home.news.action')"
-        />
+      <SectionBanner :text="$t('home.news.title')" :action-label="$t('home.news.action')" />
       <HomeNews />
     </div>
     <div class="HomeView__ctn HomeView__ctn--map container-fluid">
@@ -32,7 +29,7 @@
         :text="$t('home.agenda.title')"
         :action-label="$t('home.agenda.action')"
         :action-link="{ name: 'resources', query: { type: 'events' } }"
-        />
+      />
       <HomeAgenda />
     </div>
     <div class="HomeView__ctn HomeView__ctn--why-subscribe">
@@ -41,15 +38,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import PageTitle from '@/components/text-elements/PageTitle.vue';
-import SectionBanner from '@/components/banners/SectionBanner.vue';
-import HomeKpis from '@/views/home/components/HomeKpis.vue';
-import HomeNews from '@/views/home/components/HomeNews.vue';
-import HomeMapDescription from '@/views/home/components/HomeMapDescription.vue';
-import HomeBecomeMember from '@/views/home/components/HomeBecomeMember.vue';
-import { useHomeStore } from '@/stores/homeStore';
-import { onMounted } from 'vue';
-import HomeAgenda from '@/views/home/components/HomeAgenda.vue';
+import PageTitle from '@/components/text-elements/PageTitle.vue'
+import SectionBanner from '@/components/banners/SectionBanner.vue'
+import HomeKpis from '@/views/home/components/HomeKpis.vue'
+import HomeNews from '@/views/home/components/HomeNews.vue'
+import HomeMapDescription from '@/views/home/components/HomeMapDescription.vue'
+import HomeBecomeMember from '@/views/home/components/HomeBecomeMember.vue'
+import { useHomeStore } from '@/stores/homeStore'
+import { onMounted } from 'vue'
+import HomeAgenda from '@/views/home/components/HomeAgenda.vue'
 
 const homeStore = useHomeStore()
 

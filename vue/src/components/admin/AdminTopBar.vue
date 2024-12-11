@@ -57,17 +57,17 @@ watch(
   }
 )
 const title = computed(() => {
-    switch (props.page) {
-        case 'Projects':
-            return `${props.items.length} ${i18n.t('projects.projects', props.items.length)}`
-        case 'Members':
-            return `${props.items.length} ${i18n.t('admin.member', props.items.length)}`
-        case 'Resources':
-            return `${props.items.length} ${i18n.t('resources.resources', props.items.length)}`
-        case 'Actors':
-        default:
-            return `${props.items.length} ${i18n.t('actors.actors', props.items.length)}`
-    }
+  switch (props.page) {
+    case 'Projects':
+      return `${props.items.length} ${i18n.t('projects.projects', props.items.length)}`
+    case 'Members':
+      return `${props.items.length} ${i18n.t('admin.member', props.items.length)}`
+    case 'Resources':
+      return `${props.items.length} ${i18n.t('resources.resources', props.items.length)}`
+    case 'Actors':
+    default:
+      return `${props.items.length} ${i18n.t('actors.actors', props.items.length)}`
+  }
 })
 
 const searchQuery = ref('')
