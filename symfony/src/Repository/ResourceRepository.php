@@ -20,9 +20,9 @@ class ResourceRepository extends ServiceEntityRepository
     public function findNearestEvents(): array
     {
         return $this->createQueryBuilder('r')
-            ->select("r")
-            ->where("r.type = '".ResourceType::EVENTS->value . "'")
-            ->andWhere("r.startAt >= :today")
+            ->select('r')
+            ->where("r.type = '".ResourceType::EVENTS->value."'")
+            ->andWhere('r.startAt >= :today')
             ->setParameter('today', new \DateTime())
             ->orderBy('r.startAt', 'ASC')
             ->setMaxResults(3)
