@@ -111,7 +111,7 @@
           density="compact"
           variant="outlined"
           multiple
-          v-model="form.thematics.value.value as Thematic[]"
+          v-model="(form.thematics.value.value as Thematic[])"
           :items="thematics"
           :placeholder="$t('resources.form.section.thematics')"
           item-title="name"
