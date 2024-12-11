@@ -31,11 +31,11 @@ export class ActorsService {
     id?: string | undefined
   ): Promise<Actor> {
     if (actor.logoToUpload) {
-      const newLogo = await ImageLoader.loadImage(actor.logoToUpload.file)
+      const newLogo = await FileUploader.uploadFile(actor.logoToUpload.file)
       actor.logo = newLogo['@id']
     }
     const newImagesLoaded = await Promise.all(
-      actor.imagesToUpload.map(async (img) => await ImageLoader.loadImage(img.file))
+      actor.imagesToUpload.map(async (img) => await FileUploader.uploadFile(img.file))
     )
     if (actor.images && actor.images.length > 0) {
       actor.images.push(...newImagesLoaded)
@@ -71,36 +71,34 @@ export class ActorsService {
     await apiClient.delete(`/api/actors/${id}`)
   }
 
-    static async createOrEditActor(actor: ActorSubmission, edit: boolean, id?: string | undefined): Promise<Actor> {
-      if (actor.logoToUpload) {
-        const newLogo = await FileUploader.uploadFile(actor.logoToUpload.file)
-        actor.logo = newLogo['@id']
+  static async getActorsExpertisesList(): Promise<ActorExpertise[]> {
+    const data = (
+      await apiClient.get('/api/actor_expertises', { headers: { accept: 'application/ld+json' } })
+    ).data
+    return data['hydra:member']
+  }
+  static async getActorsThematicsList(): Promise<Thematic[]> {
+    const data = (
+      await apiClient.get('/api/thematics', { headers: { accept: 'application/ld+json' } })
+    ).data
+    return data['hydra:member']
+  }
+  static async getActorsAdministrativesScopesList(): Promise<AdministrativeScope[]> {
+    const data = (
+      await apiClient.get('/api/administrative_scopes', {
+        headers: { accept: 'application/ld+json' }
+      })
+    ).data
+    return data['hydra:member']
+  }
+
+  static transformSymfonyRelationToIRIs(actor: any): ActorSubmission {
+    for (const key in actor) {
+      if (Array.isArray(actor[key]) && actor[key][0]?.['@id']) {
+        actor[key] = (actor[key] as SymfonyRelation[]).map(
+          (x: SymfonyRelation) => x['@id']
+        ) as never
       }
-      const newImagesLoaded = await Promise.all(
-        actor.imagesToUpload.map(async img => await FileUploader.uploadFile(img.file)
-      ))
-      if (actor.images && actor.images.length > 0) {
-        actor.images.push(...newImagesLoaded)
-      } else {
-        actor.images = newImagesLoaded
-      }      
-      actor = this.transformSymfonyRelationToIRIs(actor)
-      let data;
-      if (!edit) {
-        data = (await apiClient.post('/api/actors', actor, { headers: { 
-          'Content-Type': 'application/ld+json',
-          'Accept': 'application/ld+json'
-        }
-        })).data
-      } else {
-        data = (await apiClient.patch(`/api/actors/${id}`, actor, { headers: { 
-          'Content-Type': 'application/merge-patch+json',
-          'Accept': 'application/ld+json'
-        }
-        })).data
-      }
-      
-      return data as Actor
     }
     return actor
   }

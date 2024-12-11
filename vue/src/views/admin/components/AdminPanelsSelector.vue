@@ -12,7 +12,7 @@
       >
         <v-expansion-panel-title>
           {{ $t('admin.panelMembers') }}
-          <template v-slot:actions="{ expanded }">
+          <template v-slot:actions>
             <v-icon color="main-blue" icon="mdi-chevron-right"></v-icon>
           </template>
         </v-expansion-panel-title>
@@ -54,7 +54,7 @@
       >
         <v-expansion-panel-title>
           {{ $t('admin.panelComments') }}
-          <template v-slot:actions="{ expanded }">
+          <template v-slot:actions>
             <v-icon color="main-blue" icon="mdi-chevron-right"></v-icon>
           </template>
         </v-expansion-panel-title>

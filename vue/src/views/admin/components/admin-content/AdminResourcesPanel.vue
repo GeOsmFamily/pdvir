@@ -57,10 +57,7 @@ import { FormType } from '@/models/enums/app/FormType'
 
 const resourceStore = useResourceStore()
 const sortingResourcesSelectedMethod = ref('isValidated')
-const isFormShown = ref(false)
 const resources = computed(() => resourceStore.resources)
-const formType = ref(FormType.CREATE)
-const resourceSubmission: Ref<Resource | null> = ref(null)
 
 onBeforeMount(async () => await resourceStore.getAll())
 
