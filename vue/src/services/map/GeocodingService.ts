@@ -80,4 +80,9 @@ export default class GeocodingService {
   static getOsmIdentifier(osmData: OsmData): string {
     return `${osmData.osmType[0].toUpperCase()}${osmData.osmId}`
   }
+
+  static getLocationName(geoData: GeoData): string {
+    if (!geoData) return ''
+    return geoData.name.split(', ').splice(0, 2).join(', ')
+  }
 }

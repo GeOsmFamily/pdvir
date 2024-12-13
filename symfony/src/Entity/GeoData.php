@@ -14,16 +14,16 @@ class GeoData
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'bigint')]
-    #[Groups([Project::PROJECT_READ, Actor::ACTOR_READ_ITEM])]
+    #[ORM\Column(length: 255)]
+    #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM])]
     private ?int $osmId = null;
 
     #[ORM\Column]
-    #[Groups([Project::PROJECT_READ, Actor::ACTOR_READ_ITEM])]
+    #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM])]
     private ?string $osmType = 'node';
 
     #[ORM\Column(length: 255)]
-    #[Groups([PROJECT::PROJECT_READ, PROJECT::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_READ_COLLECTION_ALL])]
+    #[Groups([PROJECT::GET_FULL, PROJECT::GET_PARTIAL, Actor::ACTOR_READ_ITEM, Resource::GET_FULL, Resource::WRITE, Actor::ACTOR_READ_ITEM])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
@@ -115,7 +115,7 @@ class GeoData
         return $this;
     }
 
-    #[Groups([Project::PROJECT_READ_ALL, Actor::ACTOR_READ_COLLECTION_ALL])]
+    #[Groups([Project::GET_PARTIAL, Actor::ACTOR_READ_ITEM])]
     public function getCoords(): ?array
     {
         return [

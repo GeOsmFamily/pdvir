@@ -1,5 +1,5 @@
 import type { ItemType } from '@/models/enums/app/ItemType'
-
+// export type News = Actor | Project | Resource
 export type News = {
   id: string
   type: ItemType

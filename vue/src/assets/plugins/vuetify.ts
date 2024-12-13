@@ -3,6 +3,7 @@ import { createVuetify, type ThemeDefinition } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import '@mdi/font/css/materialdesignicons.css'
+import { VDateInput } from 'vuetify/labs/VDateInput'
 
 const pucCustomTheme: ThemeDefinition = {
   colors: {
@@ -19,6 +20,10 @@ const pucCustomTheme: ThemeDefinition = {
 }
 
 export const vuetify = createVuetify({
+  components: {
+    ...components,
+    VDateInput,
+  },
   display: {
     mobileBreakpoint: 'lg',
     thresholds: {
@@ -26,62 +31,25 @@ export const vuetify = createVuetify({
       sm: 576,
       md: 768,
       lg: 992,
-      xl: 1100
-    }
+      xl: 1100,
+    },
   },
   theme: {
     defaultTheme: 'pucCustomTheme',
     themes: {
-      pucCustomTheme
-    }
+      pucCustomTheme,
+    },
   },
   defaults: {
     VBtn: {
       variant: 'flat',
-      style: [
-        {
-          textTransform: 'none',
-          fontWeight: 'bold',
-          letterSpacing: '.045rem'
-        }
+      style: [{
+        textTransform: 'none',
+        fontWeight: 'bold',
+        letterSpacing: '.045rem'
+      }
       ]
     },
-    VTextField: {
-      hideDetails: 'auto'
-    },
-    VTextarea: {
-      hideDetails: 'auto'
-    },
-    VSelect: {
-      hideDetails: 'auto'
-    },
-    VAutocomplete: {
-      hideDetails: 'auto'
-    },
-    VPagination: {
-      rounded: 'circle',
-      color: 'main-blue',
-      activeColor: 'main-yellow'
-    },
-    VTabs: {
-      height: '38px'
-    },
-    VBreadcrumbs: {
-      style: [
-        {
-          padding: '.75rem 0',
-          fontSize: '.875rem'
-        }
-      ]
-    },
-    VFieldLabel: {
-      style: [
-        {
-          opacity: '1'
-        }
-      ]
-    }
-  },
-  components,
-  directives
+    directives
+  }
 })
