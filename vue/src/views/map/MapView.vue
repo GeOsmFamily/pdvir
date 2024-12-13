@@ -1,9 +1,9 @@
 <template>
-    <div id="map"></div>
+  <div id="map"></div>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import maplibregl from 'maplibre-gl';
+import { onMounted } from 'vue'
+import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 onMounted(() => {
