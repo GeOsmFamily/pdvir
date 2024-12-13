@@ -32,11 +32,15 @@ const hoveredFeatureId: Ref<string | null> = ref(null)
 const activeFeatureId: Ref<string | null> = ref(null)
 
 onMounted(() => {
+  const accessToken = '0tupl15DKhXOvwp27x8c'
   map.value = new maplibregl.Map({
     container: 'map',
-    style: 'https://demotiles.maplibre.org/style.json',
+    // style: 'https://demotiles.maplibre.org/style.json',
+    // style: '
+    style: `https://api.maptiler.com/maps/openstreetmap/style.json?key=${accessToken}`,
     center: [0, 0],
-    zoom: 1
+    zoom: 1,
+    attributionControl: false
   })
 
   map.value.dragRotate.disable()
@@ -49,6 +53,7 @@ onMounted(() => {
   map.value.addControl(nav, 'top-right')
   map.value.addControl(new IControl(resetMapExtentControl), 'top-right')
   map.value.addControl(new IControl(toggleSidebarControl), 'top-left')
+  map.value.addControl(new maplibregl.AttributionControl(), 'bottom-left')
   setBBox()
 })
 
@@ -246,7 +251,7 @@ defineExpose({
 
   .maplibregl-ctrl-top-left,
   .maplibregl-ctrl-top-right {
-    margin: 3rem 1.5rem;
+    margin: 1.5rem;
     display: flex;
     flex-flow: column nowrap;
     gap: 0.62rem;

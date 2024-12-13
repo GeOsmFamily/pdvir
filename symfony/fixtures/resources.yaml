@@ -6,3 +6,4 @@ App\Entity\Resource:
     createdBy: '@user_*'
     link: https://<domainName()>
     isValidated: <boolean(90)>
+    geoData: '@geoData_<current()>'

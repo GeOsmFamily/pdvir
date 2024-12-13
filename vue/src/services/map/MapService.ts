@@ -1,20 +1,23 @@
+import type Basemap from '@/models/interfaces/map/Basemap'
 import maplibregl from 'maplibre-gl'
 
 export default class MapService {
   static getGeojson(data: any[]): any {
     const geojson: any = []
     Array.prototype.forEach.call(data, (item: any) => {
-      geojson.push({
-        id: item.id,
-        properties: {
+      if (item.geoData?.coords) {
+        geojson.push({
           id: item.id,
-          name: item.name
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [item.geoData.coords.lng, item.geoData.coords.lat]
-        }
-      })
+          properties: {
+            id: item.id,
+            name: item.name
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [item.geoData.coords.lng, item.geoData.coords.lat]
+          }
+        })
+      }
     })
 
     return {
@@ -32,6 +35,12 @@ export default class MapService {
       new maplibregl.LngLatBounds(coordinates[0], coordinates[0])
     )
   }
+
+  static getStyle(basemap: Basemap) {
+    return basemap.style + '?key=0tupl15DKhXOvwp27x8c'
+  }
+
+  static;
 }
 
 export class IControl {

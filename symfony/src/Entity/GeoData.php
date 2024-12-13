@@ -15,15 +15,15 @@ class GeoData
     private ?int $id = null;
 
     #[ORM\Column(type: 'bigint')]
-    #[Groups([Project::PROJECT_READ])]
+    #[Groups([Project::PROJECT_READ, Actor::ACTOR_READ_ITEM])]
     private ?int $osmId = null;
 
     #[ORM\Column]
-    #[Groups([Project::PROJECT_READ])]
+    #[Groups([Project::PROJECT_READ, Actor::ACTOR_READ_ITEM])]
     private ?string $osmType = 'node';
 
     #[ORM\Column(length: 255)]
-    #[Groups([PROJECT::PROJECT_READ, PROJECT::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM])]
+    #[Groups([PROJECT::PROJECT_READ, PROJECT::PROJECT_READ_ALL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_READ_COLLECTION_ALL])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
@@ -115,7 +115,7 @@ class GeoData
         return $this;
     }
 
-    #[Groups([Project::PROJECT_READ_ALL])]
+    #[Groups([Project::PROJECT_READ_ALL, Actor::ACTOR_READ_COLLECTION_ALL])]
     public function getCoords(): ?array
     {
         return [
