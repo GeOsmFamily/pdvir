@@ -25,13 +25,45 @@
           :color="isExpanded ? 'main-blue' : 'main-dark-grey'"
           @click="isExpanded = !isExpanded"
         />
-        <v-btn
-          variant="text"
-          density="comfortable"
-          icon="mdi-dots-horizontal"
-          :color="isActionsShown ? 'main-blue' : 'main-dark-grey'"
-          @click="isActionsShown = !isActionsShown"
-        />
+        <v-menu location="bottom">
+          <template v-slot:activator="{ props, isActive }">
+            <v-btn
+              v-bind="props"
+              variant="text"
+              density="comfortable"
+              icon="mdi-dots-horizontal"
+              :color="isActive ? 'main-blue' : 'main-dark-grey'"
+            />
+          </template>
+          <v-list class="MyMapLayerPicker__additionnalMenu mt-4">
+            <v-list-item>
+              <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-information-outline"></v-icon>
+              </template>
+              <v-list-item-title>{{ $t('myMap.rightSidebar.actions.about') }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-share-variant-outline"></v-icon>
+              </template>
+              <v-list-item-title>{{ $t('myMap.rightSidebar.actions.share') }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-download-outline"></v-icon>
+              </template>
+              <v-list-item-title>{{
+                $t('myMap.rightSidebar.actions.downloadLayer')
+              }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <template v-slot:prepend>
+                <v-icon color="main-blue" icon="mdi-opacity"></v-icon>
+              </template>
+              <v-list-item-title>{{ $t('myMap.rightSidebar.actions.opacity') }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </div>
     <div class="MyMapLayerPicker__listBlock" :is-shown="isExpanded" v-if="subLayers">
@@ -40,6 +72,7 @@
           v-for="(subLayer, key) in subLayers"
           :label="subLayer.name"
           v-model="subLayer.isShown"
+          @update:model-value="changeSubLayer"
           color="main-blue"
           hide-details="auto"
           density="compact"
@@ -55,14 +88,16 @@
 import type Layer from '@/models/interfaces/map/Layer'
 import { computed, ref, watch, type ModelRef } from 'vue'
 const isExpanded = ref(false)
-const isActionsShown = ref(false)
 const mainLayer: ModelRef<Layer | undefined> = defineModel('mainLayer')
 const subLayers: ModelRef<Layer[] | undefined> = defineModel('subLayers')
-
+const emits = defineEmits(['update'])
 const isIndeterminate = computed(() => {
   if (subLayers.value == undefined) return false
-  const disabledLayers = subLayers.value.filter((subLayer: Layer) => subLayer.isShown === false)
-  return disabledLayers.length !== 0 && disabledLayers.length !== subLayers.value.length
+  return disabledLayers.value.length !== 0 && disabledLayers.value.length !== subLayers.value.length
+})
+
+const disabledLayers = computed(() => {
+  return subLayers.value?.filter((subLayer: Layer) => subLayer.isShown === false) ?? []
 })
 
 watch(
@@ -72,11 +107,25 @@ watch(
   }
 )
 
+const changeSubLayer = () => {
+  if (mainLayer.value) {
+    if (disabledLayers.value.length === 0) {
+      mainLayer.value.isShown = true
+    } else if (disabledLayers.value.length === subLayers.value?.length) {
+      mainLayer.value.isShown = false
+    }
+  }
+  emits('update')
+}
+
 const editAllSubLayers = (show = true) => {
   if (subLayers.value === undefined) return
-  subLayers.value.forEach((subLayer) => {
-    subLayer.isShown = show
+  subLayers.value.forEach((subLayer, key) => {
+    if (subLayers.value) {
+      subLayers.value[key].isShown = show
+    }
   })
+  emits('update')
 }
 </script>
 
@@ -110,6 +159,15 @@ const editAllSubLayers = (show = true) => {
         color: rgb(var(--v-theme-main-blue));
         font-weight: bold;
         font-size: $font-size-sm;
+      }
+    }
+    .MyMapLayerPicker__actions {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+
+      .MyMapLayerPicker__additionnalMenu {
+        margin-right: -.375rem;
       }
     }
   }

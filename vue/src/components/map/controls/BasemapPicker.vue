@@ -41,7 +41,7 @@ const basemaps: Basemap[] = [
   display: flex;
   flex-flow: row nowrap !important;
   gap: 0.5rem;
-  margin: 1rem 0.5rem !important;
+  margin: 1rem !important;
 
   .BasemapPicker__item {
     $dim-basemap-w: 3.25rem;

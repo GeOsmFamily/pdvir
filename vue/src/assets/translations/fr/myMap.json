@@ -19,6 +19,12 @@
     
     },
     "rightSidebar": {
+      "actions": {
+        "about": "À propos",
+        "share": "Partager",
+        "downloadLayer": "Télécharger la couche",
+        "opacity": "Ajuster la transparence"
+      },
       "layers": {
         "itemType": {
           "project": "Projets",

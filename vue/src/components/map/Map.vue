@@ -1,7 +1,6 @@
 <template>
   <div id="map">
     <ResetMapExtentControl ref="reset-map-extent-control" />
-    <ToggleSidebarControl ref="toggle-sidebar-control" />
   </div>
 </template>
 <script setup lang="ts">
@@ -9,7 +8,6 @@ import { onMounted, watch, computed, ref, type Ref, useTemplateRef } from 'vue'
 import maplibregl, { GeoJSONSource } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import ResetMapExtentControl from '@/components/map/controls/ResetMapExtentControl.vue'
-import ToggleSidebarControl from '@/components/map/controls/ToggleSidebarControl.vue'
 import { useApplicationStore } from '@/stores/applicationStore'
 import { IControl } from '@/services/map/MapService'
 
@@ -17,7 +15,6 @@ const applicationStore = useApplicationStore()
 const triggerZoomReset = computed(() => applicationStore.triggerZoomReset)
 const map: Ref<maplibregl.Map | null> = ref(null)
 const resetMapExtentControl = useTemplateRef('reset-map-extent-control')
-const toggleSidebarControl = useTemplateRef('toggle-sidebar-control')
 const props = withDefaults(
   defineProps<{
     bounds?: maplibregl.LngLatBounds
@@ -52,7 +49,6 @@ onMounted(() => {
 
   map.value.addControl(nav, 'top-right')
   map.value.addControl(new IControl(resetMapExtentControl), 'top-right')
-  map.value.addControl(new IControl(toggleSidebarControl), 'top-left')
   map.value.addControl(new maplibregl.AttributionControl(), 'bottom-left')
   setBBox()
 })
@@ -97,7 +93,8 @@ const addLayer = async (
     id: layerName,
     type: 'symbol',
     source: layerName,
-    layout: options.layout
+    layout: options.layout,
+    metadata: { isPersistent: true } // used to have persistent layers when switching basemaps
   })
 }
 

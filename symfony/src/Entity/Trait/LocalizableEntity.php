@@ -15,7 +15,7 @@ trait LocalizableEntity
     private ?array $osmData = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups([Project::GET_FULL, Project::GET_PARTIAL, Actor::ACTOR_READ_ITEM, Resource::GET_FULL])]
+    #[Groups([Project::GET_FULL, Project::GET_PARTIAL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_READ_COLLECTION, Resource::GET_FULL])]
     private ?GeoData $geoData = null;
 
     public function getOsmData(): ?array

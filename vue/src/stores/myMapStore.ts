@@ -7,7 +7,8 @@ import type Map from '@/components/map/Map.vue'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
-  const isMyMapFullWidth = ref(false)
+  const isRightSidebarShown = ref(true)
+  const isLeftSidebarShown = ref(true)
   const mapSearch: Ref<OsmData | null> = ref(null)
 
   const actorLayer: Ref<Layer | null> = ref(null)
@@ -18,7 +19,8 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const projectSubLayers: Ref<Layer[]> = ref([])
 
   return {
-    isMyMapFullWidth,
+    isRightSidebarShown,
+    isLeftSidebarShown,
     myMap,
     mapSearch,
     actorLayer,

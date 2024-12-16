@@ -34,6 +34,8 @@ const isClosed = ref(false)
   width: 100%;
   align-items: center;
   text-align: center;
+  min-width: 19rem !important;
+  align-self: flex-end;
 
   h2 {
     color: rgb(var(--v-theme-main-red));
@@ -42,8 +44,8 @@ const isClosed = ref(false)
   .MyMapWelcomeBlock__moreAccess {
     display: flex;
     flex-flow: column nowrap;
-    gap: 1rem;
-    padding: 1rem 2rem;
+    gap: 0.75rem;
+    padding: 1rem 1rem;
     border-radius: $dim-radius;
     background: white;
   }

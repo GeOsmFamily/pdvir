@@ -12,7 +12,8 @@ import MyMapPlatformLayers from '@/views/map/components/MyMapPlatformLayers.vue'
 .MyMapLayersSideBar {
   display: flex;
   flex-flow: column nowrap;
-  width: 35rem;
+  flex: 1 0 auto;
+  width: 19rem;
   background: #fff;
   padding: 1rem;
   gap: 1rem;

@@ -2,9 +2,15 @@
   <div class="MyMapView">
     <MyMapHeader class="MyMapView__header" />
     <div class="MyMapView__mapCtn">
-      <MyMapWelcomeSideBar class="MyMapView__welcomeSideBar" />
+      <MyMapWelcomeSideBar
+        class="MyMapView__welcomeSideBar"
+        :shown="myMapStore.isLeftSidebarShown"
+      />
       <MyMap class="MyMapView__myMap" />
-      <MyMapLayersSideBar class="MyMapView__layersSideBar" />
+      <MyMapLayersSideBar
+        class="MyMapView__layersSideBar"
+        :shown="myMapStore.isRightSidebarShown"
+      />
     </div>
   </div>
 </template>
@@ -13,6 +19,9 @@ import MyMap from '@/views/map/components/MyMap.vue'
 import MyMapHeader from '@/views/map/components/MyMapHeader.vue'
 import MyMapWelcomeSideBar from '@/views/map/components/MyMapWelcomeSideBar.vue'
 import MyMapLayersSideBar from '@/views/map/components/MyMapLayersSideBar.vue'
+import { useMyMapStore } from '@/stores/myMapStore'
+
+const myMapStore = useMyMapStore()
 </script>
 
 <style lang="scss">
@@ -32,6 +41,14 @@ import MyMapLayersSideBar from '@/views/map/components/MyMapLayersSideBar.vue'
     .MyMapView__welcomeSideBar,
     .MyMapView__layersSideBar {
       z-index: 1;
+      transition: all 0.15s ease-in;
+
+      &[shown='false'] {
+        overflow-x: hidden;
+        width: 0;
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
   }
 }

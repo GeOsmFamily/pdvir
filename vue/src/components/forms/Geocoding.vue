@@ -41,7 +41,9 @@ import type { GeocodingItem } from '@/models/interfaces/geo/GeocodingItem'
 import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import { i18n } from '@/plugins/i18n'
 
-const osmData = defineModel<OsmData | null>()
+const osmData = defineModel<OsmData | null>({
+  default: null
+})
 
 const props = withDefaults(
   defineProps<{
