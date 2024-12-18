@@ -22,6 +22,7 @@ export interface Resource
   format: ResourceFormat
   startAt: Date
   endAt: Date
+  author: string
   [key: string]: any
 }
 

@@ -59,6 +59,18 @@
           />
         </div>
 
+        <div class="Form__fieldCtn">
+          <label class="Form__label required">{{ $t('resources.form.fields.author.label') }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.author.value.value"
+            :placeholder="$t('resources.form.fields.author.placeholder')"
+            :error-messages="form.author.errorMessage.value"
+            @blur="form.author.handleChange"
+          />
+        </div>
+
         <FormSectionTitle :text="$t('resources.form.section.resource')" />
 
         <div class="Form__fieldCtn">
@@ -67,7 +79,7 @@
             density="compact"
             variant="outlined"
             v-model="form.format.value.value as ResourceFormat"
-            :items="Object.values(ResourceFormat)"
+            :items="resourceFormats"
             :placeholder="$t('resources.form.fields.format.label')"
             :item-title="(item) => $t('resources.resourceFormat.' + item)"
             :item-value="(item) => item"
@@ -111,7 +123,7 @@
           density="compact"
           variant="outlined"
           multiple
-          v-model="(form.thematics.value.value as Thematic[])"
+          v-model="form.thematics.value.value as Thematic[]"
           :items="thematics"
           :placeholder="$t('resources.form.section.thematics')"
           item-title="name"
@@ -138,7 +150,7 @@ import { type Resource, type ResourceSubmission } from '@/models/interfaces/Reso
 import { ResourceFormService } from '@/services/resources/ResourceFormService'
 import { useResourceStore } from '@/stores/resourceStore'
 import { useThematicStore } from '@/stores/thematicStore'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import Modal from '@/components/global/Modal.vue'
 import { FormType } from '@/models/enums/app/FormType'
 import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
@@ -178,6 +190,32 @@ const handleDateChange = () => {
 const emit = defineEmits(['submitted', 'close'])
 const { form, handleSubmit, isSubmitting } = ResourceFormService.getForm(props.resource)
 const thematics = computed(() => thematicsStore.thematics)
+watch(
+  () => form.type.value.value,
+  () => {
+    if (!resourceFormats.value.includes(form.format.value.value)) {
+      form.format.value.value = null
+    }
+  }
+)
+const resourceFormats = computed(() => {
+  switch (form.type.value.value) {
+    case ResourceType.EVENTS:
+      return [ResourceFormat.WEB, ResourceFormat.PDF, ResourceFormat.IMAGE, ResourceFormat.VIDEO]
+    case ResourceType.GUIDES:
+      return [
+        ResourceFormat.WEB,
+        ResourceFormat.PDF,
+        ResourceFormat.IMAGE,
+        ResourceFormat.VIDEO,
+        ResourceFormat.XLSX
+      ]
+    case ResourceType.RAPPORTS:
+    case ResourceType.REGULATIONS:
+    default:
+      return [ResourceFormat.WEB, ResourceFormat.PDF, ResourceFormat.IMAGE]
+  }
+})
 
 onMounted(async () => {
   await thematicsStore.getAll()

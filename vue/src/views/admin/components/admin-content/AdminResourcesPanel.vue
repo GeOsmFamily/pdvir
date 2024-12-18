@@ -49,10 +49,10 @@
 <script setup lang="ts">
 import type { Resource } from '@/models/interfaces/Resource'
 import { useResourceStore } from '@/stores/resourceStore'
-import { computed, onBeforeMount, ref, type Ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import AdminTopBar from '@/components/admin/AdminTopBar.vue'
 import AdminTable from '@/components/admin/AdminTable.vue'
-import { i18n } from '@/assets/plugins/i18n'
+import { i18n } from '@/plugins/i18n'
 import { FormType } from '@/models/enums/app/FormType'
 
 const resourceStore = useResourceStore()

@@ -36,7 +36,7 @@ watch([startAt, endAt], () => {
 
 const initDateValue = () => {
   if (!startAt.value) return
-  date.value = [new Date(startAt.value) ?? null].filter((d) => d)
+  date.value = [startAt.value ? new Date(startAt.value) : null].filter((d) => d != null)
   const dateToAdd = new Date(startAt.value)
   if (endAt.value) {
     do {

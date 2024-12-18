@@ -22,7 +22,7 @@
           variant="text"
           density="comfortable"
           icon="mdi-layers"
-          :color="isExpanded ? 'main-blue' : 'main-dark-grey'"
+          :color="isExpanded ? 'main-blue' : 'dark-grey'"
           @click="isExpanded = !isExpanded"
         />
         <v-menu location="bottom">
@@ -32,7 +32,7 @@
               variant="text"
               density="comfortable"
               icon="mdi-dots-horizontal"
-              :color="isActive ? 'main-blue' : 'main-dark-grey'"
+              :color="isActive ? 'main-blue' : 'dark-grey'"
             />
           </template>
           <v-list class="MyMapLayerPicker__additionnalMenu mt-4">
@@ -140,7 +140,7 @@ const editAllSubLayers = (show = true) => {
     justify-content: space-between;
     width: 100%;
     padding: 0.25rem 0.5rem;
-    border: solid 1px rgb(var(--v-theme-main-dark-grey));
+    border: solid 1px rgb(var(--v-theme-dark-grey));
     border-radius: $dim-radius;
     .v-label {
       opacity: 1;

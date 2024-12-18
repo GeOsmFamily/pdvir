@@ -61,6 +61,10 @@
                     "label": "Thématiques",
                     "placeholder": "Thématiques"
                 },
+                "author": {
+                    "label": "Auteur",
+                    "placeholder": "Prénom Nom"
+                },
                 "file": {
                     "label": "Joindre un fichier",
                     "maxSize": "Fichier {maxSize} Mo maximum",

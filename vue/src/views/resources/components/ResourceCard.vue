@@ -7,7 +7,7 @@
     :type="ItemType.RESOURCE"
     :type-label="$t('resources.resourceType.' + resource.type)"
     :action-icon="icon"
-    :is-editable="true"
+    :is-editable="isEditable"
     class="ResourceCard"
     :edit-function="editResource"
   >
@@ -51,8 +51,10 @@ import { ResourceType } from '@/models/enums/contents/ResourceType'
 import { getDateRangeLabel, localizeDate } from '@/services/utils/UtilsService'
 import GeocodingService from '@/services/map/GeocodingService'
 import { ResourceService } from '@/services/resources/ResourceService'
+import { useUserStore } from '@/stores/userStore'
 
 const resourceStore = useResourceStore()
+const userStore = useUserStore()
 const props = defineProps<{
   resource: Resource
 }>()
@@ -72,10 +74,13 @@ const icon = computed(() => {
   }
 })
 
-const editResource = () => {
-  resourceStore.isResourceFormShown = true
-  resourceStore.editedResourceId = props.resource.id
-}
+const isEditable = computed(() => {
+  return (
+    userStore.userIsAdmin() ||
+    (props.resource?.createdBy?.id === userStore.currentUser?.id &&
+      userStore.currentUser?.id != null)
+  )
+})
 const locationName = computed(() => GeocodingService.getLocationName(props.resource.geoData))
 const dateRangeLabel = computed(() =>
   getDateRangeLabel(props.resource.startAt, props.resource.endAt)
@@ -83,6 +88,11 @@ const dateRangeLabel = computed(() =>
 const isEvent = computed(() => props.resource.type === ResourceType.EVENTS)
 const date = computed(() => new Date(props.resource.startAt).getDate())
 const month = computed(() => localizeDate(props.resource.startAt, { month: 'short' }))
+
+const editResource = () => {
+  resourceStore.isResourceFormShown = true
+  resourceStore.editedResourceId = props.resource.id
+}
 </script>
 
 <style lang="scss">

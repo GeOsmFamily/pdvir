@@ -11,3 +11,4 @@ App\Entity\Resource:
     geoData: '@geoData_<current()>'
     createdBy: '@user_*'
     isValidated: <boolean(70)>
+    author: <firstName()> <lastName()>

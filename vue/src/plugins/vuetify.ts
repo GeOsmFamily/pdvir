@@ -7,6 +7,7 @@
 // Styles
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
+import { VDateInput } from 'vuetify/labs/VDateInput'
 
 // Composables
 import { createVuetify, type ThemeDefinition } from 'vuetify'
@@ -20,13 +21,16 @@ const pucCustomTheme: ThemeDefinition = {
     'main-yellow': '#F6CC47',
     'light-yellow': '#fdf5da',
     'main-grey': '#E0E0E0',
-    'main-dark-grey': '#999999',
+    'dark-grey': '#999999',
     'main-green': '#2D6438'
   }
 }
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
+  components: {
+    VDateInput
+  },
   display: {
     mobileBreakpoint: 'lg',
     thresholds: {
