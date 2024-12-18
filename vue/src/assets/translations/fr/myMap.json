@@ -6,8 +6,8 @@
         "placeholder": "Rechercher un lieu ou une donnée"
       }
     },
-    "map": {
-
+    "components": {
+      "opacity": "Transparence"
     },
     "leftSidebar": {
       "welcome": {

@@ -25,7 +25,10 @@
           :color="isExpanded ? 'main-blue' : 'dark-grey'"
           @click="isExpanded = !isExpanded"
         />
-        <v-menu location="bottom">
+        <v-menu
+          location="bottom"
+          @update:modelValue="isLayerOpacityShown = mainLayer?.opacity && mainLayer?.opacity < 100"
+        >
           <template v-slot:activator="{ props, isActive }">
             <v-btn
               v-bind="props"
@@ -43,9 +46,9 @@
               <v-list-item-title>{{ $t('myMap.rightSidebar.actions.about') }}</v-list-item-title>
             </v-list-item>
             <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="main-blue" icon="mdi-share-variant-outline"></v-icon>
-              </template>
+              <template v-slot:prepend
+                ><v-icon color="main-blue" icon="mdi-share-variant-outline"></v-icon
+              ></template>
               <v-list-item-title>{{ $t('myMap.rightSidebar.actions.share') }}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="downloadSourceData">
@@ -56,12 +59,17 @@
                 $t('myMap.rightSidebar.actions.downloadLayer')
               }}</v-list-item-title>
             </v-list-item>
-            <v-list-item>
+            <v-list-item @click.stop="isLayerOpacityShown = !isLayerOpacityShown">
               <template v-slot:prepend>
                 <v-icon color="main-blue" icon="mdi-opacity"></v-icon>
               </template>
               <v-list-item-title>{{ $t('myMap.rightSidebar.actions.opacity') }}</v-list-item-title>
             </v-list-item>
+            <MyMapLayerOpacityPicker
+              v-if="isLayerOpacityShown"
+              v-model="mainLayer.opacity"
+              @click.prevent.stop
+            />
           </v-list>
         </v-menu>
       </div>
@@ -86,10 +94,12 @@
 
 <script setup lang="ts">
 import type Layer from '@/models/interfaces/map/Layer'
-import { downloadJson } from '@/services/utils/UtilsService'
+import { debounce, downloadJson } from '@/services/utils/UtilsService'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, ref, watch, type ModelRef } from 'vue'
+import MyMapLayerOpacityPicker from '@/views/map/components/MyMapLayerOpacityPicker.vue'
 const isExpanded = ref(false)
+const isLayerOpacityShown = ref(false)
 const mainLayer: ModelRef<Layer | undefined> = defineModel('mainLayer')
 const subLayers: ModelRef<Layer[] | undefined> = defineModel('subLayers')
 const myMapStore = useMyMapStore()
@@ -109,6 +119,21 @@ watch(
     editAllSubLayers(newValue)
   }
 )
+
+watch(
+  () => mainLayer.value?.opacity,
+  (newValue) => {
+    if (!mainLayer.value || !newValue) return
+    changeLayerOpacity(mainLayer.value, newValue)
+  }
+)
+
+const changeLayerOpacity = debounce(async (layer: Layer, opacityPercentage: number) => {
+  if (mainLayer.value) {
+    const opacity = opacityPercentage / 100
+    myMapStore.myMap?.setPaintProperty(layer.id.toString(), 'icon-opacity', opacity)
+  }
+}, 100)
 
 const changeSubLayer = () => {
   if (mainLayer.value) {
@@ -134,9 +159,10 @@ const editAllSubLayers = (show = true) => {
 const downloadSourceData = async () => {
   const layerId = mainLayer.value?.id.toString()
   if (myMapStore.myMap?.map && layerId) {
-    await myMapStore.myMap?.getData(layerId).then((data) => {
+    const data = await myMapStore.myMap?.getData(layerId)
+    if (data) {
       downloadJson(data, layerId)
-    })
+    }
   }
 }
 </script>

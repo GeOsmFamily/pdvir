@@ -72,7 +72,7 @@ const setData = (sourceName: string, geojson: GeoJSON.GeoJSON) => {
 
 const getData = async (sourceName: string | number) => {
   const source = map.value?.getSource(sourceName.toString()) as GeoJSONSource
-  if (source) await source.getData()
+  if (source) return await source.getData()
 }
 
 const addSource = (sourceName: string, geojson: GeoJSON.GeoJSON) => {
@@ -86,6 +86,12 @@ const addSource = (sourceName: string, geojson: GeoJSON.GeoJSON) => {
 const setLayoutProperty = (layerName: string, property: string, value: any) => {
   if (map.value?.getLayer(layerName)) {
     map.value?.setLayoutProperty(layerName, property, value)
+  }
+}
+
+const setPaintProperty = (layerName: string, property: string, value: any) => {
+  if (map.value?.getLayer(layerName)) {
+    map.value?.setPaintProperty(layerName, property, value)
   }
 }
 
@@ -179,7 +185,8 @@ defineExpose({
   removeSource,
   setData,
   getData,
-  setLayoutProperty
+  setLayoutProperty,
+  setPaintProperty
 })
 </script>
 

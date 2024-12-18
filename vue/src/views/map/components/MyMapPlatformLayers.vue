@@ -62,24 +62,21 @@ onMounted(async () => {
 })
 
 const initMainLayers = () => {
-  myMapStore.projectLayer = {
+  myMapStore.projectLayer = LayerService.initLayer({
     id: ItemType.PROJECT,
     name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.PROJECT),
-    icon: projectLayerIcon,
-    isShown: true
-  }
-  myMapStore.actorLayer = {
+    icon: projectLayerIcon
+  })
+  myMapStore.actorLayer = LayerService.initLayer({
     id: ItemType.ACTOR,
     name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.ACTOR),
-    icon: actorLayerIcon,
-    isShown: true
-  }
-  myMapStore.resourceLayer = {
+    icon: actorLayerIcon
+  })
+  myMapStore.resourceLayer = LayerService.initLayer({
     id: ItemType.RESOURCE,
     name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.RESOURCE),
-    icon: resourceLayerIcon,
-    isShown: true
-  }
+    icon: resourceLayerIcon
+  })
 }
 
 const initSubLayers = () => {
