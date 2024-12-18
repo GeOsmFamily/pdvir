@@ -1,4 +1,4 @@
-import { apiClient } from '@/assets/plugins/axios/api'
+import { apiClient } from '@/plugins/axios/api'
 import type { Resource, ResourceEvent, ResourceSubmission } from '@/models/interfaces/Resource'
 import { handleFileUpload } from '@/services/forms/FormService'
 
