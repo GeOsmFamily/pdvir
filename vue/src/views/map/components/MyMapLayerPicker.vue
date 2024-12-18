@@ -48,7 +48,7 @@
               </template>
               <v-list-item-title>{{ $t('myMap.rightSidebar.actions.share') }}</v-list-item-title>
             </v-list-item>
-            <v-list-item>
+            <v-list-item @click="downloadSourceData">
               <template v-slot:prepend>
                 <v-icon color="main-blue" icon="mdi-download-outline"></v-icon>
               </template>
@@ -86,10 +86,13 @@
 
 <script setup lang="ts">
 import type Layer from '@/models/interfaces/map/Layer'
+import { downloadJson } from '@/services/utils/UtilsService'
+import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, ref, watch, type ModelRef } from 'vue'
 const isExpanded = ref(false)
 const mainLayer: ModelRef<Layer | undefined> = defineModel('mainLayer')
 const subLayers: ModelRef<Layer[] | undefined> = defineModel('subLayers')
+const myMapStore = useMyMapStore()
 const emits = defineEmits(['update'])
 const isIndeterminate = computed(() => {
   if (subLayers.value == undefined) return false
@@ -126,6 +129,15 @@ const editAllSubLayers = (show = true) => {
     }
   })
   emits('update')
+}
+
+const downloadSourceData = async () => {
+  const layerId = mainLayer.value?.id.toString()
+  if (myMapStore.myMap?.map && layerId) {
+    await myMapStore.myMap?.getData(layerId).then((data) => {
+      downloadJson(data, layerId)
+    })
+  }
 }
 </script>
 
@@ -167,7 +179,7 @@ const editAllSubLayers = (show = true) => {
       align-items: center;
 
       .MyMapLayerPicker__additionnalMenu {
-        margin-right: -.375rem;
+        margin-right: -0.375rem;
       }
     }
   }
