@@ -18,6 +18,7 @@ export interface Resource extends Timestampable, Validateable, Blameable, Locali
   thematics: Thematic[]
   startAt: Date
   endAt: Date
+  author: string
   [key: string]: any
 }
 

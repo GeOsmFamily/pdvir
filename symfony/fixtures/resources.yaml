@@ -10,3 +10,4 @@ App\Entity\Resource:
     link: https://<domainName()>
     createdBy: '@user_*'
     isValidated: <boolean(70)>
+    author: <firstName()> <lastName()>

@@ -59,6 +59,18 @@
           />
         </div>
 
+        <div class="Form__fieldCtn">
+          <label class="Form__label required">{{ $t('resources.form.fields.author.label') }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.author.value.value"
+            :placeholder="$t('resources.form.fields.author.placeholder')"
+            :error-messages="form.author.errorMessage.value"
+            @blur="form.author.handleChange"
+          />
+        </div>
+
         <FormSectionTitle :text="$t('resources.form.section.resource')" />
 
         <div class="Form__fieldCtn">

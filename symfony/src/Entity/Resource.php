@@ -121,6 +121,10 @@ class Resource
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?MediaObject $file = null;
 
+    #[ORM\Column(length: 255)]
+    #[Groups([self::GET_FULL, self::WRITE])]
+    private ?string $author = null;
+
     public function __construct()
     {
         $this->thematics = new ArrayCollection();
@@ -247,6 +251,18 @@ class Resource
     public function setEndAt(?\DateTimeImmutable $endAt): static
     {
         $this->endAt = $endAt;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(string $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

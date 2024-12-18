@@ -23,6 +23,7 @@ export class ResourceFormService {
         file: zodModels.file.nullable().optional(),
         link: zodModels.website.nullable().optional(),
         format: z.nativeEnum(ResourceFormat),
+        author: zodModels.maxLabel,
         thematics: zodModels.symfonyRelations
       })
       .refine(
@@ -65,6 +66,7 @@ export class ResourceFormService {
       osmData: useField('osmData'),
       startAt: useField('startAt'),
       endAt: useField('endAt'),
+      author: useField('author'),
       thematics: useField('thematics'),
       link: useField('link')
     }
