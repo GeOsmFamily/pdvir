@@ -37,6 +37,9 @@
     },
     "inputs": {
         "fileUncorrect": "Fichier incorrect",
+        "date": {
+            "label": "Sélectionner une date"
+        },
         "images": {
             "generic": "Une ou plusieurs images n'ont pas pu être chargées: ",
             "wrongFormat": "Format d'image incorrect, sont acceptés uniquement les images au format .png, .jpg, .jpeg, .bmp, .gif, .svg, .webp",
@@ -60,7 +63,11 @@
             "url": "Veuillez renseigner une URL valide",
             "https": "Veuillez renseigner un site en https://",
             "phone": "Veuillez renseigner un numéro de téléphone valide",
-            "latLng": "Les coordonnées doivent être au format 'latitude, longitude', avec des valeurs valides."
+            "latLng": "Les coordonnées doivent être au format 'latitude, longitude', avec des valeurs valides.",
+            "file": {
+                "maxSize": "Le fichier est trop gros, la taille maximale est de {maxSize}Mo",
+                "wrongFormat": "Format de fichier incorrect, sont acceptés uniquement les fichiers au format {formats}"
+            }
         }
     },
     "filters": {
@@ -93,6 +100,9 @@
         "website": "Visiter le site internet",
         "mail": "Contacter par mail",
         "edit": "Modifier"
+    },
+    "date": {
+        "dateRangeLabel": "du {startAt} au {endAt}"
     },
     "kpi": {
         "actor": {
