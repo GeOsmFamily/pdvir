@@ -11,7 +11,8 @@ export class CommonZodSchema {
     'application/vnd.oasis.opendocument.spreadsheet',
     'application/vnd.ms-excel',
     'image/jpeg',
-    'image/png'
+    'image/png',
+    'image/webp'
   ]
 
   static checkFileType(file: File) {
@@ -41,7 +42,7 @@ export class CommonZodSchema {
       osmData: OsmDataSchema,
       file: z
         .instanceof(File)
-        .refine((file: File | null) => file != null, 'File is required')
+        .refine((file: File | null) => file != null, i18n.t('forms.errorMessages.required'))
         .refine(
           (file) => file.size < this.MAX_FILE_SIZE,
           i18n.t('forms.errorMessages.file.maxSize', { maxSize: '5' })
@@ -49,7 +50,7 @@ export class CommonZodSchema {
         .refine(
           (file) => this.checkFileType(file),
           i18n.t('forms.errorMessages.file.wrongFormat', {
-            formats: '.pdf, .xlsx, .jpeg, .jpg, .png'
+            formats: '.pdf, .xlsx, .jpeg, .jpg, .png, .webp'
           })
         )
         .or(

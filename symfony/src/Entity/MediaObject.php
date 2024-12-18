@@ -60,8 +60,8 @@ class MediaObject
     #[Assert\NotNull]
     #[Assert\File(
         maxSize: '5000k',
-        extensions: ['pdf', 'xlsx', 'jpg', 'jpeg', 'png'],
-        extensionsMessage: 'Please upload a valid file (pdf, xlsx, jpg, jpeg, png)',
+        extensions: ['pdf', 'xlsx', 'jpg', 'jpeg', 'png', 'webp'],
+        extensionsMessage: 'Please upload a valid file (pdf, xlsx, jpg, jpeg, png, webp)',
     )]
     public ?File $file = null;
 
