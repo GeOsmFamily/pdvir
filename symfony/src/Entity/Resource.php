@@ -121,7 +121,7 @@ class Resource
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?MediaObject $file = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?string $author = null;
 
@@ -260,7 +260,7 @@ class Resource
         return $this->author;
     }
 
-    public function setAuthor(string $author): static
+    public function setAuthor(?string $author): static
     {
         $this->author = $author;
 

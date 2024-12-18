@@ -23,7 +23,7 @@ export class ResourceFormService {
         file: zodModels.file.nullable().optional(),
         link: zodModels.website.nullable().optional(),
         format: z.nativeEnum(ResourceFormat),
-        author: zodModels.maxLabel,
+        author: zodModels.maxLabel.optional(),
         thematics: zodModels.symfonyRelations
       })
       .refine(
