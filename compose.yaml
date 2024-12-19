@@ -114,6 +114,18 @@ services:
       # - ./conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
     restart: on-failure
 
+  imposm:
+    build:
+      context: ./docker/imposm
+      args:
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_HOST: ${POSTGRES_HOST}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   caddy_data:
   caddy_config:

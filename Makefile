@@ -1,5 +1,6 @@
 include vue/Makefile
 include symfony/Makefile
+include docker/imposm/Makefile
 
 -include local.mk
 -include .env
