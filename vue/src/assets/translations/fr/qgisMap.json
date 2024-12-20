@@ -1,0 +1,25 @@
+{
+    "qgisMap": {
+        "qgisMaps": "Carte QGIS",
+        "add": "Ajouter une carte QGIS",
+        "form": {
+            "title": {
+                "create": "Ajouter une carte QGIS",
+                "edit": "Modifier une carte QGIS",
+                "validate": "Valider une carte QGIS"
+            },
+            "or": "OU",
+            "fields": {
+                "name": {
+                    "label": "Nom de la carte QGIS",
+                    "placeholder": "Nom de la carte QGIS"
+                },
+                "file": {
+                    "label": "Joindre un projet QGIS compressé (.zip)",
+                    "maxSize": "Fichier {maxSize} Mo maximum",
+                    "browse": "Parcourir..."
+                }
+            }
+        }
+    }
+}
