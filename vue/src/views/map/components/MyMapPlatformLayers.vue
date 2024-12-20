@@ -54,9 +54,14 @@ onMounted(async () => {
     await resourceStore.getAll(),
     await actorStore.getAll(),
     await projectStore.getAll()
-  ]).then(() => {
-    if (map.value != null) {
-      setPlatformDataLayers()
+  ]).then(async () => {
+    if (map.value == null) return
+    if (map.value.loaded()) {
+      await setPlatformDataLayers()
+    } else {
+      map.value.on('load', async () => {
+        await setPlatformDataLayers()
+      })
     }
   })
 })
@@ -133,17 +138,14 @@ const setPlatformDataLayer = async (itemType: ItemType) => {
   if (myMap.value) {
     const geojson = getGeojsonPerItemType(itemType)
     const icon = new URL(`/src/assets/images/icons/map/${itemType}_icon.png`, import.meta.url).href
-    // const hoverIcon = new URL(`@/assets/images/icons/map/${itemType}_icon_hover.png`, import.meta.url).href
     myMap.value.addSource(itemType, geojson)
     await myMap.value.addImage(icon, itemType)
-    // await myMap.value.addImage(hoverIcon, itemType + '_hover')
     const layout: maplibregl.LayerSpecification['layout'] = {
       'icon-image': itemType,
       'icon-size': 0.4
     }
     myMap.value.addLayer(itemType, { layout })
     myMap.value.listenToHoveredFeature(itemType)
-    // myMap.value.addPopupOnClick(projectsLayerName, activeProjectCard.value)
   }
   return
 }

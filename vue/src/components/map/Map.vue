@@ -29,12 +29,10 @@ const hoveredFeatureId: Ref<string | null> = ref(null)
 const activeFeatureId: Ref<string | null> = ref(null)
 
 onMounted(() => {
-  const accessToken = '0tupl15DKhXOvwp27x8c'
+  const apiKey = import.meta.env.VITE_MAPTILER_API_KEY
   map.value = new maplibregl.Map({
     container: 'map',
-    // style: 'https://demotiles.maplibre.org/style.json',
-    // style: '
-    style: `https://api.maptiler.com/maps/openstreetmap/style.json?key=${accessToken}`,
+    style: `https://api.maptiler.com/maps/openstreetmap/style.json?key=${apiKey}`,
     center: [0, 0],
     zoom: 1,
     attributionControl: false
