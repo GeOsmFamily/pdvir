@@ -49,7 +49,7 @@ const props = withDefaults(
   defineProps<{
     searchType: NominatimSearchType
     icon?: string
-    geometryDetails?: boolean,
+    geometryDetails?: boolean
     placeholder?: string
   }>(),
   {
@@ -63,9 +63,8 @@ const props = withDefaults(
 watch(
   () => osmData.value,
   async () => {
-    if (osmData.value) {
+    if (osmData.value && props.geometryDetails) {
       osmData.value = await GeocodingService.getBbox(osmData.value)
-      console.log('osmData.value', osmData.value)
     }
   }
 )
