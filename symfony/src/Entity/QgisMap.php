@@ -61,12 +61,10 @@ class QgisMap
         return $this;
     }
 
-
     public function getQgisProject(): ?QgisProject
     {
         return $this->qgisProject;
     }
-
 
     public function setQgisProject(?QgisProject $qgisProject): static
     {
