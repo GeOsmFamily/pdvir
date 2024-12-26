@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
     normalizationContext: ['groups' => [self::GET_FULL, QgisProject::READ]],
     denormalizationContext: ['groups' => [self::WRITE]],
 )]
-class Map
+class QgisMap
 {
     public const GET_FULL = 'qgis_map:get:full';
     public const WRITE = 'qgis_map:write';

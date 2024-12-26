@@ -86,6 +86,12 @@ const router = createRouter({
       name: 'map',
       component: () => import('@/views/map/MyMapView.vue')
     },
+    // TODO : To delete, for testing
+    {
+      path: '/map-qgis',
+      name: 'mapQgis',
+      component: () => import('@/views/map/MapView.vue')
+    },
     {
       path: '/myAccount',
       name: 'userAccount',
