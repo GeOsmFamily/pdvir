@@ -7,5 +7,6 @@ export enum StoresList {
   QGIS_MAP = 'qgisMap',
   RESOURCES = 'resources',
   THEMATICS = 'thematics',
-  HOME = 'home'
+  HOME = 'home',
+  MY_MAP = 'myMap'
 }
