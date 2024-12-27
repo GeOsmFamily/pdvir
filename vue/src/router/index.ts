@@ -13,6 +13,7 @@ import { ProjectListDisplay } from '@/models/enums/app/ProjectListType'
 import { useActorsStore } from '@/stores/actorsStore'
 import type { Actor } from '@/models/interfaces/Actor'
 import { useUserStore } from '@/stores/userStore'
+import AdminMaps from '@/views/admin/components/AdminMaps.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -152,6 +153,24 @@ const router = createRouter({
               path: 'resources',
               component: () =>
                 import('@/views/admin/components/admin-content/AdminResourcesPanel.vue')
+            }
+          ]
+        },
+        {
+          path: 'maps',
+          name: 'adminMaps',
+          component: AdminMaps,
+          redirect: () => ({ name: 'adminAtlas' }),
+          children: [
+            {
+              name: 'adminAtlas',
+              path: 'atlas',
+              component: () => import('@/views/admin/components/admin-maps/AdminAtlas.vue')
+            },
+            {
+              name: 'adminQgisProjects',
+              path: 'qgis-projects',
+              component: () => import('@/views/admin/components/admin-maps/AdminQgisProjects.vue')
             }
           ]
         },
