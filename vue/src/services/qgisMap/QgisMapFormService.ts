@@ -11,6 +11,7 @@ export class QgisMapFormService {
     // @ts-ignore
     const qgisMapSchema: z.ZodType<Partial<QgisMap>> = z.object({
       name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
+      desc: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
       qgisProject: zodModels.qgisProject
     })
 
@@ -21,6 +22,7 @@ export class QgisMapFormService {
 
     const form: any = {
       name: useField('name'),
+      desc: useField('desc'),
       qgisProject: useField('qgisProject')
     }
 

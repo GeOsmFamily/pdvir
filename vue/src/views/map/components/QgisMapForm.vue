@@ -14,6 +14,19 @@
           />
         </div>
         <div class="Form__fieldCtn">
+          <label class="Form__label required">{{
+            $t('qgisMap.form.fields.description.label')
+          }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.desc.value.value"
+            :error-messages="form.desc.errorMessage.value"
+            :placeholder="$t('qgisMap.form.fields.description.label')"
+            @blur="form.desc.handleChange"
+          />
+        </div>
+        <div class="Form__fieldCtn">
           <label class="Form__label">{{ $t('qgisMap.form.fields.file.label') }}</label>
           <FileInput
             v-model="form.qgisProject.value.value"
