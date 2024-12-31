@@ -11,18 +11,18 @@
         >{{ $t('forms.create') }}</v-btn
       >
     </div>
-    <div v-if="atlasGroup === 'PredefinedMap'">
-      {{ atlasesPredefined }}
-    </div>
-    <div v-if="atlasGroup === 'ThematicData'">
-      {{ atlasesThematic }}
-    </div>
+    <VueDraggable ref="el" v-model="atlasesList" @end="dragAtlases">
+      <div v-for="item in atlasesList" :key="item.id">
+        {{ item }}
+      </div>
+    </VueDraggable>
   </div>
   <AtlasForm :atlas="atlasToEdit" :type="formType" :isShown="isFormShown" />
 </template>
 <script setup lang="ts">
+import { VueDraggable } from 'vue-draggable-plus'
 import { useQgisMapStore } from '@/stores/qgisMapStore'
-import { computed, onMounted, ref, type Ref } from 'vue'
+import { onMounted, ref, watch, type Ref } from 'vue'
 import AtlasForm from './AtlasForm.vue'
 import { FormType } from '@/models/enums/app/FormType'
 import type { Atlas } from '@/models/interfaces/Atlas'
@@ -35,19 +35,32 @@ const atlasGroup: Ref<'ThematicData' | 'PredefinedMap'> = ref('PredefinedMap')
 const formType: Ref<FormType> = ref(FormType.CREATE)
 const atlasToEdit: Ref<Atlas | null> = ref(null)
 const isFormShown = atlasStore.isFormShown
+const atlasesList = ref<Atlas[]>([])
 
 onMounted(async () => {
   await qgisStore.getAll()
   await atlasStore.getAll()
+  updateAtlasesList()
 })
 
-const atlasesThematic = computed(() =>
-  atlasStore.atlasList.filter((atlas) => atlas.atlasGroup === AtlasGroup.THEMATIC_DATA)
-)
+function updateAtlasesList() {
+  atlasesList.value = atlasStore.atlasList
+    .filter((atlas) =>
+      atlasGroup.value === 'PredefinedMap'
+        ? atlas.atlasGroup === AtlasGroup.PREDEFINED_MAP
+        : atlas.atlasGroup === AtlasGroup.THEMATIC_DATA
+    )
+    .sort((a, b) => a.position - b.position)
+}
 
-const atlasesPredefined = computed(() =>
-  atlasStore.atlasList.filter((atlas) => atlas.atlasGroup === AtlasGroup.PREDEFINED_MAP)
-)
+watch(atlasGroup, updateAtlasesList)
+
+function dragAtlases() {
+  atlasesList.value.forEach((item, index) => {
+    item.position = index + 1
+    atlasStore.submitAtlas(item, FormType.EDIT, false)
+  })
+}
 </script>
 
 <style lang="scss">

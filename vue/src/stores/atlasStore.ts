@@ -18,7 +18,8 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
     }
   }
 
-  const submitAtlas = async (atlas: Atlas, type: FormType) => {
+  const submitAtlas = async (atlas: Atlas, type: FormType, withNotification = true) => {
+    console.log(atlas)
     const submittedAtlas =
       type === FormType.CREATE ? await AtlasService.post(atlas) : await AtlasService.patch(atlas)
     if (type === FormType.CREATE) {
@@ -30,7 +31,9 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
         }
       })
     }
-    addNotification(i18n.t(`notifications.atlas.${type}`), NotificationType.SUCCESS)
+    if (withNotification) {
+      addNotification(i18n.t(`notifications.atlas.${type}`), NotificationType.SUCCESS)
+    }
     return submittedAtlas
   }
 
