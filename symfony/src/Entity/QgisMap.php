@@ -2,18 +2,22 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\Repository\QgisMapRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\QgisMapRepository;
+use ApiPlatform\Metadata\GetCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: QgisMapRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(security: 'is_granted("ROLE_ADMIN")'),
         new Post(
             security: 'is_granted("ROLE_ADMIN")',
         ),
@@ -46,7 +50,19 @@ class QgisMap
     private ?QgisProject $qgisProject = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups([self::GET_FULL, self::WRITE])]
     private ?string $description = null;
+
+    /**
+     * @var Collection<int, Atlas>
+     */
+    #[ORM\ManyToMany(targetEntity: Atlas::class, mappedBy: 'maps')]
+    private Collection $atlases;
+
+    public function __construct()
+    {
+        $this->atlases = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +101,33 @@ class QgisMap
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Atlas>
+     */
+    public function getAtlases(): Collection
+    {
+        return $this->atlases;
+    }
+
+    public function addAtlas(Atlas $atlas): static
+    {
+        if (!$this->atlases->contains($atlas)) {
+            $this->atlases->add($atlas);
+            $atlas->addMap($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAtlas(Atlas $atlas): static
+    {
+        if ($this->atlases->removeElement($atlas)) {
+            $atlas->removeMap($this);
+        }
 
         return $this;
     }

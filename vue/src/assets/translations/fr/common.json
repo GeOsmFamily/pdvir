@@ -178,6 +178,12 @@
                 "500": "Une erreur est survenue, un rapport a été envoyé",
                 "moreDetails": "Détails :"
             }
+        },
+        "atlas": {
+            "create": "L'atlas a été créé",
+            "edit": "L'atlas a été modifié",
+            "validate": "L'atlas a été validé",
+            "delete": "L'atlas a été supprimé"
         }
     },
     "list": {

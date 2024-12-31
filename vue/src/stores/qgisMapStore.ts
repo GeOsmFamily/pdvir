@@ -69,6 +69,6 @@ export const useQgisMapStore = defineStore(StoresList.QGIS_MAP, () => {
     editedQgisMap,
     getAll,
     submitQgisMap,
-    deleteQgisMap,
+    deleteQgisMap
   }
 })

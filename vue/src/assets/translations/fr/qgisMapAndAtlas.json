@@ -25,5 +25,30 @@
                 }
             }
         }
+    },
+    "atlas": {
+        "thematicData": "Données thématiques",
+        "predefinedMap": "Cartes prédefinies",
+        "form": {
+            "title": {
+                "create": "Ajouter un Atlas",
+                "edit": "Modifier un Atlas",
+                "validate": "Valider un Atlas"
+            },
+            "fields": {
+                "name": {
+                    "label": "Nom de l'atlas",
+                    "placeholder": "Nom de l'atlas"
+                },
+                "atlasGroup": {
+                    "label": "Groupe d'atlas",
+                    "placeholder": "Groupe d'atlas"
+                },
+                "maps": {
+                    "label": "Cartes QGIS",
+                    "placeholder": "Cartes QGIS"
+                }
+            }
+        }
     }
 }
