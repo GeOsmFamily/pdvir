@@ -2,18 +2,16 @@
 
 namespace App\Entity;
 
-use App\Entity\QgisMap;
-use App\Enum\AtlasGroup;
-use App\Entity\QgisProject;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\AtlasRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use App\Enum\AtlasGroup;
+use App\Repository\AtlasRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AtlasRepository::class)]
@@ -51,7 +49,7 @@ class Atlas
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?AtlasGroup $atlasGroup = null;
 
-    #[ORM\Column]    
+    #[ORM\Column]
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?int $position = null;
 
