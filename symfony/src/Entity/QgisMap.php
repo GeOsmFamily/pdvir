@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
             security: 'is_granted("ROLE_ADMIN")',
         ),
     ],
-    normalizationContext: ['groups' => [self::GET_FULL, QgisProject::READ]],
+    normalizationContext: ['groups' => [self::GET_FULL, QgisProject::READ, Atlas::GET_FULL]],
     denormalizationContext: ['groups' => [self::WRITE]],
 )]
 class QgisMap
@@ -42,7 +42,7 @@ class QgisMap
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::GET_FULL, self::WRITE])]
+    #[Groups([self::GET_FULL, Atlas::GET_FULL, self::WRITE])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: QgisProject::class)]
