@@ -61,7 +61,7 @@ class QgisMap
 
     #[ORM\Column]
     #[Groups([self::GET_FULL, self::WRITE])]
-    private ?bool $needsToBeVisualiseAsPlainImageInsteadOfWMS = null;
+    private ?bool $needsToBeVisualiseAsPlainImageInsteadOfWMS = false;
 
     public function __construct()
     {

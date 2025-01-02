@@ -13,7 +13,7 @@ export class QgisMapFormService {
       name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
       description: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
       qgisProject: zodModels.qgisProject,
-      needsToBeVisualiseAsPlainImageInsteadOfWMS: z.boolean()
+      needsToBeVisualiseAsPlainImageInsteadOfWMS: z.boolean().optional()
     })
 
     const { errors, handleSubmit, isSubmitting, setFieldValue } = useForm<Partial<QgisMap>>({
