@@ -59,6 +59,10 @@ class QgisMap
     #[ORM\ManyToMany(targetEntity: Atlas::class, mappedBy: 'maps')]
     private Collection $atlases;
 
+    #[ORM\Column]
+    #[Groups([self::GET_FULL, self::WRITE])]
+    private ?bool $needsToBeVisualiseAsPlainImageInsteadOfWMS = null;
+
     public function __construct()
     {
         $this->atlases = new ArrayCollection();
@@ -128,6 +132,18 @@ class QgisMap
         if ($this->atlases->removeElement($atlas)) {
             $atlas->removeMap($this);
         }
+
+        return $this;
+    }
+
+    public function isNeedsToBeVisualiseAsPlainImageInsteadOfWMS(): ?bool
+    {
+        return $this->needsToBeVisualiseAsPlainImageInsteadOfWMS;
+    }
+
+    public function setNeedsToBeVisualiseAsPlainImageInsteadOfWMS(bool $needsToBeVisualiseAsPlainImageInsteadOfWMS): static
+    {
+        $this->needsToBeVisualiseAsPlainImageInsteadOfWMS = $needsToBeVisualiseAsPlainImageInsteadOfWMS;
 
         return $this;
     }

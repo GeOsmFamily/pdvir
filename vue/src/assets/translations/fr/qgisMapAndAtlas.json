@@ -1,6 +1,6 @@
 {
     "qgisMap": {
-        "qgisMaps": "Carte QGIS",
+        "qgisMaps": "Carte QGIS | Carte QGIS | Cartes QGIS",
         "add": "Ajouter une carte QGIS",
         "form": {
             "title": {
@@ -22,6 +22,11 @@
                     "label": "Joindre un projet QGIS compressé (.zip)",
                     "maxSize": "Fichier {maxSize} Mo maximum",
                     "browse": "Parcourir..."
+                },
+                "needsToBeVisualiseAsPlainImageInsteadOfWMS": {
+                    "label": "Cette carte contient elle une représentation cartographique avancée?",
+                    "yes": "Cette carte sera affichée via une image plaine et non tuilée (affichage plus couteux en performance)",
+                    "no": "Cette carte sera affichée via un flux WMS"
                 }
             }
         }

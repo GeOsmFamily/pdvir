@@ -4,7 +4,7 @@
       class="AdminTable__row"
       v-for="item in paginatedItems"
       :key="item.id"
-      :class="{ 'AdminTable__row--overlay': !item.isValidated }"
+      :class="{ 'AdminTable__row--overlay': (item as any).isValidated === false }"
       :style="{ gridTemplateColumns: columnWidths.join(' ') }"
     >
       <div class="AdminTable__item" v-for="(tableKey, index) in tableKeys" :key="index">
@@ -26,9 +26,10 @@ import Pagination from '@/components/global/Pagination.vue'
 import type { Project } from '@/models/interfaces/Project'
 import type { User } from '@/models/interfaces/auth/User'
 import type { Resource } from '@/models/interfaces/Resource'
+import type { QgisMap } from '@/models/interfaces/QgisMap'
 
 const props = defineProps<{
-  items: Actor[] | User[] | Project[] | Resource[]
+  items: Actor[] | User[] | Project[] | Resource[] | QgisMap[]
   tableKeys: string[]
   columnWidths?: string[]
   plainText?: boolean

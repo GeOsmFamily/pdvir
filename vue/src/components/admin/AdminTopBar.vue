@@ -40,7 +40,7 @@ import type { User } from '@sentry/vue'
 import { computed, ref, watch } from 'vue'
 import SectionTitle from '@/components/text-elements/SectionTitle.vue'
 
-type AdminPages = 'Actors' | 'Projects' | 'Members' | 'Resources'
+type AdminPages = 'Actors' | 'Projects' | 'Members' | 'Resources' | 'QgisMaps'
 const props = defineProps<{
   page: AdminPages
   items: Actor[] | User[]
@@ -64,6 +64,8 @@ const title = computed(() => {
       return `${props.items.length} ${i18n.t('admin.member', props.items.length)}`
     case 'Resources':
       return `${props.items.length} ${i18n.t('resources.resources', props.items.length)}`
+    case 'QgisMaps':
+      return `${props.items.length} ${i18n.t('qgisMap.qgisMaps', props.items.length)}`
     case 'Actors':
     default:
       return `${props.items.length} ${i18n.t('actors.actors', props.items.length)}`

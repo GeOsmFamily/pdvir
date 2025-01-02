@@ -73,7 +73,7 @@ const atlasGroup: Ref<'ThematicData' | 'PredefinedMap'> = ref('PredefinedMap')
 const formType: Ref<FormType> = ref(FormType.CREATE)
 const atlasToEdit: Ref<Atlas | null> = ref(null)
 const isFormShown = computed(() => atlasStore.isFormShown)
-const atlasesList = ref<Atlas[]>([])
+const atlasesList = ref<Atlas[]>([]) // Atlases list needs to be a Ref object to be used with Draggable lib
 
 onMounted(async () => {
   await qgisStore.getAll()

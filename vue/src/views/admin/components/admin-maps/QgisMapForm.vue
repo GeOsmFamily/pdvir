@@ -1,5 +1,9 @@
 <template>
-  <Modal :title="$t('qgisMap.form.title.' + type)" :show="isShown" @close="$emit('close')">
+  <Modal
+    :title="$t('qgisMap.form.title.' + type)"
+    :show="qgisMapStore.isQgisMapFormShown"
+    @close="qgisMapStore.isQgisMapFormShown = false"
+  >
     <template #content>
       <v-form @submit.prevent="submitForm" id="qgis-map-form" class="Form Form--qgis-map">
         <div class="Form__fieldCtn">
@@ -20,10 +24,10 @@
           <v-text-field
             density="compact"
             variant="outlined"
-            v-model="form.desc.value.value"
-            :error-messages="form.desc.errorMessage.value"
+            v-model="form.description.value.value"
+            :error-messages="form.description.errorMessage.value"
             :placeholder="$t('qgisMap.form.fields.description.label')"
-            @blur="form.desc.handleChange"
+            @blur="form.description.handleChange"
           />
         </div>
         <div class="Form__fieldCtn">
@@ -34,10 +38,23 @@
             @update:model-value="form.qgisProject.handleChange(form.qgisProject.value.value)"
           />
         </div>
+        <div class="Form__fieldCtn">
+          <label class="Form__label">{{
+            $t('qgisMap.form.fields.needsToBeVisualiseAsPlainImageInsteadOfWMS.label')
+          }}</label>
+          <v-switch
+            v-model="form.needsToBeVisualiseAsPlainImageInsteadOfWMS.value.value"
+            :error-messages="form.needsToBeVisualiseAsPlainImageInsteadOfWMS.errorMessage.value"
+            :label="switchLabel"
+            color="main-blue"
+          ></v-switch>
+        </div>
       </v-form>
     </template>
     <template #footer-left>
-      <span class="text-action" @click="$emit('close')">{{ $t('forms.cancel') }}</span>
+      <span class="text-action" @click="qgisMapStore.isQgisMapFormShown = false">{{
+        $t('forms.cancel')
+      }}</span>
     </template>
     <template #footer-right>
       <v-btn type="submit" form="qgis-map-form" color="main-red" :loading="isSubmitting">{{
@@ -56,17 +73,24 @@ import { onInvalidSubmit } from '@/services/forms/FormService'
 import FileInput from '@/components/forms/FileInput.vue'
 import { useQgisMapStore } from '@/stores/qgisMapStore'
 import type { QgisMap } from '@/models/interfaces/QgisMap'
-
-const qgisMapStore = useQgisMapStore()
+import { i18n } from '@/plugins/i18n'
+import { computed } from 'vue'
 
 const props = defineProps<{
   type: FormType
   qgisMap: QgisMap | null
-  isShown: boolean
 }>()
 
-const emit = defineEmits(['submitted', 'close'])
+const qgisMapStore = useQgisMapStore()
+
 const { form, handleSubmit, isSubmitting } = QgisMapFormService.getForm(props.qgisMap)
+
+const switchLabel = computed(() => {
+  if (form.needsToBeVisualiseAsPlainImageInsteadOfWMS.value.value) {
+    return i18n.t('qgisMap.form.fields.needsToBeVisualiseAsPlainImageInsteadOfWMS.yes')
+  }
+  return i18n.t('qgisMap.form.fields.needsToBeVisualiseAsPlainImageInsteadOfWMS.no')
+})
 
 const submitForm = handleSubmit(
   async (values) => {
@@ -74,8 +98,8 @@ const submitForm = handleSubmit(
     if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.qgisMap) {
       qgisMapSubmission.id = props.qgisMap.id
     }
-    const submittedQgisMap = await qgisMapStore.submitQgisMap(qgisMapSubmission, props.type)
-    emit('submitted', submittedQgisMap)
+    await qgisMapStore.submitQgisMap(qgisMapSubmission, props.type)
+    qgisMapStore.isQgisMapFormShown = false
   },
   () => onInvalidSubmit
 )

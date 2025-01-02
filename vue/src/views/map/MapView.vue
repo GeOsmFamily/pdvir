@@ -18,7 +18,7 @@
 import { onMounted, ref } from 'vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import QgisMapForm from './components/QgisMapForm.vue'
+import QgisMapForm from '../admin/components/admin-maps/QgisMapForm.vue'
 import type { QgisMap } from '@/models/interfaces/QgisMap'
 import { useQgisMapStore } from '@/stores/qgisMapStore'
 import { FormType } from '@/models/enums/app/FormType'

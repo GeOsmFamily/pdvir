@@ -11,8 +11,9 @@ export class QgisMapFormService {
     // @ts-ignore
     const qgisMapSchema: z.ZodType<Partial<QgisMap>> = z.object({
       name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
-      desc: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
-      qgisProject: zodModels.qgisProject
+      description: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
+      qgisProject: zodModels.qgisProject,
+      needsToBeVisualiseAsPlainImageInsteadOfWMS: z.boolean()
     })
 
     const { errors, handleSubmit, isSubmitting, setFieldValue } = useForm<Partial<QgisMap>>({
@@ -22,8 +23,11 @@ export class QgisMapFormService {
 
     const form: any = {
       name: useField('name'),
-      desc: useField('desc'),
-      qgisProject: useField('qgisProject')
+      description: useField('description'),
+      qgisProject: useField('qgisProject'),
+      needsToBeVisualiseAsPlainImageInsteadOfWMS: useField(
+        'needsToBeVisualiseAsPlainImageInsteadOfWMS'
+      )
     }
 
     return { form, errors, handleSubmit, isSubmitting, setFieldValue }

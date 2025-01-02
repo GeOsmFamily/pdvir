@@ -1,6 +1,6 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
-import { ref, type Ref, computed, watch } from 'vue'
+import { ref, type Ref } from 'vue'
 import type { QgisMap } from '@/models/interfaces/QgisMap'
 import { QgisMapService } from '@/services/qgisMap/QgisMapService'
 import { FormType } from '@/models/enums/app/FormType'
@@ -10,13 +10,14 @@ import { NotificationType } from '@/models/enums/app/NotificationType'
 
 export const useQgisMapStore = defineStore(StoresList.QGIS_MAP, () => {
   const qgisMaps: Ref<QgisMap[]> = ref([])
-  const qgisMap: Ref<QgisMap | null> = ref(null)
-  const editedQgisMapId: Ref<QgisMap['id'] | null> = ref(null)
   const isQgisMapFormShown = ref(false)
+  const isQgisMapVisualiserShown = ref(false)
+  // const qgisMap: Ref<QgisMap | null> = ref(null)
+  // const editedQgisMapId: Ref<QgisMap['id'] | null> = ref(null)
 
-  const editedQgisMap = computed(() => {
-    return qgisMaps.value.find((qgisMap) => qgisMap.id === editedQgisMapId.value)
-  })
+  // const editedQgisMap = computed(() => {
+  //   return qgisMaps.value.find((qgisMap) => qgisMap.id === editedQgisMapId.value)
+  // })
 
   async function getAll(): Promise<void> {
     if (qgisMaps.value.length === 0) {
@@ -42,14 +43,14 @@ export const useQgisMapStore = defineStore(StoresList.QGIS_MAP, () => {
     return submittedQgisMap
   }
 
-  watch(
-    () => isQgisMapFormShown.value,
-    (newValue) => {
-      if (newValue == false) {
-        editedQgisMapId.value = null
-      }
-    }
-  )
+  // watch(
+  //   () => isQgisMapFormShown.value,
+  //   (newValue) => {
+  //     if (newValue == false) {
+  //       editedQgisMapId.value = null
+  //     }
+  //   }
+  // )
 
   const deleteQgisMap = async (qgisMap: QgisMap) => {
     await QgisMapService.delete(qgisMap)
@@ -63,10 +64,10 @@ export const useQgisMapStore = defineStore(StoresList.QGIS_MAP, () => {
 
   return {
     qgisMaps,
-    qgisMap,
+    isQgisMapVisualiserShown,
     isQgisMapFormShown,
-    editedQgisMapId,
-    editedQgisMap,
+    // editedQgisMapId,
+    // editedQgisMap,
     getAll,
     submitQgisMap,
     deleteQgisMap
