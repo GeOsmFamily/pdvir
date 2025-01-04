@@ -82,6 +82,7 @@ onMounted(async () => {
 })
 
 function updateAtlasesList() {
+  console.log(atlasStore.atlasList)
   atlasesList.value = atlasStore.atlasList
     .filter((atlas) =>
       atlasGroup.value === 'PredefinedMap'
@@ -90,8 +91,11 @@ function updateAtlasesList() {
     )
     .sort((a, b) => a.position - b.position)
 }
-
-watch([atlasGroup, () => atlasStore.atlasList], updateAtlasesList)
+watch(
+  [atlasGroup, () => atlasStore.atlasList, () => atlasStore.atlasList.length],
+  updateAtlasesList,
+  { deep: true }
+)
 
 function dragAtlases() {
   atlasesList.value.forEach((item, index) => {

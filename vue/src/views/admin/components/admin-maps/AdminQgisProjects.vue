@@ -41,7 +41,7 @@
     </AdminTable>
     <QgisMapForm :type="formType" :qgis-map="qgisMapToEdit" v-if="qgisStore.isQgisMapFormShown" />
     <QgisMapVisualiser
-      :qgis-map="(qgisMapToVisualise as QgisMap)"
+      :qgis-map="qgisMapToVisualise as QgisMap"
       v-if="qgisStore.isQgisMapVisualiserShown"
     />
   </div>
@@ -109,7 +109,6 @@ function createQgisMap() {
 }
 
 function editQgisMap(qgisMap: QgisMap) {
-  
   formType.value = FormType.EDIT
   qgisMapToEdit.value = qgisMap
   qgisStore.isQgisMapFormShown = true

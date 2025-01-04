@@ -65,7 +65,7 @@ import type { Atlas } from '@/models/interfaces/Atlas'
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import { useQgisMapStore } from '@/stores/qgisMapStore'
 import type { QgisMap } from '@/models/interfaces/QgisMap'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 import { useAtlasStore } from '@/stores/atlasStore'
 
@@ -80,10 +80,6 @@ const atlasGroups = Object.values(AtlasGroup)
 const qgisStore = useQgisMapStore()
 const qgisMaps = computed(() => {
   return qgisStore.qgisMaps
-})
-
-onMounted(() => {
-  console.log(props.atlas)
 })
 
 const { form, handleSubmit, isSubmitting } = AtlasFormService.getForm(props.atlas)

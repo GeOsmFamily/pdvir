@@ -19,7 +19,6 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
   }
 
   const submitAtlas = async (atlas: Atlas, type: FormType, withNotification = true) => {
-    console.log(atlas)
     const submittedAtlas =
       type === FormType.CREATE ? await AtlasService.post(atlas) : await AtlasService.patch(atlas)
     if (type === FormType.CREATE) {
