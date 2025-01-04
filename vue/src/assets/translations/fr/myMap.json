@@ -32,6 +32,11 @@
           "resource": "Ressources"
         }
       }
+    },
+    "atlases": {
+      "thematicData": "Données thématiques",
+      "predefinedData": "Cartes prédéfinies",
+      "data": "Donnée | Données"
     }
   }
 }

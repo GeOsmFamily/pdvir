@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: AtlasRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(security: 'is_granted("ROLE_ADMIN")'),
+        new GetCollection(),
         new Post(
             security: 'is_granted("ROLE_ADMIN")',
         ),
