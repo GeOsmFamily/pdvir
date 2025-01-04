@@ -30,7 +30,7 @@
             @blur="form.description.handleChange"
           />
         </div>
-        <div class="Form__fieldCtn">
+        <div class="Form__fieldCtn" v-if="props.type === FormType.CREATE">
           <label class="Form__label">{{ $t('qgisMap.form.fields.file.label') }}</label>
           <FileInput
             v-model="form.qgisProject.value.value"
@@ -98,6 +98,7 @@ const submitForm = handleSubmit(
     if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.qgisMap) {
       qgisMapSubmission.id = props.qgisMap.id
     }
+    console.log(qgisMapSubmission)
     await qgisMapStore.submitQgisMap(qgisMapSubmission, props.type)
     qgisMapStore.isQgisMapFormShown = false
   },

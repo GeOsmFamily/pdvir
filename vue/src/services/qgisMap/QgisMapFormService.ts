@@ -8,13 +8,29 @@ import type { QgisMap } from '@/models/interfaces/QgisMap'
 export class QgisMapFormService {
   static getForm(qgisMap: QgisMap | null) {
     const zodModels = CommonZodSchema.getDefinitions()
-    // @ts-ignore
-    const qgisMapSchema: z.ZodType<Partial<QgisMap>> = z.object({
+
+    console.log(qgisMap)
+    
+    // Schéma de base pour les champs communs
+    const baseSchema = {
       name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
       description: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
-      qgisProject: zodModels.qgisProject,
       needsToBeVisualiseAsPlainImageInsteadOfWMS: z.boolean().optional()
+    }
+
+    // Schéma pour la création (fichier obligatoire)
+    const createSchema = z.object({
+      ...baseSchema,
+      qgisProject: zodModels.qgisProject
     })
+
+    // Schéma pour l'édition (fichier optionnel)
+    const editSchema = z.object({
+      ...baseSchema
+    })
+
+    // Sélection du schéma approprié
+    const qgisMapSchema = qgisMap ? editSchema : createSchema
 
     const { errors, handleSubmit, isSubmitting, setFieldValue } = useForm<Partial<QgisMap>>({
       initialValues: qgisMap,

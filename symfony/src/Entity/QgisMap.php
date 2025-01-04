@@ -39,6 +39,7 @@ class QgisMap
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([self::GET_FULL, Atlas::GET_FULL])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]

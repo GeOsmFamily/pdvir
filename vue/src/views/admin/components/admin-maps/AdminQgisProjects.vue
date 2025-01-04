@@ -109,10 +109,10 @@ function createQgisMap() {
 }
 
 function editQgisMap(qgisMap: QgisMap) {
-  alert('To be developped')
-  // formType.value = FormType.EDIT
+  
+  formType.value = FormType.EDIT
   qgisMapToEdit.value = qgisMap
-  // qgisStore.isQgisMapFormShown = true
+  qgisStore.isQgisMapFormShown = true
 }
 
 function showQgisProjectOnMap(qgisMap: QgisMap) {
