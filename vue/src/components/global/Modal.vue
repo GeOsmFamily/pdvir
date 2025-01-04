@@ -32,10 +32,12 @@ defineProps<{
 <style lang="scss">
 .Modal {
   $dim-modal-h: calc(100vh - 4rem);
-  $dim-modal-w: 30rem;
+  $dim-modal-w: fit-content;
+  $dim-modal-w-min: 30rem;
   margin: auto;
   background: white;
   width: $dim-modal-w;
+  min-width: $dim-modal-w-min;
   max-height: 100vh;
   max-width: 100%;
   overflow-y: auto;

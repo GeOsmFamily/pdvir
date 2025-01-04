@@ -39,9 +39,9 @@ function initMap() {
   const apiKey = import.meta.env.VITE_MAPTILER_API_KEY
   mapViewer = new maplibregl.Map({
     container: 'qgisMapViewer',
-    style: `https://api.maptiler.com/maps/openstreetmap/style.json?key=${apiKey}`,
-    center: [0, 0],
-    zoom: 1,
+    style: `https://api.maptiler.com/maps/dataviz-light/style.json?key=${apiKey}`,
+    center: [12.3547, 7.3697],
+    zoom: 5,
     attributionControl: false
   })
   mapViewer.dragRotate.disable()
@@ -72,7 +72,7 @@ function addSourceAndLayer() {
 
 <style lang="scss">
 #qgisMapViewer {
-  height: 100%;
-  width: 100%;
+  height: 70vh;
+  width: 80vw;
 }
 </style>
