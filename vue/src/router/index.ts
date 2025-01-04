@@ -85,12 +85,6 @@ const router = createRouter({
     {
       path: '/map',
       name: 'map',
-      component: () => import('@/views/map/MyMapView.vue')
-    },
-    // TODO : To delete, for testing
-    {
-      path: '/map-qgis',
-      name: 'mapQgis',
       component: () => import('@/views/map/MapView.vue')
     },
     {
@@ -118,12 +112,12 @@ const router = createRouter({
       },
       component: () => import('@/views/admin/AdminView.vue'),
       beforeEnter: (to, from, next) => {
-        // const userStore = useUserStore()
-        // if (!userStore.userIsAdmin()) {
-        //   next({ path: '/' })
-        // } else {
-        next()
-        // }
+        const userStore = useUserStore()
+        if (!userStore.userIsAdmin()) {
+          next({ path: '/' })
+        } else {
+          next()
+        }
       },
       children: [
         {

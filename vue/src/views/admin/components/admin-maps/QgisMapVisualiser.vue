@@ -2,6 +2,7 @@
   <Modal
     :title="qgisMap.name"
     :show="qgisMapStore.isQgisMapVisualiserShown"
+    fit-to-content
     @close="qgisMapStore.isQgisMapVisualiserShown = false"
   >
     <template #content>
