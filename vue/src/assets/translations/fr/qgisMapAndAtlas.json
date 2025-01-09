@@ -1,18 +1,19 @@
 {
     "qgisMap": {
-        "qgisMaps": "Carte QGIS | Carte QGIS | Cartes QGIS",
-        "add": "Ajouter une carte QGIS",
+        "qgisMaps": "Projet QGIS | Projet QGIS | Projets QGIS",
+        "add": "Ajouter un projet QGIS",
         "form": {
             "title": {
-                "create": "Ajouter une carte QGIS",
-                "edit": "Modifier une carte QGIS",
-                "validate": "Valider une carte QGIS"
+                "create": "Ajouter un projet QGIS",
+                "edit": "Modifier un projet QGIS",
+                "validate": "Valider un projet QGIS"
             },
             "or": "OU",
             "fields": {
+                "logo": "Logo",
                 "name": {
-                    "label": "Nom de la carte QGIS",
-                    "placeholder": "Nom de la carte QGIS"
+                    "label": "Nom du projet QGIS",
+                    "placeholder": "Nom du projet QGIS"
                 },
                 "description": {
                     "label": "Description",
@@ -24,9 +25,9 @@
                     "browse": "Parcourir..."
                 },
                 "needsToBeVisualiseAsPlainImageInsteadOfWMS": {
-                    "label": "Cette carte contient elle une représentation cartographique avancée?",
-                    "yes": "Cette carte sera affichée via une image plaine et non tuilée (affichage plus couteux en performance)",
-                    "no": "Cette carte sera affichée via un flux WMS"
+                    "label": "Ce projet contient elle une représentation cartographique avancée?",
+                    "yes": "Ce projet sera affiché via une image plaine et non tuilée (affichage plus couteux en performance)",
+                    "no": "Ce projet sera affiché via un flux WMS"
                 }
             }
         }
@@ -50,8 +51,8 @@
                     "placeholder": "Groupe d'atlas"
                 },
                 "maps": {
-                    "label": "Cartes QGIS",
-                    "placeholder": "Cartes QGIS"
+                    "label": "Projets QGIS",
+                    "placeholder": "Projets QGIS"
                 }
             }
         }

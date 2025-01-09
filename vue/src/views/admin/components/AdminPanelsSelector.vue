@@ -58,7 +58,7 @@
             <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
             {{ $t('admin.panelMapAtlas') }}
           </router-link>
-          <router-link class="Admin__itemSelector" :to="{ name: 'adminQgisProjects' }">
+          <router-link class="Admin__itemSelector" :to="{ name: 'adminQgisMaps' }">
             <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
             {{ $t('admin.panelMapQGIS') }}
           </router-link>

@@ -13,6 +13,7 @@
         >{{ $t('forms.create') }}</v-btn
       >
     </div>
+    <!-- Copy of AdminTable.vue as VueDraggable is not compatible with this component -->
     <div class="AdminTable">
       <VueDraggable ref="el" v-model="atlasesList" @end="dragAtlases">
         <div
@@ -21,7 +22,8 @@
           :key="item.id"
           :style="{ gridTemplateColumns: ['15%', '40%', '25%', '20%'].join(' ') }"
         >
-          <div class="AdminTable__item">
+          <div class="AdminTable__item d-flex align-center">
+            <img :src="item.logo.contentUrl" v-if="item.logo" class="AdminTable__item__logo" />
             {{ item.name }}
           </div>
           <div class="AdminTable__item">

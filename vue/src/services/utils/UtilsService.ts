@@ -23,7 +23,12 @@ export const debounce = (func: any, wait = 500) => {
 
 export function getNestedObjectValue(obj: any, propStr = '') {
   const keys = propStr.split('.')
-  return keys.reduce((acc, key) => acc[key], obj)
+  return (
+    keys.reduce((acc, key) => {
+      if (!acc || !(key in acc)) return null
+      return acc[key]
+    }, obj) || null
+  )
 }
 
 export function localizeDate(

@@ -7,6 +7,15 @@
     <template #content>
       <v-form @submit.prevent="submitForm" id="qgis-map-form" class="Form Form--qgis-map">
         <div class="Form__fieldCtn">
+          <label class="Form__label">{{ $t('qgisMap.form.fields.logo') }}</label>
+          <ImagesLoader
+            @updateFiles="handleLogoUpdate"
+            :existingImages="existingLogo"
+            :uniqueImage="true"
+            :externalImagesLoader="false"
+          />
+        </div>
+        <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('qgisMap.form.fields.name.label') }}</label>
           <v-text-field
             density="compact"
@@ -72,9 +81,13 @@ import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 import { onInvalidSubmit } from '@/services/forms/FormService'
 import FileInput from '@/components/forms/FileInput.vue'
 import { useQgisMapStore } from '@/stores/qgisMapStore'
-import type { QgisMap } from '@/models/interfaces/QgisMap'
+import type { QgisMap, QgisMapSubmission } from '@/models/interfaces/QgisMap'
 import { i18n } from '@/plugins/i18n'
-import { computed } from 'vue'
+import { computed, onMounted, ref, type Ref } from 'vue'
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import type { MediaObject } from '@/models/interfaces/MediaObject'
+import FileUploader from '@/services/files/FileUploader'
+import ImagesLoader from '@/components/forms/ImagesLoader.vue'
 
 const props = defineProps<{
   type: FormType
@@ -82,8 +95,18 @@ const props = defineProps<{
 }>()
 
 const qgisMapStore = useQgisMapStore()
-
 const { form, handleSubmit, isSubmitting } = QgisMapFormService.getForm(props.qgisMap)
+
+const existingLogo = ref<(MediaObject | string)[]>([])
+onMounted(async () => {
+  if (props.qgisMap) {
+    existingLogo.value = props.qgisMap.logo ? [props.qgisMap.logo] : []
+  }
+})
+const newLogo: Ref<ContentImageFromUserFile[]> = ref([])
+function handleLogoUpdate(list: any) {
+  newLogo.value = list.selectedFiles
+}
 
 const switchLabel = computed(() => {
   if (form.needsToBeVisualiseAsPlainImageInsteadOfWMS.value.value) {
@@ -94,11 +117,19 @@ const switchLabel = computed(() => {
 
 const submitForm = handleSubmit(
   async (values) => {
-    const qgisMapSubmission: QgisMap = nestedObjectsToIri(values)
-    if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.qgisMap) {
-      qgisMapSubmission.id = props.qgisMap.id
+    const qgisMapSubmissionRaw: QgisMapSubmission = {
+      ...(values as any),
+      logoToUpload: newLogo.value[0]
     }
-    console.log(qgisMapSubmission)
+    if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.qgisMap) {
+      qgisMapSubmissionRaw.id = props.qgisMap.id
+    }
+    if (qgisMapSubmissionRaw.logoToUpload) {
+      const newLogo = await FileUploader.uploadFile(qgisMapSubmissionRaw.logoToUpload.file)
+      qgisMapSubmissionRaw.logo = newLogo['@id']
+      delete qgisMapSubmissionRaw.logoToUpload
+    }
+    const qgisMapSubmission: QgisMap = nestedObjectsToIri(qgisMapSubmissionRaw)
     await qgisMapStore.submitQgisMap(qgisMapSubmission, props.type)
     qgisMapStore.isQgisMapFormShown = false
   },

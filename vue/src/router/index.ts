@@ -162,9 +162,9 @@ const router = createRouter({
               component: () => import('@/views/admin/components/admin-maps/AdminAtlas.vue')
             },
             {
-              name: 'adminQgisProjects',
-              path: 'qgis-projects',
-              component: () => import('@/views/admin/components/admin-maps/AdminQgisProjects.vue')
+              name: 'adminQgisMaps',
+              path: 'qgis-maps',
+              component: () => import('@/views/admin/components/admin-maps/AdminQgisMaps.vue')
             }
           ]
         },

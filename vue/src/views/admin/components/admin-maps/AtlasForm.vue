@@ -7,6 +7,15 @@
     <template #content>
       <v-form @submit.prevent="submitForm" id="atlas-form" class="Form Form--qgis-map">
         <div class="Form__fieldCtn">
+          <label class="Form__label">{{ $t('qgisMap.form.fields.logo') }}</label>
+          <ImagesLoader
+            @updateFiles="handleLogoUpdate"
+            :existingImages="existingLogo"
+            :uniqueImage="true"
+            :externalImagesLoader="false"
+          />
+        </div>
+        <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('atlas.form.fields.name.label') }}</label>
           <v-text-field
             density="compact"
@@ -61,13 +70,17 @@ import Modal from '@/components/global/Modal.vue'
 import { FormType } from '@/models/enums/app/FormType'
 import { onInvalidSubmit } from '@/services/forms/FormService'
 import { AtlasFormService } from '@/services/atlas/AtlasFormService'
-import type { Atlas } from '@/models/interfaces/Atlas'
+import type { Atlas, AtlasSubmission } from '@/models/interfaces/Atlas'
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import { useQgisMapStore } from '@/stores/qgisMapStore'
 import type { QgisMap } from '@/models/interfaces/QgisMap'
-import { computed } from 'vue'
+import { computed, onMounted, ref, type Ref } from 'vue'
 import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 import { useAtlasStore } from '@/stores/atlasStore'
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import type { MediaObject } from '@/models/interfaces/MediaObject'
+import FileUploader from '@/services/files/FileUploader'
+import ImagesLoader from '@/components/forms/ImagesLoader.vue'
 
 const props = defineProps<{
   atlas: Atlas | null
@@ -84,9 +97,29 @@ const qgisMaps = computed(() => {
 
 const { form, handleSubmit, isSubmitting } = AtlasFormService.getForm(props.atlas)
 
+const existingLogo = ref<(MediaObject | string)[]>([])
+onMounted(async () => {
+  if (props.atlas) {
+    existingLogo.value = props.atlas.logo ? [props.atlas.logo] : []
+  }
+})
+const newLogo: Ref<ContentImageFromUserFile[]> = ref([])
+function handleLogoUpdate(list: any) {
+  newLogo.value = list.selectedFiles
+}
+
 const submitForm = handleSubmit(
   async (values) => {
-    const atlasSubmission: Atlas = nestedObjectsToIri(values)
+    const atlasSubmissionRaw: AtlasSubmission = {
+      ...(values as any),
+      logoToUpload: newLogo.value[0]
+    }
+    if (atlasSubmissionRaw.logoToUpload) {
+      const newLogo = await FileUploader.uploadFile(atlasSubmissionRaw.logoToUpload.file)
+      atlasSubmissionRaw.logo = newLogo['@id']
+      delete atlasSubmissionRaw.logoToUpload
+    }
+    const atlasSubmission: Atlas = nestedObjectsToIri(atlasSubmissionRaw)
     if (FormType.CREATE === props.type) {
       atlasSubmission.position = atlasStore.atlasList.length + 1
     }

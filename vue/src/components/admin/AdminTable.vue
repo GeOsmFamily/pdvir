@@ -8,6 +8,11 @@
       :style="{ gridTemplateColumns: columnWidths.join(' ') }"
     >
       <div class="AdminTable__item" v-for="(tableKey, index) in tableKeys" :key="index">
+        <img
+          v-if="index === 0 && withLogo && getNestedObjectValue(item, logoField)"
+          :src="getNestedObjectValue(item, logoField)"
+          class="AdminTable__item__logo"
+        />
         {{ getNestedObjectValue(item, tableKey) }}
       </div>
       <div class="AdminTable__item AdminTable__item--last">
@@ -33,6 +38,8 @@ const props = defineProps<{
   tableKeys: string[]
   columnWidths?: string[]
   plainText?: boolean
+  withLogo?: boolean
+  logoField?: string
 }>()
 const defaultColumnWidths = ['15%', '40%', '25%', '20%']
 const columnWidths = props.columnWidths || defaultColumnWidths
@@ -57,15 +64,21 @@ const paginatedItems: Ref<typeof props.items> = ref([])
     background-color: rgb(var(--v-theme-light-yellow));
   }
   .AdminTable__item {
+    display: flex;
+    align-items: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     &--last {
-      display: flex;
-      align-items: center;
       justify-content: flex-end;
       padding-right: 10px;
     }
   }
+}
+.AdminTable__item__logo {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  margin-right: 10px;
 }
 </style>

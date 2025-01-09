@@ -8,9 +8,6 @@ import type { QgisMap } from '@/models/interfaces/QgisMap'
 export class QgisMapFormService {
   static getForm(qgisMap: QgisMap | null) {
     const zodModels = CommonZodSchema.getDefinitions()
-
-    console.log(qgisMap)
-    
     // Schéma de base pour les champs communs
     const baseSchema = {
       name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),

@@ -61,6 +61,10 @@ class Atlas
     #[Groups([self::GET_FULL, self::WRITE])]
     private Collection $maps;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups([self::GET_FULL, self::WRITE])]
+    private ?MediaObject $logo = null;
+
     public function __construct()
     {
         $this->maps = new ArrayCollection();
@@ -127,6 +131,18 @@ class Atlas
     public function removeMap(QgisMap $map): static
     {
         $this->maps->removeElement($map);
+
+        return $this;
+    }
+
+    public function getLogo(): ?MediaObject
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?MediaObject $logo): static
+    {
+        $this->logo = $logo;
 
         return $this;
     }

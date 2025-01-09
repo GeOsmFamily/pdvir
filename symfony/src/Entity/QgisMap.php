@@ -47,7 +47,7 @@ class QgisMap
     private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: QgisProject::class)]
-    #[Groups([self::GET_FULL, self::WRITE])]
+    #[Groups([self::GET_FULL, Atlas::GET_FULL, self::WRITE])]
     private ?QgisProject $qgisProject = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -63,6 +63,10 @@ class QgisMap
     #[ORM\Column]
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?bool $needsToBeVisualiseAsPlainImageInsteadOfWMS = false;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups([self::GET_FULL, self::WRITE])]
+    private ?MediaObject $logo = null;
 
     public function __construct()
     {
@@ -145,6 +149,18 @@ class QgisMap
     public function setNeedsToBeVisualiseAsPlainImageInsteadOfWMS(bool $needsToBeVisualiseAsPlainImageInsteadOfWMS): static
     {
         $this->needsToBeVisualiseAsPlainImageInsteadOfWMS = $needsToBeVisualiseAsPlainImageInsteadOfWMS;
+
+        return $this;
+    }
+
+    public function getLogo(): ?MediaObject
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?MediaObject $logo): static
+    {
+        $this->logo = $logo;
 
         return $this;
     }

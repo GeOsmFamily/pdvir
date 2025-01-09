@@ -14,8 +14,10 @@
     />
     <AdminTable
       :items="filteredItems"
-      :table-keys="['name', 'description', 'qgisProject.name']"
+      :table-keys="['name', 'description', 'qgisProject.layers']"
       :column-widths="['15%', '40%', '30%', '15%']"
+      :with-logo="true"
+      :logo-field="'logo.contentUrl'"
     >
       <template #editContentCell="{ item }">
         <v-btn
