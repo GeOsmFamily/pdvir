@@ -1,7 +1,7 @@
 <template>
   <div class="MyMapAtlases">
     <div class="MyMapAtlases__title">{{ title }}</div>
-    <MyMapAtlas v-for="atlas in atlases" :key="atlas.id" :atlas="atlas" />
+    <MyMapAtlas v-for="atlas in atlases" :key="atlas.id" :atlas="atlas" type="PreDefinedMap" />
   </div>
 </template>
 
