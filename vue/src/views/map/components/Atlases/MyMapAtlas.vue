@@ -36,26 +36,30 @@
             </div>
           </div>
         </div>
-        <MyMapLayerPicker
-          v-for="(map, index) in localMaps"
-          :key="map.id"
-          v-model:main-layer="localMaps[index]"
-          v-model:sub-layers="localMaps[index].subLayers"
-          @update="test()"
-        />
+        <template v-if="type === AtlasGroup.THEMATIC_DATA">
+          <MyMapLayerPicker
+            v-for="(map, index) in localMaps"
+            :key="map.id"
+            v-model:main-layer="localMaps[index]"
+            v-model:sub-layers="localMaps[index].subLayers"
+            @update="test()"
+          />
+        </template>
+        <template v-else> ICI ON AFFICHE LES MAPS PRE DEFINIES </template>
       </div>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import type { Atlas } from '@/models/interfaces/Atlas'
 import MyMapLayerPicker from '@/views/map/components/MyMapLayerPicker.vue'
 import { ref } from 'vue'
 
 const props = defineProps<{
   atlas: Atlas
-  type: 'ThematicData' | 'PreDefinedMap'
+  type: AtlasGroup
 }>()
 
 const localMaps = ref(JSON.parse(JSON.stringify(props.atlas.maps)))
@@ -77,11 +81,11 @@ const test = () => {
   padding: 0.25rem 0.5rem;
 }
 
-.MyMapAtlas[type='ThematicData'] {
+.MyMapAtlas[type='Données thématiques'] {
   border: 1px solid rgb(var(--v-theme-dark-grey));
 }
 
-.MyMapAtlas[type='PreDefinedMap'] {
+.MyMapAtlas[type='Cartes prédéfinies'] {
   border: 1px solid rgb(var(--v-theme-main-blue));
   box-shadow: 0px 2px 0px 0px rgb(var(--v-theme-main-blue));
   padding: 0.5rem 1rem;

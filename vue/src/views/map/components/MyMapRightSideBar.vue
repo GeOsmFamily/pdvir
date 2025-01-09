@@ -1,9 +1,9 @@
 <template>
-  <div class="MyMapLayersSideBar">
-    <MyMapPlatformLayers class="MyMapLayersSideBar" />
+  <div class="MyMapRightSideBar">
+    <MyMapPlatformLayers class="MyMapRightSideBar" />
     <MyMapAtlasesList
-      class="MyMapLayersSideBar"
-      title="Données thématiques"
+      :title="$t('atlas.thematicData')"
+      :type="AtlasGroup.THEMATIC_DATA"
       :atlases="
         atlasStore.atlasList.filter((atlas) => atlas.atlasGroup === AtlasGroup.THEMATIC_DATA)
       "
@@ -26,10 +26,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.MyMapLayersSideBar {
+.MyMapRightSideBar {
   display: flex;
   flex-flow: column nowrap;
-  flex: 1 0 auto;
   width: 19rem;
   background: #fff;
   padding: 1rem;

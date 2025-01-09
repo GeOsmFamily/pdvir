@@ -2,23 +2,20 @@
   <div class="MyMapView">
     <MyMapHeader class="MyMapView__header" />
     <div class="MyMapView__mapCtn">
-      <MyMapWelcomeSideBar
+      <MyMapLeftSideBar
         class="MyMapView__welcomeSideBar"
         :shown="myMapStore.isLeftSidebarShown"
       />
       <MyMap class="MyMapView__myMap" />
-      <MyMapLayersSideBar
-        class="MyMapView__layersSideBar"
-        :shown="myMapStore.isRightSidebarShown"
-      />
+      <MyMapRightSideBar class="MyMapView__layersSideBar" :shown="myMapStore.isRightSidebarShown" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import MyMap from '@/views/map/components/MyMap.vue'
 import MyMapHeader from '@/views/map/components/MyMapHeader.vue'
-import MyMapWelcomeSideBar from '@/views/map/components/MyMapWelcomeSideBar.vue'
-import MyMapLayersSideBar from '@/views/map/components/MyMapLayersSideBar.vue'
+import MyMapLeftSideBar from '@/views/map/components/MyMapLeftSideBar.vue'
+import MyMapRightSideBar from '@/views/map/components/MyMapRightSideBar.vue'
 import { useMyMapStore } from '@/stores/myMapStore'
 
 const myMapStore = useMyMapStore()
