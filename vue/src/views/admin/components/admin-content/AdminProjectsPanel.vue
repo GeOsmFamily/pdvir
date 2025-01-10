@@ -21,8 +21,11 @@
     <AdminTable
       :items="sortedProjects"
       :tableKeys="['name', 'actor.acronym', 'updatedAt']"
-      :column-widths="['auto', '15%', '15%', '15%']"
+      :column-widths="['5%', 'auto', '15%', '15%', '15%']"
     >
+      <template #adminTableItemFirst="{ item }">
+        <HighlightButton :item-id="(item as Project).id" />
+      </template>
       <template #editContentCell="{ item }">
         <template v-if="!item.isValidated">
           <v-btn
@@ -67,6 +70,7 @@ import { i18n } from '@/plugins/i18n'
 import ProjectForm from '@/views/projects/components/ProjectForm.vue'
 import { FormType } from '@/models/enums/app/FormType'
 import { ProjectService } from '@/services/projects/ProjectService'
+import HighlightButton from '@/components/global/HighlightButton.vue'
 
 const projectStore = useProjectStore()
 const sortingProjectsSelectedMethod = ref('isValidated')
