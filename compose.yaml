@@ -113,7 +113,7 @@ services:
       - ./docker/qgis/svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
       - qgis_projects:/io/data:ro
       # - ./docker/qgis/fonts:/usr/share/fonts # Causing nginx 404 issues
-      # - ./conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
+      - ./docker/qgis/conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
     restart: on-failure
 
   imposm:
