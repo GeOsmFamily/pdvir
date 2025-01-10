@@ -1,7 +1,7 @@
 {
     "admin": {
         "title": "Espace d'administration",
-        "panelMembers": "Gérer les membres",
+        "panelMembers": "Gérer les utilisateurs",
         "panelContent": "Gérer le contenu",
         "panelContentActors": "Acteurs",
         "panelContentProjects": "Projets",
