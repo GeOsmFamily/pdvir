@@ -4,7 +4,10 @@ export enum StoresList {
   USER = 'user',
   ACTORS = 'actors',
   PROJECTS = 'projects',
+  ATLAS = 'atlas',
+  QGIS_MAP = 'qgisMap',
   RESOURCES = 'resources',
   THEMATICS = 'thematics',
-  HOME = 'home'
+  HOME = 'home',
+  MY_MAP = 'myMap'
 }

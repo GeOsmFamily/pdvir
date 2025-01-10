@@ -1,0 +1,18 @@
+import type { AtlasGroup } from '../enums/geo/AtlasGroup'
+import type { ContentImageFromUserFile } from './ContentImage'
+import type { MediaObject } from './MediaObject'
+import type { QgisMap } from './QgisMap'
+
+export interface Atlas {
+  id: string
+  logo: MediaObject
+  name: string
+  atlasGroup: AtlasGroup
+  position: number
+  maps: QgisMap[]
+}
+
+export interface AtlasSubmission extends Omit<Atlas, 'logo'> {
+  logo: string
+  logoToUpload?: ContentImageFromUserFile
+}

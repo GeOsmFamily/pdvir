@@ -1,0 +1,60 @@
+{
+    "qgisMap": {
+        "qgisMaps": "Projet QGIS | Projet QGIS | Projets QGIS",
+        "add": "Ajouter un projet QGIS",
+        "form": {
+            "title": {
+                "create": "Ajouter un projet QGIS",
+                "edit": "Modifier un projet QGIS",
+                "validate": "Valider un projet QGIS"
+            },
+            "or": "OU",
+            "fields": {
+                "logo": "Logo",
+                "name": {
+                    "label": "Nom du projet QGIS",
+                    "placeholder": "Nom du projet QGIS"
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Description"
+                },
+                "file": {
+                    "label": "Joindre un projet QGIS compressé (.zip)",
+                    "maxSize": "Fichier {maxSize} Mo maximum",
+                    "browse": "Parcourir..."
+                },
+                "needsToBeVisualiseAsPlainImageInsteadOfWMS": {
+                    "label": "Ce projet contient elle une représentation cartographique avancée?",
+                    "yes": "Ce projet sera affiché via une image plaine et non tuilée (affichage plus couteux en performance)",
+                    "no": "Ce projet sera affiché via un flux WMS"
+                }
+            }
+        }
+    },
+    "atlas": {
+        "thematicData": "Données thématiques",
+        "predefinedMap": "Cartes prédefinies",
+        "form": {
+            "title": {
+                "create": "Ajouter un Atlas",
+                "edit": "Modifier un Atlas",
+                "validate": "Valider un Atlas"
+            },
+            "fields": {
+                "name": {
+                    "label": "Nom de l'atlas",
+                    "placeholder": "Nom de l'atlas"
+                },
+                "atlasGroup": {
+                    "label": "Groupe d'atlas",
+                    "placeholder": "Groupe d'atlas"
+                },
+                "maps": {
+                    "label": "Projets QGIS",
+                    "placeholder": "Projets QGIS"
+                }
+            }
+        }
+    }
+}

@@ -53,6 +53,7 @@ security:
         - { path: ^/api/user_likes, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/organisations, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/resources, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/atlases, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
