@@ -1,6 +1,6 @@
-[puc]
+[puc_geodata]
 host=${POSTGRES_HOST}
 port=${POSTGRES_PORT}
 dbname=${POSTGRES_DB}
-user=${POSTGRES_USER}
-password=${POSTGRES_PASSWORD}
+user=${POSTGRES_GEODATA_USER}
+password=${POSTGRES_GEODATA_PASSWORD}
