@@ -95,7 +95,7 @@ watch(
   () => adminStore.selectedAdminPanel,
   () => {
     if (adminStore.selectedAdminPanel === AdministrationPanels.MEMBERS) {
-      router.push({ name: 'adminMembers' })
+      router.push({ name: 'adminUsers' })
       adminStore.selectedAdminItem = null
     } else if (adminStore.selectedAdminPanel === AdministrationPanels.CONTENT) {
       router.push({ name: 'adminActors' })
