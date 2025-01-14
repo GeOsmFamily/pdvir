@@ -1,6 +1,6 @@
 <template>
   <div class="MyMapAtlas" :type="type">
-    <template v-if="!showDetails">
+    <template v-if="hideDetails">
       <div class="d-flex flex-row flex-wrap">
         <div class="MyMapAtlas__logo" :type="type">
           <img :src="atlas.logo.contentUrl" v-if="atlas.logo" />
@@ -16,7 +16,7 @@
         size="small"
         icon="mdi-arrow-right"
         class="text-dark-grey"
-        @click="showDetails = true"
+        @click="hideDetails = false"
       ></v-btn>
     </template>
 
@@ -27,7 +27,7 @@
             size="small"
             icon="mdi-arrow-left"
             class="text-dark-grey"
-            @click="showDetails = false"
+            @click="hideDetails = true"
           ></v-btn>
           <div class="MyMapAtlas__desc ml-2">
             <div class="MyMapAtlas__title">{{ atlas.name }}</div>
@@ -38,11 +38,19 @@
         </div>
         <template v-if="type === AtlasGroup.THEMATIC_DATA">
           <MyMapLayerPicker
-            v-for="(map, index) in atlasMaps"
+            v-for="(qgisMap, index) in myMapStore.atlasThematicMaps.filter(
+              (map) => map.atlasId === atlas['@id']
+            )"
             :class="index === 0 ? 'mt-6' : 'mt-2'"
-            :key="map.id"
-            v-model:main-layer="atlasMaps[index].mainLayer"
-            v-model:sub-layers="atlasMaps[index].subLayers"
+            :key="qgisMap.id"
+            v-model:main-layer="
+              myMapStore.atlasThematicMaps.filter((x) => x.atlasId === atlas['@id'])[index]
+                .mainLayer
+            "
+            v-model:sub-layers="
+              myMapStore.atlasThematicMaps.filter((x) => x.atlasId === atlas['@id'])[index]
+                .subLayers
+            "
             @update="updateThematicData()"
           />
         </template>
@@ -55,24 +63,29 @@
 <script setup lang="ts">
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import type { Atlas } from '@/models/interfaces/Atlas'
-import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
 import { AtlasService } from '@/services/map/AtlasService'
+import { useMyMapStore } from '@/stores/myMapStore'
 import MyMapLayerPicker from '@/views/map/components/MyMapLayerPicker.vue'
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const props = defineProps<{
   atlas: Atlas
   type: AtlasGroup
 }>()
-const showDetails = ref(false)
-const atlasMaps: AtlasMap[] = reactive([])
+const hideDetails = ref(true)
+const myMapStore = useMyMapStore()
 
 onMounted(() => {
-  atlasMaps.push(...AtlasService.setAtlasLayers(props.atlas))
+  console.log('atlas', props.atlas)
+  myMapStore.atlasThematicMaps.push(...AtlasService.setAtlasLayers(props.atlas))
 })
 
+// watch(myMapStore.atlasThematicMaps, () => {
+//   console.log('atlasThematicMaps', myMapStore.atlasThematicMaps)
+// })
+
 const updateThematicData = () => {
-  console.log(atlasMaps)
+  myMapStore.updateAtlasLayersVisibility()
 }
 </script>
 

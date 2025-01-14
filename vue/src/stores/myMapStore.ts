@@ -4,6 +4,8 @@ import { ref, type Ref } from 'vue'
 import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import type Layer from '@/models/interfaces/map/Layer'
 import type Map from '@/components/map/Map.vue'
+import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
+import { AtlasService } from '@/services/map/AtlasService'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
@@ -18,6 +20,11 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const projectLayer: Ref<Layer | null> = ref(null)
   const projectSubLayers: Ref<Layer[]> = ref([])
 
+  const atlasThematicMaps: Ref<AtlasMap[]> = ref([])
+  function updateAtlasLayersVisibility() {
+    AtlasService.handleAtlasLayersVisibility(atlasThematicMaps.value, myMap.value?.map)
+  }
+
   return {
     isRightSidebarShown,
     isLeftSidebarShown,
@@ -28,6 +35,8 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     projectLayer,
     projectSubLayers,
     resourceLayer,
-    resourceSubLayers
+    resourceSubLayers,
+    atlasThematicMaps,
+    updateAtlasLayersVisibility
   }
 })

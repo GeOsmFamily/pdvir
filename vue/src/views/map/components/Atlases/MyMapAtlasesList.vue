@@ -9,17 +9,12 @@
 import type { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import type { Atlas } from '@/models/interfaces/Atlas'
 import MyMapAtlas from '@/views/map/components/Atlases/MyMapAtlas.vue'
-import { onMounted } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   title: string
   atlases: Atlas[]
   type: AtlasGroup
 }>()
-
-onMounted(() => {
-  console.log(props.atlases)
-})
 </script>
 
 <style lang="scss">

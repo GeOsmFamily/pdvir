@@ -5,7 +5,9 @@
       :title="$t('atlas.thematicData')"
       :type="AtlasGroup.THEMATIC_DATA"
       :atlases="
-        atlasStore.atlasList.filter((atlas) => atlas.atlasGroup === AtlasGroup.THEMATIC_DATA)
+        atlasStore.atlasList
+          .filter((atlas) => atlas.atlasGroup === AtlasGroup.THEMATIC_DATA)
+          .sort((a, b) => a.position - b.position)
       "
       v-if="atlasStore.atlasList.length > 0"
     />

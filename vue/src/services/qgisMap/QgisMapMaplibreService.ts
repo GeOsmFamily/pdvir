@@ -75,6 +75,7 @@ export class QgisMapMaplibreService {
     })
 
     map?.on('moveend', () => {
+      console.log('moveend')
       QgisMapMaplibreService.updateMapImageSourceCoordinates(
         map as maplibregl.Map,
         sourceName,
@@ -108,5 +109,11 @@ export class QgisMapMaplibreService {
       source: sourceName,
       paint: {}
     })
+  }
+
+  static removeSourceAndLayers(map: maplibregl.Map, sourceName: string) {
+    if (!map || !sourceName) return
+    map.removeLayer(sourceName)
+    map.removeSource(sourceName)
   }
 }
