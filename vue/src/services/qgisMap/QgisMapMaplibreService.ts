@@ -10,7 +10,7 @@ export class QgisMapMaplibreService {
     const southWest = bounds.getSouthWest()
     const northEast = bounds.getNorthEast()
     const bbox3857 = [southWest.lat, southWest.lng, northEast.lat, northEast.lng]
-    return `${this.qgisServerURL}${qgisProjectName}?SERVICE=WMS&VERSION=1.3.0&LAYERS=${layers.join(',')}&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true&STYLES=&CRS=EPSG:4326&TILED=false&DPI=96&WIDTH=${width}&HEIGHT=${height}&BBOX=${bbox3857}`
+    return `${this.qgisServerURL}${qgisProjectName}?SERVICE=WMS&VERSION=1.3.0&LAYERS=${layers.join(',')}&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true&CRS=EPSG:4326&TILED=false&DPI=72&WIDTH=${width}&HEIGHT=${height}&BBOX=${bbox3857}`
   }
 
   // Get the coordinates of the map in order to place a map image on the Maplibre map
@@ -75,13 +75,16 @@ export class QgisMapMaplibreService {
     })
 
     map?.on('moveend', () => {
-      console.log('moveend')
-      QgisMapMaplibreService.updateMapImageSourceCoordinates(
-        map as maplibregl.Map,
-        sourceName,
-        qgisProjectName,
-        layers
-      )
+      try {
+        QgisMapMaplibreService.updateMapImageSourceCoordinates(
+          map as maplibregl.Map,
+          sourceName,
+          qgisProjectName,
+          layers
+        )
+      } catch (error) {
+        console.error('Error updating map image source coordinates', error)
+      }
     })
   }
 

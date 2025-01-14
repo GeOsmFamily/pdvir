@@ -21,8 +21,8 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const projectSubLayers: Ref<Layer[]> = ref([])
 
   const atlasThematicMaps: Ref<AtlasMap[]> = ref([])
-  function updateAtlasLayersVisibility() {
-    AtlasService.handleAtlasLayersVisibility(atlasThematicMaps.value, myMap.value?.map)
+  function updateAtlasLayersVisibility(qgismapId: string) {
+    AtlasService.handleAtlasLayersVisibility(atlasThematicMaps.value, myMap.value?.map, qgismapId)
   }
 
   return {

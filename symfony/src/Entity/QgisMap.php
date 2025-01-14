@@ -61,7 +61,7 @@ class QgisMap
     private Collection $atlases;
 
     #[ORM\Column]
-    #[Groups([self::GET_FULL, self::WRITE])]
+    #[Groups([self::GET_FULL, Atlas::GET_FULL, self::WRITE])]
     private ?bool $needsToBeVisualiseAsPlainImageInsteadOfWMS = false;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]

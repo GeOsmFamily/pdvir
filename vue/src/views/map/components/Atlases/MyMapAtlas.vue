@@ -51,7 +51,7 @@
               myMapStore.atlasThematicMaps.filter((x) => x.atlasId === atlas['@id'])[index]
                 .subLayers
             "
-            @update="updateThematicData()"
+            @update="updateThematicData(qgisMap.id)"
           />
         </template>
         <template v-else> ICI ON AFFICHE LES MAPS PRE DEFINIES </template>
@@ -76,16 +76,11 @@ const hideDetails = ref(true)
 const myMapStore = useMyMapStore()
 
 onMounted(() => {
-  console.log('atlas', props.atlas)
   myMapStore.atlasThematicMaps.push(...AtlasService.setAtlasLayers(props.atlas))
 })
 
-// watch(myMapStore.atlasThematicMaps, () => {
-//   console.log('atlasThematicMaps', myMapStore.atlasThematicMaps)
-// })
-
-const updateThematicData = () => {
-  myMapStore.updateAtlasLayersVisibility()
+const updateThematicData = (qgismapId: string) => {
+  myMapStore.updateAtlasLayersVisibility(qgismapId)
 }
 </script>
 

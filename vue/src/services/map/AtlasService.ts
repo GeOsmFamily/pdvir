@@ -40,34 +40,34 @@ export class AtlasService {
 
   static handleAtlasLayersVisibility(
     atlasMaps: AtlasMap[],
-    map: maplibregl.Map | null | undefined
+    map: maplibregl.Map | null | undefined,
+    qgismapId: string
   ) {
     if (map) {
       for (const atlasMap of atlasMaps) {
+        if (atlasMap.id !== qgismapId) continue
+
         const source = atlasMap.id
         let keepSource = true
         const refreshSource = atlasMap.needsToBeVisualiseAsPlainImageInsteadOfWMS
+        const sourceExists = map.getSource(source)
         const layersToAdd = []
-        const layersToRemove = []
+
         if (atlasMap.mainLayer.isShown) {
           layersToAdd.push(
             ...atlasMap.subLayers.filter((layer) => layer.isShown).map((layer) => layer.name)
-          )
-          layersToRemove.push(
-            ...atlasMap.subLayers.filter((layer) => !layer.isShown).map((layer) => layer.name)
           )
         } else {
           if (atlasMap.needsToBeVisualiseAsPlainImageInsteadOfWMS) {
             keepSource = false
           }
-          layersToRemove.push(...atlasMap.subLayers.map((layer) => layer.id + layer.name))
         }
 
         if (!keepSource) {
           QgisMapMaplibreService.removeSourceAndLayers(map, source)
           return
         }
-        if (refreshSource && keepSource) {
+        if (refreshSource && keepSource && sourceExists) {
           QgisMapMaplibreService.updateMapImageSourceCoordinates(
             map,
             source,
