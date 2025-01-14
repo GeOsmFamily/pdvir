@@ -1,6 +1,7 @@
 {
     "breadcrumbs": {
         "home": "Accueil",
+        "admin": "Administration",
         "actors": "Acteurs",
         "projects": "Projets",
         "resources": "Ressources",
@@ -9,6 +10,7 @@
         "myAccount": "Mon compte",
         "administration": "Administration",
         "members": "Membres",
+        "users": "Utilisateurs",
         "content": "Contenu",
         "membersPanel": "Membres",
         "contentPanel": "Contenu",

@@ -1,7 +1,7 @@
 {
     "admin": {
         "title": "Espace d'administration",
-        "panelMembers": "Gérer les membres",
+        "panelMembers": "Gérer les utilisateurs",
         "panelContent": "Gérer le contenu",
         "panelContentActors": "Acteurs",
         "panelContentProjects": "Projets",
@@ -10,7 +10,7 @@
         "panelMapAtlas": "Gérer les atlas",
         "panelMapQGIS": "Gérer les projets QGIS",
         "panelComments": "Gérer les commentaires",
-        "member": "Membre | Membres",
+        "member": "Utilisateur | Utilisateurs",
         "add": "Ajouter",
         "search": "Rechercher",
         "form": {
