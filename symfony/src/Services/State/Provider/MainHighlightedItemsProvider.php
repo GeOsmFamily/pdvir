@@ -4,7 +4,6 @@ namespace App\Services\State\Provider;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\Entity\HighlightedItem;
 use App\Repository\ActorRepository;
 use App\Repository\HighlightedItemRepository;
 use App\Repository\ProjectRepository;

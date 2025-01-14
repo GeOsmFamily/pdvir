@@ -10,7 +10,6 @@ use App\Repository\ActorRepository;
 use App\Repository\HighlightedItemRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\ResourceRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,19 +29,22 @@ class HighlightedItemProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        if (!$data instanceof HighlightedItem) return $data;
-        
+        if (!$data instanceof HighlightedItem) {
+            return $data;
+        }
+
         $itemType = $this->getItemType($data->getItemId());
         if (null === $itemType) {
             return new JsonResponse(['message' => 'Item not found'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         $data->setItemType($itemType);
+
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
     }
 
-
-    private function getItemType(string $itemId): ?ItemType {
+    private function getItemType(string $itemId): ?ItemType
+    {
         $project = $this->projectRepository->find($itemId);
         $actor = $this->actorRepository->find($itemId);
         $resource = $this->resourceRepository->find($itemId);

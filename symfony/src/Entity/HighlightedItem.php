@@ -8,12 +8,12 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Enum\ItemType;
-use Gedmo\Mapping\Annotation as Gedmo;
 use App\Repository\HighlightedItemRepository;
 use App\Services\State\Processor\Common\HighlightedItemProcessor;
 use App\Services\State\Provider\HighlightedItemProvider;
 use App\Services\State\Provider\MainHighlightedItemsProvider;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -25,7 +25,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
             uriTemplate: '/highlighted_items/main',
             normalizationContext: ['groups' => [HighlightedItem::GET_FULL]],
             provider: MainHighlightedItemsProvider::class,
-        )
+        ),
     ]
 )]
 #[ApiResource(
@@ -43,7 +43,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Patch(
             denormalizationContext: ['groups' => [HighlightedItem::WRITE]],
             processor: HighlightedItemProcessor::class,
-        )
+        ),
     ]
 )]
 #[UniqueEntity(fields: ['itemId'])]
@@ -84,7 +84,7 @@ class HighlightedItem
 
     #[Groups([HighlightedItem::GET_FULL])]
     private ?string $name = null;
-    
+
     public string $description;
     public $updatedAt;
     public $type;
