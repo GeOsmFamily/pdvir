@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use App\Entity\QgisMap;
-use App\Entity\Atlas;
 
 #[ORM\Entity]
 #[ApiResource(
