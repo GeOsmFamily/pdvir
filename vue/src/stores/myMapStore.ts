@@ -21,8 +21,15 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const projectSubLayers: Ref<Layer[]> = ref([])
 
   const atlasThematicMaps: Ref<AtlasMap[]> = ref([])
+  let alreadyAddedImageSources: string[] = [] //Used to avoid triggering maplibre event as much time as the layer has been added to the map
   function updateAtlasLayersVisibility(qgismapId: string) {
-    AtlasService.handleAtlasLayersVisibility(atlasThematicMaps.value, myMap.value?.map, qgismapId)
+    AtlasService.handleAtlasLayersVisibility(
+      atlasThematicMaps.value,
+      myMap.value?.map,
+      qgismapId,
+      alreadyAddedImageSources
+    )
+    alreadyAddedImageSources = [...new Set([...alreadyAddedImageSources, qgismapId])]
   }
 
   return {

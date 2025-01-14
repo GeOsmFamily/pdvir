@@ -53,7 +53,8 @@ export class QgisMapMaplibreService {
     map: maplibregl.Map,
     sourceName: string,
     qgisProjectName: string,
-    layers: string[]
+    layers: string[],
+    firstAdd = true
   ): void {
     if (!map || !sourceName || !qgisProjectName || !layers) return
     if (map.getLayer(sourceName)) map.removeLayer(sourceName)
@@ -74,18 +75,22 @@ export class QgisMapMaplibreService {
       }
     })
 
-    map?.on('moveend', () => {
-      try {
-        QgisMapMaplibreService.updateMapImageSourceCoordinates(
-          map as maplibregl.Map,
-          sourceName,
-          qgisProjectName,
-          layers
-        )
-      } catch (error) {
-        console.error('Error updating map image source coordinates', error)
-      }
-    })
+    // Otherwise the event will be triggered as much time as the layer has been added to the map
+    if (firstAdd) {
+      map?.on('moveend', () => {
+        console.log('moveend')
+        try {
+          QgisMapMaplibreService.updateMapImageSourceCoordinates(
+            map as maplibregl.Map,
+            sourceName,
+            qgisProjectName,
+            layers
+          )
+        } catch (error) {
+          console.error('Error updating map image source coordinates', error)
+        }
+      })
+    }
   }
 
   // A WMS source only have one layer as it's a raster source

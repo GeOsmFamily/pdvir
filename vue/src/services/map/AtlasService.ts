@@ -41,7 +41,8 @@ export class AtlasService {
   static handleAtlasLayersVisibility(
     atlasMaps: AtlasMap[],
     map: maplibregl.Map | null | undefined,
-    qgismapId: string
+    qgismapId: string,
+    alreadyAddedImageSources: string[]
   ) {
     if (map) {
       for (const atlasMap of atlasMaps) {
@@ -80,7 +81,8 @@ export class AtlasService {
               map,
               source,
               atlasMap.qgisProjectName,
-              layersToAdd
+              layersToAdd,
+              !alreadyAddedImageSources.includes(source)
             )
           } else {
             QgisMapMaplibreService.addWMSSourceAndLayer(
