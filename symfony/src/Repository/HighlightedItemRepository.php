@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\HighlightedItem;
-use App\Entity\Project;
 use App\Enum\ItemType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,17 +16,18 @@ class HighlightedItemRepository extends ServiceEntityRepository
         ManagerRegistry $registry,
         private ProjectRepository $projectRepository,
         private ActorRepository $actorRepository,
-        private ResourceRepository $resourceRepository
-    )
-    {
+        private ResourceRepository $resourceRepository,
+    ) {
         parent::__construct($registry, HighlightedItem::class);
     }
-    
-    public function findMainHighlightedItemIds(): array {
-        return array_map(fn($item) => $item->getItemId(), $this->findMainHighlightedItem());
+
+    public function findMainHighlightedItemIds(): array
+    {
+        return array_map(fn ($item) => $item->getItemId(), $this->findMainHighlightedItem());
     }
-    public function findMainHighlightedItem(): array {
-        
+
+    public function findMainHighlightedItem(): array
+    {
         return $this->createQueryBuilder('h')
             ->select('h')
             ->where('h.isHighlighted = true')
@@ -36,13 +36,14 @@ class HighlightedItemRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findAllHighlighted(): array
     {
         $partialHighlightedItems = $this->findAll();
         $ids = [
             ItemType::PROJECT->value => [],
             ItemType::ACTOR->value => [],
-            ItemType::RESOURCE->value => []
+            ItemType::RESOURCE->value => [],
         ];
         foreach ($partialHighlightedItems as $highlightedItem) {
             if ($highlightedItem->getIsHighlighted()) {
@@ -66,6 +67,7 @@ class HighlightedItemRepository extends ServiceEntityRepository
             }
             $partialHighlightedItems[$key]->setName($name);
         }
+
         return $partialHighlightedItems;
     }
 
