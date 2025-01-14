@@ -12,33 +12,35 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use App\Repository\HighlightedItemRepository;
 use App\Services\State\Processor\Common\HighlightedItemProcessor;
 use App\Services\State\Provider\HighlightedItemProvider;
+use App\Services\State\Provider\MainHighlightedItemsProvider;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Sortable\Entity\Repository\SortableRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-// #[ORM\Entity(repositoryClass: SortableRepository::class)]
 #[ORM\Entity(repositoryClass: HighlightedItemRepository::class)]
 #[ApiResource(
     paginationEnabled: false,
     operations: [
         new GetCollection(
-            uriTemplate: '/highlighted_items/partial',
-            normalizationContext: ['groups' => [HighlightedItem::GET_PARTIAL]],
-            security: "is_granted('ROLE_ADMIN')",
-        ),
+            uriTemplate: '/highlighted_items/main',
+            normalizationContext: ['groups' => [HighlightedItem::GET_FULL]],
+            provider: MainHighlightedItemsProvider::class,
+        )
+    ]
+)]
+#[ApiResource(
+    paginationEnabled: false,
+    security: "is_granted('ROLE_ADMIN')",
+    operations: [
         new GetCollection(
-            security: "is_granted('ROLE_ADMIN')",
             normalizationContext: ['groups' => [HighlightedItem::GET_FULL]],
             provider: HighlightedItemProvider::class,
         ),
         new Post(
-            security: "is_granted('ROLE_ADMIN')",
             denormalizationContext: ['groups' => [HighlightedItem::WRITE]],
             processor: HighlightedItemProcessor::class,
         ),
         new Patch(
-            security: "is_granted('ROLE_ADMIN')",
             denormalizationContext: ['groups' => [HighlightedItem::WRITE]],
             processor: HighlightedItemProcessor::class,
         )
@@ -48,30 +50,30 @@ use Symfony\Component\Serializer\Attribute\Groups;
 class HighlightedItem
 {
     public const GET_FULL = 'highlighted_item:get:full';
-    public const GET_PARTIAL = 'highlighted_item:get:partial';
     public const WRITE = 'highlighted_item:write';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[ApiProperty(identifier: false)]
-    #[Groups([HighlightedItem::GET_PARTIAL, HighlightedItem::GET_FULL])]
+    #[Groups([HighlightedItem::GET_FULL])]
     private ?int $id = null;
 
     #[ORM\Column(unique: true)]
     #[ApiProperty(identifier: true)]
-    #[Groups([HighlightedItem::GET_PARTIAL, HighlightedItem::GET_FULL, HighlightedItem::WRITE])]
+    #[Groups([HighlightedItem::GET_FULL, HighlightedItem::WRITE])]
     private ?string $itemId = null;
 
     #[ORM\Column]
-    #[Groups([HighlightedItem::GET_PARTIAL, HighlightedItem::GET_FULL, HighlightedItem::WRITE])]
+    #[Groups([HighlightedItem::GET_FULL, HighlightedItem::WRITE])]
+    #[Gedmo\SortableGroup]
     private ?bool $isHighlighted = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups([HighlightedItem::GET_FULL])]
     private ?\DateTimeImmutable $highlightedAt = null;
 
-    #[ORM\Column(unique: true, nullable: true)]
+    #[ORM\Column(nullable: true)]
     #[Groups([HighlightedItem::GET_FULL, HighlightedItem::WRITE])]
     #[Gedmo\SortablePosition]
     private ?int $position = null;
@@ -82,6 +84,11 @@ class HighlightedItem
 
     #[Groups([HighlightedItem::GET_FULL])]
     private ?string $name = null;
+    
+    public string $description;
+    public $updatedAt;
+    public $type;
+    public $link;
 
     public function getId(): ?int
     {

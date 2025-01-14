@@ -2,29 +2,27 @@ import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
 import { computed, ref, type Ref } from 'vue'
 import { HighlightedItemService } from '@/services/highlight/HighlightedItemService'
-import type { HighlightedItem } from '@/models/interfaces/Item'
+import type { HighlightedItem } from '@/models/interfaces/HighlightedItem'
 import { debounce } from '@/services/utils/UtilsService'
 
 export const useHighlightStore = defineStore(StoresList.HIGHLIGHTS, () => {
-  const highlights: Ref<Partial<HighlightedItem>[]> = ref([])
+  const highlights: Ref<HighlightedItem[]> = ref([])
 
   const orderedHighlights = computed(() => {
     return highlights.value
       .filter((highlightedItem) => highlightedItem?.isHighlighted)
       .sort((a, b) => {
-        return b.position - a.position
+        return (a.position ?? 0) - (b.position ?? 0)
       })
   })
 
-  async function getAll(isPartial = true): Promise<void> {
-    debouncedGetAll(isPartial)
+  async function getAll(force = false): Promise<void> {
+    debouncedGetAll(force)
   }
 
-  const debouncedGetAll = debounce(async (isPartial: boolean) => {
-    if (highlights.value.length === 0) {
-      highlights.value = isPartial
-        ? await HighlightedItemService.getAllPartial()
-        : await HighlightedItemService.getAll()
+  const debouncedGetAll = debounce(async (force: boolean) => {
+    if (highlights.value.length === 0 || force) {
+      highlights.value = await HighlightedItemService.getAll()
     }
   }, 100)
 

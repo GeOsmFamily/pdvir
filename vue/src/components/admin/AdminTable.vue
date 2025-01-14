@@ -10,13 +10,13 @@
       }"
       :style="{ gridTemplateColumns: columnWidths.join(' ') }"
     >
-      <div class="AdminTable__item AdminTable__item--first">
+      <div v-if="!!$slots.adminTableItemFirst" class="AdminTable__item AdminTable__item--first">
         <slot name="adminTableItemFirst" :item="item"></slot>
       </div>
       <div class="AdminTable__item" v-for="(tableKey, index) in tableKeys" :key="index">
         {{ getNestedObjectValue(item, tableKey) }}
       </div>
-      <div class="AdminTable__item AdminTable__item--last">
+      <div v-if="!!$slots.editContentCell" class="AdminTable__item AdminTable__item--last">
         <slot name="editContentCell" :item="item"></slot>
       </div>
     </div>
@@ -32,21 +32,23 @@ import Pagination from '@/components/global/Pagination.vue'
 import type { Project } from '@/models/interfaces/Project'
 import type { User } from '@/models/interfaces/auth/User'
 import type { Resource } from '@/models/interfaces/Resource'
-import type { HighlightedItem } from '@/models/interfaces/Item'
+import type { HighlightedItem } from '@/models/interfaces/HighlightedItem'
 import { useDraggable } from 'vue-draggable-plus'
 import type { SortableEvent } from 'sortablejs'
 
+type Item = Actor | User | Project | Resource | HighlightedItem
+
 const props = defineProps<{
-  items: Actor[] | User[] | Project[] | Resource[] | HighlightedItem[]
+  items: Item[]
   tableKeys: string[]
   columnWidths?: string[]
   plainText?: boolean
   isDraggable?: boolean
-  isOverlayShownFunction?: (item) => boolean
+  isOverlayShownFunction?: (item: Item) => boolean
 }>()
 const defaultColumnWidths = ['15%', '40%', '25%', '20%']
 const columnWidths = props.columnWidths || defaultColumnWidths
-const paginatedItems: Ref<typeof props.items> = ref([])
+const paginatedItems: Ref<Item[]> = ref([])
 
 const el = ref<HTMLElement | null>(null)
 // The return value is an object, which contains some methods, such as start, destroy, pause, etc.

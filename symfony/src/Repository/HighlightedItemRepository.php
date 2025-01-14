@@ -3,24 +3,39 @@
 namespace App\Repository;
 
 use App\Entity\HighlightedItem;
+use App\Entity\Project;
 use App\Enum\ItemType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Gedmo\Sortable\Entity\Repository\SortableRepository;
 
 /**
  * @extends ServiceEntityRepository<HighlightedItem>
  */
-class HighlightedItemRepository extends SortableRepository
+class HighlightedItemRepository extends ServiceEntityRepository
 {
     public function __construct(
-        EntityManagerInterface $em
+        ManagerRegistry $registry,
+        private ProjectRepository $projectRepository,
+        private ActorRepository $actorRepository,
+        private ResourceRepository $resourceRepository
     )
     {
-        parent::__construct($em);
+        parent::__construct($registry, HighlightedItem::class);
     }
-
+    
+    public function findMainHighlightedItemIds(): array {
+        return array_map(fn($item) => $item->getItemId(), $this->findMainHighlightedItem());
+    }
+    public function findMainHighlightedItem(): array {
+        
+        return $this->createQueryBuilder('h')
+            ->select('h')
+            ->where('h.isHighlighted = true')
+            ->andWhere('h.position < 3')
+            ->orderBy('h.position', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
     public function findAllHighlighted(): array
     {
         $partialHighlightedItems = $this->findAll();
@@ -43,7 +58,8 @@ class HighlightedItemRepository extends SortableRepository
         foreach ($partialHighlightedItems as $key => $highlightedItem) {
             $name = null;
             foreach ($highlightedItems as $item) {
-                if ($item->getId() === $highlightedItem->getItemId()) {
+                $id = is_string($item->getId()) ? $item->getId() : $item->getId()->toString();
+                if ($id === $highlightedItem->getItemId()) {
                     $name = $item->getName();
                     break;
                 }

@@ -12,9 +12,7 @@ use App\Repository\ResourceRepository;
 class HighlightedItemProvider implements ProviderInterface
 {
     public function __construct(
-        private HighlightedItemRepository $highlightedItemRepository,
-        private ActorRepository $actorRepository,
-        private ResourceRepository $resourceRepository,
+        private HighlightedItemRepository $highlightedItemRepository
     ) {
     }
 

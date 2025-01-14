@@ -19,6 +19,7 @@
       @submitted="closeForm"
     />
     <AdminTable
+      :is-overlay-shown-function="(item) => !(item as Project).isValidated"
       :items="sortedProjects"
       :tableKeys="['name', 'actor.acronym', 'updatedAt']"
       :column-widths="['5%', 'auto', '15%', '15%', '15%']"
@@ -27,7 +28,7 @@
         <HighlightButton :item-id="(item as Project).id" />
       </template>
       <template #editContentCell="{ item }">
-        <template v-if="!item.isValidated">
+        <template v-if="!(item as Project).isValidated">
           <v-btn
             size="small"
             icon="mdi-arrow-right"

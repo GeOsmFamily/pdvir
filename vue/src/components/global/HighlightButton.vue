@@ -1,7 +1,7 @@
 <template>
   <v-btn
-    v-if="userStore.userIsAdmin()"
     @click.prevent="highlight"
+    v-if="userStore.userIsAdmin()"
     variant="text"
     density="comfortable"
     :icon="'mdi mdi-star' + (!highlightedItem?.isHighlighted ? '-outline' : '')"
@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import type { HighlightedItem } from '@/models/interfaces/Item'
+import type { HighlightedItem } from '@/models/interfaces/HighlightedItem'
 import { HighlightedItemService } from '@/services/highlight/HighlightedItemService'
 import { useHighlightStore } from '@/stores/highlightStore'
 import { useUserStore } from '@/stores/userStore'
@@ -18,13 +18,15 @@ import { computed, onMounted } from 'vue'
 
 const highlightStore = useHighlightStore()
 const userStore = useUserStore()
-
+const emits = defineEmits(['update:highlight'])
 const props = defineProps<{
   itemId: string
 }>()
 
 onMounted(async () => {
-  await highlightStore.getAll(true)
+  if (userStore.userIsAdmin()) {
+    await highlightStore.getAll()
+  }
 })
 
 const highlightedItem = computed(() =>
@@ -36,14 +38,16 @@ const highlight = async () => {
     itemId: props.itemId,
     isHighlighted: !highlightedItem.value?.isHighlighted
   }
-  if (highlightStore.highlights.some((item) => item.itemId === props.itemId)) {
-    await HighlightedItemService.patch(highlightedItemSubmission).then((item) =>
-      highlightStore.updateHighlightedItem(item)
-    )
-  } else {
-    await HighlightedItemService.post(highlightedItemSubmission).then((item) =>
-      highlightStore.updateHighlightedItem(item)
-    )
-  }
+  const highlightedItemExists = highlightStore.highlights.some(
+    (item) => item.itemId === props.itemId
+  )
+
+  ;(highlightedItemExists
+    ? HighlightedItemService.patch(highlightedItemSubmission)
+    : HighlightedItemService.post(highlightedItemSubmission)
+  ).then((item) => {
+    emits('update:highlight', highlightedItemSubmission)
+    highlightStore.updateHighlightedItem(item)
+  })
 }
 </script>

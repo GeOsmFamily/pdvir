@@ -1,4 +1,4 @@
-import type { HighlightedItem } from '@/models/interfaces/Item'
+import type { HighlightedItem } from '@/models/interfaces/HighlightedItem'
 import { apiClient } from '@/plugins/axios/api'
 
 export class HighlightedItemService {
@@ -11,15 +11,15 @@ export class HighlightedItemService {
       .then((response) => response.data)
   }
 
-  static async getAllPartial(): Promise<Partial<HighlightedItem>[]> {
-    return await apiClient
-      .get('/api/highlighted_items/partial')
-      .then((response) => response.data['hydra:member'])
-  }
-
   static async getAll(): Promise<HighlightedItem[]> {
     return await apiClient
       .get('/api/highlighted_items')
+      .then((response) => response.data['hydra:member'])
+  }
+
+  static async getMainHighlights(): Promise<HighlightedItem[]> {
+    return await apiClient
+      .get('/api/highlighted_items/main')
       .then((response) => response.data['hydra:member'])
   }
 }
