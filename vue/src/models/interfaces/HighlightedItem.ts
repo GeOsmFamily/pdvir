@@ -8,7 +8,7 @@ export type HighlightedItem = {
   position?: number
   itemType?: ItemType
   name?: string
-  highlightedAt?: Date
+  highlightedAt?: string
   description?: string
   updatedAt?: Date
   slug?: string

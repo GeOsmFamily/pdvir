@@ -17,11 +17,15 @@ export const useHighlightStore = defineStore(StoresList.HIGHLIGHTS, () => {
   })
 
   async function getAll(force = false): Promise<void> {
-    debouncedGetAll(force)
+    if (force) {
+      highlights.value = await HighlightedItemService.getAll()
+    } else {
+      debouncedGetAll()
+    }
   }
 
-  const debouncedGetAll = debounce(async (force: boolean) => {
-    if (highlights.value.length === 0 || force) {
+  const debouncedGetAll = debounce(async () => {
+    if (highlights.value.length === 0) {
       highlights.value = await HighlightedItemService.getAll()
     }
   }, 100)

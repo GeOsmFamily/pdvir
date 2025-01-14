@@ -39,6 +39,9 @@ class HighlightedItemProcessor implements ProcessorInterface
         }
 
         $data->setItemType($itemType);
+        if ($data->getIsHighlighted()) {
+            $data->setHighlightedAt(new \DateTimeImmutable());
+        }
 
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
     }

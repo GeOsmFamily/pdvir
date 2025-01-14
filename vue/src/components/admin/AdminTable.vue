@@ -51,7 +51,6 @@ const columnWidths = props.columnWidths || defaultColumnWidths
 const paginatedItems: Ref<Item[]> = ref([])
 
 const el = ref<HTMLElement | null>(null)
-// The return value is an object, which contains some methods, such as start, destroy, pause, etc.
 onMounted(() => {
   initDraggable()
 })

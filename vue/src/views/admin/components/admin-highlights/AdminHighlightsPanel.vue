@@ -2,8 +2,8 @@
   <div class="AdminPanel AdminPanel--highlight">
     <AdminTable
       :items="orderedHighlights"
-      :tableKeys="['name', 'itemType', 'updatedAt']"
-      :column-widths="['5%', 'auto', '10%', '10%']"
+      :tableKeys="['name', 'itemType', 'highlightedAt']"
+      :column-widths="['5%', 'auto', '15%', '20%']"
       :is-draggable="true"
       :is-overlay-shown-function="(item) => ((item as HighlightedItem)?.position ?? 0) < 3"
       @update:order="(orderedEvent) => updateOrder(orderedEvent)"
@@ -24,10 +24,16 @@ import AdminTable from '@/components/admin/AdminTable.vue'
 import type { HighlightedItem } from '@/models/interfaces/HighlightedItem'
 import HighlightButton from '@/components/global/HighlightButton.vue'
 import { HighlightedItemService } from '@/services/highlight/HighlightedItemService'
+import { localizeDate } from '@/services/utils/UtilsService'
 
 const highlightsStore = useHighlightStore()
 const highlights = computed(() => highlightsStore.highlights)
-const orderedHighlights = computed(() => highlightsStore.orderedHighlights)
+const orderedHighlights = computed(() =>
+  highlightsStore.orderedHighlights.map((item) => ({
+    ...item,
+    highlightedAt: item.highlightedAt ? localizeDate(item.highlightedAt) : ''
+  }))
+)
 
 onMounted(async () => await refreshHighlightedItems())
 
