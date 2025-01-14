@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
-
+use App\Entity\Atlas;
 #[ORM\Entity(repositoryClass: QgisMapRepository::class)]
 #[ApiResource(
     operations: [
@@ -65,7 +65,7 @@ class QgisMap
     private ?bool $needsToBeVisualiseAsPlainImageInsteadOfWMS = false;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups([self::GET_FULL, self::WRITE])]
+    #[Groups([self::GET_FULL, Atlas::GET_FULL, self::WRITE])]
     private ?MediaObject $logo = null;
 
     public function __construct()

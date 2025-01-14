@@ -38,11 +38,12 @@
         </div>
         <template v-if="type === AtlasGroup.THEMATIC_DATA">
           <MyMapLayerPicker
-            v-for="(map, index) in localMaps"
+            v-for="(map, index) in atlasMaps"
+            :class="index === 0 ? 'mt-6' : 'mt-2'"
             :key="map.id"
-            v-model:main-layer="localMaps[index]"
-            v-model:sub-layers="localMaps[index].subLayers"
-            @update="test()"
+            v-model:main-layer="atlasMaps[index].mainLayer"
+            v-model:sub-layers="atlasMaps[index].subLayers"
+            @update="updateThematicData()"
           />
         </template>
         <template v-else> ICI ON AFFICHE LES MAPS PRE DEFINIES </template>
@@ -54,20 +55,24 @@
 <script setup lang="ts">
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import type { Atlas } from '@/models/interfaces/Atlas'
+import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
+import { AtlasService } from '@/services/map/AtlasService'
 import MyMapLayerPicker from '@/views/map/components/MyMapLayerPicker.vue'
-import { ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 
 const props = defineProps<{
   atlas: Atlas
   type: AtlasGroup
 }>()
-
-const localMaps = ref(JSON.parse(JSON.stringify(props.atlas.maps)))
-
 const showDetails = ref(false)
+const atlasMaps: AtlasMap[] = reactive([])
 
-const test = () => {
-  console.log(localMaps.value)
+onMounted(() => {
+  atlasMaps.push(...AtlasService.setAtlasLayers(props.atlas))
+})
+
+const updateThematicData = () => {
+  console.log(atlasMaps)
 }
 </script>
 
