@@ -20,6 +20,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const projectLayer: Ref<Layer | null> = ref(null)
   const projectSubLayers: Ref<Layer[]> = ref([])
 
+  const atlasesAlreadyInitialized: Ref<boolean> = ref(false)
   const atlasThematicMaps: Ref<AtlasMap[]> = ref([])
   let alreadyAddedImageSources: string[] = [] //Used to avoid triggering maplibre event as much time as the layer has been added to the map
   function updateAtlasLayersVisibility(qgismapId: string) {
@@ -43,6 +44,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     projectSubLayers,
     resourceLayer,
     resourceSubLayers,
+    atlasesAlreadyInitialized,
     atlasThematicMaps,
     updateAtlasLayersVisibility
   }

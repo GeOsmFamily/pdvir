@@ -76,7 +76,10 @@ const hideDetails = ref(true)
 const myMapStore = useMyMapStore()
 
 onMounted(() => {
-  myMapStore.atlasThematicMaps.push(...AtlasService.setAtlasLayers(props.atlas))
+  if (!myMapStore.atlasesAlreadyInitialized) {
+    myMapStore.atlasThematicMaps.push(...AtlasService.setAtlasLayers(props.atlas))
+    myMapStore.atlasesAlreadyInitialized = true
+  }
 })
 
 const updateThematicData = (qgismapId: string) => {

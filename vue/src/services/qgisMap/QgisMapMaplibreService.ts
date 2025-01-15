@@ -75,10 +75,10 @@ export class QgisMapMaplibreService {
       }
     })
 
-    // Otherwise the event will be triggered as much time as the layer has been added to the map
+    // Check if the layer has been already added to the map
+    // if not the event will be triggered as much time as the layer has been added to the map
     if (firstAdd) {
       map?.on('moveend', () => {
-        console.log('moveend')
         try {
           QgisMapMaplibreService.updateMapImageSourceCoordinates(
             map as maplibregl.Map,
