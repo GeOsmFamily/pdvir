@@ -63,7 +63,7 @@ build:
 build-no-cache:
 	$(DOCKER_COMP) build --no-cache
 
-deploy: build-and-up init-jwt-keypair cc
+deploy: build-and-up init-jwt-keypair cc create-geodata-user-schema download-osm-file init-osm-db
 
 docker-config:
 	$(DOCKER_COMP) config
