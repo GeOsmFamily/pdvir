@@ -1,62 +1,7 @@
 <template>
   <div class="MyMapAtlas" :type="type">
-    <template v-if="hideDetails">
-      <div class="d-flex flex-row flex-wrap">
-        <div class="MyMapAtlas__logo" :type="type">
-          <img :src="atlas.logo.contentUrl" v-if="atlas.logo" />
-        </div>
-        <div class="MyMapAtlas__desc">
-          <div class="MyMapAtlas__title">{{ atlas.name }}</div>
-          <div class="MyMapAtlas__details">
-            {{ atlas.maps.length }} {{ $t('myMap.atlases.data', { count: atlas.maps.length }) }}
-          </div>
-        </div>
-      </div>
-      <v-btn
-        size="small"
-        icon="mdi-arrow-right"
-        class="text-dark-grey"
-        @click="hideDetails = false"
-      ></v-btn>
-    </template>
-
-    <template v-else>
-      <div class="MyMapAtlas__maps">
-        <div class="d-flex flex-row flex-wrap">
-          <v-btn
-            size="small"
-            icon="mdi-arrow-left"
-            class="text-dark-grey"
-            @click="hideDetails = true"
-          ></v-btn>
-          <div class="MyMapAtlas__desc ml-2">
-            <div class="MyMapAtlas__title">{{ atlas.name }}</div>
-            <div class="MyMapAtlas__details">
-              {{ atlas.maps.length }} {{ $t('myMap.atlases.data', { count: atlas.maps.length }) }}
-            </div>
-          </div>
-        </div>
-        <template v-if="type === AtlasGroup.THEMATIC_DATA">
-          <MyMapLayerPicker
-            v-for="(qgisMap, index) in myMapStore.atlasThematicMaps.filter(
-              (map) => map.atlasId === atlas['@id']
-            )"
-            :class="index === 0 ? 'mt-6' : 'mt-2'"
-            :key="qgisMap.id"
-            v-model:main-layer="
-              myMapStore.atlasThematicMaps.filter((x) => x.atlasId === atlas['@id'])[index]
-                .mainLayer
-            "
-            v-model:sub-layers="
-              myMapStore.atlasThematicMaps.filter((x) => x.atlasId === atlas['@id'])[index]
-                .subLayers
-            "
-            @update="updateThematicData(qgisMap.id)"
-          />
-        </template>
-        <template v-else> ICI ON AFFICHE LES MAPS PRE DEFINIES </template>
-      </div>
-    </template>
+    <MyMapAtlasSummary :atlas="atlas" :type="type" v-if="hideDetails" />
+    <MyMapAtlasDetails :atlas="atlas" :type="type" v-else />
   </div>
 </template>
 
@@ -65,14 +10,16 @@ import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import type { Atlas } from '@/models/interfaces/Atlas'
 import { AtlasService } from '@/services/map/AtlasService'
 import { useMyMapStore } from '@/stores/myMapStore'
-import MyMapLayerPicker from '@/views/map/components/MyMapLayerPicker.vue'
-import { onMounted, ref } from 'vue'
+import MyMapAtlasSummary from '@/views/map/components/Atlases/MyMapAtlasSummary.vue'
+import MyMapAtlasDetails from '@/views/map/components/Atlases/MyMapAtlasDetails.vue'
+import { onMounted, provide, ref } from 'vue'
 
 const props = defineProps<{
   atlas: Atlas
   type: AtlasGroup
 }>()
 const hideDetails = ref(true)
+provide('hideDetails', hideDetails)
 const myMapStore = useMyMapStore()
 
 onMounted(() => {
@@ -81,10 +28,6 @@ onMounted(() => {
     myMapStore.atlasesAlreadyInitialized = true
   }
 })
-
-const updateThematicData = (qgismapId: string) => {
-  myMapStore.updateAtlasLayersVisibility(qgismapId)
-}
 </script>
 
 <style lang="scss">
