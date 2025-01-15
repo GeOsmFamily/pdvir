@@ -25,8 +25,8 @@ class QgisController extends AbstractController
         string $path,
         RequestStack $requestStack,
     ): Response {
-        // Add any user permission checks
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        // Add any user permission checks -- TODO
+        // $this->denyAccessUnlessGranted('ROLE_USER');
 
         $queryParams = $requestStack->getCurrentRequest()->query->all();
         $qgisUrl = 'https://qgis.'.$this->params->get('domain').'/'.$path;
