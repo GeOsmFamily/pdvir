@@ -107,7 +107,7 @@ export class QgisMapMaplibreService {
     map?.addSource(sourceName, {
       type: 'raster',
       tiles: [
-        `${this.qgisServerURL}/${qgisProjectName}?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.3.0&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=${layers.join(',')}`
+        `${window.location.origin}${this.qgisServerURL}/${qgisProjectName}?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.3.0&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=${layers.join(',')}`
       ],
       tileSize: 256
     })

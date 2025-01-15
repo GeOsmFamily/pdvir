@@ -2,11 +2,13 @@ import type { Atlas } from '@/models/interfaces/Atlas'
 import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
 import type Layer from '@/models/interfaces/map/Layer'
 import { QgisMapMaplibreService } from '../qgisMap/QgisMapMaplibreService'
+import { apiClient } from '@/plugins/axios/api'
+import { fetchImageAsBase64 } from '../utils/UtilsService'
 
 export class AtlasService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
 
-  static setAtlasLayers(atlas: Atlas): AtlasMap[] {
+  static async setAtlasLayers(atlas: Atlas): Promise<AtlasMap[]> {
     const atlasMaps: AtlasMap[] = []
     for (const map of atlas.maps) {
       const mainLayer: Layer = {
@@ -16,16 +18,15 @@ export class AtlasService {
         icon: map.logo.contentUrl,
         opacity: 1
       }
-      const subLayers: Layer[] =
-        map.qgisProject.layers?.map((item) => {
-          return {
-            id: item,
-            name: item,
-            isShown: false,
-            icon: item,
-            opacity: 1
-          }
-        }) ?? []
+      const subLayers: Layer[] = await Promise.all(
+        map.qgisProject.layers?.map(async (item) => ({
+          id: item,
+          name: item,
+          isShown: false,
+          icon: await this.getSubLayerIcon(item, map.qgisProject.name),
+          opacity: 1
+        })) ?? []
+      )
       atlasMaps.push({
         id: map['@id'],
         mainLayer: mainLayer,
@@ -36,6 +37,23 @@ export class AtlasService {
       })
     }
     return atlasMaps
+  }
+
+  static async getSubLayerIcon(layer: string, qgisProjectName: string): Promise<string> {
+    const url = `${this.qgisServerURL}${qgisProjectName}?SERVICE=WMS&REQUEST=GetLegendGraphic&FORMAT=application/json&LAYER=${layer}`
+    const response = await (await apiClient.get(url)).data
+    let imageSrc = ''
+    if (response.nodes && response.nodes.length > 0) {
+      const result = response.nodes[0]
+      if (result.icon) imageSrc = 'data:image/png;base64,' + result.icon
+      else if (result.symbols && result.symbols.length > 0) {
+        const url = `${this.qgisServerURL}${qgisProjectName}?SERVICE=WMS&REQUEST=GetLegendGraphic&FORMAT=image/png&LAYER=${layer}`
+        imageSrc = (await fetchImageAsBase64(url)) as string
+      }
+    }
+    console.log('imageSrc', imageSrc)
+
+    return imageSrc
   }
 
   static handleAtlasLayersVisibility(

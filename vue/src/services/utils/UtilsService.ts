@@ -88,3 +88,23 @@ export function downloadJson(data: any, fileName: string) {
   link.download = `${fileName}.geojson`
   link.click()
 }
+
+export async function fetchImageAsBase64(url: string): Promise<string | null> {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) {
+      return null
+    }
+    const blob = await response.blob()
+
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result as string)
+      reader.onerror = reject
+      reader.readAsDataURL(blob)
+    })
+  } catch (error) {
+    console.error('Error fetching image as base64:', error)
+    return null
+  }
+}

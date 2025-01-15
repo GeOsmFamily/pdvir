@@ -78,7 +78,6 @@
       <div class="MyMapLayerPicker__listBlockWrapper">
         <v-checkbox
           v-for="(subLayer, key) in subLayers"
-          :label="subLayer.name"
           v-model="subLayer.isShown"
           @update:model-value="changeSubLayer"
           color="main-blue"
@@ -86,7 +85,14 @@
           density="compact"
           class="text-body-2"
           :key="key"
-        ></v-checkbox>
+        >
+          <template v-slot:label>
+            <div class="MyMapLayerPicker__iconCtn">
+              <img :src="subLayer.icon" :alt="subLayer.name" v-if="sublayerIcon && subLayer.icon" />
+              <span class="text-capitalize">{{ subLayer.name }}</span>
+            </div>
+          </template>
+        </v-checkbox>
       </div>
     </div>
   </div>
@@ -98,12 +104,23 @@ import { debounce, downloadJson } from '@/services/utils/UtilsService'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, ref, watch, type ModelRef } from 'vue'
 import MyMapLayerOpacityPicker from '@/views/map/components/MyMapLayerOpacityPicker.vue'
+
 const isExpanded = ref(false)
 const isLayerOpacityShown = ref(false)
 const mainLayer: ModelRef<Layer | undefined> = defineModel('mainLayer')
 const subLayers: ModelRef<Layer[] | undefined> = defineModel('subLayers')
 const myMapStore = useMyMapStore()
 const emits = defineEmits(['update'])
+
+withDefaults(
+  defineProps<{
+    sublayerIcon: boolean
+  }>(),
+  {
+    sublayerIcon: false
+  }
+)
+
 const isIndeterminate = computed(() => {
   if (subLayers.value == undefined) return false
   return disabledLayers.value.length !== 0 && disabledLayers.value.length !== subLayers.value.length
@@ -208,6 +225,12 @@ const downloadSourceData = async () => {
         margin-right: -0.375rem;
       }
     }
+  }
+
+  .MyMapLayerPicker__iconCtn {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
   }
 
   .MyMapLayerPicker__listBlock {

@@ -22,10 +22,10 @@ const hideDetails = ref(true)
 provide('hideDetails', hideDetails)
 const myMapStore = useMyMapStore()
 
-onMounted(() => {
+onMounted(async () => {
   if (!myMapStore.atlasesAlreadyInitialized) {
-    myMapStore.atlasThematicMaps.push(...AtlasService.setAtlasLayers(props.atlas))
-    myMapStore.atlasesAlreadyInitialized = true
+    const atlasLayers = await AtlasService.setAtlasLayers(props.atlas)
+    myMapStore.atlasThematicMaps.push(...atlasLayers)
   }
 })
 </script>

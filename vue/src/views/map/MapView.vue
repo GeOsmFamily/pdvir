@@ -14,8 +14,13 @@ import MyMapHeader from '@/views/map/components/MyMapHeader.vue'
 import MyMapLeftSideBar from '@/views/map/components/MyMapLeftSideBar.vue'
 import MyMapRightSideBar from '@/views/map/components/MyMapRightSideBar.vue'
 import { useMyMapStore } from '@/stores/myMapStore'
+import { onBeforeRouteLeave } from 'vue-router'
 
 const myMapStore = useMyMapStore()
+onBeforeRouteLeave((to, from, next) => {
+  myMapStore.atlasesAlreadyInitialized = true
+  next()
+})
 </script>
 
 <style lang="scss">

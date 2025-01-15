@@ -26,7 +26,7 @@
                 },
                 "needsToBeVisualiseAsPlainImageInsteadOfWMS": {
                     "label": "Ce projet contient elle une représentation cartographique avancée?",
-                    "yes": "Ce projet sera affiché via une image plaine et non tuilée (affichage plus couteux en performance)",
+                    "yes": "Ce projet sera affiché via une image pleine et non tuilée (affichage plus couteux en performance)",
                     "no": "Ce projet sera affiché via un flux WMS"
                 }
             }

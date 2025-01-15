@@ -28,6 +28,7 @@
           myMapStore.atlasThematicMaps.filter((x) => x.atlasId === atlas['@id'])[index].subLayers
         "
         @update="updateThematicData(qgisMap.id)"
+        :sublayer-icon="true"
       />
     </template>
     <template v-else> ICI ON AFFICHE LES MAPS PRE DEFINIES </template>
