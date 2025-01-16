@@ -1,6 +1,6 @@
 <template>
   <div class="MyMapRightSideBar">
-    <MyMapPlatformLayers class="MyMapRightSideBar" />
+    <MyMapPlatformLayers />
     <MyMapAtlasesList
       :title="$t('atlas.thematicData')"
       :type="AtlasGroup.THEMATIC_DATA"
@@ -31,9 +31,11 @@ onMounted(() => {
 .MyMapRightSideBar {
   display: flex;
   flex-flow: column nowrap;
-  width: 19rem;
+  width: 30rem;
   background: #fff;
   padding: 1rem;
   gap: 1rem;
+  overflow: auto;
+  max-height: calc(100vh - $mymap-header-h);
 }
 </style>

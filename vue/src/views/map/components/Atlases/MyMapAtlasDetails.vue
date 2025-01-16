@@ -19,7 +19,7 @@
         v-for="(qgisMap, index) in myMapStore.atlasThematicMaps.filter(
           (map) => map.atlasId === atlas['@id']
         )"
-        :class="index === 0 ? 'mt-6' : 'mt-2'"
+        :class="index === 0 ? 'mt-3' : 'mt-1'"
         :key="qgisMap.id"
         v-model:main-layer="
           myMapStore.atlasThematicMaps.filter((x) => x.atlasId === atlas['@id'])[index].mainLayer

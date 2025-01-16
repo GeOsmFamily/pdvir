@@ -85,5 +85,6 @@ onMounted(async () => {
   flex-flow: column nowrap;
   align-items: flex-start;
   justify-content: center;
+  width: 100%;
 }
 </style>

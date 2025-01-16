@@ -30,7 +30,7 @@ onBeforeRouteLeave((to, from, next) => {
   height: 100vh;
   overflow: hidden;
   .MyMapView__header {
-    // height: 4rem;
+    height: $mymap-header-h;
   }
   .MyMapView__mapCtn {
     display: flex;
