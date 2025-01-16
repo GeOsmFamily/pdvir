@@ -31,7 +31,9 @@
         :sublayer-icon="true"
       />
     </template>
-    <template v-else> ICI ON AFFICHE LES MAPS PRE DEFINIES </template>
+    <template v-else>
+      <MyMapAtlasPicker :atlas="atlas" @update="updatePreDefinedMap($event)" />
+    </template>
   </div>
 </template>
 <script setup lang="ts">
@@ -40,16 +42,30 @@ import type { Atlas } from '@/models/interfaces/Atlas'
 import { inject } from 'vue'
 import { useMyMapStore } from '@/stores/myMapStore'
 import MyMapLayerPicker from '@/views/map/components/MyMapLayerPicker.vue'
-
+import MyMapAtlasPicker from '@/views/map/components/Atlases/MyMapAtlasPicker.vue'
 const hideDetails = inject('hideDetails')
 const myMapStore = useMyMapStore()
 
-defineProps<{
+const props = defineProps<{
   atlas: Atlas
   type: AtlasGroup
 }>()
 
 const updateThematicData = (qgismapId: string) => {
   myMapStore.updateAtlasLayersVisibility(qgismapId)
+}
+
+const updatePreDefinedMap = (value: boolean) => {
+  for (const map of props.atlas.maps) {
+    for (const storeMap of myMapStore.atlasThematicMaps) {
+      if (storeMap.id === map['@id']) {
+        storeMap.mainLayer.isShown = value
+        storeMap.subLayers.forEach((subLayer) => {
+          subLayer.isShown = value
+        })
+      }
+    }
+    myMapStore.updateAtlasLayersVisibility(map['@id'])
+  }
 }
 </script>

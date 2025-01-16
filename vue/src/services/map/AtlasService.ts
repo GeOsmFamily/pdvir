@@ -51,7 +51,6 @@ export class AtlasService {
         imageSrc = (await fetchImageAsBase64(url)) as string
       }
     }
-    console.log('imageSrc', imageSrc)
 
     return imageSrc
   }
