@@ -8,26 +8,16 @@
 <script setup lang="ts">
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import type { Atlas } from '@/models/interfaces/Atlas'
-import { AtlasService } from '@/services/map/AtlasService'
-import { useMyMapStore } from '@/stores/myMapStore'
 import MyMapAtlasSummary from '@/views/map/components/Atlases/MyMapAtlasSummary.vue'
 import MyMapAtlasDetails from '@/views/map/components/Atlases/MyMapAtlasDetails.vue'
-import { onMounted, provide, ref } from 'vue'
+import { provide, ref } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   atlas: Atlas
   type: AtlasGroup
 }>()
 const hideDetails = ref(true)
 provide('hideDetails', hideDetails)
-const myMapStore = useMyMapStore()
-
-onMounted(async () => {
-  if (!myMapStore.atlasesAlreadyInitialized) {
-    const atlasLayers = await AtlasService.setAtlasLayers(props.atlas)
-    myMapStore.atlasThematicMaps.push(...atlasLayers)
-  }
-})
 </script>
 
 <style lang="scss">

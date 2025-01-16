@@ -1,12 +1,14 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
-import { ref, type Ref } from 'vue'
+import { ref, watch, type Ref } from 'vue'
 import { FormType } from '@/models/enums/app/FormType'
 import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import type { Atlas } from '@/models/interfaces/Atlas'
 import { AtlasService } from '@/services/atlas/AtlasService'
+import { useMyMapStore } from './myMapStore'
+import { MapAtlasService } from '@/services/map/MapAtlasService'
 
 export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
   const atlasList: Ref<Atlas[]> = ref([])
@@ -17,6 +19,16 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
       atlasList.value = await AtlasService.getAll()
     }
   }
+
+  // Build atlases list for the map
+  watch(atlasList, async () => {
+    const myMapStore = useMyMapStore()
+    myMapStore.atlasThematicMaps = []
+    for (const atlas of atlasList.value) {
+      const atlasLayers = await MapAtlasService.setAtlasLayers(atlas)
+      myMapStore.atlasThematicMaps.push(...atlasLayers)
+    }
+  })
 
   const submitAtlas = async (atlas: Atlas, type: FormType, withNotification = true) => {
     const submittedAtlas =

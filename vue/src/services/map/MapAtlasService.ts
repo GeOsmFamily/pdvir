@@ -5,7 +5,7 @@ import { QgisMapMaplibreService } from '../qgisMap/QgisMapMaplibreService'
 import { apiClient } from '@/plugins/axios/api'
 import { fetchImageAsBase64 } from '../utils/UtilsService'
 
-export class AtlasService {
+export class MapAtlasService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
 
   static async setAtlasLayers(atlas: Atlas): Promise<AtlasMap[]> {

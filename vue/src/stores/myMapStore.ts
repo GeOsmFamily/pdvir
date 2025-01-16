@@ -5,7 +5,7 @@ import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import type Layer from '@/models/interfaces/map/Layer'
 import type Map from '@/components/map/Map.vue'
 import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
-import { AtlasService } from '@/services/map/AtlasService'
+import { MapAtlasService } from '@/services/map/MapAtlasService'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
@@ -20,11 +20,10 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const projectLayer: Ref<Layer | null> = ref(null)
   const projectSubLayers: Ref<Layer[]> = ref([])
 
-  const atlasesAlreadyInitialized: Ref<boolean> = ref(false)
-  const atlasThematicMaps: Ref<AtlasMap[]> = ref([])
+  const atlasThematicMaps: Ref<AtlasMap[]> = ref([]) // Updated from atlasStore
   let alreadyAddedImageSources: string[] = [] //Used to avoid triggering maplibre event as much time as the layer has been added to the map
   function updateAtlasLayersVisibility(qgismapId: string) {
-    AtlasService.handleAtlasLayersVisibility(
+    MapAtlasService.handleAtlasLayersVisibility(
       atlasThematicMaps.value,
       myMap.value?.map,
       qgismapId,
@@ -44,7 +43,6 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     projectSubLayers,
     resourceLayer,
     resourceSubLayers,
-    atlasesAlreadyInitialized,
     atlasThematicMaps,
     updateAtlasLayersVisibility
   }
