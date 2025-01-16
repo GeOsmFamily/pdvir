@@ -29,6 +29,7 @@
         "
         @update="updateThematicData(qgisMap.id)"
         :sublayer-icon="true"
+        :withActions="false"
       />
     </template>
     <template v-else>

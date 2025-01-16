@@ -26,6 +26,7 @@
           @click="isExpanded = !isExpanded"
         />
         <v-menu
+          v-if="withActions"
           location="bottom"
           @update:modelValue="isLayerOpacityShown = mainLayer?.opacity && mainLayer?.opacity < 100"
         >
@@ -115,9 +116,11 @@ const emits = defineEmits(['update'])
 withDefaults(
   defineProps<{
     sublayerIcon: boolean
+    withActions: boolean
   }>(),
   {
-    sublayerIcon: false
+    sublayerIcon: false,
+    withActions: true
   }
 )
 
@@ -188,6 +191,7 @@ const downloadSourceData = async () => {
 .MyMapLayerPicker {
   display: flex;
   flex-flow: column nowrap;
+  width: 100%;
   .MyMapLayerPicker__parentBlock {
     display: flex;
     flex-flow: row nowrap;
