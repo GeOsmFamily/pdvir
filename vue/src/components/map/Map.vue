@@ -258,6 +258,7 @@ defineExpose({
   height: 100%;
 
   .maplibregl-ctrl-top-left,
+  .maplibregl-ctrl-bottom-right,
   .maplibregl-ctrl-top-right {
     margin: 1.5rem;
     display: flex;
