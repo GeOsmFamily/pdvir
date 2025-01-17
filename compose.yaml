@@ -134,7 +134,8 @@ services:
     environment:
       - PGPASSWORD=${POSTGRES_GEODATA_PASSWORD}
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     command: >
       osm2pgsql
       --create

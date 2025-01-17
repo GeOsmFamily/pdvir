@@ -36,3 +36,6 @@ download-osm-file:
 init-osm-db:
 	docker compose --profile osm up osm2pgsql
 	rm $(DATA_DIR)/$(OSM_FILE)
+
+
+create-osm-db: create-geodata-user-schema download-osm-file init-osm-db
