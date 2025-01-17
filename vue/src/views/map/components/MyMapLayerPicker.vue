@@ -100,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import type Layer from '@/models/interfaces/map/Layer'
+import type { Layer } from '@/models/interfaces/map/Layer'
 import { debounce, downloadJson } from '@/services/utils/UtilsService'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, ref, watch, type ModelRef } from 'vue'

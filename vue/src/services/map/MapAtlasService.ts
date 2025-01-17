@@ -1,6 +1,6 @@
 import type { Atlas } from '@/models/interfaces/Atlas'
 import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
-import type Layer from '@/models/interfaces/map/Layer'
+import type { AtlasLayer } from '@/models/interfaces/map/Layer'
 import { QgisMapMaplibreService } from '../qgisMap/QgisMapMaplibreService'
 import { apiClient } from '@/plugins/axios/api'
 import { fetchImageAsBase64 } from '../utils/UtilsService'
@@ -11,20 +11,21 @@ export class MapAtlasService {
   static async setAtlasLayers(atlas: Atlas): Promise<AtlasMap[]> {
     const atlasMaps: AtlasMap[] = []
     for (const map of atlas.maps) {
-      const mainLayer: Layer = {
+      const mainLayer: AtlasLayer = {
         id: map['@id'],
         name: map.name,
         isShown: false,
         icon: map.logo.contentUrl,
         opacity: 1
       }
-      const subLayers: Layer[] = await Promise.all(
+      const subLayers: AtlasLayer[] = await Promise.all(
         map.qgisProject.layers?.map(async (item) => ({
           id: item,
           name: item,
           isShown: false,
           icon: await this.getSubLayerIcon(item, map.qgisProject.name),
-          opacity: 1
+          opacity: 1,
+          mapOrder: 0 //Used for change layer order in Qgis Server requests, updated from the legend component
         })) ?? []
       )
       atlasMaps.push({

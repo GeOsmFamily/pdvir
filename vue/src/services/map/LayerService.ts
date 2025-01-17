@@ -1,4 +1,4 @@
-import type Layer from '@/models/interfaces/map/Layer'
+import type { Layer } from '@/models/interfaces/map/Layer'
 
 export default class LayerService {
   static initLayer(layer: Layer): Layer {

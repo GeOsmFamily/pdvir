@@ -33,7 +33,7 @@ import MapService from '@/services/map/MapService'
 import { useResourceStore } from '@/stores/resourceStore'
 import { useProjectStore } from '@/stores/projectStore'
 import { useActorsStore } from '@/stores/actorsStore'
-import type Layer from '@/models/interfaces/map/Layer'
+import type { Layer } from '@/models/interfaces/map/Layer'
 import type { Thematic } from '@/models/interfaces/Thematic'
 import type { ThematicItem } from '@/models/interfaces/common/ThematicItem'
 

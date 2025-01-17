@@ -1,9 +1,9 @@
-import type Layer from './Layer'
+import type { AtlasLayer } from './Layer'
 
 export interface AtlasMap {
   id: string
-  mainLayer: Layer
-  subLayers: Layer[]
+  mainLayer: AtlasLayer
+  subLayers: AtlasLayer[]
   qgisProjectName: string
   atlasId: string
   needsToBeVisualiseAsPlainImageInsteadOfWMS: boolean
