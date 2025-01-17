@@ -115,8 +115,8 @@ const emits = defineEmits(['update'])
 
 withDefaults(
   defineProps<{
-    sublayerIcon: boolean
-    withActions: boolean
+    sublayerIcon?: boolean
+    withActions?: boolean
   }>(),
   {
     sublayerIcon: false,

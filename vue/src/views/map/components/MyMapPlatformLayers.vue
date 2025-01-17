@@ -3,21 +3,16 @@
     <MyMapLayerPicker
       v-model:main-layer="myMapStore.projectLayer"
       v-model:sub-layers="myMapStore.projectSubLayers"
-      :sublayerIcon="false"
-      :withActions="true"
       @update="refreshLayer(ItemType.PROJECT)"
     />
     <MyMapLayerPicker
       v-model:main-layer="myMapStore.actorLayer"
       v-model:sub-layers="myMapStore.actorSubLayers"
-      :sublayerIcon="false"
-      :withActions="true"
       @update="refreshLayer(ItemType.ACTOR)"
     />
     <MyMapLayerPicker
       v-model:main-layer="myMapStore.resourceLayer"
       v-model:sub-layers="myMapStore.resourceSubLayers"
-      :sublayerIcon="false"
       @update="refreshLayer(ItemType.RESOURCE)"
     />
   </div>

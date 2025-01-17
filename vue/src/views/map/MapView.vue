@@ -13,6 +13,9 @@ import MyMap from '@/views/map/components/MyMap.vue'
 import MyMapHeader from '@/views/map/components/MyMapHeader.vue'
 import MyMapLeftSideBar from '@/views/map/components/MyMapLeftSideBar.vue'
 import MyMapRightSideBar from '@/views/map/components/MyMapRightSideBar.vue'
+import { useMyMapStore } from '@/stores/myMapStore'
+
+const myMapStore = useMyMapStore()
 </script>
 
 <style lang="scss">
