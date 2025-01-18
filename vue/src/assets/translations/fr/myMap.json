@@ -37,6 +37,9 @@
       "thematicData": "Données thématiques",
       "predefinedData": "Cartes prédéfinies",
       "data": "Donnée | Données"
+    },
+    "legend": {
+      "title": "Legende"
     }
   }
 }

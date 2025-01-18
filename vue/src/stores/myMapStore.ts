@@ -9,6 +9,7 @@ import { MapAtlasService } from '@/services/map/MapAtlasService'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import { ItemType } from '@/models/enums/app/ItemType'
+import { LegendService } from '@/services/map/LegendService'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
@@ -33,7 +34,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
       alreadyAddedImageSources
     )
     alreadyAddedImageSources = [...new Set([...alreadyAddedImageSources, qgismapId])]
-    updateLegendList(qgismapId, LayerType.ATLAS_LAYER)
+    LegendService.updateLegendList(qgismapId, LayerType.ATLAS_LAYER, legendList, atlasThematicMaps)
   }
 
   const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
@@ -48,55 +49,35 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
       [prevActorIsShown, prevProjectIsShown, prevResourceIsShown]
     ) => {
       if (actorIsShown !== prevActorIsShown) {
-        updateLegendList(ItemType.ACTOR, LayerType.APP_LAYER)
+        LegendService.updateLegendList(
+          ItemType.ACTOR,
+          LayerType.APP_LAYER,
+          legendList,
+          atlasThematicMaps
+        )
       }
       if (projectIsShown !== prevProjectIsShown) {
-        updateLegendList(ItemType.PROJECT, LayerType.APP_LAYER)
+        LegendService.updateLegendList(
+          ItemType.PROJECT,
+          LayerType.APP_LAYER,
+          legendList,
+          atlasThematicMaps
+        )
       }
       if (resourceIsShown !== prevResourceIsShown) {
-        updateLegendList(ItemType.RESOURCE, LayerType.APP_LAYER)
+        LegendService.updateLegendList(
+          ItemType.RESOURCE,
+          LayerType.APP_LAYER,
+          legendList,
+          atlasThematicMaps
+        )
       }
     },
     { deep: true }
   )
 
-  function updateLegendList(layerId: string, layerType: LayerType) {
-    if (legendList.value.find((x) => x.id === layerId)) {
-      legendList.value = legendList.value.filter((x) => x.id !== layerId)
-      legendList.value.forEach((legendItem, i) => {
-        legendItem.order = i
-      })
-    } else {
-      if (layerType === LayerType.APP_LAYER) {
-        legendList.value.push({
-          id: layerId,
-          type: LayerType.APP_LAYER,
-          icon: `/src/assets/images/icons/map/${layerId}_icon.png`,
-          name: 'Acteurs',
-          order: legendList.value.length
-        })
-      }
-      if (layerType === LayerType.ATLAS_LAYER) {
-        const atlasMap = atlasThematicMaps.value.find((x) => x.id === layerId)
-        if (atlasMap) {
-          legendList.value.push({
-            id: atlasMap.qgisProjectName,
-            layerType: LayerType.ATLAS_LAYER,
-            icon: atlasMap.mainLayer.icon as string,
-            name: atlasMap.mainLayer.name,
-            order: legendList.value.length,
-            subLayers: atlasMap.subLayers
-              .filter((subLayer) => subLayer.isShown)
-              .map((subLayer) => ({
-                name: subLayer.name,
-                icon: subLayer.icon as string,
-                order: subLayer.mapOrder as number
-              }))
-          })
-        }
-      }
-    }
-    console.log(legendList.value)
+  function updateLegendOrder() {
+    LegendService.updateLegendOrder(myMap.value?.map as maplibregl.Map, legendList)
   }
 
   return {
@@ -112,6 +93,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     resourceSubLayers,
     atlasThematicMaps,
     updateAtlasLayersVisibility,
-    legendList
+    legendList,
+    updateLegendOrder
   }
 })
