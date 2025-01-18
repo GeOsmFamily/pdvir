@@ -1,6 +1,11 @@
 <template>
   <div class="maplibregl-ctrl maplibregl-ctrl-group MapLegend" :isOpen="legendIsShown">
-    <v-btn icon="$vuetify" v-if="!legendIsShown" @click.stop="legendIsShown = true"> Button </v-btn>
+    <v-btn
+      icon="mdi-layers"
+      v-if="!legendIsShown"
+      @click.stop="legendIsShown = true"
+      icon-color="main-blue"
+    ></v-btn>
     <div v-else class="MapLegend__ctn">
       <div class="MapLegend__title">
         <FormSectionTitle :text="$t('myMap.legend.title')" />

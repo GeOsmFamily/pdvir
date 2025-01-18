@@ -1,6 +1,7 @@
 import { LayerType } from '@/models/enums/geo/LayerType'
 import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
+import { i18n } from '@/plugins/i18n'
 import type { Ref } from 'vue'
 
 export class LegendService {
@@ -41,7 +42,7 @@ export class LegendService {
           id: layerId,
           layerType: LayerType.APP_LAYER,
           icon: `/src/assets/images/icons/map/${layerId}_icon.png`,
-          name: layerId,
+          name: i18n.t('myMap.rightSidebar.layers.itemType.' + layerId),
           order: legendList.value.length
         })
       }
