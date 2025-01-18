@@ -22,7 +22,11 @@
               <span class="text-subtitle-2 text-capitalize ml-1">{{ item.name }}</span>
             </div>
             <div class="d-flex align-center">
-              <v-icon color="dark-grey" icon="mdi-delete-outline"></v-icon>
+              <v-icon
+                color="dark-grey"
+                icon="mdi-delete-outline"
+                @click="removeMainLayer(item)"
+              ></v-icon>
             </div>
           </div>
           <template v-if="item.layerType === layerType.ATLAS_LAYER">
@@ -55,7 +59,7 @@ import { useMyMapStore } from '@/stores/myMapStore'
 import { ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { LayerType } from '@/models/enums/geo/LayerType'
-import type { AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
+import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 const layerType = LayerType
 
 const legendIsShown = ref(false)
@@ -73,6 +77,10 @@ function updateSubLayerOrder(item: AtlasLayerLegendItem) {
     subItem.order = index
   })
   mapStore.updateAtlasSubLayersOrder(item)
+}
+
+function removeMainLayer(item: AtlasLayerLegendItem | AppLayerLegendItem) {
+  mapStore.removeLayerFromLegend(item)
 }
 </script>
 

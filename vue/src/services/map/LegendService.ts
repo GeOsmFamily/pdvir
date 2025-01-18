@@ -15,6 +15,7 @@ export class LegendService {
       legendList.value.forEach((legendItem, i) => {
         legendItem.order = i
       })
+      console.log(legendList.value)
     } else {
       if (layerType === LayerType.APP_LAYER) {
         legendList.value.push({
@@ -58,5 +59,20 @@ export class LegendService {
     })
     const layers = map.getStyle().layers // Récupère la liste des couches
     console.log('Liste des couches:', layers)
+  }
+
+  static updateAtlasSubLayersOrder(
+    atlasMapLayer: AtlasLayerLegendItem,
+    atlasThematicMaps: Ref<AtlasMap[]>
+  ) {
+    const atlasThematicMap = atlasThematicMaps.value.find((x) => x.id === atlasMapLayer.id)
+    if (atlasThematicMap) {
+      atlasMapLayer.subLayers.map((sortedSubLayer) => {
+        for (const sublayer of atlasThematicMap.subLayers) {
+          if (sublayer.id === sortedSubLayer.name) sublayer.mapOrder = sortedSubLayer.order
+        }
+      })
+      atlasThematicMap.subLayers.sort((a, b) => a.mapOrder! - b.mapOrder!)
+    }
   }
 }

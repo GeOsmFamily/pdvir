@@ -88,16 +88,31 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   }
 
   function updateAtlasSubLayersOrder(atlasMapLayer: AtlasLayerLegendItem) {
-    const atlasThematicMap = atlasThematicMaps.value.find((x) => x.id === atlasMapLayer.id)
-    if (atlasThematicMap) {
-      atlasMapLayer.subLayers.map((sortedSubLayer) => {
-        for (const sublayer of atlasThematicMap.subLayers) {
-          if (sublayer.id === sortedSubLayer.name) sublayer.mapOrder = sortedSubLayer.order
+    LegendService.updateAtlasSubLayersOrder(atlasMapLayer, atlasThematicMaps)
+    updateAtlasLayersVisibility(atlasMapLayer.id, false)
+    updateLegendOrder()
+  }
+
+  function removeLayerFromLegend(item: AtlasLayerLegendItem | AppLayerLegendItem) {
+    if (item.layerType === LayerType.ATLAS_LAYER) {
+      atlasThematicMaps.value.map((x) => {
+        if (x.id === item.id) {
+          x.mainLayer.isShown = false
+          updateAtlasLayersVisibility(item.id)
         }
       })
-      atlasThematicMap.subLayers.sort((a, b) => a.mapOrder! - b.mapOrder!)
-      updateAtlasLayersVisibility(atlasMapLayer.id, false)
-      updateLegendOrder()
+    } else {
+      switch (item.id) {
+        case ItemType.ACTOR:
+          actorLayer.value!.isShown = false
+          break
+        case ItemType.PROJECT:
+          projectLayer.value!.isShown = false
+          break
+        case ItemType.RESOURCE:
+          resourceLayer.value!.isShown = false
+          break
+      }
     }
   }
 
@@ -116,6 +131,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     updateAtlasLayersVisibility,
     legendList,
     updateLegendOrder,
-    updateAtlasSubLayersOrder
+    updateAtlasSubLayersOrder,
+    removeLayerFromLegend
   }
 })
