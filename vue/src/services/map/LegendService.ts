@@ -19,7 +19,7 @@ export class LegendService {
       if (layerType === LayerType.APP_LAYER) {
         legendList.value.push({
           id: layerId,
-          type: LayerType.APP_LAYER,
+          layerType: LayerType.APP_LAYER,
           icon: `/src/assets/images/icons/map/${layerId}_icon.png`,
           name: layerId,
           order: legendList.value.length

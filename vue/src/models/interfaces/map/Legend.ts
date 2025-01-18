@@ -2,7 +2,7 @@ import type { LayerType } from '@/models/enums/geo/LayerType'
 
 export interface AppLayerLegendItem {
   id: string //Id of the layer in the map
-  type: LayerType.APP_LAYER
+  layerType: LayerType.APP_LAYER
   order: number
   icon: string
   name: string

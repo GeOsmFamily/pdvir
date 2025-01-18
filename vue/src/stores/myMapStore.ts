@@ -26,7 +26,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
 
   const atlasThematicMaps: Ref<AtlasMap[]> = ref([]) // Updated from atlasStore
   let alreadyAddedImageSources: string[] = [] //Used to avoid triggering maplibre event as much time as the layer has been added to the map
-  function updateAtlasLayersVisibility(qgismapId: string) {
+  function updateAtlasLayersVisibility(qgismapId: string, updateLegend = true) {
     MapAtlasService.handleAtlasLayersVisibility(
       atlasThematicMaps.value,
       myMap.value?.map,
@@ -34,7 +34,14 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
       alreadyAddedImageSources
     )
     alreadyAddedImageSources = [...new Set([...alreadyAddedImageSources, qgismapId])]
-    LegendService.updateLegendList(qgismapId, LayerType.ATLAS_LAYER, legendList, atlasThematicMaps)
+    if (updateLegend) {
+      LegendService.updateLegendList(
+        qgismapId,
+        LayerType.ATLAS_LAYER,
+        legendList,
+        atlasThematicMaps
+      )
+    }
   }
 
   const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
@@ -80,6 +87,20 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     LegendService.updateLegendOrder(myMap.value?.map as maplibregl.Map, legendList)
   }
 
+  function updateAtlasSubLayersOrder(atlasMapLayer: AtlasLayerLegendItem) {
+    const atlasThematicMap = atlasThematicMaps.value.find((x) => x.id === atlasMapLayer.id)
+    if (atlasThematicMap) {
+      atlasMapLayer.subLayers.map((sortedSubLayer) => {
+        for (const sublayer of atlasThematicMap.subLayers) {
+          if (sublayer.id === sortedSubLayer.name) sublayer.mapOrder = sortedSubLayer.order
+        }
+      })
+      atlasThematicMap.subLayers.sort((a, b) => a.mapOrder! - b.mapOrder!)
+      updateAtlasLayersVisibility(atlasMapLayer.id, false)
+      updateLegendOrder()
+    }
+  }
+
   return {
     isRightSidebarShown,
     isLeftSidebarShown,
@@ -94,6 +115,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     atlasThematicMaps,
     updateAtlasLayersVisibility,
     legendList,
-    updateLegendOrder
+    updateLegendOrder,
+    updateAtlasSubLayersOrder
   }
 })

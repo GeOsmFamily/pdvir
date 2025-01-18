@@ -4,11 +4,45 @@
     <div v-else class="MapLegend__ctn">
       <div class="MapLegend__title">
         <FormSectionTitle :text="$t('myMap.legend.title')" />
-        <v-icon icon="mdi-close" @click.stop="legendIsShown = false" color="light-blue"></v-icon>
+        <v-icon icon="mdi-close" @click.stop="legendIsShown = false" color="main-blue"></v-icon>
       </div>
+
       <VueDraggable v-model="mapStore.legendList" @end="updateMainLayerOrder" group="parent">
-        <div class="MapLegend__item" v-for="item in mapStore.legendList" :key="item.id">
-          {{ item.name }} / {{ item.order }}
+        <div
+          class="MapLegend__itemCtn"
+          v-for="item in mapStore.legendList"
+          :key="item.id"
+          :item-type="item.layerType"
+        >
+          <div class="MapLegend__item">
+            <div class="d-flex align-center">
+              <v-icon icon="mdi-drag" color="dark-grey"></v-icon>
+              <img :src="item.icon" v-if="item.layerType === layerType.APP_LAYER" />
+              <v-icon icon="mdi-arrow-down-right" color="black" v-else></v-icon>
+              <span class="text-subtitle-2 text-capitalize ml-1">{{ item.name }}</span>
+            </div>
+            <div class="d-flex align-center">
+              <v-icon color="dark-grey" icon="mdi-delete-outline"></v-icon>
+            </div>
+          </div>
+          <template v-if="item.layerType === layerType.ATLAS_LAYER">
+            <VueDraggable v-model="item.subLayers" @end="updateSubLayerOrder(item)" group="child">
+              <div
+                class="MapLegend__item pl-3"
+                v-for="subItem in item.subLayers"
+                :key="subItem.name"
+              >
+                <div class="d-flex align-center">
+                  <v-icon icon="mdi-drag" color="dark-grey"></v-icon>
+                  <img :src="subItem.icon" />
+                  <span class="text-subtitle-2 text-capitalize ml-1">{{ subItem.name }}</span>
+                </div>
+                <div class="d-flex align-center">
+                  <v-icon color="dark-grey" icon="mdi-delete-outline"></v-icon>
+                </div>
+              </div>
+            </VueDraggable>
+          </template>
         </div>
       </VueDraggable>
     </div>
@@ -20,6 +54,10 @@ import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
+import { LayerType } from '@/models/enums/geo/LayerType'
+import type { AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
+const layerType = LayerType
+
 const legendIsShown = ref(false)
 const mapStore = useMyMapStore()
 
@@ -28,6 +66,13 @@ function updateMainLayerOrder() {
     item.order = index
   })
   mapStore.updateLegendOrder()
+}
+
+function updateSubLayerOrder(item: AtlasLayerLegendItem) {
+  item.subLayers.forEach((subItem, index) => {
+    subItem.order = index
+  })
+  mapStore.updateAtlasSubLayersOrder(item)
 }
 </script>
 
@@ -48,10 +93,34 @@ function updateMainLayerOrder() {
   background-color: white;
   max-height: 20rem;
   padding: 0.5rem;
+  border-radius: 5%;
 }
 .MapLegend__title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.MapLegend__itemCtn {
+  display: flex;
+  flex-flow: column nowrap;
+  &[item-type='ATLAS_LAYER'] {
+    border: 1px solid rgb(var(--v-theme-main-grey));
+    border-radius: 5px;
+  }
+}
+.MapLegend__item {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: grab;
+
+  img {
+    width: 1rem;
+    height: 1rem;
+    object-fit: cover;
+    margin-left: 0.1rem;
+  }
 }
 </style>
