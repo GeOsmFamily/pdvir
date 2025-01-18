@@ -24,7 +24,9 @@
               <v-icon icon="mdi-drag" color="dark-grey"></v-icon>
               <img :src="item.icon" v-if="item.layerType === layerType.APP_LAYER" />
               <v-icon icon="mdi-arrow-down-right" color="black" v-else></v-icon>
-              <span class="text-subtitle-2 text-capitalize ml-1">{{ item.name }}</span>
+              <span class="text-subtitle-2 font-weight-medium text-capitalize ml-1">{{
+                item.name
+              }}</span>
             </div>
             <div class="d-flex align-center">
               <v-icon
@@ -35,7 +37,11 @@
             </div>
           </div>
           <template v-if="item.layerType === layerType.ATLAS_LAYER">
-            <VueDraggable v-model="item.subLayers" @end="updateSubLayerOrder(item)" group="child">
+            <VueDraggable
+              v-model="item.subLayers"
+              @end="updateSubLayerOrder(item)"
+              :group="item.id"
+            >
               <div
                 class="MapLegend__item pl-3"
                 v-for="subItem in item.subLayers"
@@ -44,7 +50,7 @@
                 <div class="d-flex align-center">
                   <v-icon icon="mdi-drag" color="dark-grey"></v-icon>
                   <img :src="subItem.icon" />
-                  <span class="text-subtitle-2 text-capitalize ml-1">{{ subItem.name }}</span>
+                  <span class="text-caption text-capitalize ml-1">{{ subItem.name }}</span>
                 </div>
                 <div class="d-flex align-center">
                   <v-icon
@@ -142,7 +148,7 @@ function removeSubLayer(item: AtlasLayerLegendItem, subLayerName: string) {
   gap: 0.5rem;
   width: 15rem;
   background-color: white;
-  max-height: 20rem;
+  // max-height: 20rem;
   padding: 0.5rem;
   border-radius: 5%;
 }
