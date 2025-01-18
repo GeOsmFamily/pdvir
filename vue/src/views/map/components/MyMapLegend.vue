@@ -50,6 +50,7 @@
                   <v-icon
                     color="dark-grey"
                     icon="mdi-delete-outline"
+                    class="mr-1"
                     @click="removeSubLayer(item, subItem.name)"
                   ></v-icon>
                 </div>
