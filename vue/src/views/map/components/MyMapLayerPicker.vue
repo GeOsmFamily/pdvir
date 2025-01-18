@@ -90,7 +90,9 @@
           <template v-slot:label>
             <div class="MyMapLayerPicker__iconCtn">
               <img :src="subLayer.icon" :alt="subLayer.name" v-if="sublayerIcon && subLayer.icon" />
-              <span class="text-capitalize">{{ subLayer.name }}</span>
+              <span class="text-capitalize" :class="{ 'ml-1': sublayerIcon && subLayer.icon }">{{
+                subLayer.name
+              }}</span>
             </div>
           </template>
         </v-checkbox>
@@ -212,7 +214,7 @@ const downloadSourceData = async () => {
       margin: 0 0.25rem;
       flex: 1 0 auto;
       img {
-        max-width: 2.25rem;
+        max-width: 1.8rem;
       }
       span {
         color: rgb(var(--v-theme-main-blue));
@@ -235,6 +237,9 @@ const downloadSourceData = async () => {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    img {
+      width: 1rem;
+    }
   }
 
   .MyMapLayerPicker__listBlock {
