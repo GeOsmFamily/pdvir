@@ -2,7 +2,7 @@
   <div class="MyMap">
     <Map class="MyMap__map" ref="my-map" />
     <BasemapPicker ref="basemap-picker" v-model="basemap" />
-    <MapLegend ref="map-legend" />
+    <MyMapLegend ref="map-legend" />
     <ToggleSidebarControl
       v-model="myMapStore.isLeftSidebarShown"
       :inversed-direction="true"
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import BasemapPicker from '@/components/map/controls/BasemapPicker.vue'
-import MapLegend from '@/components/map/controls/MapLegend.vue'
+import MyMapLegend from '@/views/map/components/MyMapLegend.vue'
 import ToggleSidebarControl from '@/components/map/controls/ToggleSidebarControl.vue'
 import Map from '@/components/map/Map.vue'
 import type Basemap from '@/models/interfaces/map/Basemap'

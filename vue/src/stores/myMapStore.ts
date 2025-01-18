@@ -1,6 +1,6 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
-import { ref, type Ref } from 'vue'
+import { ref, watch, type Ref } from 'vue'
 import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import type { Layer } from '@/models/interfaces/map/Layer'
 import type Map from '@/components/map/Map.vue'
@@ -8,6 +8,7 @@ import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
 import { MapAtlasService } from '@/services/map/MapAtlasService'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 import { LayerType } from '@/models/enums/geo/LayerType'
+import { ItemType } from '@/models/enums/app/ItemType'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
@@ -32,60 +33,71 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
       alreadyAddedImageSources
     )
     alreadyAddedImageSources = [...new Set([...alreadyAddedImageSources, qgismapId])]
-    updateLegendList()
+    updateLegendList(qgismapId, LayerType.ATLAS_LAYER)
   }
 
-  function updateLegendList() {
-    const legendList: (AppLayerLegendItem | AtlasLayerLegendItem)[] = []
+  const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
+  watch(
+    [
+      () => actorLayer.value?.isShown,
+      () => projectLayer.value?.isShown,
+      () => resourceLayer.value?.isShown
+    ],
+    (
+      [actorIsShown, projectIsShown, resourceIsShown],
+      [prevActorIsShown, prevProjectIsShown, prevResourceIsShown]
+    ) => {
+      if (actorIsShown !== prevActorIsShown) {
+        updateLegendList(ItemType.ACTOR, LayerType.APP_LAYER)
+      }
+      if (projectIsShown !== prevProjectIsShown) {
+        updateLegendList(ItemType.PROJECT, LayerType.APP_LAYER)
+      }
+      if (resourceIsShown !== prevResourceIsShown) {
+        updateLegendList(ItemType.RESOURCE, LayerType.APP_LAYER)
+      }
+    },
+    { deep: true }
+  )
 
-    if (actorLayer.value?.isShown || projectLayer.value?.isShown || resourceLayer.value?.isShown) {
-      if (actorLayer.value?.isShown) {
-        legendList.push({
-          id: 'test',
+  function updateLegendList(layerId: string, layerType: LayerType) {
+    if (legendList.value.find((x) => x.id === layerId)) {
+      legendList.value = legendList.value.filter((x) => x.id !== layerId)
+      legendList.value.forEach((legendItem, i) => {
+        legendItem.order = i
+      })
+    } else {
+      if (layerType === LayerType.APP_LAYER) {
+        legendList.value.push({
+          id: layerId,
           type: LayerType.APP_LAYER,
-          icon: 'toset',
-          name: 'Acteurs'
+          icon: `/src/assets/images/icons/map/${layerId}_icon.png`,
+          name: 'Acteurs',
+          order: legendList.value.length
         })
       }
-      if (projectLayer.value?.isShown) {
-        legendList.push({
-          id: 'test',
-          type: LayerType.APP_LAYER,
-          icon: 'toset',
-          name: 'Projets'
-        })
-      }
-      if (resourceLayer.value?.isShown) {
-        legendList.push({
-          id: 'test',
-          type: LayerType.APP_LAYER,
-          icon: 'toset',
-          name: 'Ressources'
-        })
+      if (layerType === LayerType.ATLAS_LAYER) {
+        const atlasMap = atlasThematicMaps.value.find((x) => x.id === layerId)
+        if (atlasMap) {
+          legendList.value.push({
+            id: atlasMap.qgisProjectName,
+            layerType: LayerType.ATLAS_LAYER,
+            icon: atlasMap.mainLayer.icon as string,
+            name: atlasMap.mainLayer.name,
+            order: legendList.value.length,
+            subLayers: atlasMap.subLayers
+              .filter((subLayer) => subLayer.isShown)
+              .map((subLayer) => ({
+                name: subLayer.name,
+                icon: subLayer.icon as string,
+                order: subLayer.mapOrder as number
+              }))
+          })
+        }
       }
     }
-    atlasThematicMaps.value.forEach((atlasMap) => {
-      if (atlasMap.mainLayer?.isShown) {
-        legendList.push({
-          id: atlasMap.qgisProjectName,
-          layerType: LayerType.ATLAS_LAYER,
-          icon: atlasMap.mainLayer.icon as string,
-          name: atlasMap.mainLayer.name,
-          subLayers: atlasMap.subLayers
-            .filter((subLayer) => subLayer.isShown)
-            .map((subLayer) => ({
-              name: subLayer.name,
-              icon: subLayer.icon as string,
-              order: subLayer.mapOrder as number
-            }))
-        })
-      }
-    })
-    console.log(atlasThematicMaps.value)
-    console.log(legendList)
+    console.log(legendList.value)
   }
-
-  // const THElegendList = ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]>([])
 
   return {
     isRightSidebarShown,
@@ -99,6 +111,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     resourceLayer,
     resourceSubLayers,
     atlasThematicMaps,
-    updateAtlasLayersVisibility
+    updateAtlasLayersVisibility,
+    legendList
   }
 })

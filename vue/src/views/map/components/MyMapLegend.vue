@@ -3,29 +3,16 @@
     <v-btn icon="$vuetify" v-if="!legendIsShown" @click.stop="legendIsShown = true"> Button </v-btn>
     <div v-else class="MapLegend__layersCtn">
       <v-btn icon="$vuetify" @click.stop="legendIsShown = false"> Button </v-btn>
-      {{ layersList }}
+      {{ mapStore.legendList }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useMyMapStore } from '@/stores/myMapStore'
-import { onMounted, ref, watch } from 'vue'
+import { ref } from 'vue'
 const legendIsShown = ref(false)
 const mapStore = useMyMapStore()
-const layersList = ref<string[][]>([])
-
-onMounted(() => {
-  layersList.value = mapStore.atlasThematicMaps
-    .map((map) => map.subLayers.filter((layer) => layer.isShown))
-    .map((x) => x.map((y) => y.name))
-})
-
-watch(mapStore.atlasThematicMaps, () => {
-  layersList.value = mapStore.atlasThematicMaps
-    .map((map) => map.subLayers.filter((layer) => layer.isShown))
-    .map((x) => x.map((y) => y.name))
-})
 </script>
 
 <style lang="scss">
