@@ -42,7 +42,11 @@
                   <span class="text-subtitle-2 text-capitalize ml-1">{{ subItem.name }}</span>
                 </div>
                 <div class="d-flex align-center">
-                  <v-icon color="dark-grey" icon="mdi-delete-outline"></v-icon>
+                  <v-icon
+                    color="dark-grey"
+                    icon="mdi-delete-outline"
+                    @click="removeSubLayer(item, subItem.name)"
+                  ></v-icon>
                 </div>
               </div>
             </VueDraggable>
@@ -101,6 +105,19 @@ function removeMainLayer(item: AtlasLayerLegendItem | AppLayerLegendItem) {
         break
     }
   }
+}
+
+function removeSubLayer(item: AtlasLayerLegendItem, subLayerName: string) {
+  mapStore.atlasThematicMaps.map((x) => {
+    if (x.id === item.id) {
+      x.subLayers.map((x) => {
+        if (x.name === subLayerName) {
+          x.isShown = false
+        }
+      })
+    }
+  })
+  mapStore.updateAtlasLayersVisibility(item.id)
 }
 </script>
 

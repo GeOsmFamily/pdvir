@@ -10,11 +10,31 @@ export class LegendService {
     legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]>,
     atlasThematicMaps: Ref<AtlasMap[]>
   ) {
-    if (legendList.value.find((x) => x.id === layerId)) {
-      legendList.value = legendList.value.filter((x) => x.id !== layerId)
-      legendList.value.forEach((legendItem, i) => {
-        legendItem.order = i
-      })
+    const existingEntry = legendList.value.find((x) => x.id === layerId)
+    if (existingEntry) {
+      if (existingEntry.layerType === LayerType.ATLAS_LAYER) {
+        const atlasMap = atlasThematicMaps.value.find((x) => x.id === layerId)
+        if (atlasMap && atlasMap.mainLayer.isShown) {
+          existingEntry.subLayers = atlasMap.subLayers
+            .filter((subLayer) => subLayer.isShown)
+            .map((subLayer) => ({
+              name: subLayer.name,
+              icon: subLayer.icon as string,
+              order: subLayer.mapOrder as number
+            }))
+            .sort((a, b) => a.order - b.order)
+        } else {
+          legendList.value = legendList.value.filter((x) => x.id !== layerId)
+          legendList.value.forEach((legendItem, i) => {
+            legendItem.order = i
+          })
+        }
+      } else {
+        legendList.value = legendList.value.filter((x) => x.id !== layerId)
+        legendList.value.forEach((legendItem, i) => {
+          legendItem.order = i
+        })
+      }
     } else {
       if (layerType === LayerType.APP_LAYER) {
         legendList.value.push({
