@@ -15,7 +15,6 @@ export class LegendService {
       legendList.value.forEach((legendItem, i) => {
         legendItem.order = i
       })
-      console.log(legendList.value)
     } else {
       if (layerType === LayerType.APP_LAYER) {
         legendList.value.push({
@@ -57,8 +56,6 @@ export class LegendService {
       const beforeLayer = legendList.value[i + 1]?.id || null
       map.moveLayer(legendItem.id, beforeLayer as string)
     })
-    const layers = map.getStyle().layers // Récupère la liste des couches
-    console.log('Liste des couches:', layers)
   }
 
   static updateAtlasSubLayersOrder(

@@ -93,29 +93,6 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     updateLegendOrder()
   }
 
-  function removeLayerFromLegend(item: AtlasLayerLegendItem | AppLayerLegendItem) {
-    if (item.layerType === LayerType.ATLAS_LAYER) {
-      atlasThematicMaps.value.map((x) => {
-        if (x.id === item.id) {
-          x.mainLayer.isShown = false
-          updateAtlasLayersVisibility(item.id)
-        }
-      })
-    } else {
-      switch (item.id) {
-        case ItemType.ACTOR:
-          actorLayer.value!.isShown = false
-          break
-        case ItemType.PROJECT:
-          projectLayer.value!.isShown = false
-          break
-        case ItemType.RESOURCE:
-          resourceLayer.value!.isShown = false
-          break
-      }
-    }
-  }
-
   return {
     isRightSidebarShown,
     isLeftSidebarShown,
@@ -131,7 +108,6 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     updateAtlasLayersVisibility,
     legendList,
     updateLegendOrder,
-    updateAtlasSubLayersOrder,
-    removeLayerFromLegend
+    updateAtlasSubLayersOrder
   }
 })

@@ -60,6 +60,7 @@ import { ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
+import { ItemType } from '@/models/enums/app/ItemType'
 const layerType = LayerType
 
 const legendIsShown = ref(false)
@@ -80,7 +81,26 @@ function updateSubLayerOrder(item: AtlasLayerLegendItem) {
 }
 
 function removeMainLayer(item: AtlasLayerLegendItem | AppLayerLegendItem) {
-  mapStore.removeLayerFromLegend(item)
+  if (item.layerType === LayerType.ATLAS_LAYER) {
+    mapStore.atlasThematicMaps.map((x) => {
+      if (x.id === item.id) {
+        x.mainLayer.isShown = false
+        x.subLayers.map((x) => (x.isShown = false))
+      }
+    })
+  } else {
+    switch (item.id) {
+      case ItemType.ACTOR:
+        mapStore.actorLayer!.isShown = false
+        break
+      case ItemType.PROJECT:
+        mapStore.projectLayer!.isShown = false
+        break
+      case ItemType.RESOURCE:
+        mapStore.resourceLayer!.isShown = false
+        break
+    }
+  }
 }
 </script>
 
