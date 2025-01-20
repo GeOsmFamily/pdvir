@@ -2,16 +2,17 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
 use App\Enum\AtlasGroup;
-use App\Repository\AtlasRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AtlasRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\TimestampableEntity;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AtlasRepository::class)]
@@ -33,6 +34,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 class Atlas
 {
+    use TimestampableEntity;
     public const GET_FULL = 'atlas:get:full';
     public const WRITE = 'atlas:write';
 

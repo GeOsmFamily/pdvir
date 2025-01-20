@@ -8,12 +8,6 @@
     <template #content>
       <div id="qgisMapViewer"></div>
     </template>
-    <template #footer-left>
-      <span class="text-action" @click="qgisMapStore.isQgisMapFormShown = false">{{
-        $t('forms.cancel')
-      }}</span>
-    </template>
-    <template #footer-right></template>
   </Modal>
 </template>
 

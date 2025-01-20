@@ -14,18 +14,22 @@
       >
     </div>
     <!-- Copy of AdminTable.vue as VueDraggable is not compatible with this component -->
-    <div class="AdminTable">
+    <div class="AdminTable cursor-grab">
       <VueDraggable ref="el" v-model="atlasesList" @end="dragAtlases">
         <div
           class="AdminTable__row"
           v-for="item in atlasesList"
           :key="item.id"
-          :style="{ gridTemplateColumns: ['15%', '40%', '25%', '20%'].join(' ') }"
+          :style="{ gridTemplateColumns: ['5%', '15%', '15%', '30%', '20%', '15%'].join(' ') }"
         >
+          <div class="AdminTable__item">
+            {{ item.position }}
+          </div>
           <div class="AdminTable__item d-flex align-center">
             <img :src="item.logo.contentUrl" v-if="item.logo" class="AdminTable__item__logo" />
             {{ item.name }}
           </div>
+          <div class="AdminTable__item">{{ new Date(item.updatedAt).toLocaleDateString() }}</div>
           <div class="AdminTable__item">
             {{ item.atlasGroup }}
           </div>
@@ -33,7 +37,7 @@
             <v-icon icon="mdi-map-outline"></v-icon>
             {{ item.maps.map((map) => map.name).join(', ') }}
           </div>
-          <div class="AdminTable__item--last">
+          <div class="AdminTable__item--last d-flex">
             <v-btn
               density="comfortable"
               icon="mdi-pencil-outline"

@@ -7,6 +7,7 @@ import type { SymfonyRelation } from './SymfonyRelation'
 export interface Atlas extends SymfonyRelation {
   id: string
   logo: MediaObject
+  updatedAt: string
   name: string
   atlasGroup: AtlasGroup
   position: number
