@@ -1,5 +1,5 @@
-include vue/Makefile
 include symfony/Makefile
+include vue/Makefile
 
 -include local.mk
 -include .env
@@ -20,50 +20,25 @@ VUE = $(DOCKER_EXEC_VUE)
 SYMFONY = $(DOCKER_EXEC_PHP) php bin/console
 COMPOSER = $(DOCKER_EXEC_PHP) composer
 
-dev: up show-urls
-build-dev: build-and-up show-urls
+help:
+	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
 
-init: build init-jwt-keypair init-hosts
-build-and-up: build up
+## 
+## --------------------------------------------------------------------------------
+##  🚀 Main commands
+## --------------------------------------------------------------------------------
 
-up:
-	$(DOCKER_COMP) up -d --remove-orphans
+init:		## Init the project
+	build init-jwt-keypair init-hosts
 
-down:
-	$(DOCKER_COMP) down
+dev:		## Up and show urls
+	up show-urls
 
-ifeq (restart, $(firstword $(MAKECMDGOALS)))
-  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-  $(eval $(RUN_ARGS):;@:)
-endif
+build-dev: 	## Build, up and show urls
+	build-and-up show-urls
 
-restart:
-	$(DOCKER_COMP) restart $(RUN_ARGS)
-
-restart-db-container:
-	make restart postgres
-
-rm-vue-volume:
-	$(DOCKER_COMP) down vue -v
-
-reload-caddy:
-	$(DOCKER_COMP) down frankenphp
-	$(DOCKER_COMP) build frankenphp
-	$(DOCKER_COMP) up -d frankenphp
-
-down-remove-all:
-	$(DOCKER_COMP) down --remove-orphans --rmi all -v
-
-build:
-	$(DOCKER_COMP) build
-
-build-no-cache:
-	$(DOCKER_COMP) build --no-cache
-
-deploy: build-and-up init-jwt-keypair cc
-
-docker-config:
-	$(DOCKER_COMP) config
+deploy:		## Deploys the project
+	build-and-up init-jwt-keypair cc
 
 YELLOW=\033[1;33m
 GREEN=\033[1;32m
@@ -71,7 +46,7 @@ BLUE=\033[0;34m
 LIGHT_BLUE=\033[1;36m
 NC=\033[0m # No Color
 
-show-urls:
+show-urls:	## Show project services urls
 	@echo ""
 	@printf "${BLUE}+-------------------------------------------------+\n"
 	@printf "${BLUE}| Cameroon Urban Platform                         |\n"
@@ -91,7 +66,7 @@ HOST_ENTRIES = \
   "127.0.0.1     docs.puc.local"\
   "127.0.0.1     mail.puc.local"
 
-init-hosts:
+init-hosts:	## Adds the puc.local and local subdomain entries to the hosts file
 	@printf "${YELLOW}----------------------------------------------------${NC}\n"
 	@printf "${YELLOW}  We will just add entries to your hosts file       ${NC}\n"
 	@printf "${YELLOW}  Note : You might be asked to enter your password  ${NC}\n"
@@ -116,3 +91,48 @@ init-hosts:
 	else \
 		echo "Unsupported OS"; \
 	fi
+
+## 
+## --------------------------------------------------------------------------------
+##  🐋  Docker commands
+## --------------------------------------------------------------------------------
+
+build-and-up:	## Builds and up all containers using current env files
+	build up
+
+build:		## Builds all containers using current env files
+	$(DOCKER_COMP) build
+
+build-no-cache:	## Builds all containers without cache
+	$(DOCKER_COMP) build --no-cache
+
+up:		## Up all containers
+	$(DOCKER_COMP) up -d --remove-orphans
+
+down:		## Down all containers
+	$(DOCKER_COMP) down
+
+docker-config:	## Show docker config
+	$(DOCKER_COMP) config
+
+ifeq (restart, $(firstword $(MAKECMDGOALS)))
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RUN_ARGS):;@:)
+endif
+
+restart:	## Restarts all containers, or a specific one if provided
+	$(DOCKER_COMP) restart $(RUN_ARGS)
+
+restart-db:	## Restarts the postgres container
+	make restart postgres
+
+rm-vue-volume:	## Deletes the vue volume, useful if facing puc_vue_node_modules/_data': failed to mount local volume
+	$(DOCKER_COMP) down vue -v
+
+reload-caddy:	## To reload the caddy container
+	$(DOCKER_COMP) down frankenphp
+	$(DOCKER_COMP) build frankenphp
+	$(DOCKER_COMP) up -d frankenphp
+
+down-remove-all:## To remove all containers
+	$(DOCKER_COMP) down --remove-orphans --rmi all -v
