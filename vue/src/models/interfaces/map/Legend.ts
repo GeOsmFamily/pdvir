@@ -15,6 +15,7 @@ export interface AtlasLayerLegendItem {
   order: number
   name: string
   subLayers: AtlasSubLayerLegendItem[]
+  atlasGroup: string
 }
 
 export interface AtlasSubLayerLegendItem {

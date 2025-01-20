@@ -23,13 +23,14 @@
             <div class="d-flex align-center">
               <v-icon icon="mdi-drag" color="dark-grey"></v-icon>
               <img :src="item.icon" v-if="item.layerType === layerType.APP_LAYER" />
-              <v-icon icon="mdi-arrow-down-right" color="black" v-else></v-icon>
+              <v-icon icon="mdi-layers-outline" color="black" v-else></v-icon>
               <span class="text-subtitle-2 font-weight-medium text-capitalize ml-1">{{
                 item.name
               }}</span>
             </div>
             <div class="d-flex align-center">
               <v-icon
+                v-if="!('atlasGroup' in item && item.atlasGroup === atlasGroup.PREDEFINED_MAP)"
                 color="dark-grey"
                 icon="mdi-delete-outline"
                 @click="removeMainLayer(item)"
@@ -54,6 +55,7 @@
                 </div>
                 <div class="d-flex align-center">
                   <v-icon
+                    v-if="'atlasGroup' in item && item.atlasGroup === atlasGroup.THEMATIC_DATA"
                     color="dark-grey"
                     icon="mdi-delete-outline"
                     class="mr-1"
@@ -77,7 +79,9 @@ import { VueDraggable } from 'vue-draggable-plus'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 import { ItemType } from '@/models/enums/app/ItemType'
+import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 const layerType = LayerType
+const atlasGroup = AtlasGroup
 
 const legendIsShown = ref(false)
 const mapStore = useMyMapStore()

@@ -15,6 +15,7 @@ export class LegendService {
     if (existingEntry) {
       if (existingEntry.layerType === LayerType.ATLAS_LAYER) {
         const atlasMap = atlasThematicMaps.value.find((x) => x.id === layerId)
+        // When a user remove a sublayer
         if (atlasMap && atlasMap.mainLayer.isShown) {
           existingEntry.subLayers = atlasMap.subLayers
             .filter((subLayer) => subLayer.isShown)
@@ -62,7 +63,8 @@ export class LegendService {
                 icon: subLayer.icon as string,
                 order: subLayer.mapOrder as number
               }))
-              .sort((a, b) => a.order - b.order)
+              .sort((a, b) => a.order - b.order),
+            atlasGroup: atlasMap.mainLayer.atlasGroup
           })
         }
       }

@@ -16,7 +16,8 @@ export class MapAtlasService {
         name: map.name,
         isShown: false,
         icon: map.logo.contentUrl,
-        opacity: 1
+        opacity: 1,
+        atlasGroup: atlas.atlasGroup
       }
       const subLayers: AtlasLayer[] = await Promise.all(
         map.qgisProject.layers?.map(async (item) => ({
@@ -25,7 +26,8 @@ export class MapAtlasService {
           isShown: false,
           icon: await this.getSubLayerIcon(item, map.qgisProject.name),
           opacity: 1,
-          mapOrder: 0 //Used for change layer order in Qgis Server requests, updated from the legend component
+          mapOrder: 0, //Used for change layer order in Qgis Server requests, updated from the legend component
+          atlasGroup: atlas.atlasGroup
         })) ?? []
       )
       atlasMaps.push({
