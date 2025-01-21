@@ -13,7 +13,22 @@
           :src="getNestedObjectValue(item, logoField)"
           class="AdminTable__item__logo"
         />
-        {{ getNestedObjectValue(item, tableKey) }}
+        <template v-if="isStringDate(getNestedObjectValue(item, tableKey))">
+          <v-tooltip :text="new Date(getNestedObjectValue(item, tableKey)).toLocaleDateString()">
+            <template v-slot:activator="{ props }">
+              <span v-bind="props">{{
+                new Date(getNestedObjectValue(item, tableKey)).toLocaleDateString()
+              }}</span>
+            </template>
+          </v-tooltip>
+        </template>
+        <template v-else>
+          <v-tooltip :text="getNestedObjectValue(item, tableKey)">
+            <template v-slot:activator="{ props }">
+              <span v-bind="props">{{ reduceText(getNestedObjectValue(item, tableKey), 25) }}</span>
+            </template>
+          </v-tooltip>
+        </template>
       </div>
       <div class="AdminTable__item AdminTable__item--last">
         <slot name="editContentCell" :item="item"></slot>
@@ -32,6 +47,7 @@ import type { Project } from '@/models/interfaces/Project'
 import type { User } from '@/models/interfaces/auth/User'
 import type { Resource } from '@/models/interfaces/Resource'
 import type { QgisMap } from '@/models/interfaces/QgisMap'
+import { reduceText } from '@/services/utils/UtilsService'
 
 const props = defineProps<{
   items: Actor[] | User[] | Project[] | Resource[] | QgisMap[]
@@ -44,6 +60,11 @@ const props = defineProps<{
 const defaultColumnWidths = ['15%', '40%', '25%', '20%']
 const columnWidths = props.columnWidths || defaultColumnWidths
 const paginatedItems: Ref<typeof props.items> = ref([])
+
+function isStringDate(candidate: string): boolean {
+  const date = new Date(candidate)
+  return !isNaN(date.getTime())
+}
 </script>
 
 <style lang="scss">

@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\Entity\Trait\TimestampableEntity;
 use App\Repository\QgisMapRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,6 +34,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 class QgisMap
 {
+    use TimestampableEntity;
     public const GET_FULL = 'qgis_map:get:full';
     public const WRITE = 'qgis_map:write';
 

@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\Entity\Trait\TimestampableEntity;
 use App\Enum\AtlasGroup;
 use App\Repository\AtlasRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,6 +34,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 class Atlas
 {
+    use TimestampableEntity;
     public const GET_FULL = 'atlas:get:full';
     public const WRITE = 'atlas:write';
 

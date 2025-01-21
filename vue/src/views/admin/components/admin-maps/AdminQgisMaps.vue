@@ -14,8 +14,8 @@
     />
     <AdminTable
       :items="filteredItems"
-      :table-keys="['name', 'description', 'qgisProject.layers']"
-      :column-widths="['15%', '40%', '30%', '15%']"
+      :table-keys="['name', 'description', 'updatedAt', 'qgisProject.layers']"
+      :column-widths="['15%', '30%', '15%', '25%', '15%']"
       :with-logo="true"
       :logo-field="'logo.contentUrl'"
     >
