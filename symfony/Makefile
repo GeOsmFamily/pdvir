@@ -9,7 +9,7 @@ sf:			## List all Symfony commands or pass the parameter "c=" to run a given com
 	@$(SYMFONY) $(c)
 
 cc:			## Clear the cache
-	@$(SYMFONY) c=c:c
+	@$(SYMFONY) c:c
 
 init-jwt-keypair:	## Generate a new JWT keypair
 	@$(SYMFONY) lexik:jwt:generate-keypair --overwrite
@@ -45,8 +45,7 @@ vendor:			## Install vendors according to the current composer.lock file
 ##  🛢️  Database - Doctrine
 ## --------------------------------------------------------------------------------
 
-recreate-database:	## Recreate the database
-	restart-db drop-database create-database configure-database
+recreate-database: restart-db drop-database create-database configure-database	## Recreate the database
 
 drop-database:		## Drop the database
 	@$(SYMFONY) do:da:dr -f --if-exists
@@ -72,21 +71,16 @@ regenerate-entity:	## Regenerate entities
 enable-postgis:		## Enable postgis
 	@$(SYMFONY) dbal:run-sql 'CREATE extension postgis;'
 
-make-run-migration:	## Create and run a new migration
-	make-migration run-migration
+make-run-migration: make-migration run-migration	## Create and run a new migration
 
-reset-database:		## Reset the database (recreate and run migrations)
-	recreate-database run-migration
+reset-database: recreate-database run-migration		## Reset the database (recreate and run migrations)
 
-rerun-database:		## Reset the database (recreate, run migrations and run fixtures)
-	reset-database run-fixtures
+rerun-database: reset-database run-fixtures		## Reset the database (recreate, run migrations and run fixtures)
 
-configure-database:	## Configure the database
-	enable-postgis
+configure-database: enable-postgis	## Configure the database
 
-create-short-migration: ## Create a small migration
-	reset-database make-migration run-migration run-fixtures
 
+create-short-migration: reset-database make-migration run-migration run-fixtures ## Create a small migration
 
 ## 
 ## --------------------------------------------------------------------------------
