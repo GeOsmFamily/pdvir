@@ -12,7 +12,7 @@ security:
     providers:
         users:
             entity:
-                class: App\Entity\User
+                class: App\Entity\User\User
                 property: email
     firewalls:
         dev:
@@ -55,6 +55,7 @@ security:
         - { path: ^/api/resources, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/atlases, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/qgis, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/forgot_password, role: PUBLIC_ACCESS }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:

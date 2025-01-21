@@ -63,7 +63,21 @@
             :label="$t('auth.becomeMemberThanks.form.telephone')"
             @submit="form.phone.handleChange"
           />
-          <a href="#">{{ $t('account.changePassword') }}</a>
+
+          <v-btn
+            class="justify-start"
+            variant="text"
+            @click="sendEmailResetPassword()"
+            :disabled="isResetPasswordSent !== undefined"
+          >
+            <span v-if="isResetPasswordSent === true">{{
+              $t('account.changePassword.success')
+            }}</span>
+            <span v-else-if="isResetPasswordSent === false">
+              {{ $t('account.changePassword.failure') }}
+            </span>
+            <span v-else>{{ $t('account.changePassword.message') }}</span>
+          </v-btn>
           <div class="UserAccount__rolesBlock" v-if="!userStore.userHasRole(UserRoles.ADMIN)">
             <span>{{ $t('account.roles') }}</span>
             <div
@@ -97,9 +111,7 @@
               />
             </div>
           </div>
-          <a href="#" class="hide-sm" v-if="!userStore.userHasRole(UserRoles.ADMIN)">{{
-            $t('account.deleteAccount')
-          }}</a>
+          <a href="#" class="hide-sm" v-if="!userStore.userHasRole(UserRoles.ADMIN)">{{ $t('account.deleteAccount') }}</a>
           <v-btn type="submit" color="main-red hide-sm" :loading="isSubmitting" class="w-100">{{
             $t('account.save')
           }}</v-btn>
@@ -176,10 +188,16 @@ import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref, watch, type Ref } from 'vue'
 import { useProjectStore } from '@/stores/projectStore'
 import { useResourceStore } from '@/stores/resourceStore'
+import { AuthenticationService } from '@/services/userAndAuth/AuthenticationService'
 const userStore = useUserStore()
 const actorsStore = useActorsStore()
 const projectStore = useProjectStore()
 const resourceStore = useResourceStore()
+
+const isResetPasswordSent = ref()
+const selectedProfileImage: Ref<ContentImageFromUserFile[]> = ref([])
+const fileInput = ref<HTMLInputElement | null>(null)
+const avatarErrorMessage = ref('')
 
 let requestedRoles = UserProfileForm.getRolesList()
 const { form, handleSubmit, isSubmitting } = UserProfileForm.getUserEditionForm(
@@ -231,9 +249,6 @@ onMounted(() => {
   )
 })
 
-const selectedProfileImage: Ref<ContentImageFromUserFile[]> = ref([])
-const fileInput = ref<HTMLInputElement | null>(null)
-const avatarErrorMessage = ref('')
 const triggerFileInput = () => {
   fileInput.value?.click()
 }
@@ -280,6 +295,17 @@ const submitForm = handleSubmit(
     console.error('Form validation failed:', errors)
   }
 )
+
+const sendEmailResetPassword = async () => {
+  if (userStore.currentUser) {
+    try {
+      await AuthenticationService.forgotPassword(userStore.currentUser.email)
+      isResetPasswordSent.value = true
+    } catch {
+      isResetPasswordSent.value = false
+    }
+  }
+}
 </script>
 <style lang="scss">
 .UserAccount {

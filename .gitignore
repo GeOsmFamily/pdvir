@@ -7,5 +7,5 @@ docker/qgis/data/*
 local.mk
 
 ###> php-cs-fixer ###
-/.php-cs-fixer.cache
+.php-cs-fixer.cache
 ###< php-cs-fixer ###
