@@ -5,7 +5,7 @@ YARN = yarn
 ##  🧩 Yarn
 ## --------------------------------------------------------------------------------
 
-yarn: ## Yarn commands or pass the parameter "c=" to run a given command, example: make yarn c="add vue"
+yarn:	## Yarn commands or pass the parameter "c=" to run a given command, example: make yarn c="add vue"
 	@$(eval c ?=)
 	@$(VUE) $(YARN) $(c)
 
@@ -14,5 +14,5 @@ yarn: ## Yarn commands or pass the parameter "c=" to run a given command, exampl
 ##  🧹 Eslint
 ## --------------------------------------------------------------------------------
 
-vue-type-check: ## Run the TypeScript type checker
+vue-type-check:	## Run the TypeScript type checker
 	@$(VUE) $(YARN) type-check

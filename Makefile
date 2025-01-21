@@ -21,24 +21,20 @@ SYMFONY = $(DOCKER_EXEC_PHP) php bin/console
 COMPOSER = $(DOCKER_EXEC_PHP) composer
 
 help:
-	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
+	@sed -E -n "/##/s/^(.*:[\s\t]*)?(##\s)(.*)/\1\3/p" $(MAKEFILE_LIST)
 
 ## 
 ## --------------------------------------------------------------------------------
 ##  🚀 Main commands
 ## --------------------------------------------------------------------------------
 
-init:		## Init the project
-	build init-jwt-keypair init-hosts
+init: build init-jwt-keypair init-hosts		## Init the project
 
-dev:		## Up and show urls
-	up show-urls
+dev: up show-urls		## Up and show urls
 
-build-dev: 	## Build, up and show urls
-	build-and-up show-urls
+build-dev: build-and-up show-urls 	## Build, up and show urls
 
-deploy:		## Deploys the project
-	build-and-up init-jwt-keypair cc
+deploy: build-and-up init-jwt-keypair cc		## Deploys the project 
 
 YELLOW=\033[1;33m
 GREEN=\033[1;32m
@@ -97,9 +93,6 @@ init-hosts:	## Adds the puc.local and local subdomain entries to the hosts file
 ##  🐋  Docker commands
 ## --------------------------------------------------------------------------------
 
-build-and-up:	## Builds and up all containers using current env files
-	build up
-
 build:		## Builds all containers using current env files
 	$(DOCKER_COMP) build
 
@@ -108,6 +101,8 @@ build-no-cache:	## Builds all containers without cache
 
 up:		## Up all containers
 	$(DOCKER_COMP) up -d --remove-orphans
+
+build-and-up: build up	## Builds and up all containers using current env files
 
 down:		## Down all containers
 	$(DOCKER_COMP) down
