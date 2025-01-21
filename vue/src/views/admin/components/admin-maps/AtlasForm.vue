@@ -75,12 +75,12 @@ import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import { useQgisMapStore } from '@/stores/qgisMapStore'
 import type { QgisMap } from '@/models/interfaces/QgisMap'
 import { computed, onMounted, ref, type Ref } from 'vue'
-import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 import { useAtlasStore } from '@/stores/atlasStore'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
 import type { MediaObject } from '@/models/interfaces/MediaObject'
-import FileUploader from '@/services/files/FileUploader'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
+import FileUploader from '@/services/files/FileUploader'
+import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 
 const props = defineProps<{
   atlas: Atlas | null
@@ -120,6 +120,7 @@ const submitForm = handleSubmit(
       delete atlasSubmissionRaw.logoToUpload
     }
     const atlasSubmission: Atlas = nestedObjectsToIri(atlasSubmissionRaw)
+
     if (FormType.CREATE === props.type) {
       atlasSubmission.position = atlasStore.atlasList.length + 1
     }

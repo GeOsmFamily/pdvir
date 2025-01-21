@@ -72,6 +72,7 @@ import { FormType } from '@/models/enums/app/FormType'
 import type { Atlas } from '@/models/interfaces/Atlas'
 import { useAtlasStore } from '@/stores/atlasStore'
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
+import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 
 const qgisStore = useQgisMapStore()
 const atlasStore = useAtlasStore()
@@ -88,7 +89,6 @@ onMounted(async () => {
 })
 
 function updateAtlasesList() {
-  console.log(atlasStore.atlasList)
   atlasesList.value = atlasStore.atlasList
     .filter((atlas) =>
       atlasGroup.value === 'PredefinedMap'
@@ -106,6 +106,7 @@ watch(
 function dragAtlases() {
   atlasesList.value.forEach((item, index) => {
     item.position = index + 1
+    item = nestedObjectsToIri(item)
     atlasStore.submitAtlas(item, FormType.EDIT, false)
   })
 }
