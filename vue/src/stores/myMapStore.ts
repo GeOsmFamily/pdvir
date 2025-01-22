@@ -16,6 +16,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const isRightSidebarShown = ref(true)
   const isLeftSidebarShown = ref(true)
   const mapSearch: Ref<OsmData | null> = ref(null)
+  const isMapAlreadyBeenMounted = ref(false)
 
   const actorLayer: Ref<Layer | null> = ref(null)
   const actorSubLayers: Ref<Layer[]> = ref([])
@@ -96,6 +97,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   return {
     isRightSidebarShown,
     isLeftSidebarShown,
+    isMapAlreadyBeenMounted,
     myMap,
     mapSearch,
     actorLayer,

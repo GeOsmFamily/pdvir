@@ -48,8 +48,10 @@ const map = computed(() => myMapStore.myMap?.map)
 
 onMounted(async () => {
   await thematicStore.getAll()
-  initMainLayers()
-  initSubLayers()
+  if (!myMapStore.isMapAlreadyBeenMounted) {
+    initMainLayers()
+    initSubLayers()
+  }
   Promise.all([
     await resourceStore.getAll(),
     await actorStore.getAll(),
@@ -58,9 +60,11 @@ onMounted(async () => {
     if (map.value == null) return
     if (map.value.loaded()) {
       await setPlatformDataLayers()
+      myMapStore.isMapAlreadyBeenMounted = true
     } else {
       map.value.on('load', async () => {
         await setPlatformDataLayers()
+        myMapStore.isMapAlreadyBeenMounted = true
       })
     }
   })
@@ -94,6 +98,22 @@ const setPlatformDataLayers = async () => {
   Object.values(ItemType).forEach((itemType) => {
     setPlatformDataLayer(itemType)
   })
+}
+
+const setPlatformDataLayer = async (itemType: ItemType) => {
+  if (myMap.value) {
+    const geojson = getGeojsonPerItemType(itemType)
+    const icon = new URL(`/src/assets/images/icons/map/${itemType}_icon.png`, import.meta.url).href
+    myMap.value.addSource(itemType, geojson)
+    await myMap.value.addImage(icon, itemType)
+    const layout: maplibregl.LayerSpecification['layout'] = {
+      'icon-image': itemType,
+      'icon-size': 0.4
+    }
+    myMap.value.addLayer(itemType, { layout })
+    myMap.value.listenToHoveredFeature(itemType)
+  }
+  return
 }
 
 const filteredProjects = computed(() => {
@@ -132,22 +152,6 @@ const refreshLayer = (itemType: ItemType) => {
   if (myMap.value) {
     myMap.value.setData(itemType, getGeojsonPerItemType(itemType))
   }
-}
-
-const setPlatformDataLayer = async (itemType: ItemType) => {
-  if (myMap.value) {
-    const geojson = getGeojsonPerItemType(itemType)
-    const icon = new URL(`/src/assets/images/icons/map/${itemType}_icon.png`, import.meta.url).href
-    myMap.value.addSource(itemType, geojson)
-    await myMap.value.addImage(icon, itemType)
-    const layout: maplibregl.LayerSpecification['layout'] = {
-      'icon-image': itemType,
-      'icon-size': 0.4
-    }
-    myMap.value.addLayer(itemType, { layout })
-    myMap.value.listenToHoveredFeature(itemType)
-  }
-  return
 }
 </script>
 
