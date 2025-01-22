@@ -71,7 +71,7 @@ export class LegendService {
     }
   }
 
-  static updateLegendOrder(
+  static updateLayersOrder(
     map: maplibregl.Map,
     legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]>
   ) {

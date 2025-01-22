@@ -60,11 +60,9 @@ onMounted(async () => {
     if (map.value == null) return
     if (map.value.loaded()) {
       await setPlatformDataLayers()
-      myMapStore.isMapAlreadyBeenMounted = true
     } else {
       map.value.on('load', async () => {
         await setPlatformDataLayers()
-        myMapStore.isMapAlreadyBeenMounted = true
       })
     }
   })
@@ -98,6 +96,10 @@ const setPlatformDataLayers = async () => {
   Object.values(ItemType).forEach((itemType) => {
     setPlatformDataLayer(itemType)
   })
+  if (myMapStore.isMapAlreadyBeenMounted) {
+    myMapStore.setMapLayersOrderOnMapReMount()
+  }
+  myMapStore.isMapAlreadyBeenMounted = true
 }
 
 const setPlatformDataLayer = async (itemType: ItemType) => {

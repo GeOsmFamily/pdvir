@@ -90,7 +90,7 @@ function updateMainLayerOrder() {
   mapStore.legendList.forEach((item, index) => {
     item.order = index
   })
-  mapStore.updateLegendOrder()
+  mapStore.updateMapLayersOrder()
 }
 
 function updateSubLayerOrder(item: AtlasLayerLegendItem) {

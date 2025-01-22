@@ -14,8 +14,32 @@ import MyMapHeader from '@/views/map/components/MyMapHeader.vue'
 import MyMapLeftSideBar from '@/views/map/components/MyMapLeftSideBar.vue'
 import MyMapRightSideBar from '@/views/map/components/MyMapRightSideBar.vue'
 import { useMyMapStore } from '@/stores/myMapStore'
+import { computed, onMounted } from 'vue'
+import { LayerType } from '@/models/enums/geo/LayerType'
 
 const myMapStore = useMyMapStore()
+const map = computed(() => myMapStore.myMap?.map)
+onMounted(() => {
+  if (myMapStore.isMapAlreadyBeenMounted) {
+    myMapStore.isLayersReorderingAlreadyTriggering = false
+    if (map.value?.loaded()) {
+      reloadAtlasMaps()
+    } else {
+      map.value?.on('load', async () => {
+        reloadAtlasMaps()
+      })
+    }
+  }
+})
+
+function reloadAtlasMaps() {
+  for (const item of myMapStore.legendList) {
+    if (item.layerType === LayerType.ATLAS_LAYER) {
+      myMapStore.updateAtlasLayersVisibility(item.id, false)
+    }
+  }
+  myMapStore.setMapLayersOrderOnMapReMount()
+}
 </script>
 
 <style lang="scss">

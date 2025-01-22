@@ -17,6 +17,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const isLeftSidebarShown = ref(true)
   const mapSearch: Ref<OsmData | null> = ref(null)
   const isMapAlreadyBeenMounted = ref(false)
+  const isLayersReorderingAlreadyTriggering = ref(false)
 
   const actorLayer: Ref<Layer | null> = ref(null)
   const actorSubLayers: Ref<Layer[]> = ref([])
@@ -84,20 +85,41 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     { deep: true }
   )
 
-  function updateLegendOrder() {
-    LegendService.updateLegendOrder(myMap.value?.map as maplibregl.Map, legendList)
+  function updateMapLayersOrder() {
+    LegendService.updateLayersOrder(myMap.value?.map as maplibregl.Map, legendList)
   }
 
   function updateAtlasSubLayersOrder(atlasMapLayer: AtlasLayerLegendItem) {
     LegendService.updateAtlasSubLayersOrder(atlasMapLayer, atlasThematicMaps)
     updateAtlasLayersVisibility(atlasMapLayer.id, false)
-    updateLegendOrder()
+  }
+
+  // When a user quit the map and come back, we wait for all the sources/layers to be loaded then we
+  // reorder the layers according to the legend
+  function setMapLayersOrderOnMapReMount() {
+    const map = myMap.value?.map as maplibregl.Map
+    if (!map) return
+    const sources = map.getStyle().sources
+    const numberOfSources = Object.keys(sources).length
+    const numberOfLegendItems = legendList.value.length
+    if (numberOfSources - 1 === numberOfLegendItems) {
+      if (map.loaded()) {
+        updateMapLayersOrder()
+      } else {
+        map.on('idle', () => {
+          if (isLayersReorderingAlreadyTriggering.value) return
+          updateMapLayersOrder()
+          isLayersReorderingAlreadyTriggering.value = true
+        })
+      }
+    }
   }
 
   return {
     isRightSidebarShown,
     isLeftSidebarShown,
     isMapAlreadyBeenMounted,
+    isLayersReorderingAlreadyTriggering,
     myMap,
     mapSearch,
     actorLayer,
@@ -109,7 +131,8 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     atlasThematicMaps,
     updateAtlasLayersVisibility,
     legendList,
-    updateLegendOrder,
-    updateAtlasSubLayersOrder
+    updateMapLayersOrder,
+    updateAtlasSubLayersOrder,
+    setMapLayersOrderOnMapReMount
   }
 })
