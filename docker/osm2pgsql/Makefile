@@ -34,7 +34,7 @@ download-osm-file:
 	wget -O $(DATA_DIR)/$(OSM_FILE) $(DOWNLOAD_URL)
 
 init-osm-db:
-	docker compose --profile osm up osm2pgsql
+	$(DOCKER_COMP) --profile osm up osm2pgsql
 	rm $(DATA_DIR)/$(OSM_FILE)
 
 
