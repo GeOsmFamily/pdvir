@@ -144,7 +144,7 @@ services:
       --database=${POSTGRES_DB}
       --user=${POSTGRES_GEODATA_USER}
       --host=${POSTGRES_HOST}
-      --port=${POSTGRES_PORT}
+      --port=5434
       --hstore
       --slim
       --schema=${POSTGRES_GEODATA_SCHEMA}
