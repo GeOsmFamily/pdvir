@@ -94,12 +94,11 @@ services:
     build:
       context: ./docker/qgis
       args:
-        - QGIS_SERVER_VERSION=${QGIS_SERVER_VERSION}
         - POSTGRES_HOST=${POSTGRES_HOST}
         - POSTGRES_PORT=${POSTGRES_PORT}
         - POSTGRES_DB=${POSTGRES_DB}
-        - POSTGRES_USER=${POSTGRES_GEODATA_USER}
-        - POSTGRES_PASSWORD=${POSTGRES_GEODATA_PASSWORD}
+        - POSTGRES_GEODATA_USER=${POSTGRES_GEODATA_USER}
+        - POSTGRES_GEODATA_PASSWORD=${POSTGRES_GEODATA_PASSWORD}
     environment:
       # Do not run the embedded copy of nginx
       # SKIP_NGINX: "true"
@@ -123,6 +122,8 @@ services:
       - qgis_projects:/io/data:ro
       # - ./docker/qgis/fonts:/usr/share/fonts # Causing nginx 404 issues
       # - ./docker/qgis/conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro # Mounted and edited by Dockerfile
+    depends_on:
+      - postgres
     restart: on-failure
 
 

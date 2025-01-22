@@ -1,4 +1,4 @@
-[puc_geodata]
+[puc]
 host=${POSTGRES_HOST}
 port=${POSTGRES_PORT}
 dbname=${POSTGRES_DB}
