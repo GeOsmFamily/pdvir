@@ -24,7 +24,7 @@ COMPOSER = $(DOCKER_EXEC_PHP) composer
 POSTGRES = $(DOCKER_EXEC_POSTGRES)
 
 dev: up show-urls
-build-dev: build-and-up show-urls
+build-dev: build-and-up create-osm-db show-urls
 
 init: build init-jwt-keypair init-hosts
 build-and-up: build up
@@ -63,7 +63,7 @@ build:
 build-no-cache:
 	$(DOCKER_COMP) build --no-cache
 
-deploy: build-and-up init-jwt-keypair cc create-osm-db
+deploy: build-and-up init-jwt-keypair cc
 
 docker-config:
 	$(DOCKER_COMP) config
