@@ -1,7 +1,7 @@
 <template>
   <div class="MyMapAtlas" :type="type">
-    <MyMapAtlasSummary :atlas="atlas" :type="type" v-if="hideDetails" />
-    <MyMapAtlasDetails :atlas="atlas" :type="type" v-else />
+    <MyMapAtlasSummary :atlas="atlas" :type="type" v-show="hideDetails" />
+    <MyMapAtlasDetails :atlas="atlas" :type="type" v-show="!hideDetails" />
   </div>
 </template>
 
