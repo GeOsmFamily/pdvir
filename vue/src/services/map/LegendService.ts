@@ -1,10 +1,52 @@
+import { ItemType } from '@/models/enums/app/ItemType'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
+import type { Layer } from '@/models/interfaces/map/Layer'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 import { i18n } from '@/plugins/i18n'
-import type { Ref } from 'vue'
+import { watch, type Ref } from 'vue'
 
 export class LegendService {
+  static watchAppLayersVisibilityChanges(
+    actorLayer: Ref<Layer | null>,
+    projectLayer: Ref<Layer | null>,
+    resourceLayer: Ref<Layer | null>,
+    legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]>,
+    atlasThematicMaps: Ref<AtlasMap[]>
+  ) {
+    watch(
+      [
+        () => actorLayer.value?.isShown,
+        () => projectLayer.value?.isShown,
+        () => resourceLayer.value?.isShown
+      ],
+      (
+        [actorIsShown, projectIsShown, resourceIsShown],
+        [prevActorIsShown, prevProjectIsShown, prevResourceIsShown]
+      ) => {
+        if (actorIsShown !== prevActorIsShown) {
+          this.updateLegendList(ItemType.ACTOR, LayerType.APP_LAYER, legendList, atlasThematicMaps)
+        }
+        if (projectIsShown !== prevProjectIsShown) {
+          this.updateLegendList(
+            ItemType.PROJECT,
+            LayerType.APP_LAYER,
+            legendList,
+            atlasThematicMaps
+          )
+        }
+        if (resourceIsShown !== prevResourceIsShown) {
+          this.updateLegendList(
+            ItemType.RESOURCE,
+            LayerType.APP_LAYER,
+            legendList,
+            atlasThematicMaps
+          )
+        }
+      },
+      { deep: true }
+    )
+  }
   static updateLegendList(
     layerId: string,
     layerType: LayerType,

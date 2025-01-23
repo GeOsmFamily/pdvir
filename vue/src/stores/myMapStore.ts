@@ -1,6 +1,6 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
-import { ref, watch, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import type { Layer } from '@/models/interfaces/map/Layer'
 import type Map from '@/components/map/Map.vue'
@@ -8,8 +8,8 @@ import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
 import { MapAtlasService } from '@/services/map/MapAtlasService'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 import { LayerType } from '@/models/enums/geo/LayerType'
-import { ItemType } from '@/models/enums/app/ItemType'
 import { LegendService } from '@/services/map/LegendService'
+import type { LngLatBounds } from 'maplibre-gl'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
@@ -29,6 +29,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const atlasThematicMaps: Ref<AtlasMap[]> = ref([]) // Updated from atlasStore
   let alreadyAddedImageSources: string[] = [] //Used to avoid triggering maplibre event as much time as the layer has been added to the map
   const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
+  const bbox: Ref<LngLatBounds | undefined> = ref(undefined)
 
   function updateAtlasLayersVisibility(qgismapId: string, updateLegend = true) {
     MapAtlasService.handleAtlasLayersVisibility(
@@ -48,42 +49,13 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     }
   }
 
-  watch(
-    [
-      () => actorLayer.value?.isShown,
-      () => projectLayer.value?.isShown,
-      () => resourceLayer.value?.isShown
-    ],
-    (
-      [actorIsShown, projectIsShown, resourceIsShown],
-      [prevActorIsShown, prevProjectIsShown, prevResourceIsShown]
-    ) => {
-      if (actorIsShown !== prevActorIsShown) {
-        LegendService.updateLegendList(
-          ItemType.ACTOR,
-          LayerType.APP_LAYER,
-          legendList,
-          atlasThematicMaps
-        )
-      }
-      if (projectIsShown !== prevProjectIsShown) {
-        LegendService.updateLegendList(
-          ItemType.PROJECT,
-          LayerType.APP_LAYER,
-          legendList,
-          atlasThematicMaps
-        )
-      }
-      if (resourceIsShown !== prevResourceIsShown) {
-        LegendService.updateLegendList(
-          ItemType.RESOURCE,
-          LayerType.APP_LAYER,
-          legendList,
-          atlasThematicMaps
-        )
-      }
-    },
-    { deep: true }
+  // Activate a watcher for app layers status
+  LegendService.watchAppLayersVisibilityChanges(
+    actorLayer,
+    projectLayer,
+    resourceLayer,
+    legendList,
+    atlasThematicMaps
   )
 
   function updateMapLayersOrder() {
@@ -135,6 +107,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     legendList,
     updateMapLayersOrder,
     updateAtlasSubLayersOrder,
-    setMapLayersOrderOnMapReMount
+    setMapLayersOrderOnMapReMount,
+    bbox
   }
 })

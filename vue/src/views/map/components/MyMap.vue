@@ -47,6 +47,15 @@ onMounted(() => {
     map.value.addControl(new IControl(toggleRightSidebarControl), 'top-right')
     map.value.addControl(new IControl(toggleLeftSidebarControl), 'top-left')
     map.value.addControl(new IControl(mapLegend), 'bottom-right')
+    // If map has already been visited, we set the previous bbox
+    if (myMapStore.bbox) {
+      map.value.fitBounds(myMapStore.bbox)
+    }
+    map.value.on('moveend', () => {
+      if (map.value?.getBounds()) {
+        myMapStore.bbox = map.value?.getBounds()
+      }
+    })
   }
 })
 
