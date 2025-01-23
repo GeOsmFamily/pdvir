@@ -74,7 +74,7 @@ export class MapAtlasService {
         const sourceExists = map.getSource(source)
         const layersToAdd = []
 
-        if (atlasMap.mainLayer.isShown) {
+        if (atlasMap.mainLayer.isShown || atlasMap.subLayers.some((layer) => layer.isShown)) {
           layersToAdd.push(
             ...atlasMap.subLayers.filter((layer) => layer.isShown).map((layer) => layer.name)
           )

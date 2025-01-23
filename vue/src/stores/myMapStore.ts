@@ -28,6 +28,8 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
 
   const atlasThematicMaps: Ref<AtlasMap[]> = ref([]) // Updated from atlasStore
   let alreadyAddedImageSources: string[] = [] //Used to avoid triggering maplibre event as much time as the layer has been added to the map
+  const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
+
   function updateAtlasLayersVisibility(qgismapId: string, updateLegend = true) {
     MapAtlasService.handleAtlasLayersVisibility(
       atlasThematicMaps.value,
@@ -46,7 +48,6 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     }
   }
 
-  const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
   watch(
     [
       () => actorLayer.value?.isShown,
@@ -100,13 +101,14 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     const map = myMap.value?.map as maplibregl.Map
     if (!map) return
     const sources = map.getStyle().sources
-    const numberOfSources = Object.keys(sources).length
+    const numberOfSources = Object.keys(sources).length - 1 //We don't want basemap provider's (Maptiler/Mapbox) source
     const numberOfLegendItems = legendList.value.length
-    if (numberOfSources - 1 === numberOfLegendItems) {
+    if (numberOfSources === numberOfLegendItems) {
       if (map.loaded()) {
         updateMapLayersOrder()
       } else {
         map.on('idle', () => {
+          // Avoid an infinite loop as layers ordering triggers 'idle' event
           if (isLayersReorderingAlreadyTriggering.value) return
           updateMapLayersOrder()
           isLayersReorderingAlreadyTriggering.value = true
