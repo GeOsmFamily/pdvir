@@ -10,6 +10,7 @@ import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfac
 import { LayerType } from '@/models/enums/geo/LayerType'
 import { LegendService } from '@/services/map/LegendService'
 import type { LngLatBounds } from 'maplibre-gl'
+import { MapStoreSerializationService } from '@/services/map/MapStoreSerializationService'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
@@ -30,6 +31,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   let alreadyAddedImageSources: string[] = [] //Used to avoid triggering maplibre event as much time as the layer has been added to the map
   const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
   const bbox: Ref<LngLatBounds | undefined> = ref(undefined)
+  const serializedMapState: Ref<string> = ref('')
 
   function updateAtlasLayersVisibility(qgismapId: string, updateLegend = true) {
     MapAtlasService.handleAtlasLayersVisibility(
@@ -89,6 +91,12 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     }
   }
 
+  function serializeMapState() {
+    serializedMapState.value = MapStoreSerializationService.serializeStore(useMyMapStore())
+    console.log(serializedMapState.value.length)
+    console.log(MapStoreSerializationService.deserializeStore(serializedMapState.value))
+  }
+
   return {
     isRightSidebarShown,
     isLeftSidebarShown,
@@ -108,6 +116,8 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     updateMapLayersOrder,
     updateAtlasSubLayersOrder,
     setMapLayersOrderOnMapReMount,
-    bbox
+    bbox,
+    serializeMapState,
+    serializedMapState
   }
 })

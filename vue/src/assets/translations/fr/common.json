@@ -191,5 +191,12 @@
     "list": {
         "resetFilters": "Réinitialiser les filtres",
         "filtersTitle": "Affinez votre recherche"
+    },
+    "share": {
+        "shareFb": "Partager sur Facebook",
+        "shareEmail": "Partager par email",
+        "copyLink": "Copier le lien",
+        "urlCopied": "Lien copié",
+        "mailSubject": "Plateforme Urbaine du Cameroun - Partage de données"
     }
 }
