@@ -12,6 +12,7 @@ import { LegendService } from '@/services/map/LegendService'
 import type { LngLatBounds } from 'maplibre-gl'
 import { MapStoreSerializationService } from '@/services/map/MapStoreSerializationService'
 import { AppLayersService } from '@/services/map/AppLayersService'
+import type { MapState } from '@/models/interfaces/map/MapState'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
@@ -33,9 +34,21 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
   const bbox: Ref<LngLatBounds | undefined> = ref(undefined)
   const serializedMapState: Ref<string> = ref('')
-
+  const deserializedMapState: Ref<MapState | null> = ref(null)
   async function initMapLayers() {
     await AppLayersService.initApplicationLayers(useMyMapStore())
+    deserializedMapState.value = null
+  }
+
+  function getSerializedMapState(): string {
+    return MapStoreSerializationService.serializeStore(useMyMapStore())
+  }
+
+  function deserializeMapState() {
+    deserializedMapState.value = MapStoreSerializationService.deserializeStore(
+      serializedMapState.value
+    )
+    serializedMapState.value = ''
   }
 
   function updateAtlasLayersVisibility(qgismapId: string, updateLegend = true) {
@@ -96,12 +109,6 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     }
   }
 
-  function serializeMapState() {
-    serializedMapState.value = MapStoreSerializationService.serializeStore(useMyMapStore())
-    console.log(serializedMapState.value.length)
-    console.log(MapStoreSerializationService.deserializeStore(serializedMapState.value))
-  }
-
   return {
     isRightSidebarShown,
     isLeftSidebarShown,
@@ -123,7 +130,9 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     updateAtlasSubLayersOrder,
     setMapLayersOrderOnMapReMount,
     bbox,
-    serializeMapState,
-    serializedMapState
+    getSerializedMapState,
+    serializedMapState,
+    deserializedMapState,
+    deserializeMapState
   }
 })

@@ -22,6 +22,12 @@ const myMapStore = useMyMapStore()
 const map = computed(() => myMapStore.myMap?.map)
 const route = useRoute()
 onMounted(() => {
+  if (route.query.mapState) {
+    myMapStore.serializedMapState = route.query.mapState as string
+    myMapStore.deserializeMapState()
+    myMapStore.initMapLayers()
+    return
+  }
   if (myMapStore.isMapAlreadyBeenMounted) {
     myMapStore.isLayersReorderingAlreadyTriggering = false
     if (map.value?.loaded()) {
@@ -31,10 +37,8 @@ onMounted(() => {
         reloadAtlasMaps()
       })
     }
-  }
-  myMapStore.serializedMapState = ''
-  if (route.query.mapState) {
-    myMapStore.serializedMapState = route.query.mapState as string
+  } else {
+    myMapStore.initMapLayers()
   }
 })
 

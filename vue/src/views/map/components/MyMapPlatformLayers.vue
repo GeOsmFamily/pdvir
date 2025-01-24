@@ -21,17 +21,13 @@
 <script setup lang="ts">
 import { ItemType } from '@/models/enums/app/ItemType'
 import MyMapLayerPicker from '@/views/map/components/MyMapLayerPicker.vue'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { AppLayersService } from '@/services/map/AppLayersService'
 
 const myMapStore = useMyMapStore()
-
 const myMap = computed(() => myMapStore.myMap)
 
-onMounted(async () => {
-  myMapStore.initMapLayers()
-})
 const refreshLayer = (itemType: ItemType) => {
   if (myMap.value) {
     myMap.value.setData(itemType, AppLayersService.getGeojsonPerItemType(itemType))

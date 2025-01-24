@@ -56,8 +56,8 @@ const mapUrl = ref('')
 const emailBody = ref('')
 
 function getSharedMapLink() {
-  myMapStore.serializeMapState()
-  const url = window.location.href + '?mapState=' + myMapStore.serializedMapState
+  const serializedMapState = myMapStore.getSerializedMapState()
+  const url = window.location.href + '?mapState=' + serializedMapState
   if (url.length > 2048) {
     addNotification(i18n.t('myMap.header.linkTooLong'), NotificationType.ERROR)
     return

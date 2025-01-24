@@ -169,6 +169,7 @@ const changeSubLayer = () => {
 }
 
 const editAllSubLayers = (show = true) => {
+  if (myMapStore.deserializedMapState) return
   if (subLayers.value === undefined) return
   subLayers.value.forEach((subLayer, key) => {
     if (subLayers.value) {

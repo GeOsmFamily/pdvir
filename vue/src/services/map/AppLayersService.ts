@@ -3,7 +3,6 @@ import { i18n } from '@/plugins/i18n'
 import { useActorsStore } from '@/stores/actorsStore'
 import { useProjectStore } from '@/stores/projectStore'
 import { useResourceStore } from '@/stores/resourceStore'
-import type { StoreGeneric } from 'pinia'
 import { computed, type ComputedRef } from 'vue'
 import LayerService from './LayerService'
 import projectLayerIcon from '@/assets/images/icons/map/project_icon.png'
@@ -14,9 +13,10 @@ import MapService from './MapService'
 import type { ThematicItem } from '@/models/interfaces/common/ThematicItem'
 import type { Layer } from '@/models/interfaces/map/Layer'
 import type { Thematic } from '@/models/interfaces/Thematic'
+import type { MyMapStoreType } from '@/models/interfaces/MapStore'
 
 export class AppLayersService {
-  static mapStore: StoreGeneric | null = null
+  static mapStore: MyMapStoreType | null = null
   static actorStore = useActorsStore()
   static projectStore = useProjectStore()
   static resourceStore = useResourceStore()
@@ -24,16 +24,22 @@ export class AppLayersService {
   static myMapComponent: ComputedRef<any> | null = null
   static map: ComputedRef<maplibregl.Map> | null = null
   static filteredProjects = computed(() => {
-    return this.filterByThematic(this.projectStore.projects, this.mapStore?.projectSubLayers)
+    return this.filterByThematic(
+      this.projectStore.projects,
+      this.mapStore?.projectSubLayers as Layer[]
+    )
   })
   static filteredActors = computed(() => {
-    return this.filterByThematic(this.actorStore.actors, this.mapStore?.actorSubLayers)
+    return this.filterByThematic(this.actorStore.actors, this.mapStore?.actorSubLayers as Layer[])
   })
   static filteredResources = computed(() => {
-    return this.filterByThematic(this.resourceStore.resources, this.mapStore?.resourceSubLayers)
+    return this.filterByThematic(
+      this.resourceStore.resources,
+      this.mapStore?.resourceSubLayers as Layer[]
+    )
   })
 
-  static async initApplicationLayers(mapStore: StoreGeneric): Promise<void> {
+  static async initApplicationLayers(mapStore: MyMapStoreType): Promise<void> {
     try {
       this.mapStore = mapStore
       await this.thematicStore.getAll()
@@ -73,27 +79,77 @@ export class AppLayersService {
   }
 
   static initMainLayers() {
-    this.mapStore!.projectLayer = LayerService.initLayer({
-      id: ItemType.PROJECT,
-      name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.PROJECT),
-      icon: projectLayerIcon
-    })
-    this.mapStore!.actorLayer = LayerService.initLayer({
-      id: ItemType.ACTOR,
-      name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.ACTOR),
-      icon: actorLayerIcon
-    })
-    this.mapStore!.resourceLayer = LayerService.initLayer({
-      id: ItemType.RESOURCE,
-      name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.RESOURCE),
-      icon: resourceLayerIcon
-    })
+    let showProject = true,
+      showActor = true,
+      showResource = true
+    if (this.mapStore?.deserializedMapState) {
+      if (!this.mapStore.deserializedMapState?.layers?.projects) {
+        showProject = false
+      }
+      if (!this.mapStore.deserializedMapState?.layers?.actors) {
+        showActor = false
+      }
+      if (!this.mapStore.deserializedMapState?.layers?.resources) {
+        showResource = false
+      }
+    }
+
+    this.mapStore!.projectLayer = LayerService.initLayer(
+      {
+        id: ItemType.PROJECT,
+        name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.PROJECT),
+        icon: projectLayerIcon
+      },
+      showProject
+    )
+    this.mapStore!.actorLayer = LayerService.initLayer(
+      {
+        id: ItemType.ACTOR,
+        name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.ACTOR),
+        icon: actorLayerIcon
+      },
+      showActor
+    )
+    this.mapStore!.resourceLayer = LayerService.initLayer(
+      {
+        id: ItemType.RESOURCE,
+        name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.RESOURCE),
+        icon: resourceLayerIcon
+      },
+      showResource
+    )
   }
 
   static initSubLayers() {
-    this.mapStore!.projectSubLayers = LayerService.initSubLayer(this.thematicStore.thematics)
-    this.mapStore!.actorSubLayers = LayerService.initSubLayer(this.thematicStore.thematics)
-    this.mapStore!.resourceSubLayers = LayerService.initSubLayer(this.thematicStore.thematics)
+    console.log(this.mapStore?.deserializedMapState?.layers?.projects)
+    let projectThematics = this.thematicStore.thematics
+    let actorsThematics = this.thematicStore.thematics
+    let resourcesThematics = this.thematicStore.thematics
+    if (this.mapStore?.deserializedMapState) {
+      projectThematics = projectThematics.map((x) => {
+        return {
+          ...x,
+          isShown: this.mapStore?.deserializedMapState?.layers?.projects?.includes(x.id)
+        }
+      })
+
+      actorsThematics = actorsThematics.map((x) => {
+        return {
+          ...x,
+          isShown: this.mapStore?.deserializedMapState?.layers?.actors?.includes(x.id)
+        }
+      })
+
+      resourcesThematics = resourcesThematics.map((x) => {
+        return {
+          ...x,
+          isShown: this.mapStore?.deserializedMapState?.layers?.resources?.includes(x.id)
+        }
+      })
+    }
+    this.mapStore!.projectSubLayers = LayerService.initSubLayer(projectThematics)
+    this.mapStore!.actorSubLayers = LayerService.initSubLayer(actorsThematics)
+    this.mapStore!.resourceSubLayers = LayerService.initSubLayer(resourcesThematics)
   }
 
   static async setPlatformDataLayers() {
