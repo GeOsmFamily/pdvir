@@ -8,7 +8,7 @@ import { NotificationType } from '@/models/enums/app/NotificationType'
 import type { Atlas } from '@/models/interfaces/Atlas'
 import { AtlasService } from '@/services/atlas/AtlasService'
 import { useMyMapStore } from './myMapStore'
-import { MapAtlasService } from '@/services/map/MapAtlasService'
+import { AtlasMapService } from '@/services/map/AtlasMapService'
 
 export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
   const atlasList: Ref<Atlas[]> = ref([])
@@ -25,7 +25,7 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
     const myMapStore = useMyMapStore()
     myMapStore.atlasThematicMaps = []
     for (const atlas of atlasList.value) {
-      const atlasLayers = await MapAtlasService.setAtlasLayers(atlas)
+      const atlasLayers = await AtlasMapService.setAtlasLayers(atlas)
       myMapStore.atlasThematicMaps.push(...atlasLayers)
     }
   })

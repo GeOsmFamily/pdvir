@@ -5,12 +5,13 @@ import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import type { Layer } from '@/models/interfaces/map/Layer'
 import type Map from '@/components/map/Map.vue'
 import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
-import { MapAtlasService } from '@/services/map/MapAtlasService'
+import { AtlasMapService } from '@/services/map/AtlasMapService'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import { LegendService } from '@/services/map/LegendService'
 import type { LngLatBounds } from 'maplibre-gl'
 import { MapStoreSerializationService } from '@/services/map/MapStoreSerializationService'
+import { AppLayersService } from '@/services/map/AppLayersService'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
@@ -33,8 +34,12 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const bbox: Ref<LngLatBounds | undefined> = ref(undefined)
   const serializedMapState: Ref<string> = ref('')
 
+  async function initMapLayers() {
+    await AppLayersService.initApplicationLayers(useMyMapStore())
+  }
+
   function updateAtlasLayersVisibility(qgismapId: string, updateLegend = true) {
-    MapAtlasService.handleAtlasLayersVisibility(
+    AtlasMapService.handleAtlasLayersVisibility(
       atlasThematicMaps.value,
       myMap.value?.map,
       qgismapId,
@@ -111,6 +116,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     resourceLayer,
     resourceSubLayers,
     atlasThematicMaps,
+    initMapLayers,
     updateAtlasLayersVisibility,
     legendList,
     updateMapLayersOrder,

@@ -16,9 +16,11 @@ import MyMapRightSideBar from '@/views/map/components/MyMapRightSideBar.vue'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, onMounted } from 'vue'
 import { LayerType } from '@/models/enums/geo/LayerType'
+import { useRoute } from 'vue-router'
 
 const myMapStore = useMyMapStore()
 const map = computed(() => myMapStore.myMap?.map)
+const route = useRoute()
 onMounted(() => {
   if (myMapStore.isMapAlreadyBeenMounted) {
     myMapStore.isLayersReorderingAlreadyTriggering = false
@@ -29,6 +31,10 @@ onMounted(() => {
         reloadAtlasMaps()
       })
     }
+  }
+  myMapStore.serializedMapState = ''
+  if (route.query.mapState) {
+    myMapStore.serializedMapState = route.query.mapState as string
   }
 })
 
