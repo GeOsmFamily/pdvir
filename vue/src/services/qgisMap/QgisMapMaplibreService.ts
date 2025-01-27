@@ -72,7 +72,8 @@ export class QgisMapMaplibreService {
       source: sourceName,
       paint: {
         'raster-fade-duration': 0
-      }
+      },
+      metadata: { isPersistent: true }
     })
 
     // Check if the layer has been already added to the map
@@ -115,7 +116,8 @@ export class QgisMapMaplibreService {
       id: sourceName,
       type: 'raster',
       source: sourceName,
-      paint: {}
+      paint: {},
+      metadata: { isPersistent: true }
     })
   }
 
