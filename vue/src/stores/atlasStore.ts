@@ -7,6 +7,8 @@ import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import type { Atlas } from '@/models/interfaces/Atlas'
 import { AtlasService } from '@/services/atlas/AtlasService'
+import { useMyMapStore } from './myMapStore'
+import { AtlasMapService } from '@/services/map/AtlasMapService'
 
 export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
   const atlasList: Ref<Atlas[]> = ref([])
@@ -17,16 +19,6 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
       atlasList.value = await AtlasService.getAll()
     }
   }
-
-  // Build atlases list for the map
-  // watch(atlasList, async () => {
-  //   const myMapStore = useMyMapStore()
-  //   myMapStore.atlasThematicMaps = []
-  //   for (const atlas of atlasList.value) {
-  //     const atlasLayers = await AtlasMapService.setAtlasLayers(atlas)
-  //     myMapStore.atlasThematicMaps.push(...atlasLayers)
-  //   }
-  // })
 
   const submitAtlas = async (atlas: Atlas, type: FormType, withNotification = true) => {
     const submittedAtlas =
@@ -43,6 +35,10 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
     if (withNotification) {
       addNotification(i18n.t(`notifications.atlas.${type}`), NotificationType.SUCCESS)
     }
+    // Add new atlas to the map
+    const myMapStore = useMyMapStore()
+    const atlasLayer = await AtlasMapService.setAtlasLayers(submittedAtlas)
+    myMapStore.atlasThematicMaps.push(...atlasLayer)
     return submittedAtlas
   }
 
