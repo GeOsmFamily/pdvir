@@ -37,8 +37,25 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const deserializedMapState: Ref<MapState | null> = ref(null)
   async function initMapLayers() {
     await AppLayersService.initApplicationLayers(useMyMapStore())
+    await AtlasMapService.initAtlasLayers(useMyMapStore())
+    if (deserializedMapState.value) {
+      for (const thematicMap of atlasThematicMaps.value) {
+        if (thematicMap.mainLayer.isShown) {
+          updateAtlasLayersVisibility(thematicMap.id)
+        }
+      }
+    }
     deserializedMapState.value = null
   }
+
+  // Activate a watcher for app layers status
+  LegendService.watchAppLayersVisibilityChanges(
+    actorLayer,
+    projectLayer,
+    resourceLayer,
+    legendList,
+    atlasThematicMaps
+  )
 
   function getSerializedMapState(): string {
     return MapStoreSerializationService.serializeStore(useMyMapStore())
@@ -68,15 +85,6 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
       )
     }
   }
-
-  // Activate a watcher for app layers status
-  LegendService.watchAppLayersVisibilityChanges(
-    actorLayer,
-    projectLayer,
-    resourceLayer,
-    legendList,
-    atlasThematicMaps
-  )
 
   function updateMapLayersOrder() {
     LegendService.updateLayersOrder(myMap.value?.map as maplibregl.Map, legendList)

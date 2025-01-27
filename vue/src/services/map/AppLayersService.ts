@@ -121,7 +121,6 @@ export class AppLayersService {
   }
 
   static initSubLayers() {
-    console.log(this.mapStore?.deserializedMapState?.layers?.projects)
     let projectThematics = this.thematicStore.thematics
     let actorsThematics = this.thematicStore.thematics
     let resourcesThematics = this.thematicStore.thematics

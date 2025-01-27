@@ -19,12 +19,8 @@ import MyMapPlatformLayers from '@/views/map/components/MyMapPlatformLayers.vue'
 import MyMapAtlasesList from '@/views/map/components/Atlases/MyMapAtlasesList.vue'
 import { useAtlasStore } from '@/stores/atlasStore'
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
-import { onMounted } from 'vue'
 
 const atlasStore = useAtlasStore()
-onMounted(() => {
-  atlasStore.getAll()
-})
 </script>
 
 <style lang="scss">

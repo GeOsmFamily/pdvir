@@ -4,24 +4,34 @@ import type { AtlasLayer } from '@/models/interfaces/map/Layer'
 import { QgisMapMaplibreService } from '../qgisMap/QgisMapMaplibreService'
 import { apiClient } from '@/plugins/axios/api'
 import { fetchImageAsBase64 } from '../utils/UtilsService'
-import { useMyMapStore } from '@/stores/myMapStore'
+import { useAtlasStore } from '@/stores/atlasStore'
+import type { MyMapStoreType } from '@/models/interfaces/MapStore'
 
 export class AtlasMapService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
+  static mapStore: MyMapStoreType | null = null
+  static atlasStore = useAtlasStore()
+
+  static async initAtlasLayers(mapStore: MyMapStoreType): Promise<void> {
+    this.mapStore = mapStore
+    await this.atlasStore.getAll()
+    for (const atlas of this.atlasStore.atlasList) {
+      const atlasLayers = await this.setAtlasLayers(atlas)
+      this.mapStore.atlasThematicMaps.push(...atlasLayers)
+    }
+  }
 
   static async setAtlasLayers(atlas: Atlas): Promise<AtlasMap[]> {
-    const mapStore = useMyMapStore()
-
     const atlasMaps: AtlasMap[] = []
     for (const map of atlas.maps) {
       let isMainLayerShown = false
       const activeSubLayers: string[] = []
-      if (mapStore.deserializedMapState) {
-        isMainLayerShown = !!mapStore.deserializedMapState.layers.atlasMaps?.some(
+      if (this.mapStore?.deserializedMapState) {
+        isMainLayerShown = !!this.mapStore.deserializedMapState.layers.atlasMaps?.some(
           (atlasMap) => atlasMap.id === map['@id']
         )
         if (isMainLayerShown) {
-          const atlasMap = mapStore.deserializedMapState.layers.atlasMaps?.find(
+          const atlasMap = this.mapStore.deserializedMapState.layers.atlasMaps?.find(
             (atlasMap) => atlasMap.id === map['@id']
           )
           if (atlasMap) {
