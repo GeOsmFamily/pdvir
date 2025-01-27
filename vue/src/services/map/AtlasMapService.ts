@@ -4,17 +4,36 @@ import type { AtlasLayer } from '@/models/interfaces/map/Layer'
 import { QgisMapMaplibreService } from '../qgisMap/QgisMapMaplibreService'
 import { apiClient } from '@/plugins/axios/api'
 import { fetchImageAsBase64 } from '../utils/UtilsService'
+import { useMyMapStore } from '@/stores/myMapStore'
 
 export class AtlasMapService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
 
   static async setAtlasLayers(atlas: Atlas): Promise<AtlasMap[]> {
+    const mapStore = useMyMapStore()
+
     const atlasMaps: AtlasMap[] = []
     for (const map of atlas.maps) {
+      let isMainLayerShown = false
+      const activeSubLayers: string[] = []
+      if (mapStore.deserializedMapState) {
+        isMainLayerShown = !!mapStore.deserializedMapState.layers.atlasMaps?.some(
+          (atlasMap) => atlasMap.id === map['@id']
+        )
+        if (isMainLayerShown) {
+          const atlasMap = mapStore.deserializedMapState.layers.atlasMaps?.find(
+            (atlasMap) => atlasMap.id === map['@id']
+          )
+          if (atlasMap) {
+            activeSubLayers.push(...atlasMap.subLayers)
+          }
+        }
+      }
+
       const mainLayer: AtlasLayer = {
         id: map['@id'],
         name: map.name,
-        isShown: false,
+        isShown: isMainLayerShown,
         icon: map.logo.contentUrl,
         opacity: 1,
         atlasGroup: atlas.atlasGroup
@@ -23,7 +42,7 @@ export class AtlasMapService {
         map.qgisProject.layers?.map(async (item) => ({
           id: item,
           name: item,
-          isShown: false,
+          isShown: activeSubLayers.includes(item),
           icon: await this.getSubLayerIcon(item, map.qgisProject.name),
           opacity: 1,
           mapOrder: 0, //Used for change layer order in Qgis Server requests, updated from the legend component
