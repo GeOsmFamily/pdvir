@@ -24,15 +24,23 @@ export class LegendService {
         [actorIsShown, projectIsShown, resourceIsShown],
         [prevActorIsShown, prevProjectIsShown, prevResourceIsShown]
       ) => {
+        console.log(prevActorIsShown, actorIsShown)
         if (actorIsShown !== prevActorIsShown) {
-          this.updateLegendList(ItemType.ACTOR, LayerType.APP_LAYER, legendList, atlasThematicMaps)
+          this.updateLegendList(
+            ItemType.ACTOR,
+            LayerType.APP_LAYER,
+            legendList,
+            atlasThematicMaps,
+            actorIsShown
+          )
         }
         if (projectIsShown !== prevProjectIsShown) {
           this.updateLegendList(
             ItemType.PROJECT,
             LayerType.APP_LAYER,
             legendList,
-            atlasThematicMaps
+            atlasThematicMaps,
+            projectIsShown
           )
         }
         if (resourceIsShown !== prevResourceIsShown) {
@@ -40,7 +48,8 @@ export class LegendService {
             ItemType.RESOURCE,
             LayerType.APP_LAYER,
             legendList,
-            atlasThematicMaps
+            atlasThematicMaps,
+            resourceIsShown
           )
         }
       },
@@ -51,7 +60,8 @@ export class LegendService {
     layerId: string,
     layerType: LayerType,
     legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]>,
-    atlasThematicMaps: Ref<AtlasMap[]>
+    atlasThematicMaps: Ref<AtlasMap[]>,
+    isShown = true
   ) {
     const existingEntry = legendList.value.find((x) => x.id === layerId)
     if (existingEntry) {
@@ -80,6 +90,7 @@ export class LegendService {
         })
       }
     } else {
+      if (!isShown) return
       if (layerType === LayerType.APP_LAYER) {
         legendList.value.push({
           id: layerId,
