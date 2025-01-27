@@ -44,6 +44,12 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
           updateAtlasLayersVisibility(thematicMap.id)
         }
       }
+      legendList.value.sort((a, b) => {
+        const indexA = deserializedMapState.value!.order.indexOf(a.id)
+        const indexB = deserializedMapState.value!.order.indexOf(b.id)
+        return indexA - indexB
+      })
+      updateMapLayersOrder()
     }
     deserializedMapState.value = null
   }

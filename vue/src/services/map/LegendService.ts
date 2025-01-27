@@ -24,7 +24,6 @@ export class LegendService {
         [actorIsShown, projectIsShown, resourceIsShown],
         [prevActorIsShown, prevProjectIsShown, prevResourceIsShown]
       ) => {
-        console.log(prevActorIsShown, actorIsShown)
         if (actorIsShown !== prevActorIsShown) {
           this.updateLegendList(
             ItemType.ACTOR,

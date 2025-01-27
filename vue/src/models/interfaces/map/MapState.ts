@@ -11,4 +11,5 @@ export interface MapState {
     }[]
   }
   bbox: LngLatBounds
+  order: string[]
 }
