@@ -1,27 +1,31 @@
 <template>
-  <div class="MyMapAtlasPicker">
-    <v-checkbox v-model="checked" />
+  <div class="MyMapAtlasPicker ml-3" v-for="map in props.atlas.maps" :key="map['@id']">
+    <v-checkbox
+      hide-details
+      @update:modelValue="(newValue) => handleCheckboxChange(map['@id'], newValue as boolean)"
+    />
     <div class="MyMapAtlasPicker__descCtn">
-      <img :src="atlas.logo.contentUrl" :alt="atlas.name" />
-      <div class="MyMapAtlasPicker__desc">
-        <span>{{ atlas.name }}</span>
-        <span>{{ atlas.maps.length }} cartes</span>
+      <img :src="map.logo.contentUrl" :alt="atlas.name" />
+      <div class="MyMapAtlasPicker__desc ml-2">
+        <span>{{ map.name }}</span>
+        <span>
+          {{ map.qgisProject.layers?.length }}
+          {{ $t('myMap.atlases.data', { count: atlas.maps.length }) }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import type { Atlas } from '@/models/interfaces/Atlas'
-import { ref, watch } from 'vue'
-defineProps<{
+const props = defineProps<{
   atlas: Atlas
 }>()
 
-const checked = ref(false)
 const emits = defineEmits(['update'])
-watch(checked, (value) => {
-  emits('update', value)
-})
+function handleCheckboxChange(id: string, value: boolean) {
+  emits('update', id, value)
+}
 </script>
 
 <style lang="scss">

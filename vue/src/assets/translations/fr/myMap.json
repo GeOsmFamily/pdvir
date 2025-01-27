@@ -38,7 +38,8 @@
     "atlases": {
       "thematicData": "Données thématiques",
       "predefinedData": "Cartes prédéfinies",
-      "data": "Donnée | Données"
+      "data": "Donnée | Données",
+      "map": "Carte | Cartes"
     },
     "legend": {
       "title": "Légende"

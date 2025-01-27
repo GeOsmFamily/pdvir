@@ -10,7 +10,7 @@
       <div class="MyMapAtlas__desc ml-2">
         <div class="MyMapAtlas__title">{{ atlas.name }}</div>
         <div class="MyMapAtlas__details">
-          {{ atlas.maps.length }} {{ $t('myMap.atlases.data', { count: atlas.maps.length }) }}
+          {{ atlas.maps.length }} {{ $t('myMap.atlases.map', { count: atlas.maps.length }) }}
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@
       />
     </template>
     <template v-else>
-      <MyMapAtlasPicker :atlas="atlas" @update="updatePreDefinedMap($event)" />
+      <MyMapAtlasPicker :atlas="atlas" @update="updatePreDefinedMap" />
     </template>
   </div>
 </template>
@@ -47,7 +47,7 @@ import MyMapAtlasPicker from '@/views/map/components/Atlases/MyMapAtlasPicker.vu
 const hideDetails = inject('hideDetails')
 const myMapStore = useMyMapStore()
 
-const props = defineProps<{
+defineProps<{
   atlas: Atlas
   type: AtlasGroup
 }>()
@@ -56,17 +56,15 @@ const updateThematicData = (qgismapId: string) => {
   myMapStore.updateAtlasLayersVisibility(qgismapId)
 }
 
-const updatePreDefinedMap = (value: boolean) => {
-  for (const map of props.atlas.maps) {
-    for (const storeMap of myMapStore.atlasThematicMaps) {
-      if (storeMap.id === map['@id']) {
-        storeMap.mainLayer.isShown = value
-        storeMap.subLayers.forEach((subLayer) => {
-          subLayer.isShown = value
-        })
-      }
+const updatePreDefinedMap = (id: string, value: boolean) => {
+  for (const storeMap of myMapStore.atlasThematicMaps) {
+    if (storeMap.id === id) {
+      storeMap.mainLayer.isShown = value
+      storeMap.subLayers.forEach((subLayer) => {
+        subLayer.isShown = value
+      })
     }
-    myMapStore.updateAtlasLayersVisibility(map['@id'])
   }
+  myMapStore.updateAtlasLayersVisibility(id)
 }
 </script>
