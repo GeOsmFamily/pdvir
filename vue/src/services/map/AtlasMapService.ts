@@ -4,16 +4,19 @@ import type { AtlasLayer } from '@/models/interfaces/map/Layer'
 import { QgisMapMaplibreService } from '../qgisMap/QgisMapMaplibreService'
 import { apiClient } from '@/plugins/axios/api'
 import { fetchImageAsBase64 } from '../utils/UtilsService'
-import { useAtlasStore } from '@/stores/atlasStore'
-import type { MyMapStoreType } from '@/models/interfaces/MapStore'
+import type { AtlasStoreType, MyMapStoreType } from '@/models/interfaces/Stores'
 
 export class AtlasMapService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
   static mapStore: MyMapStoreType | null = null
-  static atlasStore = useAtlasStore()
+  static atlasStore: AtlasStoreType | null = null
 
-  static async initAtlasLayers(mapStore: MyMapStoreType): Promise<void> {
+  static async initAtlasLayers(
+    mapStore: MyMapStoreType,
+    atlasStore: AtlasStoreType
+  ): Promise<void> {
     this.mapStore = mapStore
+    this.atlasStore = atlasStore
     await this.atlasStore.getAll()
     for (const atlas of this.atlasStore.atlasList) {
       const atlasLayers = await this.setAtlasLayers(atlas)

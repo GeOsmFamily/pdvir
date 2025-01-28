@@ -13,7 +13,7 @@ import MapService from './MapService'
 import type { ThematicItem } from '@/models/interfaces/common/ThematicItem'
 import type { Layer } from '@/models/interfaces/map/Layer'
 import type { Thematic } from '@/models/interfaces/Thematic'
-import type { MyMapStoreType } from '@/models/interfaces/MapStore'
+import type { MyMapStoreType } from '@/models/interfaces/Stores'
 
 export class AppLayersService {
   static mapStore: MyMapStoreType | null = null

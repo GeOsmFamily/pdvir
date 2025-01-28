@@ -13,6 +13,7 @@ import type { LngLatBounds } from 'maplibre-gl'
 import { MapStoreSerializationService } from '@/services/map/MapStoreSerializationService'
 import { AppLayersService } from '@/services/map/AppLayersService'
 import type { MapState } from '@/models/interfaces/map/MapState'
+import { useAtlasStore } from './atlasStore'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
@@ -37,7 +38,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const deserializedMapState: Ref<MapState | null> = ref(null)
   async function initMapLayers() {
     await AppLayersService.initApplicationLayers(useMyMapStore())
-    await AtlasMapService.initAtlasLayers(useMyMapStore())
+    await AtlasMapService.initAtlasLayers(useMyMapStore(), useAtlasStore())
     if (deserializedMapState.value) {
       for (const thematicMap of atlasThematicMaps.value) {
         if (thematicMap.mainLayer.isShown) {

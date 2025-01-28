@@ -1,7 +1,7 @@
 import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
 import type { Layer } from '@/models/interfaces/map/Layer'
 import type { MapState } from '@/models/interfaces/map/MapState'
-import type { MyMapStoreType } from '@/models/interfaces/MapStore'
+import type { MyMapStoreType } from '@/models/interfaces/Stores'
 import type { LngLatBounds } from 'maplibre-gl'
 
 export class MapStoreSerializationService {
