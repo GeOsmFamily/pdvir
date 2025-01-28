@@ -158,16 +158,21 @@ const router = createRouter({
           path: 'maps',
           name: 'adminMaps',
           component: AdminMaps,
-          redirect: () => ({ name: 'adminLeftAtlases' }),
+          redirect: () => ({ name: 'adminPredefinedMaps' }),
           children: [
             {
-              name: 'adminLeftAtlases',
+              name: 'adminPredefinedMaps',
               path: 'observatory',
-              component: () => import('@/views/admin/components/admin-maps/AdminLeftAtlases.vue')
+              component: () => import('@/views/admin/components/admin-maps/AdminPredefinedMaps.vue')
+            },
+            {
+              name: 'adminThematicMaps',
+              path: 'catalogue',
+              component: () => import('@/views/admin/components/admin-maps/AdminThematicMaps.vue')
             },
             {
               name: 'adminQgisMaps',
-              path: 'qgis-maps',
+              path: 'data',
               component: () => import('@/views/admin/components/admin-maps/AdminQgisMaps.vue')
             }
           ]

@@ -36,6 +36,7 @@
         "leftMaps:": "Carte",
         "thematicData": "Données thématiques",
         "predefinedMap": "Cartes prédefinies",
+        "data": "Donnée | Données",
         "form": {
             "title": {
                 "create": "Ajouter un Atlas",

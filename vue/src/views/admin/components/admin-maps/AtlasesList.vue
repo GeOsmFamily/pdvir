@@ -34,7 +34,6 @@ import AtlasForm from './AtlasForm.vue'
 import { FormType } from '@/models/enums/app/FormType'
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import type { Atlas } from '@/models/interfaces/Atlas'
-import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 import { useAtlasStore } from '@/stores/atlasStore'
 import { useQgisMapStore } from '@/stores/qgisMapStore'
 import { type Ref, ref, computed, onMounted, watch } from 'vue'
@@ -44,40 +43,28 @@ const props = defineProps<{
 }>()
 const qgisStore = useQgisMapStore()
 const atlasStore = useAtlasStore()
-const atlasGroup: Ref<AtlasGroup.THEMATIC_DATA | AtlasGroup.PREDEFINED_MAP> = ref(
-  props.atlasesPanel
-)
 const formType: Ref<FormType> = ref(FormType.CREATE)
 const atlasToEdit: Ref<Atlas | null> = ref(null)
 const isFormShown = computed(() => atlasStore.isFormShown)
-const atlasesList = ref<Atlas[]>([]) // Atlases list needs to be a Ref object to be used with Draggable lib
 
 onMounted(async () => {
   await qgisStore.getAll()
   await atlasStore.getAll()
-  updateAtlasesList()
+  updateFilteredAtlas()
 })
-function updateAtlasesList() {
-  atlasesList.value = atlasStore.atlasList
-    .filter((atlas) =>
-      atlasGroup.value === AtlasGroup.PREDEFINED_MAP
-        ? atlas.atlasGroup === AtlasGroup.PREDEFINED_MAP
-        : atlas.atlasGroup === AtlasGroup.THEMATIC_DATA
-    )
-    .sort((a, b) => a.position - b.position)
-}
+
 watch(
-  [atlasGroup, () => atlasStore.atlasList, () => atlasStore.atlasList.length],
-  updateAtlasesList,
+  () => atlasStore.atlasList,
+  () => updateFilteredAtlas(),
   { deep: true }
 )
 
 function dragAtlases() {
-  atlasesList.value.forEach((item, index) => {
-    item.position = index + 1
-    item = nestedObjectsToIri(item)
-    atlasStore.submitAtlas(item, FormType.EDIT, false)
-  })
+  //   atlasesList.value.forEach((item, index) => {
+  //     item.position = index + 1
+  //     item = nestedObjectsToIri(item)
+  //     atlasStore.submitAtlas(item, FormType.EDIT, false)
+  //   })
 }
 
 function createAtlas() {
@@ -98,17 +85,35 @@ const sortedAtlases = computed(() => {
   return atlasStore.atlasList.filter((x) => x.atlasGroup === props.atlasesPanel)
 })
 
-const filteredAtlases = ref([...sortedAtlases.value])
+const filteredAtlases = ref([...sortedAtlases.value]) // Has to be a ref to be used with Vue Draggable
 watch(
   () => searchQuery.value,
-  () => {
-    if (!searchQuery.value) {
-      filteredAtlases.value = [...sortedAtlases.value]
-    }
-
-    filteredAtlases.value = sortedAtlases.value.filter((x) => {
-      return x.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-    })
-  }
+  () => updateFilteredAtlas()
 )
+
+function updateFilteredAtlas() {
+  if (!searchQuery.value) {
+    filteredAtlases.value = [...sortedAtlases.value]
+  }
+
+  filteredAtlases.value = sortedAtlases.value.filter((x) => {
+    return x.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  })
+}
 </script>
+
+<style>
+.AdminAtlas__ctn {
+  display: flex;
+  flex-flow: column wrap;
+  width: 100%;
+}
+.AdminAtlas__header {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+</style>
