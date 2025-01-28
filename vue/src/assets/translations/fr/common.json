@@ -14,7 +14,11 @@
         "content": "Contenu",
         "membersPanel": "Membres",
         "contentPanel": "Contenu",
-        "commentPanel": "Commentaires"
+        "commentPanel": "Commentaires",
+        "maps": "Ma carte",
+        "observatory": "Observatoire",
+        "catalog": "Catalogue",
+        "data": "Données"
     },
     "header": {
         "title": "Plateforme",

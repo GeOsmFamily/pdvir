@@ -33,6 +33,7 @@
         }
     },
     "atlas": {
+        "leftMaps:": "Carte",
         "thematicData": "Données thématiques",
         "predefinedMap": "Cartes prédefinies",
         "form": {

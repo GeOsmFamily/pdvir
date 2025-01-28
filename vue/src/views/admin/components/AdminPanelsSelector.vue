@@ -54,9 +54,9 @@
         class="text-main-blue"
       >
         <v-expansion-panel-text>
-          <router-link class="Admin__itemSelector" :to="{ name: 'adminAtlas' }">
+          <router-link class="Admin__itemSelector" :to="{ name: 'adminLeftAtlases' }">
             <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
-            {{ $t('admin.panelMapAtlas') }}
+            {{ $t('admin.panelLeftAtlases') }}
           </router-link>
           <router-link class="Admin__itemSelector" :to="{ name: 'adminQgisMaps' }">
             <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
@@ -107,7 +107,7 @@ watch(
       router.push({ name: 'adminActors' })
       adminStore.selectedAdminItem = AdministrationPanels.CONTENT_ACTORS
     } else if (adminStore.selectedAdminPanel === AdministrationPanels.MAPS) {
-      router.push({ name: 'adminAtlas' })
+      router.push({ name: 'adminLeftAtlases' })
       adminStore.selectedAdminItem = AdministrationPanels.MAP_ATLAS
     } else {
       router.push({ name: 'adminComments' })

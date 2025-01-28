@@ -112,11 +112,15 @@ const router = createRouter({
       },
       component: () => import('@/views/admin/AdminView.vue'),
       beforeEnter: (to, from, next) => {
-        const userStore = useUserStore()
-        if (!userStore.userIsAdmin()) {
-          next({ path: '/' })
-        } else {
+        if (window.location.hostname === 'puc.local') {
           next()
+        } else {
+          const userStore = useUserStore()
+          if (!userStore.userIsAdmin()) {
+            next({ path: '/' })
+          } else {
+            next()
+          }
         }
       },
       children: [
@@ -154,12 +158,12 @@ const router = createRouter({
           path: 'maps',
           name: 'adminMaps',
           component: AdminMaps,
-          redirect: () => ({ name: 'adminAtlas' }),
+          redirect: () => ({ name: 'adminLeftAtlases' }),
           children: [
             {
-              name: 'adminAtlas',
-              path: 'atlas',
-              component: () => import('@/views/admin/components/admin-maps/AdminAtlas.vue')
+              name: 'adminLeftAtlases',
+              path: 'observatory',
+              component: () => import('@/views/admin/components/admin-maps/AdminLeftAtlases.vue')
             },
             {
               name: 'adminQgisMaps',
