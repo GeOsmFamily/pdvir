@@ -27,9 +27,9 @@
       },
       "layers": {
         "itemType": {
-          "Project": "Projets",
-          "Actor": "Acteurs",
-          "Resource": "Ressources"
+          "project": "Projets",
+          "actor": "Acteurs",
+          "resource": "Ressources"
         }
       }
     }

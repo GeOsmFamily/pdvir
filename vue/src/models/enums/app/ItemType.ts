@@ -1,5 +1,5 @@
 export enum ItemType {
-  ACTOR = 'Actor',
-  PROJECT = 'Project',
-  RESOURCE = 'Resource'
+  ACTOR = 'actor',
+  PROJECT = 'project',
+  RESOURCE = 'resource'
 }

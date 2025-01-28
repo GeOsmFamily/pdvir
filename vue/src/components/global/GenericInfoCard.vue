@@ -44,7 +44,7 @@ import LikeButton from '@/components/global/LikeButton.vue'
 import ShareButton from '@/components/global/ShareButton.vue'
 import HighlightButton from '@/components/global/HighlightButton.vue'
 import { ItemType } from '@/models/enums/app/ItemType'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import imageDefault from '@/assets/images/Logo.png'
 
 const props = withDefaults(
