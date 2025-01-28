@@ -24,7 +24,7 @@
       </VueDraggable>
     </div>
   </div>
-  <AtlasForm :atlas="atlasToEdit" :type="formType" v-if="isFormShown" />
+  <AtlasForm :atlas="atlasToEdit" :type="formType" v-if="isFormShown" :atlas-group="atlasesPanel" />
 </template>
 <script setup lang="ts">
 import AdminTopBar from '@/components/admin/AdminTopBar.vue'

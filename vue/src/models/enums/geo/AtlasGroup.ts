@@ -1,4 +1,4 @@
 export enum AtlasGroup {
-  THEMATIC_DATA = 'Données thématiques',
-  PREDEFINED_MAP = 'Cartes prédéfinies'
+  THEMATIC_DATA = 'Catalogue',
+  PREDEFINED_MAP = 'Observatoire'
 }

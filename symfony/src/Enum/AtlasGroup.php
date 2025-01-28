@@ -7,6 +7,6 @@ use App\Enum\Trait\ToArray;
 enum AtlasGroup: string
 {
     use ToArray;
-    case THEMATIC_DATA = 'Données thématiques';
-    case PREDEFINED_MAP = 'Cartes prédéfinies';
+    case THEMATIC_DATA = 'Catalogue';
+    case PREDEFINED_MAP = 'Observatoire';
 }

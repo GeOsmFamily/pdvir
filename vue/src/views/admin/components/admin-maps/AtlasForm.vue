@@ -85,6 +85,7 @@ import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 const props = defineProps<{
   atlas: Atlas | null
   type: FormType
+  atlasGroup?: AtlasGroup
 }>()
 
 const atlasStore = useAtlasStore()
@@ -102,6 +103,7 @@ onMounted(async () => {
   if (props.atlas) {
     existingLogo.value = props.atlas.logo ? [props.atlas.logo] : []
   }
+  if (props.atlasGroup) form.atlasGroup.value.value = props.atlasGroup
 })
 const newLogo: Ref<ContentImageFromUserFile[]> = ref([])
 function handleLogoUpdate(list: any) {
