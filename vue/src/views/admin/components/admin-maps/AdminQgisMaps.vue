@@ -1,19 +1,22 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
   <div class="AdminPanel">
     <AdminTopBar
       page="QgisMaps"
       :items="qgisStore.qgisMaps"
       :sortingListItems="[
-        { sortingKey: 'description', text: 'Description' },
-        { sortingKey: 'name', text: 'Nom' }
+        { sortingKey: 'name', text: 'Nom A-Z' },
+        { sortingKey: 'name', text: 'Nom Z-A' }
       ]"
       :createFunction="createQgisMap"
       searchKey="name"
       @updateSortingKey="sortingQgisMapsSelectedMethod = $event"
       @update-search-query="searchQuery = $event"
     />
-    <QgisMapsList
-      :maps="filteredItems"
+    <QgisMapsListItem
+      v-for="item in filteredItems"
+      :key="item.id"
+      :map="item"
       v-model:form-type="formType"
       v-model:qgis-map-to-edit="qgisMapToEdit"
       v-model:qgis-map-to-visualise="qgisMapToVisualise"
@@ -21,7 +24,7 @@
 
     <QgisMapForm :type="formType" :qgis-map="qgisMapToEdit" v-if="qgisStore.isQgisMapFormShown" />
     <QgisMapVisualiser
-      :qgis-map="qgisMapToVisualise as QgisMap"
+      :qgis-map="(qgisMapToVisualise as QgisMap)"
       v-if="qgisStore.isQgisMapVisualiserShown"
     />
   </div>
@@ -35,37 +38,24 @@ import { useQgisMapStore } from '@/stores/qgisMapStore'
 import { computed, onMounted, ref, type Ref } from 'vue'
 import { FormType } from '@/models/enums/app/FormType'
 import QgisMapVisualiser from './QgisMapVisualiser.vue'
-import QgisMapsList from './QgisMapsList.vue'
+import QgisMapsListItem from './QgisMapsListItem.vue'
 
 const qgisStore = useQgisMapStore()
 onMounted(async () => {
   await qgisStore.getAll()
 })
 
-type mapsSortingMethod = 'description' | 'name'
-const sortingQgisMapsSelectedMethod: Ref<mapsSortingMethod> = ref('description')
+type mapsSortingMethod = 'nameAZ' | 'nameZA'
+const sortingQgisMapsSelectedMethod: Ref<mapsSortingMethod> = ref('nameAZ')
 const searchQuery = ref('')
 
 const sortedMaps = computed(() => {
-  try {
-    if (
-      sortingQgisMapsSelectedMethod.value === 'description' ||
-      sortingQgisMapsSelectedMethod.value === 'name'
-    ) {
-      return qgisStore.qgisMaps.slice().sort((a: QgisMap, b: QgisMap) => {
-        if (a[sortingQgisMapsSelectedMethod.value] && b[sortingQgisMapsSelectedMethod.value]) {
-          return a[sortingQgisMapsSelectedMethod.value].localeCompare(
-            b[sortingQgisMapsSelectedMethod.value]
-          )
-        }
-        return 1
-      })
-    }
-  } catch (e) {
-    console.log(e)
-    return qgisStore.qgisMaps
+  if (sortingQgisMapsSelectedMethod.value === 'nameAZ') {
+    return qgisStore.qgisMaps.slice().sort((a, b) => a.name.localeCompare(b.name))
+  } else if (sortingQgisMapsSelectedMethod.value === 'nameZA') {
+    return qgisStore.qgisMaps.slice().sort((a, b) => b.name.localeCompare(a.name))
   }
-  return qgisStore.qgisMaps
+  return qgisStore.qgisMaps.slice()
 })
 
 const filteredItems = computed(() => {

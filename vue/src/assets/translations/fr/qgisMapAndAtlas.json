@@ -36,6 +36,8 @@
         "thematicData": "Données thématiques",
         "predefinedMap": "Cartes prédefinies",
         "leftMaps": "Carte | Cartes",
+        "rightMaps": "Donnée thématique | Données thématiques",
+        "dragErrorMessage": "Veuillez trier les données par position pour pouvoir modifier celle ci",
         "data": "Donnée | Données",
         "form": {
             "title": {

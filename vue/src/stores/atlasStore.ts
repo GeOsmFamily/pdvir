@@ -25,6 +25,10 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
       type === FormType.CREATE ? await AtlasService.post(atlas) : await AtlasService.patch(atlas)
     if (type === FormType.CREATE) {
       atlasList.value.push(submittedAtlas)
+      // Add new atlas to the map
+      const myMapStore = useMyMapStore()
+      const atlasLayer = await AtlasMapService.setAtlasLayers(submittedAtlas)
+      myMapStore.atlasThematicMaps.push(...atlasLayer)
     } else if (type === FormType.EDIT || type === FormType.VALIDATE) {
       atlasList.value.forEach((atlas, key) => {
         if (atlas.id === submittedAtlas.id) {
@@ -35,10 +39,6 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
     if (withNotification) {
       addNotification(i18n.t(`notifications.atlas.${type}`), NotificationType.SUCCESS)
     }
-    // Add new atlas to the map
-    const myMapStore = useMyMapStore()
-    const atlasLayer = await AtlasMapService.setAtlasLayers(submittedAtlas)
-    myMapStore.atlasThematicMaps.push(...atlasLayer)
     return submittedAtlas
   }
 
