@@ -1,6 +1,6 @@
 {
     "qgisMap": {
-        "qgisMaps": "Projet QGIS | Projet QGIS | Projets QGIS",
+        "qgisMaps": "Donnée | Données",
         "add": "Ajouter un projet QGIS",
         "form": {
             "title": {
@@ -33,9 +33,9 @@
         }
     },
     "atlas": {
-        "leftMaps:": "Carte",
         "thematicData": "Données thématiques",
         "predefinedMap": "Cartes prédefinies",
+        "leftMaps": "Carte | Cartes",
         "data": "Donnée | Données",
         "form": {
             "title": {

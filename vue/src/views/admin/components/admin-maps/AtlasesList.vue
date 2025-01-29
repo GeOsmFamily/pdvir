@@ -2,7 +2,7 @@
   <div class="AdminAtlas__ctn">
     <AdminTopBar
       page="LeftAtlases"
-      :items="atlasStore.atlasList.filter((x) => x.atlasGroup === AtlasGroup.PREDEFINED_MAP)"
+      :items="atlasStore.atlasList.filter((x) => x.atlasGroup === atlasesPanel)"
       :sortingListItems="[
         { sortingKey: 'description', text: 'Description' },
         { sortingKey: 'name', text: 'Nom' }
