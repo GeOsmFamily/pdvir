@@ -17,6 +17,7 @@ import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, onMounted } from 'vue'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import { useRoute } from 'vue-router'
+import { AppLayersService } from '@/services/map/AppLayersService'
 
 const myMapStore = useMyMapStore()
 const map = computed(() => myMapStore.myMap?.map)
@@ -29,6 +30,7 @@ onMounted(() => {
     return
   }
   if (myMapStore.isMapAlreadyBeenMounted) {
+    AppLayersService.initApplicationLayers(useMyMapStore())
     myMapStore.isLayersReorderingAlreadyTriggering = false
     if (map.value?.loaded()) {
       reloadAtlasMaps()
