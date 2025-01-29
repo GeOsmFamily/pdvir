@@ -1,6 +1,6 @@
 <template>
   <Modal
-    :title="$t('qgisMap.form.title.' + type)"
+    :title="$t('atlas.form.title.' + type)"
     :show="isShown"
     @close="atlasStore.isFormShown = false"
   >
@@ -27,17 +27,6 @@
           />
         </div>
         <div class="Form__fieldCtn">
-          <label class="Form__label required">{{ $t('atlas.form.fields.atlasGroup.label') }}</label>
-          <v-select
-            density="compact"
-            variant="outlined"
-            v-model="form.atlasGroup.value.value as AtlasGroup"
-            :items="atlasGroups"
-            :error-messages="form.atlasGroup.errorMessage.value"
-            @blur="form.atlasGroup.handleChange"
-          />
-        </div>
-        <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('atlas.form.fields.maps.label') }}</label>
           <v-select
             multiple
@@ -55,7 +44,9 @@
       </v-form>
     </template>
     <template #footer-left>
-      <span class="text-action" @click="$emit('close')">{{ $t('forms.cancel') }}</span>
+      <span class="text-action" @click="atlasStore.isFormShown = false">{{
+        $t('forms.cancel')
+      }}</span>
     </template>
     <template #footer-right>
       <v-btn type="submit" form="atlas-form" color="main-red" :loading="isSubmitting">{{
@@ -85,12 +76,12 @@ import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 const props = defineProps<{
   atlas: Atlas | null
   type: FormType
-  atlasGroup?: AtlasGroup
+  atlasGroup: AtlasGroup
 }>()
 
 const atlasStore = useAtlasStore()
 const isShown = computed(() => atlasStore.isFormShown)
-const atlasGroups = Object.values(AtlasGroup)
+// const atlasGroups = Object.values(AtlasGroup)
 const qgisStore = useQgisMapStore()
 const qgisMaps = computed(() => {
   return qgisStore.qgisMaps
@@ -114,6 +105,7 @@ const submitForm = handleSubmit(
   async (values) => {
     const atlasSubmissionRaw: AtlasSubmission = {
       ...(values as any),
+      atlasGroup: props.atlasGroup,
       logoToUpload: newLogo.value[0]
     }
     if (atlasSubmissionRaw.logoToUpload) {

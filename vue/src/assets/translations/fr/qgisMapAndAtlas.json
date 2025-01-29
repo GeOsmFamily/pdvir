@@ -10,7 +10,7 @@
             },
             "or": "OU",
             "fields": {
-                "logo": "Logo",
+                "logo": "Picto",
                 "name": {
                     "label": "Nom du projet QGIS",
                     "placeholder": "Nom du projet QGIS"
@@ -41,22 +41,22 @@
         "data": "Donnée | Données",
         "form": {
             "title": {
-                "create": "Ajouter un Atlas",
-                "edit": "Modifier un Atlas",
-                "validate": "Valider un Atlas"
+                "create": "Ajouter un groupe",
+                "edit": "Modifier un groupe",
+                "validate": "Valider un groupe"
             },
             "fields": {
                 "name": {
-                    "label": "Nom de l'atlas",
-                    "placeholder": "Nom de l'atlas"
+                    "label": "Nom du groupe",
+                    "placeholder": "Nom du groupe"
                 },
                 "atlasGroup": {
-                    "label": "Groupe d'atlas",
-                    "placeholder": "Groupe d'atlas"
+                    "label": "Groupe",
+                    "placeholder": "Groupe"
                 },
                 "maps": {
-                    "label": "Projets QGIS",
-                    "placeholder": "Projets QGIS"
+                    "label": "Selectionner des données (projets QGIS)",
+                    "placeholder": "Selectionner des données (projets QGIS)"
                 }
             }
         }
