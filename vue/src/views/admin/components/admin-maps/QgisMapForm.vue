@@ -27,10 +27,8 @@
           />
         </div>
         <div class="Form__fieldCtn">
-          <label class="Form__label required">{{
-            $t('qgisMap.form.fields.description.label')
-          }}</label>
-          <v-text-field
+          <label class="Form__label">{{ $t('qgisMap.form.fields.description.label') }}</label>
+          <v-textarea
             density="compact"
             variant="outlined"
             v-model="form.description.value.value"
@@ -47,6 +45,16 @@
             @update:model-value="form.qgisProject.handleChange(form.qgisProject.value.value)"
           />
         </div>
+        <div v-else class="Form__fieldCtn">
+          <v-tooltip location="start" :text="$t('qgisMap.form.fields.loadedFile.disclaimer')">
+            <template v-slot:activator="{ props }">
+              <label class="Form__label" v-bind="props">{{
+                $t('qgisMap.form.fields.loadedFile.label')
+              }}</label>
+            </template>
+          </v-tooltip>
+          <v-text-field disabled :placeholder="qgisMap?.qgisProject.name"></v-text-field>
+        </div>
         <div class="Form__fieldCtn">
           <label class="Form__label">{{
             $t('qgisMap.form.fields.needsToBeVisualiseAsPlainImageInsteadOfWMS.label')
@@ -56,6 +64,7 @@
             :error-messages="form.needsToBeVisualiseAsPlainImageInsteadOfWMS.errorMessage.value"
             :label="switchLabel"
             color="main-blue"
+            class="custom-label"
           ></v-switch>
         </div>
       </v-form>
@@ -136,3 +145,8 @@ const submitForm = handleSubmit(
   () => onInvalidSubmit
 )
 </script>
+<style>
+.custom-label .v-label {
+  font-size: 0.875rem;
+}
+</style>

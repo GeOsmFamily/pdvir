@@ -11,7 +11,7 @@ export class QgisMapFormService {
     // Schéma de base pour les champs communs
     const baseSchema = {
       name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
-      description: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
+      description: z.string().optional(),
       needsToBeVisualiseAsPlainImageInsteadOfWMS: z.boolean().optional()
     }
 

@@ -4,16 +4,16 @@
         "add": "Ajouter un projet QGIS",
         "form": {
             "title": {
-                "create": "Ajouter un projet QGIS",
-                "edit": "Modifier un projet QGIS",
-                "validate": "Valider un projet QGIS"
+                "create": "Ajouter une donnée",
+                "edit": "Modifier une donnée",
+                "validate": "Valider une donnée"
             },
             "or": "OU",
             "fields": {
                 "logo": "Picto",
                 "name": {
-                    "label": "Nom du projet QGIS",
-                    "placeholder": "Nom du projet QGIS"
+                    "label": "Nom de la donnée",
+                    "placeholder": "Nom de donnée"
                 },
                 "description": {
                     "label": "Description",
@@ -23,6 +23,11 @@
                     "label": "Joindre un projet QGIS compressé (.zip)",
                     "maxSize": "Fichier {maxSize} Mo maximum",
                     "browse": "Parcourir..."
+                },
+                "loadedFile": {
+                    "label": "Fichier chargé",
+                    "placeholder": "Fichier chargé",
+                    "disclaimer": "Ce fichier ne peut pas être modifié/remplacé"
                 },
                 "needsToBeVisualiseAsPlainImageInsteadOfWMS": {
                     "label": "Ce projet contient elle une représentation cartographique avancée?",
