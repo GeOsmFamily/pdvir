@@ -26,9 +26,11 @@ export class AtlasMapService {
 
   static async setAtlasLayers(atlas: Atlas): Promise<AtlasMap[]> {
     const atlasMaps: AtlasMap[] = []
+
     for (const map of atlas.maps) {
       let isMainLayerShown = false
       const activeSubLayers: string[] = []
+
       if (this.mapStore?.deserializedMapState) {
         isMainLayerShown = !!this.mapStore.deserializedMapState.layers.atlasMaps?.some(
           (atlasMap) => atlasMap.id === map['@id']
@@ -47,21 +49,23 @@ export class AtlasMapService {
         id: map['@id'],
         name: map.name,
         isShown: isMainLayerShown,
-        icon: map.logo.contentUrl,
+        icon: map.logo?.contentUrl || '',
         opacity: 1,
         atlasGroup: atlas.atlasGroup
       }
-      const subLayers: AtlasLayer[] = await Promise.all(
-        map.qgisProject.layers?.map(async (item) => ({
+
+      // Initialisation of sublayers with a placeholder for icons
+      const subLayers: AtlasLayer[] =
+        map.qgisProject.layers?.map((item) => ({
           id: item,
           name: item,
           isShown: activeSubLayers.includes(item),
-          icon: await this.getSubLayerIcon(item, map.qgisProject.name),
+          icon: '',
           opacity: 1,
           mapOrder: 0, //Used for change layer order in Qgis Server requests, updated from the legend component
           atlasGroup: atlas.atlasGroup
         })) ?? []
-      )
+
       atlasMaps.push({
         id: map['@id'],
         mainLayer: mainLayer,
@@ -70,6 +74,15 @@ export class AtlasMapService {
         atlasId: atlas['@id'],
         needsToBeVisualiseAsPlainImageInsteadOfWMS: map.needsToBeVisualiseAsPlainImageInsteadOfWMS
       })
+
+      // Loading sublayers icons in parallel
+      ;(async () => {
+        for (const subLayer of subLayers) {
+          subLayer.icon =
+            (await this.getSubLayerIcon(subLayer.id as string, map.qgisProject.name)) ||
+            subLayer.icon
+        }
+      })()
     }
     return atlasMaps
   }
