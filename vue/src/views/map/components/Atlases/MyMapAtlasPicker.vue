@@ -1,16 +1,17 @@
 <template>
-  <div class="MyMapAtlasPicker ml-3" v-for="map in props.atlas.maps" :key="map['@id']">
+  <div class="MyMapAtlasPicker ml-3" v-for="atlasMap in atlasMaps" :key="atlasMap.id">
     <v-checkbox
       hide-details
-      @update:modelValue="(newValue) => handleCheckboxChange(map['@id'], newValue as boolean)"
+      v-model="atlasMap.mainLayer.isShown"
+      @update:modelValue="(newValue) => handleCheckboxChange(atlasMap.id, newValue as boolean)"
     />
     <div class="MyMapAtlasPicker__descCtn">
-      <img :src="map.logo.contentUrl" :alt="atlas.name" />
+      <img :src="atlasMap.mainLayer.icon" :alt="atlas.name" />
       <div class="MyMapAtlasPicker__desc ml-2">
-        <span>{{ map.name }}</span>
+        <span>{{ atlasMap.mainLayer.name }}</span>
         <span>
-          {{ map.qgisProject.layers?.length }}
-          {{ $t('myMap.atlases.data', { count: atlas.maps.length }) }}
+          {{ atlasMap.subLayers.length }}
+          {{ $t('myMap.atlases.data', { count: atlasMap.subLayers.length }) }}
         </span>
       </div>
     </div>
@@ -18,10 +19,17 @@
 </template>
 <script setup lang="ts">
 import type { Atlas } from '@/models/interfaces/Atlas'
+import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
+import { useMyMapStore } from '@/stores/myMapStore'
+import { computed, type Ref } from 'vue'
 const props = defineProps<{
   atlas: Atlas
 }>()
 
+const myMapStore = useMyMapStore()
+const atlasMaps: Ref<AtlasMap[]> = computed(() =>
+  myMapStore.atlasThematicMaps.filter((x) => x.atlasId === props.atlas['@id'])
+)
 const emits = defineEmits(['update'])
 function handleCheckboxChange(id: string, value: boolean) {
   emits('update', id, value)
