@@ -9,6 +9,7 @@ export interface QgisMap extends SymfonyRelation {
   name: string
   description: string
   needsToBeVisualiseAsPlainImageInsteadOfWMS: boolean
+  updatedAt: string
   qgisProject: QgisProject
 }
 

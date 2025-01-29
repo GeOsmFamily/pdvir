@@ -12,35 +12,13 @@
       @updateSortingKey="sortingQgisMapsSelectedMethod = $event"
       @update-search-query="searchQuery = $event"
     />
-    <AdminTable
-      :items="filteredItems"
-      :table-keys="['name', 'description', 'updatedAt', 'qgisProject.layers']"
-      :column-widths="['15%', '30%', '15%', '25%', '15%']"
-      :with-logo="true"
-      :logo-field="'logo.contentUrl'"
-    >
-      <template #editContentCell="{ item }">
-        <v-btn
-          density="comfortable"
-          icon="mdi-map-outline"
-          @click="showQgisProjectOnMap(item as QgisMap)"
-          class="mr-2"
-        ></v-btn>
-        <v-btn density="comfortable" icon="mdi-dots-vertical">
-          <v-icon icon="mdi-dots-vertical"></v-icon>
-          <v-menu activator="parent" location="left">
-            <v-list class="AdminPanel__additionnalMenu">
-              <v-list-item @click="editQgisMap(item as QgisMap)">{{
-                $t('forms.edit')
-              }}</v-list-item>
-              <v-list-item @click="qgisStore.deleteQgisMap(item as QgisMap)">{{
-                $t('actors.admin.delete')
-              }}</v-list-item>
-            </v-list>
-          </v-menu>
-        </v-btn>
-      </template>
-    </AdminTable>
+    <QgisMapsList
+      :maps="filteredItems"
+      v-model:form-type="formType"
+      v-model:qgis-map-to-edit="qgisMapToEdit"
+      v-model:qgis-map-to-visualise="qgisMapToVisualise"
+    />
+
     <QgisMapForm :type="formType" :qgis-map="qgisMapToEdit" v-if="qgisStore.isQgisMapFormShown" />
     <QgisMapVisualiser
       :qgis-map="qgisMapToVisualise as QgisMap"
@@ -48,15 +26,16 @@
     />
   </div>
 </template>
-<script setup lang="ts">
+
+<script lang="ts" setup>
 import AdminTopBar from '@/components/admin/AdminTopBar.vue'
-import AdminTable from '@/components/admin/AdminTable.vue'
 import QgisMapForm from '@/views/admin/components/admin-maps/QgisMapForm.vue'
 import type { QgisMap } from '@/models/interfaces/QgisMap'
 import { useQgisMapStore } from '@/stores/qgisMapStore'
 import { computed, onMounted, ref, type Ref } from 'vue'
 import { FormType } from '@/models/enums/app/FormType'
 import QgisMapVisualiser from './QgisMapVisualiser.vue'
+import QgisMapsList from './QgisMapsList.vue'
 
 const qgisStore = useQgisMapStore()
 onMounted(async () => {
@@ -108,16 +87,5 @@ function createQgisMap() {
   formType.value = FormType.CREATE
   qgisMapToEdit.value = null
   qgisStore.isQgisMapFormShown = true
-}
-
-function editQgisMap(qgisMap: QgisMap) {
-  formType.value = FormType.EDIT
-  qgisMapToEdit.value = qgisMap
-  qgisStore.isQgisMapFormShown = true
-}
-
-function showQgisProjectOnMap(qgisMap: QgisMap) {
-  qgisMapToVisualise.value = qgisMap
-  qgisStore.isQgisMapVisualiserShown = true
 }
 </script>
