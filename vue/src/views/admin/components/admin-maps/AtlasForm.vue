@@ -116,7 +116,8 @@ const submitForm = handleSubmit(
     const atlasSubmission: Atlas = nestedObjectsToIri(atlasSubmissionRaw)
 
     if (FormType.CREATE === props.type) {
-      atlasSubmission.position = atlasStore.atlasList.length + 1
+      atlasSubmission.position =
+        atlasStore.atlasList.filter((x) => x.atlasGroup === props.atlasGroup).length + 1
     }
     if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.atlas) {
       atlasSubmission.id = props.atlas.id
