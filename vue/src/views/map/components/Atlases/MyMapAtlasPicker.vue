@@ -33,7 +33,7 @@ const props = defineProps<{
 
 const myMapStore = useMyMapStore()
 const atlasMaps: Ref<AtlasMap[]> = computed(() =>
-  myMapStore.atlasThematicMaps.filter((x) => x.atlasId === props.atlas['@id'])
+  myMapStore.atlasMaps.filter((x) => x.atlasId === props.atlas['@id'])
 )
 const emits = defineEmits(['update'])
 function handleCheckboxChange(id: string, value: boolean) {

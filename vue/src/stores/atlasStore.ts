@@ -28,7 +28,7 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
       // Add new atlas to the map
       const myMapStore = useMyMapStore()
       const atlasLayer = await AtlasMapService.setAtlasLayers(submittedAtlas)
-      myMapStore.atlasThematicMaps.push(...atlasLayer)
+      myMapStore.atlasMaps.push(...atlasLayer)
     } else if (type === FormType.EDIT || type === FormType.VALIDATE) {
       atlasList.value.forEach((atlas, key) => {
         if (atlas.id === submittedAtlas.id) {

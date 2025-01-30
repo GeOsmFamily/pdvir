@@ -30,7 +30,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const projectLayer: Ref<Layer | null> = ref(null)
   const projectSubLayers: Ref<Layer[]> = ref([])
 
-  const atlasThematicMaps: Ref<AtlasMap[]> = ref([]) // Updated from atlasStore
+  const atlasMaps: Ref<AtlasMap[]> = ref([]) // Updated from atlasStore
   const activeAtlas: AtlasActive = reactive({
     leftPanel: {
       active: false,
@@ -50,7 +50,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     await AppLayersService.initApplicationLayers(useMyMapStore())
     await AtlasMapService.initAtlasLayers(useMyMapStore(), useAtlasStore())
     if (deserializedMapState.value) {
-      for (const thematicMap of atlasThematicMaps.value) {
+      for (const thematicMap of atlasMaps.value) {
         if (thematicMap.mainLayer.isShown) {
           updateAtlasLayersVisibility(thematicMap.id)
         }
@@ -71,7 +71,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     projectLayer,
     resourceLayer,
     legendList,
-    atlasThematicMaps
+    atlasMaps
   )
 
   function getSerializedMapState(): string {
@@ -87,19 +87,14 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
 
   function updateAtlasLayersVisibility(qgismapId: string, updateLegend = true) {
     AtlasMapService.handleAtlasLayersVisibility(
-      atlasThematicMaps.value,
+      atlasMaps.value,
       myMap.value?.map,
       qgismapId,
       alreadyAddedImageSources
     )
     alreadyAddedImageSources = [...new Set([...alreadyAddedImageSources, qgismapId])]
     if (updateLegend) {
-      LegendService.updateLegendList(
-        qgismapId,
-        LayerType.ATLAS_LAYER,
-        legendList,
-        atlasThematicMaps
-      )
+      LegendService.updateLegendList(qgismapId, LayerType.ATLAS_LAYER, legendList, atlasMaps)
     }
   }
 
@@ -108,7 +103,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   }
 
   function updateAtlasSubLayersOrder(atlasMapLayer: AtlasLayerLegendItem) {
-    LegendService.updateAtlasSubLayersOrder(atlasMapLayer, atlasThematicMaps)
+    LegendService.updateAtlasSubLayersOrder(atlasMapLayer, atlasMaps)
     updateAtlasLayersVisibility(atlasMapLayer.id, false)
   }
 
@@ -147,7 +142,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     projectSubLayers,
     resourceLayer,
     resourceSubLayers,
-    atlasThematicMaps,
+    atlasMaps,
     activeAtlas,
     initMapLayers,
     updateAtlasLayersVisibility,

@@ -23,8 +23,8 @@ export class MapStoreSerializationService {
       stateToSave.layers.projects = store.projectSubLayers
         .filter((l: Layer) => l.isShown)
         .map((l: Layer) => l.id) as number[]
-    if (store.atlasThematicMaps.some((x: AtlasMap) => x.mainLayer.isShown)) {
-      stateToSave.layers.atlasMaps = store.atlasThematicMaps
+    if (store.atlasMaps.some((x: AtlasMap) => x.mainLayer.isShown)) {
+      stateToSave.layers.atlasMaps = store.atlasMaps
         .filter((x: AtlasMap) => x.mainLayer.isShown)
         .map((x: AtlasMap) => ({
           id: x.id,

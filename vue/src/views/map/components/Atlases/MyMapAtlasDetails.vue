@@ -22,16 +22,16 @@
     </div>
     <template v-if="type === AtlasGroup.THEMATIC_DATA">
       <MyMapLayerPicker
-        v-for="(qgisMap, index) in myMapStore.atlasThematicMaps.filter(
+        v-for="(qgisMap, index) in myMapStore.atlasMaps.filter(
           (map) => map.atlasId === atlas['@id']
         )"
         :class="index === 0 ? 'mt-3' : 'mt-1'"
         :key="qgisMap.id"
         v-model:main-layer="
-          myMapStore.atlasThematicMaps.filter((x) => x.atlasId === atlas['@id'])[index].mainLayer
+          myMapStore.atlasMaps.filter((x) => x.atlasId === atlas['@id'])[index].mainLayer
         "
         v-model:sub-layers="
-          myMapStore.atlasThematicMaps.filter((x) => x.atlasId === atlas['@id'])[index].subLayers
+          myMapStore.atlasMaps.filter((x) => x.atlasId === atlas['@id'])[index].subLayers
         "
         @update="updateThematicData(qgisMap.id)"
         :sublayer-icon="true"
@@ -73,7 +73,7 @@ const updateThematicData = (qgismapId: string) => {
 }
 
 const updatePreDefinedMap = (id: string, value: boolean) => {
-  for (const storeMap of myMapStore.atlasThematicMaps) {
+  for (const storeMap of myMapStore.atlasMaps) {
     if (storeMap.id === id) {
       storeMap.mainLayer.isShown = value
       storeMap.subLayers.forEach((subLayer) => {

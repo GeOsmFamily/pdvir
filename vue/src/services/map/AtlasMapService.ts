@@ -20,7 +20,7 @@ export class AtlasMapService {
     await this.atlasStore.getAll()
     for (const atlas of this.atlasStore.atlasList) {
       const atlasLayers = await this.setAtlasLayers(atlas)
-      this.mapStore.atlasThematicMaps.push(...atlasLayers)
+      this.mapStore.atlasMaps.push(...atlasLayers)
     }
   }
 

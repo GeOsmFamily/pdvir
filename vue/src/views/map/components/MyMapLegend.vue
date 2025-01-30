@@ -102,7 +102,7 @@ function updateSubLayerOrder(item: AtlasLayerLegendItem) {
 
 function removeMainLayer(item: AtlasLayerLegendItem | AppLayerLegendItem) {
   if (item.layerType === LayerType.ATLAS_LAYER) {
-    mapStore.atlasThematicMaps.map((x) => {
+    mapStore.atlasMaps.map((x) => {
       if (x.id === item.id) {
         x.mainLayer.isShown = false
         x.subLayers.map((x) => (x.isShown = false))
@@ -124,7 +124,7 @@ function removeMainLayer(item: AtlasLayerLegendItem | AppLayerLegendItem) {
 }
 
 function removeSubLayer(item: AtlasLayerLegendItem, subLayerName: string) {
-  mapStore.atlasThematicMaps.map((x) => {
+  mapStore.atlasMaps.map((x) => {
     if (x.id === item.id) {
       x.subLayers.map((x) => {
         if (x.name === subLayerName) {

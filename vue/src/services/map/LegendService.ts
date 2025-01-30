@@ -12,7 +12,7 @@ export class LegendService {
     projectLayer: Ref<Layer | null>,
     resourceLayer: Ref<Layer | null>,
     legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]>,
-    atlasThematicMaps: Ref<AtlasMap[]>
+    atlasMaps: Ref<AtlasMap[]>
   ) {
     watch(
       [
@@ -29,7 +29,7 @@ export class LegendService {
             ItemType.ACTOR,
             LayerType.APP_LAYER,
             legendList,
-            atlasThematicMaps,
+            atlasMaps,
             actorIsShown
           )
         }
@@ -38,7 +38,7 @@ export class LegendService {
             ItemType.PROJECT,
             LayerType.APP_LAYER,
             legendList,
-            atlasThematicMaps,
+            atlasMaps,
             projectIsShown
           )
         }
@@ -47,7 +47,7 @@ export class LegendService {
             ItemType.RESOURCE,
             LayerType.APP_LAYER,
             legendList,
-            atlasThematicMaps,
+            atlasMaps,
             resourceIsShown
           )
         }
@@ -59,13 +59,13 @@ export class LegendService {
     layerId: string,
     layerType: LayerType,
     legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]>,
-    atlasThematicMaps: Ref<AtlasMap[]>,
+    atlasMaps: Ref<AtlasMap[]>,
     isShown = true
   ) {
     const existingEntry = legendList.value.find((x) => x.id === layerId)
     if (existingEntry) {
       if (existingEntry.layerType === LayerType.ATLAS_LAYER) {
-        const atlasMap = atlasThematicMaps.value.find((x) => x.id === layerId)
+        const atlasMap = atlasMaps.value.find((x) => x.id === layerId)
         // When a user remove a sublayer
         if (atlasMap && atlasMap.mainLayer.isShown) {
           existingEntry.subLayers = atlasMap.subLayers
@@ -100,7 +100,7 @@ export class LegendService {
         })
       }
       if (layerType === LayerType.ATLAS_LAYER) {
-        const atlasMap = atlasThematicMaps.value.find((x) => x.id === layerId)
+        const atlasMap = atlasMaps.value.find((x) => x.id === layerId)
         if (atlasMap) {
           legendList.value.push({
             id: atlasMap.id,
@@ -135,9 +135,9 @@ export class LegendService {
 
   static updateAtlasSubLayersOrder(
     atlasMapLayer: AtlasLayerLegendItem,
-    atlasThematicMaps: Ref<AtlasMap[]>
+    atlasMaps: Ref<AtlasMap[]>
   ) {
-    const atlasThematicMap = atlasThematicMaps.value.find((x) => x.id === atlasMapLayer.id)
+    const atlasThematicMap = atlasMaps.value.find((x) => x.id === atlasMapLayer.id)
     if (atlasThematicMap) {
       atlasMapLayer.subLayers.map((sortedSubLayer) => {
         for (const sublayer of atlasThematicMap.subLayers) {
