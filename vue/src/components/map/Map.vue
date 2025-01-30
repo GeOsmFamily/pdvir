@@ -58,7 +58,7 @@ onMounted(() => {
       source: 'cameroonMask',
       paint: {
         'fill-color': '#000000',
-        'fill-opacity': 0.3
+        'fill-opacity': 0.7
       },
       metadata: { isPersistent: true }
     })
