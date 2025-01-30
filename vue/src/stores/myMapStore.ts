@@ -1,10 +1,10 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
-import { ref, type Ref } from 'vue'
+import { reactive, ref, type Ref } from 'vue'
 import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import type { Layer } from '@/models/interfaces/map/Layer'
 import type Map from '@/components/map/Map.vue'
-import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
+import type { AtlasActive, AtlasMap } from '@/models/interfaces/map/AtlasMap'
 import { AtlasMapService } from '@/services/map/AtlasMapService'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 import { LayerType } from '@/models/enums/geo/LayerType'
@@ -31,6 +31,16 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const projectSubLayers: Ref<Layer[]> = ref([])
 
   const atlasThematicMaps: Ref<AtlasMap[]> = ref([]) // Updated from atlasStore
+  const activeAtlas: AtlasActive = reactive({
+    leftPanel: {
+      active: false,
+      atlasID: null
+    },
+    rightPanel: {
+      active: false,
+      atlasID: null
+    }
+  })
   let alreadyAddedImageSources: string[] = [] //Used to avoid triggering maplibre event as much time as the layer has been added to the map
   const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
   const bbox: Ref<LngLatBounds | undefined> = ref(undefined)
@@ -138,6 +148,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     resourceLayer,
     resourceSubLayers,
     atlasThematicMaps,
+    activeAtlas,
     initMapLayers,
     updateAtlasLayersVisibility,
     legendList,

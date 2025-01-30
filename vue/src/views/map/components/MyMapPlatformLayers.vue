@@ -1,5 +1,5 @@
 <template>
-  <div class="MyMapPlatformLayers">
+  <div class="MyMapPlatformLayers" v-show="isShown">
     <MyMapLayerPicker
       v-model:main-layer="myMapStore.projectLayer"
       v-model:sub-layers="myMapStore.projectSubLayers"
@@ -33,6 +33,8 @@ const refreshLayer = (itemType: ItemType) => {
     myMap.value.setData(itemType, AppLayersService.getGeojsonPerItemType(itemType))
   }
 }
+
+const isShown = computed(() => !myMapStore.activeAtlas.rightPanel.active)
 </script>
 
 <style lang="scss">

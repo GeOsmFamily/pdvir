@@ -1,5 +1,10 @@
 <template>
-  <div class="MyMapAtlasPicker ml-3" v-for="atlasMap in atlasMaps" :key="atlasMap.id">
+  <div
+    class="MyMapAtlasPicker mt-3"
+    v-for="atlasMap in atlasMaps"
+    :key="atlasMap.id"
+    :active="atlasMap.mainLayer.isShown"
+  >
     <v-checkbox
       hide-details
       v-model="atlasMap.mainLayer.isShown"
@@ -11,7 +16,7 @@
         <span>{{ atlasMap.mainLayer.name }}</span>
         <span>
           {{ atlasMap.subLayers.length }}
-          {{ $t('myMap.atlases.data', { count: atlasMap.subLayers.length }) }}
+          {{ $t('myMap.atlases.map', { count: atlasMap.subLayers.length }) }}
         </span>
       </div>
     </div>
@@ -41,6 +46,15 @@ function handleCheckboxChange(id: string, value: boolean) {
   display: flex;
   align-items: center;
   width: 100%;
+  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid rgb(var(--v-theme-dark-grey));
+  background-color: white;
+}
+.MyMapAtlasPicker[active='true'] {
+  border: 1px solid rgb(var(--v-theme-main-blue));
+  box-shadow: 0px 2px 0px 0px rgb(var(--v-theme-main-blue));
+  background-color: rgb(var(--v-theme-light-grey));
 }
 .MyMapAtlasPicker__descCtn {
   display: flex;

@@ -8,3 +8,14 @@ export interface AtlasMap {
   atlasId: string
   needsToBeVisualiseAsPlainImageInsteadOfWMS: boolean
 }
+
+export interface AtlasActive {
+  leftPanel: {
+    active: boolean
+    atlasID: string | null
+  }
+  rightPanel: {
+    active: boolean
+    atlasID: string | null
+  }
+}

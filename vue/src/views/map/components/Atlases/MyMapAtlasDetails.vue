@@ -5,12 +5,18 @@
         size="small"
         icon="mdi-arrow-left"
         class="text-dark-grey"
-        @click="hideDetails = true"
+        elevation="4"
+        @click="removeActiveAtlas()"
       ></v-btn>
-      <div class="MyMapAtlas__desc ml-2">
+      <div class="MyMapAtlas__desc ml-3">
         <div class="MyMapAtlas__title">{{ atlas.name }}</div>
         <div class="MyMapAtlas__details">
-          {{ atlas.maps.length }} {{ $t('myMap.atlases.map', { count: atlas.maps.length }) }}
+          {{ atlas.maps.length }}
+          {{
+            type === AtlasGroup.PREDEFINED_MAP
+              ? $t('myMap.atlases.map', { count: atlas.maps.length })
+              : $t('myMap.atlases.data', { count: atlas.maps.length })
+          }}
         </div>
       </div>
     </div>
@@ -40,18 +46,28 @@
 <script setup lang="ts">
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import type { Atlas } from '@/models/interfaces/Atlas'
-import { inject } from 'vue'
+import { inject, type Ref } from 'vue'
 import { useMyMapStore } from '@/stores/myMapStore'
 import MyMapLayerPicker from '@/views/map/components/MyMapLayerPicker.vue'
 import MyMapAtlasPicker from '@/views/map/components/Atlases/MyMapAtlasPicker.vue'
-const hideDetails = inject('hideDetails')
+const hideDetails: Ref<boolean> = inject('hideDetails') as Ref<boolean>
 const myMapStore = useMyMapStore()
 
-defineProps<{
+const props = defineProps<{
   atlas: Atlas
   type: AtlasGroup
 }>()
 
+const removeActiveAtlas = () => {
+  hideDetails.value = true
+  if (props.type === AtlasGroup.PREDEFINED_MAP) {
+    myMapStore.activeAtlas.leftPanel.active = false
+    myMapStore.activeAtlas.leftPanel.atlasID = null
+  } else {
+    myMapStore.activeAtlas.rightPanel.active = false
+    myMapStore.activeAtlas.rightPanel.atlasID = null
+  }
+}
 const updateThematicData = (qgismapId: string) => {
   myMapStore.updateAtlasLayersVisibility(qgismapId)
 }
@@ -68,3 +84,13 @@ const updatePreDefinedMap = (id: string, value: boolean) => {
   myMapStore.updateAtlasLayersVisibility(id)
 }
 </script>
+
+<style>
+.MyMapAtlas__maps {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+</style>
