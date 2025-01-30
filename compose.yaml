@@ -3,8 +3,6 @@ services:
     build:
       context: ./vue
       target: vue_dev
-      args:
-        - VITE_DOMAIN=${DOMAIN}
     image: vue:latest
     restart: on-failure
     ports:
