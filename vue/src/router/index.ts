@@ -85,7 +85,7 @@ const router = createRouter({
     {
       path: '/map',
       name: 'map',
-      component: () => import('@/views/map/MapView.vue')
+      component: () => import('@/views/map/MyMapView.vue')
     },
     {
       path: '/myAccount',
