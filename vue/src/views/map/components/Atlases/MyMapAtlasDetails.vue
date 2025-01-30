@@ -9,7 +9,7 @@
         @click="removeActiveAtlas()"
       ></v-btn>
       <div class="MyMapAtlas__desc ml-3">
-        <div class="MyMapAtlas__title">{{ atlas.name }}</div>
+        <div class="MyMapAtlas__title font-weight-bold">{{ atlas.name }}</div>
         <div class="MyMapAtlas__details">
           {{ atlas.maps.length }}
           {{
