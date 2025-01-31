@@ -1,11 +1,11 @@
 .env.local
 
 docker/postgres/*
-docker/qgis/data*
+docker/qgis/data/*
 
 .idea
 local.mk
 
 ###> php-cs-fixer ###
-/.php-cs-fixer.cache
+.php-cs-fixer.cache
 ###< php-cs-fixer ###
