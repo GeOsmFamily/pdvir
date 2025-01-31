@@ -190,6 +190,12 @@
             "edit": "L'atlas a été modifié",
             "validate": "L'atlas a été validé",
             "delete": "L'atlas a été supprimé"
+        },
+        "qgismap": {
+            "create": "La donnée a bien été crée",
+            "edit": "La donnée a bien été modifiée",
+            "validate": "La donnée a bien été validée",
+            "delete": "La donnée a bien été supprimé"
         }
     },
     "list": {

@@ -12,6 +12,7 @@ export class QgisMapFormService {
     const baseSchema = {
       name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
       description: z.string().optional(),
+      qgisMapType: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
       needsToBeVisualiseAsPlainImageInsteadOfWMS: z.boolean().optional()
     }
 
@@ -38,6 +39,7 @@ export class QgisMapFormService {
       name: useField('name'),
       description: useField('description'),
       qgisProject: useField('qgisProject'),
+      qgisMapType: useField('qgisMapType'),
       needsToBeVisualiseAsPlainImageInsteadOfWMS: useField(
         'needsToBeVisualiseAsPlainImageInsteadOfWMS'
       )

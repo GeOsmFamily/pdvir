@@ -56,6 +56,17 @@
           <v-text-field disabled :placeholder="qgisMap?.qgisProject.name"></v-text-field>
         </div>
         <div class="Form__fieldCtn">
+          <label class="Form__label required">{{ $t('atlas.form.fields.atlasGroup.label') }}</label>
+          <v-select
+            density="compact"
+            variant="outlined"
+            v-model="form.qgisMapType.value.value as QgisMapType"
+            :items="qgisMapTypes"
+            :error-messages="form.qgisMapType.errorMessage.value"
+            @blur="form.qgisMapType.handleChange"
+          />
+        </div>
+        <div class="Form__fieldCtn">
           <label class="Form__label">{{
             $t('qgisMap.form.fields.needsToBeVisualiseAsPlainImageInsteadOfWMS.label')
           }}</label>
@@ -97,6 +108,7 @@ import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
 import type { MediaObject } from '@/models/interfaces/MediaObject'
 import FileUploader from '@/services/files/FileUploader'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
+import { QgisMapType } from '@/models/enums/geo/QgisMapType'
 
 const props = defineProps<{
   type: FormType
@@ -105,6 +117,7 @@ const props = defineProps<{
 
 const qgisMapStore = useQgisMapStore()
 const { form, handleSubmit, isSubmitting } = QgisMapFormService.getForm(props.qgisMap)
+const qgisMapTypes = Object.values(QgisMapType)
 
 const existingLogo = ref<(MediaObject | string)[]>([])
 onMounted(async () => {

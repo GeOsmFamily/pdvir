@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Entity\Trait\TimestampableEntity;
+use App\Enum\QgisMapType;
 use App\Repository\QgisMapRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -55,6 +56,10 @@ class QgisMap
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?string $description = null;
+
+    #[ORM\Column(enumType: QgisMapType::class)]
+    #[Groups([self::GET_FULL, Atlas::GET_FULL, self::WRITE])]
+    private ?QgisMapType $qgisMapType = null;
 
     /**
      * @var Collection<int, Atlas>
@@ -112,6 +117,18 @@ class QgisMap
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getQgisMapType(): ?QgisMapType
+    {
+        return $this->qgisMapType;
+    }
+
+    public function setQgisMapType(QgisMapType $qgisMapType): static
+    {
+        $this->qgisMapType = $qgisMapType;
 
         return $this;
     }
