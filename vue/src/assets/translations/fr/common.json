@@ -195,7 +195,8 @@
             "create": "La donnée a bien été crée",
             "edit": "La donnée a bien été modifiée",
             "validate": "La donnée a bien été validée",
-            "delete": "La donnée a bien été supprimé"
+            "delete": "La donnée a bien été supprimé",
+            "error": "Une erreur est survenue lors du chargement des données"
         }
     },
     "list": {

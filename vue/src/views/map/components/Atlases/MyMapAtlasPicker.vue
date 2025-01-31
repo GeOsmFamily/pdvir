@@ -10,7 +10,7 @@
       v-model="atlasMap.mainLayer.isShown"
       @update:modelValue="(newValue) => handleCheckboxChange(atlasMap.id, newValue as boolean)"
     />
-    <div class="MyMapAtlasPicker__descCtn">
+    <div class="MyMapAtlasPicker__descCtn ml-2">
       <img :src="atlasMap.mainLayer.icon" :alt="atlas.name" />
       <div class="MyMapAtlasPicker__desc ml-2">
         <span>{{ atlasMap.mainLayer.name }}</span>
@@ -19,14 +19,20 @@
           {{ $t('myMap.atlases.map', { count: atlasMap.subLayers.length }) }}
         </span>
       </div>
+      <MyMapLayerAdditionnalMenu
+        v-model:main-layer="atlasMap.mainLayer"
+        :loaded-layer-type="LayerType.ATLAS_LAYER"
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import type { Atlas } from '@/models/interfaces/Atlas'
 import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
+import MyMapLayerAdditionnalMenu from '../MyMapLayerAdditionnalMenu.vue'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, type Ref } from 'vue'
+import { LayerType } from '@/models/enums/geo/LayerType'
 const props = defineProps<{
   atlas: Atlas
 }>()
@@ -59,6 +65,7 @@ function handleCheckboxChange(id: string, value: boolean) {
 .MyMapAtlasPicker__descCtn {
   display: flex;
   align-items: center;
+  width: 100%;
 
   img {
     width: 30px;
@@ -69,6 +76,7 @@ function handleCheckboxChange(id: string, value: boolean) {
 
 .MyMapAtlasPicker__desc {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
 }
 </style>

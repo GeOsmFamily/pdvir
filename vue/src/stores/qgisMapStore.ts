@@ -24,16 +24,21 @@ export const useQgisMapStore = defineStore(StoresList.QGIS_MAP, () => {
       type === FormType.CREATE
         ? await QgisMapService.post(qgisMap)
         : await QgisMapService.patch(qgisMap)
-    if (type === FormType.CREATE) {
-      qgisMaps.value.push(submittedQgisMap)
-    } else if (type === FormType.EDIT || type === FormType.VALIDATE) {
-      qgisMaps.value.forEach((qgisMap, key) => {
-        if (qgisMap.id === submittedQgisMap.id) {
-          qgisMaps.value[key] = submittedQgisMap
-        }
-      })
+    if (submittedQgisMap) {
+      if (type === FormType.CREATE) {
+        qgisMaps.value.push(submittedQgisMap)
+      } else if (type === FormType.EDIT || type === FormType.VALIDATE) {
+        qgisMaps.value.forEach((qgisMap, key) => {
+          if (qgisMap.id === submittedQgisMap.id) {
+            qgisMaps.value[key] = submittedQgisMap
+          }
+        })
+      }
+      addNotification(i18n.t(`notifications.qgismap.${type}`), NotificationType.SUCCESS)
+    } else {
+      addNotification(i18n.t(`notifications.qgismap.error`), NotificationType.ERROR)
     }
-    addNotification(i18n.t(`notifications.qgismap.${type}`), NotificationType.SUCCESS)
+
     return submittedQgisMap
   }
 

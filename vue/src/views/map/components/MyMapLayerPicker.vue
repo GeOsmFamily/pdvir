@@ -25,53 +25,10 @@
           :color="isExpanded ? 'main-blue' : 'dark-grey'"
           @click="isExpanded = !isExpanded"
         />
-        <v-menu
-          location="bottom"
-          @update:modelValue="isLayerOpacityShown = mainLayer?.opacity && mainLayer?.opacity < 100"
-        >
-          <template v-slot:activator="{ props, isActive }">
-            <v-btn
-              v-bind="props"
-              variant="text"
-              density="comfortable"
-              icon="mdi-dots-horizontal"
-              :color="isActive ? 'main-blue' : 'dark-grey'"
-            />
-          </template>
-          <v-list class="MyMapLayerPicker__additionnalMenu mt-4">
-            <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="main-blue" icon="mdi-information-outline"></v-icon>
-              </template>
-              <v-list-item-title>{{ $t('myMap.rightSidebar.actions.about') }}</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <template v-slot:prepend
-                ><v-icon color="main-blue" icon="mdi-share-variant-outline"></v-icon
-              ></template>
-              <v-list-item-title>{{ $t('myMap.rightSidebar.actions.share') }}</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="downloadSourceData">
-              <template v-slot:prepend>
-                <v-icon color="main-blue" icon="mdi-download-outline"></v-icon>
-              </template>
-              <v-list-item-title>{{
-                $t('myMap.rightSidebar.actions.downloadLayer')
-              }}</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click.stop="isLayerOpacityShown = !isLayerOpacityShown">
-              <template v-slot:prepend>
-                <v-icon color="main-blue" icon="mdi-opacity"></v-icon>
-              </template>
-              <v-list-item-title>{{ $t('myMap.rightSidebar.actions.opacity') }}</v-list-item-title>
-            </v-list-item>
-            <MyMapLayerOpacityPicker
-              v-if="isLayerOpacityShown"
-              v-model="mainLayer.opacity"
-              @click.prevent.stop
-            />
-          </v-list>
-        </v-menu>
+        <MyMapLayerAdditionnalMenu
+          v-model:main-layer="mainLayer"
+          :loaded-layer-type="loadedLayerType"
+        />
       </div>
     </div>
     <div class="MyMapLayerPicker__listBlock" :is-shown="isExpanded" v-if="subLayers">
@@ -107,17 +64,12 @@
 </template>
 
 <script setup lang="ts">
-import type { AtlasLayer, Layer } from '@/models/interfaces/map/Layer'
-import { debounce, downloadJson } from '@/services/utils/UtilsService'
+import type { Layer } from '@/models/interfaces/map/Layer'
+import { debounce } from '@/services/utils/UtilsService'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, ref, watch, type ModelRef } from 'vue'
-import MyMapLayerOpacityPicker from '@/views/map/components/MyMapLayerOpacityPicker.vue'
 import { LayerType } from '@/models/enums/geo/LayerType'
-import { QgisMapMaplibreService } from '@/services/qgisMap/QgisMapMaplibreService'
-import { QgisMapType } from '@/models/enums/geo/QgisMapType'
-import { NotificationType } from '@/models/enums/app/NotificationType'
-import { i18n } from '@/plugins/i18n'
-import { addNotification } from '@/services/notifications/NotificationService'
+import MyMapLayerAdditionnalMenu from './MyMapLayerAdditionnalMenu.vue'
 
 const isExpanded = ref(false)
 const isLayerOpacityShown = ref(false)
@@ -190,28 +142,28 @@ const editAllSubLayers = (show = true) => {
   emits('update')
 }
 
-const downloadSourceData = async () => {
-  const layerId = mainLayer.value?.id.toString()
-  if (myMapStore.myMap?.map && layerId) {
-    if (props.loadedLayerType === LayerType.APP_LAYER) {
-      const data = await myMapStore.myMap?.getData(layerId)
-      if (data) {
-        downloadJson(data, layerId)
-      }
-    } else {
-      if ((mainLayer.value as AtlasLayer).qgisMapType === QgisMapType.VECTOR) {
-        const atlas = myMapStore.atlasMaps.find((atlasMap) => atlasMap.id === layerId)
-        if (atlas) {
-          const qgisProject = atlas.qgisProjectName
-          const qgisLayers = atlas.subLayers.map((subLayer) => subLayer.name)
-          QgisMapMaplibreService.getData(qgisProject, qgisLayers)
-        }
-      } else {
-        addNotification(i18n.t('myMap.atlases.dataNotFetchable'), NotificationType.ERROR)
-      }
-    }
-  }
-}
+// const downloadSourceData = async () => {
+//   const layerId = mainLayer.value?.id.toString()
+//   if (myMapStore.myMap?.map && layerId) {
+//     if (props.loadedLayerType === LayerType.APP_LAYER) {
+//       const data = await myMapStore.myMap?.getData(layerId)
+//       if (data) {
+//         downloadJson(data, layerId)
+//       }
+//     } else {
+//       if ((mainLayer.value as AtlasLayer).qgisMapType === QgisMapType.VECTOR) {
+//         const atlas = myMapStore.atlasMaps.find((atlasMap) => atlasMap.id === layerId)
+//         if (atlas) {
+//           const qgisProject = atlas.qgisProjectName
+//           const qgisLayers = atlas.subLayers.map((subLayer) => subLayer.name)
+//           QgisMapMaplibreService.getData(qgisProject, qgisLayers)
+//         }
+//       } else {
+//         addNotification(i18n.t('myMap.atlases.dataNotFetchable'), NotificationType.ERROR)
+//       }
+//     }
+//   }
+// }
 </script>
 
 <style lang="scss">
