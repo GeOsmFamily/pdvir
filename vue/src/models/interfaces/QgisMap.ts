@@ -1,3 +1,4 @@
+import type { QgisMapType } from '../enums/geo/QgisMapType'
 import type { ContentImageFromUserFile } from './ContentImage'
 import type { MediaObject } from './MediaObject'
 import type { QgisProject } from './QgisProject'
@@ -10,6 +11,7 @@ export interface QgisMap extends SymfonyRelation {
   description: string
   needsToBeVisualiseAsPlainImageInsteadOfWMS: boolean
   updatedAt: string
+  qgisMapType: QgisMapType
   qgisProject: QgisProject
 }
 

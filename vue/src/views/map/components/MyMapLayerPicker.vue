@@ -107,13 +107,17 @@
 </template>
 
 <script setup lang="ts">
-import type { Layer } from '@/models/interfaces/map/Layer'
+import type { AtlasLayer, Layer } from '@/models/interfaces/map/Layer'
 import { debounce, downloadJson } from '@/services/utils/UtilsService'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, ref, watch, type ModelRef } from 'vue'
 import MyMapLayerOpacityPicker from '@/views/map/components/MyMapLayerOpacityPicker.vue'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import { QgisMapMaplibreService } from '@/services/qgisMap/QgisMapMaplibreService'
+import { QgisMapType } from '@/models/enums/geo/QgisMapType'
+import { NotificationType } from '@/models/enums/app/NotificationType'
+import { i18n } from '@/plugins/i18n'
+import { addNotification } from '@/services/notifications/NotificationService'
 
 const isExpanded = ref(false)
 const isLayerOpacityShown = ref(false)
@@ -195,11 +199,15 @@ const downloadSourceData = async () => {
         downloadJson(data, layerId)
       }
     } else {
-      const atlas = myMapStore.atlasMaps.find((atlasMap) => atlasMap.id === layerId)
-      if (atlas) {
-        const qgisProject = atlas.qgisProjectName
-        const qgisLayers = atlas.subLayers.map((subLayer) => subLayer.name)
-        QgisMapMaplibreService.getData(qgisProject, qgisLayers)
+      if ((mainLayer.value as AtlasLayer).qgisMapType === QgisMapType.VECTOR) {
+        const atlas = myMapStore.atlasMaps.find((atlasMap) => atlasMap.id === layerId)
+        if (atlas) {
+          const qgisProject = atlas.qgisProjectName
+          const qgisLayers = atlas.subLayers.map((subLayer) => subLayer.name)
+          QgisMapMaplibreService.getData(qgisProject, qgisLayers)
+        }
+      } else {
+        addNotification(i18n.t('myMap.atlases.dataNotFetchable'), NotificationType.ERROR)
       }
     }
   }

@@ -51,6 +51,7 @@ export class AtlasMapService {
         isShown: isMainLayerShown,
         icon: map.logo?.contentUrl || '',
         opacity: 100,
+        qgisMapType: map.qgisMapType,
         atlasGroup: atlas.atlasGroup
       }
 

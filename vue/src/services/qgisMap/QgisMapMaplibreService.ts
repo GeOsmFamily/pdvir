@@ -141,7 +141,7 @@ export class QgisMapMaplibreService {
       const blob = new Blob([geojsonStr], { type: 'application/json' })
       const link = document.createElement('a')
       link.href = URL.createObjectURL(blob)
-      link.download = 'data.geojson'
+      link.download = layers.join('_') + '.geojson'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
