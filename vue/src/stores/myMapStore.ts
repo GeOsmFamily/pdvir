@@ -30,7 +30,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const projectLayer: Ref<Layer | null> = ref(null)
   const projectSubLayers: Ref<Layer[]> = ref([])
 
-  const atlasMaps: Ref<AtlasMap[]> = ref([]) // Updated from atlasStore
+  const atlasMaps: Ref<AtlasMap[]> = ref([])
   const activeAtlas: AtlasActive = reactive({
     leftPanel: {
       active: false,

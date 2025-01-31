@@ -5,7 +5,9 @@
       :title="$t('atlas.predefinedMap')"
       :type="AtlasGroup.PREDEFINED_MAP"
       :atlases="
-        atlasStore.atlasList.filter((atlas) => atlas.atlasGroup === AtlasGroup.PREDEFINED_MAP)
+        atlasStore.atlasList
+          .filter((atlas) => atlas.atlasGroup === AtlasGroup.PREDEFINED_MAP)
+          .sort((a, b) => a.position - b.position)
       "
       v-if="atlasStore.atlasList.length > 0"
     />
