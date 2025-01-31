@@ -1,3 +1,7 @@
+import { NotificationType } from '@/models/enums/app/NotificationType'
+import { addNotification } from '../notifications/NotificationService'
+import { i18n } from '@/plugins/i18n'
+
 export class QgisMapMaplibreService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
   // Get the URL of a plain image covering the map for Qgis projects not being visualised as WMS
@@ -125,5 +129,27 @@ export class QgisMapMaplibreService {
     if (!map || !sourceName) return
     map.removeLayer(sourceName)
     map.removeSource(sourceName)
+  }
+
+  static async getData(qgisProjectName: string, layers: string[]) {
+    try {
+      const url = `${window.location.origin}${this.qgisServerURL}/${qgisProjectName}?service=WFS&VERSION=1.1.0&request=GetFeature&srs=EPSG:4326&TYPENAME=${layers.join(',')}&OUTPUTFORMAT=geojson`
+      const response = await fetch(url)
+      if (!response.ok) throw new Error(`Error ${response.status}`)
+      const geojson = await response.json()
+      const geojsonStr = JSON.stringify(geojson, null, 2)
+      const blob = new Blob([geojsonStr], { type: 'application/json' })
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(blob)
+      link.download = 'data.geojson'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(link.href)
+    } catch (error) {
+      addNotification(i18n.t('myMap.atlases.errorFetchingData'), NotificationType.ERROR)
+      console.error('Error fetching data', error)
+      return null
+    }
   }
 }

@@ -113,6 +113,7 @@ import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, ref, watch, type ModelRef } from 'vue'
 import MyMapLayerOpacityPicker from '@/views/map/components/MyMapLayerOpacityPicker.vue'
 import { LayerType } from '@/models/enums/geo/LayerType'
+import { QgisMapMaplibreService } from '@/services/qgisMap/QgisMapMaplibreService'
 
 const isExpanded = ref(false)
 const isLayerOpacityShown = ref(false)
@@ -157,11 +158,9 @@ watch(
 const changeLayerOpacity = debounce(async (layer: Layer, opacityPercentage: number) => {
   if (mainLayer.value) {
     const opacity = opacityPercentage / 100
-    if (props.loadedLayerType === LayerType.APP_LAYER) {
-      myMapStore.myMap?.setPaintProperty(layer.id.toString(), 'icon-opacity', opacity)
-    } else {
-      myMapStore.myMap?.setPaintProperty(layer.id.toString(), 'raster-opacity', opacity)
-    }
+    const paintProperty =
+      props.loadedLayerType === LayerType.APP_LAYER ? 'icon-opacity' : 'raster-opacity'
+    myMapStore.myMap?.setPaintProperty(layer.id.toString(), paintProperty, opacity)
   }
 }, 100)
 
@@ -190,9 +189,18 @@ const editAllSubLayers = (show = true) => {
 const downloadSourceData = async () => {
   const layerId = mainLayer.value?.id.toString()
   if (myMapStore.myMap?.map && layerId) {
-    const data = await myMapStore.myMap?.getData(layerId)
-    if (data) {
-      downloadJson(data, layerId)
+    if (props.loadedLayerType === LayerType.APP_LAYER) {
+      const data = await myMapStore.myMap?.getData(layerId)
+      if (data) {
+        downloadJson(data, layerId)
+      }
+    } else {
+      const atlas = myMapStore.atlasMaps.find((atlasMap) => atlasMap.id === layerId)
+      if (atlas) {
+        const qgisProject = atlas.qgisProjectName
+        const qgisLayers = atlas.subLayers.map((subLayer) => subLayer.name)
+        QgisMapMaplibreService.getData(qgisProject, qgisLayers)
+      }
     }
   }
 }

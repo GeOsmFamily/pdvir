@@ -39,7 +39,8 @@
       "thematicData": "Données thématiques",
       "predefinedData": "Cartes prédéfinies",
       "data": "Donnée | Données",
-      "map": "Carte | Cartes"
+      "map": "Carte | Cartes",
+      "errorFetchingData": "Une erreur est survenue lors du telechargement de la couche"
     },
     "legend": {
       "title": "Légende"
