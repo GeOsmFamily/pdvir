@@ -50,7 +50,7 @@ export class AtlasMapService {
         name: map.name,
         isShown: isMainLayerShown,
         icon: map.logo?.contentUrl || '',
-        opacity: 1,
+        opacity: 100,
         atlasGroup: atlas.atlasGroup
       }
 
@@ -61,7 +61,7 @@ export class AtlasMapService {
           name: item,
           isShown: activeSubLayers.includes(item),
           icon: '',
-          opacity: 1,
+          opacity: 100,
           mapOrder: 0, //Used for change layer order in Qgis Server requests, updated from the legend component
           atlasGroup: atlas.atlasGroup
         })) ?? []

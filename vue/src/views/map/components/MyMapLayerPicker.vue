@@ -26,7 +26,6 @@
           @click="isExpanded = !isExpanded"
         />
         <v-menu
-          v-if="withActions"
           location="bottom"
           @update:modelValue="isLayerOpacityShown = mainLayer?.opacity && mainLayer?.opacity < 100"
         >
@@ -89,10 +88,16 @@
         >
           <template v-slot:label>
             <div class="MyMapLayerPicker__iconCtn">
-              <img :src="subLayer.icon" :alt="subLayer.name" v-if="sublayerIcon && subLayer.icon" />
-              <span class="text-capitalize" :class="{ 'ml-1': sublayerIcon && subLayer.icon }">{{
-                subLayer.name
-              }}</span>
+              <img
+                :src="subLayer.icon"
+                :alt="subLayer.name"
+                v-if="loadedLayerType === LayerType.ATLAS_LAYER && subLayer.icon"
+              />
+              <span
+                class="text-capitalize"
+                :class="{ 'ml-1': loadedLayerType === LayerType.ATLAS_LAYER && subLayer.icon }"
+                >{{ subLayer.name }}</span
+              >
             </div>
           </template>
         </v-checkbox>
@@ -107,6 +112,7 @@ import { debounce, downloadJson } from '@/services/utils/UtilsService'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, ref, watch, type ModelRef } from 'vue'
 import MyMapLayerOpacityPicker from '@/views/map/components/MyMapLayerOpacityPicker.vue'
+import { LayerType } from '@/models/enums/geo/LayerType'
 
 const isExpanded = ref(false)
 const isLayerOpacityShown = ref(false)
@@ -115,14 +121,12 @@ const subLayers: ModelRef<Layer[] | undefined> = defineModel('subLayers')
 const myMapStore = useMyMapStore()
 const emits = defineEmits(['update'])
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    sublayerIcon?: boolean
-    withActions?: boolean
+    loadedLayerType?: LayerType
   }>(),
   {
-    sublayerIcon: false,
-    withActions: true
+    loadedLayerType: LayerType.APP_LAYER
   }
 )
 
@@ -153,7 +157,11 @@ watch(
 const changeLayerOpacity = debounce(async (layer: Layer, opacityPercentage: number) => {
   if (mainLayer.value) {
     const opacity = opacityPercentage / 100
-    myMapStore.myMap?.setPaintProperty(layer.id.toString(), 'icon-opacity', opacity)
+    if (props.loadedLayerType === LayerType.APP_LAYER) {
+      myMapStore.myMap?.setPaintProperty(layer.id.toString(), 'icon-opacity', opacity)
+    } else {
+      myMapStore.myMap?.setPaintProperty(layer.id.toString(), 'raster-opacity', opacity)
+    }
   }
 }, 100)
 

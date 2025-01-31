@@ -54,6 +54,5 @@ const isShown = computed(() => {
   align-items: center;
   justify-content: space-between;
   border-radius: 3px;
-  padding: 0.25rem 0.5rem;
 }
 </style>

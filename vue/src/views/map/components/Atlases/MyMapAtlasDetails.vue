@@ -34,8 +34,7 @@
           myMapStore.atlasMaps.filter((x) => x.atlasId === atlas['@id'])[index].subLayers
         "
         @update="updateThematicData(qgisMap.id)"
-        :sublayer-icon="true"
-        :withActions="false"
+        :loaded-layer-type="LayerType.ATLAS_LAYER"
       />
     </template>
     <template v-else>
@@ -50,6 +49,7 @@ import { inject, type Ref } from 'vue'
 import { useMyMapStore } from '@/stores/myMapStore'
 import MyMapLayerPicker from '@/views/map/components/MyMapLayerPicker.vue'
 import MyMapAtlasPicker from '@/views/map/components/Atlases/MyMapAtlasPicker.vue'
+import { LayerType } from '@/models/enums/geo/LayerType'
 const hideDetails: Ref<boolean> = inject('hideDetails') as Ref<boolean>
 const myMapStore = useMyMapStore()
 
