@@ -1,4 +1,10 @@
-create-geodata-user-schema:
+## 
+## --------------------------------------------------------------------------------
+##  🛠️  OSM commands
+## --------------------------------------------------------------------------------
+
+
+create-geodata-user-schema:	## Create a specific Postgresql user and schema for OSM data
 #Create geodata user if it doesn't exist
 	@$(POSTGRES) psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c 'DO $$$$ BEGIN IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = '\''${POSTGRES_GEODATA_USER}'\'') THEN CREATE ROLE ${POSTGRES_GEODATA_USER} LOGIN PASSWORD '\''${POSTGRES_GEODATA_PASSWORD}'\''; END IF; END $$$$;'
 
@@ -29,11 +35,11 @@ DATA_DIR=./docker/osm2pgsql/data
 OSM_FILE=cameroon-latest.osm.pbf
 DOWNLOAD_URL=https://download.geofabrik.de/africa/$(OSM_FILE)
 
-download-osm-file:
+download-osm-file:	## Download latest OSM .pbf file
 	mkdir -p $(DATA_DIR)
 	wget -O $(DATA_DIR)/$(OSM_FILE) $(DOWNLOAD_URL)
 
-init-osm-db:
+init-osm-db:	## Create OSM database with osm2pgsql
 	$(DOCKER_COMP) --profile osm up osm2pgsql
 	rm $(DATA_DIR)/$(OSM_FILE)
 
