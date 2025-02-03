@@ -18,6 +18,7 @@
         :additionnal-path="additionnalPath as string"
         :external-link="sharedLinkIsExternalToPlatform"
       />
+      <HighlightButton :item-id="id" />
       <LikeButton :id="id" />
       <v-btn
         class="GenericInfoCard__editBtn"
@@ -44,6 +45,7 @@
 import InfoCard from '@/components/global/InfoCard.vue'
 import LikeButton from '@/components/global/LikeButton.vue'
 import ShareButton from '@/components/global/ShareButton.vue'
+import HighlightButton from '@/components/global/HighlightButton.vue'
 import { ItemType } from '@/models/enums/app/ItemType'
 import { computed } from 'vue'
 import imageDefault from '@/assets/images/Logo.png'
@@ -51,15 +53,15 @@ import imageDefault from '@/assets/images/Logo.png'
 const props = withDefaults(
   defineProps<{
     id: string
-    title: string
-    description: string
+    title?: string
+    description?: string
     image?: string
     typeLabel: string
-    type: ItemType
-    slug: string
+    type?: ItemType
+    slug?: string
     actionIcon?: string
     isEditable?: boolean
-    editFunction?: Function
+    editFunction?: () => void
     href?: string
   }>(),
   {

@@ -7,5 +7,6 @@ export enum AdministrationPanels {
   MAPS = 'MAPS',
   MAP_ATLAS = 'MAP_ATLAS',
   MAP_QGIS_PROJECT = 'MAP_QGIS_PROJECT',
+  HIGHLIGHTS = 'HIGHLIGHTS',
   COMMENTS = 'COMMENTS'
 }

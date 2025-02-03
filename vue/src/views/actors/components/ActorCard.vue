@@ -10,6 +10,7 @@
     </template>
     <template #footer-left>
       <ShareButton :additionnal-path="'/' + actor.slug" />
+      <HighlightButton :item-id="actor.id" />
       <LikeButton :id="actor.id" />
     </template>
     <template #footer-right>
@@ -25,6 +26,7 @@ import LikeButton from '@/components/global/LikeButton.vue'
 import ShareButton from '@/components/global//ShareButton.vue'
 import { computed, type ComputedRef } from 'vue'
 import type { RouteLocationAsRelativeGeneric } from 'vue-router'
+import HighlightButton from '@/components/global/HighlightButton.vue'
 const props = defineProps<{
   actor: Actor
 }>()

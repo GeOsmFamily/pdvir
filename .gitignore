@@ -1,7 +1,6 @@
 .env.local
 
 docker/postgres/*
-docker/qgis/data/*
 
 .idea
 local.mk

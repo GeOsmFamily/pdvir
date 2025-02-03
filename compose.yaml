@@ -114,8 +114,8 @@ services:
     ports:
       - ${QGIS_SERVER_PORT:-6000}:80
     volumes:
-      # Data should be mount RO when working
-      # with GeoPackages and more than one QGIS container
+     # Data should be mount RO when working
+     # with GeoPackages and more than one QGIS container
       # - ./docker/qgis/data:/io/data:ro
       - ./docker/qgis/plugins:/io/plugins
       - ./docker/qgis/svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
@@ -157,10 +157,9 @@ volumes:
   docs_node_modules:
   database_data:
   nominatim-data:
-  # imposm_data:
   qgis_projects:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/docker/qgis/data
+      device: ./docker/qgis/data
