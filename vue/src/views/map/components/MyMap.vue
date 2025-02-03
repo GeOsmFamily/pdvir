@@ -15,6 +15,7 @@
       :is-higlighted-when-off="true"
       ref="toggle-right-sidebar-control"
     />
+    <MyMapItemPopup v-if="myMapStore.myMap" />
   </div>
 </template>
 
@@ -27,6 +28,7 @@ import type Basemap from '@/models/interfaces/map/Basemap'
 import MapService, { IControl } from '@/services/map/MapService'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
+import MyMapItemPopup from '@/views/map/components/MyMapItemPopup.vue'
 
 type MapType = InstanceType<typeof Map>
 const basemap = ref<Basemap>()

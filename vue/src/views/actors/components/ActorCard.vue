@@ -1,5 +1,5 @@
 <template>
-  <InfoCard class="ActorCard" :to="actorProfileRoute">
+  <InfoCard class="ActorCard" :to="actorProfileRoute" v-if="actor">
     <template #content>
       <span class="InfoCard__subTitle">{{ actor.acronym }}</span>
       <span class="InfoCard__title">{{ actor.name }}</span>
