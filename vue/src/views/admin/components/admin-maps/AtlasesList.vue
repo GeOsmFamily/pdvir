@@ -95,7 +95,6 @@ const sortingAtlasSelectedMethod: Ref<atlasSortingMethod> = ref('position')
 const searchQuery = ref('')
 
 const sortedAtlases = computed(() => {
-  console.log(sortingAtlasSelectedMethod.value)
   if (sortingAtlasSelectedMethod.value === 'position') {
     return atlasStore.atlasList
       .filter((x) => x.atlasGroup === props.atlasesPanel)

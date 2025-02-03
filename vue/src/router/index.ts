@@ -112,7 +112,7 @@ const router = createRouter({
       },
       component: () => import('@/views/admin/AdminView.vue'),
       beforeEnter: (to, from, next) => {
-        if (window.location.hostname === 'puc.local') {
+        if (import.meta.env.MODE !== 'production') {
           next()
         } else {
           const userStore = useUserStore()
