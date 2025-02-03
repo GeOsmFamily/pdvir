@@ -5,7 +5,7 @@
         <div class="SheetContentBanner__actionsBar mt-1">
           <div class="SheetContentBanner__shareBar">
             <slot name="custom-actions"></slot>
-            <ShareButton :additionnal-path="slug" />
+            <ShareButton :additionnal-path="''" />
             <HighlightButton :item-id="id" />
             <LikeButton :id="id" />
             <v-btn
