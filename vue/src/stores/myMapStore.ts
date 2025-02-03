@@ -42,40 +42,6 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const activeItem: Ref<Item | null> = ref(null)
   const activeItemType: Ref<ItemType | null> = ref(null)
 
-  watch(
-    () => activeItemId.value,
-    async () => {
-      const projectStore = useProjectStore()
-      const actorStore = useActorsStore()
-      const resourceStore = useResourceStore()
-      activeItem.value = null
-      activeItemType.value = null
-
-      if (activeItemId.value) {
-        let item: Item | undefined = projectStore.projects.find(
-          (project) => project.id === activeItemId.value
-        )
-
-        if (item) {
-          activeItemType.value = ItemType.PROJECT
-          activeItem.value = await ProjectService.get(item)
-        } else {
-          item = actorStore.actors.find((actor) => actor.id === activeItemId.value)
-          if (item) {
-            activeItemType.value = ItemType.ACTOR
-            activeItem.value = await ActorsService.getActor(item.id)
-          } else {
-            item = resourceStore.resources.find((resource) => resource.id === activeItemId.value)
-            if (item) {
-              activeItemType.value = ItemType.RESOURCE
-              activeItem.value = await ResourceService.get(item)
-            }
-          }
-        }
-      }
-    }
-  )
-
   const atlasMaps: Ref<AtlasMap[]> = ref([])
   const activeAtlas: AtlasActive = reactive({
     leftPanel: {
@@ -96,6 +62,14 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     await AppLayersService.initApplicationLayers(useMyMapStore())
     await AtlasMapService.initAtlasLayers(useMyMapStore(), useAtlasStore())
     if (deserializedMapState.value) {
+      bbox.value = deserializedMapState.value.bbox
+      const bounds: [number, number, number, number] = [
+        bbox.value._sw.lng,
+        bbox.value._sw.lat,
+        bbox.value._ne.lng,
+        bbox.value._ne.lat
+      ]
+      myMap.value?.map?.fitBounds(bounds)
       for (const thematicMap of atlasMaps.value) {
         if (thematicMap.mainLayer.isShown) {
           updateAtlasLayersVisibility(thematicMap.id)
@@ -174,6 +148,41 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
       }
     }
   }
+
+  // PopUp Management
+  watch(
+    () => activeItemId.value,
+    async () => {
+      const projectStore = useProjectStore()
+      const actorStore = useActorsStore()
+      const resourceStore = useResourceStore()
+      activeItem.value = null
+      activeItemType.value = null
+
+      if (activeItemId.value) {
+        let item: Item | undefined = projectStore.projects.find(
+          (project) => project.id === activeItemId.value
+        )
+
+        if (item) {
+          activeItemType.value = ItemType.PROJECT
+          activeItem.value = await ProjectService.get(item)
+        } else {
+          item = actorStore.actors.find((actor) => actor.id === activeItemId.value)
+          if (item) {
+            activeItemType.value = ItemType.ACTOR
+            activeItem.value = await ActorsService.getActor(item.id)
+          } else {
+            item = resourceStore.resources.find((resource) => resource.id === activeItemId.value)
+            if (item) {
+              activeItemType.value = ItemType.RESOURCE
+              activeItem.value = await ResourceService.get(item)
+            }
+          }
+        }
+      }
+    }
+  )
 
   return {
     isRightSidebarShown,
