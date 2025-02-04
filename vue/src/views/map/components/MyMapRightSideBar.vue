@@ -47,6 +47,7 @@ const mapStore = useMyMapStore()
   flex-flow: column nowrap;
   gap: 1rem;
   width: 100%;
+  height: 100%;
   max-height: calc(100vh - $mymap-header-h);
 }
 </style>
