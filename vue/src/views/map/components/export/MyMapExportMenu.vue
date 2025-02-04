@@ -61,10 +61,19 @@ onMounted(() => {
 })
 
 const submitForm = handleSubmit(
-  (values) => {
+  async (values) => {
     mapImgUrl.value = mapStore.myMap?.map?.getCanvas().toDataURL('image/png') as string
     console.log(mapStore.legendList)
     console.log(mapImgUrl.value)
+    const response = await fetch('/api/export-map', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mapImage: mapImgUrl.value })
+    })
+
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+    window.open(url)
   },
   () => onInvalidSubmit
 )
