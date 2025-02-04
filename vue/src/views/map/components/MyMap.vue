@@ -3,6 +3,7 @@
     <Map class="MyMap__map" ref="my-map" />
     <BasemapPicker ref="basemap-picker" v-model="basemap" />
     <MyMapLegend ref="map-legend" />
+    <MyMapExportButton ref="map-export-button" />
     <ToggleSidebarControl
       v-model="myMapStore.isLeftSidebarShown"
       :inversed-direction="true"
@@ -29,6 +30,7 @@ import MapService, { IControl } from '@/services/map/MapService'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
 import MyMapItemPopup from '@/views/map/components/MyMapItemPopup.vue'
+import MyMapExportButton from '@/views/map/components/export/MyMapExportButton.vue'
 
 type MapType = InstanceType<typeof Map>
 const basemap = ref<Basemap>()
@@ -38,6 +40,7 @@ const toggleRightSidebarControl = useTemplateRef('toggle-right-sidebar-control')
 const toggleLeftSidebarControl = useTemplateRef('toggle-left-sidebar-control')
 const basemapPicker = useTemplateRef('basemap-picker')
 const mapLegend = useTemplateRef('map-legend')
+const mapExportButton = useTemplateRef('map-export-button')
 const map = computed(() => myMap.value?.map)
 
 onMounted(() => {
@@ -49,6 +52,7 @@ onMounted(() => {
     map.value.addControl(new IControl(toggleRightSidebarControl), 'top-right')
     map.value.addControl(new IControl(toggleLeftSidebarControl), 'top-left')
     map.value.addControl(new IControl(mapLegend), 'bottom-right')
+    map.value.addControl(new IControl(mapExportButton), 'bottom-right')
     // If map has already been visited, we set the previous bbox
     if (myMapStore.bbox) {
       map.value.fitBounds(myMapStore.bbox)
