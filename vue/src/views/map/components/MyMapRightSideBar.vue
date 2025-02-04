@@ -13,7 +13,7 @@
         v-if="atlasStore.atlasList.length > 0"
       />
     </div>
-    <div v-show="mapStore.isMapExportActive" class="MyMapRightSideBar__subCtn">
+    <div v-if="mapStore.isMapExportActive" class="MyMapRightSideBar__subCtn">
       <MyMapExportMenu />
     </div>
   </div>
