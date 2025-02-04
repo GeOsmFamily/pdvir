@@ -21,7 +21,7 @@ class MapPdfController extends AbstractController
         }
 
         $pdfContent = $pdfGenerator->generate('pdf/map.html.twig', [
-            'map_url' => $mapImage
+            'map_url' => $mapImage,
         ]);
 
         return new Response($pdfContent, 200, [
