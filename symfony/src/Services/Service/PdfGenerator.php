@@ -26,7 +26,7 @@ class PdfGenerator
         $options->set('isRemoteEnabled', true); // Allow remote images
 
         $dompdf = new Dompdf($options);
-        
+
         $html = $this->twig->render($template, $data);
 
         $dompdf->loadHtml($html);
