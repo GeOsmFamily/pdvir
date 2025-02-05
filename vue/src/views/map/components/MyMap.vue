@@ -1,6 +1,6 @@
 <template>
   <div class="MyMap">
-    <Map class="MyMap__map" ref="my-map" />
+    <Map class="MyMap__map" ref="my-map" :to-export="true" />
     <BasemapPicker ref="basemap-picker" v-model="basemap" />
     <MyMapLegend ref="map-legend" />
     <MyMapExportButton ref="map-export-button" />

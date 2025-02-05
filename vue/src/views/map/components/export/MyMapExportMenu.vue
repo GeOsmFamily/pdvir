@@ -50,10 +50,9 @@
 import { onInvalidSubmit } from '@/services/forms/FormService'
 import { MapExportService } from '@/services/map/MapExportService'
 import { useMyMapStore } from '@/stores/myMapStore'
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted } from 'vue'
 const mapStore = useMyMapStore()
 const { form, handleSubmit, isSubmitting } = MapExportService.getExportForm()
-const mapImgUrl: Ref<string | null> = ref(null)
 // const legend
 
 onMounted(() => {
@@ -62,13 +61,10 @@ onMounted(() => {
 
 const submitForm = handleSubmit(
   async (values) => {
-    mapImgUrl.value = mapStore.myMap?.map?.getCanvas().toDataURL('image/png') as string
-    console.log(mapStore.legendList)
-    console.log(mapImgUrl.value)
     const response = await fetch('/api/export-map', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mapImage: mapImgUrl.value })
+      body: JSON.stringify({ mapImage: mapStore.mapCanvasToDataUrl })
     })
 
     const blob = await response.blob()

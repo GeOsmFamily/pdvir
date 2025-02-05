@@ -25,6 +25,7 @@ import { ItemType } from '@/models/enums/app/ItemType'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
+  const mapCanvasToDataUrl: Ref<string | null> = ref(null)
   const isRightSidebarShown = ref(true)
   const isLeftSidebarShown = ref(true)
   const mapSearch: Ref<OsmData | null> = ref(null)
@@ -192,6 +193,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     isLayersReorderingAlreadyTriggering,
     isMapExportActive,
     myMap,
+    mapCanvasToDataUrl,
     mapSearch,
     actorLayer,
     actorSubLayers,
