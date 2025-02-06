@@ -30,7 +30,6 @@ class PdfGenerator
         $html = $this->twig->render($template, $data);
 
         $dompdf->loadHtml($html);
-        dump($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
 

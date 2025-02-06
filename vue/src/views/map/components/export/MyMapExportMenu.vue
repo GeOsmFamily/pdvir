@@ -64,7 +64,12 @@ const submitForm = handleSubmit(
     const response = await fetch('/api/export-map', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mapImage: mapStore.mapCanvasToDataUrl })
+      body: JSON.stringify({
+        title: values.title,
+        description: values.description,
+        mapImage: mapStore.mapCanvasToDataUrl,
+        legendList: mapStore.legendList
+      })
     })
 
     const blob = await response.blob()

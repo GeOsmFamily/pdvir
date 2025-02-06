@@ -14,14 +14,20 @@ class MapPdfController extends AbstractController
     public function exportMap(Request $request, PdfGenerator $pdfGenerator): Response
     {
         $data = json_decode($request->getContent(), true);
+        $title = $data['title'] ?? null;
+        $description = $data['description'] ?? null;
         $mapImage = $data['mapImage'] ?? null;
+        $legendList = $data['legendList'] ?? null;
 
         if (!$mapImage) {
             return new Response('No image provided', 400);
         }
 
         $pdfContent = $pdfGenerator->generate('pdf/map.html.twig', [
-            'map_url' => $mapImage,
+            'title' => $title,
+            'description' => $description,
+            'mapUrl' => $mapImage,
+            'legendList' => $legendList
         ]);
 
         return new Response($pdfContent, 200, [
