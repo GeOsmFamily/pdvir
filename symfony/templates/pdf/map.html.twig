@@ -32,6 +32,7 @@
             font-size: 16px;
             font-weight: bold;
             height: 1cm;
+            background-color: #F3CA46;
             border-bottom: 1px solid rgb(80, 79, 79);
         }
         .header-content {
@@ -66,7 +67,7 @@
             box-sizing: border-box;
         }
         .description {
-            font-size: 12px;
+            font-size: 14px;
         }
         .legend {
             font-size: 12px;
@@ -117,10 +118,12 @@
                         </div>
                     {% else %}
                         {% for legendItem in item.subLayers %}
-                            <div class="legend-item">
-                                <img src="{{ legendItem.icon }}" class="legend-icon">
-                                <span class="layer-name">{{ legendItem.name }}</span>
-                            </div>
+                            {# {% if legendItem.isShown == 'true' %} #}
+                                <div class="legend-item">
+                                    <img src="{{ legendItem.icon }}" class="legend-icon">
+                                    <span class="layer-name">{{ legendItem.name }}</span>
+                                </div>
+                            {# {% endif %} #}
                         {% endfor %}
                     {% endif %}
                 {% endfor %}

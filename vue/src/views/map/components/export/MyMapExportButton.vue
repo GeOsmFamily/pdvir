@@ -1,9 +1,12 @@
 <template>
   <div class="maplibregl-ctrl maplibregl-ctrl-group MapExport">
     <v-btn
-      icon="mdi-tray-arrow-down"
+      icon="mdi-printer"
       @click.stop="mapStore.isMapExportActive = !mapStore.isMapExportActive"
-      :class="{ 'text-white': mapStore.isMapExportActive }"
+      :class="{
+        'text-white': mapStore.isMapExportActive,
+        'text-main-blue': !mapStore.isMapExportActive
+      }"
       :color="mapStore.isMapExportActive ? 'main-blue' : 'white'"
     ></v-btn>
   </div>
