@@ -27,7 +27,7 @@ class MapPdfController extends AbstractController
             'title' => $title,
             'description' => $description,
             'mapUrl' => $mapImage,
-            'legendList' => $legendList,
+            'legendList' => $legendList
         ]);
 
         return new Response($pdfContent, 200, [

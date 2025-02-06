@@ -47,20 +47,28 @@
   </div>
 </template>
 <script setup lang="ts">
+import { LayerType } from '@/models/enums/geo/LayerType'
 import { onInvalidSubmit } from '@/services/forms/FormService'
 import { MapExportService } from '@/services/map/MapExportService'
+import { fetchImageAsBase64 } from '@/services/utils/UtilsService'
 import { useMyMapStore } from '@/stores/myMapStore'
-import { onMounted } from 'vue'
 const mapStore = useMyMapStore()
 const { form, handleSubmit, isSubmitting } = MapExportService.getExportForm()
-// const legend
-
-onMounted(() => {
-  console.log(mapStore.legendList)
-})
 
 const submitForm = handleSubmit(
   async (values) => {
+    const legendToPrint = await Promise.all(
+      mapStore.legendList.map(async (item) => {
+        if (item.layerType === LayerType.APP_LAYER) {
+          return {
+            ...item,
+            icon: await fetchImageAsBase64(item.icon)
+          }
+        }
+        return item
+      })
+    )
+
     const response = await fetch('/api/export-map', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -68,7 +76,7 @@ const submitForm = handleSubmit(
         title: values.title,
         description: values.description,
         mapImage: mapStore.mapCanvasToDataUrl,
-        legendList: mapStore.legendList
+        legendList: legendToPrint
       })
     })
 
