@@ -20,6 +20,7 @@ class MapPdfController extends AbstractController
         $legendList = $data['legendList'] ?? null;
         $logo = $data['logo'] ?? null;
         $footer = $data['footer'] ?? null;
+        $scaleDenominator = $data['scaleDenominator'] ?? null;
 
         if (!$mapImage) {
             return new Response('No image provided', 400);
@@ -32,6 +33,7 @@ class MapPdfController extends AbstractController
             'legendList' => $legendList,
             'logo' => $logo,
             'footer' => $footer,
+            'scaleDenominator' => $scaleDenominator
         ]);
 
         return new Response($pdfContent, 200, [
