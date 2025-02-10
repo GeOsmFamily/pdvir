@@ -69,6 +69,8 @@ const submitForm = handleSubmit(
       })
     )
 
+    const logo = await fetchImageAsBase64('/img/Logo.png')
+    const footer = await fetchImageAsBase64('/img/pdf_footer.png')
     const response = await fetch('/api/export-map', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -76,7 +78,9 @@ const submitForm = handleSubmit(
         title: values.title,
         description: values.description,
         mapImage: mapStore.mapCanvasToDataUrl,
-        legendList: legendToPrint
+        legendList: legendToPrint,
+        logo: logo,
+        footer: footer
       })
     })
 
