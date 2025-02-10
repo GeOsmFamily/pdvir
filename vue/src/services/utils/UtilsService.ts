@@ -90,6 +90,7 @@ export function downloadJson(data: any, fileName: string) {
 }
 
 export async function fetchImageAsBase64(url: string): Promise<string | null> {
+  console.log(url)
   try {
     const response = await fetch(url)
     if (!response.ok) {
