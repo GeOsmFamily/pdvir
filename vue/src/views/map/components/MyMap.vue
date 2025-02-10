@@ -71,7 +71,14 @@ onMounted(() => {
 
 watch(basemap, () => {
   if (map.value != null && basemap.value != null) {
-    MapService.updateStyle(map.value, basemap.value)
+    MapService.updateStyle(map.value, basemap.value).then(() => {
+      const sources = map.value?.getStyle().sources
+      for (const source in sources) {
+        if ((sources[source] as any).tileSize) {
+          myMapStore.tileSize = (sources[source] as any).tileSize
+        }
+      }
+    })
   }
 })
 

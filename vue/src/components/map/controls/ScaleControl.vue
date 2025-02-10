@@ -23,6 +23,7 @@ watch(
 
 const scale = computed(() => {
   if (!map.value) return ''
+  if (!mapCenter.value) return ''
 
   // This is the math formula to calculate the scale from a latitude and a zoom level and a device pixel ratio
   // This formula seems based for 256x256 tiles
@@ -32,8 +33,11 @@ const scale = computed(() => {
 
   const pixelsPerCm = dpi / 2.54
   const groundDistanceMeters = metersPerPixel * pixelsPerCm
-  // For an unkonwn reason, our map seems based on 512x512 tiles, so we divide by 2
-  let scaleDenominator: number | string = (groundDistanceMeters * 100) / 2
+  let scaleDenominator: number | string = groundDistanceMeters * 100
+  // Adapt formula for 512x512 tiles if needed
+  if (mapStore.tileSize === 512) {
+    scaleDenominator = scaleDenominator / 2
+  }
 
   scaleDenominator = roundScale(scaleDenominator)
   // eslint-disable-next-line vue/no-side-effects-in-computed-properties

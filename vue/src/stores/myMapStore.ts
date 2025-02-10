@@ -59,6 +59,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
   const bbox: Ref<LngLatBounds | undefined> = ref(undefined)
   const scaleDenominator = ref(0)
+  const tileSize = ref(512)
   const serializedMapState: Ref<string> = ref('')
   const deserializedMapState: Ref<MapState | null> = ref(null)
   async function initMapLayers() {
@@ -212,6 +213,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     setMapLayersOrderOnMapReMount,
     bbox,
     scaleDenominator,
+    tileSize,
     getSerializedMapState,
     serializedMapState,
     deserializedMapState,
