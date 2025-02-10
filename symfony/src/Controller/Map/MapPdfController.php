@@ -33,7 +33,7 @@ class MapPdfController extends AbstractController
             'legendList' => $legendList,
             'logo' => $logo,
             'footer' => $footer,
-            'scaleDenominator' => $scaleDenominator
+            'scaleDenominator' => $scaleDenominator,
         ]);
 
         return new Response($pdfContent, 200, [
