@@ -72,10 +72,12 @@ onMounted(() => {
 watch(basemap, () => {
   if (map.value != null && basemap.value != null) {
     MapService.updateStyle(map.value, basemap.value).then(() => {
+      // Check for the source tile size as the scale control is based on it
       const sources = map.value?.getStyle().sources
       for (const source in sources) {
-        if ((sources[source] as any).tileSize) {
-          myMapStore.tileSize = (sources[source] as any).tileSize
+        const tileSource = map.value?.getSource(source)
+        if (tileSource && tileSource.tileSize) {
+          myMapStore.tileSize = tileSource.tileSize
         }
       }
     })
