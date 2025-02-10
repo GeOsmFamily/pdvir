@@ -57,17 +57,13 @@ const { form, handleSubmit, isSubmitting } = MapExportService.getExportForm()
 
 const submitForm = handleSubmit(
   async (values) => {
-    const images = import.meta.glob('/src/assets/images/icons/map/*.png', {
-      eager: true,
-      as: 'url'
-    })
     const legendToPrint = await Promise.all(
       mapStore.legendList.map(async (item) => {
         if (item.layerType === LayerType.APP_LAYER) {
-          const iconPath = images[`/src/assets/images/icons/map/${item.icon}`] || item.icon
+          const iconUrl = new URL(item.icon, import.meta.url).href
           return {
             ...item,
-            icon: await fetchImageAsBase64(iconPath)
+            icon: await fetchImageAsBase64(iconUrl)
           }
         }
         return item
