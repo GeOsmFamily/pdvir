@@ -60,10 +60,9 @@ const submitForm = handleSubmit(
     const legendToPrint = await Promise.all(
       mapStore.legendList.map(async (item) => {
         if (item.layerType === LayerType.APP_LAYER) {
-          const iconUrl = new URL(item.icon, import.meta.url).href
           return {
             ...item,
-            icon: await fetchImageAsBase64(iconUrl)
+            icon: await fetchImageAsBase64(item.icon)
           }
         }
         return item
