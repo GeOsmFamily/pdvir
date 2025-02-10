@@ -31,7 +31,7 @@ class MapPdfController extends AbstractController
             'mapUrl' => $mapImage,
             'legendList' => $legendList,
             'logo' => $logo,
-            'footer' => $footer
+            'footer' => $footer,
         ]);
 
         return new Response($pdfContent, 200, [
