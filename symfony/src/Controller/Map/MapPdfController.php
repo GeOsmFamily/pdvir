@@ -23,11 +23,13 @@ class MapPdfController extends AbstractController
             return new Response('No image provided', 400);
         }
 
+        $baseUrl = 'http://' . $_SERVER['HTTP_HOST'];
         $pdfContent = $pdfGenerator->generate('pdf/map.html.twig', [
             'title' => $title,
             'description' => $description,
             'mapUrl' => $mapImage,
             'legendList' => $legendList,
+            'baseUrl' => $baseUrl
         ]);
 
         return new Response($pdfContent, 200, [

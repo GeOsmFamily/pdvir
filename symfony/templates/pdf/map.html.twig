@@ -20,9 +20,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 40px; /* Ajuste la taille selon ton besoin */
+            width: 3cm;
             height: auto;
-            margin-left: 5px; /* Ajoute un peu d'espace par rapport aux bords */
         }
 
         .header {
@@ -91,13 +90,20 @@
             margin-top: 20px;
             font-style: italic;
         }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
-    
-    
     <div class="container">
-        <img src="{{ asset('images/Logo.png') }}" class="logo" alt="Logo">
+        <img src="{{baseUrl}}/img/Logo.png" class="logo" alt="Logo">
+        {# <img src="https://puc.local/img/Logo.png" class="logo" alt="Logo"> #}
+        <img src="{{baseUrl}}/img/pdf_footer.png" class="footer" alt="footer">
         <div class="header">
             <div class="header-content">
                 {{ title }}
@@ -118,12 +124,10 @@
                         </div>
                     {% else %}
                         {% for legendItem in item.subLayers %}
-                            {# {% if legendItem.isShown == 'true' %} #}
-                                <div class="legend-item">
-                                    <img src="{{ legendItem.icon }}" class="legend-icon">
-                                    <span class="layer-name">{{ legendItem.name }}</span>
-                                </div>
-                            {# {% endif %} #}
+                            <div class="legend-item">
+                                <img src="{{ legendItem.icon }}" class="legend-icon">
+                                <span class="layer-name">{{ legendItem.name }}</span>
+                            </div>
                         {% endfor %}
                     {% endif %}
                 {% endfor %}
