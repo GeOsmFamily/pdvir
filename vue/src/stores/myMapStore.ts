@@ -58,6 +58,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   let alreadyAddedImageSources: string[] = [] //Used to avoid triggering maplibre event as much time as the layer has been added to the map
   const legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]> = ref([])
   const bbox: Ref<LngLatBounds | undefined> = ref(undefined)
+  const scaleDenominator = ref(0)
   const serializedMapState: Ref<string> = ref('')
   const deserializedMapState: Ref<MapState | null> = ref(null)
   async function initMapLayers() {
@@ -210,6 +211,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     updateAtlasSubLayersOrder,
     setMapLayersOrderOnMapReMount,
     bbox,
+    scaleDenominator,
     getSerializedMapState,
     serializedMapState,
     deserializedMapState,

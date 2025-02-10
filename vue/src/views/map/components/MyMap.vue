@@ -2,6 +2,7 @@
   <div class="MyMap">
     <Map class="MyMap__map" ref="my-map" :to-export="true" />
     <BasemapPicker ref="basemap-picker" v-model="basemap" />
+    <ScaleControl ref="scale-control" />
     <MyMapLegend ref="map-legend" />
     <MyMapExportButton ref="map-export-button" />
     <ToggleSidebarControl
@@ -31,6 +32,7 @@ import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
 import MyMapItemPopup from '@/views/map/components/MyMapItemPopup.vue'
 import MyMapExportButton from '@/views/map/components/export/MyMapExportButton.vue'
+import ScaleControl from '@/components/map/controls/ScaleControl.vue'
 
 type MapType = InstanceType<typeof Map>
 const basemap = ref<Basemap>()
@@ -41,6 +43,7 @@ const toggleLeftSidebarControl = useTemplateRef('toggle-left-sidebar-control')
 const basemapPicker = useTemplateRef('basemap-picker')
 const mapLegend = useTemplateRef('map-legend')
 const mapExportButton = useTemplateRef('map-export-button')
+const scaleControl = useTemplateRef('scale-control')
 const map = computed(() => myMap.value?.map)
 
 onMounted(() => {
@@ -53,6 +56,7 @@ onMounted(() => {
     map.value.addControl(new IControl(toggleLeftSidebarControl), 'top-left')
     map.value.addControl(new IControl(mapLegend), 'bottom-right')
     map.value.addControl(new IControl(mapExportButton), 'bottom-right')
+    map.value.addControl(new IControl(scaleControl), 'bottom-left')
     // If map has already been visited, we set the previous bbox
     if (myMapStore.bbox) {
       map.value.fitBounds(myMapStore.bbox)

@@ -80,7 +80,8 @@ const submitForm = handleSubmit(
         mapImage: mapStore.mapCanvasToDataUrl,
         legendList: legendToPrint,
         logo: logo,
-        footer: footer
+        footer: footer,
+        scaleDenominator: mapStore.scaleDenominator
       })
     })
 
