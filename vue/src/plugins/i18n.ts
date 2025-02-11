@@ -23,7 +23,8 @@ export const i18nInstance = createI18n({
       ...homeFR,
       ...resourcesFR,
       ...myMapFR,
-      ...routesFR
+      ...routesFR,
+      ...myMapFR
     }
   }
 })
