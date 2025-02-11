@@ -18,7 +18,7 @@ class MapPdfController extends AbstractController
         $description = $data['description'] ?? null;
         $mapImage = $data['mapImage'] ?? null;
         $legendList = $data['legendList'] ?? null;
-        $baseUrl = 'https://' . $_SERVER['HTTP_HOST'];
+        $baseUrl = 'https://'.$_SERVER['HTTP_HOST'];
 
         if (!$mapImage) {
             return new Response('No image provided', 400);
@@ -29,7 +29,7 @@ class MapPdfController extends AbstractController
             'description' => $description,
             'mapUrl' => $mapImage,
             'legendList' => $legendList,
-            'baseUrl' => $baseUrl
+            'baseUrl' => $baseUrl,
         ]);
 
         return new Response($pdfContent, 200, [
