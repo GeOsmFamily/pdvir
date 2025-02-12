@@ -52,7 +52,7 @@ onMounted(() => {
 
   map.value.addControl(nav, 'top-right')
   map.value.addControl(new IControl(resetMapExtentControl), 'top-right')
-  map.value.addControl(new maplibregl.AttributionControl(), 'bottom-left')
+  map.value.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right')
   setBBox()
   map.value.on('load', () => {
     addSource('cameroonMask', cameroonMask as GeoJSON.GeoJSON)
@@ -290,6 +290,7 @@ defineExpose({
 
   .maplibregl-ctrl-top-left,
   .maplibregl-ctrl-bottom-right,
+  .maplibregl-ctrl-bottom-left,
   .maplibregl-ctrl-top-right {
     margin: 1.5rem;
     display: flex;
