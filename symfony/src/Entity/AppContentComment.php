@@ -2,16 +2,15 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Delete;
-use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
-use App\Entity\Trait\BlameableEntity;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use App\Entity\Trait\BlameableEntity;
 use App\Entity\Trait\TimestampableEntity;
 use App\Repository\AppContentCommentRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AppContentCommentRepository::class)]
 #[ApiResource(
