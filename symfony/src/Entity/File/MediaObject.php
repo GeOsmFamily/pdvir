@@ -56,11 +56,11 @@ class MediaObject extends AbstractObject
     private const READ = 'media_object:read';
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'], writable: false)]
-    #[Groups([self::READ, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, User::GROUP_GETME, Resource::GET_FULL, Project::GET_FULL, Project::GET_PARTIAL, Atlas::GET_FULL, QgisMap::GET_FULL])]
+    #[Groups([self::READ, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, Project::GET_FULL, Project::GET_PARTIAL])]
     public ?string $contentUrl = null;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'], writable: false)]
-    #[Groups([self::READ, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, User::GROUP_GETME, Resource::GET_FULL, Atlas::GET_FULL, Project::GET_FULL, Project::GET_PARTIAL, QgisMap::GET_FULL])]
+    #[Groups([self::READ, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, Project::GET_FULL, Project::GET_PARTIAL])]
     public ?array $contentsFilteredUrl = null;
 
     #[Vich\UploadableField(

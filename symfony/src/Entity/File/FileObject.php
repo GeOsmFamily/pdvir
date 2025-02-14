@@ -55,14 +55,21 @@ class FileObject extends AbstractObject
     private const READ = 'file_object:read';
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'], writable: false)]
-    #[Groups([self::READ, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, User::GROUP_GETME, Resource::GET_FULL, Atlas::GET_FULL, QgisMap::GET_FULL])]
+    #[Groups([self::READ, User::GROUP_GETME, Resource::GET_FULL, Atlas::GET_FULL, QgisMap::GET_FULL])]
     public ?string $contentUrl = null;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'], writable: false)]
-    #[Groups([self::READ, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, User::GROUP_GETME, Resource::GET_FULL, Atlas::GET_FULL, QgisMap::GET_FULL])]
+    #[Groups([self::READ, User::GROUP_GETME, Resource::GET_FULL, Atlas::GET_FULL, QgisMap::GET_FULL])]
     public ?array $contentsUrl = null;
 
-    #[Vich\UploadableField(mapping: 'file_object', fileNameProperty: 'filePath')]
+    #[Vich\UploadableField(
+        mapping: 'file_object',
+        fileNameProperty: 'filePath',
+        originalName: 'originalName',
+        mimeType: 'mimeType',
+        dimensions: 'dimensions',
+        size: 'size'
+    )]
     #[Assert\NotNull]
     #[Assert\File(
         maxSize: '5000k',
