@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model;
-use App\Entity\Actor;
 use App\Entity\Atlas;
 use App\Entity\QgisMap;
 use App\Entity\Resource;
