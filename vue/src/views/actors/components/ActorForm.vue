@@ -238,6 +238,7 @@ import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
+import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 
 const appStore = useApplicationStore()
 const actorsStore = useActorsStore()
@@ -259,9 +260,10 @@ const submitLabel = computed(() => {
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 
 const existingLogo = ref<(FileObject | string)[]>([])
-const existingImages = ref<(FileObject | string)[]>([])
+const existingImages = ref<(BaseMediaObject | string)[]>([])
 let existingHostedImages: FileObject[] = []
 let existingExternalImages: string[] = []
+
 onMounted(async () => {
   await thematicsStore.getAll()
   if (actorToEdit) {
