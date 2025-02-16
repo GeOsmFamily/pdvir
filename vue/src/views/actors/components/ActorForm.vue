@@ -195,6 +195,7 @@
             v-model="form.officeLocation.value.value"
             :error-messages="form.officeLocation.errorMessage.value"
             @blur="form.officeLocation.handleChange"
+            :placeholder="$t('actors.form.officeLocationPlaceholder')"
           />
         </div>
 
@@ -229,12 +230,15 @@ import type { ActorExpertise } from '@/models/interfaces/ActorExpertise'
 import type { Thematic } from '@/models/interfaces/Thematic'
 import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope'
 import Modal from '@/components/global/Modal.vue'
-import type { MediaObject } from '@/models/interfaces/MediaObject'
+import type { FileObject } from '@/models/interfaces/object/FileObject'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
 import { useThematicStore } from '@/stores/thematicStore'
 import { onInvalidSubmit } from '@/services/forms/FormService'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import { i18n } from '@/plugins/i18n'
+import { addNotification } from '@/services/notifications/NotificationService'
+import { NotificationType } from '@/models/enums/app/NotificationType'
+import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 
 const appStore = useApplicationStore()
 const actorsStore = useActorsStore()
@@ -255,10 +259,11 @@ const submitLabel = computed(() => {
 })
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 
-const existingLogo = ref<(MediaObject | string)[]>([])
-const existingImages = ref<(MediaObject | string)[]>([])
-let existingHostedImages: MediaObject[] = []
+const existingLogo = ref<(FileObject | string)[]>([])
+const existingImages = ref<(BaseMediaObject | string)[]>([])
+let existingHostedImages: FileObject[] = []
 let existingExternalImages: string[] = []
+
 onMounted(async () => {
   await thematicsStore.getAll()
   if (actorToEdit) {
@@ -279,7 +284,7 @@ function handleImagesUpdate(lists: any) {
   imagesToUpload.value = lists.selectedFiles
   existingHostedImages = []
   existingExternalImages = []
-  lists.existingImages.forEach((image: MediaObject | string) => {
+  lists.existingImages.forEach((image: FileObject | string) => {
     if (typeof image === 'string') {
       existingExternalImages.push(image)
     } else {
@@ -299,6 +304,9 @@ const submitForm = handleSubmit(
     }
     actorsStore.createOrEditActor(actorSubmission, actorToEdit !== null)
   },
-  () => onInvalidSubmit
+  () => {
+    addNotification(i18n.t('forms.errors'), NotificationType.ERROR)
+    onInvalidSubmit()
+  }
 )
 </script>
