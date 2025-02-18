@@ -36,9 +36,9 @@ final class Version20250218151131 extends AbstractMigration
         $this->addSql('ALTER TABLE media_object ADD mime_type VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE media_object ADD dimensions JSON DEFAULT NULL');
         $this->addSql('ALTER TABLE media_object ADD size INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE media_object ADD created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL');
-        $this->addSql('ALTER TABLE media_object ADD updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL');
-        $this->addSql('ALTER TABLE media_object ADD type VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE media_object ADD created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT \'2025-02-18 12:00:00\'');
+        $this->addSql('ALTER TABLE media_object ADD updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT \'2025-02-18 12:00:00\'');
+        $this->addSql('ALTER TABLE media_object ADD type VARCHAR(255) DEFAULT \'file\'');
         $this->addSql('ALTER TABLE project ADD logo_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE project ADD external_images TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE project DROP images');
