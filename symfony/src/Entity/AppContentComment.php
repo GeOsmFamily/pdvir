@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
-use App\Enum\AppComment;
-use ApiPlatform\Metadata\Post;
-use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
-use App\Entity\Trait\BlameableEntity;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use App\Entity\Trait\BlameableEntity;
 use App\Entity\Trait\TimestampableEntity;
-use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use App\Enum\AppComment;
 use App\Repository\AppContentCommentRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 
 #[ORM\Entity(repositoryClass: AppContentCommentRepository::class)]
 #[ApiResource(
