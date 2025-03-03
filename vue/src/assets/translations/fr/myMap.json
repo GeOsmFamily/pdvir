@@ -59,6 +59,10 @@
         },
         "submit": "Exporter"
       }
+    },
+    "comment": {
+      "login": "Vous devez être connecté pour laisser un commentaire.",
+      "title": "Commentaire"
     }
   }
 }

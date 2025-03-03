@@ -32,6 +32,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const isMapAlreadyBeenMounted = ref(false)
   const isLayersReorderingAlreadyTriggering = ref(false)
   const isMapExportActive = ref(false)
+  const isMapCommentActive = ref(false)
 
   const actorLayer: Ref<Layer | null> = ref(null)
   const actorSubLayers: Ref<Layer[]> = ref([])
@@ -62,6 +63,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const tileSize = ref(512)
   const serializedMapState: Ref<string> = ref('')
   const deserializedMapState: Ref<MapState | null> = ref(null)
+
   async function initMapLayers() {
     await AppLayersService.initApplicationLayers(useMyMapStore())
     await AtlasMapService.initAtlasLayers(useMyMapStore(), useAtlasStore())
@@ -194,6 +196,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     isMapAlreadyBeenMounted,
     isLayersReorderingAlreadyTriggering,
     isMapExportActive,
+    isMapCommentActive,
     myMap,
     mapCanvasToDataUrl,
     mapSearch,
