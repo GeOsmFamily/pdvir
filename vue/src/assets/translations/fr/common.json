@@ -140,9 +140,9 @@
         }
     },
     "itemType": {
-        "Project": "Projet",
-        "Actor": "Acteur",
-        "Resource": "Ressource"
+        "project": "Projet",
+        "actor": "Acteur",
+        "resource": "Ressource"
     },
     "beneficiaryType": {
         "population": "Population",
@@ -205,6 +205,7 @@
         "filtersTitle": "Affinez votre recherche"
     },
     "share": {
+        "shareWhatsapp": "Partager sur Whatsapp",
         "shareFb": "Partager sur Facebook",
         "shareEmail": "Partager par email",
         "copyLink": "Copier le lien",
