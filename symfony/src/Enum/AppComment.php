@@ -11,5 +11,4 @@ enum AppComment: string
     case PROJECT = 'Project';
     case RESOURCE = 'Resource';
     case MAP = 'Map';
-
 }
