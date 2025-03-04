@@ -1,5 +1,9 @@
 <template>
-  <Modal :title="$t('comments.title')" :show="isShown" @close="$emit('close')">
+  <Modal
+    :title="$t('comments.title')"
+    :show="isShown"
+    @close="((commentStore.isAppCommentActive = false), $emit('close'))"
+  >
     <template #content>
       <v-form @submit.prevent="submitForm" id="comment-form" class="Form Form--project">
         <div class="Form__fieldCtn">
@@ -12,6 +16,10 @@
             :placeholder="$t('comments.form.message')"
             @blur="form.message.handleChange"
           />
+        </div>
+        <div v-if="originSlug" class="Form__fieldCtn">
+          <label class="Form__label">{{ $t('comments.form.originURL') }}</label>
+          <v-text-field :placeholder="`${origin}: ${originSlug}`"></v-text-field>
         </div>
         <div v-if="mapComment" class="Form__fieldCtn">
           <label class="Form__label">{{ $t('comments.form.location') }}</label>
@@ -63,6 +71,7 @@ const props = withDefaults(
 
 const commentStore = useCommentStore()
 const { form, handleSubmit, isSubmitting } = CommentsFormService.getCommentsForm()
+const emit = defineEmits(['close'])
 
 const submitForm = handleSubmit(
   (values) => {
@@ -74,12 +83,12 @@ const submitForm = handleSubmit(
       commentSubmission.location = `${props.lngLat.lng.toString()}, ${props.lngLat.lat.toString()}`
     }
     if (props.originSlug) {
-      commentSubmission.originURL = window.location + '/' + props.originSlug
+      commentSubmission.originURL = props.originSlug
     }
     commentStore.createComment(commentSubmission)
+    emit('close')
   },
-  (error) => {
-    console.log(error)
+  () => {
     addNotification(i18n.t('forms.errors'), NotificationType.ERROR)
     onInvalidSubmit()
   }

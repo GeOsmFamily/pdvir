@@ -1,13 +1,13 @@
 <template>
   <v-btn
     v-if="position === 'Sheet'"
-    icon="mdi-comment-text"
+    :icon="isFormCommentVisible ? 'mdi-comment-text' : 'mdi-comment-text-outline'"
     @click.stop="isFormCommentVisible = true"
     :class="{
       'text-white': isFormCommentVisible,
-      'text-main-red': !isFormCommentVisible
+      'text-main-blue': !isFormCommentVisible
     }"
-    :color="isFormCommentVisible ? 'main-red' : 'white'"
+    :color="isFormCommentVisible ? 'main-blue' : 'white'"
   ></v-btn>
   <v-btn
     v-else
