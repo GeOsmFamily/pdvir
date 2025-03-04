@@ -18,7 +18,14 @@
         "maps": "Ma carte",
         "observatory": "Observatoire",
         "catalog": "Catalogue",
-        "data": "Données"
+        "data": "Données",
+        "highlights": "Rubrique à la une",
+        "comments": "Commentaires",
+        "actorsComments": "Commentaires sur les acteurs",
+        "projectsComments": "Commentaires sur les projets",
+        "resourcesComments": "Commentaires sur les ressources",
+        "mapComments": "Commentaires sur la carte"
+
     },
     "header": {
         "title": "Plateforme",

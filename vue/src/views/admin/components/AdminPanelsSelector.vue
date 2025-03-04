@@ -85,21 +85,37 @@
           </v-expansion-panel-title>
         </router-link>
       </v-expansion-panel>
+
       <v-expansion-panel
-        :readonly="true"
+        :title="$t('admin.panelComments')"
         :value="AdministrationPanels.COMMENTS"
-        @click="adminStore.selectedAdminPanel = AdministrationPanels.COMMENTS"
-        class="text-main-blue"
         :class="{
           Admin__selectedPanel: adminStore.selectedAdminPanel === AdministrationPanels.COMMENTS
         }"
+        class="text-main-blue"
       >
-        <v-expansion-panel-title>
-          {{ $t('admin.panelComments') }}
-          <template v-slot:actions>
-            <v-icon color="main-blue" icon="mdi-chevron-right"></v-icon>
-          </template>
-        </v-expansion-panel-title>
+        <v-expansion-panel-text>
+          <router-link class="Admin__itemSelector" :to="{ name: 'actorsComments' }">
+            <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
+            {{ $t('admin.panelContentActors') }}
+            <div class="Admin__itemToValidateCounter">{{ actorsToValidate }}</div>
+          </router-link>
+          <router-link class="Admin__itemSelector" :to="{ name: 'projectsComments' }">
+            <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
+            {{ $t('admin.panelContentProjects') }}
+            <div class="Admin__itemToValidateCounter">{{ projectsToValidate }}</div>
+          </router-link>
+          <router-link class="Admin__itemSelector" :to="{ name: 'resourcesComments' }">
+            <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
+            {{ $t('admin.panelContentResources') }}
+            <div class="Admin__itemToValidateCounter">{{ resourcesToValidate }}</div>
+          </router-link>
+          <router-link class="Admin__itemSelector" :to="{ name: 'mapComments' }">
+            <v-icon icon="mdi mdi-circle-small" size="large"></v-icon>
+            {{ $t('admin.panelCommentsMap') }}
+            <div class="Admin__itemToValidateCounter">{{ resourcesToValidate }}</div>
+          </router-link>
+        </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
   </div>
@@ -130,8 +146,8 @@ watch(
       router.push({ name: 'adminPredefinedMaps' })
       adminStore.selectedAdminItem = AdministrationPanels.MAP_ATLAS
     } else {
-      router.push({ name: 'adminComments' })
-      adminStore.selectedAdminItem = null
+      router.push({ name: 'actorsComments' })
+      adminStore.selectedAdminItem = AdministrationPanels.COMMENTS_ACTORS
     }
   }
 )
