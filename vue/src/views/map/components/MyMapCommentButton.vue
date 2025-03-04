@@ -39,6 +39,7 @@ const lngLat: Ref<LngLat | null> = ref(null)
 
 function activeMapComment() {
   if (userStore.userIsLogged) {
+    addNotification(i18n.t('myMap.comment.clickInfo'), NotificationType.INFO)
     commentStore.isAppCommentActive = !commentStore.isAppCommentActive
   } else {
     addNotification(i18n.t('myMap.comment.login'), NotificationType.ERROR)

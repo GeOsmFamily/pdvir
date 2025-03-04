@@ -34,7 +34,7 @@ import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
 import MyMapItemPopup from '@/views/map/components/MyMapItemPopup.vue'
 import MyMapExportButton from '@/views/map/components/export/MyMapExportButton.vue'
 import ScaleControl from '@/components/map/controls/ScaleControl.vue'
-import MyMapCommentButton from './export/MyMapCommentButton.vue'
+import MyMapCommentButton from '@/views/map/components/MyMapCommentButton.vue'
 
 type MapType = InstanceType<typeof Map>
 const basemap = ref<Basemap>()

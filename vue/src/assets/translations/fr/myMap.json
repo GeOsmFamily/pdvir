@@ -62,7 +62,8 @@
     },
     "comment": {
       "login": "Vous devez être connecté pour laisser un commentaire.",
-      "title": "Commentaire"
+      "title": "Commentaire",
+      "clickInfo": "Cliquez sur la carte pour sélectionner des coordonnées et ouvrir le formulaire de commentaire"
     }
   }
 }
