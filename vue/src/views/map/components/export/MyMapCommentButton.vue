@@ -5,10 +5,10 @@
       icon="mdi-comment-text"
       @click.stop="activeMapComment"
       :class="{
-        'text-white': commentStore.isMapCommentActive,
-        'text-main-red': !commentStore.isMapCommentActive
+        'text-white': commentStore.isAppCommentActive,
+        'text-main-red': !commentStore.isAppCommentActive
       }"
-      :color="commentStore.isMapCommentActive ? 'main-red' : 'white'"
+      :color="commentStore.isAppCommentActive ? 'main-red' : 'white'"
     ></v-btn>
     <CommentsForm
       :map-comment="true"
@@ -39,14 +39,14 @@ const lngLat: Ref<LngLat | null> = ref(null)
 
 function activeMapComment() {
   if (userStore.userIsLogged) {
-    commentStore.isMapCommentActive = !commentStore.isMapCommentActive
+    commentStore.isAppCommentActive = !commentStore.isAppCommentActive
   } else {
     addNotification(i18n.t('myMap.comment.login'), NotificationType.ERROR)
   }
 }
 
 watch(
-  () => commentStore.isMapCommentActive,
+  () => commentStore.isAppCommentActive,
   (value: boolean) => {
     if (map.value) {
       if (value) {
@@ -60,14 +60,14 @@ watch(
 )
 
 function desactiveMapComment() {
-  commentStore.isMapCommentActive = false
+  commentStore.isAppCommentActive = false
   isFormCommentVisible.value = false
   map.value?.off('click', handleMapComment)
 }
 
 function handleMapComment(e: any) {
   lngLat.value = e.lngLat
-  if (commentStore.isMapCommentActive) {
+  if (commentStore.isAppCommentActive) {
     isFormCommentVisible.value = true
   }
 }

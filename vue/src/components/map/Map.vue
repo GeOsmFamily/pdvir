@@ -182,7 +182,7 @@ const listenToHoveredFeature = (layerName: string) => {
   if (map.value == null) return
   map.value.on('mouseenter', layerName, (e: any) => {
     if (map.value == null) return
-    if (!commentStore.isMapCommentActive) {
+    if (!commentStore.isAppCommentActive) {
       map.value.getCanvas().style.cursor = 'pointer'
     }
     hoveredFeatureId.value = e.features[0].properties.id
@@ -190,7 +190,7 @@ const listenToHoveredFeature = (layerName: string) => {
 
   map.value.on('mouseleave', layerName, () => {
     if (map.value == null) return
-    if (!commentStore.isMapCommentActive) {
+    if (!commentStore.isAppCommentActive) {
       map.value.getCanvas().style.cursor = ''
     }
     hoveredFeatureId.value = null

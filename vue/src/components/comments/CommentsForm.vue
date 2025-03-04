@@ -24,7 +24,7 @@
     <template #footer-left>
       <span
         class="text-action"
-        @click="((commentStore.isMapCommentActive = false), $emit('close'))"
+        @click="((commentStore.isAppCommentActive = false), $emit('close'))"
         >{{ $t('forms.cancel') }}</span
       >
     </template>
@@ -52,6 +52,7 @@ const props = withDefaults(
   defineProps<{
     isShown: boolean
     origin: CommentOrigin
+    originSlug?: string
     mapComment?: boolean
     lngLat?: LngLat
   }>(),
@@ -67,14 +68,18 @@ const submitForm = handleSubmit(
   (values) => {
     const commentSubmission: AppComment = {
       ...(values as any),
-      origin: props.origin,
-      location: props.lngLat
-        ? `${props.lngLat.lng.toString()}, ${props.lngLat.lat.toString()}`
-        : null
+      origin: props.origin
+    }
+    if (props.lngLat) {
+      commentSubmission.location = `${props.lngLat.lng.toString()}, ${props.lngLat.lat.toString()}`
+    }
+    if (props.originSlug) {
+      commentSubmission.originURL = window.location + '/' + props.originSlug
     }
     commentStore.createComment(commentSubmission)
   },
-  () => {
+  (error) => {
+    console.log(error)
     addNotification(i18n.t('forms.errors'), NotificationType.ERROR)
     onInvalidSubmit()
   }

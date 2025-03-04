@@ -5,14 +5,14 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useCommentStore = defineStore(StoresList.COMMENT, () => {
-  const isMapCommentActive = ref(false)
+  const isAppCommentActive = ref(false)
   async function createComment(commentSubmission: AppComment) {
     await CommentsService.createComment(commentSubmission)
-    isMapCommentActive.value = false
+    isAppCommentActive.value = false
   }
 
   return {
-    isMapCommentActive,
+    isAppCommentActive,
     createComment
   }
 })
