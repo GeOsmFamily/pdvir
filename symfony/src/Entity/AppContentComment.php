@@ -54,6 +54,9 @@ class AppContentComment
     )]
     private ?string $location = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $originURL = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -115,6 +118,18 @@ class AppContentComment
         } else {
             throw new \InvalidArgumentException('Invalid coordinates format. Expected "lat, lng".');
         }
+
+        return $this;
+    }
+
+    public function getOriginURL(): ?string
+    {
+        return $this->originURL;
+    }
+
+    public function setOriginURL(?string $originURL): static
+    {
+        $this->originURL = $originURL;
 
         return $this;
     }

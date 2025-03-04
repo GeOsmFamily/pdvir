@@ -1,19 +1,21 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
   <div class="maplibregl-ctrl maplibregl-ctrl-group MapExport">
     <v-btn
       icon="mdi-comment-text"
       @click.stop="activeMapComment"
       :class="{
-        'text-white': myMapStore.isMapCommentActive,
-        'text-main-red': !myMapStore.isMapCommentActive
+        'text-white': commentStore.isMapCommentActive,
+        'text-main-red': !commentStore.isMapCommentActive
       }"
-      :color="myMapStore.isMapCommentActive ? 'main-red' : 'white'"
+      :color="commentStore.isMapCommentActive ? 'main-red' : 'white'"
     ></v-btn>
     <CommentsForm
       :map-comment="true"
       v-if="isFormCommentVisible"
       :is-shown="isFormCommentVisible"
-      :lng-lat="lngLat as LngLat"
+      origin="Map"
+      :lng-lat="(lngLat as LngLat)"
       @close="desactiveMapComment"
     />
   </div>
@@ -23,26 +25,28 @@ import CommentsForm from '@/components/comments/CommentsForm.vue'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'
+import { useCommentStore } from '@/stores/commentStore'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { useUserStore } from '@/stores/userStore'
 import type { LngLat } from 'maplibre-gl'
 import { computed, ref, watch, type Ref } from 'vue'
 const myMapStore = useMyMapStore()
 const userStore = useUserStore()
+const commentStore = useCommentStore()
 const map = computed(() => myMapStore.myMap?.map)
 const isFormCommentVisible = ref(false)
 const lngLat: Ref<LngLat | null> = ref(null)
 
 function activeMapComment() {
   if (userStore.userIsLogged) {
-    myMapStore.isMapCommentActive = !myMapStore.isMapCommentActive
+    commentStore.isMapCommentActive = !commentStore.isMapCommentActive
   } else {
     addNotification(i18n.t('myMap.comment.login'), NotificationType.ERROR)
   }
 }
 
 watch(
-  () => myMapStore.isMapCommentActive,
+  () => commentStore.isMapCommentActive,
   (value: boolean) => {
     if (map.value) {
       if (value) {
@@ -56,15 +60,14 @@ watch(
 )
 
 function desactiveMapComment() {
-  myMapStore.isMapCommentActive = false
+  commentStore.isMapCommentActive = false
   isFormCommentVisible.value = false
   map.value?.off('click', handleMapComment)
 }
 
 function handleMapComment(e: any) {
   lngLat.value = e.lngLat
-  console.log(lngLat.value)
-  if (myMapStore.isMapCommentActive) {
+  if (commentStore.isMapCommentActive) {
     isFormCommentVisible.value = true
   }
 }
