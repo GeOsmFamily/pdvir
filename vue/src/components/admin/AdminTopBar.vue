@@ -32,9 +32,7 @@
           </v-list>
         </v-menu>
       </v-btn>
-      <v-btn v-if="createFunction" @click="createFunction()" color="main-red">{{
-        $t('admin.add')
-      }}</v-btn>
+      <slot name="right-buttons"></slot>
     </div>
   </div>
 </template>
@@ -61,7 +59,6 @@ const props = defineProps<{
   items: Actor[] | User[]
   sortingListItems?: { sortingKey: string; text: string }[]
   searchKey?: string
-  createFunction?: () => void
 }>()
 const emit = defineEmits(['updateSortingKey', 'updateSearchQuery'])
 const sortingKey = ref('isValidated')
@@ -96,7 +93,6 @@ const searchQuery = ref('')
 watch(
   () => searchQuery.value,
   () => {
-    console.log('bloup')
     emit('updateSearchQuery', searchQuery.value)
   }
 )

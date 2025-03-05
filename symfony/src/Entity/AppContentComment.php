@@ -2,18 +2,19 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use App\Entity\Trait\BlameableEntity;
-use App\Entity\Trait\TimestampableEntity;
 use App\Enum\AppComment;
-use App\Repository\AppContentCommentRepository;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\Trait\BlameableEntity;
+use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\TimestampableEntity;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use App\Repository\AppContentCommentRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AppContentCommentRepository::class)]
 #[ApiResource(
@@ -26,25 +27,33 @@ use Jsor\Doctrine\PostGIS\Types\PostGISType;
         new Delete(
             security: 'is_granted("ROLE_ADMIN")'
         ),
-    ]
+    ],
+    normalizationContext: ['groups' => [self::COMMENT_READ]],
+    denormalizationContext: ['groups' => [self::COMMENT_WRITE]],
 )]
 class AppContentComment
 {
     use TimestampableEntity;
     use BlameableEntity;
+    public const COMMENT_READ = 'comment_read';
+    private const COMMENT_WRITE = 'comment_write';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([self::COMMENT_READ])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
     private ?bool $readByAdmin = false;
 
     #[ORM\Column(enumType: AppComment::class)]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
     private ?AppComment $origin = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
     private ?string $message = null;
 
     #[ORM\Column(
@@ -52,9 +61,11 @@ class AppContentComment
         options: ['geometry_type' => 'POINT'],
         nullable: true
     )]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
     private ?string $location = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
     private ?string $originURL = null;
 
     public function getId(): ?int

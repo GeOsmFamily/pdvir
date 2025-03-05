@@ -18,6 +18,12 @@
         "search": "Rechercher",
         "form": {
             "newSubmission": "Nouvelle soumission de {fullName} reçue le {date} à {time}."
+        },
+        "comments": {
+            "actionsButton": "Organiser",
+            "markAsRead": "Marquer comme lu",
+            "markAsUnread": "Marquer comme non lu",
+            "delete": "Supprimer"
         }
     }
 }

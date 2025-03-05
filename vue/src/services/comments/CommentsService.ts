@@ -5,6 +5,11 @@ import { addNotification } from '../notifications/NotificationService'
 import type { AppComment } from '@/models/interfaces/Comment'
 
 export class CommentsService {
+  static async getAll(): Promise<AppComment[]> {
+    return await apiClient
+      .get('/api/app_content_comments')
+      .then((response) => response.data['hydra:member'])
+  }
   static async createComment(comment: AppComment) {
     try {
       const data = (
@@ -16,7 +21,7 @@ export class CommentsService {
         })
       ).data
       addNotification(i18n.t('comments.successPost'), NotificationType.SUCCESS)
-      return data as Comment
+      return data as AppComment
     } catch (error) {
       addNotification(
         i18n.t('notifications.common.error.400'),

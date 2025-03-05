@@ -8,6 +8,9 @@ export interface AppComment extends Timestampable, Blameable {
   origin: CommentOrigin
   originURL: string | null
   location: string | null
+  readByAdmin: boolean
 }
 
 export type CommentOrigin = 'Actor' | 'Project' | 'Resource' | 'Map'
+
+export type AdminCommentsSortingValues = 'readByAdmin' | 'nameAZ' | 'nameZA'
