@@ -11,11 +11,11 @@ use App\Entity\Trait\BlameableEntity;
 use App\Entity\Trait\TimestampableEntity;
 use App\Enum\AppComment;
 use App\Repository\AppContentCommentRepository;
+use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use Symfony\Component\Serializer\Attribute\Groups;
-use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
 
 #[ORM\Entity(repositoryClass: AppContentCommentRepository::class)]
 #[ApiResource(

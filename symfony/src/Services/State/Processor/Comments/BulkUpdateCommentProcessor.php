@@ -2,17 +2,17 @@
 
 namespace App\Services\State\Processor\Comments;
 
-use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
-use App\Entity\AppContentComment;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
+use App\Entity\AppContentComment;
 use Doctrine\ORM\EntityManagerInterface;
 
 class BulkUpdateCommentProcessor implements ProcessorInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
-    ) {}
+        private EntityManagerInterface $entityManager,
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?AppContentComment
     {
