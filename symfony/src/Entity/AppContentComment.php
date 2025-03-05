@@ -15,12 +15,20 @@ use App\Entity\Trait\TimestampableEntity;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use App\Repository\AppContentCommentRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
 
 #[ORM\Entity(repositoryClass: AppContentCommentRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(security: 'is_granted("ROLE_ADMIN")'),
         new Patch(
+            security: 'is_granted("ROLE_ADMIN")'
+        ),
+        new Patch(
+            uriTemplate: '/comments/bulk-update',
+            name: 'bulk_update_comments',
+            input: BulkUpdateCommentDTO::class,
+            denormalizationContext: ['groups' => [self::COMMENT_BULK_UPDATE]],
             security: 'is_granted("ROLE_ADMIN")'
         ),
         new Post(security: 'is_granted("IS_AUTHENTICATED_FULLY")'),
@@ -37,6 +45,7 @@ class AppContentComment
     use BlameableEntity;
     public const COMMENT_READ = 'comment_read';
     private const COMMENT_WRITE = 'comment_write';
+    public const COMMENT_BULK_UPDATE = 'comment_bulk_update';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -45,15 +54,15 @@ class AppContentComment
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE, self::COMMENT_BULK_UPDATE])]
     private ?bool $readByAdmin = false;
 
     #[ORM\Column(enumType: AppComment::class)]
-    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE, self::COMMENT_BULK_UPDATE])]
     private ?AppComment $origin = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE, self::COMMENT_BULK_UPDATE])]
     private ?string $message = null;
 
     #[ORM\Column(
@@ -61,11 +70,11 @@ class AppContentComment
         options: ['geometry_type' => 'POINT'],
         nullable: true
     )]
-    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE, self::COMMENT_BULK_UPDATE])]
     private ?string $location = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE])]
+    #[Groups([self::COMMENT_READ, self::COMMENT_WRITE, self::COMMENT_BULK_UPDATE])]
     private ?string $originURL = null;
 
     public function getId(): ?int

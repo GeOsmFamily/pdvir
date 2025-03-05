@@ -24,6 +24,10 @@ export const useCommentStore = defineStore(StoresList.COMMENT, () => {
       comments.value.push(comment)
     }
   }
+
+  const markAsRead = (comments: AppComment[]) => {
+    CommentsService.markAsRead(comments)
+  }
   const getSortedComments = (origin: CommentOrigin, sortingMethod: AdminCommentsSortingValues) => {
     const filteredComments = comments.value.filter((x) => x.origin === origin)
 
@@ -54,6 +58,7 @@ export const useCommentStore = defineStore(StoresList.COMMENT, () => {
     isAppCommentActive,
     getAll,
     createComment,
+    markAsRead,
     getSortedComments
   }
 })

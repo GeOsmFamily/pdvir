@@ -105,9 +105,7 @@ const toggleSelection = (comment: AppComment) => {
   }
 }
 function markAsRead() {
-  selectedComments.value.map((comment) => {
-    comment.readByAdmin = true
-  })
+  commentStore.markAsRead(selectedComments.value)
   selectedComments.value = []
 }
 function deleteComments() {

@@ -30,4 +30,28 @@ export class CommentsService {
       )
     }
   }
+
+  static async markAsRead(items: AppComment[]) {
+    const data = {
+      commentIds: items.map((item) => item.id),
+      readByAdmin: true
+    }
+    try {
+      const result = (
+        await apiClient.patch('/api/comments/bulk-update', data, {
+          headers: {
+            'Content-Type': 'application/ld+json',
+            Accept: 'application/ld+json'
+          }
+        })
+      ).data
+      console.log(result)
+    } catch (error) {
+      addNotification(
+        i18n.t('notifications.common.error.400'),
+        NotificationType.ERROR,
+        error as string
+      )
+    }
+  }
 }
