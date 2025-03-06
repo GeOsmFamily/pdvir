@@ -2,22 +2,21 @@
 
 namespace App\Entity;
 
-use App\Enum\AppComment;
-use ApiPlatform\Metadata\Post;
-use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
-use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
-use App\Entity\Trait\BlameableEntity;
 use ApiPlatform\Metadata\GetCollection;
-use App\Entity\Trait\TimestampableEntity;
-use Jsor\Doctrine\PostGIS\Types\PostGISType;
-use App\Repository\AppContentCommentRepository;
-use Symfony\Component\Serializer\Attribute\Groups;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Controller\Comment\BulkDeleteCommentsController;
+use App\Entity\Trait\BlameableEntity;
+use App\Entity\Trait\TimestampableEntity;
+use App\Enum\AppComment;
+use App\Repository\AppContentCommentRepository;
 use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
 use App\Services\State\Processor\Comments\BulkUpdateCommentProcessor;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AppContentCommentRepository::class)]
 #[ApiResource(
@@ -41,7 +40,7 @@ use App\Services\State\Processor\Comments\BulkUpdateCommentProcessor;
             name: 'bulk_delete_comments',
             controller: BulkDeleteCommentsController::class,
             security: 'is_granted("ROLE_ADMIN")'
-        )
+        ),
     ],
     normalizationContext: ['groups' => [self::COMMENT_READ]],
     denormalizationContext: ['groups' => [self::COMMENT_WRITE]],
