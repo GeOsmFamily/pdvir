@@ -24,7 +24,8 @@
             "actionsButton": "Organiser",
             "markAsRead": "Marquer comme lu",
             "markAsUnread": "Marquer comme non lu",
-            "delete": "Supprimer"
+            "delete": "Supprimer",
+            "mapTitle": "Localisation du commentaire"
         }
     }
 }

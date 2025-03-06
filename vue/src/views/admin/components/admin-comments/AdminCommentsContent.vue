@@ -57,11 +57,23 @@
           <p>{{ comment.message }}</p>
         </div>
         <div class="AdminTable__item d-flex align-center justify-center">
-          <v-icon icon="mdi-magnify" @click="showEntity(comment.originURL as string)"></v-icon>
+          <template v-if="comment.originURL">
+            <v-icon icon="mdi-magnify" @click="showEntity(comment.originURL)"></v-icon>
+          </template>
+          <template v-else-if="comment.location">
+            <v-icon icon="mdi-map" @click="showMap(comment.location, comment.message)"></v-icon>
+          </template>
         </div>
       </div>
     </div>
   </div>
+
+  <MapCommentVisualiser
+    :coords="activeLocation"
+    :comment="commentText"
+    v-if="showMapModal && activeLocation && commentText"
+    @close="showMapModal = false"
+  ></MapCommentVisualiser>
 </template>
 <script setup lang="ts">
 import AdminTopBar from '@/components/admin/AdminTopBar.vue'
@@ -72,6 +84,7 @@ import type {
 } from '@/models/interfaces/Comment'
 import { useCommentStore } from '@/stores/commentStore'
 import { computed, ref, watch, type Ref } from 'vue'
+import MapCommentVisualiser from './MapCommentVisualiser.vue'
 const commentStore = useCommentStore()
 const props = defineProps<{ origin: CommentOrigin }>()
 
@@ -131,5 +144,13 @@ function deleteComments() {
 }
 function showEntity(url: string) {
   window.open(url, '_blank')
+}
+const showMapModal = ref(false)
+const activeLocation: Ref<string | null> = ref(null)
+const commentText: Ref<string | null> = ref(null)
+function showMap(location: string, message: string) {
+  commentText.value = message
+  activeLocation.value = location
+  showMapModal.value = true
 }
 </script>
