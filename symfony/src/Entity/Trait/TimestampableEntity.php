@@ -3,13 +3,13 @@
 namespace App\Entity\Trait;
 
 use App\Entity\Actor;
+use App\Entity\AppContentComment;
 use App\Entity\Atlas;
 use App\Entity\Project;
 use App\Entity\QgisMap;
 use App\Entity\Resource;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\AppContentComment;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Attribute\Groups;
 
