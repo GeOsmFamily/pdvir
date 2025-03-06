@@ -45,7 +45,7 @@
             :value="comment.id"
             v-model="selectedComments"
             hide-details
-            @update:model-value="toggleSelection(comment)"
+            @update:model-value="toggleSelection(comment.id)"
           >
           </v-checkbox>
         </div>
@@ -88,6 +88,16 @@ watch(
     )
   }
 )
+watch(
+  () => commentStore.comments,
+  () => {
+    sortedComments.value = commentStore.getSortedComments(
+      props.origin,
+      sortingCommentsSelectedMethod.value
+    )
+  },
+  { immediate: true, deep: true }
+)
 const searchQuery = ref('')
 const filteredItems = computed(() => {
   if (!searchQuery.value) {
@@ -103,14 +113,12 @@ const filteredItems = computed(() => {
   })
 })
 
-const selectedComments = ref<AppComment[]>([])
-const toggleSelection = (comment: AppComment) => {
-  console.log(comment)
-  const index = selectedComments.value.findIndex((c) => c.id === comment.id)
-  if (index === -1) {
-    selectedComments.value.push(comment)
+const selectedComments: Ref<string[]> = ref([])
+const toggleSelection = (commentID: string) => {
+  if (selectedComments.value.includes(commentID)) {
+    selectedComments.value.push(commentID)
   } else {
-    selectedComments.value.splice(index, 1)
+    selectedComments.value = selectedComments.value.filter((id) => id !== commentID)
   }
 }
 function markAsRead() {
@@ -118,7 +126,8 @@ function markAsRead() {
   selectedComments.value = []
 }
 function deleteComments() {
-  console.log(selectedComments.value)
+  commentStore.deleteComments(selectedComments.value)
+  selectedComments.value = []
 }
 function showEntity(url: string) {
   window.open(url, '_blank')

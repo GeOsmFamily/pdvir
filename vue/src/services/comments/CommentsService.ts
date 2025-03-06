@@ -31,27 +31,46 @@ export class CommentsService {
     }
   }
 
-  static async markAsRead(items: AppComment[]) {
+  static async markAsRead(items: string[]): Promise<void> {
     const data = {
-      commentIds: items.map((item) => item.id),
+      commentIds: items,
       readByAdmin: true
     }
     try {
-      const result = (
-        await apiClient.patch('/api/comments/bulk-update', data, {
-          headers: {
-            'Content-Type': 'application/ld+json',
-            Accept: 'application/ld+json'
-          }
-        })
-      ).data
-      console.log(result)
+      await apiClient.patch('/api/comments/bulk-update', data, {
+        headers: {
+          'Content-Type': 'application/ld+json',
+          Accept: 'application/ld+json'
+        }
+      })
+      return Promise.resolve()
     } catch (error) {
       addNotification(
         i18n.t('notifications.common.error.400'),
         NotificationType.ERROR,
         error as string
       )
+      return Promise.reject(error)
+    }
+  }
+
+  static async deleteComments(ids: string[]): Promise<void> {
+    const data = { ids: ids }
+    try {
+      await apiClient.post('/api/comments/bulk-delete', data, {
+        headers: {
+          'Content-Type': 'application/ld+json',
+          Accept: 'application/ld+json'
+        }
+      })
+      return Promise.resolve()
+    } catch (error) {
+      addNotification(
+        i18n.t('notifications.common.error.400'),
+        NotificationType.ERROR,
+        error as string
+      )
+      return Promise.reject(error)
     }
   }
 }

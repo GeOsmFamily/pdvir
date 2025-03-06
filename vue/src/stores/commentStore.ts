@@ -12,8 +12,8 @@ export const useCommentStore = defineStore(StoresList.COMMENT, () => {
   const comments: Ref<AppComment[]> = ref([])
   const isAppCommentActive = ref(false)
 
-  async function getAll(): Promise<void> {
-    if (comments.value.length === 0) {
+  async function getAll(force = false): Promise<void> {
+    if (comments.value.length === 0 || force) {
       comments.value = await CommentsService.getAll()
     }
   }
@@ -25,8 +25,16 @@ export const useCommentStore = defineStore(StoresList.COMMENT, () => {
     }
   }
 
-  const markAsRead = (comments: AppComment[]) => {
-    CommentsService.markAsRead(comments)
+  const markAsRead = (ids: string[]) => {
+    CommentsService.markAsRead(ids).then(() => {
+      getAll(true)
+    })
+  }
+
+  const deleteComments = (ids: string[]) => {
+    CommentsService.deleteComments(ids).then(() => {
+      getAll(true)
+    })
   }
   const getSortedComments = (origin: CommentOrigin, sortingMethod: AdminCommentsSortingValues) => {
     const filteredComments = comments.value.filter((x) => x.origin === origin)
@@ -59,6 +67,7 @@ export const useCommentStore = defineStore(StoresList.COMMENT, () => {
     getAll,
     createComment,
     markAsRead,
+    deleteComments,
     getSortedComments
   }
 })

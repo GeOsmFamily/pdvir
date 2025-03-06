@@ -2,20 +2,22 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use App\Entity\Trait\BlameableEntity;
-use App\Entity\Trait\TimestampableEntity;
 use App\Enum\AppComment;
-use App\Repository\AppContentCommentRepository;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\Trait\BlameableEntity;
+use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\TimestampableEntity;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use App\Repository\AppContentCommentRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Controller\Comment\BulkDeleteCommentsController;
 use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
+use App\Services\State\Processor\Comments\BulkUpdateCommentProcessor;
 
 #[ORM\Entity(repositoryClass: AppContentCommentRepository::class)]
 #[ApiResource(
@@ -28,13 +30,18 @@ use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
             uriTemplate: '/comments/bulk-update',
             name: 'bulk_update_comments',
             input: BulkUpdateCommentDTO::class,
+            output: false,
+            processor: BulkUpdateCommentProcessor::class,
             denormalizationContext: ['groups' => [self::COMMENT_BULK_UPDATE]],
             security: 'is_granted("ROLE_ADMIN")'
         ),
         new Post(security: 'is_granted("IS_AUTHENTICATED_FULLY")'),
-        new Delete(
+        new Post(
+            uriTemplate: '/comments/bulk-delete',
+            name: 'bulk_delete_comments',
+            controller: BulkDeleteCommentsController::class,
             security: 'is_granted("ROLE_ADMIN")'
-        ),
+        )
     ],
     normalizationContext: ['groups' => [self::COMMENT_READ]],
     denormalizationContext: ['groups' => [self::COMMENT_WRITE]],

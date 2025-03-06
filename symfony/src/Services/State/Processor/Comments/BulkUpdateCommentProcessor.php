@@ -2,11 +2,12 @@
 
 namespace App\Services\State\Processor\Comments;
 
-use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
 use App\Entity\AppContentComment;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\ProcessorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\State\ProcessorInterface;
+use Symfony\Component\HttpFoundation\Response;
+use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
 
 class BulkUpdateCommentProcessor implements ProcessorInterface
 {
@@ -14,7 +15,7 @@ class BulkUpdateCommentProcessor implements ProcessorInterface
         private EntityManagerInterface $entityManager
     ) {}
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?AppContentComment
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?Response
     {
         if (!$data instanceof BulkUpdateCommentDTO) {
             return null;
@@ -30,6 +31,6 @@ class BulkUpdateCommentProcessor implements ProcessorInterface
 
         $this->entityManager->flush();
 
-        return null;
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 }
