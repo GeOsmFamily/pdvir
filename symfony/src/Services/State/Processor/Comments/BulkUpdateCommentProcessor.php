@@ -12,8 +12,9 @@ use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
 class BulkUpdateCommentProcessor implements ProcessorInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
-    ) {}
+        private EntityManagerInterface $entityManager,
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?Response
     {
