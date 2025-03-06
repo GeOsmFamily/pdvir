@@ -37,7 +37,11 @@
       <span class="InfoCard__description">{{ resource.description }}</span>
     </template>
     <template #comment>
-      <CommentButton position="Card" origin="Resource" :originSlug="resource.name" />
+      <CommentButton
+        position="Card"
+        origin="Resource"
+        :originSlug="ResourceService.getLink(resource)"
+      />
     </template>
     <template #footer-right>
       <v-icon class="InfoCard__actionIcon" :icon="icon" color="light-blue"></v-icon>

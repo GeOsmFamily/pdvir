@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { i18n } from '@/plugins/i18n'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
-import { type Comment } from '@/models/interfaces/Comment'
+import type { AppComment } from '@/models/interfaces/Comment'
 
 export class CommentsFormService {
   static getCommentsForm() {
@@ -12,7 +12,7 @@ export class CommentsFormService {
       lat: z.string().optional()
     })
 
-    const { errors, handleSubmit, isSubmitting } = useForm<Comment>({
+    const { errors, handleSubmit, isSubmitting } = useForm<AppComment>({
       validationSchema: toTypedSchema(commentSchema)
     })
 

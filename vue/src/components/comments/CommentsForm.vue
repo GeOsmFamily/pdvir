@@ -47,14 +47,13 @@
 <script setup lang="ts">
 import type { LngLat } from 'maplibre-gl'
 import Modal from '../global/Modal.vue'
-import type { CommentOrigin } from '@/models/interfaces/Comment'
+import type { AppComment, CommentOrigin } from '@/models/interfaces/Comment'
 import { CommentsFormService } from '@/services/comments/CommentsForm'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { i18n } from '@/plugins/i18n'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import { onInvalidSubmit } from '@/services/forms/FormService'
 import { useCommentStore } from '@/stores/commentStore'
-import { type AppComment } from '@/models/interfaces/Comment'
 
 const props = withDefaults(
   defineProps<{
@@ -83,7 +82,11 @@ const submitForm = handleSubmit(
       commentSubmission.location = `${props.lngLat.lng.toString()}, ${props.lngLat.lat.toString()}`
     }
     if (props.originSlug) {
-      commentSubmission.originURL = props.originSlug
+      if (props.origin === 'Actor' || props.origin === 'Project') {
+        commentSubmission.originURL = window.location + '/' + props.originSlug
+      } else {
+        commentSubmission.originURL = props.originSlug
+      }
     }
     commentStore.createComment(commentSubmission)
     emit('close')
