@@ -2,12 +2,11 @@
 
 namespace App\Services\State\Processor\Comments;
 
-use App\Entity\AppContentComment;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\State\ProcessorInterface;
+use App\Entity\AppContentComment;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
 
 class BulkUpdateCommentProcessor implements ProcessorInterface
 {

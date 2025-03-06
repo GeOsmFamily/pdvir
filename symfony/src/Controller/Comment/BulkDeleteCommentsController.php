@@ -2,12 +2,10 @@
 
 namespace App\Controller\Comment;
 
-
-
 use App\Entity\AppContentComment;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class BulkDeleteCommentsController
 {
