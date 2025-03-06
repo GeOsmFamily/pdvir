@@ -42,19 +42,14 @@ function initMap() {
 }
 
 function addSourceAndLayer() {
-  console.log('props.coords', props.coords)
-  //Convert coords to lnglat and place marker on map
   const coords = props.coords.split(',')
   const lngLat = {
     lng: parseFloat(coords[1]),
     lat: parseFloat(coords[0])
   }
-  const marker = new maplibregl.Marker().setLngLat(lngLat)
-  marker.addTo(mapViewer as maplibregl.Map)
-  // Zoom to marker
   mapViewer?.flyTo({
     center: lngLat,
-    zoom: 15
+    zoom: 14
   })
 }
 </script>
@@ -62,11 +57,15 @@ function addSourceAndLayer() {
 <style lang="scss">
 .mapComment__ctn {
   height: 70vh;
+  max-height: 70vh;
   width: 80vw;
+  max-width: 80vw;
 }
 #mapComment__map {
   height: 80%;
+  max-height: 80%;
   width: 100%;
+  max-width: 100%;
 }
 .mapComment__text {
   height: 20%;
