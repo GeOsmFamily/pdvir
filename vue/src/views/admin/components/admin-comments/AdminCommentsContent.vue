@@ -38,7 +38,7 @@
       <div
         class="AdminTable__row h-auto"
         :class="{ 'AdminTable__row--overlay': !comment.readByAdmin }"
-        :style="{ gridTemplateColumns: ['5%', '20%', 'auto', '5%'].join(' ') }"
+        :style="{ gridTemplateColumns: ['5%', '20%', 'auto', '15%', '5%'].join(' ') }"
       >
         <div class="AdminTable__item d-flex align-center">
           <v-checkbox
@@ -49,12 +49,15 @@
           >
           </v-checkbox>
         </div>
-        <div class="AdminTable__item d-flex align-center pl-3">
+        <div class="AdminTable__item d-flex align-center pl-3 text-wrap">
           <span class="text-uppercase font-weight-bold">{{ comment.createdBy.lastName }}</span>
           <span class="ml-2">{{ comment.createdBy.firstName }}</span>
         </div>
         <div class="AdminTable__item d-flex align-center pl-3 text-wrap">
           <p>{{ comment.message }}</p>
+        </div>
+        <div class="AdminTable__item d-flex align-center justify-center">
+          {{ new Date(comment.createdAt).toLocaleDateString() }}
         </div>
         <div class="AdminTable__item d-flex align-center justify-center">
           <template v-if="comment.originURL">
