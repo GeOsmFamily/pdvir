@@ -78,6 +78,16 @@
             return-object
           />
         </div>
+        <div class="Form__fieldCtn" v-if="otherExpertiseIsSelected">
+          <label class="Form__label conditionnal">{{ $t('actors.form.otherExpertise') }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.otherExpertise.value.value"
+            :error-messages="form.otherExpertise.errorMessage.value"
+            @blur="form.otherExpertise.handleChange"
+          />
+        </div>
         <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('actors.form.thematic') }}</label>
           <v-select
@@ -91,6 +101,16 @@
             :error-messages="form.thematics.errorMessage.value"
             @blur="form.thematics.handleChange(form.thematics.value.value)"
             return-object
+          />
+        </div>
+        <div class="Form__fieldCtn" v-if="otherThematicIsSelected">
+          <label class="Form__label conditionnal">{{ $t('actors.form.otherThematic') }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.otherThematic.value.value"
+            :error-messages="form.otherThematic.errorMessage.value"
+            @blur="form.otherThematic.handleChange"
           />
         </div>
         <div class="Form__fieldCtn">
@@ -268,6 +288,18 @@ const submitLabel = computed(() => {
   }
 })
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
+const otherExpertiseIsSelected = computed(() => {
+  if (form.expertises.value?.value && Array.isArray(form.expertises.value?.value)) {
+    return (form.expertises.value?.value as ActorExpertise[]).map((x) => x.name).includes('Autres')
+  }
+  return false
+})
+const otherThematicIsSelected = computed(() => {
+  if (form.thematics.value?.value && Array.isArray(form.thematics.value?.value)) {
+    return (form.thematics.value?.value as Thematic[]).map((x) => x.name).includes('Autres')
+  }
+  return false
+})
 
 const existingLogo = ref<(FileObject | string)[]>([])
 const existingImages = ref<(BaseMediaObject | string)[]>([])

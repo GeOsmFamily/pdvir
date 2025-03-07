@@ -29,6 +29,8 @@
       "adminScope": "Zones d'intervention",
       "category": "Catégorie",
       "otherCategory": "Entrez une autre catégorie",
+      "otherExpertise": "Entrez un autre domaine d'expertise",
+      "otherThematic": "Entrez une autre thématique",
       "contact": "Contact",
       "contactName": "Nom du contact",
       "contactPosition": "Fonction du contact",

@@ -8,6 +8,7 @@ import type { Validateable } from './common/Validateable'
 import type { ContentImageFromUserFile } from './ContentImage'
 import type { BaseMediaObject } from './object/MediaObject'
 import type { Project } from './Project'
+import type { Thematic } from './Thematic'
 
 export interface Actor extends Timestampable, Validateable, Blameable, ThematicItem {
   id: string
@@ -17,6 +18,9 @@ export interface Actor extends Timestampable, Validateable, Blameable, ThematicI
   category: ActorsCategories
   otherCategory?: string
   expertises: ActorExpertise[]
+  otherExpertise?: string
+  thematics: Thematic[]
+  otherThematic?: string
   description: string
   administrativeScopes: AdministrativeScope[]
   officeName: string

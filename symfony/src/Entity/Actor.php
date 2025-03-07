@@ -187,6 +187,14 @@ class Actor
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $otherCategory = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private ?string $otherExpertise = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private ?string $otherThematic = null;
+
     public function __construct()
     {
         $this->expertises = new ArrayCollection();
@@ -515,6 +523,30 @@ class Actor
     public function setOtherCategory(?string $otherCategory): static
     {
         $this->otherCategory = $otherCategory;
+
+        return $this;
+    }
+
+    public function getOtherExpertise(): ?string
+    {
+        return $this->otherExpertise;
+    }
+
+    public function setOtherExpertise(?string $otherExpertise): static
+    {
+        $this->otherExpertise = $otherExpertise;
+
+        return $this;
+    }
+
+    public function getOtherThematic(): ?string
+    {
+        return $this->otherThematic;
+    }
+
+    public function setOtherThematic(?string $otherThematic): static
+    {
+        $this->otherThematic = $otherThematic;
 
         return $this;
     }
