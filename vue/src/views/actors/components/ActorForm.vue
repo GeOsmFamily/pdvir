@@ -290,13 +290,13 @@ const submitLabel = computed(() => {
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 const otherExpertiseIsSelected = computed(() => {
   if (form.expertises.value?.value && Array.isArray(form.expertises.value?.value)) {
-    return (form.expertises.value?.value as ActorExpertise[]).map((x) => x.name).includes('Autres')
+    return (form.expertises.value?.value as ActorExpertise[]).map((x) => x.name).includes('Autre')
   }
   return false
 })
 const otherThematicIsSelected = computed(() => {
   if (form.thematics.value?.value && Array.isArray(form.thematics.value?.value)) {
-    return (form.thematics.value?.value as Thematic[]).map((x) => x.name).includes('Autres')
+    return (form.thematics.value?.value as Thematic[]).map((x) => x.name).includes('Autre')
   }
   return false
 })

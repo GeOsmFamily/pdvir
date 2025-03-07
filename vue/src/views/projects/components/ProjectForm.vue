@@ -361,7 +361,7 @@ const actors = computed(() => actorsStore.actorsList)
 
 const otherThematicIsSelected = computed(() => {
   if (form.thematics.value?.value && Array.isArray(form.thematics.value?.value)) {
-    return (form.thematics.value?.value as Thematic[]).map((x) => x.name).includes('Autres')
+    return (form.thematics.value?.value as Thematic[]).map((x) => x.name).includes('Autre')
   }
   return false
 })
@@ -375,14 +375,14 @@ const otherBeneficiaryIsSelected = computed(() => {
 })
 const otherDonorIsSelected = computed(() => {
   if (form.donors.value?.value && Array.isArray(form.donors.value?.value)) {
-    return (form.donors.value?.value as Organisation[]).map((x) => x.name).includes('Autres')
+    return (form.donors.value?.value as Organisation[]).map((x) => x.name).includes('Autre')
   }
   return false
 })
 const otherContractingOrganisationIsSelected = computed(() => {
   if (form.contractingOrganisation.value?.value) {
     console.log(form.contractingOrganisation.value?.value)
-    return (form.contractingOrganisation.value?.value as Organisation).name === 'Autres'
+    return (form.contractingOrganisation.value?.value as Organisation).name === 'Autre'
   }
   return false
 })

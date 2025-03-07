@@ -14,5 +14,5 @@ enum ActorCategory: string
     case NON_INSTITUTIONAL_ACTORS = 'Acteurs non institutionnels';
     case BILATERAL_MULTILATERAL_PARTNERS = 'Partenaires bilatéraux et multilatéraux';
     case CONSULTATION_SPACES = 'Espaces de concertation';
-    case OTHERS = 'Autres';
+    case OTHERS = 'Autre';
 }

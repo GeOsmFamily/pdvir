@@ -5,5 +5,5 @@ export enum BeneficiaryType {
   REGIONS = 'regions',
   LOCAL_INSTITUTIONS = 'local_institutions',
   ASSOCIATIONS_NGOS = 'associations_ngos',
-  OTHERS = 'Autres'
+  OTHERS = 'Autre'
 }

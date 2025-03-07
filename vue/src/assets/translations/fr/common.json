@@ -151,7 +151,7 @@
         "regions": "Régions",
         "local_institutions": "Institutions locales",
         "associations_ngos": "Associations / ONG",
-        "Autres": "Autres"
+        "Autre": "Autre"
     },
     "geocoding": {
         "placeholder": "Rechercher un lieu",

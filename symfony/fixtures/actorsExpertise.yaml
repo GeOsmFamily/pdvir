@@ -6,4 +6,4 @@ App\Entity\ActorExpertise:
   actorexpertise_3:
     name: Production de l’Information Géospatiale
   actorexpertise_4:
-    name: Autres
+    name: Autre

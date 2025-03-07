@@ -6,5 +6,5 @@ export enum ActorsCategories {
   NON_INSTITUTIONAL_ACTORS = 'Acteurs non institutionnels',
   BILATERAL_AND_MULTILATERAL_PARTNERS = 'Partenaires bilatéraux et multilatéraux',
   CONSULTATION_SPACES = 'Espaces de concertation',
-  OTHERS = 'Autres'
+  OTHERS = 'Autre'
 }

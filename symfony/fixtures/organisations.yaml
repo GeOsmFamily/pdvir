@@ -31,6 +31,6 @@ App\Entity\Organisation:
     contracting: false
   organisation_7:
     acronym: "Others"
-    name: "Autres"
+    name: "Autre"
     donor: true
     contracting: true

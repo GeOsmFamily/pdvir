@@ -13,5 +13,5 @@ enum BeneficiaryType: string
     case REGIONS = 'regions';
     case LOCAL_INSTITUTIONS = 'local_institutions';
     case ASSOCIATIONS_NGOS = 'associations_ngos';
-    case OTHERS = 'Autres';
+    case OTHERS = 'Autre';
 }
