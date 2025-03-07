@@ -29,3 +29,8 @@ App\Entity\Organisation:
     name: "Union Européenne"
     donor: true
     contracting: false
+  organisation_7:
+    acronym: "Others"
+    name: "Autres"
+    donor: true
+    contracting: true

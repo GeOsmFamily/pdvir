@@ -198,6 +198,22 @@ class Project
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?Organisation $contractingOrganisation = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
+    private ?string $otherThematic = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
+    private ?string $otherBeneficiary = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
+    private ?string $otherDonor = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
+    private ?string $otherContractingOrganisation = null;
+
     public function __construct()
     {
         $this->thematics = new ArrayCollection();
@@ -507,6 +523,54 @@ class Project
     public function setContractingOrganisation(?Organisation $contractingOrganisation): static
     {
         $this->contractingOrganisation = $contractingOrganisation;
+
+        return $this;
+    }
+
+    public function getOtherThematic(): ?string
+    {
+        return $this->otherThematic;
+    }
+
+    public function setOtherThematic(?string $otherThematic): static
+    {
+        $this->otherThematic = $otherThematic;
+
+        return $this;
+    }
+
+    public function getOtherBeneficiary(): ?string
+    {
+        return $this->otherBeneficiary;
+    }
+
+    public function setOtherBeneficiary(?string $otherBeneficiary): static
+    {
+        $this->otherBeneficiary = $otherBeneficiary;
+
+        return $this;
+    }
+
+    public function getOtherDonor(): ?string
+    {
+        return $this->otherDonor;
+    }
+
+    public function setOtherDonor(?string $otherDonor): static
+    {
+        $this->otherDonor = $otherDonor;
+
+        return $this;
+    }
+
+    public function getOtherContractingOrganisation(): ?string
+    {
+        return $this->otherContractingOrganisation;
+    }
+
+    public function setOtherContractingOrganisation(?string $otherContractingOrganisation): static
+    {
+        $this->otherContractingOrganisation = $otherContractingOrganisation;
 
         return $this;
     }

@@ -125,6 +125,18 @@
           @blur="form.thematics.handleChange(form.thematics.value.value)"
           return-object
         />
+        <div class="Form__fieldCtn" v-if="otherThematicIsSelected">
+          <label class="Form__label conditionnal">{{
+            $t('projects.form.section.otherThematic')
+          }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.otherThematic.value.value"
+            :error-messages="form.otherThematic.errorMessage.value"
+            @blur="form.otherThematic.handleChange"
+          />
+        </div>
 
         <FormSectionTitle :text="$t('projects.form.section.beneficiaryTypes')" />
         <v-select
@@ -140,6 +152,18 @@
           @blur="form.beneficiaryTypes.handleChange(form.beneficiaryTypes.value.value)"
           return-object
         />
+        <div class="Form__fieldCtn" v-if="otherBeneficiaryIsSelected">
+          <label class="Form__label conditionnal">{{
+            $t('projects.form.section.otherBeneficiary')
+          }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.otherBeneficiary.value.value"
+            :error-messages="form.otherBeneficiary.errorMessage.value"
+            @blur="form.otherBeneficiary.handleChange"
+          />
+        </div>
 
         <FormSectionTitle :text="$t('projects.form.section.financial')" />
         <v-select
@@ -155,6 +179,18 @@
           @blur="form.donors.handleChange(form.donors.value.value)"
           return-object
         />
+        <div class="Form__fieldCtn" v-if="otherDonorIsSelected">
+          <label class="Form__label conditionnal">{{
+            $t('projects.form.section.otherDonor')
+          }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.otherDonor.value.value"
+            :error-messages="form.otherDonor.errorMessage.value"
+            @blur="form.otherDonor.handleChange"
+          />
+        </div>
 
         <FormSectionTitle :text="$t('projects.form.section.contractingOrganisation')" />
         <v-select
@@ -171,6 +207,18 @@
           "
           return-object
         />
+        <div class="Form__fieldCtn" v-if="otherContractingOrganisationIsSelected">
+          <label class="Form__label conditionnal">{{
+            $t('projects.form.section.otherContractingOrganisation')
+          }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.otherContractingOrganisation.value.value"
+            :error-messages="form.otherContractingOrganisation.errorMessage.value"
+            @blur="form.otherContractingOrganisation.handleChange"
+          />
+        </div>
 
         <FormSectionTitle :text="$t('projects.form.section.projectOwner')" />
         <v-select
@@ -284,6 +332,9 @@ import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import { NotificationType } from '@/models/enums/app/NotificationType'
+import { i18n } from '@/plugins/i18n'
+import { addNotification } from '@/services/notifications/NotificationService'
 
 const projectStore = useProjectStore()
 const actorsStore = useActorsStore()
@@ -307,6 +358,34 @@ const newLogo: Ref<ContentImageFromUserFile[]> = ref([])
 
 const thematics = computed(() => thematicsStore.thematics)
 const actors = computed(() => actorsStore.actorsList)
+
+const otherThematicIsSelected = computed(() => {
+  if (form.thematics.value?.value && Array.isArray(form.thematics.value?.value)) {
+    return (form.thematics.value?.value as Thematic[]).map((x) => x.name).includes('Autres')
+  }
+  return false
+})
+const otherBeneficiaryIsSelected = computed(() => {
+  if (form.beneficiaryTypes.value?.value && Array.isArray(form.beneficiaryTypes.value?.value)) {
+    return (form.beneficiaryTypes.value?.value as BeneficiaryType[]).includes(
+      BeneficiaryType.OTHERS
+    )
+  }
+  return false
+})
+const otherDonorIsSelected = computed(() => {
+  if (form.donors.value?.value && Array.isArray(form.donors.value?.value)) {
+    return (form.donors.value?.value as Organisation[]).map((x) => x.name).includes('Autres')
+  }
+  return false
+})
+const otherContractingOrganisationIsSelected = computed(() => {
+  if (form.contractingOrganisation.value?.value) {
+    console.log(form.contractingOrganisation.value?.value)
+    return (form.contractingOrganisation.value?.value as Organisation).name === 'Autres'
+  }
+  return false
+})
 
 const emit = defineEmits(['submitted', 'close'])
 
@@ -348,7 +427,10 @@ const submitForm = handleSubmit(
     const submittedProject = await projectStore.submitProject(projectSubmission, props.type)
     emit('submitted', submittedProject)
   },
-  () => onInvalidSubmit
+  () => {
+    addNotification(i18n.t('forms.errors'), NotificationType.ERROR)
+    onInvalidSubmit()
+  }
 )
 
 function handleImagesUpdate(lists: any) {

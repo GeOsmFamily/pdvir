@@ -27,9 +27,13 @@ export class ProjectFormService {
       actor: zodModels.symfonyRelation,
       status: z.nativeEnum(Status),
       donors: zodModels.symfonyRelations,
+      otherDonor: z.string().optional(),
       contractingOrganisation: zodModels.symfonyRelation,
+      otherContractingOrganisation: z.string().optional(),
       thematics: zodModels.symfonyRelations,
+      otherThematic: z.string().optional(),
       beneficiaryTypes: z.array(z.nativeEnum(BeneficiaryType)),
+      otherBeneficiary: z.string().optional(),
       website: zodModels.website
     })
 
@@ -47,17 +51,21 @@ export class ProjectFormService {
       deliverables: useField('deliverables'),
       calendar: useField('calendar'),
       contractingOrganisation: useField('contractingOrganisation'),
+      otherContractingOrganisation: useField('otherContractingOrganisation'),
       donors: useField('donors'),
+      otherDonor: useField('otherDonor'),
       interventionZone: useField('interventionZone'),
       focalPointName: useField('focalPointName'),
       focalPointPosition: useField('focalPointPosition'),
       focalPointEmail: useField('focalPointEmail'),
       focalPointTel: useField('focalPointTel'),
       beneficiaryTypes: useField('beneficiaryTypes'),
+      otherBeneficiary: useField('otherBeneficiary'),
       actor: useField('actor'),
       status: useField('status'),
       osmData: useField('osmData'),
       thematics: useField('thematics'),
+      otherThematic: useField('otherThematic'),
       website: useField('website')
     }
 

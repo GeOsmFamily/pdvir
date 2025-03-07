@@ -150,7 +150,8 @@
         "communities_of_communes": "Communautés de communes",
         "regions": "Régions",
         "local_institutions": "Institutions locales",
-        "associations_ngos": "Associations / ONG"
+        "associations_ngos": "Associations / ONG",
+        "Autres": "Autres"
     },
     "geocoding": {
         "placeholder": "Rechercher un lieu",

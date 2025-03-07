@@ -76,7 +76,11 @@
         "focalPoint": "Point de contact",
         "localization": "Localisation",
         "projectOwner": "Responsable du projet",
-        "thematics": "Thématiques"
+        "thematics": "Thématiques",
+        "otherThematic": "Entrez une autre thematique",
+        "otherBeneficiary": "Entrez un autre bénéficiaire",
+        "otherDonor": "Entrez une autre organisation",
+        "otherContractingOrganisation": "Entrez une autre organisation"
       },
       "title": {
         "create": "Ajouter un projet",
