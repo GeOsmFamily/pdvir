@@ -15,6 +15,7 @@ export interface Actor extends Timestampable, Validateable, Blameable, ThematicI
   name: string
   acronym: string
   category: ActorsCategories
+  otherCategory?: string
   expertises: ActorExpertise[]
   description: string
   administrativeScopes: AdministrativeScope[]

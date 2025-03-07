@@ -13,7 +13,7 @@ App\Entity\Project:
     donors: '<numberBetween(1, 2)>x  @organisation_<numberBetween(4, 6)>'
     contractingOrganisation: '@organisation_<numberBetween(1, 3)>'
     actor: '@actor_*'
-    thematics: '<numberBetween(1, 3)>x @thematic_*'
+    thematics: '<numberBetween(1, 12)>x @thematic_*'
     focalPointName: <firstName()> <lastName()>
     focalPointPosition: <jobTitle()>
     focalPointEmail: <email()>

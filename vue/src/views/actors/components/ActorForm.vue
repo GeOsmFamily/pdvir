@@ -53,6 +53,16 @@
             @blur="form.category.handleChange"
           />
         </div>
+        <div class="Form__fieldCtn" v-if="form.category.value.value === ActorsCategories.OTHERS">
+          <label class="Form__label conditionnal">{{ $t('actors.form.otherCategory') }}</label>
+          <v-text-field
+            density="compact"
+            variant="outlined"
+            v-model="form.otherCategory.value.value"
+            :error-messages="form.otherCategory.errorMessage.value"
+            @blur="form.otherCategory.handleChange"
+          />
+        </div>
         <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('actors.form.expertise') }}</label>
           <v-select
@@ -295,6 +305,7 @@ function handleImagesUpdate(lists: any) {
 
 const submitForm = handleSubmit(
   (values) => {
+    console.log(values)
     const actorSubmission: ActorSubmission = {
       ...(values as any),
       logoToUpload: newLogo.value[0],

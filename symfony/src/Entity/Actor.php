@@ -183,6 +183,10 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?array $externalImages = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private ?string $otherCategory = null;
+
     public function __construct()
     {
         $this->expertises = new ArrayCollection();
@@ -499,6 +503,18 @@ class Actor
     public function setExternalImages(?array $externalImages): static
     {
         $this->externalImages = $externalImages;
+
+        return $this;
+    }
+
+    public function getOtherCategory(): ?string
+    {
+        return $this->otherCategory;
+    }
+
+    public function setOtherCategory(?string $otherCategory): static
+    {
+        $this->otherCategory = $otherCategory;
 
         return $this;
     }

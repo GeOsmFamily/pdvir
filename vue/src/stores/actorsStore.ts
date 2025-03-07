@@ -11,6 +11,7 @@ import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScop
 import { ContentPagesList } from '@/models/enums/app/ContentPagesList'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
+import { i18n } from '@/plugins/i18n'
 
 export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   const dataLoaded = ref(false)
@@ -68,21 +69,25 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   }
 
   async function createOrEditActor(actor: ActorSubmission, edit: boolean) {
-    const id = selectedActor.value?.id
-    const result = await ActorsService.createOrEditActor(actor, edit, id)
-    await getActors()
-    selectedActor.value = await ActorsService.getActor(result.id)
-    useApplicationStore().showEditContentDialog = false
-    addNotification(
-      edit ? "L'acteur a bien été modifié" : "L'acteur a bien été ajouté",
-      NotificationType.SUCCESS
-    )
+    try {
+      const id = selectedActor.value?.id
+      const result = await ActorsService.createOrEditActor(actor, edit, id)
+      await getActors()
+      selectedActor.value = await ActorsService.getActor(result.id)
+      useApplicationStore().showEditContentDialog = false
+      addNotification(
+        edit ? i18n.t('actors.form.submitEdit') : i18n.t('actors.form.submitSuccess'),
+        NotificationType.SUCCESS
+      )
+    } catch (error) {
+      addNotification(i18n.t('actors.form.submitError'), NotificationType.ERROR, error as string)
+    }
   }
 
   async function deleteActor(id: string) {
     await ActorsService.deleteActor(id)
     await getActors()
-    addNotification("L'acteur a bien été supprimé", NotificationType.SUCCESS)
+    addNotification(i18n.t('actors.form.delete'), NotificationType.SUCCESS)
   }
 
   const updateActor = (updatedActor: Actor) => {
