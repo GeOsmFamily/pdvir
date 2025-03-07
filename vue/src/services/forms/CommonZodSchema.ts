@@ -86,19 +86,7 @@ export class CommonZodSchema {
         .string()
         .max(500, { message: i18n.t('forms.errorMessages.maxlength', { max: 500 }) })
         .optional(),
-      phone: z
-        .string()
-        .optional()
-        .refine(
-          (phone) => {
-            if (!phone) return true
-            const regex = /^(?:\+?[1-9]\d{1,3}[ .-]?)?(?:[1-9]\d{8}|0[1-9]\d{8})$/
-            return regex.test(phone)
-          },
-          {
-            message: i18n.t('forms.errorMessages.phone')
-          }
-        ),
+      phone: z.string().optional(),
       latLngString: z
         .string()
         .optional()

@@ -1,7 +1,7 @@
 {
   "actorPage": {
-    "adminScope": "Zone d'intervention",
-    "contact": "Point de contact",
+    "adminScope": "Echelle d'intervention",
+    "contact": "Personne de référence",
     "data": "Données",
     "description": "Activité",
     "images": "En images",
@@ -20,7 +20,7 @@
       "goToPage": "Aller sur la page de l'acteur",
       "sort": "Trier par"
     },
-    "adminScope": "Zone d'intervention",
+    "adminScope": "Echelle d'intervention",
     "category": "Catégorie",
     "desc": "Consultez l’annuaire des acteurs du secteur de l’urbanisme au Cameroun.",
     "expertise": "Compétence",
@@ -33,7 +33,7 @@
       "otherThematic": "Entrez une autre thématique",
       "contact": "Contact",
       "contactName": "Nom du contact",
-      "contactPosition": "Fonction du contact",
+      "contactPosition": "Fonction du référent",
       "createTitle": "Ajouter un acteur",
       "description": "Description",
       "email": "Email",
@@ -46,7 +46,7 @@
       "logo": "Logo",
       "name": "Nom de l'acteur",
       "office": "Établissement",
-      "officeAddress": "Adresse de l'établissement",
+      "officeAddress": "Adresse du siège",
       "officeLocation": "Latitude/Longitude du siège",
       "officeLocationPlaceholder": "Ex : 2.123456, 3.123456",
       "officeName": "Nom du siège",

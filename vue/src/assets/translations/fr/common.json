@@ -64,7 +64,7 @@
         "or": "OU",
         "errors": "Le formulaire n'est pas valide",
         "errorMessages": {
-            "required": "Ce champs est requis",
+            "required": "Ce champs est obligatoire",
             "minlength": "Ce champs doit avoir au moins {min} caractères",
             "maxlength": "Ce champs est limité à {max} caractères",
             "email": "Veuillez renseigner une adresse email valide",

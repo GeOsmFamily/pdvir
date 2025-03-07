@@ -41,7 +41,7 @@
           <label class="Form__label">{{ $t('projects.form.fields.deliverables.label') }}</label>
           <v-textarea
             variant="outlined"
-            :rows="1"
+            :rows="4"
             :placeholder="$t('projects.form.fields.deliverables.label')"
             v-model="form.deliverables.value.value"
             :error-messages="form.deliverables.errorMessage.value"
@@ -139,7 +139,7 @@
         </div>
 
         <FormSectionTitle :text="$t('projects.form.section.beneficiaryTypes')" />
-        <v-select
+        <v-autocomplete
           density="compact"
           variant="outlined"
           multiple
@@ -192,7 +192,17 @@
           />
         </div>
 
-        <FormSectionTitle :text="$t('projects.form.section.contractingOrganisation')" />
+        <v-tooltip
+          location="start"
+          :text="$t('projects.form.section.contractingOrganisationDisclaimer')"
+        >
+          <template v-slot:activator="{ props }">
+            <FormSectionTitle
+              :text="$t('projects.form.section.contractingOrganisation')"
+              v-bind="props"
+            />
+          </template>
+        </v-tooltip>
         <v-select
           density="compact"
           variant="outlined"
@@ -220,7 +230,11 @@
           />
         </div>
 
-        <FormSectionTitle :text="$t('projects.form.section.projectOwner')" />
+        <v-tooltip location="start" :text="$t('projects.form.section.projectOwnerDisclaimer')">
+          <template v-slot:activator="{ props }">
+            <FormSectionTitle :text="$t('projects.form.section.projectOwner')" v-bind="props" />
+          </template>
+        </v-tooltip>
         <v-select
           density="compact"
           variant="outlined"
@@ -232,6 +246,7 @@
           @blur="form.actor.handleChange(form.actor.value.value)"
           return-object
         />
+
         <FormSectionTitle :text="$t('projects.form.section.focalPoint')" />
 
         <div class="Form__fieldCtn">
@@ -285,9 +300,9 @@
         </div>
 
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
-        <FormSectionTitle :text="$t('actors.form.images')" />
+        <FormSectionTitle :text="$t('projects.form.section.projectImages')" />
         <ImagesLoader @updateFiles="handleImagesUpdate" :existingImages="existingImages" />
-        <FormSectionTitle :text="$t('actors.form.partnerImages')" />
+        <FormSectionTitle :text="$t('projects.form.section.partnerLogos')" />
         <ImagesLoader
           @updateFiles="handleImagesPartnerUpdate"
           :existingImages="existingPartnerImages"

@@ -1,7 +1,7 @@
 {
   "projectPage": {
     "about": "À propos",
-    "focalPoint": "Point de contact",
+    "focalPoint": "Personne de référence",
     "inImages": "En images",
     "keyNumbers": "Chiffres-clés",
     "otherProjectsWithSameThematics": "D’autres projets avec des thématiques communes",
@@ -41,11 +41,11 @@
           "placeholder": "mail@siteinternet.com"
         },
         "focalPointName": {
-          "label": "Nom complet du Point de contact",
+          "label": "Nom complet du référent",
           "placeholder": "Prénom NOM"
         },
         "focalPointPosition": {
-          "label": "Intitulé du Point de contact",
+          "label": "Intitulé du référent",
           "placeholder": ""
         },
         "focalPointTel": {
@@ -53,8 +53,8 @@
           "placeholder": 0
         },
         "interventionZone": {
-          "label": "Zone d'intervention",
-          "placeholder": "Zone d'intervention"
+          "label": "Echelle d'intervention",
+          "placeholder": "Echelle d'intervention"
         },
         "name": {
           "label": "Nom du projet",
@@ -72,15 +72,19 @@
       "section": {
         "beneficiaryTypes": "Bénéficiaires",
         "contractingOrganisation": "Maîtrise d'ouvrage",
+        "contractingOrganisationDisclaimer": "Organisation qui commande et finance le projet",
         "financial": "Financement",
-        "focalPoint": "Point de contact",
+        "focalPoint": "Personne de référence",
         "localization": "Localisation",
         "projectOwner": "Responsable du projet",
+        "projectOwnerDisclaimer": "En charge de la gestion et de la coordination du projet",
         "thematics": "Thématiques",
         "otherThematic": "Entrez une autre thematique",
         "otherBeneficiary": "Entrez un autre bénéficiaire",
         "otherDonor": "Entrez une autre organisation",
-        "otherContractingOrganisation": "Entrez une autre organisation"
+        "otherContractingOrganisation": "Entrez une autre organisation",
+        "projectImages": "Images du projet",
+        "partnerLogos": "Logos des partenaires"
       },
       "title": {
         "create": "Ajouter un projet",
@@ -118,10 +122,11 @@
     "project": "projet",
     "projects": "projet | projet | projets",
     "scope": {
-      "city": "Ville",
-      "national": "National",
-      "regional": "Régional",
-      "state": "Département"
+      "city": "Communale",
+      "international": "Internationale",
+      "national": "Nationale",
+      "regional": "Régionale",
+      "state": "Départementale"
     },
     "status": {
       "finalized": "Finalisé",
