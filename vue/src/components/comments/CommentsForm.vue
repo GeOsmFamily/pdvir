@@ -19,11 +19,12 @@
         </div>
         <div v-if="originSlug" class="Form__fieldCtn">
           <label class="Form__label">{{ $t('comments.form.originURL') }}</label>
-          <v-text-field :placeholder="`${origin}: ${originSlug}`"></v-text-field>
+          <v-text-field disabled :placeholder="`${origin}: ${originSlug}`"></v-text-field>
         </div>
         <div v-if="mapComment" class="Form__fieldCtn">
           <label class="Form__label">{{ $t('comments.form.location') }}</label>
           <v-text-field
+            disabled
             :placeholder="`${lngLat?.lng.toString()}, ${lngLat?.lat.toString()}`"
           ></v-text-field>
         </div>
