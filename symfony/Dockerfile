@@ -86,13 +86,13 @@ COPY --link composer.* symfony.* ./
 # if $APP_ENV == "prod" then install prod dependencies
 RUN if [ "$APP_ENV" = "prod" ]; then \
     set -eux; \
-    composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress \
+    composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
   fi
 
 # if $APP_ENV == "dev" then install dev dependencies
 RUN if [ "$APP_ENV" = "dev" ]; then \
     set -eux; \
-    composer install --no-cache --prefer-dist --no-autoloader --no-scripts --no-progress \
+    composer install --no-cache --prefer-dist --no-autoloader --no-scripts --no-progress; \
   fi
 
 
