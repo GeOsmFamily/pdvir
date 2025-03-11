@@ -73,6 +73,7 @@ FROM docs:latest AS docs_prod
 # Prod FrankenPHP image
 FROM frankenphp_base AS frankenphp_prod
 
+ARG APP_ENV
 ENV APP_ENV=$APP_ENV SENTRY_DSN=$SENTRY_DSN
 ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
 
