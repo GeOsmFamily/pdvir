@@ -4,11 +4,10 @@ services:
       - ${HTTP_PORT:-80}:80
     volumes:
       - ./symfony/docker/caddy/Caddyfile.uat:/etc/caddy/Caddyfile
-    networks:
-      - puc-network
-    volumes:
       - './symfony/public/media:/app/public/media'
       - './symfony/public/files:/app/public/files'
+    networks:
+      - puc-network
   postgres:
     networks:
       - puc-network
