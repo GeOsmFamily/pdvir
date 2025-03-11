@@ -87,13 +87,13 @@ COPY --link composer.* symfony.* ./
 RUN if [ "$APP_ENV" = "prod" ]; then \
     set -eux; \
     composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress \
-fi
+  fi
 
 # if $APP_ENV == "dev" then install dev dependencies
 RUN if [ "$APP_ENV" = "dev" ]; then \
     set -eux; \
     composer install --no-cache --prefer-dist --no-autoloader --no-scripts --no-progress \
-fi
+  fi
 
 
 # copy sources
@@ -110,7 +110,7 @@ RUN if [ "$APP_ENV" = "prod" ]; then \
 	composer dump-env prod; \
 	composer run-script --no-dev post-install-cmd; \
 	chmod +x bin/console; sync; \
-fi
+  fi
 
 RUN if [ "$APP_ENV" = "dev" ]; then \
     set -eux; \
@@ -119,4 +119,4 @@ RUN if [ "$APP_ENV" = "dev" ]; then \
     composer dump-env dev; \
     composer run-script post-install-cmd; \
     chmod +x bin/console; sync; \
-fi
+  fi
