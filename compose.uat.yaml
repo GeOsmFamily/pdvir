@@ -4,6 +4,9 @@ services:
       - ${HTTP_PORT:-80}:80
     networks:
       - puc-network
+    volumes:
+      - './symfony/public/media:/app/public/media'
+      - './symfony/public/files:/app/public/files'
   postgres:
     networks:
       - puc-network
@@ -20,3 +23,4 @@ services:
 networks:
   puc-network:
     name: puc_network
+    external: true
