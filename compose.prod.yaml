@@ -20,3 +20,5 @@ services:
     volumes:
       - ./symfony/docker/caddy/Caddyfile.prod:/etc/caddy/Caddyfile
       - ./symfony/docker/caddy/worker.Caddyfile:/etc/caddy/worker.Caddyfile
+      - './symfony/public/media:/app/public/media'
+      - './symfony/public/files:/app/public/files'
