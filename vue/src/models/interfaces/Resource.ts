@@ -31,5 +31,3 @@ export interface Resource
 export interface ResourceEvent extends Resource {
   type: ResourceType.EVENTS
 }
-
-export interface ResourceSubmission extends Resource, LocalizableSubmission {}

@@ -134,8 +134,12 @@ const addImage = async (path: string, name: string) => {
   return
 }
 
-const addPopup = (coordinates: maplibregl.LngLatLike, popupHtml: any, isComponent = true) => {
-  if (map.value == null) return
+const addPopup = (
+  coordinates: maplibregl.LngLatLike | undefined,
+  popupHtml: any,
+  isComponent = true
+) => {
+  if (map.value == null || coordinates == null) return
   flyTo(coordinates)
   console.log('popupHtml', popupHtml)
   popup.value

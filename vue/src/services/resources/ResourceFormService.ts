@@ -1,4 +1,4 @@
-import type { Resource, ResourceSubmission } from '@/models/interfaces/Resource'
+import type { Resource } from '@/models/interfaces/Resource'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
 import { z } from 'zod'
@@ -6,7 +6,6 @@ import { i18n } from '@/plugins/i18n'
 import { CommonZodSchema } from '@/services/forms/CommonZodSchema'
 import { ResourceFormat } from '@/models/enums/contents/ResourceFormat'
 import { ResourceType } from '@/models/enums/contents/ResourceType'
-import GeocodingService from '@/services/map/GeocodingService'
 
 export class ResourceFormService {
   static getForm(resource: Resource | null) {
@@ -45,9 +44,7 @@ export class ResourceFormService {
         }
       )
 
-    const { errors, handleSubmit, isSubmitting, setFieldValue } = useForm<
-      Partial<Resource | ResourceSubmission>
-    >({
+    const { errors, handleSubmit, isSubmitting, setFieldValue } = useForm<Partial<Resource>>({
       initialValues: resource,
       validationSchema: toTypedSchema(resourceSchema)
     })

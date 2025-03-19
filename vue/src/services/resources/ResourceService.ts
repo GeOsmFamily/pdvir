@@ -1,5 +1,5 @@
 import { apiClient } from '@/plugins/axios/api'
-import type { Resource, ResourceEvent, ResourceSubmission } from '@/models/interfaces/Resource'
+import type { Resource, ResourceEvent } from '@/models/interfaces/Resource'
 import { handleFileUpload } from '@/services/forms/FormService'
 
 export class ResourceService {
@@ -12,12 +12,12 @@ export class ResourceService {
     return await apiClient.get('/api/resources/' + id).then((response) => response.data)
   }
 
-  static async post(resource: ResourceSubmission): Promise<Resource> {
+  static async post(resource: Resource): Promise<Resource> {
     resource = await handleFileUpload(resource)
     return await apiClient.post('/api/resources', resource).then((response) => response.data)
   }
 
-  static async patch(resource: ResourceSubmission): Promise<Resource> {
+  static async patch(resource: Resource): Promise<Resource> {
     resource = await handleFileUpload(resource)
     console.log('resource', resource)
     return await apiClient

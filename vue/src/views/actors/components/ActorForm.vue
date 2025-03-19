@@ -201,7 +201,7 @@
           <LocationSelector
             @update:model-value="form.geoData.handleChange"
             v-model="form.geoData.value.value as GeoData"
-            :error-messages="form.geoData.errorMessage.value"
+            :error-message="form.geoData.errorMessage.value"
           />
         </div>
 

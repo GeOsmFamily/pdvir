@@ -150,12 +150,15 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     })
 
     if (from === 'filters') {
-      map.value?.fitBounds(getBboxFromPointsGroup(projectsList.map((x) => x.geoData.coords)))
+      map.value?.fitBounds(
+        getBboxFromPointsGroup(projectsList.map((x) => x.geoData.coords).filter((c) => c != null))
+      )
     }
     if (from === 'map') {
       if (!map.value) return projectsList
       const bounds = map.value.getBounds()
       return projectsList.filter((proj) => {
+        if (!proj.geoData.coords) return false
         const { lat, lng } = proj.geoData.coords
         return bounds.contains([lng, lat])
       })

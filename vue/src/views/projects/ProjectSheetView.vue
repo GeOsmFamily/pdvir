@@ -12,7 +12,7 @@
         :id="project.id"
         :slug="project.slug"
         :title="project.name"
-        :subtitle="project.geoData.name"
+        :subtitle="project.geoData?.name"
         :email="project.focalPointEmail"
         :website="project.website"
         :phone="project.focalPointTel"

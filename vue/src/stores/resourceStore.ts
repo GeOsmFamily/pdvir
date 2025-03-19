@@ -1,7 +1,7 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
 import { ref, type Ref, computed, watch } from 'vue'
-import type { Resource, ResourceEvent, ResourceSubmission } from '@/models/interfaces/Resource'
+import type { Resource, ResourceEvent } from '@/models/interfaces/Resource'
 import { ResourceService } from '@/services/resources/ResourceService'
 import { FormType } from '@/models/enums/app/FormType'
 import { i18n } from '@/plugins/i18n'
@@ -32,7 +32,7 @@ export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
     }
   }
 
-  const submitResource = async (resource: ResourceSubmission, type: FormType) => {
+  const submitResource = async (resource: Resource, type: FormType) => {
     const submittedResource =
       type === FormType.CREATE
         ? await ResourceService.post(resource)

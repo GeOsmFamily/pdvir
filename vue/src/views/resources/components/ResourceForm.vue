@@ -111,7 +111,7 @@
         <FormSectionTitle :text="$t('resources.form.section.location')" />
         <LocationSelector
           v-model="form.geoData.value.value"
-          :error-messages="form.geoData.errorMessage.value"
+          :error-message="form.geoData.errorMessage.value"
         />
 
         <FormSectionTitle :text="$t('resources.form.section.thematics')" />
@@ -142,7 +142,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Resource, type ResourceSubmission } from '@/models/interfaces/Resource'
+import { type Resource } from '@/models/interfaces/Resource'
 import { ResourceFormService } from '@/services/resources/ResourceFormService'
 import { useResourceStore } from '@/stores/resourceStore'
 import { useThematicStore } from '@/stores/thematicStore'
@@ -223,7 +223,7 @@ onMounted(async () => {
 
 const submitForm = handleSubmit(
   async (values) => {
-    const resourceSubmission: ResourceSubmission = nestedObjectsToIri(values)
+    const resourceSubmission: Resource = nestedObjectsToIri(values)
     if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.resource) {
       resourceSubmission.id = props.resource.id
     }

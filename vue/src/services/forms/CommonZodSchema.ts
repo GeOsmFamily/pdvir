@@ -3,6 +3,7 @@ import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
 import { z, ZodType } from 'zod'
+import { OsmType } from '@/models/enums/geo/OsmType'
 
 export class CommonZodSchema {
   static getDefinitions() {
@@ -36,9 +37,9 @@ export class CommonZodSchema {
       )
     const GeoDataSchema = z
       .object({
-        osmId: z.number().optional().nullish(),
-        osmType: z.string().optional().nullish(),
-        name: z.string().optional().nullish(),
+        osmId: z.number().nullable(),
+        osmType: z.nativeEnum(OsmType).nullable(),
+        name: z.string().nullable(),
         latitude: LatitudeSchema,
         longitude: LongitudeSchema
       })
@@ -47,7 +48,7 @@ export class CommonZodSchema {
           return (schema.latitude && schema.longitude) || (schema.osmId && schema.osmType)
         },
         {
-          message: "Either select coordinates, or select a place",
+          message: 'Either select coordinates, or select a place',
           path: ['osmId', 'latitude']
         }
       ) satisfies ZodType<GeoData>

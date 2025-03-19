@@ -8,7 +8,7 @@
     />
     <v-divider>{{ $t('forms.or') }}</v-divider>
     <CoordinatesSelector v-model:lat="lat" v-model:lng="lng" @update-coords="resetGeodata" />
-    <span>{{ props.errorMessages }}</span>
+    <span v-if="errorMessage">{{ errorMessage }}</span>
   </div>
 </template>
 
@@ -34,8 +34,8 @@ const geoData: ModelRef<GeoData> = defineModel({
 const lat: Ref<number | null | undefined> = ref(null)
 const lng: Ref<number | null | undefined> = ref(null)
 
-const props = defineProps<{
-  errorMessages: string[]
+defineProps<{
+  errorMessage?: string
 }>()
 
 onMounted(async () => {

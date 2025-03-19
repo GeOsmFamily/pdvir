@@ -58,7 +58,7 @@ defineProps<{
   id: string
   slug: string
   title: string
-  subtitle: string
+  subtitle: string | null
   email: string
   phone: string
   website: string

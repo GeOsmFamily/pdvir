@@ -42,7 +42,7 @@ import type { GeocodingItem } from '@/models/interfaces/geo/GeocodingItem'
 import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import { i18n } from '@/plugins/i18n'
 
-const geoData = defineModel<GeoData | undefined>()
+const geoData = defineModel<GeoData | null | undefined>()
 
 const props = withDefaults(
   defineProps<{
