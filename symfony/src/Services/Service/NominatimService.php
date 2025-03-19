@@ -44,12 +44,12 @@ class NominatimService
         return null;
     }
 
-
     public function fetchOsmPlaceByCoords(float $latitude, float $longitude): ?array
     {
         $url = sprintf('https://'.$this->params->get('domain').'/nominatim/reverse?format=json&lat=%f&lon=%f', $latitude, $longitude);
         $response = $this->httpClient->request('GET', $url);
         $data = $response->toArray();
+
         return $data;
     }
 

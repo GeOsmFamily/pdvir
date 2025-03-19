@@ -28,7 +28,7 @@ class GeoDataProcessor implements ProcessorInterface
             } else {
                 throw new \Exception('Place not found');
             }
-        } else if (null !== $data->getGeoData()->getLatitude() && null !== $data->getGeoData()->getLongitude()) {
+        } elseif (null !== $data->getGeoData()->getLatitude() && null !== $data->getGeoData()->getLongitude()) {
             if (!$this->areCoordsInCameroon($data->getGeoData())) {
                 throw new \Exception('Given coordinates are not in Cameroon', 400);
             } else {
@@ -39,8 +39,10 @@ class GeoDataProcessor implements ProcessorInterface
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
     }
 
-    public function areCoordsInCameroon(GeoData $geoData): bool {
+    public function areCoordsInCameroon(GeoData $geoData): bool
+    {
         $data = $this->nominatimService->fetchOsmPlaceByCoords($geoData->getLatitude(), $geoData->getLongitude());
-        return isset($data['address']) && $data['address']['country_code'] === self::COUNTRY_CODE;
+
+        return isset($data['address']) && self::COUNTRY_CODE === $data['address']['country_code'];
     }
 }
