@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Repository\GeoDataRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GeoDataRepository::class)]
 class GeoData
@@ -31,7 +31,7 @@ class GeoData
     #[Groups([Project::WRITE, Resource::WRITE, Actor::ACTOR_WRITE, Resource::GET_FULL])]
     #[Assert\Range(min: -90, max: 90)]
     private ?float $latitude = null;
-    
+
     #[ORM\Column(nullable: true)]
     #[Groups([Project::WRITE, Resource::WRITE, Actor::ACTOR_WRITE, Resource::GET_FULL])]
     #[Assert\Range(min: -180, max: 180)]
@@ -56,7 +56,7 @@ class GeoData
     public function setOsmId(?int $osmId): static
     {
         // Typecast to string to avoid Doctrine error on BIGINT
-        $this->osmId = null !== $osmId ? (string) $osmId: null;
+        $this->osmId = null !== $osmId ? (string) $osmId : null;
 
         return $this;
     }
@@ -66,6 +66,7 @@ class GeoData
         if (null === $this->osmId || null === $this->osmType) {
             return null;
         }
+
         return strtoupper($this->osmType)[0].$this->osmId;
     }
 
