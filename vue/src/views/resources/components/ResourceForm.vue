@@ -109,11 +109,9 @@
         </div>
 
         <FormSectionTitle :text="$t('resources.form.section.location')" />
-        <Geocoding
-          :search-type="NominatimSearchType.FREE"
-          :osm-type="OsmType.NODE"
-          @change="form.osmData.handleChange(form.osmData.value.value)"
-          v-model="form.osmData.value.value"
+        <LocationSelector
+          v-model="form.geoData.value.value"
+          :error-messages="form.geoData.errorMessage.value"
         />
 
         <FormSectionTitle :text="$t('resources.form.section.thematics')" />
@@ -158,11 +156,9 @@ import FileInput from '@/components/forms/FileInput.vue'
 import type { Thematic } from '@/models/interfaces/Thematic'
 import { ResourceType } from '@/models/enums/contents/ResourceType'
 import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
-import Geocoding from '@/components/forms/Geocoding.vue'
-import { NominatimSearchType } from '@/models/enums/geo/NominatimSearchType'
-import { OsmType } from '@/models/enums/geo/OsmType'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import DateInput from '@/components/forms/DateInput.vue'
+import LocationSelector from '@/components/forms/LocationSelector.vue'
 
 const resourceStore = useResourceStore()
 const thematicsStore = useThematicStore()
@@ -172,6 +168,13 @@ const props = defineProps<{
   resource: Resource | null
   isShown: boolean
 }>()
+
+const { form, handleSubmit, isSubmitting } = ResourceFormService.getForm(props.resource)
+
+watch(
+  () => form?.geoData?.value.value,
+  () => form?.geoData?.handleChange
+)
 
 const isResourceValidated = computed(() => props.resource?.isValidated)
 
@@ -186,7 +189,6 @@ const handleDateChange = () => {
 }
 
 const emit = defineEmits(['submitted', 'close'])
-const { form, handleSubmit, isSubmitting } = ResourceFormService.getForm(props.resource)
 const thematics = computed(() => thematicsStore.thematics)
 watch(
   () => form.type.value.value,

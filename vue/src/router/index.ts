@@ -14,6 +14,7 @@ import { useActorsStore } from '@/stores/actorsStore'
 import type { Actor } from '@/models/interfaces/Actor'
 import { useUserStore } from '@/stores/userStore'
 import AdminMaps from '@/views/admin/components/AdminMaps.vue'
+import { useMyMapStore } from '@/stores/myMapStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,7 +88,14 @@ const router = createRouter({
     {
       path: '/map',
       name: 'map',
-      component: () => import('@/views/map/MyMapView.vue')
+      component: () => import('@/views/map/MyMapView.vue'),
+      beforeEnter: (to, from, next) => {
+        const myMapStore = useMyMapStore()
+        console.log('to.query.item', to.query.item);
+        myMapStore.activeItemId = to.query.item ? to.query.item.toString() : null
+        console.log('to.query.item', myMapStore.activeItemId, myMapStore.activeItem);
+        next()
+      }
     },
     {
       path: '/myAccount',

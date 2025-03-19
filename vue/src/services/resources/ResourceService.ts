@@ -8,9 +8,8 @@ export class ResourceService {
   }
 
   static async get(search: Partial<Resource>): Promise<Resource> {
-    return await apiClient
-      .get('/api/resources', { params: search })
-      .then((response) => response.data['hydra:member'][0])
+    const { id } = search
+    return await apiClient.get('/api/resources/' + id).then((response) => response.data)
   }
 
   static async post(resource: ResourceSubmission): Promise<Resource> {
@@ -20,6 +19,7 @@ export class ResourceService {
 
   static async patch(resource: ResourceSubmission): Promise<Resource> {
     resource = await handleFileUpload(resource)
+    console.log('resource', resource)
     return await apiClient
       .patch('/api/resources/' + resource.id, resource)
       .then((response) => response.data)

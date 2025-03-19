@@ -75,7 +75,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     if (project.value?.slug !== slug && typeof slug === 'string') {
       const appStore = useApplicationStore()
       appStore.currentContentPage = ContentPagesList.PROJECT
-      project.value = await ProjectService.get({ slug })
+      project.value = await ProjectService.getBySlug(slug)
     }
   }
 

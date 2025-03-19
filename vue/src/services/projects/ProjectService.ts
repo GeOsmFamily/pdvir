@@ -12,9 +12,14 @@ export class ProjectService {
       .then((response) => response.data['hydra:member'])
   }
 
-  static async get(search: Partial<Project>): Promise<Project> {
+  static async get(project: Partial<Project>): Promise<Project> {
+    const { id } = project
+    return await apiClient.get('/api/projects/' + id).then((response) => response.data)
+  }
+
+  static async getBySlug(slug: string): Promise<Project> {
     return await apiClient
-      .get('/api/projects', { params: search })
+      .get('/api/projects', { params: { slug } })
       .then((response) => response.data['hydra:member'][0])
   }
 

@@ -14,8 +14,12 @@
         :website="actor.website"
         :isEditable="isEditable"
         :updatedAt="actor.updatedAt"
+        :map-route="actorMapRoute"
+        :map-btn-tooltip="$t('actorPage.seeLocation')"
         @edit="editActor"
-      />
+      >
+        <template #mapButton></template>
+      </SheetContentBanner>
       <div class="SheetView__contentCtn my-6" v-if="actor.description">
         <div class="SheetView__title SheetView__title--divider">
           {{ $t('actorPage.description') }}
@@ -43,7 +47,7 @@
         {{ $t('actorPage.adminScope') }}
       </div>
       {{ actor.administrativeScopes.map((x) => x.name).join(', ') }}
-      <div class="ActorSheetView__toMap">
+      <div class="ActorSheetView__toMap" :to="actorMapRoute" v-if="actorMapRoute">
         <span>{{ $t('actorPage.showInMap') }}</span>
         <v-icon class="ml-2" color="main-green" icon="mdi-arrow-right-circle" size="large"></v-icon>
       </div>
@@ -98,7 +102,14 @@ const appStore = useApplicationStore()
 const userStore = useUserStore()
 const actorsStore = useActorsStore()
 const actor = computed(() => actorsStore.selectedActor)
-
+const actorMapRoute = computed(() => {
+  return actor.value
+    ? {
+        name: 'map',
+        query: { item: actor.value.id }
+      }
+    : null
+})
 const actorImages = computed(() => {
   const images = actor.value?.images ?? []
   const externalImages = actor.value?.externalImages ?? []
@@ -163,6 +174,7 @@ function editActor() {
     width: fit-content;
     border: 1px solid rgb(var(--v-theme-main-blue));
     border-radius: 5px;
+    text-decoration: none;
     font-weight: 500;
     padding: 10px 12px 10px 15px;
   }

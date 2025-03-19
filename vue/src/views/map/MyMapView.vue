@@ -30,7 +30,7 @@ onMounted(() => {
     return
   }
   if (myMapStore.isMapAlreadyBeenMounted) {
-    AppLayersService.initApplicationLayers(useMyMapStore())
+    AppLayersService.initApplicationLayers()
     myMapStore.isLayersReorderingAlreadyTriggering = false
     if (map.value?.loaded()) {
       reloadAtlasMaps()

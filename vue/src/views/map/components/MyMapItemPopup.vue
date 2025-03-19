@@ -5,7 +5,6 @@
       class="ProjectCard ProjectCard--light"
       :project="myMapStore.activeItem as Project"
       :map="true"
-      :active="true"
     />
     <ResourceCard
       v-else-if="myMapStore.activeItemType === ItemType.RESOURCE"
@@ -38,19 +37,45 @@ const myMap = computed(() => myMapStore.myMap)
 const map = computed(() => myMap.value?.map)
 
 onMounted(() => {
-  if (map.value != null) {
-    showPopup()
+  if (map.value) {
+    if (map.value?.loaded()) {
+      showPopupOnInit()
+    } else {
+      map.value.on('load', () => {
+        showPopupOnInit()
+      })
+    }
   }
 })
 
 watch(
   () => myMap.value?.activeFeatureId,
   (to, from) => {
+    console.log('myMap.value?.activeFeatureId', myMap.value?.activeFeatureId);
     const initializing = from === undefined
     if (myMap.value == null || initializing) return
     myMapStore.activeItemId = myMap.value?.activeFeatureId
   }
 )
+
+const showPopup = () => {
+  console.log('showPopup', myMap.value)
+  if (myMap.value == null) return
+  Object.values(ItemType).forEach((itemType) => {
+    myMap.value?.addPopupOnClick(itemType, activeItemCard.value, false)
+  })
+}
+
+const showPopupOnInit = () => {
+  if (map.value) {
+    showPopup()
+    if (myMapStore.activeItem != null && myMap.value) {
+      if (myMapStore.activeItem.geoData.coords) {
+        myMap.value.addPopup(myMapStore.activeItem.geoData.coords, activeItemCard.value, false)
+      }
+    }
+  }
+}
 
 watch(
   () => myMapStore.activeItem,
@@ -59,13 +84,6 @@ watch(
     showPopup()
   }
 )
-
-const showPopup = () => {
-  if (myMap.value == null) return
-  Object.values(ItemType).forEach((itemType) => {
-    myMap.value?.addPopupOnClick(itemType, activeItemCard.value, false)
-  })
-}
 </script>
 
 <style lang="scss">
@@ -79,7 +97,7 @@ const showPopup = () => {
     max-width: 22rem !important;
   }
 
-  #map.MyMap__map {
+  .MyMap__map {
     width: 100%;
     height: 100%;
 

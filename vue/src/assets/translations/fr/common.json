@@ -42,6 +42,17 @@
         "logout": "Déconnexion"
     },
     "inputs": {
+        "locationSelector": {
+            "label": "Rechercher un lieu"
+        },
+        "coordsSelector": {
+            "buttons": {
+                "validate": "Valider",
+                "cancel": "Annuler",
+                "select": "Placer sur la carte"
+            },
+            "moveMap": "Déplacez et zoomez la carte pour positionner le point"
+        },
         "fileUncorrect": "Fichier incorrect",
         "date": {
             "label": "Sélectionner une date"
@@ -51,6 +62,10 @@
             "wrongFormat": "Format d'image incorrect, sont acceptés uniquement les images au format .png, .jpg, .jpeg, .bmp, .gif, .svg, .webp",
             "wrongSize": "Taille d'image incorrecte, la taille maximale est de 1Mo",
             "duplicate": "Une image avec ce nom est déjà sélectionnée"
+        },
+        "location": {   
+            "lat": "Latitude",
+            "lng": "Longitude"
         }
     },
     "forms": {

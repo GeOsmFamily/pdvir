@@ -17,7 +17,7 @@ export class ResourceFormService {
         name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
         description: zodModels.descriptionRequired,
         type: z.nativeEnum(ResourceType),
-        osmData: zodModels.osmData.nullable(),
+        geoData: zodModels.geoData.nullable(),
         startAt: z.coerce.date().nullable().optional(),
         endAt: z.coerce.date().nullable().optional(),
         file: zodModels.file.nullable().optional(),
@@ -48,12 +48,7 @@ export class ResourceFormService {
     const { errors, handleSubmit, isSubmitting, setFieldValue } = useForm<
       Partial<Resource | ResourceSubmission>
     >({
-      initialValues: {
-        ...resource,
-        osmData: resource?.geoData
-          ? GeocodingService.geoDataToGeocodingItem(resource?.geoData)
-          : null
-      },
+      initialValues: resource,
       validationSchema: toTypedSchema(resourceSchema)
     })
 
@@ -63,7 +58,7 @@ export class ResourceFormService {
       type: useField('type'),
       file: useField('file'),
       format: useField('format'),
-      osmData: useField('osmData'),
+      geoData: useField('geoData'),
       startAt: useField('startAt'),
       endAt: useField('endAt'),
       author: useField('author'),

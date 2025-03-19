@@ -29,7 +29,7 @@
           <v-icon icon="mdi-calendar" />
           <span>{{ dateRangeLabel }}</span>
         </span>
-        <span class="InfoCard__location" v-if="resource.geoData?.name">
+        <span class="InfoCard__location" v-if="resource.geoData">
           <v-icon icon="mdi-map-marker-outline" />
           <span>{{ locationName }}</span>
         </span>
@@ -47,7 +47,7 @@ import type { Resource } from '@/models/interfaces/Resource'
 import { ItemType } from '@/models/enums/app/ItemType'
 import GenericInfoCard from '@/components/global/GenericInfoCard.vue'
 import { ResourceFormat } from '@/models/enums/contents/ResourceFormat'
-import { computed } from 'vue'
+import { computed, watch} from 'vue'
 import { useResourceStore } from '@/stores/resourceStore'
 import { ResourceType } from '@/models/enums/contents/ResourceType'
 import { getDateRangeLabel, localizeDate } from '@/services/utils/UtilsService'

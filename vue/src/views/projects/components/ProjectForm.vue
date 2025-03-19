@@ -106,9 +106,9 @@
         <Geocoding
           :search-type="NominatimSearchType.FREE"
           :osm-type="OsmType.NODE"
-          @change="form.osmData.handleChange(form.osmData.value.value)"
-          v-model="form.osmData.value.value as OsmData"
-          :error-messages="form.osmData.errorMessage.value"
+          @change="form.geoData.handleChange(form.geoData.value.value)"
+          v-model="form.geoData.value.value as GeoData"
+          :error-messages="form.geoData.errorMessage.value"
         />
 
         <FormSectionTitle :text="$t('projects.form.section.thematics')" />
@@ -280,7 +280,7 @@ import type { Organisation } from '@/models/interfaces/Organisation'
 import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import { onInvalidSubmit } from '@/services/forms/FormService'
-import type { OsmData } from '@/models/interfaces/geo/OsmData'
+import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'

@@ -1,5 +1,5 @@
 import { i18n } from '@/plugins/i18n'
-import type { OsmData } from '@/models/interfaces/geo/OsmData'
+import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
 import { z, ZodType } from 'zod'
@@ -10,18 +10,54 @@ export class CommonZodSchema {
       '@id': z.string(),
       name: z.string()
     }) satisfies ZodType<SymfonyRelation>
-    const OsmDataSchema = z.object({
-      osmId: z.number(),
-      osmType: z.string(),
-      osmName: z.string()
-    }) satisfies ZodType<OsmData>
+    const LatitudeSchema = z
+      .number()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value) return true
+          return value >= -90 && value <= 90
+        },
+        {
+          message: i18n.t('forms.errorMessages.latLng')
+        }
+      )
+    const LongitudeSchema = z
+      .number()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value) return true
+          return value >= -180 && value <= 180
+        },
+        {
+          message: i18n.t('forms.errorMessages.latLng')
+        }
+      )
+    const GeoDataSchema = z
+      .object({
+        osmId: z.number().optional().nullish(),
+        osmType: z.string().optional().nullish(),
+        name: z.string().optional().nullish(),
+        latitude: LatitudeSchema,
+        longitude: LongitudeSchema
+      })
+      .refine(
+        (schema) => {
+          return (schema.latitude && schema.longitude) || (schema.osmId && schema.osmType)
+        },
+        {
+          message: "Either select coordinates, or select a place",
+          path: ['osmId', 'latitude']
+        }
+      ) satisfies ZodType<GeoData>
 
     return {
       symfonyRelations: z.array(SymfonyRelationSchema).nonempty({
         message: i18n.t('forms.errorMessages.required')
       }),
       symfonyRelation: SymfonyRelationSchema,
-      osmData: OsmDataSchema,
+      geoData: GeoDataSchema,
       file: this.createFileSchema({
         allowedTypes: [
           'application/pdf',
@@ -99,6 +135,8 @@ export class CommonZodSchema {
             message: i18n.t('forms.errorMessages.phone')
           }
         ),
+      latString: LatitudeSchema,
+      lngString: LongitudeSchema,
       latLngString: z
         .string()
         .optional()

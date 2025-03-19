@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
@@ -31,6 +32,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     paginationEnabled: false,
     operations: [
+        new Get(
+            normalizationContext: ['groups' => [self::GET_FULL]],
+        ),
         new GetCollection(
             normalizationContext: ['groups' => [self::GET_FULL]],
             parameters: [

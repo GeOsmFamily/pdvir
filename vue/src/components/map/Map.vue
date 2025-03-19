@@ -1,6 +1,7 @@
 <template>
-  <div id="map">
+  <div :id="mapId" :small="small" class="Map">
     <ResetMapExtentControl ref="reset-map-extent-control" />
+    <slot></slot>
   </div>
 </template>
 <script setup lang="ts">
@@ -11,22 +12,22 @@ import ResetMapExtentControl from '@/components/map/controls/ResetMapExtentContr
 import { useApplicationStore } from '@/stores/applicationStore'
 import { IControl } from '@/services/map/MapService'
 import cameroonMask from '@/assets/geojsons/mask_cameroun.json'
-import { useMyMapStore } from '@/stores/myMapStore'
 
 const applicationStore = useApplicationStore()
-const myMapStore = useMyMapStore()
 const triggerZoomReset = computed(() => applicationStore.triggerZoomReset)
 const map: Ref<maplibregl.Map | null> = ref(null)
 const resetMapExtentControl = useTemplateRef('reset-map-extent-control')
 const props = withDefaults(
   defineProps<{
     bounds?: maplibregl.LngLatBounds
-    toExport?: boolean
+    small?: boolean
+    mapId?: string
   }>(),
   {
+    mapId: 'map',
     bounds: () =>
       new maplibregl.LngLatBounds([8.48881554529, 1.72767263428], [16.0128524106, 12.8593962671]),
-    toExport: false
+    small: false
   }
 )
 const popup = ref(new maplibregl.Popup({ closeOnClick: false }))
@@ -36,7 +37,7 @@ const activeFeatureId: Ref<string | null> = ref(null)
 onMounted(() => {
   const apiKey = import.meta.env.VITE_MAPTILER_API_KEY
   map.value = new maplibregl.Map({
-    container: 'map',
+    container: props.mapId,
     style: `https://api.maptiler.com/maps/openstreetmap/style.json?key=${apiKey}`,
     center: [0, 0],
     zoom: 1,
@@ -66,15 +67,6 @@ onMounted(() => {
       },
       metadata: { isPersistent: true }
     })
-  })
-
-  // For an unknown reason, if we try to get the canvas to Data url from outside
-  // it returns an empty image. It can be caused by the use of components like the map inside TemplateRef
-  // This is a workaround waiting to refactor the use of template ref elements
-  map.value.on('idle', () => {
-    if (props.toExport) {
-      myMapStore.mapCanvasToDataUrl = map.value?.getCanvas().toDataURL() as string
-    }
   })
 })
 
@@ -167,12 +159,12 @@ const addPopupOnClick = (layerName: string, popupHtml: any, isComponent = true) 
   })
 }
 
-const flyTo = (coordinates: maplibregl.LngLatLike) => {
+const flyTo = (coordinates: maplibregl.LngLatLike, speed = 0.5) => {
   if (map.value == null) return
   map.value.flyTo({
     center: coordinates,
     zoom: map.value.getZoom() > 7 ? map.value.getZoom() : 7,
-    speed: 0.5
+    speed
   })
 }
 
@@ -209,6 +201,7 @@ defineExpose({
   addPopupOnClick,
   addImage,
   addLayer,
+  flyTo,
   listenToHoveredFeature,
   removeLayer,
   removeSource,
@@ -284,18 +277,40 @@ defineExpose({
   }
 }
 
-#map {
+.Map {
   width: 100%;
   height: 100%;
+  min-height: 10rem;
+  position: relative;
+
+  --map-margin: 1.5rem;
 
   .maplibregl-ctrl-top-left,
   .maplibregl-ctrl-bottom-right,
   .maplibregl-ctrl-bottom-left,
   .maplibregl-ctrl-top-right {
-    margin: 1.5rem;
+    margin: var(--map-margin);
     display: flex;
     flex-flow: column nowrap;
     gap: 0.62rem;
+  }
+
+  &[small='true'] {
+    --map-margin: 0.5rem;
+    min-height: 12rem;
+
+    .maplibregl-ctrl-group button {
+      --dim-btn-h: 2rem;
+      box-sizing: border-box;
+      width: var(--dim-btn-h);
+      height: var(--dim-btn-h);
+      max-height: var(--dim-btn-h);
+      min-height: var(--dim-btn-h);
+    }
+
+    .maplibregl-ctrl-attrib.maplibregl-compact {
+      margin: 0;
+    }
   }
 
   .maplibregl-ctrl-group {

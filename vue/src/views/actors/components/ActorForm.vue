@@ -189,6 +189,7 @@
         </div>
         <div class="Form__fieldCtn">
           <label class="Form__label">{{ $t('actors.form.officeLocation') }}</label>
+          <!--
           <v-text-field
             density="compact"
             variant="outlined"
@@ -196,6 +197,11 @@
             :error-messages="form.officeLocation.errorMessage.value"
             @blur="form.officeLocation.handleChange"
             :placeholder="$t('actors.form.officeLocationPlaceholder')"
+          />-->
+          <LocationSelector
+            @update:model-value="form.geoData.handleChange"
+            v-model="form.geoData.value.value as GeoData"
+            :error-messages="form.geoData.errorMessage.value"
           />
         </div>
 
@@ -223,7 +229,7 @@ import { ActorsFormService } from '@/services/actors/ActorsForm'
 import { useActorsStore } from '@/stores/actorsStore'
 import { useApplicationStore } from '@/stores/applicationStore'
 import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
-import { computed, onMounted, ref, type Ref } from 'vue'
+import { computed, onMounted, ref, watch, type Ref } from 'vue'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories'
 import type { ActorExpertise } from '@/models/interfaces/ActorExpertise'
@@ -232,6 +238,7 @@ import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScop
 import Modal from '@/components/global/Modal.vue'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
+import LocationSelector from '@/components/forms/LocationSelector.vue'
 import { useThematicStore } from '@/stores/thematicStore'
 import { onInvalidSubmit } from '@/services/forms/FormService'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
@@ -239,6 +246,7 @@ import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
+import type { GeoData } from '@/models/interfaces/geo/GeoData'
 
 const appStore = useApplicationStore()
 const actorsStore = useActorsStore()
@@ -274,6 +282,13 @@ onMounted(async () => {
   }
 })
 
+watch(
+  () => form.geoData.value,
+  () => {
+    console.log(form.geoData.value)
+  }
+)
+
 const newLogo: Ref<ContentImageFromUserFile[]> = ref([])
 function handleLogoUpdate(list: any) {
   newLogo.value = list.selectedFiles
@@ -304,7 +319,8 @@ const submitForm = handleSubmit(
     }
     actorsStore.createOrEditActor(actorSubmission, actorToEdit !== null)
   },
-  () => {
+  ({ errors }) => {
+    console.log(errors)
     addNotification(i18n.t('forms.errors'), NotificationType.ERROR)
     onInvalidSubmit()
   }

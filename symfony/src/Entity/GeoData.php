@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\GeoDataRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: GeoDataRepository::class)]
@@ -14,22 +15,26 @@ class GeoData
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'bigint')]
-    #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM])]
+    #[ORM\Column(nullable: true)]
+    #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE, Resource::WRITE])]
     private ?int $osmId = null;
 
-    #[ORM\Column]
-    #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM])]
+    #[ORM\Column(nullable: true)]
+    #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE, Resource::WRITE])]
     private ?string $osmType = 'node';
 
-    #[ORM\Column(length: 255)]
-    #[Groups([PROJECT::GET_FULL, PROJECT::GET_PARTIAL, Resource::GET_FULL, Resource::WRITE, Actor::ACTOR_READ_COLLECTION])]
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([PROJECT::GET_FULL, PROJECT::GET_PARTIAL, Resource::GET_FULL, Resource::WRITE, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([Project::WRITE, Resource::WRITE, Actor::ACTOR_WRITE, Resource::GET_FULL])]
+    #[Assert\Range(min: -90, max: 90)]
     private ?float $latitude = null;
-
+    
     #[ORM\Column(nullable: true)]
+    #[Groups([Project::WRITE, Resource::WRITE, Actor::ACTOR_WRITE, Resource::GET_FULL])]
+    #[Assert\Range(min: -180, max: 180)]
     private ?float $longitude = null;
 
     #[ORM\Column(nullable: true)]
@@ -48,11 +53,20 @@ class GeoData
         return $this->osmId;
     }
 
-    public function setOsmId(int $osmId): static
+    public function setOsmId(?int $osmId): static
     {
-        $this->osmId = $osmId;
+        // Typecast to string to avoid Doctrine error on BIGINT
+        $this->osmId = null !== $osmId ? (string) $osmId: null;
 
         return $this;
+    }
+
+    public function getOsmIdentifier(): ?string
+    {
+        if (null === $this->osmId || null === $this->osmType) {
+            return null;
+        }
+        return strtoupper($this->osmType)[0].$this->osmId;
     }
 
     public function getOsmType(): ?string
@@ -60,7 +74,7 @@ class GeoData
         return $this->osmType;
     }
 
-    public function setOsmType(string $osmType): static
+    public function setOsmType(?string $osmType): static
     {
         $this->osmType = $osmType;
 
@@ -115,7 +129,7 @@ class GeoData
         return $this;
     }
 
-    #[Groups([Project::GET_PARTIAL, Resource::GET_FULL, Actor::ACTOR_READ_COLLECTION])]
+    #[Groups([Project::GET_PARTIAL, Resource::GET_FULL, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM])]
     public function getCoords(): ?array
     {
         return [

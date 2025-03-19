@@ -1,0 +1,75 @@
+<template>
+  <div class="LocationSelector">
+    <Geocoding
+      :search-type="NominatimSearchType.FREE"
+      :osm-type="OsmType.NODE"
+      v-model="geoData"
+      @update:model-value="console.log('ddedede')"
+    />
+    <v-divider>{{ $t('forms.or') }}</v-divider>
+    <CoordinatesSelector v-model:lat="lat" v-model:lng="lng" @update-coords="resetGeodata" />
+    <span>{{ props.errorMessages }}</span>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { onMounted, ref, watch, type ModelRef } from 'vue'
+import Geocoding from '@/components/forms/Geocoding.vue'
+import { NominatimSearchType } from '@/models/enums/geo/NominatimSearchType'
+import { OsmType } from '@/models/enums/geo/OsmType'
+import CoordinatesSelector from './CoordinatesSelector.vue'
+import type { GeoData } from '@/models/interfaces/geo/GeoData'
+import type { Ref } from 'vue'
+
+const geoData: ModelRef<GeoData> = defineModel({
+  default: {
+    osmId: null,
+    osmType: null,
+    name: null,
+    latitude: null,
+    longitude: null
+  } as GeoData
+})
+
+const lat: Ref<number | null | undefined> = ref(null)
+const lng: Ref<number | null | undefined> = ref(null)
+
+const props = defineProps<{
+  errorMessages: string[]
+}>()
+
+onMounted(async () => {
+  updateCoords()
+})
+watch(
+  () => geoData.value,
+  () => {
+    updateCoords()
+  })
+watch(
+  () => [lat.value, lng.value],
+  () => {
+    geoData.value.latitude = lat.value
+    geoData.value.longitude = lng.value
+  }
+)
+
+const updateCoords = () => {
+  lat.value = geoData.value?.latitude ?? geoData.value?.coords?.lat
+  lng.value = geoData.value?.longitude ?? geoData.value?.coords?.lng
+}
+
+const resetGeodata = () => {
+  geoData.value.osmId = null
+  geoData.value.osmType = null
+  geoData.value.name = ''
+}
+</script>
+
+<style lang="scss">
+.LocationSelector {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+}
+</style>
