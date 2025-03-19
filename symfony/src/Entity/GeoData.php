@@ -15,7 +15,7 @@ class GeoData
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'bigint', nullable: true)]
     #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE, Resource::WRITE])]
     private ?int $osmId = null;
 
