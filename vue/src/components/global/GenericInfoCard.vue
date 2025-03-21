@@ -11,9 +11,11 @@
           <span class="InfoCard__description">{{ description }}</span>
         </slot>
       </div>
+      <div class="GenericInfoCard__chips">
+        <v-chip class="mr-2">{{ typeLabel }}</v-chip>
+      </div>
     </template>
     <template #footer-left>
-      <v-chip class="mr-2">{{ typeLabel }}</v-chip>
       <ShareButton
         :additionnal-path="additionnalPath as string"
         :external-link="sharedLinkIsExternalToPlatform"
@@ -152,6 +154,11 @@ const additionnalPath = computed(() => {
       object-fit: contain;
       mix-blend-mode: multiply;
     }
+  }
+  .GenericInfoCard__chips {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0.25rem 1.25rem !important;
   }
   .InfoCard__footer {
     margin: 1rem 1.25rem !important;

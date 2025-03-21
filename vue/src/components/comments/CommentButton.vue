@@ -6,7 +6,7 @@
       @click.stop="isFormCommentVisible = true"
       :class="{
         'text-white': isFormCommentVisible,
-        'text-main-blue': !isFormCommentVisible
+        'text-main-red': !isFormCommentVisible
       }"
       :color="isFormCommentVisible ? 'main-blue' : 'white'"
     ></v-btn>
@@ -15,7 +15,7 @@
       variant="text"
       density="comfortable"
       :icon="isFormCommentVisible ? 'mdi-comment-text' : 'mdi-comment-text-outline'"
-      color="main-blue"
+      color="main-red"
       @click.prevent="isFormCommentVisible = true"
     >
     </v-btn>
