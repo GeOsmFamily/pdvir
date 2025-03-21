@@ -8,7 +8,7 @@
             <ShareButton :additionnal-path="''" />
             <HighlightButton :item-id="id" />
             <LikeButton :id="id" />
-            <CommentButton position="Sheet" :origin="page" :originSlug="slug" />
+            <CommentButton position="Sheet" :origin="page" originSlug="SheetPage" />
             <v-btn
               v-if="page === 'Actor'"
               variant="elevated"

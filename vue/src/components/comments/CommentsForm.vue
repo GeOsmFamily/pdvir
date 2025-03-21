@@ -19,7 +19,7 @@
         </div>
         <div v-if="originSlug" class="Form__fieldCtn">
           <label class="Form__label">{{ $t('comments.form.originURL') }}</label>
-          <v-text-field disabled :placeholder="`${origin}: ${originSlug}`"></v-text-field>
+          <v-text-field disabled :placeholder="`${origin}: ${slugForFormField()}`"></v-text-field>
         </div>
         <div v-if="mapComment" class="Form__fieldCtn">
           <label class="Form__label">{{ $t('comments.form.location') }}</label>
@@ -69,6 +69,13 @@ const props = withDefaults(
   }
 )
 
+const slugForFormField = () => {
+  if (props.originSlug && props.originSlug === 'SheetPage') {
+    return window.location.pathname.split('/').pop()
+  }
+  return props.originSlug
+}
+
 const commentStore = useCommentStore()
 const { form, handleSubmit, isSubmitting } = CommentsFormService.getCommentsForm()
 const emit = defineEmits(['close'])
@@ -84,7 +91,10 @@ const submitForm = handleSubmit(
     }
     if (props.originSlug) {
       if (props.origin === 'Actor' || props.origin === 'Project') {
-        commentSubmission.originURL = window.location + '/' + props.originSlug
+        commentSubmission.originURL =
+          props.originSlug === 'SheetPage'
+            ? window.location.toString()
+            : window.location + '/' + props.originSlug
       } else {
         commentSubmission.originURL = props.originSlug
       }
