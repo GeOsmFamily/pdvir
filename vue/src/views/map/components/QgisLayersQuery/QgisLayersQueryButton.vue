@@ -12,6 +12,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { NotificationType } from '@/models/enums/app/NotificationType'
+import { LayerType } from '@/models/enums/geo/LayerType'
+import { addNotification } from '@/services/notifications/NotificationService'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, watch } from 'vue'
 
@@ -36,7 +39,14 @@ watch(
 )
 
 function queryQgisLayer(e: any) {
-  console.log(e)
+  if (mapStore.legendList.some((x) => x.layerType === LayerType.ATLAS_LAYER)) {
+    const lngLat = e.lngLat
+    console.log(lngLat)
+    console.log(mapStore.legendList)
+    //   mapStore.isQgisLayerQueryActive = false
+  } else {
+    addNotification('No QGIS layers are available for query', NotificationType.ERROR)
+  }
   //   mapStore.isQgisLayerQueryActive = false
 }
 </script>

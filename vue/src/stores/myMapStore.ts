@@ -9,7 +9,7 @@ import { AtlasMapService } from '@/services/map/AtlasMapService'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import { LegendService } from '@/services/map/LegendService'
-import type { LngLatBounds } from 'maplibre-gl'
+import type { LngLatBounds, LngLatLike } from 'maplibre-gl'
 import { MapStoreSerializationService } from '@/services/map/MapStoreSerializationService'
 import { AppLayersService } from '@/services/map/AppLayersService'
 import type { MapState } from '@/models/interfaces/map/MapState'
@@ -154,6 +154,10 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     }
   }
 
+  function queryQgisLayer(coords: LngLatLike) {
+    console.log(coords)
+  }
+
   // PopUp Management
   watch(
     () => activeItemId.value,
@@ -220,6 +224,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     serializedMapState,
     deserializedMapState,
     deserializeMapState,
+    queryQgisLayer,
     activeItemId,
     activeItemType,
     activeItem
