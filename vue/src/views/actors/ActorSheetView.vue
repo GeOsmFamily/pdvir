@@ -47,10 +47,10 @@
         {{ $t('actorPage.adminScope') }}
       </div>
       {{ actor.administrativeScopes.map((x) => x.name).join(', ') }}
-      <div class="ActorSheetView__toMap" :to="actorMapRoute" v-if="actorMapRoute">
+      <router-link class="ActorSheetView__toMap" :to="actorMapRoute" v-if="actorMapRoute">
         <span>{{ $t('actorPage.showInMap') }}</span>
         <v-icon class="ml-2" color="main-green" icon="mdi-arrow-right-circle" size="large"></v-icon>
-      </div>
+      </router-link>
 
       <div class="SheetView__infoCard">
         <div class="d-flex flex-row">

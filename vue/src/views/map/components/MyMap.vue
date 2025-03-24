@@ -17,7 +17,7 @@
       :is-higlighted-when-off="true"
       ref="toggle-right-sidebar-control"
     />
-    <MyMapItemPopup :key="myMapStore.activeItemId ?? 'mapItemPopup'" />
+    <MyMapItemPopup />
   </div>
 </template>
 
