@@ -1,11 +1,6 @@
 <template>
   <div class="LocationSelector">
-    <Geocoding
-      :search-type="NominatimSearchType.FREE"
-      :osm-type="OsmType.NODE"
-      v-model="geoData"
-      @update:model-value="console.log('ddedede')"
-    />
+    <Geocoding :search-type="NominatimSearchType.FREE" :osm-type="OsmType.NODE" v-model="geoData" />
     <v-divider>{{ $t('forms.or') }}</v-divider>
     <CoordinatesSelector v-model:lat="lat" v-model:lng="lng" @update-coords="resetGeodata" />
     <span v-if="errorMessage">{{ errorMessage }}</span>
@@ -45,7 +40,8 @@ watch(
   () => geoData.value,
   () => {
     updateCoords()
-  })
+  }
+)
 watch(
   () => [lat.value, lng.value],
   () => {

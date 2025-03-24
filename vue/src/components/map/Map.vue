@@ -141,7 +141,6 @@ const addPopup = (
 ) => {
   if (map.value == null || coordinates == null) return
   flyTo(coordinates)
-  console.log('popupHtml', popupHtml)
   popup.value
     .setLngLat(coordinates)
     .setDOMContent(isComponent ? popupHtml.$el : popupHtml)
@@ -154,12 +153,13 @@ const addPopup = (
 }
 
 const addPopupOnClick = (layerName: string, popupHtml: any, isComponent = true) => {
-  if (map.value == null) return
+  if (map.value == null || popupHtml == null) return
   map.value.on('click', layerName, (e: any) => {
-    activeFeatureId.value = e.features[0].properties.id
     if (map.value == null) return
-    const coordinates = e.features[0].geometry.coordinates.slice()
+    activeFeatureId.value = e.features[0]?.properties?.id
+    const coordinates = e.features[0].geometry?.coordinates?.slice()
     addPopup(coordinates, popupHtml, isComponent)
+    e.preventDefault()
   })
 }
 

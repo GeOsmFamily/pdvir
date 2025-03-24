@@ -92,9 +92,7 @@ const router = createRouter({
       component: () => import('@/views/map/MyMapView.vue'),
       beforeEnter: (to, from, next) => {
         const myMapStore = useMyMapStore()
-        console.log('to.query.item', to.query.item);
         myMapStore.activeItemId = to.query.item ? to.query.item.toString() : null
-        console.log('to.query.item', myMapStore.activeItemId, myMapStore.activeItem);
         next()
       }
     },

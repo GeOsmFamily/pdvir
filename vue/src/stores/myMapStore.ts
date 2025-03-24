@@ -1,6 +1,6 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
-import { reactive, ref, watch, type Ref } from 'vue'
+import { computed, reactive, ref, watch, type Ref } from 'vue'
 import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { Layer } from '@/models/interfaces/map/Layer'
 import type Map from '@/components/map/Map.vue'
@@ -25,6 +25,7 @@ import { ItemType } from '@/models/enums/app/ItemType'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
+  const map = computed(() => myMap.value?.map)
   const mapCanvasToDataUrl: Ref<string | null> = ref(null)
   const isRightSidebarShown = ref(true)
   const isLeftSidebarShown = ref(true)
@@ -196,6 +197,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     isLayersReorderingAlreadyTriggering,
     isMapExportActive,
     myMap,
+    map,
     mapCanvasToDataUrl,
     mapSearch,
     actorLayer,

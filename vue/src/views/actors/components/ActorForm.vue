@@ -282,13 +282,6 @@ onMounted(async () => {
   }
 })
 
-watch(
-  () => form.geoData.value,
-  () => {
-    console.log(form.geoData.value)
-  }
-)
-
 const newLogo: Ref<ContentImageFromUserFile[]> = ref([])
 function handleLogoUpdate(list: any) {
   newLogo.value = list.selectedFiles

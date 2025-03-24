@@ -95,12 +95,10 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
       }
     })
     if (selectedActor.value && selectedActor.value.id === updatedActor.id) {
-      console.log('selectedActor.value', JSON.parse(JSON.stringify(selectedActor.value)))
       selectedActor.value = {
         ...selectedActor.value,
         ...updatedActor
       }
-      console.log('selectedActor.value', JSON.parse(JSON.stringify(selectedActor.value)))
     }
   }
 
