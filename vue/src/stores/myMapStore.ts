@@ -32,6 +32,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const isMapAlreadyBeenMounted = ref(false)
   const isLayersReorderingAlreadyTriggering = ref(false)
   const isMapExportActive = ref(false)
+  const isQgisLayerQueryActive = ref(false)
 
   const actorLayer: Ref<Layer | null> = ref(null)
   const actorSubLayers: Ref<Layer[]> = ref([])
@@ -194,6 +195,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     isMapAlreadyBeenMounted,
     isLayersReorderingAlreadyTriggering,
     isMapExportActive,
+    isQgisLayerQueryActive,
     myMap,
     mapCanvasToDataUrl,
     mapSearch,

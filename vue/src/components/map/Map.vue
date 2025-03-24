@@ -185,7 +185,7 @@ const listenToHoveredFeature = (layerName: string) => {
   })
 
   map.value.on('mouseleave', layerName, () => {
-    if (map.value == null) return
+    if (map.value == null || myMapStore.isQgisLayerQueryActive) return
     map.value.getCanvas().style.cursor = ''
     hoveredFeatureId.value = null
   })
