@@ -2,6 +2,7 @@ import { NotificationType } from '@/models/enums/app/NotificationType'
 import { addNotification } from '../notifications/NotificationService'
 import { i18n } from '@/plugins/i18n'
 import type { LngLat } from 'maplibre-gl'
+import type { FeatureAttributes, LayerFeatures } from '@/models/interfaces/map/AtlasMap'
 
 export class QgisMapMaplibreService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
@@ -176,11 +177,45 @@ export class QgisMapMaplibreService {
       const url = `${window.location.origin}${this.qgisServerURL}/${qgisProjectName}?service=WMS&VERSION=1.3.0&request=GetFeatureInfo&SRS=EPSG:4326&QUERY_LAYERS=${layers.join(',')}&WIDTH=${width}&HEIGHT=${height}&BBOX=${bbox3857}&I=${x}&J=${y}&&OutputFormat=application/json`
       const response = await fetch(url)
       if (!response.ok) throw new Error(`Error ${response.status}`)
-      const result = await response.json()
-      console.log(result)
+      const result = await response.text()
+      const parsedData: LayerFeatures = this.parseGetFeatureInfo(result)
+      console.log(parsedData)
       return Promise.resolve()
     } catch (error) {
       Promise.reject(error)
     }
+  }
+
+  static parseGetFeatureInfo(responseText: string): LayerFeatures {
+    const layers: LayerFeatures = {}
+    let currentLayer: string | null = null
+    let currentFeature: FeatureAttributes | null = null
+
+    responseText.split('\n').forEach((line) => {
+      line = line.trim()
+
+      const matchLayer = line.match(/^Layer '(.*?)'/)
+      if (matchLayer) {
+        currentLayer = matchLayer[1]
+        layers[currentLayer] = []
+        return
+      }
+
+      const matchFeature = line.match(/^Feature (\d+)/)
+      if (matchFeature) {
+        currentFeature = {}
+        if (currentLayer) {
+          layers[currentLayer].push(currentFeature)
+        }
+        return
+      }
+      const matchAttr = line.match(/^([\w\d_]+)\s*=\s*'?(.*?)'?\s*$/)
+      if (matchAttr && currentFeature) {
+        const [, key, value] = matchAttr
+        currentFeature[key] = value === 'NULL' ? null : value
+      }
+    })
+
+    return layers
   }
 }
