@@ -65,5 +65,8 @@
                 }
             }
         }
+    },
+    "qgisQuery": {
+        "noLayer": "Veuillez afficher des couches issues des données thématiques ou des cartes prédéfinies pour pouvoir effectuer une requête"
     }
 }

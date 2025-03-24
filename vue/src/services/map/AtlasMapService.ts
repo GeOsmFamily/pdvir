@@ -5,6 +5,9 @@ import { QgisMapMaplibreService } from '../qgisMap/QgisMapMaplibreService'
 import { apiClient } from '@/plugins/axios/api'
 import { fetchImageAsBase64 } from '../utils/UtilsService'
 import type { AtlasStoreType, MyMapStoreType } from '@/models/interfaces/Stores'
+import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
+import { LayerType } from '@/models/enums/geo/LayerType'
+import type { LngLat } from 'maplibre-gl'
 
 export class AtlasMapService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
@@ -161,5 +164,25 @@ export class AtlasMapService {
         }
       }
     }
+  }
+
+  static async queryAtlasLayer(
+    map: maplibregl.Map,
+    coords: LngLat,
+    legendList: (AppLayerLegendItem | AtlasLayerLegendItem)[],
+    atlasMaps: AtlasMap[]
+  ) {
+    const mapToQuery = legendList.filter((legend) => legend.layerType === LayerType.ATLAS_LAYER)
+    const results = await Promise.all(
+      mapToQuery.map((atlas) => {
+        QgisMapMaplibreService.getFeatureInfo(
+          map,
+          coords,
+          atlasMaps.find((atl) => atl.mainLayer.name === atlas.name)?.qgisProjectName as string,
+          atlas.subLayers.map((sub) => sub.name)
+        )
+      })
+    )
+    console.log(results)
   }
 }
