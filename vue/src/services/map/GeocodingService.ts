@@ -28,7 +28,7 @@ export default class GeocodingService {
           const geojson = response.data
           for (const feature of geojson.features) {
             const point: GeoData = {
-              osmId: feature.properties.geocoding.osm_id,
+              osmId: feature.properties.geocoding.osm_id.toString(),
               osmType: feature.properties.geocoding.osm_type,
               name: feature.properties.geocoding.label,
               latitude: feature.geometry.coordinates[1],

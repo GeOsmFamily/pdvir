@@ -57,7 +57,7 @@ class NominatimService
     {
         $geoData = new GeoData();
         $geoData
-          ->setOsmId($data['osm_id'])
+          ->setOsmId((string) $data['osm_id'])
           ->setOsmType($data['osm_type'])
           ->setLatitude($data['lat'])
           ->setLongitude($data['lon'])

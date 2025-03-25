@@ -189,15 +189,6 @@
         </div>
         <div class="Form__fieldCtn">
           <label class="Form__label">{{ $t('actors.form.officeLocation') }}</label>
-          <!--
-          <v-text-field
-            density="compact"
-            variant="outlined"
-            v-model="form.officeLocation.value.value"
-            :error-messages="form.officeLocation.errorMessage.value"
-            @blur="form.officeLocation.handleChange"
-            :placeholder="$t('actors.form.officeLocationPlaceholder')"
-          />-->
           <LocationSelector
             @update:model-value="form.geoData.handleChange"
             v-model="form.geoData.value.value as GeoData"
@@ -229,7 +220,7 @@ import { ActorsFormService } from '@/services/actors/ActorsForm'
 import { useActorsStore } from '@/stores/actorsStore'
 import { useApplicationStore } from '@/stores/applicationStore'
 import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
-import { computed, onMounted, ref, watch, type Ref } from 'vue'
+import { computed, onMounted, ref, type Ref } from 'vue'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories'
 import type { ActorExpertise } from '@/models/interfaces/ActorExpertise'
@@ -303,6 +294,8 @@ function handleImagesUpdate(lists: any) {
 
 const submitForm = handleSubmit(
   (values) => {
+    console.log('form', form);
+    console.log('values', values);
     const actorSubmission: ActorSubmission = {
       ...(values as any),
       logoToUpload: newLogo.value[0],

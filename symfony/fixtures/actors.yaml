@@ -11,7 +11,6 @@ App\Entity\Actor:
     officeName: <companySuffix()>
     officeAddress: <address()>
     geoData: '@geoData_<current()>'
-    officeLocation: '<numberBetween(2, 13)>.<numberBetween(100000, 999999)>, <numberBetween(8, 16)>.<numberBetween(100000, 999999)>'
     contactName: <name()>
     contactPosition: <jobTitle()>
     website: https://<domainName()>

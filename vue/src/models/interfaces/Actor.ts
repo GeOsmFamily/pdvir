@@ -21,7 +21,6 @@ export interface Actor extends Timestampable, Validateable, Blameable, ThematicI
   administrativeScopes: AdministrativeScope[]
   officeName: string
   officeAddress: string
-  officeLocation: string
   geoData: GeoData
   contactName: string
   contactPosition: string
@@ -35,9 +34,8 @@ export interface Actor extends Timestampable, Validateable, Blameable, ThematicI
   slug: string
 }
 
-export interface ActorSubmission extends Omit<Actor, 'logo' | 'officeLocation'> {
+export interface ActorSubmission extends Omit<Actor, 'logo'> {
   logo: string
   logoToUpload: ContentImageFromUserFile
   imagesToUpload: ContentImageFromUserFile[]
-  officeLocation: string
 }

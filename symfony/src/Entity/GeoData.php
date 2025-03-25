@@ -17,7 +17,7 @@ class GeoData
 
     #[ORM\Column(type: 'bigint', nullable: true)]
     #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE, Resource::WRITE])]
-    private ?int $osmId = null;
+    private ?string $osmId = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE, Resource::WRITE])]
@@ -48,12 +48,12 @@ class GeoData
         return $this->id;
     }
 
-    public function getOsmId(): ?int
+    public function getOsmId(): ?string
     {
         return $this->osmId;
     }
 
-    public function setOsmId(?int $osmId): static
+    public function setOsmId(?string $osmId): static
     {
         // Typecast to string to avoid Doctrine error on BIGINT
         $this->osmId = null !== $osmId ? (string) $osmId : null;

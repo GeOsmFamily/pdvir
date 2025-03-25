@@ -13,6 +13,7 @@ export class CommonZodSchema {
     }) satisfies ZodType<SymfonyRelation>
     const LatitudeSchema = z
       .number()
+      .nullable()
       .optional()
       .refine(
         (value) => {
@@ -25,6 +26,7 @@ export class CommonZodSchema {
       )
     const LongitudeSchema = z
       .number()
+      .nullable()
       .optional()
       .refine(
         (value) => {
@@ -37,14 +39,21 @@ export class CommonZodSchema {
       )
     const GeoDataSchema = z
       .object({
-        osmId: z.number().nullable(),
+        osmId: z.string().nullable(),
         osmType: z.nativeEnum(OsmType).nullable(),
         name: z.string().nullable(),
         latitude: LatitudeSchema,
         longitude: LongitudeSchema
+      }).default({
+        osmId: null,
+        osmType: null,
+        name: '',
+        latitude: null,
+        longitude: null
       })
       .refine(
         (schema) => {
+          console.log('schema', schema);
           return (schema.latitude && schema.longitude) || (schema.osmId && schema.osmType)
         },
         {

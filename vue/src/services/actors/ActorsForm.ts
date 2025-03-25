@@ -43,7 +43,6 @@ export class ActorsFormService {
       description: useField('description', '', { validateOnValueUpdate: false }),
       officeName: useField('officeName', '', { validateOnValueUpdate: false }),
       officeAddress: useField('officeAddress', '', { validateOnValueUpdate: false }),
-      officeLocation: useField('officeLocation', '', { validateOnValueUpdate: false }),
       geoData: useField('geoData', '', { validateOnValueUpdate: false }),
       contactName: useField('contactName', '', { validateOnValueUpdate: false }),
       contactPosition: useField('contactPosition', '', { validateOnValueUpdate: false }),

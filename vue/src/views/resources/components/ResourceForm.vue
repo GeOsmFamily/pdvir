@@ -110,6 +110,7 @@
 
         <FormSectionTitle :text="$t('resources.form.section.location')" />
         <LocationSelector
+          @update:model-value="form.geoData.handleChange"
           v-model="form.geoData.value.value"
           :error-message="form.geoData.errorMessage.value"
         />
@@ -170,12 +171,6 @@ const props = defineProps<{
 }>()
 
 const { form, handleSubmit, isSubmitting } = ResourceFormService.getForm(props.resource)
-
-watch(
-  () => form?.geoData?.value.value,
-  () => form?.geoData?.handleChange
-)
-
 const isResourceValidated = computed(() => props.resource?.isValidated)
 
 const hideFileInput = computed(() => {

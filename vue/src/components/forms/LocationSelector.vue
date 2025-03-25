@@ -15,7 +15,6 @@ import { OsmType } from '@/models/enums/geo/OsmType'
 import CoordinatesSelector from './CoordinatesSelector.vue'
 import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { Ref } from 'vue'
-
 const geoData: ModelRef<GeoData> = defineModel({
   default: {
     osmId: null,
@@ -40,19 +39,29 @@ watch(
   () => geoData.value,
   () => {
     updateCoords()
-  }
+  },
+  { deep: true }
 )
+
 watch(
   () => [lat.value, lng.value],
   () => {
-    geoData.value.latitude = lat.value
-    geoData.value.longitude = lng.value
+    if (geoData.value) {
+      geoData.value = {
+        ...geoData.value,
+        latitude: lat.value,
+        longitude: lng.value
+      }
+    }
   }
 )
 
 const updateCoords = () => {
-  lat.value = geoData.value?.latitude ?? geoData.value?.coords?.lat
-  lng.value = geoData.value?.longitude ?? geoData.value?.coords?.lng
+  if (!geoData.value) {
+    return
+  }
+  lat.value = geoData.value?.latitude ?? geoData.value?.coords?.lat ?? null
+  lng.value = geoData.value?.longitude ?? geoData.value?.coords?.lng ?? null
 }
 
 const resetGeodata = () => {
