@@ -211,7 +211,15 @@ export class QgisMapMaplibreService {
       const matchAttr = line.match(/^([\w\d_]+)\s*=\s*'?(.*?)'?\s*$/)
       if (matchAttr && currentFeature) {
         const [, key, value] = matchAttr
-        currentFeature[key] = value === 'NULL' ? null : value
+        if (value !== 'NULL') {
+          currentFeature[key] = value
+        }
+      }
+    })
+
+    Object.keys(layers).forEach((layer) => {
+      if (layers[layer].length === 0) {
+        delete layers[layer]
       }
     })
 

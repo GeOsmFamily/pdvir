@@ -199,6 +199,7 @@ export class AtlasMapService {
       addNotification('No data found', NotificationType.INFO)
       return
     }
+    console.log(filteredResults)
     return filteredResults
   }
 }
