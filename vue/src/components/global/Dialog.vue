@@ -86,6 +86,7 @@ const closeDialog = () => {
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
+    text-align: justify;
 
     .Link--withoutUnderline {
       width: fit-content;
