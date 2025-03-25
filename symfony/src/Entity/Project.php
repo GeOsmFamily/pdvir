@@ -15,6 +15,7 @@ use ApiPlatform\Metadata\QueryParameter;
 use App\Controller\Project\SimilarProjectsAction;
 use App\Entity\File\MediaObject;
 use App\Entity\Trait\BlameableEntity;
+use App\Entity\Trait\CreatorMessageEntity;
 use App\Entity\Trait\LocalizableEntity;
 use App\Entity\Trait\SluggableEntity;
 use App\Entity\Trait\TimestampableEntity;
@@ -79,6 +80,7 @@ class Project
     use SluggableEntity;
     use LocalizableEntity;
     use ValidateableEntity;
+    use CreatorMessageEntity;
 
     public const GET_FULL = 'project:get:full';
     public const GET_PARTIAL = 'project:get:partial';
