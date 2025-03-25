@@ -1,5 +1,9 @@
 import type { Atlas } from '@/models/interfaces/Atlas'
-import type { AtlasMap, QGISLayerFeatures } from '@/models/interfaces/map/AtlasMap'
+import type {
+  AtlasMap,
+  FilteredQGISLayerFeatures,
+  QGISLayerFeatures
+} from '@/models/interfaces/map/AtlasMap'
 import type { AtlasLayer } from '@/models/interfaces/map/Layer'
 import { QgisMapMaplibreService } from '../qgisMap/QgisMapMaplibreService'
 import { apiClient } from '@/plugins/axios/api'
@@ -195,11 +199,11 @@ export class AtlasMapService {
       })
       .filter(Boolean)
 
-    if (!filteredResults) {
+    if (filteredResults.length === 0) {
       addNotification('No data found', NotificationType.INFO)
       return
     }
     console.log(filteredResults)
-    return filteredResults
+    return filteredResults as FilteredQGISLayerFeatures[]
   }
 }

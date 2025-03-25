@@ -27,3 +27,8 @@ export interface QGISFeatureAttributes {
 export interface QGISLayerFeatures {
   [layerName: string]: QGISFeatureAttributes[]
 }
+
+export interface FilteredQGISLayerFeatures {
+  name: string
+  data: [string, QGISFeatureAttributes[]][]
+}
