@@ -2,7 +2,7 @@ import { NotificationType } from '@/models/enums/app/NotificationType'
 import { addNotification } from '../notifications/NotificationService'
 import { i18n } from '@/plugins/i18n'
 import type { LngLat } from 'maplibre-gl'
-import type { FeatureAttributes, LayerFeatures } from '@/models/interfaces/map/AtlasMap'
+import type { QGISFeatureAttributes, QGISLayerFeatures } from '@/models/interfaces/map/AtlasMap'
 
 export class QgisMapMaplibreService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
@@ -160,7 +160,7 @@ export class QgisMapMaplibreService {
     coords: LngLat,
     qgisProjectName: string,
     layers: string[]
-  ): Promise<void> {
+  ): Promise<QGISLayerFeatures | unknown> {
     try {
       const width = map.getCanvas().width
       const height = map.getCanvas().height
@@ -178,18 +178,17 @@ export class QgisMapMaplibreService {
       const response = await fetch(url)
       if (!response.ok) throw new Error(`Error ${response.status}`)
       const result = await response.text()
-      const parsedData: LayerFeatures = this.parseGetFeatureInfo(result)
-      console.log(parsedData)
-      return Promise.resolve()
+      const parsedData: QGISLayerFeatures = this.parseGetFeatureInfo(result)
+      return Promise.resolve(parsedData)
     } catch (error) {
       Promise.reject(error)
     }
   }
 
-  static parseGetFeatureInfo(responseText: string): LayerFeatures {
-    const layers: LayerFeatures = {}
+  static parseGetFeatureInfo(responseText: string): QGISLayerFeatures {
+    const layers: QGISLayerFeatures = {}
     let currentLayer: string | null = null
-    let currentFeature: FeatureAttributes | null = null
+    let currentFeature: QGISFeatureAttributes | null = null
 
     responseText.split('\n').forEach((line) => {
       line = line.trim()

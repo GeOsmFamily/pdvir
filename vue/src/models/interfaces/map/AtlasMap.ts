@@ -21,9 +21,9 @@ export interface AtlasActive {
 }
 
 // Used to parse response of QGIS server GetFeatureInfo request
-export interface FeatureAttributes {
+export interface QGISFeatureAttributes {
   [key: string]: string | null
 }
-export interface LayerFeatures {
-  [layerName: string]: FeatureAttributes[]
+export interface QGISLayerFeatures {
+  [layerName: string]: QGISFeatureAttributes[]
 }

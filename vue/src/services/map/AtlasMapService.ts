@@ -1,5 +1,5 @@
 import type { Atlas } from '@/models/interfaces/Atlas'
-import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
+import type { AtlasMap, QGISLayerFeatures } from '@/models/interfaces/map/AtlasMap'
 import type { AtlasLayer } from '@/models/interfaces/map/Layer'
 import { QgisMapMaplibreService } from '../qgisMap/QgisMapMaplibreService'
 import { apiClient } from '@/plugins/axios/api'
@@ -8,6 +8,8 @@ import type { AtlasStoreType, MyMapStoreType } from '@/models/interfaces/Stores'
 import type { AppLayerLegendItem, AtlasLayerLegendItem } from '@/models/interfaces/map/Legend'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import type { LngLat } from 'maplibre-gl'
+import { addNotification } from '../notifications/NotificationService'
+import { NotificationType } from '@/models/enums/app/NotificationType'
 
 export class AtlasMapService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
@@ -174,15 +176,29 @@ export class AtlasMapService {
   ) {
     const mapToQuery = legendList.filter((legend) => legend.layerType === LayerType.ATLAS_LAYER)
     const results = await Promise.all(
-      mapToQuery.map((atlas) => {
-        QgisMapMaplibreService.getFeatureInfo(
+      mapToQuery.map(async (atlas) => ({
+        name: atlas.name,
+        data: await QgisMapMaplibreService.getFeatureInfo(
           map,
           coords,
           atlasMaps.find((atl) => atl.mainLayer.name === atlas.name)?.qgisProjectName as string,
           atlas.subLayers.map((sub) => sub.name)
         )
-      })
+      }))
     )
-    console.log(results)
+    const filteredResults = results
+      .map((x) => {
+        const data = Object.entries(x.data as QGISLayerFeatures).filter((arr) => arr[1].length > 0)
+        if (data.length > 0) {
+          return { name: x.name, data: data }
+        } else return null
+      })
+      .filter(Boolean)
+
+    if (!filteredResults) {
+      addNotification('No data found', NotificationType.INFO)
+      return
+    }
+    return filteredResults
   }
 }
