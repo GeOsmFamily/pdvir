@@ -1,7 +1,7 @@
 <template>
   <InfoCard id="test" typeLabel="test">
     <template #content>
-      <div class="InfoCard__title d-flex flex-row">
+      <div class="InfoCard__title flex-row">
         <span>
           {{ features[visibleLayer].name }}
           <v-icon
@@ -17,7 +17,7 @@
         </span>
       </div>
 
-      <div class="InfoCard__subTitle d-flex flex-row">
+      <div class="InfoCard__subTitle flex-row mt-3">
         <span>
           {{ features[visibleLayer].data[visibleSubLayer][0] }}
           <v-icon
@@ -35,11 +35,11 @@
         </span>
       </div>
 
-      <v-table density="compact">
+      <v-table density="compact" class="mt-3">
         <thead>
           <tr>
-            <th>{{ $t('qgisQuery.attribute') }}</th>
-            <th>{{ $t('qgisQuery.value') }}</th>
+            <th class="font-weight-bold">{{ $t('qgisQuery.attribute') }}</th>
+            <th class="font-weight-bold">{{ $t('qgisQuery.value') }}</th>
           </tr>
         </thead>
         <tbody>
