@@ -93,6 +93,7 @@
     },
     "labels": {
         "updatedAt": "Mis à jour le",
+        "updatedBy": "par",
         "lastUpdatedAt": "Dernière mise à jour le",
         "reset": "Réinitialiser"
     },

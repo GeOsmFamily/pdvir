@@ -16,7 +16,7 @@
                 $t('content.createAMap')
               }}</v-btn
             >
-            <UpdatedAtLabel :date="updatedAt" class="show-sm" />
+            <UpdateInfoLabel :date="updatedAt" :user="createdBy" class="show-sm text-left" />
           </div>
           <div class="SheetContentBanner__editBar">
             <v-btn
@@ -39,11 +39,12 @@
 
 <script setup lang="ts">
 import PageBanner from '@/components/banners/PageBanner.vue'
-import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue'
+import UpdateInfoLabel from '@/views/_layout/sheet/UpdateInfoLabel.vue'
 import ShareButton from '@/components/global/ShareButton.vue'
 import LikeButton from '@/components/global/LikeButton.vue'
 import SheetContactActions from './SheetContactActions.vue'
 import HighlightButton from '@/components/global/HighlightButton.vue'
+import type { User } from '@/models/interfaces/auth/User'
 
 defineProps<{
   id: string
@@ -54,6 +55,7 @@ defineProps<{
   phone: string
   website: string
   updatedAt: string | Date
+  createdBy: User | null
   isEditable?: boolean
 }>()
 </script>
