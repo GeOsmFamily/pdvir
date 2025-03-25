@@ -42,18 +42,19 @@ export class CommonZodSchema {
         osmId: z.string().nullable(),
         osmType: z.nativeEnum(OsmType).nullable(),
         name: z.string().nullable(),
-        latitude: LatitudeSchema,
-        longitude: LongitudeSchema
-      }).default({
-        osmId: null,
-        osmType: null,
-        name: '',
-        latitude: null,
-        longitude: null
+        latitude: LatitudeSchema.nullable().optional(),
+        longitude: LongitudeSchema.nullable().optional()
       })
+      .transform((data) => ({
+        osmId: data.osmId ?? null,
+        osmType: data.osmType ?? null,
+        name: data.name ?? '',
+        latitude: data.latitude ?? null,
+        longitude: data.longitude ?? null
+      }))
       .refine(
         (schema) => {
-          console.log('schema', schema);
+          console.log('schema', schema)
           return (schema.latitude && schema.longitude) || (schema.osmId && schema.osmType)
         },
         {
