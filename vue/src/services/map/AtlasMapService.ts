@@ -14,6 +14,7 @@ import { LayerType } from '@/models/enums/geo/LayerType'
 import type { LngLat } from 'maplibre-gl'
 import { addNotification } from '../notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
+import { i18n } from '@/plugins/i18n'
 
 export class AtlasMapService {
   static qgisServerURL = import.meta.env.VITE_QGIS_SERVER_URL
@@ -200,10 +201,9 @@ export class AtlasMapService {
       .filter(Boolean)
 
     if (filteredResults.length === 0) {
-      addNotification('No data found', NotificationType.INFO)
+      addNotification(i18n.t('qgisQuery.noResult'), NotificationType.INFO)
       return
     }
-    console.log(filteredResults)
     return filteredResults as FilteredQGISLayerFeatures[]
   }
 }

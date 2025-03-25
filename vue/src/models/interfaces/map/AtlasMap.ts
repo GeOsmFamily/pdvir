@@ -22,7 +22,7 @@ export interface AtlasActive {
 
 // Used to parse response of QGIS server GetFeatureInfo request
 export interface QGISFeatureAttributes {
-  [key: string]: string | null
+  [key: string]: string
 }
 export interface QGISLayerFeatures {
   [layerName: string]: QGISFeatureAttributes[]

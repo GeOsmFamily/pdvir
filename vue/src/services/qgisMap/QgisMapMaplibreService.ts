@@ -174,7 +174,7 @@ export class QgisMapMaplibreService {
       const y = Math.round(
         ((bounds.getNorth() - coords.lat) / (bounds.getNorth() - bounds.getSouth())) * height
       )
-      const url = `${window.location.origin}${this.qgisServerURL}/${qgisProjectName}?service=WMS&VERSION=1.3.0&request=GetFeatureInfo&SRS=EPSG:4326&QUERY_LAYERS=${layers.join(',')}&WIDTH=${width}&HEIGHT=${height}&BBOX=${bbox3857}&I=${x}&J=${y}&&OutputFormat=application/json`
+      const url = `${window.location.origin}${this.qgisServerURL}/${qgisProjectName}?service=WMS&VERSION=1.3.0&request=GetFeatureInfo&SRS=EPSG:4326&QUERY_LAYERS=${layers.join(',')}&WIDTH=${width}&HEIGHT=${height}&BBOX=${bbox3857}&I=${x}&J=${y}&FEATURE_COUNT=10&OutputFormat=application/json`
       const response = await fetch(url)
       if (!response.ok) throw new Error(`Error ${response.status}`)
       const result = await response.text()
