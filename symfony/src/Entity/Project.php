@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\QueryParameter;
 use App\Controller\Project\SimilarProjectsAction;
 use App\Entity\File\MediaObject;
 use App\Entity\Trait\BlameableEntity;
+use App\Entity\Trait\CreatorMessageEntity;
 use App\Entity\Trait\LocalizableEntity;
 use App\Entity\Trait\SluggableEntity;
 use App\Entity\Trait\TimestampableEntity;
@@ -83,6 +84,7 @@ class Project
     use SluggableEntity;
     use LocalizableEntity;
     use ValidateableEntity;
+    use CreatorMessageEntity;
 
     public const GET_FULL = 'project:get:full';
     public const GET_PARTIAL = 'project:get:partial';
@@ -159,7 +161,7 @@ class Project
     /**
      * @var Collection<int, MediaObject>
      */
-    #[ORM\ManyToMany(targetEntity: MediaObject::class)]
+    #[ORM\ManyToMany(targetEntity: MediaObject::class, cascade: ['remove'], orphanRemoval: true)]
     #[ApiProperty(types: ['https://schema.org/image'])]
     #[Groups([self::GET_FULL, self::WRITE])]
     private Collection $images;

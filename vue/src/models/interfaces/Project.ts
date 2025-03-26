@@ -2,7 +2,6 @@ import type { Actor } from '@/models/interfaces/Actor'
 import type { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import type { Timestampable } from '@/models/interfaces/common/Timestampable'
 import type { Status } from '@/models/enums/contents/Status'
-import type { User } from '@/models/interfaces/auth/User'
 import type { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType'
 import type { iri, SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
 import type { Organisation } from '@/models/interfaces/Organisation'
@@ -23,7 +22,6 @@ export interface Project
   id: string
   name: string
   slug: string
-  createdBy: User
   calendar: string
   deliverables: string
   status: Status
@@ -43,6 +41,7 @@ export interface Project
   donors: Organisation[]
   contractingOrganisation: Organisation
   actor: Partial<Actor>
+  creatorMessage?: string
 }
 
 export interface ProjectSubmission extends Omit<Project, 'actor' | 'thematics' | 'logo'> {
