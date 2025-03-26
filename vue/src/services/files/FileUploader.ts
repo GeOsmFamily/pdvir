@@ -10,6 +10,11 @@ export default class FileUploader {
     return this.upload(file, this._fileUri)
   }
 
+  public static async deleteMedia(media: MediaObject['@id']): Promise<null> {
+    console.log('deleteMedia', media);
+    return this.delete(media)
+  }
+
   public static async uploadMedia(file: File): Promise<MediaObject> {
     return this.upload(file, this._mediaUri)
   }
@@ -26,5 +31,9 @@ export default class FileUploader {
         }
       })
     ).data
+  }
+
+  private static async delete(file: MediaObject['@id']): Promise<any> {
+    return await apiClient.delete(file).then((response) => response.data)
   }
 }

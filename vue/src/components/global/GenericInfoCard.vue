@@ -2,7 +2,11 @@
   <InfoCard class="GenericInfoCard" :to="to" :href="href" :target="href ? '_blank' : undefined">
     <template #content>
       <div class="GenericInfoCard__imgCtn">
-        <img class="GenericInfoCard__img" :src="image" v-if="image" />
+        <img
+          class="GenericInfoCard__img"
+          :src="image ?? imageDefault"
+          :empty="image ? false : true"
+        />
         <slot name="image"></slot>
       </div>
       <div class="GenericInfoCard__infoCtn">
@@ -55,7 +59,7 @@ const props = withDefaults(
     id: string
     title?: string
     description?: string
-    image?: string
+    image?: string | null
     typeLabel: string
     type?: ItemType
     slug?: string
@@ -65,7 +69,7 @@ const props = withDefaults(
     href?: string
   }>(),
   {
-    image: imageDefault
+    image: null
   }
 )
 
@@ -144,12 +148,17 @@ const additionnalPath = computed(() => {
 
     .GenericInfoCard__img {
       $dim-margin: 1rem;
-      padding: $dim-margin;
+      // padding: $dim-margin;
       width: 100%;
       height: 100%;
       min-height: calc($dim-img-h);
-      object-fit: contain;
+      object-fit: cover;
       mix-blend-mode: multiply;
+
+      &[empty='true'] {
+        object-fit: contain;
+        mix-blend-mode: multiply;
+      }
     }
   }
   .InfoCard__footer {

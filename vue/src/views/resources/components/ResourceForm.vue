@@ -24,6 +24,16 @@
           />
         </div>
 
+        <div class="Form__fieldCtn">
+          <label class="Form__label">{{ $t('resources.form.fields.imagePreview.label') }}</label>
+          <ImagesLoader
+            @updateFiles="handleImagePreviewUpdate"
+            :existingImages="existingImagePreview"
+            :uniqueImage="true"
+            :externalImagesLoader="false"
+          />
+        </div>
+
         <div class="Form__fieldCtn" v-if="form.type.value.value === ResourceType.EVENTS">
           <label class="Form__label required">{{ $t('resources.form.fields.date.label') }}</label>
           <DateInput
@@ -148,7 +158,7 @@ import { type Resource, type ResourceSubmission } from '@/models/interfaces/Reso
 import { ResourceFormService } from '@/services/resources/ResourceFormService'
 import { useResourceStore } from '@/stores/resourceStore'
 import { useThematicStore } from '@/stores/thematicStore'
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import Modal from '@/components/global/Modal.vue'
 import { FormType } from '@/models/enums/app/FormType'
 import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
@@ -163,6 +173,10 @@ import { NominatimSearchType } from '@/models/enums/geo/NominatimSearchType'
 import { OsmType } from '@/models/enums/geo/OsmType'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import DateInput from '@/components/forms/DateInput.vue'
+import type { FileObject } from '@/models/interfaces/object/FileObject'
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import ImagesLoader from '@/components/forms/ImagesLoader.vue'
+import type { Ref } from 'vue'
 
 const resourceStore = useResourceStore()
 const thematicsStore = useThematicStore()
@@ -174,6 +188,17 @@ const props = defineProps<{
 }>()
 
 const isResourceValidated = computed(() => props.resource?.isValidated)
+
+const existingImagePreview = ref<(FileObject | string)[]>([])
+
+const newImagePreview: Ref<ContentImageFromUserFile[]> = ref([])
+const handleImagePreviewUpdate = (list: any) => {
+  newImagePreview.value = list.selectedFiles
+}
+
+onMounted(() => {
+  existingImagePreview.value = props.resource?.previewImage ? [props.resource.previewImage] : []
+})
 
 const hideFileInput = computed(() => {
   if (!form.format.value.value) return false
@@ -225,6 +250,9 @@ const submitForm = handleSubmit(
     if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.resource) {
       resourceSubmission.id = props.resource.id
     }
+    console.log('newImagePreview.value[0]', newImagePreview.value[0]);
+    resourceSubmission.previewImageToUpload = newImagePreview.value[0] ?? null
+    resourceSubmission.previewImage = props.resource?.previewImage
 
     const submittedResource = await resourceStore.submitResource(resourceSubmission, props.type)
     emit('submitted', submittedResource)
