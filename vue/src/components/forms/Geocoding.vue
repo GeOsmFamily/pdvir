@@ -12,7 +12,7 @@
     :item-title="(val) => val?.name ?? null"
     v-model="geoData"
     @update:search="(e) => (searchQuery = e)"
-    @click:clear="(e) => (searchQuery = '')"
+    @click:clear="(e) => reset()"
     :error-messages="errorMessages"
   >
     <template v-slot:prepend-inner>
@@ -46,7 +46,7 @@ const geoData = defineModel<GeoData | null>({
   default: {
     osmId: null,
     osmType: null,
-    name: null,
+    name: '',
     latitude: null,
     longitude: null
   } as GeoData
@@ -67,6 +67,17 @@ const props = withDefaults(
     placeholder: i18n.t('geocoding.placeholder')
   }
 )
+
+const reset = () => {
+  geoData.value = {
+    osmId: null,
+    osmType: null,
+    name: '',
+    latitude: null,
+    longitude: null
+  }
+  searchQuery.value = ''
+}
 
 watch(
   () => geoData.value,
