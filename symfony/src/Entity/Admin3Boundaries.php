@@ -34,7 +34,7 @@ class Admin3Boundaries
     private ?string $adm1_pcode = null;
 
     #[ORM\Column(type: 'geometry')]
-    private $geometry = null;
+    private $geometry;
 
     public function getId(): ?int
     {
