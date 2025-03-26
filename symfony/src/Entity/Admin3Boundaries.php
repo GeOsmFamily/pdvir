@@ -33,6 +33,9 @@ class Admin3Boundaries
     #[ORM\Column(length: 255)]
     private ?string $adm1_pcode = null;
 
+    #[ORM\Column(type: 'geometry')]
+    private $geometry = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +109,18 @@ class Admin3Boundaries
     public function setAdm1Pcode(string $adm1_pcode): static
     {
         $this->adm1_pcode = $adm1_pcode;
+
+        return $this;
+    }
+
+    public function getGeometry()
+    {
+        return $this->geometry;
+    }
+
+    public function setGeometry($geometry): static
+    {
+        $this->geometry = $geometry;
 
         return $this;
     }
