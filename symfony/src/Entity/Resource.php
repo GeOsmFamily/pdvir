@@ -133,6 +133,11 @@ class Resource
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?MediaObject $previewImage = null;
 
+    #[ORM\OneToOne(targetEntity: MediaObject::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ApiProperty(types: ['https://schema.org/image'])]
+    #[Groups([self::GET_FULL, self::WRITE])]
+    private ?MediaObject $previewImage = null;
+
     public function __construct()
     {
         $this->thematics = new ArrayCollection();
@@ -275,7 +280,6 @@ class Resource
         return $this;
     }
 
-    
     public function getPreviewImage(): ?MediaObject
     {
         return $this->previewImage;
