@@ -47,6 +47,7 @@ function addSourceAndLayer() {
     lng: parseFloat(coords[1]),
     lat: parseFloat(coords[0])
   }
+  // new maplibregl.Marker().setLngLat(lngLat).addTo(mapViewer as maplibregl.Map)
   mapViewer?.flyTo({
     center: lngLat,
     zoom: 14
