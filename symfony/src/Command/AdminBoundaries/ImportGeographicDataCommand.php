@@ -3,6 +3,8 @@
 namespace App\Command\AdminBoundaries;
 
 use App\Entity\Admin1Boundaries;
+use App\Entity\Admin2Boundaries;
+use App\Entity\Admin3Boundaries;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
@@ -30,18 +32,19 @@ class ImportAdminBoundariesDataCommand extends Command
 
         try {
             $admin1File = $this->projectDir . '/src/Command/AdminBoundaries/admin1.geojson';
-            
-            // Vérification de l'existence du fichier
-            if (!$filesystem->exists($admin1File)) {
-                $io->error("Fichier non trouvé : $admin1File");
+            $admin2File = $this->projectDir . '/src/Command/AdminBoundaries/admin2.geojson';
+            $admin3File = $this->projectDir . '/src/Command/AdminBoundaries/admin3.geojson';
+
+            if (!$filesystem->exists($admin1File, $admin2File, $admin3File)) {
+                $io->error("Geographic data files not found");
                 return Command::FAILURE;
             }
-            // $departementFile = '/path/to/departements.geojson';
-            // $communeFile = '/path/to/communes.geojson';
+
+            $this->clearTables();
 
             $this->importAdmin1($admin1File);
-            // $this->importDepartements($departementFile);
-            // $this->importCommunes($communeFile);
+            $this->importAdmin2($admin2File);
+            $this->importAdmin3($admin3File);
 
             $io->success('Admin data imported successfully');
             return Command::SUCCESS;
@@ -49,6 +52,33 @@ class ImportAdminBoundariesDataCommand extends Command
             $io->error('Error on admin data import: ' . $e->getMessage());
             return Command::FAILURE;
         }
+    }
+
+    private function clearTables()
+    {
+        $connection = $this->entityManager->getConnection();
+
+        $connection->executeStatement('SET CONSTRAINTS ALL DEFERRED');
+
+        $connection->executeStatement(
+            $connection->getDatabasePlatform()->getTruncateTableSQL(
+                $this->entityManager->getClassMetadata(Admin1Boundaries::class)->getTableName()
+            )
+        );
+
+        $connection->executeStatement(
+            $connection->getDatabasePlatform()->getTruncateTableSQL(
+                $this->entityManager->getClassMetadata(Admin2Boundaries::class)->getTableName()
+            )
+        );
+
+        $connection->executeStatement(
+            $connection->getDatabasePlatform()->getTruncateTableSQL(
+                $this->entityManager->getClassMetadata(Admin3Boundaries::class)->getTableName()
+            )
+        );
+
+        $connection->executeStatement('SET CONSTRAINTS ALL IMMEDIATE');
     }
 
     private function importAdmin1(string $file)
@@ -67,5 +97,39 @@ class ImportAdminBoundariesDataCommand extends Command
         $this->entityManager->flush();
     }
 
-    // Méthodes similaires pour importDepartements() et importCommunes()
+    private function importAdmin2(string $file)
+    {
+        $geoData = json_decode(file_get_contents($file), true);
+        foreach ($geoData['features'] as $feature) {
+            $admin2 = new Admin2Boundaries();
+            $admin2->setAdm1Name($feature['properties']['adm1_name']);
+            $admin2->setAdm1Pcode($feature['properties']['adm1_pcode']);
+            $admin2->setAdm2Name($feature['properties']['adm2_name']);
+            $admin2->setAdm2Pcode($feature['properties']['adm2_pcode']);
+            $admin2->setGeometry(json_encode($feature['geometry']));
+            
+            $this->entityManager->persist($admin2);
+        }
+        
+        $this->entityManager->flush();
+    }
+
+    private function importAdmin3(string $file)
+    {
+        $geoData = json_decode(file_get_contents($file), true);
+        foreach ($geoData['features'] as $feature) {
+            $admin3 = new Admin3Boundaries();
+            $admin3->setAdm1Name($feature['properties']['adm1_name']);
+            $admin3->setAdm1Pcode($feature['properties']['adm1_pcode']);
+            $admin3->setAdm2Name($feature['properties']['adm2_name']);
+            $admin3->setAdm2Pcode($feature['properties']['adm2_pcode']);
+            $admin3->setAdm3Name($feature['properties']['adm3_name']);
+            $admin3->setAdm3Pcode($feature['properties']['adm3_pcode']);
+            $admin3->setGeometry(json_encode($feature['geometry']));
+            
+            $this->entityManager->persist($admin3);
+        }
+        
+        $this->entityManager->flush();
+    }
 }
