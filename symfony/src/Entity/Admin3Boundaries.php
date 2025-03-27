@@ -2,23 +2,38 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\Admin3BoundariesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\Admin3BoundariesRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: Admin3BoundariesRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            uriTemplate: '/admin3_boundaries',
+            normalizationContext: ['groups' => [self::GET_WITHOUT_GEOM]],
+        ),
+    ],
+
+)]
 class Admin3Boundaries
 {
+    private const GET_WITHOUT_GEOM = 'admin3_boundaries:get_without_geom';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
     private ?string $adm3_name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
     private ?string $adm3_pcode = null;
 
     #[ORM\Column(length: 255)]

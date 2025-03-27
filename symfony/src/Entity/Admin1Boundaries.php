@@ -2,26 +2,41 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\Admin1BoundariesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\Admin1BoundariesRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: Admin1BoundariesRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            uriTemplate: '/admin1_boundaries',
+            normalizationContext: ['groups' => [self::GET_WITHOUT_GEOM]],
+        ),
+    ],
+
+)]
 class Admin1Boundaries
 {
+    private const GET_WITHOUT_GEOM = 'admin1_boundaries:get_without_geom';
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
     private ?string $adm1_name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
     private ?string $adm1_pcode = null;
 
     #[ORM\Column(type: 'geometry')]
+    #[Groups([Actor::ACTOR_READ_ITEM])]
     private $geometry;
 
     public function getId(): ?int
