@@ -8,7 +8,7 @@ import type { Validateable } from './common/Validateable'
 import type { ContentImageFromUserFile } from './ContentImage'
 import type { BaseMediaObject } from './object/MediaObject'
 import type { Project } from './Project'
-import type { Admin1Boundary } from './AdminBoundaries'
+import type { Admin1Boundary, Admin2Boundary, Admin3Boundary } from './AdminBoundaries'
 
 export interface Actor extends Timestampable, Validateable, Blameable, ThematicItem {
   id: string
@@ -20,6 +20,8 @@ export interface Actor extends Timestampable, Validateable, Blameable, ThematicI
   description: string
   administrativeScopes: AdministrativeScope[]
   admin1List?: Admin1Boundary[]
+  admin2List?: Admin2Boundary[]
+  admin3List?: Admin3Boundary[]
   officeName: string
   officeAddress: string
   officeLocation: string

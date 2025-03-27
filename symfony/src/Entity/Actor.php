@@ -204,7 +204,7 @@ class Actor
      * @var Collection<int, Admin3Boundaries>
      */
     #[ORM\ManyToMany(targetEntity: Admin3Boundaries::class)]
-    
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $admin3List;
 
     public function __construct()

@@ -97,8 +97,8 @@
             @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
           />
         </div>
-        <div class="Form__fieldCtn" v-if="admin1IsSelected">
-          <label class="Form__label">{{ $t('actors.form.description') }}</label>
+        <div class="Form__fieldCtn" v-if="activeAdminLevels && activeAdminLevels.admin1">
+          <label class="Form__label">{{ $t('actors.form.admin1') }}</label>
           <v-autocomplete
             multiple
             :items="adminBoundariesStore.admin1Boundaries"
@@ -106,6 +106,30 @@
             item-value="@id"
             variant="outlined"
             v-model="selectedAdmin1"
+            return-object
+          ></v-autocomplete>
+        </div>
+        <div class="Form__fieldCtn" v-if="activeAdminLevels && activeAdminLevels.admin2">
+          <label class="Form__label">{{ $t('actors.form.admin2') }}</label>
+          <v-autocomplete
+            multiple
+            :items="adminBoundariesStore.admin2Boundaries"
+            item-title="adm2_name"
+            item-value="@id"
+            variant="outlined"
+            v-model="selectedAdmin2"
+            return-object
+          ></v-autocomplete>
+        </div>
+        <div class="Form__fieldCtn" v-if="activeAdminLevels && activeAdminLevels.admin3">
+          <label class="Form__label">{{ $t('actors.form.admin3') }}</label>
+          <v-autocomplete
+            multiple
+            :items="adminBoundariesStore.admin3Boundaries"
+            item-title="adm3_name"
+            item-value="@id"
+            variant="outlined"
+            v-model="selectedAdmin3"
             return-object
           ></v-autocomplete>
         </div>
@@ -251,7 +275,11 @@ import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 import { useAdminBoundariesStore } from '@/stores/adminBoundariesStore'
-import type { Admin1Boundary } from '@/models/interfaces/AdminBoundaries'
+import type {
+  Admin1Boundary,
+  Admin2Boundary,
+  Admin3Boundary
+} from '@/models/interfaces/AdminBoundaries'
 
 const appStore = useApplicationStore()
 const actorsStore = useActorsStore()
@@ -272,18 +300,28 @@ const submitLabel = computed(() => {
   }
 })
 
-const admin1IsSelected = computed(() => {
+const activeAdminLevels = computed(() => {
   if (
     form.administrativeScopes.value?.value &&
     Array.isArray(form.administrativeScopes.value?.value)
   ) {
-    return (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
-      AdministrativeScope.REGIONAL
-    )
+    return {
+      admin1: (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
+        AdministrativeScope.REGIONAL
+      ),
+      admin2: (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
+        AdministrativeScope.STATE
+      ),
+      admin3: (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
+        AdministrativeScope.CITY
+      )
+    }
   }
   return false
 })
 const selectedAdmin1: Ref<Admin1Boundary[]> = ref([])
+const selectedAdmin2: Ref<Admin2Boundary[]> = ref([])
+const selectedAdmin3: Ref<Admin3Boundary[]> = ref([])
 
 const existingLogo = ref<(FileObject | string)[]>([])
 const existingImages = ref<(BaseMediaObject | string)[]>([])
@@ -291,10 +329,17 @@ let existingHostedImages: FileObject[] = []
 let existingExternalImages: string[] = []
 
 onMounted(async () => {
-  await Promise.all([thematicsStore.getAll(), adminBoundariesStore.getAdmin1()])
+  await Promise.all([
+    thematicsStore.getAll(),
+    adminBoundariesStore.getAdmin1(),
+    adminBoundariesStore.getAdmin2(),
+    adminBoundariesStore.getAdmin3()
+  ])
 
   if (actorToEdit) {
     selectedAdmin1.value = actorToEdit.admin1List as Admin1Boundary[]
+    selectedAdmin2.value = actorToEdit.admin2List as Admin2Boundary[]
+    selectedAdmin3.value = actorToEdit.admin3List as Admin3Boundary[]
     existingLogo.value = actorToEdit.logo ? [actorToEdit.logo] : []
     existingImages.value = [...actorToEdit.images, ...actorToEdit.externalImages]
     existingHostedImages = actorToEdit.images
@@ -323,10 +368,11 @@ function handleImagesUpdate(lists: any) {
 
 const submitForm = handleSubmit(
   (values) => {
-    console.log(selectedAdmin1)
     const actorSubmission: ActorSubmission = {
       ...(values as any),
       admin1List: selectedAdmin1.value,
+      admin2List: selectedAdmin2.value,
+      admin3List: selectedAdmin3.value,
       logoToUpload: newLogo.value[0],
       images: existingHostedImages,
       externalImages: existingExternalImages,

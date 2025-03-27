@@ -26,7 +26,10 @@
     "expertise": "Compétence",
     "form": {
       "acronym": "Acronyme",
-      "adminScope": "Zones d'intervention",
+      "adminScope": "Périmètre d'intervention",
+      "admin1": "Sélectionnez les régions d'intervention",
+      "admin2": "Sélectionnez les départements d'intervention",
+      "admin3": "Sélectionnez les communes d'intervention",
       "category": "Catégorie",
       "contact": "Contact",
       "contactName": "Nom du contact",
