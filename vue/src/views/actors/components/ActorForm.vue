@@ -91,9 +91,23 @@
             multiple
             v-model="form.administrativeScopes.value.value as AdministrativeScope[]"
             :items="Object.values(AdministrativeScope)"
+            :item-title="(item) => $t('projects.scope.' + item)"
+            :item-value="(item) => item"
             :error-messages="form.administrativeScopes.errorMessage.value"
             @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
           />
+        </div>
+        <div class="Form__fieldCtn" v-if="admin1IsSelected">
+          <label class="Form__label">{{ $t('actors.form.description') }}</label>
+          <v-autocomplete
+            multiple
+            :items="adminBoundariesStore.admin1Boundaries"
+            item-title="adm1_name"
+            item-value="@id"
+            variant="outlined"
+            v-model="selectedAdmin1"
+            return-object
+          ></v-autocomplete>
         </div>
         <div class="Form__fieldCtn">
           <label class="Form__label">{{ $t('actors.form.description') }}</label>
@@ -236,10 +250,13 @@ import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
+import { useAdminBoundariesStore } from '@/stores/adminBoundariesStore'
+import type { Admin1Boundary } from '@/models/interfaces/AdminBoundaries'
 
 const appStore = useApplicationStore()
 const actorsStore = useActorsStore()
 const thematicsStore = useThematicStore()
+const adminBoundariesStore = useAdminBoundariesStore()
 
 const actorToEdit: Actor | null = actorsStore.actorEdition.actor
 const { form, handleSubmit, isSubmitting } = ActorsFormService.getActorsForm(actorToEdit)
@@ -266,6 +283,7 @@ const admin1IsSelected = computed(() => {
   }
   return false
 })
+const selectedAdmin1: Ref<Admin1Boundary[]> = ref([])
 
 const existingLogo = ref<(FileObject | string)[]>([])
 const existingImages = ref<(BaseMediaObject | string)[]>([])
@@ -273,8 +291,10 @@ let existingHostedImages: FileObject[] = []
 let existingExternalImages: string[] = []
 
 onMounted(async () => {
-  await thematicsStore.getAll()
+  await Promise.all([thematicsStore.getAll(), adminBoundariesStore.getAdmin1()])
+
   if (actorToEdit) {
+    selectedAdmin1.value = actorToEdit.admin1List as Admin1Boundary[]
     existingLogo.value = actorToEdit.logo ? [actorToEdit.logo] : []
     existingImages.value = [...actorToEdit.images, ...actorToEdit.externalImages]
     existingHostedImages = actorToEdit.images
@@ -303,8 +323,10 @@ function handleImagesUpdate(lists: any) {
 
 const submitForm = handleSubmit(
   (values) => {
+    console.log(selectedAdmin1)
     const actorSubmission: ActorSubmission = {
       ...(values as any),
+      admin1List: selectedAdmin1.value,
       logoToUpload: newLogo.value[0],
       images: existingHostedImages,
       externalImages: existingExternalImages,

@@ -40,8 +40,6 @@ class ImportAdminBoundariesDataCommand extends Command
                 return Command::FAILURE;
             }
 
-            $this->clearTables();
-
             $this->importAdmin1($admin1File);
             $this->importAdmin2($admin2File);
             $this->importAdmin3($admin3File);
@@ -54,33 +52,6 @@ class ImportAdminBoundariesDataCommand extends Command
 
             return Command::FAILURE;
         }
-    }
-
-    private function clearTables()
-    {
-        $connection = $this->entityManager->getConnection();
-
-        $connection->executeStatement('SET CONSTRAINTS ALL DEFERRED');
-
-        $connection->executeStatement(
-            $connection->getDatabasePlatform()->getTruncateTableSQL(
-                $this->entityManager->getClassMetadata(Admin1Boundaries::class)->getTableName()
-            )
-        );
-
-        $connection->executeStatement(
-            $connection->getDatabasePlatform()->getTruncateTableSQL(
-                $this->entityManager->getClassMetadata(Admin2Boundaries::class)->getTableName()
-            )
-        );
-
-        $connection->executeStatement(
-            $connection->getDatabasePlatform()->getTruncateTableSQL(
-                $this->entityManager->getClassMetadata(Admin3Boundaries::class)->getTableName()
-            )
-        );
-
-        $connection->executeStatement('SET CONSTRAINTS ALL IMMEDIATE');
     }
 
     private function importAdmin1(string $file)
