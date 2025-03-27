@@ -90,12 +90,9 @@
             variant="outlined"
             multiple
             v-model="form.administrativeScopes.value.value as AdministrativeScope[]"
-            :items="administrativeScopesItems"
-            item-title="name"
-            item-value="@id"
+            :items="Object.values(AdministrativeScope)"
             :error-messages="form.administrativeScopes.errorMessage.value"
             @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
-            return-object
           />
         </div>
         <div class="Form__fieldCtn">
@@ -228,7 +225,7 @@ import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories'
 import type { ActorExpertise } from '@/models/interfaces/ActorExpertise'
 import type { Thematic } from '@/models/interfaces/Thematic'
-import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope'
+import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import Modal from '@/components/global/Modal.vue'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
@@ -257,7 +254,18 @@ const submitLabel = computed(() => {
     return i18n.t('forms.create')
   }
 })
-const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
+
+const admin1IsSelected = computed(() => {
+  if (
+    form.administrativeScopes.value?.value &&
+    Array.isArray(form.administrativeScopes.value?.value)
+  ) {
+    return (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
+      AdministrativeScope.REGIONAL
+    )
+  }
+  return false
+})
 
 const existingLogo = ref<(FileObject | string)[]>([])
 const existingImages = ref<(BaseMediaObject | string)[]>([])

@@ -4,6 +4,7 @@ import { useField, useForm } from 'vee-validate'
 import { z } from 'zod'
 import { i18n } from '@/plugins/i18n'
 import { CommonZodSchema } from '../forms/CommonZodSchema'
+import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 
 export class ActorsFormService {
   static getActorsForm(actorToEdit: Actor | null) {
@@ -16,7 +17,7 @@ export class ActorsFormService {
       category: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
       expertises: zodModels.symfonyRelations,
       thematics: zodModels.symfonyRelations,
-      administrativeScopes: zodModels.symfonyRelations,
+      administrativeScopes: z.array(z.nativeEnum(AdministrativeScope)),
       description: zodModels.description,
 
       ///////// Contact \\\\\\\\\

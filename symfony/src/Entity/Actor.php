@@ -2,35 +2,40 @@
 
 namespace App\Entity;
 
+use App\Entity\Thematic;
+use App\Enum\ActorCategory;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
+use App\Entity\ActorExpertise;
+use App\Model\Enums\UserRoles;
+use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use Symfony\Component\Uid\Uuid;
+use ApiPlatform\Metadata\Delete;
+use App\Entity\File\MediaObject;
+use Doctrine\ORM\Mapping as ORM;
+use App\Enum\AdministrativeScope;
+use App\Security\Voter\ActorVoter;
+use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use App\Entity\File\MediaObject;
 use App\Entity\Trait\BlameableEntity;
-use App\Entity\Trait\LocalizableEntity;
 use App\Entity\Trait\SluggableEntity;
-use App\Entity\Trait\TimestampableEntity;
+use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\LocalizableEntity;
 use App\Entity\Trait\ValidateableEntity;
-use App\Enum\ActorCategory;
-use App\Model\Enums\UserRoles;
-use App\Repository\ActorRepository;
-use App\Security\Voter\ActorVoter;
-use App\Services\State\Processor\ActorProcessor;
-use App\Services\State\Provider\ActorProvider;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Services\State\Provider\ActorProvider;
+use App\Services\State\Processor\ActorProcessor;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Serializer\Attribute\Context;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[UniqueEntity('name')]
@@ -159,12 +164,10 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $projects;
 
-    /**
-     * @var Collection<int, AdministrativeScope>
-     */
-    #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
+
+    #[ORM\Column(type: 'simple_array', enumType: AdministrativeScope::class)]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private Collection $administrativeScopes;
+    private array $administrativeScopes = [];
 
     #[ORM\ManyToOne(targetEntity: MediaObject::class)]
     #[ApiProperty(types: ['https://schema.org/image'])]
@@ -206,7 +209,7 @@ class Actor
         $this->expertises = new ArrayCollection();
         $this->thematics = new ArrayCollection();
         $this->projects = new ArrayCollection();
-        $this->administrativeScopes = new ArrayCollection();
+        $this->administrativeScopes = [];
         $this->images = new ArrayCollection();
         $this->Admin1List = new ArrayCollection();
         $this->Admin2List = new ArrayCollection();
@@ -452,27 +455,30 @@ class Actor
         return $this;
     }
 
-    /**
-     * @return Collection<int, AdministrativeScope>
-     */
-    public function getAdministrativeScopes(): Collection
+    public function getAdministrativeScopes(): ?array 
     {
         return $this->administrativeScopes;
     }
 
-    public function addAdministrativeScope(AdministrativeScope $administrativeScope): static
+    public function setAdministrativeScopes(?array $administrativeScopes): self 
     {
-        if (!$this->administrativeScopes->contains($administrativeScope)) {
-            $this->administrativeScopes->add($administrativeScope);
-        }
-
+        $this->administrativeScopes = $administrativeScopes;
         return $this;
     }
 
-    public function removeAdministrativeScope(AdministrativeScope $administrativeScope): static
+    public function addAdministrativeScope(AdministrativeScope $scope): self 
     {
-        $this->administrativeScopes->removeElement($administrativeScope);
+        if (!in_array($scope, $this->administrativeScopes ?? [], true)) {
+            $this->administrativeScopes[] = $scope;
+        }
+        return $this;
+    }
 
+    public function removeAdministrativeScope(AdministrativeScope $scope): self 
+    {
+        if (($key = array_search($scope, $this->administrativeScopes ?? [], true)) !== false) {
+            unset($this->administrativeScopes[$key]);
+        }
         return $this;
     }
 

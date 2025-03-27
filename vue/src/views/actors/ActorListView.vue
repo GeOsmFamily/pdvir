@@ -20,7 +20,7 @@
         />
         <ListFilterSelect
           v-model="selectedAdminScope"
-          :items="administrativeScopesItems"
+          :items="Object.values(AdministrativeScope)"
           :label="$t('actors.adminScope')"
         />
         <ListFilterSelect
@@ -81,7 +81,7 @@ import type { ActorExpertise } from '@/models/interfaces/ActorExpertise'
 import { ActorsCategories } from '@/models/enums/contents/actors/ActorsCategories'
 import { useThematicStore } from '@/stores/thematicStore'
 import type { Thematic } from '@/models/interfaces/Thematic'
-import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope'
+import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import ListHeader from '@/views/_layout/list/ListHeader.vue'
 
 const actorsStore = useActorsStore()

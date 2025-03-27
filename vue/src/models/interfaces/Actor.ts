@@ -1,6 +1,6 @@
 import type { ActorsCategories } from '../enums/contents/actors/ActorsCategories'
 import type { ActorExpertise } from './ActorExpertise'
-import type { AdministrativeScope } from './AdministrativeScope'
+import type { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import type { Blameable } from './common/Blameable'
 import type { ThematicItem } from './common/ThematicItem'
 import type { Timestampable } from './common/Timestampable'

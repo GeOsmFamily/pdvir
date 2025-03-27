@@ -7,7 +7,6 @@ import { useApplicationStore } from './applicationStore'
 import { useRouter } from 'vue-router'
 import type { ActorExpertise } from '@/models/interfaces/ActorExpertise'
 import type { Thematic } from '@/models/interfaces/Thematic'
-import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScope'
 import { ContentPagesList } from '@/models/enums/app/ContentPagesList'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
@@ -20,7 +19,6 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   const selectedActor: Ref<Actor | null> = ref(null)
   const actorsExpertises: ActorExpertise[] = reactive([])
   const actorsThematics: Thematic[] = reactive([])
-  const actorsAdministrativesScopes: AdministrativeScope[] = reactive([])
 
   async function getActors(): Promise<void> {
     actors.splice(0, actors.length)
@@ -36,7 +34,6 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
 
   async function getActorsSelectListContent(): Promise<void> {
     actorsExpertises.push(...(await ActorsService.getActorsExpertisesList()))
-    actorsAdministrativesScopes.push(...(await ActorsService.getActorsAdministrativesScopesList()))
   }
 
   async function setSelectedActor(id: string, redirect: boolean = true) {
@@ -109,7 +106,6 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     actors,
     actorsExpertises,
     actorsThematics,
-    actorsAdministrativesScopes,
     selectedActor,
     actorEdition,
     actorsList,
