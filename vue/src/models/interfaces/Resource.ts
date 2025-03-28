@@ -28,6 +28,7 @@ export interface Resource
   endAt: Date
   author: string
   previewImage?: BaseMediaObject
+  creatorMessage?: string
   [key: string]: any
 }
 

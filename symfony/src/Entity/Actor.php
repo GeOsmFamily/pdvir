@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Entity\File\MediaObject;
 use App\Entity\Trait\BlameableEntity;
+use App\Entity\Trait\CreatorMessageEntity;
 use App\Entity\Trait\LocalizableEntity;
 use App\Entity\Trait\SluggableEntity;
 use App\Entity\Trait\TimestampableEntity;
@@ -21,23 +22,20 @@ use App\Model\Enums\UserRoles;
 use App\Repository\ActorRepository;
 use App\Security\Voter\ActorVoter;
 use App\Services\State\Processor\ActorProcessor;
-use App\Services\State\Provider\ActorProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
-#[UniqueEntity('name')]
 #[ApiResource(
     operations: [
         new GetCollection(
-            provider: ActorProvider::class,
+            paginationEnabled: false,
             normalizationContext: ['groups' => self::ACTOR_READ_COLLECTION]
         ),
         new GetCollection(
@@ -72,6 +70,8 @@ class Actor
     use LocalizableEntity;
     use BlameableEntity;
     use ValidateableEntity;
+    use CreatorMessageEntity;
+
     public const ACTOR_READ_COLLECTION = 'actor:read_collection';
     public const ACTOR_READ_COLLECTION_ALL = 'actor:read_collection:all';
     public const ACTOR_READ_ITEM = 'actor:read_item';
