@@ -157,7 +157,7 @@ class Actor
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $administrativeScopes;
 
-    #[ORM\OneToOne(targetEntity: MediaObject::class, cascade: ['remove'])]
+    #[ORM\OneToOne(targetEntity: MediaObject::class, cascade: ['remove'], orphanRemoval: true)]
     #[ApiProperty(types: ['https://schema.org/image'])]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::GET_FULL])]
     private ?MediaObject $logo = null;

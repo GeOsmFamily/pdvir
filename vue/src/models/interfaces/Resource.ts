@@ -8,6 +8,8 @@ import type { Localizable } from '@/models/interfaces/common/Localizable'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import type { ThematicItem } from '@/models/interfaces/common/ThematicItem'
 import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
+import type { BaseMediaObject } from './object/MediaObject'
+import type { ContentImageFromUserFile } from './ContentImage'
 
 export interface Resource
   extends Timestampable,
@@ -25,10 +27,15 @@ export interface Resource
   startAt: Date
   endAt: Date
   author: string
+  previewImage?: BaseMediaObject
   creatorMessage?: string
   [key: string]: any
 }
 
 export interface ResourceEvent extends Resource {
   type: ResourceType.EVENTS
+}
+
+export interface ResourceSubmission extends Resource, LocalizableSubmission {
+  previewImageToUpload: ContentImageFromUserFile
 }

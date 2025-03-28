@@ -1,6 +1,10 @@
 import { apiClient } from '@/plugins/axios/api'
 import type { Resource, ResourceEvent } from '@/models/interfaces/Resource'
 import { handleFileUpload } from '@/services/forms/FormService'
+import FileUploader from '@/services/files/FileUploader'
+import type { BaseMediaObject } from '../../models/interfaces/object/MediaObject'
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import { transformSymfonyRelationToIRIs } from '@/services/utils/UtilsService'
 
 export class ResourceService {
   static async getAll(): Promise<Resource[]> {
@@ -14,15 +18,34 @@ export class ResourceService {
 
   static async post(resource: Resource): Promise<Resource> {
     resource = await handleFileUpload(resource)
-    return await apiClient.post('/api/resources', resource).then((response) => response.data)
+    const createdResource = await apiClient
+      .post('/api/resources', transformSymfonyRelationToIRIs(resource))
+      .then((response) => response.data)
+    return await this.uploadImagePreview(createdResource, resource.previewImageToUpload)
   }
 
   static async patch(resource: Resource): Promise<Resource> {
     resource = await handleFileUpload(resource)
-    console.log('resource', resource)
-    return await apiClient
-      .patch('/api/resources/' + resource.id, resource)
+    const updatedResource = await apiClient
+      .patch('/api/resources/' + resource.id, transformSymfonyRelationToIRIs(resource))
       .then((response) => response.data)
+
+    return await this.uploadImagePreview(updatedResource, resource.previewImageToUpload)
+  }
+
+  static async uploadImagePreview(
+    resource: Resource,
+    previewImageToUpload?: ContentImageFromUserFile
+  ): Promise<Resource> {
+    let previewImage = resource?.previewImage
+    if (previewImageToUpload) {
+      previewImage = (await FileUploader.uploadMedia(previewImageToUpload.file)) as BaseMediaObject
+      return await apiClient
+        .patch('/api/resources/' + resource.id, transformSymfonyRelationToIRIs({ previewImage }))
+        .then((response) => response.data)
+    } else {
+      return resource
+    }
   }
 
   static async delete(resource: Resource): Promise<Resource> {

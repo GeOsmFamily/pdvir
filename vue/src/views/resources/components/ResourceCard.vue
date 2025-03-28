@@ -10,6 +10,7 @@
     :action-icon="icon"
     :is-editable="isEditable"
     :map-route="mapRoute"
+    :image="resource.previewImage?.contentsFilteredUrl?.thumbnail"
     class="ResourceCard"
     :edit-function="editResource"
     :slug="resource.slug"
@@ -35,7 +36,10 @@
           <span>{{ locationName }}</span>
         </span>
       </span>
-      <span class="InfoCard__description">{{ resource.description }}</span>
+      <span class="InfoCard__description">
+        <div>{{ resource.description }}</div>
+        <UpdateInfoLabel :date="resource.updatedAt" :user="resource.createdBy" />
+      </span>
     </template>
     <template #footer-right>
       <v-icon class="InfoCard__actionIcon" :icon="icon" color="light-blue"></v-icon>
@@ -55,6 +59,7 @@ import { getDateRangeLabel, localizeDate } from '@/services/utils/UtilsService'
 import GeocodingService from '@/services/map/GeocodingService'
 import { ResourceService } from '@/services/resources/ResourceService'
 import { useUserStore } from '@/stores/userStore'
+import UpdateInfoLabel from '@/views/_layout/sheet/UpdateInfoLabel.vue'
 
 const resourceStore = useResourceStore()
 const userStore = useUserStore()
@@ -109,6 +114,12 @@ const editResource = () => {
 .ResourceCard {
   .InfoCard__subTitle {
     font-weight: 500 !important;
+  }
+  .InfoCard__description {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.5rem;
+    padding-bottom: .5rem;
   }
   .ResourceCard__dateBanner {
     background: rgb(var(--v-theme-main-yellow));

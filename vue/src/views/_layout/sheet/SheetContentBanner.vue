@@ -24,7 +24,15 @@
             <HighlightButton :item-id="id" />
             <LikeButton :id="id" />
             <slot name="mapButton"></slot>
-            <UpdatedAtLabel :date="updatedAt" class="show-sm" />
+            <v-btn
+              variant="elevated"
+              :to="{ name: 'map' }"
+              class="elevation-1 text-main-blue px-3 mx-2 hide-sm"
+              ><img src="@/assets/images/icons/add_location_alt.svg" class="mr-1" />{{
+                $t('content.createAMap')
+              }}</v-btn
+            >
+            <UpdateInfoLabel :date="updatedAt" :user="createdBy" class="show-sm text-left" />
           </div>
           <div class="SheetContentBanner__editBar">
             <v-btn
@@ -47,12 +55,13 @@
 
 <script setup lang="ts">
 import PageBanner from '@/components/banners/PageBanner.vue'
-import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue'
+import UpdateInfoLabel from '@/views/_layout/sheet/UpdateInfoLabel.vue'
 import ShareButton from '@/components/global/ShareButton.vue'
 import LikeButton from '@/components/global/LikeButton.vue'
 import SheetContactActions from './SheetContactActions.vue'
 import HighlightButton from '@/components/global/HighlightButton.vue'
 import type { RouteLocationAsRelative } from 'vue-router'
+import type { User } from '@/models/interfaces/auth/User'
 
 defineProps<{
   id: string
@@ -63,6 +72,7 @@ defineProps<{
   phone: string
   website: string
   updatedAt: string | Date
+  createdBy: User | null
   isEditable?: boolean
   mapRoute: RouteLocationAsRelative | null
   mapBtnTooltip?: string
