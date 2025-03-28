@@ -144,7 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE])]
     private ?array $requestedRoles = null;
 
-    #[ORM\Column(type: Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     #[Groups([self::GROUP_GETME, self::GROUP_WRITE])]
     private bool $hasSeenRequestedRoles = false;
 
