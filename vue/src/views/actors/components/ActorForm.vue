@@ -188,14 +188,12 @@
             @blur="form.officeAddress.handleChange"
           />
         </div>
-        <div class="Form__fieldCtn">
-          <label class="Form__label">{{ $t('actors.form.officeLocation') }}</label>
-          <LocationSelector
-            @update:model-value="form.geoData.handleChange"
-            v-model="form.geoData.value.value as GeoData"
-            :error-message="form.geoData.errorMessage.value"
-          />
-        </div>
+        <FormSectionTitle :text="$t('resources.form.location')" />
+        <LocationSelector
+          @update:model-value="form.geoData.handleChange"
+          v-model="form.geoData.value.value as GeoData"
+          :error-message="form.geoData.errorMessage.value"
+        />
 
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
         <FormSectionTitle :text="$t('actors.form.images')" />

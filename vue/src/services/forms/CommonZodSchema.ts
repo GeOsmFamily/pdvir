@@ -54,12 +54,10 @@ export class CommonZodSchema {
       }))
       .refine(
         (schema) => {
-          console.log('schema', schema)
           return (schema.latitude && schema.longitude) || (schema.osmId && schema.osmType)
         },
         {
-          message: 'Either select coordinates, or select a place',
-          path: ['osmId', 'latitude']
+          message: i18n.t('inputs.locationSelector.errors.notNull')
         }
       ) satisfies ZodType<GeoData>
 

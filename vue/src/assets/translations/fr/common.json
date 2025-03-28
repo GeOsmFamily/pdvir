@@ -47,7 +47,11 @@
   },
   "inputs": {
     "locationSelector": {
-      "label": "Rechercher un lieu"
+      "searchAddress": "Rechercher l'adresse",
+      "enterGpsCoords": "Entrer les coordonnées GPS",
+      "errors": {
+        "notNull": "Rechercherchez un lieu, ou sélectionnez des coordonnées"
+      }
     },
     "coordsSelector": {
       "buttons": {

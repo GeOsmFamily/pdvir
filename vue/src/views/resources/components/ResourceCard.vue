@@ -9,6 +9,7 @@
     :type-label="$t('resources.resourceType.' + resource.type)"
     :action-icon="icon"
     :is-editable="isEditable"
+    :map-route="mapRoute"
     class="ResourceCard"
     :edit-function="editResource"
     :slug="resource.slug"
@@ -60,7 +61,14 @@ const userStore = useUserStore()
 const props = defineProps<{
   resource: Resource
 }>()
-
+const mapRoute = computed(() => {
+  return props.resource?.geoData
+    ? {
+        name: 'map',
+        query: { item: props.resource.id }
+      }
+    : null
+})
 const icon = computed(() => {
   switch (props.resource.format) {
     case ResourceFormat.VIDEO:

@@ -108,14 +108,14 @@
             @update:model-value="form.file.handleChange(form.file.value.value)"
           />
         </div>
-
-        <FormSectionTitle :text="$t('resources.form.section.location')" />
-        <LocationSelector
-          @update:model-value="form.geoData.handleChange"
-          v-model="form.geoData.value.value"
-          :error-message="form.geoData.errorMessage.value"
-        />
-
+        <template v-if="showLocation">
+          <FormSectionTitle :text="$t('resources.form.section.location')" />
+          <LocationSelector
+            @update:model-value="form.geoData.handleChange"
+            v-model="form.geoData.value.value"
+            :error-message="form.geoData.errorMessage.value"
+          />
+        </template>
         <FormSectionTitle :text="$t('resources.form.section.thematics')" />
         <v-select
           density="compact"
@@ -206,6 +206,9 @@ watch(
     }
   }
 )
+const showLocation = computed(() => {
+  return [ResourceType.EVENTS, ResourceType.GUIDES].includes(form.type.value.value)
+})
 const resourceFormats = computed(() => {
   switch (form.type.value.value) {
     case ResourceType.EVENTS:

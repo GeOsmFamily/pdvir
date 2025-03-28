@@ -33,14 +33,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     paginationEnabled: false,
     operations: [
-        new Get(
-            normalizationContext: ['groups' => [self::GET_FULL]],
-        ),
         new GetCollection(
             normalizationContext: ['groups' => [self::GET_FULL]],
             parameters: [
                 'order[:property]' => new QueryParameter(filter: 'offer.order_filter'),
             ]
+        ),
+        new Get(
+            normalizationContext: ['groups' => [self::GET_FULL]],
         ),
         new GetCollection(
             uriTemplate: '/resources/events/nearest',

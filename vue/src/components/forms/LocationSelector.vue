@@ -1,8 +1,18 @@
 <template>
   <div class="LocationSelector">
-    <Geocoding :search-type="NominatimSearchType.FREE" :osm-type="OsmType.NODE" v-model="geoData" />
+    <div class="Form__fieldCtn">
+      <label class="Form__label">{{ $t('inputs.locationSelector.searchAddress') }}</label>
+      <Geocoding
+        :search-type="NominatimSearchType.FREE"
+        :osm-type="OsmType.NODE"
+        v-model="geoData"
+      />
+    </div>
     <v-divider>{{ $t('forms.or') }}</v-divider>
-    <CoordinatesSelector v-model:lat="lat" v-model:lng="lng" @update-coords="resetGeodata" />
+    <div class="Form__fieldCtn">
+      <label class="Form__label">{{ $t('inputs.locationSelector.enterGpsCoords') }}</label>
+      <CoordinatesSelector v-model:lat="lat" v-model:lng="lng" @update-coords="resetGeodata" />
+    </div>
     <span v-if="errorMessage">{{ errorMessage }}</span>
   </div>
 </template>
