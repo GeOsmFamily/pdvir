@@ -50,8 +50,9 @@ class Admin2Boundaries
         if (!$this->geometry) {
             return null;
         }
-        
+
         $geom = \geoPHP::load($this->geometry, 'wkt');
+
         return $geom ? $geom->out('json') : null;
     }
 
