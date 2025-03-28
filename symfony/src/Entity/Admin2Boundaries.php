@@ -44,6 +44,17 @@ class Admin2Boundaries
     #[ORM\Column(type: 'geometry')]
     private $geometry;
 
+    #[Groups([Actor::ACTOR_READ_ITEM])]
+    public function getGeometryGeoJson(): ?string
+    {
+        if (!$this->geometry) {
+            return null;
+        }
+        
+        $geom = \geoPHP::load($this->geometry, 'wkt');
+        return $geom ? $geom->out('json') : null;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -84,6 +84,11 @@
       <ContentDivider />
     </div>
   </div>
+  <AdminBoundariesMap
+    v-if="adminMapIsVisible"
+    :actor="actor as Actor"
+    @close="adminMapIsVisible = false"
+  />
 </template>
 <script setup lang="ts">
 import type { Actor } from '@/models/interfaces/Actor'
@@ -101,6 +106,7 @@ import ContactCard from '@/components/content/ContactCard.vue'
 import { useApplicationStore } from '@/stores/applicationStore'
 import { useUserStore } from '@/stores/userStore'
 import ChipList from '@/components/content/ChipList.vue'
+import AdminBoundariesMap from '@/components/content/AdminBoundariesMap.vue'
 
 const appStore = useApplicationStore()
 const userStore = useUserStore()
@@ -145,7 +151,8 @@ function editActor() {
 
 const adminMapIsVisible = ref(false)
 function showAdminMap() {
-  console.log(actor.value.admin1List)
+  adminMapIsVisible.value = true
+  console.log(actor.value?.admin1List)
 }
 </script>
 <style lang="scss">
