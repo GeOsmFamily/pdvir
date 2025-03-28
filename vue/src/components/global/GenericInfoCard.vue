@@ -148,10 +148,6 @@ const additionnalPath = computed(() => {
 
     .GenericInfoCard__img {
       $dim-margin: 1rem;
-<<<<<<< HEAD
-=======
-      // padding: $dim-margin;
->>>>>>> 4e0db63594cfb8f8d5f64f93809869ebce0461ba
       width: 100%;
       height: 100%;
       min-height: calc($dim-img-h);

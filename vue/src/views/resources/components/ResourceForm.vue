@@ -250,7 +250,6 @@ const submitForm = handleSubmit(
     if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.resource) {
       resourceSubmission.id = props.resource.id
     }
-    console.log('newImagePreview.value[0]', newImagePreview.value[0]);
     resourceSubmission.previewImageToUpload = newImagePreview.value[0] ?? null
     resourceSubmission.previewImage = props.resource?.previewImage
 
