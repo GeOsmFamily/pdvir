@@ -45,7 +45,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
                     ])
                 )
             )
-        )
+        ),
     ]
 )]
 class MediaObject extends AbstractObject
