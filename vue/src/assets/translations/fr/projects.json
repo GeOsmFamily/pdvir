@@ -53,8 +53,8 @@
           "placeholder": 0
         },
         "interventionZone": {
-          "label": "Zone d'intervention",
-          "placeholder": "Zone d'intervention"
+          "label": "Echelle d'intervention",
+          "placeholder": "Echelle d'intervention"
         },
         "name": {
           "label": "Nom du projet",

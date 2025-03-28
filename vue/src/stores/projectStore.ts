@@ -39,7 +39,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     searchValue: string
     thematics: Thematic['id'][]
     statuses: Status[]
-    interventionZones: AdministrativeScope[]
+    administrativeScopes: AdministrativeScope[]
     beneficiaryTypes: BeneficiaryType[]
     contractingOrganisations: Organisation['id'][]
     donors: Organisation['id'][]
@@ -47,7 +47,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     searchValue: '',
     thematics: [],
     statuses: [],
-    interventionZones: [],
+    administrativeScopes: [],
     beneficiaryTypes: [],
     contractingOrganisations: [],
     donors: []
@@ -131,9 +131,9 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
           filters.thematics.some((thematic) => projectThematicIds.includes(thematic))) &&
         (filters.statuses.length === 0 ||
           filters.statuses.some((status) => project.status === status)) &&
-        (filters.interventionZones.length === 0 ||
-          filters.interventionZones.some(
-            (interventionZone) => project.interventionZone === interventionZone
+        (filters.administrativeScopes.length === 0 ||
+          filters.administrativeScopes.some((interventionZone) =>
+            project.administrativeScopes.some((scope) => scope === interventionZone)
           )) &&
         (filters.contractingOrganisations.length === 0 ||
           filters.contractingOrganisations.some(
@@ -171,7 +171,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
           project.actor.name,
           project.geoData.name,
           project.contractingOrganisation.name,
-          project.interventionZone,
+          project.administrativeScopes,
           i18n.t(`projects.status.${project.status}`),
           project.focalPointName,
           ...project.thematics.map((thematic) => thematic.name),
@@ -244,7 +244,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     filters.searchValue = ''
     filters.thematics = []
     filters.statuses = []
-    filters.interventionZones = []
+    filters.administrativeScopes = []
     filters.beneficiaryTypes = []
     filters.contractingOrganisations = []
     filters.donors = []

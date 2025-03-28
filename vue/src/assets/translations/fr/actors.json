@@ -1,6 +1,6 @@
 {
   "actorPage": {
-    "adminScope": "Zone d'intervention",
+    "adminScope": "Echelle d'intervention",
     "contact": "Point de contact",
     "data": "Données",
     "description": "Activité",
@@ -19,7 +19,7 @@
       "goToPage": "Aller sur la page de l'acteur",
       "sort": "Trier par"
     },
-    "adminScope": "Zone d'intervention",
+    "adminScope": "Echelle d'intervention",
     "category": "Catégorie",
     "desc": "Consultez l’annuaire des acteurs du secteur de l’urbanisme au Cameroun.",
     "expertise": "Compétence",
@@ -31,7 +31,7 @@
     },
     "form": {
       "acronym": "Acronyme",
-      "adminScope": "Périmètre d'intervention",
+      "adminScope": "Echelle d'intervention",
       "admin1": "Sélectionnez les régions d'intervention",
       "admin2": "Sélectionnez les départements d'intervention",
       "admin3": "Sélectionnez les communes d'intervention",
