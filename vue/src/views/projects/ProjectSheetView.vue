@@ -18,6 +18,7 @@
         :phone="project.focalPointTel"
         :isEditable="isEditable"
         :updatedAt="project.updatedAt"
+        :createdBy="project.createdBy"
         @edit="editProject"
       >
         <template #custom-actions>
@@ -47,7 +48,7 @@
     </div>
     <div class="SheetView__block SheetView__block--right">
       <div class="SheetView__updatedAtCtn hide-sm">
-        <UpdatedAtLabel :date="project.updatedAt" />
+        <UpdateInfoLabel :date="project.updatedAt" :user="project.createdBy" />
         <PrintButton />
       </div>
       <div class="SheetView__logoCtn hide-sm">
@@ -109,7 +110,7 @@ import ProjectCard from '@/views/projects/components/ProjectCard.vue'
 import ContactCard from '@/components/content/ContactCard.vue'
 import ActorCard from '@/views/actors/components/ActorCard.vue'
 import PrintButton from '@/components/global/PrintButton.vue'
-import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue'
+import UpdateInfoLabel from '@/views/_layout/sheet/UpdateInfoLabel.vue'
 import SectionBanner from '@/components/banners/SectionBanner.vue'
 import { ProjectListDisplay } from '@/models/enums/app/ProjectListType'
 import ProjectForm from '@/views/projects/components/ProjectForm.vue'

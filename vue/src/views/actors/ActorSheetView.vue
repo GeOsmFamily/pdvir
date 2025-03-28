@@ -14,6 +14,7 @@
         :website="actor.website"
         :isEditable="isEditable"
         :updatedAt="actor.updatedAt"
+        :createdBy="actor.createdBy"
         @edit="editActor"
       />
       <div class="SheetView__contentCtn my-6" v-if="actor.description">
@@ -26,7 +27,7 @@
     </div>
     <div class="SheetView__block SheetView__block--right">
       <div class="SheetView__updatedAtCtn hide-sm">
-        <UpdatedAtLabel :date="actor.updatedAt" />
+        <UpdateInfoLabel :user="actor.createdBy" :date="actor.updatedAt" class="justify-end" />
         <PrintButton />
       </div>
       <div class="SheetView__logoCtn hide-sm">
@@ -86,7 +87,7 @@ import SheetContentBanner from '@/views/_layout/sheet/SheetContentBanner.vue'
 import ContentDivider from '@/components/content/ContentDivider.vue'
 import ActorRelatedContent from '@/views/actors/components/ActorRelatedContent.vue'
 import PrintButton from '@/components/global/PrintButton.vue'
-import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue'
+import UpdateInfoLabel from '@/views/_layout/sheet/UpdateInfoLabel.vue'
 import ImagesMosaic from '@/components/content/ImagesMosaic.vue'
 import SectionBanner from '@/components/banners/SectionBanner.vue'
 import ContactCard from '@/components/content/ContactCard.vue'
