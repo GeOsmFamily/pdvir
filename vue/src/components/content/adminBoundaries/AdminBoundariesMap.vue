@@ -21,10 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import Modal from '@/components/global/Modal.vue'
+import { onMounted } from 'vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { onMounted } from 'vue'
+import Modal from '@/components/global/Modal.vue'
 import { AdminBoundariesService } from '@/services/adminBoundaries/AdminBoundariesService'
 import type { Project } from '@/models/interfaces/Project'
 import type { Actor } from '@/models/interfaces/Actor'
@@ -39,6 +39,13 @@ onMounted(() => {
   initMap()
 })
 
+interface AdminBoundariesConfig {
+  list: any
+  key: string
+  color: string
+  nameField: string
+}
+
 function initMap() {
   const apiKey = import.meta.env.VITE_MAPTILER_API_KEY
   mapViewer = new maplibregl.Map({
@@ -48,119 +55,62 @@ function initMap() {
     zoom: 5,
     attributionControl: false
   })
+
   mapViewer.dragRotate.disable()
   mapViewer.touchZoomRotate.disableRotation()
-  mapViewer.on('load', () => {
-    addSourceAndLayer()
-  })
+
+  mapViewer.on('load', addAdminLayers)
 }
 
-function addSourceAndLayer() {
-  if (props.entity.admin1List) {
-    const admin1 = AdminBoundariesService.getGeoJsonfromAdminBoundaries(props.entity.admin1List)
-    mapViewer?.addSource('admin1', {
-      type: 'geojson',
-      data: admin1 as any
-    })
-    mapViewer?.addLayer({
-      id: 'admin1',
-      type: 'line',
-      source: 'admin1',
-      layout: {
-        'line-join': 'round',
-        'line-cap': 'round'
-      },
-      paint: {
-        'line-color': '#a98467',
-        'line-width': 2
-      }
-    })
-    mapViewer?.addLayer({
-      id: 'admin1-label',
-      type: 'symbol',
-      source: 'admin1',
-      layout: {
-        'text-field': ['get', 'adm1_name'],
-        'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-        'text-size': 16,
-        'text-offset': [0, 0.6],
-        'text-anchor': 'top'
-      },
-      paint: {
-        'text-color': '#a98467'
-      }
-    })
-  }
-  if (props.entity.admin2List) {
-    const admin2 = AdminBoundariesService.getGeoJsonfromAdminBoundaries(props.entity.admin2List)
-    mapViewer?.addSource('admin2', {
-      type: 'geojson',
-      data: admin2 as any
-    })
-    mapViewer?.addLayer({
-      id: 'admin2',
-      type: 'line',
-      source: 'admin2',
-      layout: {
-        'line-join': 'round',
-        'line-cap': 'round'
-      },
-      paint: {
-        'line-color': '#adc178',
-        'line-width': 2
-      }
-    })
-    mapViewer?.addLayer({
-      id: 'admin2-label',
-      type: 'symbol',
-      source: 'admin2',
-      layout: {
-        'text-field': ['get', 'adm2_name'],
-        'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-        'text-size': 16,
-        'text-offset': [0, 0.6],
-        'text-anchor': 'top'
-      },
-      paint: {
-        'text-color': '#adc178'
-      }
-    })
-  }
-  if (props.entity.admin3List) {
-    const admin3 = AdminBoundariesService.getGeoJsonfromAdminBoundaries(props.entity.admin3List)
-    mapViewer?.addSource('admin3', {
-      type: 'geojson',
-      data: admin3 as any
-    })
-    mapViewer?.addLayer({
-      id: 'admin3',
-      type: 'line',
-      source: 'admin3',
-      layout: {
-        'line-join': 'round',
-        'line-cap': 'round'
-      },
-      paint: {
-        'line-color': '#fca311',
-        'line-width': 2
-      }
-    })
-    mapViewer?.addLayer({
-      id: 'admin3-label',
-      type: 'symbol',
-      source: 'admin3',
-      layout: {
-        'text-field': ['get', 'adm3_name'],
-        'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-        'text-size': 16,
-        'text-offset': [0, 0.6],
-        'text-anchor': 'top'
-      },
-      paint: {
-        'text-color': '#fca311'
-      }
-    })
-  }
+function addAdminLayers() {
+  const adminLayersConfigs: AdminBoundariesConfig[] = [
+    { list: props.entity.admin1List, key: 'admin1', color: '#a98467', nameField: 'adm1_name' },
+    { list: props.entity.admin2List, key: 'admin2', color: '#adc178', nameField: 'adm2_name' },
+    { list: props.entity.admin3List, key: 'admin3', color: '#fca311', nameField: 'adm3_name' }
+  ]
+
+  adminLayersConfigs.forEach((config) => addGeoJsonLayer(config))
+}
+
+function addGeoJsonLayer(config: AdminBoundariesConfig) {
+  if (!config.list) return
+
+  const geojson = AdminBoundariesService.getGeoJsonfromAdminBoundaries(config.list)
+
+  mapViewer?.addSource(config.key, {
+    type: 'geojson',
+    data: geojson as any
+  })
+
+  mapViewer?.addLayer({
+    id: config.key,
+    type: 'line',
+    source: config.key,
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round'
+    },
+    paint: {
+      'line-color': config.color,
+      'line-width': 2
+    }
+  })
+
+  mapViewer?.addLayer({
+    id: `${config.key}-label`,
+    type: 'symbol',
+    source: config.key,
+    layout: {
+      'text-field': ['get', config.nameField],
+      'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+      'text-size': 16,
+      'text-offset': [0, 0.6],
+      'text-anchor': 'top'
+    },
+    paint: {
+      'text-color': config.color
+    }
+  })
 }
 </script>
 
@@ -169,6 +119,7 @@ function addSourceAndLayer() {
   height: 70vh;
   width: 80vw;
 }
+
 .legend {
   display: flex;
   flex-direction: row;
