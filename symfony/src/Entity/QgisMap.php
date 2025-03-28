@@ -68,7 +68,7 @@ class QgisMap
     #[ORM\ManyToMany(targetEntity: Atlas::class, mappedBy: 'maps')]
     private Collection $atlases;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ['default' => false])]
     #[Groups([self::GET_FULL, Atlas::GET_FULL, self::WRITE])]
     private ?bool $needsToBeVisualiseAsPlainImageInsteadOfWMS = false;
 
