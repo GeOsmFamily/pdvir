@@ -101,6 +101,7 @@
           <label class="Form__label">{{ $t('actors.form.admin1') }}</label>
           <v-autocomplete
             multiple
+            density="compact"
             :items="adminBoundariesStore.admin1Boundaries"
             item-title="adm1_name"
             item-value="@id"
@@ -113,6 +114,7 @@
           <label class="Form__label">{{ $t('actors.form.admin2') }}</label>
           <v-autocomplete
             multiple
+            density="compact"
             :items="adminBoundariesStore.admin2Boundaries"
             item-title="adm2_name"
             item-value="@id"
@@ -125,6 +127,7 @@
           <label class="Form__label">{{ $t('actors.form.admin3') }}</label>
           <v-autocomplete
             multiple
+            density="compact"
             :items="adminBoundariesStore.admin3Boundaries"
             item-title="adm3_name"
             item-value="@id"
