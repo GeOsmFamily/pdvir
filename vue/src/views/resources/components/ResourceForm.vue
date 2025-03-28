@@ -6,6 +6,7 @@
           v-if="!isResourceValidated && resource"
           :created-by="resource.createdBy"
           :created-at="resource.createdAt"
+          :message="resource.creatorMessage"
         />
 
         <div class="Form__fieldCtn">
@@ -21,6 +22,16 @@
             :item-value="(item) => item"
             :error-messages="form.type.errorMessage.value"
             @blur="form.type.handleChange(form.type.value.value)"
+          />
+        </div>
+
+        <div class="Form__fieldCtn">
+          <label class="Form__label">{{ $t('resources.form.fields.imagePreview.label') }}</label>
+          <ImagesLoader
+            @updateFiles="handleImagePreviewUpdate"
+            :existingImages="existingImagePreview"
+            :uniqueImage="true"
+            :externalImagesLoader="false"
           />
         </div>
 
@@ -136,9 +147,9 @@
       <span class="text-action" @click="$emit('close')">{{ $t('forms.cancel') }}</span>
     </template>
     <template #footer-right>
-      <v-btn type="submit" form="resource-form" color="main-red" :loading="isSubmitting">{{
-        $t('forms.' + type)
-      }}</v-btn>
+      <v-btn type="submit" form="resource-form" color="main-red" :loading="isSubmitting">
+        {{ submitLabel }}
+      </v-btn>
     </template>
   </Modal>
 </template>
@@ -148,7 +159,7 @@ import { type Resource, type ResourceSubmission } from '@/models/interfaces/Reso
 import { ResourceFormService } from '@/services/resources/ResourceFormService'
 import { useResourceStore } from '@/stores/resourceStore'
 import { useThematicStore } from '@/stores/thematicStore'
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import Modal from '@/components/global/Modal.vue'
 import { FormType } from '@/models/enums/app/FormType'
 import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
@@ -163,9 +174,18 @@ import { NominatimSearchType } from '@/models/enums/geo/NominatimSearchType'
 import { OsmType } from '@/models/enums/geo/OsmType'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import DateInput from '@/components/forms/DateInput.vue'
+import type { FileObject } from '@/models/interfaces/object/FileObject'
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import ImagesLoader from '@/components/forms/ImagesLoader.vue'
+import type { Ref } from 'vue'
+import { useUserStore } from '@/stores/userStore'
+import { useI18n } from 'vue-i18n'
 
 const resourceStore = useResourceStore()
 const thematicsStore = useThematicStore()
+const userStore = useUserStore()
+
+const { t } = useI18n()
 
 const props = defineProps<{
   type: FormType
@@ -173,7 +193,25 @@ const props = defineProps<{
   isShown: boolean
 }>()
 
+const submitLabel = computed(() => {
+  if (userStore.userIsActorEditor() && props.type === FormType.CREATE) {
+    return t('forms.continue')
+  }
+  return t('forms.' + props.type)
+})
+
 const isResourceValidated = computed(() => props.resource?.isValidated)
+
+const existingImagePreview = ref<(FileObject | string)[]>([])
+
+const newImagePreview: Ref<ContentImageFromUserFile[]> = ref([])
+const handleImagePreviewUpdate = (list: any) => {
+  newImagePreview.value = list.selectedFiles
+}
+
+onMounted(() => {
+  existingImagePreview.value = props.resource?.previewImage ? [props.resource.previewImage] : []
+})
 
 const hideFileInput = computed(() => {
   if (!form.format.value.value) return false
@@ -225,6 +263,8 @@ const submitForm = handleSubmit(
     if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.resource) {
       resourceSubmission.id = props.resource.id
     }
+    resourceSubmission.previewImageToUpload = newImagePreview.value[0] ?? null
+    resourceSubmission.previewImage = props.resource?.previewImage
 
     const submittedResource = await resourceStore.submitResource(resourceSubmission, props.type)
     emit('submitted', submittedResource)

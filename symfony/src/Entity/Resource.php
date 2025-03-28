@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
@@ -9,7 +10,9 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\QueryParameter;
 use App\Entity\File\FileObject;
+use App\Entity\File\MediaObject;
 use App\Entity\Trait\BlameableEntity;
+use App\Entity\Trait\CreatorMessageEntity;
 use App\Entity\Trait\LocalizableEntity;
 use App\Entity\Trait\TimestampableEntity;
 use App\Entity\Trait\ValidateableEntity;
@@ -67,6 +70,7 @@ class Resource
     use BlameableEntity;
     use ValidateableEntity;
     use LocalizableEntity;
+    use CreatorMessageEntity;
 
     public const GET_FULL = 'resource:get:full';
     public const WRITE = 'resource:write';
@@ -124,6 +128,11 @@ class Resource
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::WRITE])]
     private ?string $author = null;
+
+    #[ORM\OneToOne(targetEntity: MediaObject::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ApiProperty(types: ['https://schema.org/image'])]
+    #[Groups([self::GET_FULL, self::WRITE])]
+    private ?MediaObject $previewImage = null;
 
     public function __construct()
     {
@@ -263,6 +272,18 @@ class Resource
     public function setAuthor(?string $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getPreviewImage(): ?MediaObject
+    {
+        return $this->previewImage;
+    }
+
+    public function setPreviewImage(?MediaObject $previewImage): static
+    {
+        $this->previewImage = $previewImage;
 
         return $this;
     }

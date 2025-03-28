@@ -9,6 +9,7 @@
     :type-label="$t('resources.resourceType.' + resource.type)"
     :action-icon="icon"
     :is-editable="isEditable"
+    :image="resource.previewImage?.contentsFilteredUrl?.thumbnail"
     class="ResourceCard"
     :edit-function="editResource"
     :slug="resource.slug"
