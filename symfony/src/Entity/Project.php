@@ -329,30 +329,33 @@ class Project
         return $this;
     }
 
-    public function getAdministrativeScopes(): ?array 
+    public function getAdministrativeScopes(): ?array
     {
         return $this->administrativeScopes;
     }
 
-    public function setAdministrativeScopes(?array $administrativeScopes): self 
+    public function setAdministrativeScopes(?array $administrativeScopes): self
     {
         $this->administrativeScopes = $administrativeScopes;
+
         return $this;
     }
 
-    public function addAdministrativeScope(AdministrativeScope $scope): self 
+    public function addAdministrativeScope(AdministrativeScope $scope): self
     {
         if (!in_array($scope, $this->administrativeScopes ?? [], true)) {
             $this->administrativeScopes[] = $scope;
         }
+
         return $this;
     }
 
-    public function removeAdministrativeScope(AdministrativeScope $scope): self 
+    public function removeAdministrativeScope(AdministrativeScope $scope): self
     {
         if (($key = array_search($scope, $this->administrativeScopes ?? [], true)) !== false) {
             unset($this->administrativeScopes[$key]);
         }
+
         return $this;
     }
 

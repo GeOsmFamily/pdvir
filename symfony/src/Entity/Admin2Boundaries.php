@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Project;
-use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\Admin2BoundariesRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: Admin2BoundariesRepository::class)]
