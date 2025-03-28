@@ -88,20 +88,57 @@
 
         <FormSectionTitle :text="$t('projects.form.section.localization')" />
         <div class="Form__fieldCtn">
-          <label class="Form__label required">{{
-            $t('projects.form.fields.interventionZone.label')
-          }}</label>
+          <label class="Form__label required">{{ $t('actors.form.adminScope') }}</label>
           <v-select
             density="compact"
             variant="outlined"
-            v-model="form.interventionZone.value.value as AdministrativeScope"
+            multiple
+            v-model="form.administrativeScopes.value.value as AdministrativeScope[]"
             :items="Object.values(AdministrativeScope)"
-            :placeholder="$t('projects.form.fields.interventionZone.label')"
-            :item-title="(item) => $t('projects.scope.' + item)"
+            :item-title="(item) => $t('actors.scope.' + item)"
             :item-value="(item) => item"
-            :error-messages="form.interventionZone.errorMessage.value"
-            @blur="form.interventionZone.handleChange(form.interventionZone.value.value)"
+            :error-messages="form.administrativeScopes.errorMessage.value"
+            @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
           />
+        </div>
+        <div class="Form__fieldCtn" v-if="activeAdminLevels && activeAdminLevels.admin1">
+          <label class="Form__label">{{ $t('actors.form.admin1') }}</label>
+          <v-autocomplete
+            multiple
+            density="compact"
+            :items="adminBoundariesStore.admin1Boundaries"
+            item-title="adm1_name"
+            item-value="@id"
+            variant="outlined"
+            v-model="selectedAdmin1"
+            return-object
+          ></v-autocomplete>
+        </div>
+        <div class="Form__fieldCtn" v-if="activeAdminLevels && activeAdminLevels.admin2">
+          <label class="Form__label">{{ $t('actors.form.admin2') }}</label>
+          <v-autocomplete
+            multiple
+            density="compact"
+            :items="adminBoundariesStore.admin2Boundaries"
+            item-title="adm2_name"
+            item-value="@id"
+            variant="outlined"
+            v-model="selectedAdmin2"
+            return-object
+          ></v-autocomplete>
+        </div>
+        <div class="Form__fieldCtn" v-if="activeAdminLevels && activeAdminLevels.admin3">
+          <label class="Form__label">{{ $t('actors.form.admin3') }}</label>
+          <v-autocomplete
+            multiple
+            density="compact"
+            :items="adminBoundariesStore.admin3Boundaries"
+            item-title="adm3_name"
+            item-value="@id"
+            variant="outlined"
+            v-model="selectedAdmin3"
+            return-object
+          ></v-autocomplete>
         </div>
         <Geocoding
           :search-type="NominatimSearchType.FREE"
@@ -284,10 +321,17 @@ import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import { useAdminBoundariesStore } from '@/stores/adminBoundariesStore'
+import type {
+  Admin1Boundary,
+  Admin2Boundary,
+  Admin3Boundary
+} from '@/models/interfaces/AdminBoundaries'
 
 const projectStore = useProjectStore()
 const actorsStore = useActorsStore()
 const thematicsStore = useThematicStore()
+const adminBoundariesStore = useAdminBoundariesStore()
 
 const props = defineProps<{
   type: FormType
@@ -311,13 +355,43 @@ const actors = computed(() => actorsStore.actorsList)
 const emit = defineEmits(['submitted', 'close'])
 
 const { form, handleSubmit, isSubmitting } = ProjectFormService.getForm(props.project)
+const activeAdminLevels = computed(() => {
+  if (
+    form.administrativeScopes.value?.value &&
+    Array.isArray(form.administrativeScopes.value?.value)
+  ) {
+    return {
+      admin1: (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
+        AdministrativeScope.REGIONAL
+      ),
+      admin2: (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
+        AdministrativeScope.STATE
+      ),
+      admin3: (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
+        AdministrativeScope.CITY
+      )
+    }
+  }
+  return false
+})
+const selectedAdmin1: Ref<Admin1Boundary[]> = ref([])
+const selectedAdmin2: Ref<Admin2Boundary[]> = ref([])
+const selectedAdmin3: Ref<Admin3Boundary[]> = ref([])
 
 onMounted(async () => {
-  await thematicsStore.getAll()
-  await projectStore.getAllDonors()
-  await projectStore.getAllContractingOrganisations()
-  await actorsStore.getAll()
+  await Promise.all([
+    thematicsStore.getAll(),
+    projectStore.getAllDonors(),
+    projectStore.getAllContractingOrganisations(),
+    actorsStore.getAll(),
+    adminBoundariesStore.getAdmin1(),
+    adminBoundariesStore.getAdmin2(),
+    adminBoundariesStore.getAdmin3()
+  ])
   if (props.project) {
+    selectedAdmin1.value = (props.project.admin1List as Admin1Boundary[]) || []
+    selectedAdmin2.value = (props.project.admin2List as Admin2Boundary[]) || []
+    selectedAdmin3.value = (props.project.admin3List as Admin3Boundary[]) || []
     existingLogo.value = props.project.logo ? [props.project.logo] : []
     existingImages.value = [...props.project.images, ...props.project.externalImages]
     existingHostedImages = props.project.images
@@ -337,6 +411,9 @@ const submitForm = handleSubmit(
 
     projectSubmission = {
       ...projectSubmission,
+      admin1List: selectedAdmin1.value,
+      admin2List: selectedAdmin2.value,
+      admin3List: selectedAdmin3.value,
       images: existingHostedImages,
       partners: existingHostedPartnerImages,
       externalImages: existingExternalImages,

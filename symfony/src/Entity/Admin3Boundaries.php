@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Project;
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\Admin3BoundariesRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: Admin3BoundariesRepository::class)]
@@ -24,15 +25,15 @@ class Admin3Boundaries
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
     private ?string $adm3_name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
     private ?string $adm3_pcode = null;
 
     #[ORM\Column(length: 255)]
@@ -50,7 +51,7 @@ class Admin3Boundaries
     #[ORM\Column(type: 'geometry')]
     private $geometry;
 
-    #[Groups([Actor::ACTOR_READ_ITEM])]
+    #[Groups([Actor::ACTOR_READ_ITEM, Project::GET_FULL])]
     public function getGeometryGeoJson(): ?string
     {
         if (!$this->geometry) {

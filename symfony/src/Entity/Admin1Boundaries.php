@@ -24,21 +24,21 @@ class Admin1Boundaries
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
     private ?string $adm1_name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
+    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
     private ?string $adm1_pcode = null;
 
     #[ORM\Column(type: PostGISType::GEOMETRY)]
     private $geometry;
 
-    #[Groups([Actor::ACTOR_READ_ITEM])]
+    #[Groups([Actor::ACTOR_READ_ITEM, Project::GET_FULL])]
     public function getGeometryGeoJson(): ?string
     {
         if (!$this->geometry) {

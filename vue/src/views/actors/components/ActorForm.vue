@@ -337,9 +337,9 @@ onMounted(async () => {
   ])
 
   if (actorToEdit) {
-    selectedAdmin1.value = actorToEdit.admin1List as Admin1Boundary[]
-    selectedAdmin2.value = actorToEdit.admin2List as Admin2Boundary[]
-    selectedAdmin3.value = actorToEdit.admin3List as Admin3Boundary[]
+    selectedAdmin1.value = (actorToEdit.admin1List as Admin1Boundary[]) || []
+    selectedAdmin2.value = (actorToEdit.admin2List as Admin2Boundary[]) || []
+    selectedAdmin3.value = (actorToEdit.admin3List as Admin3Boundary[]) || []
     existingLogo.value = actorToEdit.logo ? [actorToEdit.logo] : []
     existingImages.value = [...actorToEdit.images, ...actorToEdit.externalImages]
     existingHostedImages = actorToEdit.images
