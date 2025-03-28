@@ -25,11 +25,12 @@ import Modal from '@/components/global/Modal.vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { onMounted } from 'vue'
-import type { Actor } from '@/models/interfaces/Actor'
 import { AdminBoundariesService } from '@/services/adminBoundaries/AdminBoundariesService'
+import type { Project } from '@/models/interfaces/Project'
+import type { Actor } from '@/models/interfaces/Actor'
 
 const props = defineProps<{
-  actor: Actor
+  entity: Actor | Project
 }>()
 
 let mapViewer: maplibregl.Map | null = null
@@ -55,8 +56,8 @@ function initMap() {
 }
 
 function addSourceAndLayer() {
-  if (props.actor.admin1List) {
-    const admin1 = AdminBoundariesService.getGeoJsonfromAdminBoundaries(props.actor.admin1List)
+  if (props.entity.admin1List) {
+    const admin1 = AdminBoundariesService.getGeoJsonfromAdminBoundaries(props.entity.admin1List)
     mapViewer?.addSource('admin1', {
       type: 'geojson',
       data: admin1 as any
@@ -90,8 +91,8 @@ function addSourceAndLayer() {
       }
     })
   }
-  if (props.actor.admin2List) {
-    const admin2 = AdminBoundariesService.getGeoJsonfromAdminBoundaries(props.actor.admin2List)
+  if (props.entity.admin2List) {
+    const admin2 = AdminBoundariesService.getGeoJsonfromAdminBoundaries(props.entity.admin2List)
     mapViewer?.addSource('admin2', {
       type: 'geojson',
       data: admin2 as any
@@ -125,8 +126,8 @@ function addSourceAndLayer() {
       }
     })
   }
-  if (props.actor.admin3List) {
-    const admin3 = AdminBoundariesService.getGeoJsonfromAdminBoundaries(props.actor.admin3List)
+  if (props.entity.admin3List) {
+    const admin3 = AdminBoundariesService.getGeoJsonfromAdminBoundaries(props.entity.admin3List)
     mapViewer?.addSource('admin3', {
       type: 'geojson',
       data: admin3 as any

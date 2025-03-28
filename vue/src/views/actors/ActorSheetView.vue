@@ -43,18 +43,7 @@
         {{ $t('actorPage.adminScope') }}
       </div>
       {{ actor.administrativeScopes.map((x) => $t('actors.scope.' + x)).join(', ') }}
-      <div
-        class="ActorSheetView__toMap"
-        v-if="
-          (actor.admin1List && actor.admin1List.length > 0) ||
-          (actor.admin2List && actor.admin2List.length > 0) ||
-          (actor.admin3List && actor.admin3List.length > 0)
-        "
-        @click="showAdminMap"
-      >
-        <span>{{ $t('actorPage.showInMap') }}</span>
-        <v-icon class="ml-2" color="main-green" icon="mdi-arrow-right-circle" size="large"></v-icon>
-      </div>
+      <AdminBoundariesButton :entity="actor" />
 
       <div class="SheetView__infoCard">
         <div class="d-flex flex-row">
@@ -84,11 +73,6 @@
       <ContentDivider />
     </div>
   </div>
-  <AdminBoundariesMap
-    v-if="adminMapIsVisible"
-    :actor="actor as Actor"
-    @close="adminMapIsVisible = false"
-  />
 </template>
 <script setup lang="ts">
 import type { Actor } from '@/models/interfaces/Actor'
@@ -106,7 +90,7 @@ import ContactCard from '@/components/content/ContactCard.vue'
 import { useApplicationStore } from '@/stores/applicationStore'
 import { useUserStore } from '@/stores/userStore'
 import ChipList from '@/components/content/ChipList.vue'
-import AdminBoundariesMap from '@/components/content/AdminBoundariesMap.vue'
+import AdminBoundariesButton from '@/components/content/adminBoundaries/AdminBoundariesButton.vue'
 
 const appStore = useApplicationStore()
 const userStore = useUserStore()
@@ -148,12 +132,6 @@ const isEditable = computed(() => {
 function editActor() {
   actorsStore.setActorEditionMode(actor.value)
 }
-
-const adminMapIsVisible = ref(false)
-function showAdminMap() {
-  adminMapIsVisible.value = true
-  console.log(actor.value?.admin1List)
-}
 </script>
 <style lang="scss">
 @import '@/assets/styles/views/SheetView';
@@ -177,14 +155,6 @@ function showAdminMap() {
     padding: 1.5em;
     width: 100%;
     background-color: rgb(var(--v-theme-light-yellow));
-  }
-  &__toMap {
-    cursor: pointer;
-    width: fit-content;
-    border: 1px solid rgb(var(--v-theme-main-blue));
-    border-radius: 5px;
-    font-weight: 500;
-    padding: 10px 12px 10px 15px;
   }
 }
 

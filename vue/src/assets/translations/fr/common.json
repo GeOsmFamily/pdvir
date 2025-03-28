@@ -214,6 +214,8 @@
         "genericBody": "Je souhaite partager cet élément de la Plateforme Urbaine du Cameroun avec vous:"
     },
     "adminBoundaries": {
+        "adminScope": "Zone d'intervention",
+        "showInMap": "Visualiser les zones d'intervention",
         "mapViewer": "Zones d'interventions",
         "admin1": "Région",
         "admin2": "Département",
