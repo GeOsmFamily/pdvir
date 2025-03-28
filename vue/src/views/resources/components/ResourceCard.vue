@@ -37,7 +37,7 @@
       </span>
       <span class="InfoCard__description">
         <div>{{ resource.description }}</div>
-        <UpdateInfoLabel :date="resource.updatedAt" :user="resource.createdBy" class="text-left" />
+        <UpdateInfoLabel :date="resource.updatedAt" :user="resource.createdBy" />
       </span>
     </template>
     <template #footer-right>

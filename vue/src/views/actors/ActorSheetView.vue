@@ -27,7 +27,7 @@
     </div>
     <div class="SheetView__block SheetView__block--right">
       <div class="SheetView__updatedAtCtn hide-sm">
-        <UpdateInfoLabel :user="actor.createdBy" :date="actor.updatedAt" />
+        <UpdateInfoLabel :user="actor.createdBy" :date="actor.updatedAt" class="justify-end" />
         <PrintButton />
       </div>
       <div class="SheetView__logoCtn hide-sm">

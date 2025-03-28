@@ -18,12 +18,9 @@ defineProps<{
 
 <style lang="scss">
 .UpdateInfoLabel, .UpdateInfoLabel.show-sm {
-  display: inline;
-  text-align: right;
-
-  .UpdatedAtLabel {
-    margin-right: 0.25rem;
-  }
+  display: flex;
+  flex-flow: row wrap;
+  row-gap: 0.25rem;
 
   > * {
     display: inline;
