@@ -93,7 +93,6 @@ const expertisesItems = actorsStore.actorsExpertises
 const selectedExpertise: Ref<string[] | null> = ref(null)
 const thematicsItems = computed(() => thematicsStore.thematics)
 const selectedThematic: Ref<string[] | null> = ref(null)
-const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
 const selectedAdminScope: Ref<string[] | null> = ref(null)
 const categoryItems = Object.values(ActorsCategories)
 const selectedCategory: Ref<ActorsCategories[] | null> = ref(null)
@@ -122,7 +121,7 @@ const filteredActors = computed(() => {
   if (selectedAdminScope.value && selectedAdminScope.value.length > 0) {
     filteredActors = filteredActors.filter((actor: Actor) => {
       return actor.administrativeScopes.some((scope) =>
-        (selectedAdminScope.value as string[]).includes(scope['@id'])
+        (selectedAdminScope.value as string[]).includes(scope)
       )
     })
   }
@@ -173,7 +172,7 @@ function searchActors(actors: Actor[]) {
         thematic.name.toLowerCase().includes(searchText)
       ) ||
       actor.administrativeScopes.some((scope: AdministrativeScope) =>
-        scope.name.toLowerCase().includes(searchText)
+        scope.toLowerCase().includes(searchText)
       ) ||
       (actor.officeName && actor.officeName.toLowerCase().indexOf(searchText) > -1) ||
       (actor.officeAddress && actor.officeAddress.toLowerCase().indexOf(searchText) > -1) ||
