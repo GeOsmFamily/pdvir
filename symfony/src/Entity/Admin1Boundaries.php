@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use App\Repository\Admin1BoundariesRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: Admin1BoundariesRepository::class)]
@@ -17,7 +17,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => [self::GET_WITHOUT_GEOM]],
         ),
     ],
-
 )]
 class Admin1Boundaries
 {
