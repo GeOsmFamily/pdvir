@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use App\Repository\Admin1BoundariesRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -35,9 +36,19 @@ class Admin1Boundaries
     #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM])]
     private ?string $adm1_pcode = null;
 
-    #[ORM\Column(type: 'geometry')]
-    #[Groups([Actor::ACTOR_READ_ITEM])]
+    #[ORM\Column(type: PostGISType::GEOMETRY)]
     private $geometry;
+
+    #[Groups([Actor::ACTOR_READ_ITEM])]
+    public function getGeometryGeoJson(): ?string
+    {
+        if (!$this->geometry) {
+            return null;
+        }
+        
+        $geom = \geoPHP::load($this->geometry, 'wkt');
+        return $geom ? $geom->out('json') : null;
+    }
 
     public function getId(): ?int
     {

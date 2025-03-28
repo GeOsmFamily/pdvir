@@ -42,8 +42,16 @@
       <div class="SheetView__title SheetView__title--divider mt-lg-12">
         {{ $t('actorPage.adminScope') }}
       </div>
-      {{ actor.administrativeScopes.map((x) => x.name).join(', ') }}
-      <div class="ActorSheetView__toMap">
+      {{ actor.administrativeScopes.map((x) => $t('actors.scope.' + x)).join(', ') }}
+      <div
+        class="ActorSheetView__toMap"
+        v-if="
+          (actor.admin1List && actor.admin1List.length > 0) ||
+          (actor.admin2List && actor.admin2List.length > 0) ||
+          (actor.admin3List && actor.admin3List.length > 0)
+        "
+        @click="showAdminMap"
+      >
         <span>{{ $t('actorPage.showInMap') }}</span>
         <v-icon class="ml-2" color="main-green" icon="mdi-arrow-right-circle" size="large"></v-icon>
       </div>
@@ -133,6 +141,11 @@ const isEditable = computed(() => {
 
 function editActor() {
   actorsStore.setActorEditionMode(actor.value)
+}
+
+const adminMapIsVisible = ref(false)
+function showAdminMap() {
+  console.log(actor.value.admin1List)
 }
 </script>
 <style lang="scss">

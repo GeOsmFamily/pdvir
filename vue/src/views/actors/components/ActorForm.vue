@@ -91,7 +91,7 @@
             multiple
             v-model="form.administrativeScopes.value.value as AdministrativeScope[]"
             :items="Object.values(AdministrativeScope)"
-            :item-title="(item) => $t('projects.scope.' + item)"
+            :item-title="(item) => $t('actors.scope.' + item)"
             :item-value="(item) => item"
             :error-messages="form.administrativeScopes.errorMessage.value"
             @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
