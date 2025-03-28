@@ -4,9 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use App\Repository\Admin1BoundariesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: Admin1BoundariesRepository::class)]
@@ -44,8 +44,9 @@ class Admin1Boundaries
         if (!$this->geometry) {
             return null;
         }
-        
+
         $geom = \geoPHP::load($this->geometry, 'wkt');
+
         return $geom ? $geom->out('json') : null;
     }
 

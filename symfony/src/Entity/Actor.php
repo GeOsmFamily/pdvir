@@ -2,40 +2,36 @@
 
 namespace App\Entity;
 
-use App\Entity\Thematic;
-use App\Enum\ActorCategory;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Post;
-use App\Entity\ActorExpertise;
-use App\Model\Enums\UserRoles;
-use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Patch;
-use Symfony\Component\Uid\Uuid;
-use ApiPlatform\Metadata\Delete;
-use App\Entity\File\MediaObject;
-use Doctrine\ORM\Mapping as ORM;
-use App\Enum\AdministrativeScope;
-use App\Security\Voter\ActorVoter;
-use App\Repository\ActorRepository;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
-use App\Entity\Trait\BlameableEntity;
-use App\Entity\Trait\SluggableEntity;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Entity\File\MediaObject;
+use App\Entity\Trait\BlameableEntity;
 use App\Entity\Trait\LocalizableEntity;
-use App\Entity\Trait\ValidateableEntity;
+use App\Entity\Trait\SluggableEntity;
 use App\Entity\Trait\TimestampableEntity;
-use Doctrine\Common\Collections\Collection;
-use Jsor\Doctrine\PostGIS\Types\PostGISType;
-use App\Services\State\Provider\ActorProvider;
+use App\Entity\Trait\ValidateableEntity;
+use App\Enum\ActorCategory;
+use App\Enum\AdministrativeScope;
+use App\Model\Enums\UserRoles;
+use App\Repository\ActorRepository;
+use App\Security\Voter\ActorVoter;
 use App\Services\State\Processor\ActorProcessor;
+use App\Services\State\Provider\ActorProvider;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Serializer\Attribute\Context;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[UniqueEntity('name')]
@@ -163,7 +159,6 @@ class Actor
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'actor')]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $projects;
-
 
     #[ORM\Column(type: 'simple_array', enumType: AdministrativeScope::class)]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
@@ -458,30 +453,33 @@ class Actor
         return $this;
     }
 
-    public function getAdministrativeScopes(): ?array 
+    public function getAdministrativeScopes(): ?array
     {
         return $this->administrativeScopes;
     }
 
-    public function setAdministrativeScopes(?array $administrativeScopes): self 
+    public function setAdministrativeScopes(?array $administrativeScopes): self
     {
         $this->administrativeScopes = $administrativeScopes;
+
         return $this;
     }
 
-    public function addAdministrativeScope(AdministrativeScope $scope): self 
+    public function addAdministrativeScope(AdministrativeScope $scope): self
     {
         if (!in_array($scope, $this->administrativeScopes ?? [], true)) {
             $this->administrativeScopes[] = $scope;
         }
+
         return $this;
     }
 
-    public function removeAdministrativeScope(AdministrativeScope $scope): self 
+    public function removeAdministrativeScope(AdministrativeScope $scope): self
     {
         if (($key = array_search($scope, $this->administrativeScopes ?? [], true)) !== false) {
             unset($this->administrativeScopes[$key]);
         }
+
         return $this;
     }
 
