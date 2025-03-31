@@ -451,7 +451,6 @@ onMounted(async () => {
   await projectStore.getAllContractingOrganisations()
   await actorsStore.getAll()
   if (props.project) {
-    console.log(props.project)
     if (props.project.otherActor) {
       projectHasNoOwner.value = true
     }
