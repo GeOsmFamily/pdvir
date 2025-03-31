@@ -46,6 +46,21 @@
     "logout": "Déconnexion"
   },
   "inputs": {
+    "locationSelector": {
+      "searchAddress": "Rechercher l'adresse",
+      "enterGpsCoords": "Entrer les coordonnées GPS",
+      "errors": {
+        "notNull": "Rechercherchez un lieu, ou sélectionnez des coordonnées"
+      }
+    },
+    "coordsSelector": {
+      "buttons": {
+        "validate": "Valider",
+        "cancel": "Annuler",
+        "select": "Placer sur la carte"
+      },
+      "moveMap": "Déplacez et zoomez la carte pour positionner le point"
+    },
     "fileUncorrect": "Fichier incorrect",
     "date": {
       "label": "Sélectionner une date"
@@ -55,6 +70,10 @@
       "wrongFormat": "Format d'image incorrect, sont acceptés uniquement les images au format .png, .jpg, .jpeg, .bmp, .gif, .svg, .webp",
       "wrongSize": "Taille d'image incorrecte, la taille maximale est de 1Mo",
       "duplicate": "Une image avec ce nom est déjà sélectionnée"
+    },
+    "location": {
+      "lat": "Latitude",
+      "lng": "Longitude"
     }
   },
   "forms": {
@@ -69,7 +88,7 @@
     "delete": "Supprimer",
     "or": "OU",
     "errors": "Le formulaire n'est pas valide",
-        "errorMessages": {
+    "errorMessages": {
       "required": "Ce champs est requis",
       "minlength": "Ce champs doit avoir au moins {min} caractères",
       "maxlength": "Ce champs est limité à {max} caractères",
@@ -211,32 +230,33 @@
         "411": "Une erreur est survenue lors de la validation du formulaire",
         "500": "Une erreur est survenue, un rapport a été envoyé",
         "moreDetails": "Détails :"
-      }},
-        "atlas": {
-            "create": "L'atlas a été créé",
-            "edit": "L'atlas a été modifié",
-            "validate": "L'atlas a été validé",
-            "delete": "L'atlas a été supprimé"
-        },
-        "qgismap": {
-            "create": "La donnée a bien été crée",
-            "edit": "La donnée a bien été modifiée",
-            "validate": "La donnée a bien été validée",
-            "delete": "La donnée a bien été supprimé",
-            "error": "Une erreur est survenue lors du chargement des données"
+      }
+    },
+    "atlas": {
+      "create": "L'atlas a été créé",
+      "edit": "L'atlas a été modifié",
+      "validate": "L'atlas a été validé",
+      "delete": "L'atlas a été supprimé"
+    },
+    "qgismap": {
+      "create": "La donnée a bien été crée",
+      "edit": "La donnée a bien été modifiée",
+      "validate": "La donnée a bien été validée",
+      "delete": "La donnée a bien été supprimé",
+      "error": "Une erreur est survenue lors du chargement des données"
     }
   },
   "list": {
     "resetFilters": "Réinitialiser les filtres",
     "filtersTitle": "Affinez votre recherche"
   },
-    "share": {
-        "shareWhatsapp": "Partager sur Whatsapp",
-        "shareFb": "Partager sur Facebook",
-        "shareEmail": "Partager par email",
-        "copyLink": "Copier le lien",
-        "urlCopied": "Lien copié",
-        "mailSubject": "Plateforme Urbaine du Cameroun - Partage de données",
-        "genericBody": "Je souhaite partager cet élément de la Plateforme Urbaine du Cameroun avec vous:"
-    }
+  "share": {
+    "shareWhatsapp": "Partager sur Whatsapp",
+    "shareFb": "Partager sur Facebook",
+    "shareEmail": "Partager par email",
+    "copyLink": "Copier le lien",
+    "urlCopied": "Lien copié",
+    "mailSubject": "Plateforme Urbaine du Cameroun - Partage de données",
+    "genericBody": "Je souhaite partager cet élément de la Plateforme Urbaine du Cameroun avec vous:"
+  }
 }

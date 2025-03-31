@@ -20,7 +20,7 @@ defineProps<{
 .UpdateInfoLabel, .UpdateInfoLabel.show-sm {
   display: flex;
   flex-flow: row wrap;
-  row-gap: 0.25rem;
+  gap: 0.25rem;
 
   > * {
     display: inline;

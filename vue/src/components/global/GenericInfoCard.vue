@@ -18,6 +18,15 @@
     </template>
     <template #footer-left>
       <v-chip class="mr-2">{{ typeLabel }}</v-chip>
+      <v-btn
+        v-if="mapRoute"
+        :to="mapRoute"
+        variant="text"
+        density="comfortable"
+        icon="mdi-map-outline"
+        class="hide-sm"
+        color="main-blue"
+      />
       <ShareButton
         :additionnal-path="additionnalPath as string"
         :external-link="sharedLinkIsExternalToPlatform"
@@ -53,6 +62,7 @@ import HighlightButton from '@/components/global/HighlightButton.vue'
 import { ItemType } from '@/models/enums/app/ItemType'
 import { computed } from 'vue'
 import imageDefault from '@/assets/images/Logo.png'
+import type { RouteLocationAsRelative } from 'vue-router'
 
 const props = withDefaults(
   defineProps<{
@@ -66,6 +76,7 @@ const props = withDefaults(
     actionIcon?: string
     isEditable?: boolean
     editFunction?: () => void
+    mapRoute?: RouteLocationAsRelative | null
     href?: string
   }>(),
   {

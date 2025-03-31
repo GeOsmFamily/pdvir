@@ -26,7 +26,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -121,14 +120,6 @@ class Actor
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $officeAddress = null;
-
-    #[ORM\Column(
-        type: PostGISType::GEOMETRY,
-        options: ['geometry_type' => 'POINT'],
-        nullable: true
-    )]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private ?string $officeLocation = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
@@ -313,30 +304,6 @@ class Actor
     public function setOfficeAddress(?string $officeAddress): static
     {
         $this->officeAddress = $officeAddress;
-
-        return $this;
-    }
-
-    public function getOfficeLocation(): ?string
-    {
-        if (preg_match('/POINT\(([-\d\.]+) ([-\d\.]+)\)/', $this->officeLocation, $matches)) {
-            return $matches[1].','.$matches[2];
-        }
-
-        return null;
-    }
-
-    public function setOfficeLocation(string $coords): static
-    {
-        // Convert lat/lng string into postgis point geometry
-        if (preg_match('/^\s*(-?\d+(\.\d+)?)\s*,\s*(-?\d+(\.\d+)?)\s*$/', $coords, $matches)) {
-            $lat = (float) $matches[1];
-            $lng = (float) $matches[3];
-
-            $this->officeLocation = sprintf('POINT(%f %f)', $lng, $lat);
-        } else {
-            throw new \InvalidArgumentException('Invalid coordinates format. Expected "lat, lng".');
-        }
 
         return $this;
     }

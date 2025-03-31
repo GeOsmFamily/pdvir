@@ -118,15 +118,14 @@
             @update:model-value="form.file.handleChange(form.file.value.value)"
           />
         </div>
-
-        <FormSectionTitle :text="$t('resources.form.section.location')" />
-        <Geocoding
-          :search-type="NominatimSearchType.FREE"
-          :osm-type="OsmType.NODE"
-          @change="form.osmData.handleChange(form.osmData.value.value)"
-          v-model="form.osmData.value.value"
-        />
-
+        <template v-if="showLocation">
+          <FormSectionTitle :text="$t('resources.form.section.location')" />
+          <LocationSelector
+            @update:model-value="form.geoData.handleChange"
+            v-model="form.geoData.value.value"
+            :error-message="form.geoData.errorMessage.value"
+          />
+        </template>
         <FormSectionTitle :text="$t('resources.form.section.thematics')" />
         <v-select
           density="compact"
@@ -155,7 +154,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Resource, type ResourceSubmission } from '@/models/interfaces/Resource'
+import { type Resource } from '@/models/interfaces/Resource'
 import { ResourceFormService } from '@/services/resources/ResourceFormService'
 import { useResourceStore } from '@/stores/resourceStore'
 import { useThematicStore } from '@/stores/thematicStore'
@@ -169,11 +168,9 @@ import FileInput from '@/components/forms/FileInput.vue'
 import type { Thematic } from '@/models/interfaces/Thematic'
 import { ResourceType } from '@/models/enums/contents/ResourceType'
 import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
-import Geocoding from '@/components/forms/Geocoding.vue'
-import { NominatimSearchType } from '@/models/enums/geo/NominatimSearchType'
-import { OsmType } from '@/models/enums/geo/OsmType'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import DateInput from '@/components/forms/DateInput.vue'
+import LocationSelector from '@/components/forms/LocationSelector.vue'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
@@ -193,6 +190,7 @@ const props = defineProps<{
   isShown: boolean
 }>()
 
+const { form, handleSubmit, isSubmitting } = ResourceFormService.getForm(props.resource)
 const submitLabel = computed(() => {
   if (userStore.userIsActorEditor() && props.type === FormType.CREATE) {
     return t('forms.continue')
@@ -224,7 +222,6 @@ const handleDateChange = () => {
 }
 
 const emit = defineEmits(['submitted', 'close'])
-const { form, handleSubmit, isSubmitting } = ResourceFormService.getForm(props.resource)
 const thematics = computed(() => thematicsStore.thematics)
 watch(
   () => form.type.value.value,
@@ -234,6 +231,9 @@ watch(
     }
   }
 )
+const showLocation = computed(() => {
+  return [ResourceType.EVENTS, ResourceType.GUIDES].includes(form.type.value.value)
+})
 const resourceFormats = computed(() => {
   switch (form.type.value.value) {
     case ResourceType.EVENTS:
@@ -259,7 +259,7 @@ onMounted(async () => {
 
 const submitForm = handleSubmit(
   async (values) => {
-    const resourceSubmission: ResourceSubmission = nestedObjectsToIri(values)
+    const resourceSubmission: Resource = nestedObjectsToIri(values)
     if ([FormType.EDIT, FormType.VALIDATE].includes(props.type) && props.resource) {
       resourceSubmission.id = props.resource.id
     }

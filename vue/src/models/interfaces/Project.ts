@@ -4,7 +4,6 @@ import type { Timestampable } from '@/models/interfaces/common/Timestampable'
 import type { Status } from '@/models/enums/contents/Status'
 import type { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType'
 import type { iri, SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
-import type { LocalizableSubmission } from '@/models/interfaces/common/LocalizableSubmission'
 import type { Organisation } from '@/models/interfaces/Organisation'
 import type { Validateable } from '@/models/interfaces/common/Validateable'
 import type { Blameable } from '@/models/interfaces/common/Blameable'
@@ -45,9 +44,7 @@ export interface Project
   creatorMessage?: string
 }
 
-export interface ProjectSubmission
-  extends Omit<Project, 'actor' | 'thematics' | 'logo'>,
-    LocalizableSubmission {
+export interface ProjectSubmission extends Omit<Project, 'actor' | 'thematics' | 'logo'> {
   actor: iri
   thematics: iri[]
   logo: string
