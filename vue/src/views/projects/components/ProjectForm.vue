@@ -233,10 +233,24 @@
 
         <v-tooltip location="start" :text="$t('projects.form.section.projectOwnerDisclaimer')">
           <template v-slot:activator="{ props }">
-            <FormSectionTitle :text="$t('projects.form.section.projectOwner')" v-bind="props" />
+            <div>
+              <FormSectionTitle :text="$t('projects.form.section.projectOwner')" v-bind="props" />
+              <div class="d-flex text-caption">
+                {{ $t('projects.form.section.noProjectOwner') }}
+                <v-checkbox
+                  hide-details
+                  density="compact"
+                  class="ml-1 mt-0 pa-0"
+                  :ripple="false"
+                  v-model="projectHasNoOwner"
+                ></v-checkbox>
+              </div>
+            </div>
           </template>
         </v-tooltip>
+
         <v-select
+          v-if="!projectHasNoOwner"
           density="compact"
           variant="outlined"
           v-model="form.actor.value.value as Actor"
@@ -244,8 +258,18 @@
           item-title="name"
           item-value="@id"
           :error-messages="form.actor.errorMessage.value"
+          :placeholder="$t('projects.form.section.projectOwner')"
           @blur="form.actor.handleChange(form.actor.value.value)"
           return-object
+        />
+        <v-text-field
+          v-else
+          density="compact"
+          variant="outlined"
+          v-model="form.otherActor.value.value"
+          :placeholder="$t('projects.form.fields.otherActor.label')"
+          :error-messages="form.otherActor.errorMessage.value"
+          @blur="form.otherActor.handleChange"
         />
 
         <FormSectionTitle :text="$t('projects.form.section.focalPoint')" />
@@ -367,6 +391,8 @@ const props = defineProps<{
   isShown: boolean
 }>()
 
+const projectHasNoOwner = ref(false)
+
 const existingLogo = ref<(BaseMediaObject | string)[]>([])
 const existingImages = ref<(BaseMediaObject | string)[]>([])
 const existingPartnerImages = ref<BaseMediaObject[]>([])
@@ -425,6 +451,10 @@ onMounted(async () => {
   await projectStore.getAllContractingOrganisations()
   await actorsStore.getAll()
   if (props.project) {
+    console.log(props.project)
+    if (props.project.otherActor) {
+      projectHasNoOwner.value = true
+    }
     existingLogo.value = props.project.logo ? [props.project.logo] : []
     existingImages.value = [...props.project.images, ...props.project.externalImages]
     existingHostedImages = props.project.images

@@ -24,6 +24,7 @@ export class ProjectFormService {
       focalPointTel: zodModels.phone,
       geoData: zodModels.geoData,
       actor: zodModels.symfonyRelation,
+      otherActor: z.string().optional(),
       status: z.nativeEnum(Status),
       donors: zodModels.symfonyRelations,
       otherDonor: z.string().optional(),
@@ -36,8 +37,32 @@ export class ProjectFormService {
       website: zodModels.website
     })
 
+    const defaultValues: Partial<Project> = {
+      name: '',
+      description: '',
+      deliverables: '',
+      calendar: '',
+      contractingOrganisation: undefined,
+      donors: [],
+      interventionZone: undefined,
+      focalPointName: '',
+      focalPointPosition: '',
+      focalPointEmail: '',
+      focalPointTel: '',
+      beneficiaryTypes: [],
+      actor: undefined,
+      otherActor: '',
+      status: undefined,
+      geoData: undefined,
+      thematics: [],
+      website: ''
+    }
+
     const { errors, handleSubmit, isSubmitting } = useForm<Partial<Project | ProjectSubmission>>({
-      initialValues: project,
+      initialValues: {
+        ...defaultValues,
+        ...project
+      },
       validationSchema: toTypedSchema(projectSchema)
     })
 
@@ -58,6 +83,7 @@ export class ProjectFormService {
       beneficiaryTypes: useField('beneficiaryTypes'),
       otherBeneficiary: useField('otherBeneficiary'),
       actor: useField('actor'),
+      otherActor: useField('otherActor'),
       status: useField('status'),
       geoData: useField('geoData'),
       thematics: useField('thematics'),

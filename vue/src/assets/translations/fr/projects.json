@@ -68,6 +68,10 @@
         "website": {
           "label": "Site internet",
           "placeholder": "Site internet"
+        },
+        "otherActor": {
+          "label": "Précisez un autre responsable",
+          "placeholder": "Précisez un autre responsable"
         }
       },
       "section": {
@@ -78,6 +82,7 @@
         "focalPoint": "Personne de référence",
         "localization": "Localisation",
         "projectOwner": "Responsable du projet",
+        "noProjectOwner": "Le responsable du projet n'est pas un acteur enregistré sur la plateforme",
         "projectOwnerDisclaimer": "En charge de la gestion et de la coordination du projet",
         "thematics": "Thématiques",
         "otherThematic": "Précisez une autre thematique",

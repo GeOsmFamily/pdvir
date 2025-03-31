@@ -176,7 +176,7 @@ class Project
     private Collection $partners;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?Actor $actor = null;
 
@@ -219,6 +219,10 @@ class Project
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?string $otherContractingOrganisation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
+    private ?string $otherActor = null;
 
     public function __construct()
     {
@@ -577,6 +581,18 @@ class Project
     public function setOtherContractingOrganisation(?string $otherContractingOrganisation): static
     {
         $this->otherContractingOrganisation = $otherContractingOrganisation;
+
+        return $this;
+    }
+
+    public function getOtherActor(): ?string
+    {
+        return $this->otherActor;
+    }
+
+    public function setOtherActor(?string $otherActor): static
+    {
+        $this->otherActor = $otherActor;
 
         return $this;
     }
