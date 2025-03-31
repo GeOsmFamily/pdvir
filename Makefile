@@ -148,5 +148,6 @@ pull-backup:
 	if [ -z "$$TAG" ]; then echo "Usage: make pull-backup tag=<tag>"; exit 1; fi; \
 	if [ ! -f "/opt/backup/backup-$$TAG.tar.gz" ]; then echo "Backup file not found for tag $$TAG"; exit 1; fi; \
 	echo "Extracting backup..."; \
-	tar -xvzf /opt/backup/backup-$$TAG.tar.gz -C ./; \
+	rm -rf ./docker/postgres/data ./symfony/public/media ./docker/qgis/data; \
+	tar --same-owner -xvzf /opt/backup/backup-$$TAG.tar.gz -C ./; \
 	echo "Backup $$TAG restored successfully!"
