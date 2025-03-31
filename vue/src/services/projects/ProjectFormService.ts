@@ -4,7 +4,6 @@ import { useField, useForm } from 'vee-validate'
 import { z } from 'zod'
 import { i18n } from '@/plugins/i18n'
 import { CommonZodSchema } from '../forms/CommonZodSchema'
-import GeocodingService from '../map/GeocodingService'
 import { Status } from '@/models/enums/contents/Status'
 import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType'
@@ -23,7 +22,7 @@ export class ProjectFormService {
       focalPointEmail: zodModels.email,
       interventionZone: z.nativeEnum(AdministrativeScope),
       focalPointTel: zodModels.phone,
-      osmData: zodModels.osmData,
+      geoData: zodModels.geoData,
       actor: zodModels.symfonyRelation,
       status: z.nativeEnum(Status),
       donors: zodModels.symfonyRelations,
@@ -34,10 +33,7 @@ export class ProjectFormService {
     })
 
     const { errors, handleSubmit, isSubmitting } = useForm<Partial<Project | ProjectSubmission>>({
-      initialValues: {
-        ...project,
-        osmData: project?.geoData ? GeocodingService.geoDataToGeocodingItem(project?.geoData) : null
-      },
+      initialValues: project,
       validationSchema: toTypedSchema(projectSchema)
     })
 
@@ -56,7 +52,7 @@ export class ProjectFormService {
       beneficiaryTypes: useField('beneficiaryTypes'),
       actor: useField('actor'),
       status: useField('status'),
-      osmData: useField('osmData'),
+      geoData: useField('geoData'),
       thematics: useField('thematics'),
       website: useField('website')
     }

@@ -96,7 +96,6 @@ const searchQuery = ref('')
 watch(
   () => searchQuery.value,
   () => {
-    console.log('bloup')
     emit('updateSearchQuery', searchQuery.value)
   }
 )

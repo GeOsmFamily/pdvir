@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
@@ -15,6 +16,7 @@ use ApiPlatform\Metadata\QueryParameter;
 use App\Controller\Project\SimilarProjectsAction;
 use App\Entity\File\MediaObject;
 use App\Entity\Trait\BlameableEntity;
+use App\Entity\Trait\CreatorMessageEntity;
 use App\Entity\Trait\LocalizableEntity;
 use App\Entity\Trait\SluggableEntity;
 use App\Entity\Trait\TimestampableEntity;
@@ -40,6 +42,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(
             uriTemplate: '/projects/all',
+            normalizationContext: ['groups' => [self::GET_PARTIAL]]
+        ),
+        new Get(
             normalizationContext: ['groups' => [self::GET_PARTIAL]]
         ),
         new GetCollection(
@@ -79,6 +84,7 @@ class Project
     use SluggableEntity;
     use LocalizableEntity;
     use ValidateableEntity;
+    use CreatorMessageEntity;
 
     public const GET_FULL = 'project:get:full';
     public const GET_PARTIAL = 'project:get:partial';
@@ -155,7 +161,7 @@ class Project
     /**
      * @var Collection<int, MediaObject>
      */
-    #[ORM\ManyToMany(targetEntity: MediaObject::class)]
+    #[ORM\ManyToMany(targetEntity: MediaObject::class, cascade: ['remove'], orphanRemoval: true)]
     #[ApiProperty(types: ['https://schema.org/image'])]
     #[Groups([self::GET_FULL, self::WRITE])]
     private Collection $images;
