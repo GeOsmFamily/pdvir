@@ -60,7 +60,6 @@ export class CommonZodSchema {
 
     const NotNullableGeoDataSchema = AbstractGeoDataSchema.refine(
       (data) => {
-        console.log('data', data)
         return (data?.latitude && data?.longitude) || (data?.osmId && data?.osmType) || data != null
       },
       { message: i18n.t('inputs.locationSelector.errors.notNull') }

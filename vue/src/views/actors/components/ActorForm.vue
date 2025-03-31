@@ -293,8 +293,6 @@ function handleImagesUpdate(lists: any) {
 
 const submitForm = handleSubmit(
   (values) => {
-    console.log('form', form);
-    console.log('values', values);
     const actorSubmission: ActorSubmission = {
       ...(values as any),
       id: actorToEdit ? actorToEdit.id : undefined,

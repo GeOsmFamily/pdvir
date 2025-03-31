@@ -72,7 +72,6 @@ watch(
         latitude: lat.value,
         longitude: lng.value
       }
-      console.log('UPDATING HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE', geoData.value);
     }
   }
 )

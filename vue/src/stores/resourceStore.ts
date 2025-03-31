@@ -64,10 +64,7 @@ export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
   const updateResource = (updatedResource: Resource) => {
     resources.value.forEach((resource, key) => {
       if (resource.id === updatedResource.id) {
-        resources.value[key] = {
-          ...resource,
-          ...updatedResource
-        }
+        resources.value[key] = updatedResource
       }
     })
   }
