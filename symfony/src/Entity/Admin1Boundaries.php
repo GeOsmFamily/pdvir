@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(
             uriTemplate: '/admin1_boundaries',
             normalizationContext: ['groups' => [self::GET_WITHOUT_GEOM]],
+            paginationEnabled: false
         ),
     ],
 )]
