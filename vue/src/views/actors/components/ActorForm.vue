@@ -188,7 +188,7 @@
             @blur="form.officeAddress.handleChange"
           />
         </div>
-        <FormSectionTitle :text="$t('resources.form.location')" />
+        <FormSectionTitle :text="$t('resources.form.section.location')" />
         <LocationSelector
           @update:model-value="form.geoData.handleChange"
           v-model="form.geoData.value.value as GeoData"

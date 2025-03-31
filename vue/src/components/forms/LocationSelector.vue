@@ -6,12 +6,18 @@
         :search-type="NominatimSearchType.FREE"
         :osm-type="OsmType.NODE"
         v-model="geoData"
+        :error-messages="errorMessages"
       />
     </div>
     <v-divider>{{ $t('forms.or') }}</v-divider>
     <div class="Form__fieldCtn">
       <label class="Form__label">{{ $t('inputs.locationSelector.enterGpsCoords') }}</label>
-      <CoordinatesSelector v-model:lat="lat" v-model:lng="lng" @update-coords="resetGeodata" />
+      <CoordinatesSelector
+        v-model:lat="lat"
+        v-model:lng="lng"
+        @update-coords="resetGeodata"
+        :error-message="errorMessages"
+      />
     </div>
     <span v-if="errorMessage">{{ errorMessage }}</span>
   </div>
@@ -25,6 +31,7 @@ import { OsmType } from '@/models/enums/geo/OsmType'
 import CoordinatesSelector from './CoordinatesSelector.vue'
 import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { Ref } from 'vue'
+import { computed } from 'vue'
 const geoData: ModelRef<GeoData> = defineModel({
   default: {
     osmId: null,
@@ -38,13 +45,16 @@ const geoData: ModelRef<GeoData> = defineModel({
 const lat: Ref<number | null | undefined> = ref(null)
 const lng: Ref<number | null | undefined> = ref(null)
 
-defineProps<{
+const props = defineProps<{
   errorMessage?: string
 }>()
+
+const errorMessages = computed(() => (props.errorMessage ? ' ' : undefined))
 
 onMounted(async () => {
   updateCoords()
 })
+
 watch(
   () => geoData.value,
   () => {
@@ -62,6 +72,7 @@ watch(
         latitude: lat.value,
         longitude: lng.value
       }
+      console.log('UPDATING HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE', geoData.value);
     }
   }
 )

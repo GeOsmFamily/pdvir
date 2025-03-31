@@ -10,6 +10,7 @@
             v-model.number.lazy="lat"
             @update:model-value="isSelecting ? null : $emit('updateCoords')"
             placeholder="4.31375500"
+            :error-messages="errorMessage"
           />
         </div>
         <div class="Form__fieldCtn">
@@ -20,6 +21,7 @@
             v-model.number.lazy="lng"
             @update:model-value="isSelecting ? null : $emit('updateCoords')"
             placeholder="12.1018020"
+            :error-messages="errorMessage"
           />
         </div>
       </div>
@@ -80,6 +82,10 @@ const coordsSourceName = sources.coords,
 const initialCoords = { lat: lat.value, lng: lng.value }
 const map = computed(() => coordsMap.value?.map)
 const geojson = computed(() => MapService.getGeojson([{ geoData: { coords: coords.value } }]))
+
+defineProps<{
+  errorMessage?: string
+}>()
 
 onMounted(async () => {
   if (map.value == null) return

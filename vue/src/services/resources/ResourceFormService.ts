@@ -16,7 +16,7 @@ export class ResourceFormService {
         name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
         description: zodModels.descriptionRequired,
         type: z.nativeEnum(ResourceType),
-        geoData: zodModels.geoData,
+        geoData: zodModels.geoDataNullable.optional(),
         startAt: z.coerce.date().nullable().optional(),
         endAt: z.coerce.date().nullable().optional(),
         file: zodModels.file.nullable().optional(),

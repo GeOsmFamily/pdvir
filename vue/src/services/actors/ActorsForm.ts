@@ -22,7 +22,7 @@ export class ActorsFormService {
       ///////// Contact \\\\\\\\\
       officeName: z.string().optional(),
       officeAddress: z.string().optional(),
-      geoData: zodModels.geoData,
+      geoData: zodModels.geoDataNotNullable,
       contactName: z.string().optional(),
       contactPosition: z.string().optional(),
       website: zodModels.website,

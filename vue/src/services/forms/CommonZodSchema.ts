@@ -37,7 +37,8 @@ export class CommonZodSchema {
           message: i18n.t('forms.errorMessages.latLng')
         }
       )
-    const GeoDataSchema = z
+
+    const AbstractGeoDataSchema = z
       .object({
         osmId: z.string().nullable(),
         osmType: z.nativeEnum(OsmType).nullable(),
@@ -45,28 +46,42 @@ export class CommonZodSchema {
         latitude: LatitudeSchema.nullable().optional(),
         longitude: LongitudeSchema.nullable().optional()
       })
-      .transform((data) => ({
-        osmId: data.osmId ?? null,
-        osmType: data.osmType ?? null,
-        name: data.name ?? '',
-        latitude: data.latitude ?? null,
-        longitude: data.longitude ?? null
-      }))
+      .transform((data) =>
+        data?.osmId == null && data?.latitude == null
+          ? null
+          : {
+              osmId: data.osmId ?? null,
+              osmType: data.osmType ?? null,
+              name: data.name ?? '',
+              latitude: data.latitude ?? null,
+              longitude: data.longitude ?? null
+            }
+      ) satisfies ZodType<GeoData | null>
+
+    const NotNullableGeoDataSchema = AbstractGeoDataSchema.refine(
+      (data) => {
+        console.log('data', data)
+        return (data?.latitude && data?.longitude) || (data?.osmId && data?.osmType) || data != null
+      },
+      { message: i18n.t('inputs.locationSelector.errors.notNull') }
+    )
+    const NullableGeoDataSchema = z
+      .union([AbstractGeoDataSchema, z.literal(null), z.undefined()])
       .refine(
-        (schema) => {
-          return (schema.latitude && schema.longitude) || (schema.osmId && schema.osmType)
+        (data) => {
+          if (data == null) return true
+          return (data.latitude && data.longitude) || (data.osmId && data.osmType)
         },
-        {
-          message: i18n.t('inputs.locationSelector.errors.notNull')
-        }
-      ) satisfies ZodType<GeoData>
+        { message: i18n.t('inputs.locationSelector.errors.notNull') }
+      )
 
     return {
       symfonyRelations: z.array(SymfonyRelationSchema).nonempty({
         message: i18n.t('forms.errorMessages.required')
       }),
       symfonyRelation: SymfonyRelationSchema,
-      geoData: GeoDataSchema,
+      geoDataNotNullable: NotNullableGeoDataSchema,
+      geoDataNullable: NullableGeoDataSchema,
       file: this.createFileSchema({
         allowedTypes: [
           'application/pdf',

@@ -19,20 +19,22 @@ class GeoDataProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [], bool $nullable = false): mixed
     {
-        if (null !== $data->getGeoData()->getOsmIdentifier()) {
-            $geoData = $this->nominatimService->fetchOsmPlace($data->getGeoData());
-            if (null !== $geoData) {
-                $data->setGeoData($geoData);
-            } else {
-                throw new \Exception('Place not found');
-            }
-        } elseif (null !== $data->getGeoData()->getLatitude() && null !== $data->getGeoData()->getLongitude()) {
-            if (!$this->areCoordsInCameroon($data->getGeoData())) {
-                throw new \Exception('Given coordinates are not in Cameroon', 400);
-            } else {
-                $data->setGeoData($data->getGeoData());
+        if (!$nullable && null !== $data->getGeoData()) {
+            if (null !== $data->getGeoData()->getOsmIdentifier()) {
+                $geoData = $this->nominatimService->fetchOsmPlace($data->getGeoData());
+                if (null !== $geoData) {
+                    $data->setGeoData($geoData);
+                } else {
+                    throw new \Exception('Place not found');
+                }
+            } elseif (null !== $data->getGeoData()->getLatitude() && null !== $data->getGeoData()->getLongitude()) {
+                if (!$this->areCoordsInCameroon($data->getGeoData())) {
+                    throw new \Exception('Given coordinates are not in Cameroon', 400);
+                } else {
+                    $data->setGeoData($data->getGeoData());
+                }
             }
         }
 
