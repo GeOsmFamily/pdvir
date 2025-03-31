@@ -12,6 +12,9 @@ import { ContentPagesList } from '@/models/enums/app/ContentPagesList'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import { i18n } from '@/plugins/i18n'
+import { useUserStore } from '@/stores/userStore'
+import { ItemType } from '@/models/enums/app/ItemType'
+import { DialogKey } from '@/models/enums/app/DialogKey'
 
 export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   const dataLoaded = ref(false)
@@ -19,9 +22,14 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   const actors: Actor[] = reactive([])
   const actorsList: Ref<Partial<Actor>[]> = ref([])
   const selectedActor: Ref<Actor | null> = ref(null)
+  const actorForSubmission: Ref<ActorSubmission | null> = ref(null)
   const actorsExpertises: ActorExpertise[] = reactive([])
   const actorsThematics: Thematic[] = reactive([])
   const actorsAdministrativesScopes: AdministrativeScope[] = reactive([])
+  const actorEdition: Reactive<{ active: boolean; actor: Actor | null }> = reactive({
+    active: false,
+    actor: null
+  })
 
   async function getActors(): Promise<void> {
     actors.splice(0, actors.length)
@@ -49,11 +57,6 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     }
   }
 
-  const actorEdition: Reactive<{ active: boolean; actor: Actor | null }> = reactive({
-    active: false,
-    actor: null
-  })
-
   watch(
     () => actorEdition.active,
     () => {
@@ -62,6 +65,7 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
       }
     }
   )
+
   function setActorEditionMode(actor: Actor | null) {
     actorEdition.actor = actor
     actorEdition.active = true
@@ -70,18 +74,38 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
 
   async function createOrEditActor(actor: ActorSubmission, edit: boolean) {
     try {
-      const id = selectedActor.value?.id
-      const result = await ActorsService.createOrEditActor(actor, edit, id)
-      await getActors()
-      selectedActor.value = await ActorsService.getActor(result.id)
-      useApplicationStore().showEditContentDialog = false
-      addNotification(
-        edit ? i18n.t('actors.form.submitEdit') : i18n.t('actors.form.submitSuccess'),
-        NotificationType.SUCCESS
-      )
+      actorForSubmission.value = actor
+      if (edit || useUserStore().userIsAdmin()) {
+        await saveActor(actor, edit)
+      } else {
+        actorEdition.active = false
+        useApplicationStore().activeDialog = DialogKey.EDITOR_NEW_MESSAGE
+        useApplicationStore().showEditMessageDialog = ItemType.ACTOR
+      }
     } catch (error) {
       addNotification(i18n.t('actors.form.submitError'), NotificationType.ERROR, error as string)
     }
+  }
+
+  function resetActorEditionMode() {
+    actorEdition.actor = null
+    actorEdition.active = false
+    useApplicationStore().showEditContentDialog = false
+    useApplicationStore().showEditMessageDialog = false
+    actorForSubmission.value = null
+  }
+
+  async function saveActor(actor: ActorSubmission, edit: boolean) {
+    const result = await ActorsService.createOrEditActor(actor, edit)
+    await getActors()
+    if (result.isValidated || useUserStore().userIsAdmin()) {
+      selectedActor.value = await ActorsService.getActor(result.id)
+    }
+    resetActorEditionMode()
+    addNotification(
+      edit ? i18n.t('actors.form.submitEdit') : i18n.t('actors.form.submitSuccess'),
+      NotificationType.SUCCESS
+    )
   }
 
   async function deleteActor(id: string) {
@@ -100,12 +124,10 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
       }
     })
     if (selectedActor.value && selectedActor.value.id === updatedActor.id) {
-      console.log('selectedActor.value', JSON.parse(JSON.stringify(selectedActor.value)))
       selectedActor.value = {
         ...selectedActor.value,
         ...updatedActor
       }
-      console.log('selectedActor.value', JSON.parse(JSON.stringify(selectedActor.value)))
     }
   }
 
@@ -117,13 +139,16 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     actorsAdministrativesScopes,
     selectedActor,
     actorEdition,
+    actorForSubmission,
     actorsList,
     getActors,
     getAll,
     getActorsSelectListContent,
     setSelectedActor,
     setActorEditionMode,
+    resetActorEditionMode,
     createOrEditActor,
+    saveActor,
     deleteActor,
     updateActor
   }

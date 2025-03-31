@@ -6,6 +6,7 @@
           v-if="type === FormType.VALIDATE && project"
           :created-by="project.createdBy"
           :created-at="project.createdAt"
+          :message="project.creatorMessage"
         />
         <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('projects.form.fields.name.label') }}</label>
@@ -106,9 +107,9 @@
         <Geocoding
           :search-type="NominatimSearchType.FREE"
           :osm-type="OsmType.NODE"
-          @change="form.osmData.handleChange(form.osmData.value.value)"
-          v-model="form.osmData.value.value as OsmData"
-          :error-messages="form.osmData.errorMessage.value"
+          @change="form.geoData.handleChange(form.geoData.value.value)"
+          v-model="form.geoData.value.value as GeoData"
+          :error-messages="form.geoData.errorMessage.value"
         />
 
         <FormSectionTitle :text="$t('projects.form.section.thematics')" />
@@ -314,9 +315,9 @@
       <span class="text-action" @click="$emit('close')">{{ $t('forms.cancel') }}</span>
     </template>
     <template #footer-right>
-      <v-btn type="submit" form="project-form" color="main-red" :loading="isSubmitting">{{
-        $t('forms.' + type)
-      }}</v-btn>
+      <v-btn type="submit" form="project-form" color="main-red" :loading="isSubmitting">
+        {{ submitLabel }}
+      </v-btn>
     </template>
   </Modal>
 </template>
@@ -343,17 +344,22 @@ import type { Organisation } from '@/models/interfaces/Organisation'
 import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import { onInvalidSubmit } from '@/services/forms/FormService'
-import type { OsmData } from '@/models/interfaces/geo/OsmData'
+import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'
+import { useUserStore } from '@/stores/userStore'
+import { useI18n } from 'vue-i18n'
 
 const projectStore = useProjectStore()
 const actorsStore = useActorsStore()
 const thematicsStore = useThematicStore()
+const userStore = useUserStore()
+
+const { t } = useI18n()
 
 const props = defineProps<{
   type: FormType
@@ -370,6 +376,13 @@ let existingHostedPartnerImages: BaseMediaObject[] = []
 const imagesToUpload: Ref<ContentImageFromUserFile[]> = ref([])
 const imagesPartnerToUpload: Ref<ContentImageFromUserFile[]> = ref([])
 const newLogo: Ref<ContentImageFromUserFile[]> = ref([])
+
+const submitLabel = computed(() => {
+  if (userStore.userIsActorEditor() && props.type === FormType.CREATE) {
+    return t('forms.continue')
+  }
+  return t('forms.' + props.type)
+})
 
 const thematics = computed(() => thematicsStore.thematics)
 const actors = computed(() => actorsStore.actorsList)

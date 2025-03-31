@@ -25,7 +25,7 @@ export class ActorsFormService {
       ///////// Contact \\\\\\\\\
       officeName: z.string().optional(),
       officeAddress: z.string().optional(),
-      officeLocation: zodModels.latLngString.optional(),
+      geoData: zodModels.geoData,
       contactName: z.string().optional(),
       contactPosition: z.string().optional(),
       website: zodModels.website,
@@ -49,7 +49,7 @@ export class ActorsFormService {
       description: useField('description', '', { validateOnValueUpdate: false }),
       officeName: useField('officeName', '', { validateOnValueUpdate: false }),
       officeAddress: useField('officeAddress', '', { validateOnValueUpdate: false }),
-      officeLocation: useField('officeLocation', '', { validateOnValueUpdate: false }),
+      geoData: useField('geoData', '', { validateOnValueUpdate: false }),
       contactName: useField('contactName', '', { validateOnValueUpdate: false }),
       contactPosition: useField('contactPosition', '', { validateOnValueUpdate: false }),
       website: useField('website', '', { validateOnValueUpdate: false }),

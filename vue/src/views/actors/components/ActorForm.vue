@@ -2,13 +2,14 @@
   <Modal
     :title="actorToEdit ? $t('actors.form.editTitle') : $t('actors.form.createTitle')"
     :show="appStore.showEditContentDialog"
-    @close="actorsStore.actorEdition.active = false"
+    @close="actorsStore.resetActorEditionMode()"
   >
     <template #content>
       <NewSubmission
         v-if="actorToEdit && !actorToEdit.isValidated"
         :created-by="actorToEdit.createdBy"
         :created-at="actorToEdit.createdAt"
+        :message="actorToEdit.creatorMessage"
       />
       <v-form @submit.prevent="submitForm" id="actor-form" class="Form Form--actor">
         <!-- General infos -->
@@ -217,17 +218,12 @@
             @blur="form.officeAddress.handleChange"
           />
         </div>
-        <div class="Form__fieldCtn">
-          <label class="Form__label">{{ $t('actors.form.officeLocation') }}</label>
-          <v-text-field
-            density="compact"
-            variant="outlined"
-            v-model="form.officeLocation.value.value"
-            :error-messages="form.officeLocation.errorMessage.value"
-            @blur="form.officeLocation.handleChange"
-            :placeholder="$t('actors.form.officeLocationPlaceholder')"
-          />
-        </div>
+        <FormSectionTitle :text="$t('resources.form.section.location')" />
+        <LocationSelector
+          @update:model-value="form.geoData.handleChange"
+          v-model="form.geoData.value.value as GeoData"
+          :error-message="form.geoData.errorMessage.value"
+        />
 
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
         <FormSectionTitle :text="$t('actors.form.images')" />
@@ -235,7 +231,7 @@
       </v-form>
     </template>
     <template #footer-left>
-      <span class="text-action" @click="actorsStore.actorEdition.active = false">{{
+      <span class="text-action" @click="actorsStore.resetActorEditionMode()">{{
         $t('forms.cancel')
       }}</span>
     </template>
@@ -262,6 +258,7 @@ import type { AdministrativeScope } from '@/models/interfaces/AdministrativeScop
 import Modal from '@/components/global/Modal.vue'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
+import LocationSelector from '@/components/forms/LocationSelector.vue'
 import { useThematicStore } from '@/stores/thematicStore'
 import { onInvalidSubmit } from '@/services/forms/FormService'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
@@ -269,6 +266,7 @@ import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
+import type { GeoData } from '@/models/interfaces/geo/GeoData'
 
 const appStore = useApplicationStore()
 const actorsStore = useActorsStore()
@@ -284,7 +282,7 @@ const submitLabel = computed(() => {
   if (actorToEdit) {
     return !actorToEdit.isValidated ? i18n.t('forms.validate') : i18n.t('forms.edit')
   } else {
-    return i18n.t('forms.create')
+    return i18n.t('forms.continue')
   }
 })
 const administrativeScopesItems = actorsStore.actorsAdministrativesScopes
@@ -340,6 +338,7 @@ const submitForm = handleSubmit(
     console.log(values)
     const actorSubmission: ActorSubmission = {
       ...(values as any),
+      id: actorToEdit ? actorToEdit.id : undefined,
       logoToUpload: newLogo.value[0],
       images: existingHostedImages,
       externalImages: existingExternalImages,
@@ -347,7 +346,8 @@ const submitForm = handleSubmit(
     }
     actorsStore.createOrEditActor(actorSubmission, actorToEdit !== null)
   },
-  () => {
+  ({ errors }) => {
+    console.log(errors)
     addNotification(i18n.t('forms.errors'), NotificationType.ERROR)
     onInvalidSubmit()
   }

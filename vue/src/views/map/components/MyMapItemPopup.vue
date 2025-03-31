@@ -5,7 +5,6 @@
       class="ProjectCard ProjectCard--light"
       :project="myMapStore.activeItem as Project"
       :map="true"
-      :active="true"
     />
     <ResourceCard
       v-else-if="myMapStore.activeItemType === ItemType.RESOURCE"
@@ -30,6 +29,7 @@ import type { Project } from '@/models/interfaces/Project'
 import type { Resource } from '@/models/interfaces/Resource'
 import ResourceCard from '@/views/resources/components/ResourceCard.vue'
 import type { Actor } from '@/models/interfaces/Actor'
+import MapService from '@/services/map/MapService'
 
 const myMapStore = useMyMapStore()
 const activeItemCard = useTemplateRef('active-item-card')
@@ -37,33 +37,49 @@ const activeItemCard = useTemplateRef('active-item-card')
 const myMap = computed(() => myMapStore.myMap)
 const map = computed(() => myMap.value?.map)
 
-onMounted(() => {
-  if (map.value != null) {
-    showPopup()
-  }
+onMounted(async () => {
+  await MapService.isLoaded(map.value, () => addPopupOnClick())
+  await showPopupOnInit()
 })
+
+watch(
+  () => [myMapStore.activeItem, myMapStore.isMapAlreadyBeenMounted],
+  async () => {
+    await MapService.isLoaded(map.value, () => addPopupOnClick())
+    await showPopupOnInit()
+  }
+)
 
 watch(
   () => myMap.value?.activeFeatureId,
   (to, from) => {
     const initializing = from === undefined
-    if (myMap.value == null || initializing) return
+    if (myMap.value == null || initializing || to == null) return
     myMapStore.activeItemId = myMap.value?.activeFeatureId
   }
 )
 
-watch(
-  () => myMapStore.activeItem,
-  () => {
-    if (myMap.value == null) return
-    showPopup()
-  }
-)
+const addPopupOnClick = () => {
+  if (myMap.value == null) return
+  Object.values(ItemType).forEach((itemLayer) => {
+    myMap.value?.addPopupOnClick(itemLayer, activeItemCard.value, false)
+  })
+}
 
 const showPopup = () => {
-  if (myMap.value == null) return
-  Object.values(ItemType).forEach((itemType) => {
-    myMap.value?.addPopupOnClick(itemType, activeItemCard.value, false)
+  if (map.value) {
+    if (myMapStore.activeItem != null && myMap.value) {
+      if (myMapStore.activeItem?.geoData?.coords) {
+        myMap.value.addPopup(myMapStore.activeItem.geoData.coords, activeItemCard.value, false)
+      }
+    }
+  }
+}
+
+const showPopupOnInit = async () => {
+  await MapService.isLoaded(map.value, () => {
+    addPopupOnClick()
+    showPopup()
   })
 }
 </script>
@@ -79,7 +95,7 @@ const showPopup = () => {
     max-width: 22rem !important;
   }
 
-  #map.MyMap__map {
+  .MyMap__map {
     width: 100%;
     height: 100%;
 

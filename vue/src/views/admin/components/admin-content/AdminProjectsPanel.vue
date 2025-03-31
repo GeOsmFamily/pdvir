@@ -99,12 +99,10 @@ const showProjectForm = () => {
 const createProject = () => {
   formType.value = FormType.CREATE
   projectSubmission.value = null
-  console.log('createProject')
   showProjectForm()
 }
 
 const editProject = async (project: Project, type: FormType = FormType.EDIT) => {
-  console.log('editProject')
   formType.value = type
   projectSubmission.value = await ProjectService.get(project)
   showProjectForm()

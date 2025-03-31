@@ -5,9 +5,25 @@
         <div class="SheetContentBanner__actionsBar mt-1">
           <div class="SheetContentBanner__shareBar">
             <slot name="custom-actions"></slot>
+
+            <v-tooltip location="bottom" v-if="mapRoute">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  :to="mapRoute"
+                  variant="text"
+                  v-bind="props"
+                  density="comfortable"
+                  icon="mdi-map-outline"
+                  class="hide-sm"
+                  color="main-blue"
+                />
+              </template>
+              <span v-if="mapBtnTooltip">{{ mapBtnTooltip }}</span>
+            </v-tooltip>
             <ShareButton :additionnal-path="''" />
             <HighlightButton :item-id="id" />
             <LikeButton :id="id" />
+            <slot name="mapButton"></slot>
             <v-btn
               variant="elevated"
               :to="{ name: 'map' }"
@@ -16,7 +32,7 @@
                 $t('content.createAMap')
               }}</v-btn
             >
-            <UpdatedAtLabel :date="updatedAt" class="show-sm" />
+            <UpdateInfoLabel :date="updatedAt" :user="createdBy" class="show-sm text-left" />
           </div>
           <div class="SheetContentBanner__editBar">
             <v-btn
@@ -39,22 +55,27 @@
 
 <script setup lang="ts">
 import PageBanner from '@/components/banners/PageBanner.vue'
-import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue'
+import UpdateInfoLabel from '@/views/_layout/sheet/UpdateInfoLabel.vue'
 import ShareButton from '@/components/global/ShareButton.vue'
 import LikeButton from '@/components/global/LikeButton.vue'
 import SheetContactActions from './SheetContactActions.vue'
 import HighlightButton from '@/components/global/HighlightButton.vue'
+import type { RouteLocationAsRelative } from 'vue-router'
+import type { User } from '@/models/interfaces/auth/User'
 
 defineProps<{
   id: string
   slug: string
   title: string
-  subtitle: string
+  subtitle: string | null
   email: string
   phone: string
   website: string
   updatedAt: string | Date
+  createdBy: User | null
   isEditable?: boolean
+  mapRoute: RouteLocationAsRelative | null
+  mapBtnTooltip?: string
 }>()
 </script>
 
