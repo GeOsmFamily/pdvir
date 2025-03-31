@@ -46,9 +46,10 @@
             <v-icon icon="mdi-dots-vertical"></v-icon>
             <v-menu activator="parent" location="left">
               <v-list class="AdminPanel__additionnalMenu">
-                <v-list-item :to="`/projects/${(item as Project).slug}`">{{
-                  $t('projects.admin.goToPage')
-                }}</v-list-item>
+                <v-list-item
+                  :to="{ name: 'projectPage', params: { slug: (item as Project).slug } }"
+                  >{{ $t('projects.admin.goToPage') }}</v-list-item
+                >
                 <v-list-item @click="projectStore.deleteProject(item as Project)">{{
                   $t('projects.admin.delete')
                 }}</v-list-item>
@@ -98,12 +99,10 @@ const showProjectForm = () => {
 const createProject = () => {
   formType.value = FormType.CREATE
   projectSubmission.value = null
-  console.log('createProject')
   showProjectForm()
 }
 
 const editProject = async (project: Project, type: FormType = FormType.EDIT) => {
-  console.log('editProject')
   formType.value = type
   projectSubmission.value = await ProjectService.get(project)
   showProjectForm()

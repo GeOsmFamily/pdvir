@@ -12,9 +12,14 @@ export class ProjectService {
       .then((response) => response.data['hydra:member'])
   }
 
-  static async get(search: Partial<Project>): Promise<Project> {
+  static async get(project: Partial<Project>): Promise<Project> {
+    const { id } = project
+    return await apiClient.get('/api/projects/' + id).then((response) => response.data)
+  }
+
+  static async getBySlug(slug: string): Promise<Project> {
     return await apiClient
-      .get('/api/projects', { params: search })
+      .get('/api/projects', { params: { slug } })
       .then((response) => response.data['hydra:member'][0])
   }
 
@@ -77,9 +82,7 @@ export class ProjectService {
     } else if (projectToSubmit.partners.length === 0) {
       symfonyProject.partners = []
     }
-    console.log(symfonyProject)
     symfonyProject = transformSymfonyRelationToIRIs<Project>(symfonyProject)
-    console.log(symfonyProject)
     if (
       symfonyProject.id &&
       (images.length > 0 || projectToSubmit.logoToUpload || partnerImages.length > 0)
@@ -91,12 +94,6 @@ export class ProjectService {
   }
 
   static async patchImages(project: Project): Promise<Project> {
-    console.log({
-      images: project.images,
-      id: project.id,
-      logo: project.logo,
-      partners: project.partners
-    })
     return this.patch({
       images: project.images,
       id: project.id,

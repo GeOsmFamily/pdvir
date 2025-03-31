@@ -1,0 +1,26 @@
+import Caddyfile.base
+
+(spa) {
+	try_files {path} /
+	file_server
+	encode gzip
+}
+
+{$CADDY_PROTOCOL}://{$DOMAIN} {
+	import main_domain
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+	import spa
+	root @pwa /var/www/vue
+	root * /app/public
+	php_server
+}
+
+{$CADDY_PROTOCOL}://qgis.{$DOMAIN} {
+	reverse_proxy http://qgis:80
+}
+
+{$CADDY_PROTOCOL}://docs.{$DOMAIN} {
+	import no_robots
+	root * /var/www/docs
+	import spa
+}

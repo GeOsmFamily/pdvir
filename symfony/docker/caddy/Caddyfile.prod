@@ -6,16 +6,21 @@ import Caddyfile.base
 	encode gzip
 }
 
-{$CADDY_PROTOCOL}://{$DOMAIN} {
+{$DOMAIN}, {$OTHER_DOMAIN} {
 	import main_domain
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 	import spa
 	root @pwa /var/www/vue
-	
 	root * /app/public
 	php_server
 }
 
-{$CADDY_PROTOCOL}://docs.{$DOMAIN} {
+docs.{$DOMAIN}, docs.{$OTHER_DOMAIN} {
+	import no_robots
 	root * /var/www/docs
 	import spa
+}
+
+qgis.{$DOMAIN}, qgis.{$OTHER_DOMAIN} {
+	reverse_proxy http://qgis:80
 }
