@@ -80,10 +80,10 @@
         "projectOwner": "Responsable du projet",
         "projectOwnerDisclaimer": "En charge de la gestion et de la coordination du projet",
         "thematics": "Thématiques",
-        "otherThematic": "Entrez une autre thematique",
+        "otherThematic": "Précisez une autre thematique",
         "otherBeneficiary": "Entrez un autre bénéficiaire",
-        "otherDonor": "Entrez une autre organisation",
-        "otherContractingOrganisation": "Entrez une autre organisation",
+        "otherDonor": "Précisez une autre organisation",
+        "otherContractingOrganisation": "Précisez une autre organisation",
         "projectImages": "Images du projet",
         "partnerLogos": "Logos des partenaires"
       },
