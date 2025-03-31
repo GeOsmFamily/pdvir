@@ -31,7 +31,7 @@
           <v-icon icon="mdi-calendar" />
           <span>{{ dateRangeLabel }}</span>
         </span>
-        <span class="InfoCard__location" v-if="resource.geoData">
+        <span class="InfoCard__location" v-if="resource.geoData && locationName">
           <v-icon icon="mdi-map-marker-outline" />
           <span>{{ locationName }}</span>
         </span>
@@ -52,7 +52,7 @@ import type { Resource } from '@/models/interfaces/Resource'
 import { ItemType } from '@/models/enums/app/ItemType'
 import GenericInfoCard from '@/components/global/GenericInfoCard.vue'
 import { ResourceFormat } from '@/models/enums/contents/ResourceFormat'
-import { computed, watch} from 'vue'
+import { computed } from 'vue'
 import { useResourceStore } from '@/stores/resourceStore'
 import { ResourceType } from '@/models/enums/contents/ResourceType'
 import { getDateRangeLabel, localizeDate } from '@/services/utils/UtilsService'
@@ -96,7 +96,9 @@ const isEditable = computed(() => {
       userStore.currentUser?.id != null)
   )
 })
-const locationName = computed(() => GeocodingService.getLocationName(props.resource.geoData))
+const locationName = computed(() =>
+  props.resource?.geoData ? GeocodingService.getLocationName(props.resource.geoData) : null
+)
 const dateRangeLabel = computed(() =>
   getDateRangeLabel(props.resource.startAt, props.resource.endAt)
 )
@@ -119,7 +121,7 @@ const editResource = () => {
     display: flex;
     flex-flow: column nowrap;
     gap: 0.5rem;
-    padding-bottom: .5rem;
+    padding-bottom: 0.5rem;
   }
   .ResourceCard__dateBanner {
     background: rgb(var(--v-theme-main-yellow));

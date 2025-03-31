@@ -69,7 +69,7 @@ const addPopupOnClick = () => {
 const showPopup = () => {
   if (map.value) {
     if (myMapStore.activeItem != null && myMap.value) {
-      if (myMapStore.activeItem.geoData.coords) {
+      if (myMapStore.activeItem?.geoData?.coords) {
         myMap.value.addPopup(myMapStore.activeItem.geoData.coords, activeItemCard.value, false)
       }
     }

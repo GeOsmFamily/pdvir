@@ -80,7 +80,7 @@ export class CommonZodSchema {
         message: i18n.t('forms.errorMessages.required')
       }),
       symfonyRelation: SymfonyRelationSchema,
-      geoDataNotNullable: NotNullableGeoDataSchema,
+      geoData: NotNullableGeoDataSchema,
       geoDataNullable: NullableGeoDataSchema,
       file: this.createFileSchema({
         allowedTypes: [
