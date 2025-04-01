@@ -42,7 +42,7 @@
           "placeholder": "mail@siteinternet.com"
         },
         "focalPointName": {
-          "label": "Nom complet du référent",
+          "label": "Nom du référent",
           "placeholder": "Prénom NOM"
         },
         "focalPointPosition": {
@@ -110,7 +110,7 @@
           "label": "Financement"
         },
         "interventionZones": {
-          "label": "Zones d'intervention"
+          "label": "Echelles d'intervention"
         },
         "projectOwner": {
           "label": "Maitre d'ouvrage"
