@@ -90,7 +90,7 @@ export class CommonZodSchema {
           'image/png',
           'image/webp'
         ],
-        maxSize: 5000000
+        maxSize: 20000000 // 20MB
       }),
       qgisProject: this.createFileSchema({
         allowedTypes: ['application/zip', 'application/x-zip-compressed'],

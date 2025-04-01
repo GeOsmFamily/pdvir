@@ -68,7 +68,7 @@
     "images": {
       "generic": "Une ou plusieurs images n'ont pas pu être chargées: ",
       "wrongFormat": "Format d'image incorrect, sont acceptés uniquement les images au format .png, .jpg, .jpeg, .bmp, .gif, .svg, .webp",
-      "wrongSize": "Taille d'image incorrecte, la taille maximale est de 1Mo",
+      "wrongSize": "Taille d'image incorrecte, la taille maximale est de 5Mo",
       "duplicate": "Une image avec ce nom est déjà sélectionnée"
     },
     "location": {
