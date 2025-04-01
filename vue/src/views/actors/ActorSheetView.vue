@@ -5,7 +5,7 @@
         <img :src="actor.logo.contentUrl" class="SheetView__logo" v-if="actor.logo" />
       </div>
       <SheetContentBanner
-        page="Actor"
+        :page="CommentOrigin.ACTOR"
         :id="actor.id"
         :slug="actor.slug"
         :title="actor.name"
@@ -94,6 +94,7 @@ import ContactCard from '@/components/content/ContactCard.vue'
 import { useApplicationStore } from '@/stores/applicationStore'
 import { useUserStore } from '@/stores/userStore'
 import ChipList from '@/components/content/ChipList.vue'
+import { CommentOrigin } from '@/models/interfaces/Comment'
 
 const appStore = useApplicationStore()
 const userStore = useUserStore()

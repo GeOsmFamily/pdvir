@@ -9,7 +9,7 @@
         />
       </div>
       <SheetContentBanner
-        page="Project"
+        :page="CommentOrigin.PROJECT"
         :id="project.id"
         :slug="project.slug"
         :title="project.name"
@@ -118,6 +118,7 @@ import { FormType } from '@/models/enums/app/FormType'
 import router from '@/router'
 import type { Actor } from '@/models/interfaces/Actor'
 import ImagesMosaic from '@/components/content/ImagesMosaic.vue'
+import { CommentOrigin } from '@/models/interfaces/Comment'
 
 const userStore = useUserStore()
 const projectStore = useProjectStore()
