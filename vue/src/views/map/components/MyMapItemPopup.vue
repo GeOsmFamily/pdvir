@@ -76,12 +76,12 @@ const addPopupOnClick = () => {
 
 const showPopup = () => {
   if (myMap.value == null) return
-  if (myMapStore.activeItemType !== 'QGIS') {
+  if (myMapStore.activeItemType === 'QGIS') {
+    myMap.value.addPopup(myMapStore.activeItemCoords as LngLat, activeItemCard.value, false)
+  } else {
     Object.values(ItemType).forEach((itemType) => {
       myMap.value?.addPopupOnClick(itemType, activeItemCard.value, false)
     })
-  } else {
-    myMap.value.addPopup(myMapStore.activeItemCoords as LngLat, activeItemCard.value, false)
   }
   if (map.value) {
     if (myMapStore.activeItem != null && myMap.value && myMapStore.activeItemType !== 'QGIS') {
