@@ -27,12 +27,12 @@ watch(
   (isActive) => {
     if (isActive) {
       if (map.value) {
-        map.value.getCanvas().style.cursor = 'pointer'
+        map.value.getCanvas().classList.add('cursor-crosshair')
         map.value.on('click', queryQgisLayer)
       }
     } else {
       if (map.value) {
-        map.value.getCanvas().style.cursor = ''
+        map.value.getCanvas().classList.remove('cursor-crosshair')
         map.value.off('click', queryQgisLayer)
       }
     }
