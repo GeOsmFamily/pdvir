@@ -29,6 +29,14 @@ services:
             - '../src/Services/Serializer/'
             - '../src/Services/Service/'
             - '../src/Services/State/'
+            
+    App\Controller\Comment\BulkDeleteCommentsController:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+
+            
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
