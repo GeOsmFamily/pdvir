@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
             security: 'is_granted("ROLE_ADMIN")'
         ),
         new Patch(
-            uriTemplate: '/comments/bulk-update',
+            uriTemplate: '/app_content_comments/bulk-update',
             name: 'bulk_update_comments',
             input: BulkUpdateCommentDTO::class,
             output: false,
@@ -36,7 +36,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
         new Post(security: 'is_granted("IS_AUTHENTICATED_FULLY")'),
         new Post(
-            uriTemplate: '/comments/bulk-delete',
+            uriTemplate: '/app_content_comments/bulk-delete',
             name: 'bulk_delete_comments',
             controller: BulkDeleteCommentsController::class,
             security: 'is_granted("ROLE_ADMIN")'
