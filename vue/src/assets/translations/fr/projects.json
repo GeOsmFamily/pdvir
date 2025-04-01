@@ -117,7 +117,9 @@
       "city": "Ville",
       "national": "National",
       "regional": "Régional",
-      "state": "Département"
+      "state": "Département",
+      "neighborhood": "Quartier",
+      "borhood": "Arrondissement"
     },
     "status": {
       "finalized": "Finalisé",
