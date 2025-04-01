@@ -49,7 +49,7 @@
 import type { LngLat } from 'maplibre-gl'
 import Modal from '../global/Modal.vue'
 import type { AppComment, CommentOrigin } from '@/models/interfaces/Comment'
-import { CommentsFormService } from '@/services/comments/CommentsForm'
+import { CommentFormService } from '@/services/comments/CommentForm'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { i18n } from '@/plugins/i18n'
 import { NotificationType } from '@/models/enums/app/NotificationType'
@@ -77,7 +77,7 @@ const slugForFormField = () => {
 }
 
 const commentStore = useCommentStore()
-const { form, handleSubmit, isSubmitting } = CommentsFormService.getCommentsForm()
+const { form, handleSubmit, isSubmitting } = CommentFormService.getCommentForm()
 const emit = defineEmits(['close'])
 
 const submitForm = handleSubmit(

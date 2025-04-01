@@ -4,7 +4,7 @@ import type {
   AppComment,
   CommentOrigin
 } from '@/models/interfaces/Comment'
-import { CommentsService } from '@/services/comments/CommentsService'
+import { CommentService } from '@/services/comments/CommentService'
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
 
@@ -14,11 +14,11 @@ export const useCommentStore = defineStore(StoresList.COMMENT, () => {
 
   async function getAll(force = false): Promise<void> {
     if (comments.value.length === 0 || force) {
-      comments.value = await CommentsService.getAll()
+      comments.value = await CommentService.getAll()
     }
   }
   async function createComment(commentSubmission: AppComment) {
-    const comment = await CommentsService.createComment(commentSubmission)
+    const comment = await CommentService.createComment(commentSubmission)
     isAppCommentActive.value = false
     if (comment) {
       comments.value.push(comment)
@@ -26,13 +26,13 @@ export const useCommentStore = defineStore(StoresList.COMMENT, () => {
   }
 
   const markAsRead = (ids: string[]) => {
-    CommentsService.markAsRead(ids).then(() => {
+    CommentService.markAsRead(ids).then(() => {
       getAll(true)
     })
   }
 
   const deleteComments = (ids: string[]) => {
-    CommentsService.deleteComments(ids).then(() => {
+    CommentService.deleteComments(ids).then(() => {
       getAll(true)
     })
   }

@@ -10,7 +10,7 @@
       }"
       :color="commentStore.isAppCommentActive ? 'main-red' : 'white'"
     ></v-btn>
-    <CommentsForm
+    <CommentForm
       :map-comment="true"
       v-if="isFormCommentVisible"
       :is-shown="isFormCommentVisible"
@@ -21,7 +21,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import CommentsForm from '@/components/comments/CommentsForm.vue'
+import CommentForm from '@/components/comments/CommentForm.vue'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'

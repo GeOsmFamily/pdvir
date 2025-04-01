@@ -19,7 +19,7 @@
       @click.prevent="isFormCommentVisible = true"
     >
     </v-btn>
-    <CommentsForm
+    <CommentForm
       v-if="isFormCommentVisible"
       :is-shown="isFormCommentVisible"
       :origin="origin"
@@ -29,7 +29,7 @@
   </template>
 </template>
 <script setup lang="ts">
-import CommentsForm from './CommentsForm.vue'
+import CommentForm from './CommentForm.vue'
 import type { CommentOrigin } from '@/models/interfaces/Comment'
 import { useUserStore } from '@/stores/userStore'
 import { ref } from 'vue'
