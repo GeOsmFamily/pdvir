@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Enum\AppComment;
 use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
@@ -101,12 +100,12 @@ class AppContentComment
         return $this;
     }
 
-    public function getOrigin(): ?AppComment
+    public function getOrigin(): ?AppContentCommentOrigin
     {
         return $this->origin;
     }
 
-    public function setOrigin(AppComment $origin): static
+    public function setOrigin(AppContentCommentOrigin $origin): static
     {
         $this->origin = $origin;
 
