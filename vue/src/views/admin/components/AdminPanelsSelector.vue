@@ -136,6 +136,7 @@
 </template>
 <script setup lang="ts">
 import { AdministrationPanels } from '@/models/enums/app/AdministrationPanels'
+import { CommentOrigin } from '@/models/interfaces/Comment'
 import { useActorsStore } from '@/stores/actorsStore'
 import { useAdminStore } from '@/stores/adminStore'
 import { useCommentStore } from '@/stores/commentStore'
@@ -175,16 +176,20 @@ const resourcesToValidate = computed(
   () => resourceStore.resources.filter((x) => !x.isValidated).length
 )
 const actorsCommentsToRead = computed(
-  () => commentStore.comments.filter((x) => !x.readByAdmin && x.origin === 'Actor').length
+  () =>
+    commentStore.comments.filter((x) => !x.readByAdmin && x.origin === CommentOrigin.ACTOR).length
 )
 const projectsCommentsToRead = computed(
-  () => commentStore.comments.filter((x) => !x.readByAdmin && x.origin === 'Project').length
+  () =>
+    commentStore.comments.filter((x) => !x.readByAdmin && x.origin === CommentOrigin.PROJECT).length
 )
 const resourcesCommentsToRead = computed(
-  () => commentStore.comments.filter((x) => !x.readByAdmin && x.origin === 'Resource').length
+  () =>
+    commentStore.comments.filter((x) => !x.readByAdmin && x.origin === CommentOrigin.RESOURCE)
+      .length
 )
 const mapCommentsToRead = computed(
-  () => commentStore.comments.filter((x) => !x.readByAdmin && x.origin === 'Map').length
+  () => commentStore.comments.filter((x) => !x.readByAdmin && x.origin === CommentOrigin.MAP).length
 )
 </script>
 

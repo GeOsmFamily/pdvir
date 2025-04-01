@@ -14,7 +14,7 @@
       :map-comment="true"
       v-if="isFormCommentVisible"
       :is-shown="isFormCommentVisible"
-      origin="Map"
+      :origin="CommentOrigin.MAP"
       :lng-lat="(lngLat as LngLat)"
       @close="desactiveMapComment"
     />
@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import CommentForm from '@/components/comments/CommentForm.vue'
 import { NotificationType } from '@/models/enums/app/NotificationType'
+import { CommentOrigin } from '@/models/interfaces/Comment'
 import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { useCommentStore } from '@/stores/commentStore'

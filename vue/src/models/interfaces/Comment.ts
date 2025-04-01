@@ -11,6 +11,11 @@ export interface AppComment extends Timestampable, Blameable {
   readByAdmin: boolean
 }
 
-export type CommentOrigin = 'Actor' | 'Project' | 'Resource' | 'Map'
+export enum CommentOrigin {
+  ACTOR = 'Actor',
+  PROJECT = 'Project',
+  RESOURCE = 'Resource',
+  MAP = 'Map'
+}
 
 export type AdminCommentsSortingValues = 'readByAdmin' | 'nameAZ' | 'nameZA'

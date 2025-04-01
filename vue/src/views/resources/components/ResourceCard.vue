@@ -39,7 +39,7 @@
     <template #comment>
       <CommentButton
         position="Card"
-        origin="Resource"
+        :origin="CommentOrigin.RESOURCE"
         :originSlug="ResourceService.getLink(resource)"
       />
     </template>
@@ -62,6 +62,7 @@ import GeocodingService from '@/services/map/GeocodingService'
 import { ResourceService } from '@/services/resources/ResourceService'
 import { useUserStore } from '@/stores/userStore'
 import CommentButton from '@/components/comments/CommentButton.vue'
+import { CommentOrigin } from '@/models/interfaces/Comment'
 
 const resourceStore = useResourceStore()
 const userStore = useUserStore()

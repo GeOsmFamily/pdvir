@@ -47,9 +47,10 @@ import LikeButton from '@/components/global/LikeButton.vue'
 import SheetContactActions from './SheetContactActions.vue'
 import HighlightButton from '@/components/global/HighlightButton.vue'
 import CommentButton from '@/components/comments/CommentButton.vue'
+import type { CommentOrigin } from '@/models/interfaces/Comment'
 
 defineProps<{
-  page: 'Actor' | 'Project'
+  page: CommentOrigin.ACTOR | CommentOrigin.PROJECT
   id: string
   slug: string
   title: string

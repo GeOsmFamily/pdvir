@@ -29,7 +29,7 @@
   </template>
 </template>
 <script setup lang="ts">
-import CommentForm from './CommentForm.vue'
+import CommentForm from '@/components/comments/CommentForm.vue'
 import type { CommentOrigin } from '@/models/interfaces/Comment'
 import { useUserStore } from '@/stores/userStore'
 import { ref } from 'vue'

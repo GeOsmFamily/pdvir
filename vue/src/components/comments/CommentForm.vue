@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import type { LngLat } from 'maplibre-gl'
 import Modal from '../global/Modal.vue'
-import type { AppComment, CommentOrigin } from '@/models/interfaces/Comment'
+import { CommentOrigin, type AppComment } from '@/models/interfaces/Comment'
 import { CommentFormService } from '@/services/comments/CommentForm'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { i18n } from '@/plugins/i18n'
@@ -90,7 +90,7 @@ const submitForm = handleSubmit(
       commentSubmission.location = `${props.lngLat.lng.toString()}, ${props.lngLat.lat.toString()}`
     }
     if (props.originSlug) {
-      if (props.origin === 'Actor' || props.origin === 'Project') {
+      if (props.origin === CommentOrigin.ACTOR || props.origin === CommentOrigin.PROJECT) {
         commentSubmission.originURL =
           props.originSlug === 'SheetPage'
             ? window.location.toString()
