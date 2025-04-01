@@ -52,10 +52,10 @@ watch(
   (value: boolean) => {
     if (map.value) {
       if (value) {
-        map.value.getCanvas().style.cursor = 'crosshair'
+        map.value.getCanvas().classList.add('cursor-crosshair')
         map.value.on('click', handleMapComment)
       } else {
-        map.value.getCanvas().style.cursor = ''
+        map.value.getCanvas().classList.remove('cursor-crosshair')
       }
     }
   }
