@@ -13,23 +13,28 @@
         :id="project.id"
         :slug="project.slug"
         :title="project.name"
-        :subtitle="project.geoData.name"
+        :subtitle="project.geoData?.name"
         :email="project.focalPointEmail"
         :website="project.website"
         :phone="project.focalPointTel"
         :isEditable="isEditable"
         :updatedAt="project.updatedAt"
+        :map-route="{
+          name: 'projects',
+          query: { type: ProjectListDisplay.MAP, project: project.id }
+        }"
+        :map-btn-tooltip="$t('projectPage.seeLocation')"
+        :createdBy="project.createdBy"
         @edit="editProject"
       >
-        <template #custom-actions>
+        <template #mapButton>
           <v-btn
-            :to="{ name: 'projects', query: { type: ProjectListDisplay.MAP, project: project.id } }"
-            variant="text"
-            density="comfortable"
-            icon="mdi-map-outline"
-            class="hide-sm"
-            color="main-blue"
-          ></v-btn>
+            variant="elevated"
+            :to="{ name: 'map' }"
+            class="elevation-1 text-main-blue px-3 mx-2 hide-sm"
+            ><img src="@/assets/images/icons/add_location_alt.svg" class="mr-1" />
+            {{ $t('content.createAMap') }}
+          </v-btn>
         </template>
       </SheetContentBanner>
       <ProjectForm
@@ -48,7 +53,7 @@
     </div>
     <div class="SheetView__block SheetView__block--right">
       <div class="SheetView__updatedAtCtn hide-sm">
-        <UpdatedAtLabel :date="project.updatedAt" />
+        <UpdateInfoLabel :date="project.updatedAt" :user="project.createdBy" />
         <PrintButton />
       </div>
       <div class="SheetView__logoCtn hide-sm">
@@ -110,7 +115,7 @@ import ProjectCard from '@/views/projects/components/ProjectCard.vue'
 import ContactCard from '@/components/content/ContactCard.vue'
 import ActorCard from '@/views/actors/components/ActorCard.vue'
 import PrintButton from '@/components/global/PrintButton.vue'
-import UpdatedAtLabel from '@/views/_layout/sheet/UpdatedAtLabel.vue'
+import UpdateInfoLabel from '@/views/_layout/sheet/UpdateInfoLabel.vue'
 import SectionBanner from '@/components/banners/SectionBanner.vue'
 import { ProjectListDisplay } from '@/models/enums/app/ProjectListType'
 import ProjectForm from '@/views/projects/components/ProjectForm.vue'

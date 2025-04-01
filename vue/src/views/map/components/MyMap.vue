@@ -1,6 +1,6 @@
 <template>
   <div class="MyMap">
-    <Map class="MyMap__map" ref="my-map" :to-export="true" />
+    <Map class="MyMap__map" ref="my-map" />
     <BasemapPicker ref="basemap-picker" v-model="basemap" />
     <ScaleControl ref="scale-control" />
     <MyMapLegend ref="map-legend" />
@@ -18,7 +18,7 @@
       :is-higlighted-when-off="true"
       ref="toggle-right-sidebar-control"
     />
-    <MyMapItemPopup v-if="myMapStore.myMap" />
+    <MyMapItemPopup />
   </div>
 </template>
 
@@ -70,6 +70,9 @@ onMounted(() => {
         myMapStore.bbox = map.value?.getBounds()
       }
     })
+    map.value.on('idle', () => {
+      myMapStore.mapCanvasToDataUrl = map.value?.getCanvas().toDataURL() as string
+    })
   }
 })
 
@@ -104,7 +107,7 @@ watch(
   height: 100%;
   position: relative;
 
-  #map.MyMap__map {
+  .MyMap__map {
     width: 100%;
     height: 100%;
 

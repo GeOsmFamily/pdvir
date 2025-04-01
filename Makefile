@@ -135,3 +135,19 @@ reload-caddy:	## To reload the caddy container
 
 down-remove-all:## To remove all containers
 	$(DOCKER_COMP) down --remove-orphans --rmi all -v
+
+create-backup:
+	@TAG=$$(git describe --tags --abbrev=0); \
+	if [ -z "$$TAG" ]; then echo "No tags found!"; exit 1; fi; \
+	tar -cvzf backup-$$TAG.tar.gz ./docker/postgres/data ./symfony/public/media ./docker/qgis/data && \
+	mkdir -p /opt/backup && \
+	mv backup-$$TAG.tar.gz /opt/backup/backup-$$TAG.tar.gz
+
+pull-backup:
+	@TAG=$(tag); \
+	if [ -z "$$TAG" ]; then echo "Usage: make pull-backup tag=<tag>"; exit 1; fi; \
+	if [ ! -f "/opt/backup/backup-$$TAG.tar.gz" ]; then echo "Backup file not found for tag $$TAG"; exit 1; fi; \
+	echo "Extracting backup..."; \
+	rm -rf ./docker/postgres/data ./symfony/public/media ./docker/qgis/data; \
+	tar --same-owner -xvzf /opt/backup/backup-$$TAG.tar.gz -C ./; \
+	echo "Backup $$TAG restored successfully!"
