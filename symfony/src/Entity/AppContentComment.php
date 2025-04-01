@@ -2,21 +2,22 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use App\Controller\Comment\BulkDeleteCommentsController;
-use App\Entity\Trait\BlameableEntity;
-use App\Entity\Trait\TimestampableEntity;
 use App\Enum\AppComment;
+use ApiPlatform\Metadata\Post;
+use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\Trait\BlameableEntity;
+use App\Enum\AppContentCommentOrigin;
+use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Trait\TimestampableEntity;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use App\Repository\AppContentCommentRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
+use App\Controller\Comment\BulkDeleteCommentsController;
 use App\Services\State\Processor\Comments\BulkUpdateCommentDTO;
 use App\Services\State\Processor\Comments\BulkUpdateCommentProcessor;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use Jsor\Doctrine\PostGIS\Types\PostGISType;
-use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AppContentCommentRepository::class)]
 #[ApiResource(
@@ -63,9 +64,9 @@ class AppContentComment
     #[Groups([self::COMMENT_READ, self::COMMENT_WRITE, self::COMMENT_BULK_UPDATE])]
     private ?bool $readByAdmin = false;
 
-    #[ORM\Column(enumType: AppComment::class)]
+    #[ORM\Column(enumType: AppContentCommentOrigin::class)]
     #[Groups([self::COMMENT_READ, self::COMMENT_WRITE, self::COMMENT_BULK_UPDATE])]
-    private ?AppComment $origin = null;
+    private ?AppContentCommentOrigin $origin = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Groups([self::COMMENT_READ, self::COMMENT_WRITE, self::COMMENT_BULK_UPDATE])]

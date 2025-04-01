@@ -4,7 +4,7 @@ namespace App\Enum;
 
 use App\Enum\Trait\ToArray;
 
-enum AppComment: string
+enum AppContentCommentOrigin: string
 {
     use ToArray;
     case ACTOR = 'Actor';
