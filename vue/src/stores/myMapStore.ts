@@ -1,7 +1,7 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
-import { reactive, ref, watch, type Ref } from 'vue'
-import type { OsmData } from '@/models/interfaces/geo/OsmData'
+import { computed, reactive, ref, watch, type Ref } from 'vue'
+import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { Layer } from '@/models/interfaces/map/Layer'
 import type Map from '@/components/map/Map.vue'
 import type {
@@ -29,10 +29,11 @@ import { ItemType, type QGISItemType } from '@/models/enums/app/ItemType'
 
 export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const myMap: Ref<InstanceType<typeof Map> | undefined> = ref()
+  const map = computed(() => myMap.value?.map)
   const mapCanvasToDataUrl: Ref<string | null> = ref(null)
   const isRightSidebarShown = ref(true)
   const isLeftSidebarShown = ref(true)
-  const mapSearch: Ref<OsmData | null> = ref(null)
+  const mapSearch: Ref<GeoData | null> = ref(null)
   const isMapAlreadyBeenMounted = ref(false)
   const isLayersReorderingAlreadyTriggering = ref(false)
   const isMapExportActive = ref(false)
@@ -68,8 +69,9 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const tileSize = ref(512)
   const serializedMapState: Ref<string> = ref('')
   const deserializedMapState: Ref<MapState | null> = ref(null)
+
   async function initMapLayers() {
-    await AppLayersService.initApplicationLayers(useMyMapStore())
+    await AppLayersService.initApplicationLayers()
     await AtlasMapService.initAtlasLayers(useMyMapStore(), useAtlasStore())
     if (deserializedMapState.value) {
       bbox.value = deserializedMapState.value.bbox
@@ -183,6 +185,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
       activeItem.value = null
       activeItemType.value = null
 
+      await Promise.all([resourceStore.getAll(), actorStore.getAll(), projectStore.getAll()])
       if (activeItemId.value) {
         let item: Item | undefined = projectStore.projects.find(
           (project) => project.id === activeItemId.value
@@ -216,6 +219,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     isMapExportActive,
     isQgisLayerQueryActive,
     myMap,
+    map,
     mapCanvasToDataUrl,
     mapSearch,
     actorLayer,
