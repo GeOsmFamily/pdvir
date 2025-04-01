@@ -63,6 +63,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const tileSize = ref(512)
   const serializedMapState: Ref<string> = ref('')
   const deserializedMapState: Ref<MapState | null> = ref(null)
+
   async function initMapLayers() {
     await AppLayersService.initApplicationLayers()
     await AtlasMapService.initAtlasLayers(useMyMapStore(), useAtlasStore())

@@ -18,7 +18,8 @@
     "maps": "Ma carte",
     "observatory": "Observatoire",
     "catalog": "Catalogue",
-    "data": "Données"
+    "data": "Données",
+    "comments": "Commentaires"
   },
   "dialog": {
     "close": "Fermer",
@@ -74,6 +75,15 @@
     "location": {
       "lat": "Latitude",
       "lng": "Longitude"
+    },
+    "comments": {
+        "title": "Ajouter un commentaire",
+        "form": {
+            "message": "Votre commentaire",
+            "location": "Localisation sélectionnée sur la carte",
+            "originURL": "Entité concernée"
+        },
+        "successPost": "Le commentaire a bien été enregistré et sera revu par un administrateur de la plateforme"
     }
   },
   "forms": {
