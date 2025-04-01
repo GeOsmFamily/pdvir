@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import Modal from '@/components/global/Modal.vue'
 import maplibregl from 'maplibre-gl'
+import 'maplibre-gl/dist/maplibre-gl.css'
 import { onMounted } from 'vue'
 
 const props = defineProps<{
@@ -47,7 +48,7 @@ function addSourceAndLayer() {
     lng: parseFloat(coords[1]),
     lat: parseFloat(coords[0])
   }
-  // new maplibregl.Marker().setLngLat(lngLat).addTo(mapViewer as maplibregl.Map)
+  new maplibregl.Marker().setLngLat(lngLat).addTo(mapViewer as maplibregl.Map)
   mapViewer?.flyTo({
     center: lngLat,
     zoom: 14
