@@ -23,9 +23,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         new GetCollection(security: 'is_granted("ROLE_ADMIN")'),
         new Patch(
-            security: 'is_granted("ROLE_ADMIN")'
-        ),
-        new Patch(
             uriTemplate: '/app_content_comments/bulk-update',
             name: 'bulk_update_comments',
             input: BulkUpdateCommentDTO::class,
