@@ -32,7 +32,7 @@ const hasOneNonEmptyKpi = computed(() => kpis.some((kpi) => kpi.count > 0))
 const kpis = [
   {
     key: KpiKey.ACTOR,
-    count: 1
+    count: 0
   },
   {
     key: KpiKey.DATA,
