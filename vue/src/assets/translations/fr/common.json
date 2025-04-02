@@ -153,27 +153,27 @@
     "actor": {
       "label": "acteur | acteur | acteurs",
       "icon": "contacts",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "description": ""
     },
     "member": {
       "label": "membre | membre | membres",
       "icon": "account-group",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "description": ""
     },
     "project": {
       "label": "projet | projet | projets",
       "icon": "rocket-launch",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "description": ""
     },
     "resource": {
       "label": "ressource | ressource | ressources",
-      "icon": "database-arrow-down",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "icon": "folder",
+      "description": ""
     },
     "data": {
       "label": "donnée | donnée | données",
       "icon": "database-arrow-down",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "description": ""
     }
   },
   "itemType": {
