@@ -20,7 +20,6 @@
       </div>
     </template>
     <template #footer-left>
-      <v-chip class="mr-2">{{ typeLabel }}</v-chip>
       <v-btn
         v-if="mapRoute"
         :to="mapRoute"
