@@ -5,6 +5,7 @@
     <ScaleControl ref="scale-control" />
     <MyMapLegend ref="map-legend" />
     <MyMapExportButton ref="map-export-button" />
+    <QgisLayersQueryButton ref="qgis-query-button" />
     <MyMapCommentButton ref="map-comment-button" />
     <ToggleSidebarControl
       v-model="myMapStore.isLeftSidebarShown"
@@ -34,6 +35,7 @@ import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
 import MyMapItemPopup from '@/views/map/components/MyMapItemPopup.vue'
 import MyMapExportButton from '@/views/map/components/export/MyMapExportButton.vue'
 import ScaleControl from '@/components/map/controls/ScaleControl.vue'
+import QgisLayersQueryButton from './QgisLayersQuery/QgisLayersQueryButton.vue'
 import MyMapCommentButton from '@/views/map/components/MyMapCommentButton.vue'
 
 type MapType = InstanceType<typeof Map>
@@ -46,6 +48,7 @@ const basemapPicker = useTemplateRef('basemap-picker')
 const mapLegend = useTemplateRef('map-legend')
 const mapExportButton = useTemplateRef('map-export-button')
 const scaleControl = useTemplateRef('scale-control')
+const qgisQueryButton = useTemplateRef('qgis-query-button')
 const mapCommentControl = useTemplateRef('map-comment-button')
 const map = computed(() => myMap.value?.map)
 
@@ -60,6 +63,7 @@ onMounted(() => {
     map.value.addControl(new IControl(mapCommentControl), 'bottom-right')
     map.value.addControl(new IControl(mapLegend), 'bottom-right')
     map.value.addControl(new IControl(mapExportButton), 'bottom-right')
+    map.value.addControl(new IControl(qgisQueryButton), 'bottom-right')
     map.value.addControl(new IControl(scaleControl), 'bottom-left')
     // If map has already been visited, we set the previous bbox
     if (myMapStore.bbox) {
