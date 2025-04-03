@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+
+use Brick\Geo\MultiPolygon;
+use Brick\Geo\Io\GeoJsonWriter;
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use App\Repository\Admin1BoundariesRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use App\Repository\Admin1BoundariesRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: Admin1BoundariesRepository::class)]
@@ -46,9 +49,9 @@ class Admin1Boundaries
             return null;
         }
 
-        $geom = \geoPHP::load($this->geometry, 'wkt');
-
-        return $geom ? $geom->out('json') : null;
+        $Polygon = MultiPolygon::fromText($this->geometry);
+        $writer = new GeoJsonWriter();
+        return $writer->write($Polygon);
     }
 
     public function getId(): ?int
