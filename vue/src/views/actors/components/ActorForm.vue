@@ -83,6 +83,15 @@
             @blur="form.thematics.handleChange(form.thematics.value.value)"
             return-object
           />
+          <div class="Form__fieldCtn">
+            <label class="Form__label">{{ $t('actors.form.description') }}</label>
+            <v-textarea
+              variant="outlined"
+              v-model="form.description.value.value"
+              :error-messages="form.description.errorMessage.value"
+              @blur="form.description.handleChange"
+            />
+          </div>
         </div>
 
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
@@ -139,15 +148,6 @@
             v-model="form.admin3List.value.value as Admin3Boundary[]"
             return-object
           ></v-autocomplete>
-        </div>
-        <div class="Form__fieldCtn">
-          <label class="Form__label">{{ $t('actors.form.description') }}</label>
-          <v-textarea
-            variant="outlined"
-            v-model="form.description.value.value"
-            :error-messages="form.description.errorMessage.value"
-            @blur="form.description.handleChange"
-          />
         </div>
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
 

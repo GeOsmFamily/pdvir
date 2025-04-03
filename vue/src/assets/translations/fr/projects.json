@@ -77,7 +77,8 @@
         "focalPoint": "Point de contact",
         "localization": "Localisation de zone d'intervention",
         "projectOwner": "Responsable du projet",
-        "thematics": "Thématiques"
+        "thematics": "Thématiques",
+        "location": "Localisation"
       },
       "title": {
         "create": "Ajouter un projet",

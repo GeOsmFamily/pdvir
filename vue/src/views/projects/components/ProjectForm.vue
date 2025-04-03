@@ -86,7 +86,15 @@
             @blur="form.status.handleChange(form.status.value.value)"
           />
         </div>
+        <v-divider color="main-grey" class="border-opacity-100"></v-divider>
+        <FormSectionTitle :text="$t('projects.form.section.location')" />
+        <LocationSelector
+          @update:model-value="form.geoData.handleChange"
+          v-model="form.geoData.value.value as GeoData"
+          :error-message="form.geoData.errorMessage.value"
+        />
 
+        <v-divider color="main-grey" class="border-opacity-100"></v-divider>
         <FormSectionTitle :text="$t('projects.form.section.localization')" />
         <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('actors.form.adminScope') }}</label>
@@ -141,13 +149,6 @@
             return-object
           ></v-autocomplete>
         </div>
-        <Geocoding
-          :search-type="NominatimSearchType.FREE"
-          :osm-type="OsmType.NODE"
-          @change="form.geoData.handleChange(form.geoData.value.value)"
-          v-model="form.geoData.value.value as GeoData"
-          :error-messages="form.geoData.errorMessage.value"
-        />
 
         <FormSectionTitle :text="$t('projects.form.section.thematics')" />
         <v-select
@@ -309,9 +310,6 @@ import type { Thematic } from '@/models/interfaces/Thematic'
 import { useActorsStore } from '@/stores/actorsStore'
 import type { Actor } from '@/models/interfaces/Actor'
 import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
-import { NominatimSearchType } from '@/models/enums/geo/NominatimSearchType'
-import Geocoding from '@/components/forms/Geocoding.vue'
-import { OsmType } from '@/models/enums/geo/OsmType'
 import { Status } from '@/models/enums/contents/Status'
 import { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType'
 import type { Organisation } from '@/models/interfaces/Organisation'
@@ -330,6 +328,7 @@ import type {
 } from '@/models/interfaces/AdminBoundaries'
 import { useUserStore } from '@/stores/userStore'
 import { i18n } from '@/plugins/i18n'
+import LocationSelector from '@/components/forms/LocationSelector.vue'
 
 const projectStore = useProjectStore()
 const actorsStore = useActorsStore()
