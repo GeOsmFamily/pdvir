@@ -2,7 +2,12 @@ import { i18n } from '@/plugins/i18n'
 import type { OsmData } from '@/models/interfaces/geo/OsmData'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
-import { z, ZodType } from 'zod'
+import { number, z, ZodType } from 'zod'
+import type {
+  Admin1Boundary,
+  Admin2Boundary,
+  Admin3Boundary
+} from '@/models/interfaces/AdminBoundaries'
 
 export class CommonZodSchema {
   static getDefinitions() {
@@ -15,6 +20,25 @@ export class CommonZodSchema {
       osmType: z.string(),
       osmName: z.string()
     }) satisfies ZodType<OsmData>
+    const Admin1BoundarySchema = z.object({
+      id: number(),
+      '@id': z.string(),
+      adm1_name: z.string(),
+      adm1_pcode: z.string()
+    }) satisfies ZodType<Admin1Boundary>
+    const Admin2BoundarySchema = z.object({
+      id: number(),
+      '@id': z.string(),
+      adm2_name: z.string(),
+      adm2_pcode: z.string()
+    }) satisfies ZodType<Admin2Boundary>
+
+    const Admin3BoundarySchema = z.object({
+      id: number(),
+      '@id': z.string(),
+      adm3_name: z.string(),
+      adm3_pcode: z.string()
+    }) satisfies ZodType<Admin3Boundary>
 
     return {
       symfonyRelations: z.array(SymfonyRelationSchema).nonempty({
@@ -22,6 +46,9 @@ export class CommonZodSchema {
       }),
       symfonyRelation: SymfonyRelationSchema,
       osmData: OsmDataSchema,
+      admin1Boundaries: z.array(Admin1BoundarySchema),
+      admin2Boundaries: z.array(Admin2BoundarySchema),
+      admin3Boundaries: z.array(Admin3BoundarySchema),
       file: this.createFileSchema({
         allowedTypes: [
           'application/pdf',

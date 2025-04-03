@@ -110,7 +110,7 @@
             item-title="adm1_name"
             item-value="@id"
             variant="outlined"
-            v-model="selectedAdmin1"
+            v-model="form.admin1List.value.value as Admin1Boundary[]"
             return-object
           ></v-autocomplete>
         </div>
@@ -123,7 +123,7 @@
             item-title="adm2_name"
             item-value="@id"
             variant="outlined"
-            v-model="selectedAdmin2"
+            v-model="form.admin2List.value.value as Admin2Boundary[]"
             return-object
           ></v-autocomplete>
         </div>
@@ -136,7 +136,7 @@
             item-title="adm3_name"
             item-value="@id"
             variant="outlined"
-            v-model="selectedAdmin3"
+            v-model="form.admin3List.value.value as Admin3Boundary[]"
             return-object
           ></v-autocomplete>
         </div>
@@ -374,9 +374,6 @@ const activeAdminLevels = computed(() => {
   }
   return false
 })
-const selectedAdmin1: Ref<Admin1Boundary[]> = ref([])
-const selectedAdmin2: Ref<Admin2Boundary[]> = ref([])
-const selectedAdmin3: Ref<Admin3Boundary[]> = ref([])
 
 onMounted(async () => {
   await Promise.all([
@@ -389,9 +386,6 @@ onMounted(async () => {
     adminBoundariesStore.getAdmin3()
   ])
   if (props.project) {
-    selectedAdmin1.value = (props.project.admin1List as Admin1Boundary[]) || []
-    selectedAdmin2.value = (props.project.admin2List as Admin2Boundary[]) || []
-    selectedAdmin3.value = (props.project.admin3List as Admin3Boundary[]) || []
     existingLogo.value = props.project.logo ? [props.project.logo] : []
     existingImages.value = [...props.project.images, ...props.project.externalImages]
     existingHostedImages = props.project.images
@@ -411,9 +405,6 @@ const submitForm = handleSubmit(
 
     projectSubmission = {
       ...projectSubmission,
-      admin1List: selectedAdmin1.value,
-      admin2List: selectedAdmin2.value,
-      admin3List: selectedAdmin3.value,
       images: existingHostedImages,
       partners: existingHostedPartnerImages,
       externalImages: existingExternalImages,
@@ -425,7 +416,9 @@ const submitForm = handleSubmit(
     const submittedProject = await projectStore.submitProject(projectSubmission, props.type)
     emit('submitted', submittedProject)
   },
-  () => onInvalidSubmit
+  () => {
+    onInvalidSubmit()
+  }
 )
 
 function handleImagesUpdate(lists: any) {
