@@ -15,9 +15,11 @@
           <span class="InfoCard__description">{{ description }}</span>
         </slot>
       </div>
+      <div class="GenericInfoCard__chips">
+        <v-chip class="mr-2">{{ typeLabel }}</v-chip>
+      </div>
     </template>
     <template #footer-left>
-      <v-chip class="mr-2">{{ typeLabel }}</v-chip>
       <v-btn
         v-if="mapRoute"
         :to="mapRoute"
@@ -43,6 +45,7 @@
         @click.prevent="editFunction"
       >
       </v-btn>
+      <slot name="comment"></slot>
     </template>
     <template #footer-right>
       <v-icon
@@ -171,6 +174,11 @@ const additionnalPath = computed(() => {
         mix-blend-mode: multiply;
       }
     }
+  }
+  .GenericInfoCard__chips {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0.25rem 1.25rem !important;
   }
   .InfoCard__footer {
     margin: 1rem 1.25rem !important;

@@ -18,7 +18,8 @@
     "maps": "Ma carte",
     "observatory": "Observatoire",
     "catalog": "Catalogue",
-    "data": "Données"
+    "data": "Données",
+    "comments": "Commentaires"
   },
   "dialog": {
     "close": "Fermer",
@@ -198,7 +199,17 @@
         "genericBody": "Je souhaite partager cet élément de la Plateforme Urbaine du Cameroun avec vous:"
     }
   },
+  "comments": {
+    "title": "Ajouter un commentaire",
+    "form": {
+      "message": "Votre commentaire",
+      "location": "Localisation sélectionnée sur la carte",
+      "originURL": "Entité concernée"
+    },
+    "successPost": "Le commentaire a bien été enregistré et sera revu par un administrateur de la plateforme"
+  },
   "forms": {
+    "test": "Test",
     "modify": "Modifier",
     "edit": "Modifier",
     "submit": "Valider",
@@ -264,27 +275,27 @@
     "actor": {
       "label": "acteur | acteur | acteurs",
       "icon": "contacts",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "description": ""
     },
     "member": {
       "label": "membre | membre | membres",
       "icon": "account-group",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "description": ""
     },
     "project": {
       "label": "projet | projet | projets",
       "icon": "rocket-launch",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "description": ""
     },
     "resource": {
       "label": "ressource | ressource | ressources",
-      "icon": "database-arrow-down",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "icon": "folder",
+      "description": ""
     },
     "data": {
       "label": "donnée | donnée | données",
       "icon": "database-arrow-down",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "description": ""
     }
   },
   "itemType": {

@@ -41,6 +41,13 @@
         <UpdateInfoLabel :date="resource.updatedAt" :user="resource.createdBy" />
       </span>
     </template>
+    <template #comment>
+      <CommentButton
+        position="Card"
+        :origin="CommentOrigin.RESOURCE"
+        :originSlug="ResourceService.getLink(resource)"
+      />
+    </template>
     <template #footer-right>
       <v-icon class="InfoCard__actionIcon" :icon="icon" color="light-blue"></v-icon>
     </template>
@@ -59,6 +66,8 @@ import { getDateRangeLabel, localizeDate } from '@/services/utils/UtilsService'
 import GeocodingService from '@/services/map/GeocodingService'
 import { ResourceService } from '@/services/resources/ResourceService'
 import { useUserStore } from '@/stores/userStore'
+import CommentButton from '@/components/comments/CommentButton.vue'
+import { CommentOrigin } from '@/models/interfaces/Comment'
 import UpdateInfoLabel from '@/views/_layout/sheet/UpdateInfoLabel.vue'
 
 const resourceStore = useResourceStore()
