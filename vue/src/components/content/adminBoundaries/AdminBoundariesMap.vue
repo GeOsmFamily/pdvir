@@ -2,17 +2,17 @@
   <Modal :title="$t('adminBoundaries.mapViewer')" show fit-to-content @close="$emit('close')">
     <template #content>
       <div id="adminBoundariesViewer"></div>
-      <div class="legend">
-        <div class="legend-item">
-          <div class="legend-color" style="border: 2px solid #a98467"></div>
+      <div class="adminBoundariesViewer__legend">
+        <div class="adminBoundariesViewer__legendItem">
+          <div class="adminBoundariesViewer__legendColor" style="border: 2px solid #a98467"></div>
           <span>{{ $t('adminBoundaries.admin1') }}</span>
         </div>
-        <div class="legend-item">
-          <div class="legend-color" style="border: 2px solid #adc178"></div>
+        <div class="adminBoundariesViewer__legendItem">
+          <div class="adminBoundariesViewer__legendColor" style="border: 2px solid #adc178"></div>
           <span>{{ $t('adminBoundaries.admin2') }}</span>
         </div>
-        <div class="legend-item">
-          <div class="legend-color" style="border: 2px solid #fca311"></div>
+        <div class="adminBoundariesViewer__legendItem">
+          <div class="adminBoundariesViewer__legendColor" style="border: 2px solid #fca311"></div>
           <span>{{ $t('adminBoundaries.admin3') }}</span>
         </div>
       </div>
@@ -120,7 +120,7 @@ function addGeoJsonLayer(config: AdminBoundariesConfig) {
   width: 80vw;
 }
 
-.legend {
+.adminBoundariesViewer__legend {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -128,14 +128,14 @@ function addGeoJsonLayer(config: AdminBoundariesConfig) {
   padding: 10px;
 }
 
-.legend-item {
+.adminBoundariesViewer__legendItem {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-right: 10px;
 }
 
-.legend-color {
+.adminBoundariesViewer__legendColor {
   width: 20px;
   height: 20px;
   border: 1px solid #000;
