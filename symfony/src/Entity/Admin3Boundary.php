@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use Brick\Geo\MultiPolygon;
-use Brick\Geo\Io\GeoJsonWriter;
-use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\Admin3BoundaryRepository;
+use Brick\Geo\Io\GeoJsonWriter;
+use Brick\Geo\MultiPolygon;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: Admin3BoundaryRepository::class)]
@@ -62,6 +62,7 @@ class Admin3Boundary
 
         $Polygon = MultiPolygon::fromText($this->geometry);
         $writer = new GeoJsonWriter();
+
         return $writer->write($Polygon);
     }
 
