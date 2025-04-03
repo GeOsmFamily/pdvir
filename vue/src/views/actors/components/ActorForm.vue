@@ -83,6 +83,9 @@
             return-object
           />
         </div>
+
+        <v-divider color="main-grey" class="border-opacity-100"></v-divider>
+        <FormSectionTitle :text="$t('actors.form.adminScopeSection')" />
         <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('actors.form.adminScope') }}</label>
           <v-select

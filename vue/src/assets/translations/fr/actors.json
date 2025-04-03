@@ -33,6 +33,7 @@
     },
     "form": {
       "acronym": "Acronyme",
+      "adminScopeSection": "Localisation de zone d'intervention",
       "adminScope": "Echelle d'intervention",
       "admin1": "Sélectionnez les régions d'intervention",
       "admin2": "Sélectionnez les départements d'intervention",
