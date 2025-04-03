@@ -74,7 +74,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_ADMIN")',
         ),
     ],
-    normalizationContext: ['groups' => [self::GET_FULL, self::GET_PARTIAL]],
+    normalizationContext: ['groups' => [self::GET_FULL, self::GET_PARTIAL, Admin1Boundary::GET_WITH_GEOM, Admin2Boundary::GET_WITH_GEOM, Admin3Boundary::GET_WITH_GEOM]],
     denormalizationContext: ['groups' => [self::WRITE]],
 )]
 class Project

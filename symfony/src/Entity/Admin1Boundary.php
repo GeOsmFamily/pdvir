@@ -23,25 +23,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Admin1Boundary
 {
+    public const GET_WITH_GEOM = 'admin1_boundaries:get_with_geom';
     private const GET_WITHOUT_GEOM = 'admin1_boundaries:get_without_geom';
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
+    #[Groups([self::GET_WITH_GEOM, self::GET_WITHOUT_GEOM])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
+    #[Groups([self::GET_WITH_GEOM, self::GET_WITHOUT_GEOM])]
     private ?string $adm1Name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
+    #[Groups([self::GET_WITH_GEOM, self::GET_WITHOUT_GEOM])]
     private ?string $adm1Pcode = null;
 
     #[ORM\Column(type: PostGISType::GEOMETRY)]
     private $geometry;
 
-    #[Groups([Actor::ACTOR_READ_ITEM, Project::GET_FULL])]
+    #[Groups([self::GET_WITH_GEOM])]
     public function getGeometryGeoJson(): ?string
     {
         if (!$this->geometry) {
