@@ -2,28 +2,28 @@
 
 namespace App\Entity;
 
-use App\Entity\Actor;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Io\GeoJsonWriter;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use App\Repository\Admin2BoundariesRepository;
+use App\Repository\Admin3BoundaryRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ORM\Entity(repositoryClass: Admin2BoundariesRepository::class)]
+#[ORM\Entity(repositoryClass: Admin3BoundaryRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(
-            uriTemplate: '/admin2_boundaries',
+            uriTemplate: '/admin3_boundaries',
             normalizationContext: ['groups' => [self::GET_WITHOUT_GEOM]],
             paginationEnabled: false
         ),
     ],
 )]
-class Admin2Boundaries
+class Admin3Boundary
 {
-    private const GET_WITHOUT_GEOM = 'admin2_boundaries:get_without_geom';
+    private const GET_WITHOUT_GEOM = 'admin3_boundaries:get_without_geom';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -32,17 +32,23 @@ class Admin2Boundaries
 
     #[ORM\Column(length: 255)]
     #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
-    private ?string $adm2_name = null;
+    private ?string $adm3Name = null;
 
     #[ORM\Column(length: 255)]
     #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
-    private ?string $adm2_pcode = null;
+    private ?string $adm3Pcode = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $adm1_name = null;
+    private ?string $adm2Name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $adm1_pcode = null;
+    private ?string $adm2Pcode = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $adm1Name = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $adm1Pcode = null;
 
     #[ORM\Column(type: 'geometry')]
     private $geometry;
@@ -64,50 +70,74 @@ class Admin2Boundaries
         return $this->id;
     }
 
-    public function getAdm2Name(): ?string
+    public function getAdm3Name(): ?string
     {
-        return $this->adm2_name;
+        return $this->adm3Name;
     }
 
-    public function setAdm2Name(string $adm2_name): static
+    public function setAdm3Name(string $adm3Name): static
     {
-        $this->adm2_name = $adm2_name;
+        $this->adm3Name = $adm3Name;
+
+        return $this;
+    }
+
+    public function getAdm3Pcode(): ?string
+    {
+        return $this->adm3Pcode;
+    }
+
+    public function setAdm3Pcode(string $adm3Pcode): static
+    {
+        $this->adm3Pcode = $adm3Pcode;
+
+        return $this;
+    }
+
+    public function getAdm2Name(): ?string
+    {
+        return $this->adm2Name;
+    }
+
+    public function setAdm2Name(string $adm2Name): static
+    {
+        $this->adm2Name = $adm2Name;
 
         return $this;
     }
 
     public function getAdm2Pcode(): ?string
     {
-        return $this->adm2_pcode;
+        return $this->adm2Pcode;
     }
 
-    public function setAdm2Pcode(string $adm2_pcode): static
+    public function setAdm2Pcode(string $adm2Pcode): static
     {
-        $this->adm2_pcode = $adm2_pcode;
+        $this->adm2Pcode = $adm2Pcode;
 
         return $this;
     }
 
     public function getAdm1Name(): ?string
     {
-        return $this->adm1_name;
+        return $this->adm1Name;
     }
 
-    public function setAdm1Name(string $adm1_name): static
+    public function setAdm1Name(string $adm1Name): static
     {
-        $this->adm1_name = $adm1_name;
+        $this->adm1Name = $adm1Name;
 
         return $this;
     }
 
     public function getAdm1Pcode(): ?string
     {
-        return $this->adm1_pcode;
+        return $this->adm1Pcode;
     }
 
-    public function setAdm1Pcode(string $adm1_pcode): static
+    public function setAdm1Pcode(string $adm1Pcode): static
     {
-        $this->adm1_pcode = $adm1_pcode;
+        $this->adm1Pcode = $adm1Pcode;
 
         return $this;
     }

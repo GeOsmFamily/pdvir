@@ -2,9 +2,9 @@
 
 namespace App\Command\AdminBoundaries;
 
-use App\Entity\Admin1Boundaries;
-use App\Entity\Admin2Boundaries;
-use App\Entity\Admin3Boundaries;
+use App\Entity\Admin1Boundary;
+use App\Entity\Admin2Boundary;
+use App\Entity\Admin3Boundary;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -59,7 +59,7 @@ class ImportAdminBoundariesDataCommand extends Command
         $geoData = json_decode(file_get_contents($file), true);
 
         foreach ($geoData['features'] as $feature) {
-            $admin1 = new Admin1Boundaries();
+            $admin1 = new Admin1Boundary();
             $admin1->setAdm1Name($feature['properties']['adm1_name']);
             $admin1->setAdm1Pcode($feature['properties']['adm1_pcode']);
             $admin1->setGeometry(json_encode($feature['geometry']));
@@ -74,7 +74,7 @@ class ImportAdminBoundariesDataCommand extends Command
     {
         $geoData = json_decode(file_get_contents($file), true);
         foreach ($geoData['features'] as $feature) {
-            $admin2 = new Admin2Boundaries();
+            $admin2 = new Admin2Boundary();
             $admin2->setAdm1Name($feature['properties']['adm1_name']);
             $admin2->setAdm1Pcode($feature['properties']['adm1_pcode']);
             $admin2->setAdm2Name($feature['properties']['adm2_name']);
@@ -91,7 +91,7 @@ class ImportAdminBoundariesDataCommand extends Command
     {
         $geoData = json_decode(file_get_contents($file), true);
         foreach ($geoData['features'] as $feature) {
-            $admin3 = new Admin3Boundaries();
+            $admin3 = new Admin3Boundary();
             $admin3->setAdm1Name($feature['properties']['adm1_name']);
             $admin3->setAdm1Pcode($feature['properties']['adm1_pcode']);
             $admin3->setAdm2Name($feature['properties']['adm2_name']);

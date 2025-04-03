@@ -116,7 +116,7 @@
             multiple
             density="compact"
             :items="adminBoundariesStore.admin1Boundaries"
-            item-title="adm1_name"
+            item-title="adm1Name"
             item-value="@id"
             variant="outlined"
             v-model="form.admin1List.value.value as Admin1Boundary[]"
@@ -129,7 +129,7 @@
             multiple
             density="compact"
             :items="adminBoundariesStore.admin2Boundaries"
-            item-title="adm2_name"
+            item-title="adm2Name"
             item-value="@id"
             variant="outlined"
             v-model="form.admin2List.value.value as Admin2Boundary[]"
@@ -142,7 +142,7 @@
             multiple
             density="compact"
             :items="adminBoundariesStore.admin3Boundaries"
-            item-title="adm3_name"
+            item-title="adm3Name"
             item-value="@id"
             variant="outlined"
             v-model="form.admin3List.value.value as Admin3Boundary[]"

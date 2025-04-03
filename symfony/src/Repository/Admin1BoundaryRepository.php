@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Admin2Boundaries;
+use App\Entity\Admin1Boundary;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Admin2Boundaries>
+ * @extends ServiceEntityRepository<Admin1Boundary>
  */
-class Admin2BoundariesRepository extends ServiceEntityRepository
+class Admin1BoundaryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Admin2Boundaries::class);
+        parent::__construct($registry, Admin1Boundary::class);
     }
 
     //    /**
-    //     * @return Admin2Boundaries[] Returns an array of Admin2Boundaries objects
+    //     * @return Admin1Boundary[] Returns an array of Admin1Boundary objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class Admin2BoundariesRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Admin2Boundaries
+    //    public function findOneBySomeField($value): ?Admin1Boundary
     //    {
     //        return $this->createQueryBuilder('a')
     //            ->andWhere('a.exampleField = :val')

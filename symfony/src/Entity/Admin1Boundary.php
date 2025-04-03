@@ -9,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
-use App\Repository\Admin1BoundariesRepository;
+use App\Repository\Admin1BoundaryRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: Admin1BoundariesRepository::class)]
+#[ORM\Entity(repositoryClass: Admin1BoundaryRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(
@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
     ],
 )]
-class Admin1Boundaries
+class Admin1Boundary
 {
     private const GET_WITHOUT_GEOM = 'admin1_boundaries:get_without_geom';
     #[ORM\Id]
@@ -33,11 +33,11 @@ class Admin1Boundaries
 
     #[ORM\Column(length: 255)]
     #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
-    private ?string $adm1_name = null;
+    private ?string $adm1Name = null;
 
     #[ORM\Column(length: 255)]
     #[Groups([Actor::ACTOR_READ_ITEM, self::GET_WITHOUT_GEOM, Project::GET_FULL])]
-    private ?string $adm1_pcode = null;
+    private ?string $adm1Pcode = null;
 
     #[ORM\Column(type: PostGISType::GEOMETRY)]
     private $geometry;
@@ -61,24 +61,24 @@ class Admin1Boundaries
 
     public function getAdm1Name(): ?string
     {
-        return $this->adm1_name;
+        return $this->adm1Name;
     }
 
-    public function setAdm1Name(string $adm1_name): static
+    public function setAdm1Name(string $adm1Name): static
     {
-        $this->adm1_name = $adm1_name;
+        $this->adm1Name = $adm1Name;
 
         return $this;
     }
 
     public function getAdm1Pcode(): ?string
     {
-        return $this->adm1_pcode;
+        return $this->adm1Pcode;
     }
 
-    public function setAdm1Pcode(string $adm1_pcode): static
+    public function setAdm1Pcode(string $adm1Pcode): static
     {
-        $this->adm1_pcode = $adm1_pcode;
+        $this->adm1Pcode = $adm1Pcode;
 
         return $this;
     }

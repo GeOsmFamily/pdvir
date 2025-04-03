@@ -173,23 +173,23 @@ class Actor
     private ?array $externalImages = null;
 
     /**
-     * @var Collection<int, Admin1Boundaries>
+     * @var Collection<int, Admin1Boundary>
      */
-    #[ORM\ManyToMany(targetEntity: Admin1Boundaries::class)]
+    #[ORM\ManyToMany(targetEntity: Admin1Boundary::class)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $admin1List;
 
     /**
-     * @var Collection<int, Admin2Boundaries>
+     * @var Collection<int, Admin2Boundary>
      */
-    #[ORM\ManyToMany(targetEntity: Admin2Boundaries::class)]
+    #[ORM\ManyToMany(targetEntity: Admin2Boundary::class)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $admin2List;
 
     /**
-     * @var Collection<int, Admin3Boundaries>
+     * @var Collection<int, Admin3Boundary>
      */
-    #[ORM\ManyToMany(targetEntity: Admin3Boundaries::class)]
+    #[ORM\ManyToMany(targetEntity: Admin3Boundary::class)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $admin3List;
 
@@ -499,14 +499,14 @@ class Actor
     }
 
     /**
-     * @return Collection<int, Admin1Boundaries>
+     * @return Collection<int, Admin1Boundary>
      */
     public function getAdmin1List(): Collection
     {
         return $this->admin1List;
     }
 
-    public function addAdmin1List(Admin1Boundaries $admin1List): static
+    public function addAdmin1List(Admin1Boundary $admin1List): static
     {
         if (!$this->admin1List->contains($admin1List)) {
             $this->admin1List->add($admin1List);
@@ -515,7 +515,7 @@ class Actor
         return $this;
     }
 
-    public function removeAdmin1List(Admin1Boundaries $admin1List): static
+    public function removeAdmin1List(Admin1Boundary $admin1List): static
     {
         $this->admin1List->removeElement($admin1List);
 
@@ -523,14 +523,14 @@ class Actor
     }
 
     /**
-     * @return Collection<int, Admin2Boundaries>
+     * @return Collection<int, Admin2Boundary>
      */
     public function getAdmin2List(): Collection
     {
         return $this->admin2List;
     }
 
-    public function addAdmin2List(Admin2Boundaries $admin2List): static
+    public function addAdmin2List(Admin2Boundary $admin2List): static
     {
         if (!$this->admin2List->contains($admin2List)) {
             $this->admin2List->add($admin2List);
@@ -539,7 +539,7 @@ class Actor
         return $this;
     }
 
-    public function removeAdmin2List(Admin2Boundaries $admin2List): static
+    public function removeAdmin2List(Admin2Boundary $admin2List): static
     {
         $this->admin2List->removeElement($admin2List);
 
@@ -547,14 +547,14 @@ class Actor
     }
 
     /**
-     * @return Collection<int, Admin3Boundaries>
+     * @return Collection<int, Admin3Boundary>
      */
     public function getAdmin3List(): Collection
     {
         return $this->admin3List;
     }
 
-    public function addAdmin3List(Admin3Boundaries $admin3List): static
+    public function addAdmin3List(Admin3Boundary $admin3List): static
     {
         if (!$this->admin3List->contains($admin3List)) {
             $this->admin3List->add($admin3List);
@@ -563,7 +563,7 @@ class Actor
         return $this;
     }
 
-    public function removeAdmin3List(Admin3Boundaries $admin3List): static
+    public function removeAdmin3List(Admin3Boundary $admin3List): static
     {
         $this->admin3List->removeElement($admin3List);
 

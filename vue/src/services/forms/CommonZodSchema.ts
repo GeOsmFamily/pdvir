@@ -16,25 +16,28 @@ export class CommonZodSchema {
       '@id': z.string(),
       name: z.string()
     }) satisfies ZodType<SymfonyRelation>
+
     const Admin1BoundarySchema = z.object({
       id: number(),
       '@id': z.string(),
-      adm1_name: z.string(),
-      adm1_pcode: z.string()
+      adm1Name: z.string(),
+      adm1Pcode: z.string()
     }) satisfies ZodType<Admin1Boundary>
+
     const Admin2BoundarySchema = z.object({
       id: number(),
       '@id': z.string(),
-      adm2_name: z.string(),
-      adm2_pcode: z.string()
+      adm2Name: z.string(),
+      adm2Pcode: z.string()
     }) satisfies ZodType<Admin2Boundary>
 
     const Admin3BoundarySchema = z.object({
       id: number(),
       '@id': z.string(),
-      adm3_name: z.string(),
-      adm3_pcode: z.string()
+      adm3Name: z.string(),
+      adm3Pcode: z.string()
     }) satisfies ZodType<Admin3Boundary>
+
     const LatitudeSchema = z
       .number()
       .nullable()
