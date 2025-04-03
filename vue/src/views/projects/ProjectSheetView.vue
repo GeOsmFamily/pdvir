@@ -65,9 +65,9 @@
       </div>
       <ChipList :items="project.thematics" />
       <div class="SheetView__title SheetView__title--divider mt-lg-12">
-        {{ $t('actorPage.adminScope') }}
+        <span>{{ $t('actorPage.adminScope') }}</span>
       </div>
-      {{ project.administrativeScopes.map((x) => $t('actors.scope.' + x)).join(', ') }}
+      <span>{{ project.administrativeScopes.map((x) => $t('actors.scope.' + x)).join(', ') }}</span>
       <AdminBoundariesButton :entity="project" />
       <div class="SheetView__infoCard">
         <div class="SheetView__infoCardBlock">

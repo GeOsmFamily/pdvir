@@ -46,9 +46,9 @@
       <ChipList :items="actor.thematics" />
 
       <div class="SheetView__title SheetView__title--divider mt-lg-12">
-        {{ $t('actorPage.adminScope') }}
+        <span>{{ $t('actorPage.adminScope') }}</span>
       </div>
-      {{ actor.administrativeScopes.map((x) => $t('actors.scope.' + x)).join(', ') }}
+      <span>{{ actor.administrativeScopes.map((x) => $t('actors.scope.' + x)).join(', ') }}</span>
       <AdminBoundariesButton :entity="actor" />
       <router-link class="ActorSheetView__toMap" :to="actorMapRoute" v-if="actorMapRoute">
         <span>{{ $t('actorPage.showInMap') }}</span>
