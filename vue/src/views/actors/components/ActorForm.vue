@@ -106,7 +106,7 @@
             item-title="adm1_name"
             item-value="@id"
             variant="outlined"
-            v-model="selectedAdmin1"
+            v-model="form.admin1List.value.value as Admin1Boundary[]"
             return-object
           ></v-autocomplete>
         </div>
@@ -119,7 +119,7 @@
             item-title="adm2_name"
             item-value="@id"
             variant="outlined"
-            v-model="selectedAdmin2"
+            v-model="form.admin2List.value.value as Admin2Boundary[]"
             return-object
           ></v-autocomplete>
         </div>
@@ -132,7 +132,7 @@
             item-title="adm3_name"
             item-value="@id"
             variant="outlined"
-            v-model="selectedAdmin3"
+            v-model="form.admin3List.value.value as Admin3Boundary[]"
             return-object
           ></v-autocomplete>
         </div>
@@ -322,9 +322,6 @@ const activeAdminLevels = computed(() => {
   }
   return false
 })
-const selectedAdmin1: Ref<Admin1Boundary[]> = ref([])
-const selectedAdmin2: Ref<Admin2Boundary[]> = ref([])
-const selectedAdmin3: Ref<Admin3Boundary[]> = ref([])
 
 const existingLogo = ref<(FileObject | string)[]>([])
 const existingImages = ref<(BaseMediaObject | string)[]>([])
@@ -340,9 +337,6 @@ onMounted(async () => {
   ])
 
   if (actorToEdit) {
-    selectedAdmin1.value = (actorToEdit.admin1List as Admin1Boundary[]) || []
-    selectedAdmin2.value = (actorToEdit.admin2List as Admin2Boundary[]) || []
-    selectedAdmin3.value = (actorToEdit.admin3List as Admin3Boundary[]) || []
     existingLogo.value = actorToEdit.logo ? [actorToEdit.logo] : []
     existingImages.value = [...actorToEdit.images, ...actorToEdit.externalImages]
     existingHostedImages = actorToEdit.images
@@ -373,9 +367,6 @@ const submitForm = handleSubmit(
   (values) => {
     const actorSubmission: ActorSubmission = {
       ...(values as any),
-      admin1List: selectedAdmin1.value,
-      admin2List: selectedAdmin2.value,
-      admin3List: selectedAdmin3.value,
       logoToUpload: newLogo.value[0],
       images: existingHostedImages,
       externalImages: existingExternalImages,
