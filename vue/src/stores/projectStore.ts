@@ -18,10 +18,14 @@ import { i18n } from '@/plugins/i18n'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
 import { getBboxFromPointsGroup } from '@/services/utils/UtilsService'
+import { useUserStore } from '@/stores/userStore'
+import { DialogKey } from '@/models/enums/app/DialogKey'
+import { ItemType } from '@/models/enums/app/ItemType'
 
 export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   const projects: Ref<Project[]> = ref([])
   const project: Ref<Project | null> = ref(null)
+  const projectForSubmission: Ref<ProjectSubmission | null> = ref(null)
   const similarProjects: Ref<Project[]> = ref([])
   const hoveredProjectId: Ref<Project['id'] | null> = ref(null)
   const activeProjectId: Ref<Project['id'] | null> = ref(null)
@@ -75,7 +79,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     if (project.value?.slug !== slug && typeof slug === 'string') {
       const appStore = useApplicationStore()
       appStore.currentContentPage = ContentPagesList.PROJECT
-      project.value = await ProjectService.get({ slug })
+      project.value = await ProjectService.getBySlug(slug)
     }
   }
 
@@ -150,12 +154,15 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     })
 
     if (from === 'filters') {
-      map.value?.fitBounds(getBboxFromPointsGroup(projectsList.map((x) => x.geoData.coords)))
+      map.value?.fitBounds(
+        getBboxFromPointsGroup(projectsList.map((x) => x.geoData.coords).filter((c) => c != null))
+      )
     }
     if (from === 'map') {
       if (!map.value) return projectsList
       const bounds = map.value.getBounds()
       return projectsList.filter((proj) => {
+        if (!proj.geoData.coords) return false
         const { lat, lng } = proj.geoData.coords
         return bounds.contains([lng, lat])
       })
@@ -209,8 +216,18 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   })
 
   const submitProject = async (project: ProjectSubmission, type: FormType) => {
+    if (type !== FormType.CREATE || useUserStore().userIsAdmin()) {
+      return await saveProject(project, type)
+    }
+    projectForSubmission.value = project
+    isProjectFormShown.value = false
+    useApplicationStore().activeDialog = DialogKey.EDITOR_NEW_MESSAGE
+    useApplicationStore().showEditMessageDialog = ItemType.PROJECT
+  }
+
+  const saveProject = async (project: ProjectSubmission, type: FormType) => {
     const submittedProject = await ProjectService.createOrUpdate(project, type)
-    if (type === FormType.CREATE) {
+    if (type === FormType.CREATE && useUserStore().userIsAdmin()) {
       projects.value.push(submittedProject)
     } else if (type === FormType.EDIT || type === FormType.VALIDATE) {
       updateProject(submittedProject)
@@ -253,6 +270,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
   return {
     projects,
     project,
+    projectForSubmission,
     donors,
     contractingOrganisations,
     similarProjects,
@@ -273,6 +291,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     getAllDonors,
     getAllContractingOrganisations,
     filterProjects,
+    saveProject,
     resetFilters,
     loadProjectBySlug,
     loadSimilarProjects,

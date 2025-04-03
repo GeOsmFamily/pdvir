@@ -1,5 +1,5 @@
 import { i18n } from '@/plugins/i18n'
-import type { OsmData } from '@/models/interfaces/geo/OsmData'
+import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
 import { number, z, ZodType } from 'zod'
@@ -8,6 +8,7 @@ import type {
   Admin2Boundary,
   Admin3Boundary
 } from '@/models/interfaces/AdminBoundaries'
+import { OsmType } from '@/models/enums/geo/OsmType'
 
 export class CommonZodSchema {
   static getDefinitions() {
@@ -15,11 +16,6 @@ export class CommonZodSchema {
       '@id': z.string(),
       name: z.string()
     }) satisfies ZodType<SymfonyRelation>
-    const OsmDataSchema = z.object({
-      osmId: z.number(),
-      osmType: z.string(),
-      osmName: z.string()
-    }) satisfies ZodType<OsmData>
     const Admin1BoundarySchema = z.object({
       id: number(),
       '@id': z.string(),
@@ -39,16 +35,79 @@ export class CommonZodSchema {
       adm3_name: z.string(),
       adm3_pcode: z.string()
     }) satisfies ZodType<Admin3Boundary>
+    const LatitudeSchema = z
+      .number()
+      .nullable()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value) return true
+          return value >= -90 && value <= 90
+        },
+        {
+          message: i18n.t('forms.errorMessages.latLng')
+        }
+      )
+    const LongitudeSchema = z
+      .number()
+      .nullable()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value) return true
+          return value >= -180 && value <= 180
+        },
+        {
+          message: i18n.t('forms.errorMessages.latLng')
+        }
+      )
+
+    const AbstractGeoDataSchema = z
+      .object({
+        osmId: z.string().nullable(),
+        osmType: z.nativeEnum(OsmType).nullable(),
+        name: z.string().nullable(),
+        latitude: LatitudeSchema.nullable().optional(),
+        longitude: LongitudeSchema.nullable().optional()
+      })
+      .transform((data) =>
+        data?.osmId == null && data?.latitude == null
+          ? null
+          : {
+              osmId: data.osmId ?? null,
+              osmType: data.osmType ?? null,
+              name: data.name ?? '',
+              latitude: data.latitude ?? null,
+              longitude: data.longitude ?? null
+            }
+      ) satisfies ZodType<GeoData | null>
+
+    const NotNullableGeoDataSchema = AbstractGeoDataSchema.refine(
+      (data) => {
+        return (data?.latitude && data?.longitude) || (data?.osmId && data?.osmType) || data != null
+      },
+      { message: i18n.t('inputs.locationSelector.errors.notNull') }
+    )
+    const NullableGeoDataSchema = z
+      .union([AbstractGeoDataSchema, z.literal(null), z.undefined()])
+      .refine(
+        (data) => {
+          if (data == null) return true
+          return (data.latitude && data.longitude) || (data.osmId && data.osmType)
+        },
+        { message: i18n.t('inputs.locationSelector.errors.notNull') }
+      )
 
     return {
       symfonyRelations: z.array(SymfonyRelationSchema).nonempty({
         message: i18n.t('forms.errorMessages.required')
       }),
       symfonyRelation: SymfonyRelationSchema,
-      osmData: OsmDataSchema,
       admin1Boundaries: z.array(Admin1BoundarySchema),
       admin2Boundaries: z.array(Admin2BoundarySchema),
       admin3Boundaries: z.array(Admin3BoundarySchema),
+      geoData: NotNullableGeoDataSchema,
+      geoDataNullable: NullableGeoDataSchema,
       file: this.createFileSchema({
         allowedTypes: [
           'application/pdf',
@@ -126,6 +185,8 @@ export class CommonZodSchema {
             message: i18n.t('forms.errorMessages.phone')
           }
         ),
+      latString: LatitudeSchema,
+      lngString: LongitudeSchema,
       latLngString: z
         .string()
         .optional()

@@ -10,6 +10,9 @@ import type { Thematic } from '@/models/interfaces/Thematic'
 import { ContentPagesList } from '@/models/enums/app/ContentPagesList'
 import { addNotification } from '@/services/notifications/NotificationService'
 import { NotificationType } from '@/models/enums/app/NotificationType'
+import { useUserStore } from '@/stores/userStore'
+import { ItemType } from '@/models/enums/app/ItemType'
+import { DialogKey } from '@/models/enums/app/DialogKey'
 
 export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   const dataLoaded = ref(false)
@@ -17,8 +20,13 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
   const actors: Actor[] = reactive([])
   const actorsList: Ref<Partial<Actor>[]> = ref([])
   const selectedActor: Ref<Actor | null> = ref(null)
+  const actorForSubmission: Ref<ActorSubmission | null> = ref(null)
   const actorsExpertises: ActorExpertise[] = reactive([])
   const actorsThematics: Thematic[] = reactive([])
+  const actorEdition: Reactive<{ active: boolean; actor: Actor | null }> = reactive({
+    active: false,
+    actor: null
+  })
 
   async function getActors(): Promise<void> {
     actors.splice(0, actors.length)
@@ -45,11 +53,6 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     }
   }
 
-  const actorEdition: Reactive<{ active: boolean; actor: Actor | null }> = reactive({
-    active: false,
-    actor: null
-  })
-
   watch(
     () => actorEdition.active,
     () => {
@@ -58,18 +61,39 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
       }
     }
   )
+
   function setActorEditionMode(actor: Actor | null) {
     actorEdition.actor = actor
     actorEdition.active = true
     useApplicationStore().showEditContentDialog = true
   }
 
-  async function createOrEditActor(actor: ActorSubmission, edit: boolean) {
-    const id = selectedActor.value?.id
-    const result = await ActorsService.createOrEditActor(actor, edit, id)
-    await getActors()
-    selectedActor.value = await ActorsService.getActor(result.id)
+  function resetActorEditionMode() {
+    actorEdition.actor = null
+    actorEdition.active = false
     useApplicationStore().showEditContentDialog = false
+    useApplicationStore().showEditMessageDialog = false
+    actorForSubmission.value = null
+  }
+
+  async function createOrEditActor(actor: ActorSubmission, edit: boolean) {
+    actorForSubmission.value = actor
+    if (edit || useUserStore().userIsAdmin()) {
+      await saveActor(actor, edit)
+    } else {
+      actorEdition.active = false
+      useApplicationStore().activeDialog = DialogKey.EDITOR_NEW_MESSAGE
+      useApplicationStore().showEditMessageDialog = ItemType.ACTOR
+    }
+  }
+
+  async function saveActor(actor: ActorSubmission, edit: boolean) {
+    const result = await ActorsService.createOrEditActor(actor, edit)
+    await getActors()
+    if (result.isValidated || useUserStore().userIsAdmin()) {
+      selectedActor.value = await ActorsService.getActor(result.id)
+    }
+    resetActorEditionMode()
     addNotification(
       edit ? "L'acteur a bien été modifié" : "L'acteur a bien été ajouté",
       NotificationType.SUCCESS
@@ -92,12 +116,10 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
       }
     })
     if (selectedActor.value && selectedActor.value.id === updatedActor.id) {
-      console.log('selectedActor.value', JSON.parse(JSON.stringify(selectedActor.value)))
       selectedActor.value = {
         ...selectedActor.value,
         ...updatedActor
       }
-      console.log('selectedActor.value', JSON.parse(JSON.stringify(selectedActor.value)))
     }
   }
 
@@ -108,13 +130,16 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
     actorsThematics,
     selectedActor,
     actorEdition,
+    actorForSubmission,
     actorsList,
     getActors,
     getAll,
     getActorsSelectListContent,
     setSelectedActor,
     setActorEditionMode,
+    resetActorEditionMode,
     createOrEditActor,
+    saveActor,
     deleteActor,
     updateActor
   }

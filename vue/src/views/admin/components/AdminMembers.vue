@@ -4,16 +4,18 @@
       page="Members"
       :items="adminStore.appMembers"
       :sortingListItems="[
-        { sortingKey: 'isValidated', text: 'Utilisateurs à valider' },
         { sortingKey: 'firstName', text: 'Prénom' },
         { sortingKey: 'lastName', text: 'Nom' },
         { sortingKey: 'email', text: 'Email' }
       ]"
-      :createFunction="createUser"
       searchKey="email"
       @updateSortingKey="sortingUsersSelectedMethod = $event"
       @update-search-query="searchQuery = $event"
-    />
+    >
+      <template #right-buttons>
+        <v-btn @click="createUser" color="main-red">{{ $t('admin.add') }}</v-btn>
+      </template>
+    </AdminTopBar>
     <AdminTable
       :items="filteredItems"
       :tableKeys="['lastName', 'firstName', 'email']"
@@ -86,16 +88,8 @@ function editUser(user: User) {
   adminStore.setUserEditionMode(user)
 }
 
-const sortingUsersSelectedMethod = ref('isValidated')
+const sortingUsersSelectedMethod = ref('lastName')
 const sortedUsers = computed(() => {
-  if (sortingUsersSelectedMethod.value === 'isValidated') {
-    return adminStore.appMembers.slice().sort((a: User, b: User) => {
-      if (a.isValidated !== b.isValidated) {
-        return Number(a.isValidated) - Number(b.isValidated)
-      }
-      return a.lastName.localeCompare(b.lastName)
-    })
-  }
   if (sortingUsersSelectedMethod.value === 'firstName') {
     return adminStore.appMembers.slice().sort((a: User, b: User) => {
       return a.firstName.localeCompare(b.firstName)

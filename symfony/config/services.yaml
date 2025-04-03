@@ -8,6 +8,7 @@ imports:
 parameters:
     domain: '%env(DOMAIN)%'
     domain.url: 'https://%env(DOMAIN)%'
+    email_verifier.lifetime: 172800 # 2 days
 
 services:
     # default configuration for services in *this* file
@@ -26,8 +27,15 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/Services/State/'
             - '../src/Services/Serializer/'
+            - '../src/Services/Service/'
+            - '../src/Services/State/'
+            
+    App\Controller\Comment\BulkDeleteCommentsController:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
 
     App\Command\AdminBoundaries\ImportAdminBoundariesDataCommand:
         tags:
