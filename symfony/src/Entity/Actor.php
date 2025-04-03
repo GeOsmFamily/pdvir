@@ -60,7 +60,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_ADMIN")'
         ),
     ],
-    normalizationContext: ['groups' => [self::ACTOR_READ_ITEM]],
+    normalizationContext: ['groups' => [self::ACTOR_READ_ITEM, Admin1Boundary::GET_WITH_GEOM, Admin2Boundary::GET_WITH_GEOM, Admin3Boundary::GET_WITH_GEOM]],
     denormalizationContext: ['groups' => [self::ACTOR_WRITE]],
 )]
 class Actor
