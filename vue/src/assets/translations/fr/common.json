@@ -61,6 +61,7 @@
         "delete": "Supprimer",
         "or": "OU",
         "errors": "Le formulaire n'est pas valide",
+        "select": "Placer sur la carte",
         "errorMessages": {
             "required": "Ce champs est obligatoire",
             "minlength": "Ce champs doit avoir au moins {min} caractères",
@@ -317,7 +318,8 @@
     "communities_of_communes": "Communautés de communes",
     "regions": "Régions",
     "local_institutions": "Institutions locales",
-    "associations_ngos": "Associations / ONG"
+    "associations_ngos": "Associations / ONG",
+    "others": "Autre"
   },
   "geocoding": {
     "placeholder": "Rechercher un lieu",

@@ -46,7 +46,7 @@
           "placeholder": "Prénom NOM"
         },
         "focalPointPosition": {
-          "label": "Intitulé du référent",
+          "label": "Fonction du référent",
           "placeholder": ""
         },
         "focalPointTel": {
