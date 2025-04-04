@@ -6,6 +6,7 @@ import { i18n } from '@/plugins/i18n'
 import { CommonZodSchema } from '@/services/forms/CommonZodSchema'
 import { ResourceFormat } from '@/models/enums/contents/ResourceFormat'
 import { ResourceType } from '@/models/enums/contents/ResourceType'
+import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 
 export class ResourceFormService {
   static getForm(resource: Resource | null) {
@@ -16,6 +17,10 @@ export class ResourceFormService {
         name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
         description: zodModels.descriptionRequired,
         type: z.nativeEnum(ResourceType),
+        administrativeScopes: z.array(z.nativeEnum(AdministrativeScope)).optional(),
+        admin1List: zodModels.admin1Boundaries.optional(),
+        admin2List: zodModels.admin2Boundaries.optional(),
+        admin3List: zodModels.admin3Boundaries.optional(),
         geoData: zodModels.geoDataNullable.optional(),
         startAt: z.coerce.date().nullable().optional(),
         endAt: z.coerce.date().nullable().optional(),
@@ -55,6 +60,10 @@ export class ResourceFormService {
       type: useField('type'),
       file: useField('file'),
       format: useField('format'),
+      administrativeScopes: useField('administrativeScopes'),
+      admin1List: useField('admin1List'),
+      admin2List: useField('admin2List'),
+      admin3List: useField('admin3List'),
       geoData: useField('geoData'),
       startAt: useField('startAt'),
       endAt: useField('endAt'),

@@ -2,8 +2,12 @@ import { i18n } from '@/plugins/i18n'
 import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
-import { z, ZodType } from 'zod'
-import { OsmType } from '@/models/enums/geo/OsmType'
+import { number, z, ZodType } from 'zod'
+import type {
+  Admin1Boundary,
+  Admin2Boundary,
+  Admin3Boundary
+} from '@/models/interfaces/AdminBoundaries'
 
 export class CommonZodSchema {
   static getDefinitions() {
@@ -11,6 +15,28 @@ export class CommonZodSchema {
       '@id': z.string(),
       name: z.string()
     }) satisfies ZodType<SymfonyRelation>
+
+    const Admin1BoundarySchema = z.object({
+      id: number(),
+      '@id': z.string(),
+      adm1Name: z.string(),
+      adm1Pcode: z.string()
+    }) satisfies ZodType<Admin1Boundary>
+
+    const Admin2BoundarySchema = z.object({
+      id: number(),
+      '@id': z.string(),
+      adm2Name: z.string(),
+      adm2Pcode: z.string()
+    }) satisfies ZodType<Admin2Boundary>
+
+    const Admin3BoundarySchema = z.object({
+      id: number(),
+      '@id': z.string(),
+      adm3Name: z.string(),
+      adm3Pcode: z.string()
+    }) satisfies ZodType<Admin3Boundary>
+
     const LatitudeSchema = z
       .number()
       .nullable()
@@ -38,25 +64,17 @@ export class CommonZodSchema {
         }
       )
 
-    const AbstractGeoDataSchema = z
-      .object({
-        osmId: z.string().nullable(),
-        osmType: z.nativeEnum(OsmType).nullable(),
-        name: z.string().nullable(),
-        latitude: LatitudeSchema.nullable().optional(),
-        longitude: LongitudeSchema.nullable().optional()
-      })
-      .transform((data) =>
-        data?.osmId == null && data?.latitude == null
-          ? null
-          : {
-              osmId: data.osmId ?? null,
-              osmType: data.osmType ?? null,
-              name: data.name ?? '',
-              latitude: data.latitude ?? null,
-              longitude: data.longitude ?? null
-            }
-      ) satisfies ZodType<GeoData | null>
+    const AbstractGeoDataSchema = z.any().transform((data) => {
+      return data?.osmId == null && data?.latitude == null
+        ? null
+        : {
+            osmId: data.osmId ?? null,
+            osmType: data.osmType ?? null,
+            name: data.name ?? '',
+            latitude: data.latitude ?? null,
+            longitude: data.longitude ?? null
+          }
+    }) satisfies ZodType<GeoData | null | undefined>
 
     const NotNullableGeoDataSchema = AbstractGeoDataSchema.refine(
       (data) => {
@@ -79,6 +97,9 @@ export class CommonZodSchema {
         message: i18n.t('forms.errorMessages.required')
       }),
       symfonyRelation: SymfonyRelationSchema,
+      admin1Boundaries: z.array(Admin1BoundarySchema),
+      admin2Boundaries: z.array(Admin2BoundarySchema),
+      admin3Boundaries: z.array(Admin3BoundarySchema),
       geoData: NotNullableGeoDataSchema,
       geoDataNullable: NullableGeoDataSchema,
       file: this.createFileSchema({
@@ -90,7 +111,7 @@ export class CommonZodSchema {
           'image/png',
           'image/webp'
         ],
-        maxSize: 5000000
+        maxSize: 20000000 // 20MB
       }),
       qgisProject: this.createFileSchema({
         allowedTypes: ['application/zip', 'application/x-zip-compressed'],
