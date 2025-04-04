@@ -59,7 +59,6 @@ export class CommonZodSchema {
       .union([AbstractGeoDataSchema, z.literal(null), z.undefined()])
       .refine(
         (data) => {
-          console.log('data', data)
           if (data == null) return true
           return (data.latitude && data.longitude) || (data.osmId && data.osmType)
         },
