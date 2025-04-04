@@ -222,9 +222,6 @@ final class Version20250403162217 extends AbstractMigration
             ALTER TABLE actor DROP office_location
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE actor ALTER administrative_scopes SET NOT NULL
-        SQL);
-        $this->addSql(<<<'SQL'
             ALTER TABLE media_object DROP CONSTRAINT fk_14d43132de12ab56
         SQL);
         $this->addSql(<<<'SQL'
@@ -241,9 +238,6 @@ final class Version20250403162217 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE media_object DROP updated_by
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE project ALTER administrative_scopes SET NOT NULL
         SQL);
     }
 
