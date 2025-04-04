@@ -21,7 +21,7 @@ class ProjectRepository extends ServiceEntityRepository
     public function findHighlightedItems(array $ids): array
     {
         $results = $this->createQueryBuilder('p')
-            ->select("p")
+            ->select('p')
             ->where('p.id IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()
@@ -31,12 +31,15 @@ class ProjectRepository extends ServiceEntityRepository
             if ($item instanceof Project) {
                 return $this->projectToHighlightedItem($item);
             }
+
             return null;
         }, $results);
     }
 
-    private function projectToHighlightedItem(Project $item): HighlightedItem {
+    private function projectToHighlightedItem(Project $item): HighlightedItem
+    {
         $highlightedItem = new HighlightedItem();
+
         return $highlightedItem
             ->setItemId($item->getId())
             ->setItemType(ItemType::PROJECT)

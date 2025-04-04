@@ -21,7 +21,7 @@ class ActorRepository extends ServiceEntityRepository
     public function findHighlightedItems(array $ids): array
     {
         $results = $this->createQueryBuilder('a')
-            ->select("a")
+            ->select('a')
             ->where('a.id IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()
@@ -31,12 +31,15 @@ class ActorRepository extends ServiceEntityRepository
             if ($item instanceof Actor) {
                 return $this->actorToHighlightedItem($item);
             }
+
             return null;
         }, $results);
     }
 
-    private function actorToHighlightedItem(Actor $item): HighlightedItem {
+    private function actorToHighlightedItem(Actor $item): HighlightedItem
+    {
         $highlightedItem = new HighlightedItem();
+
         return $highlightedItem
             ->setItemId($item->getId())
             ->setItemType(ItemType::ACTOR)

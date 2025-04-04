@@ -22,7 +22,7 @@ class ResourceRepository extends ServiceEntityRepository
     public function findHighlightedItems(array $ids): array
     {
         $results = $this->createQueryBuilder('r')
-            ->select("r")
+            ->select('r')
             ->where('r.id IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()
@@ -32,12 +32,15 @@ class ResourceRepository extends ServiceEntityRepository
             if ($item instanceof Resource) {
                 return $this->resourceToHighlightedItem($item);
             }
+
             return null;
         }, $results);
     }
 
-    private function resourceToHighlightedItem(Resource $item): HighlightedItem {
+    private function resourceToHighlightedItem(Resource $item): HighlightedItem
+    {
         $highlightedItem = new HighlightedItem();
+
         return $highlightedItem
             ->setItemId($item->getId())
             ->setItemType(ItemType::RESOURCE)
@@ -47,6 +50,7 @@ class ResourceRepository extends ServiceEntityRepository
             ->setDescription($item->getDescription())
             ->setUpdatedAt($item->getUpdatedAt());
     }
+
     public function findNearestEvents(): array
     {
         return $this->createQueryBuilder('r')

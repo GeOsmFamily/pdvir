@@ -94,10 +94,10 @@ class HighlightedItem
 
     #[Groups([HighlightedItem::GET_FULL])]
     private string $description;
-    
+
     #[Groups([HighlightedItem::GET_FULL])]
     public $updatedAt;
-    
+
     #[Groups([HighlightedItem::GET_FULL])]
     private ?string $link = null;
 
@@ -213,7 +213,7 @@ class HighlightedItem
 
         return $this;
     }
-    
+
     public function getImage(): ?MediaObject
     {
         return $this->image;

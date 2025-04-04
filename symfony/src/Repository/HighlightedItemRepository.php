@@ -67,6 +67,7 @@ class HighlightedItemRepository extends ServiceEntityRepository
             }
             $partialHighlightedItems[$key]->setName($name);
         }
+
         return $partialHighlightedItems;
     }
 
