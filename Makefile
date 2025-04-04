@@ -31,7 +31,7 @@ help:
 ##  🚀 Main commands
 ## --------------------------------------------------------------------------------
 
-init: build init-jwt-keypair init-hosts		## Init the project
+init: build init-jwt-keypair init-hosts	import-admin-boundaries	create-osm-db	## Init the project
 
 dev: up show-urls		## Up and show urls
 
