@@ -23,8 +23,10 @@
             <ShareButton :additionnal-path="''" />
             <HighlightButton :item-id="id" />
             <LikeButton :id="id" />
+            <CommentButton position="Sheet" :origin="page" originSlug="SheetPage" />
             <slot name="mapButton"></slot>
             <v-btn
+              v-if="page === 'Actor'"
               variant="elevated"
               :to="{ name: 'map' }"
               class="elevation-1 text-main-blue px-3 mx-2 hide-sm"
@@ -60,10 +62,13 @@ import ShareButton from '@/components/global/ShareButton.vue'
 import LikeButton from '@/components/global/LikeButton.vue'
 import SheetContactActions from './SheetContactActions.vue'
 import HighlightButton from '@/components/global/HighlightButton.vue'
+import CommentButton from '@/components/comments/CommentButton.vue'
+import type { CommentOrigin } from '@/models/interfaces/Comment'
 import type { RouteLocationAsRelative } from 'vue-router'
 import type { User } from '@/models/interfaces/auth/User'
 
 defineProps<{
+  page: CommentOrigin.ACTOR | CommentOrigin.PROJECT
   id: string
   slug: string
   title: string

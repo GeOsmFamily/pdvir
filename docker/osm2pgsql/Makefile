@@ -40,7 +40,7 @@ download-osm-file:	## Download latest OSM .pbf file
 	wget -O $(DATA_DIR)/$(OSM_FILE) $(DOWNLOAD_URL)
 
 init-osm-db:	## Create OSM database with osm2pgsql
-	$(DOCKER_COMP) --profile osm up -d osm2pgsql
+	$(DOCKER_COMP) --profile osm up osm2pgsql
 	rm $(DATA_DIR)/$(OSM_FILE)
 
 

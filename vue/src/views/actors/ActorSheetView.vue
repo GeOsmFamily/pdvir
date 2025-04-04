@@ -5,6 +5,7 @@
         <img :src="actor.logo.contentUrl" class="SheetView__logo" v-if="actor.logo" />
       </div>
       <SheetContentBanner
+        :page="CommentOrigin.ACTOR"
         :id="actor.id"
         :slug="actor.slug"
         :title="actor.name"
@@ -45,13 +46,10 @@
       <ChipList :items="actor.thematics" />
 
       <div class="SheetView__title SheetView__title--divider mt-lg-12">
-        {{ $t('actorPage.adminScope') }}
+        <span>{{ $t('actorPage.adminScope') }}</span>
       </div>
-      {{ actor.administrativeScopes.map((x) => x.name).join(', ') }}
-      <router-link class="ActorSheetView__toMap" :to="actorMapRoute" v-if="actorMapRoute">
-        <span>{{ $t('actorPage.showInMap') }}</span>
-        <v-icon class="ml-2" color="main-green" icon="mdi-arrow-right-circle" size="large"></v-icon>
-      </router-link>
+      <span>{{ actor.administrativeScopes.map((x) => $t('actors.scope.' + x)).join(', ') }}</span>
+      <AdminBoundariesButton :entity="actor" />
 
       <div class="SheetView__infoCard">
         <div class="d-flex flex-row">
@@ -98,6 +96,8 @@ import ContactCard from '@/components/content/ContactCard.vue'
 import { useApplicationStore } from '@/stores/applicationStore'
 import { useUserStore } from '@/stores/userStore'
 import ChipList from '@/components/content/ChipList.vue'
+import AdminBoundariesButton from '@/components/content/adminBoundaries/AdminBoundariesButton.vue'
+import { CommentOrigin } from '@/models/interfaces/Comment'
 
 const appStore = useApplicationStore()
 const userStore = useUserStore()
@@ -169,15 +169,6 @@ function editActor() {
     padding: 1.5em;
     width: 100%;
     background-color: rgb(var(--v-theme-light-yellow));
-  }
-  &__toMap {
-    cursor: pointer;
-    width: fit-content;
-    border: 1px solid rgb(var(--v-theme-main-blue));
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 10px 12px 10px 15px;
   }
 }
 

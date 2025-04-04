@@ -351,4 +351,8 @@ defineExpose({
     }
   }
 }
+
+.cursor-crosshair {
+  cursor: crosshair !important;
+}
 </style>
