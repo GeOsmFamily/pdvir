@@ -36,6 +36,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ORM\Index(columns: ['slug'], name: 'idx_project_slug')]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['slug' => SearchFilterInterface::STRATEGY_EXACT])]
 #[ApiResource(
     paginationEnabled: false,
@@ -44,18 +45,16 @@ use Symfony\Component\Validator\Constraints as Assert;
             uriTemplate: '/projects/all',
             normalizationContext: ['groups' => [self::GET_PARTIAL]]
         ),
-        new Get(
-            normalizationContext: ['groups' => [self::GET_PARTIAL]]
-        ),
-        new GetCollection(
-            normalizationContext: ['groups' => [self::GET_FULL]],
-            parameters: [
-                'slug' => new QueryParameter(),
-            ]
-        ),
         new GetCollection(
             uriTemplate: '/projects/{id}/similar',
             controller: SimilarProjectsAction::class,
+            normalizationContext: ['groups' => [self::GET_PARTIAL]]
+        ),
+        new GetCollection(
+            uriTemplate: '/projects',
+            normalizationContext: ['groups' => [self::GET_FULL]]
+        ),
+        new Get(
             normalizationContext: ['groups' => [self::GET_PARTIAL]]
         ),
     ]
