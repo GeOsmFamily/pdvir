@@ -437,7 +437,6 @@ const otherDonorIsSelected = computed(() => {
 })
 const otherContractingOrganisationIsSelected = computed(() => {
   if (form.contractingOrganisation.value?.value) {
-    console.log(form.contractingOrganisation.value?.value)
     return (form.contractingOrganisation.value?.value as Organisation).name === 'Autre'
   }
   return false
