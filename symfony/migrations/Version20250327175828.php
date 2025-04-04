@@ -43,8 +43,7 @@ final class Version20250327175828 extends AbstractMigration
         $this->addSql('ALTER TABLE actor_administrative_scope DROP CONSTRAINT fk_65ebe3ccc1892e43');
         $this->addSql('DROP TABLE administrative_scope');
         $this->addSql('DROP TABLE actor_administrative_scope');
-        $this->addSql('ALTER TABLE actor ADD administrative_scopes TEXT');
-        $this->addSql('ALTER TABLE actor ALTER COLUMN administrative_scopes DROP NOT NULL');
+        $this->addSql('ALTER TABLE actor ADD administrative_scopes TEXT NULL');
         $this->addSql('COMMENT ON COLUMN actor.administrative_scopes IS \'(DC2Type:simple_array)\'');
     }
 
