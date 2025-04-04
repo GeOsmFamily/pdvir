@@ -64,9 +64,9 @@ function initMap() {
 
 function addAdminLayers() {
   const adminLayersConfigs: AdminBoundariesConfig[] = [
-    { list: props.entity.admin1List, key: 'admin1', color: '#a98467', nameField: 'adm1_name' },
-    { list: props.entity.admin2List, key: 'admin2', color: '#adc178', nameField: 'adm2_name' },
-    { list: props.entity.admin3List, key: 'admin3', color: '#fca311', nameField: 'adm3_name' }
+    { list: props.entity.admin1List, key: 'admin1', color: '#a98467', nameField: 'adm1Name' },
+    { list: props.entity.admin2List, key: 'admin2', color: '#adc178', nameField: 'adm2Name' },
+    { list: props.entity.admin3List, key: 'admin3', color: '#fca311', nameField: 'adm3Name' }
   ]
 
   adminLayersConfigs.forEach((config) => addGeoJsonLayer(config))

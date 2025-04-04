@@ -50,10 +50,6 @@
       </div>
       <span>{{ actor.administrativeScopes.map((x) => $t('actors.scope.' + x)).join(', ') }}</span>
       <AdminBoundariesButton :entity="actor" />
-      <router-link class="ActorSheetView__toMap" :to="actorMapRoute" v-if="actorMapRoute">
-        <span>{{ $t('actorPage.showInMap') }}</span>
-        <v-icon class="ml-2" color="main-green" icon="mdi-arrow-right-circle" size="large"></v-icon>
-      </router-link>
 
       <div class="SheetView__infoCard">
         <div class="d-flex flex-row">

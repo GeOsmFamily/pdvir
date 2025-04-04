@@ -146,7 +146,12 @@
         "mailSubject": "Plateforme Urbaine du Cameroun - Partage de données",
         "genericBody": "Je souhaite partager cet élément de la Plateforme Urbaine du Cameroun avec vous:"
     },
-    "adminBoundaries": {
+    "location": {
+      "lat": "Latitude",
+      "lng": "Longitude"
+    }
+  },
+  "adminBoundaries": {
         "adminScope": "Echelle d'intervention",
         "showInMap": "Visualiser les zones d'intervention",
         "mapViewer": "Zones d'interventions",
@@ -154,11 +159,6 @@
         "admin2": "Département",
         "admin3": "Commune"
     },
-    "location": {
-      "lat": "Latitude",
-      "lng": "Longitude"
-    }
-  },
   "comments": {
     "title": "Ajouter un commentaire",
     "form": {
