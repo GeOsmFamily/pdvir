@@ -37,7 +37,7 @@ DOWNLOAD_URL=https://download.geofabrik.de/africa/$(OSM_FILE)
 
 download-osm-file:	## Download latest OSM .pbf file
 	mkdir -p $(DATA_DIR)
-	wget -O $(DATA_DIR)/$(OSM_FILE) $(DOWNLOAD_URL)
+	$(DOCKER_COMP) exec osm2pgsql wget -O /data/$(OSM_FILE) $(DOWNLOAD_URL)
 
 init-osm-db:	## Create OSM database with osm2pgsql
 	$(DOCKER_COMP) exec osm2pgsql osm2pgsql \
@@ -50,7 +50,7 @@ init-osm-db:	## Create OSM database with osm2pgsql
         --slim \
         --schema=${POSTGRES_GEODATA_SCHEMA} \
         /data/cameroon-latest.osm.pbf
-	rm $(DATA_DIR)/$(OSM_FILE)
+	$(DOCKER_COMP) exec osm2pgsql rm /data/cameroon-latest.osm.pbf
 
 
 create-osm-db: create-geodata-user-schema download-osm-file init-osm-db

@@ -136,7 +136,7 @@ services:
   osm2pgsql:
     image: iboates/osm2pgsql:latest
     volumes:
-      - osm_data:/data
+      - ./docker/osm2pgsql/data:/data
     environment:
       - PGPASSWORD=${POSTGRES_GEODATA_PASSWORD}
     depends_on:
@@ -158,9 +158,3 @@ volumes:
       o: bind
       type: none
       device: ./docker/qgis/data
-  osm_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ./docker/osm2pgsql/data
