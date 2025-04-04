@@ -10,7 +10,7 @@
     :action-icon="icon"
     :is-editable="isEditable"
     :map-route="mapRoute"
-    :image="resource.previewImage?.contentsFilteredUrl?.thumbnail"
+    :image="resource.previewImage"
     class="ResourceCard"
     :edit-function="editResource"
     :slug="resource.slug"
