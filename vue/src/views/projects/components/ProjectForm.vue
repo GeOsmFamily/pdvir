@@ -20,7 +20,9 @@
           />
         </div>
         <div class="Form__fieldCtn">
-          <label class="Form__label">{{ $t('projects.form.fields.description.label') }}</label>
+          <label class="Form__label required">{{
+            $t('projects.form.fields.description.label')
+          }}</label>
           <v-textarea
             variant="outlined"
             :placeholder="$t('projects.form.fields.description.label')"

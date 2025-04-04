@@ -12,30 +12,43 @@ export class ProjectFormService {
   static getForm(project: Project | null) {
     const zodModels = CommonZodSchema.getDefinitions()
     // @ts-expect-error wrong zod type
-    const projectSchema: z.ZodType<Partial<Project>> = z.object({
-      name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
-      description: zodModels.description,
-      calendar: zodModels.maxDescription,
-      deliverables: zodModels.maxDescription,
-      focalPointName: zodModels.maxLabel,
-      focalPointPosition: zodModels.maxLabel.optional(),
-      focalPointEmail: zodModels.email,
-      interventionZone: z.nativeEnum(AdministrativeScope),
-      focalPointTel: zodModels.phone,
-      geoData: zodModels.geoData,
-      actor: zodModels.symfonyRelation,
-      otherActor: z.string().optional(),
-      status: z.nativeEnum(Status),
-      donors: zodModels.symfonyRelations,
-      otherDonor: z.string().optional(),
-      contractingOrganisation: zodModels.symfonyRelation,
-      otherContractingOrganisation: z.string().optional(),
-      thematics: zodModels.symfonyRelations,
-      otherThematic: z.string().optional(),
-      beneficiaryTypes: z.array(z.nativeEnum(BeneficiaryType)),
-      otherBeneficiary: z.string().optional(),
-      website: zodModels.website
-    })
+    const projectSchema: z.ZodType<Partial<Project>> = z
+      .object({
+        name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
+        description: zodModels.description,
+        calendar: zodModels.maxDescription,
+        deliverables: zodModels.maxDescription,
+        focalPointName: zodModels.maxLabel,
+        focalPointPosition: zodModels.maxLabel.optional(),
+        focalPointEmail: zodModels.email,
+        interventionZone: z.nativeEnum(AdministrativeScope),
+        focalPointTel: zodModels.phone,
+        geoData: zodModels.geoData,
+        actor: zodModels.symfonyRelation.optional(),
+        otherActor: z.string().optional(),
+        status: z.nativeEnum(Status),
+        donors: zodModels.symfonyRelations,
+        otherDonor: z.string().optional(),
+        contractingOrganisation: zodModels.symfonyRelation,
+        otherContractingOrganisation: z.string().optional(),
+        thematics: zodModels.symfonyRelations,
+        otherThematic: z.string().optional(),
+        beneficiaryTypes: z.array(z.nativeEnum(BeneficiaryType)),
+        otherBeneficiary: z.string().optional(),
+        website: zodModels.website
+      })
+      .refine(
+        (data) => {
+          return (
+            (data.actor !== undefined && data.actor !== null) ||
+            (data.otherActor !== undefined && data.otherActor !== '' && data.otherActor !== null)
+          )
+        },
+        {
+          message: i18n.t('projects.form.errorMessages.noActor'),
+          path: ['actor', 'otherActor']
+        }
+      )
 
     const defaultValues: Partial<Project> = {
       name: '',

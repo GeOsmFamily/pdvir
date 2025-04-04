@@ -76,15 +76,15 @@
       },
       "section": {
         "beneficiaryTypes": "Bénéficiaires",
-        "contractingOrganisation": "Maîtrise d'ouvrage",
+        "contractingOrganisation": "Maîtrise d'ouvrage *",
         "contractingOrganisationDisclaimer": "Organisation qui commande et finance le projet",
-        "financial": "Financement",
+        "financial": "Financement *",
         "focalPoint": "Personne de référence",
         "localization": "Localisation",
-        "projectOwner": "Responsable du projet",
+        "projectOwner": "Responsable du projet *",
         "noProjectOwner": "Le responsable du projet n'est pas un acteur enregistré sur la plateforme",
         "projectOwnerDisclaimer": "En charge de la gestion et de la coordination du projet",
-        "thematics": "Thématiques",
+        "thematics": "Thématiques *",
         "otherThematic": "Précisez une autre thematique",
         "otherBeneficiary": "Entrez un autre bénéficiaire",
         "otherDonor": "Précisez une autre organisation",
@@ -96,6 +96,9 @@
         "create": "Ajouter un projet",
         "edit": "Modifier un projet",
         "validate": "Valider un projet"
+      },
+      "errorMessages": {
+        "noActor": "Vous devez ajouter au moins un responsable"
       }
     },
     "map": {
