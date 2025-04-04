@@ -242,6 +242,9 @@ import type {
 } from '@/models/interfaces/AdminBoundaries'
 import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import { useAdminBoundariesStore } from '@/stores/adminBoundariesStore'
+import { NotificationType } from '@/models/enums/app/NotificationType'
+import { i18n } from '@/plugins/i18n'
+import { addNotification } from '@/services/notifications/NotificationService'
 
 const resourceStore = useResourceStore()
 const thematicsStore = useThematicStore()
@@ -360,6 +363,9 @@ const submitForm = handleSubmit(
     const submittedResource = await resourceStore.submitResource(resourceSubmission, props.type)
     emit('submitted', submittedResource)
   },
-  () => onInvalidSubmit
+  () => {
+    addNotification(i18n.t('forms.errors'), NotificationType.ERROR)
+    onInvalidSubmit()
+  }
 )
 </script>

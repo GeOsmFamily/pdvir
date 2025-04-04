@@ -17,7 +17,7 @@ export class ResourceFormService {
         name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
         description: zodModels.descriptionRequired,
         type: z.nativeEnum(ResourceType),
-        administrativeScopes: z.array(z.nativeEnum(AdministrativeScope)),
+        administrativeScopes: z.array(z.nativeEnum(AdministrativeScope)).optional(),
         admin1List: zodModels.admin1Boundaries.optional(),
         admin2List: zodModels.admin2Boundaries.optional(),
         admin3List: zodModels.admin3Boundaries.optional(),

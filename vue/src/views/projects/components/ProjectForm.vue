@@ -329,6 +329,8 @@ import type {
 import { useUserStore } from '@/stores/userStore'
 import { i18n } from '@/plugins/i18n'
 import LocationSelector from '@/components/forms/LocationSelector.vue'
+import { NotificationType } from '@/models/enums/app/NotificationType'
+import { addNotification } from '@/services/notifications/NotificationService'
 
 const projectStore = useProjectStore()
 const actorsStore = useActorsStore()
@@ -427,6 +429,7 @@ const submitForm = handleSubmit(
     emit('submitted', submittedProject)
   },
   () => {
+    addNotification(i18n.t('forms.errors'), NotificationType.ERROR)
     onInvalidSubmit()
   }
 )
