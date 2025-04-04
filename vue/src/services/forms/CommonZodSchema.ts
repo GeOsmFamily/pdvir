@@ -3,7 +3,6 @@ import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
 import { z, ZodType } from 'zod'
-import { OsmType } from '@/models/enums/geo/OsmType'
 
 export class CommonZodSchema {
   static getDefinitions() {
@@ -38,25 +37,17 @@ export class CommonZodSchema {
         }
       )
 
-    const AbstractGeoDataSchema = z
-      .object({
-        osmId: z.string().nullable(),
-        osmType: z.nativeEnum(OsmType).nullable(),
-        name: z.string().nullable(),
-        latitude: LatitudeSchema.nullable().optional(),
-        longitude: LongitudeSchema.nullable().optional()
-      })
-      .transform((data) =>
-        data?.osmId == null && data?.latitude == null
-          ? null
-          : {
-              osmId: data.osmId ?? null,
-              osmType: data.osmType ?? null,
-              name: data.name ?? '',
-              latitude: data.latitude ?? null,
-              longitude: data.longitude ?? null
-            }
-      ) satisfies ZodType<GeoData | null>
+    const AbstractGeoDataSchema = z.any().transform((data) => {
+      return data?.osmId == null && data?.latitude == null
+        ? null
+        : {
+            osmId: data.osmId ?? null,
+            osmType: data.osmType ?? null,
+            name: data.name ?? '',
+            latitude: data.latitude ?? null,
+            longitude: data.longitude ?? null
+          }
+    }) satisfies ZodType<GeoData | null | undefined>
 
     const NotNullableGeoDataSchema = AbstractGeoDataSchema.refine(
       (data) => {

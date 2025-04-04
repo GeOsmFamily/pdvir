@@ -7,7 +7,7 @@
           <v-text-field
             density="compact"
             variant="outlined"
-            v-model.number.lazy="lat"
+            v-model.number="lat"
             @update:model-value="isSelecting ? null : $emit('updateCoords')"
             placeholder="4.31375500"
             :error-messages="errorMessage"
@@ -18,7 +18,7 @@
           <v-text-field
             density="compact"
             variant="outlined"
-            v-model.number.lazy="lng"
+            v-model.number="lng"
             @update:model-value="isSelecting ? null : $emit('updateCoords')"
             placeholder="12.1018020"
             :error-messages="errorMessage"
