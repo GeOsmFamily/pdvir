@@ -22,7 +22,6 @@ final class Version20250331182512 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE resource ADD other_type VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE resource ADD other_thematic VARCHAR(255) DEFAULT NULL');
-        
 
         $this->addSql("DELETE FROM organisation WHERE name LIKE 'Deutsche Gesellschaft für Internationale Zusammenarbeit'");
         $this->addSql("DELETE FROM organisation WHERE name LIKE 'Association Humanitaire de Solidarité Internationale'");
@@ -32,7 +31,7 @@ final class Version20250331182512 extends AbstractMigration
         $this->addSql("DELETE FROM organisation WHERE name LIKE 'Union Européenne'");
 
         $this->addSql("INSERT INTO actor_expertise (id, name) VALUES (nextval('actor_expertise_id_seq'), 'Autre')");
-        
+
         $this->addSql("INSERT INTO organisation (id, name, acronym, contracting, donor) VALUES (nextval('organisation_id_seq'), 'Autre', 'Others', true, true)");
         $this->addSql("INSERT INTO organisation (id, name, acronym, contracting, donor) VALUES (nextval('organisation_id_seq'), 'Fonds propres', 'FP', true, true)");
         $this->addSql("INSERT INTO organisation (id, name, acronym, contracting, donor) VALUES (nextval('organisation_id_seq'), 'Subvention publique', 'SP', true, true)");
