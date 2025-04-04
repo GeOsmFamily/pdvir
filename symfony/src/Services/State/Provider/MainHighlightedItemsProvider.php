@@ -27,7 +27,6 @@ class MainHighlightedItemsProvider implements ProviderInterface
             $this->resourceRepository->findHighlightedItems($highlightedItemsItemIds),
             $this->actorRepository->findHighlightedItems($highlightedItemsItemIds),
         );
-
         return $items;
     }
 }

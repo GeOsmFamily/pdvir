@@ -3,9 +3,9 @@
     <template #content>
       <div class="GenericInfoCard__imgCtn">
         <img
+          v-if="image?.contentsFilteredUrl?.thumbnail"
           class="GenericInfoCard__img"
-          :src="image ?? imageDefault"
-          :empty="image ? false : true"
+          :src="image.contentsFilteredUrl.thumbnail"
         />
         <slot name="image"></slot>
       </div>
@@ -64,7 +64,6 @@ import ShareButton from '@/components/global/ShareButton.vue'
 import HighlightButton from '@/components/global/HighlightButton.vue'
 import { ItemType } from '@/models/enums/app/ItemType'
 import { computed } from 'vue'
-import imageDefault from '@/assets/images/Logo.png'
 import type { RouteLocationAsRelative } from 'vue-router'
 
 const props = withDefaults(
@@ -72,7 +71,7 @@ const props = withDefaults(
     id: string
     title?: string
     description?: string
-    image?: string | null
+    image?: BaseMediaObject | null
     typeLabel: string
     type?: ItemType
     slug?: string
