@@ -48,7 +48,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: ['groups' => [self::GET_PARTIAL]]
         ),
         new GetCollection(
-            normalizationContext: ['groups' => [self::GET_FULL]],
+            normalizationContext: ['groups' => [self::GET_FULL, Admin1Boundary::GET_WITH_GEOM, Admin2Boundary::GET_WITH_GEOM, Admin3Boundary::GET_WITH_GEOM]],
             parameters: [
                 'slug' => new QueryParameter(),
             ]
@@ -74,7 +74,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_ADMIN")',
         ),
     ],
-    normalizationContext: ['groups' => [self::GET_FULL, self::GET_PARTIAL, Admin1Boundary::GET_WITH_GEOM, Admin2Boundary::GET_WITH_GEOM, Admin3Boundary::GET_WITH_GEOM]],
+    normalizationContext: ['groups' => [self::GET_FULL, self::GET_PARTIAL]],
     denormalizationContext: ['groups' => [self::WRITE]],
 )]
 class Project
