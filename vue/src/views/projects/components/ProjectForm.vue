@@ -222,14 +222,14 @@
         />
         <div class="Form__fieldCtn" v-if="otherFinancialTypeIsSelected">
           <label class="Form__label conditionnal">{{
-            $t('projects.form.section.otherDonor')
+            $t('projects.form.section.otherFinancingType')
           }}</label>
           <v-text-field
             density="compact"
             variant="outlined"
-            v-model="form.otherDonor.value.value"
-            :error-messages="form.otherDonor.errorMessage.value"
-            @blur="form.otherDonor.handleChange"
+            v-model="form.otherFinancingType.value.value"
+            :error-messages="form.otherFinancingType.errorMessage.value"
+            @blur="form.otherFinancingType.handleChange"
           />
         </div>
 

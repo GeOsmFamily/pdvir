@@ -212,7 +212,7 @@ class Project
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
-    private ?string $otherDonor = null;
+    private ?string $otherFinancingType = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
@@ -635,14 +635,14 @@ class Project
         return $this;
     }
 
-    public function getOtherDonor(): ?string
+    public function getotherFinancingType(): ?string
     {
-        return $this->otherDonor;
+        return $this->otherFinancingType;
     }
 
-    public function setOtherDonor(?string $otherDonor): static
+    public function setotherFinancingType(?string $otherFinancingType): static
     {
-        $this->otherDonor = $otherDonor;
+        $this->otherFinancingType = $otherFinancingType;
 
         return $this;
     }
