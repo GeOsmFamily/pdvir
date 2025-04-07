@@ -214,7 +214,7 @@
           v-model="form.financingTypes.value.value as ProjectFinancingType[]"
           :items="Object.values(ProjectFinancingType)"
           :placeholder="$t('projects.form.section.financial')"
-          :item-title="(item) => $t('projects.status.' + item)"
+          :item-title="(item) => $t('projects.financing.' + item)"
           :item-value="(item) => item"
           :error-messages="form.financingTypes.errorMessage.value"
           @blur="form.financingTypes.handleChange(form.financingTypes.value.value)"

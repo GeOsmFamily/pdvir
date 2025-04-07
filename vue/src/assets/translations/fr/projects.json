@@ -142,6 +142,16 @@
     "status": {
       "finalized": "Finalisé",
       "ongoing": "En cours"
+    },
+    "financing": {
+      "autre": "Autre",
+      "fonds_propres": "Fonds propres",
+      "subvention_publique": "Subvention publique",
+      "pret_bancaire": "Prêt bancaire",
+      "investissement_prive": "Investissement prive",
+      "crowdfunding": "Crowdfunding",
+      "partenariat_public_prive": "Partenariat public prive",
+      "mecenat": "Mecenat"
     }
   }
 }
