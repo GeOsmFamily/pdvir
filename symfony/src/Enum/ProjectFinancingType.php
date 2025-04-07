@@ -7,12 +7,12 @@ use App\Enum\Trait\ToArray;
 enum ProjectFinancingType: string
 {
     use ToArray;
-    case OTHER = 'Autre';
-    case OWN_FUNDS = 'Fonds propres';
-    case PUBLIC_GRANT = 'Subvention publique';
-    case BANK_LOAN = 'Prêt bancaire';
-    case PRIVATE_INVESTMENT = 'Investissement privé';
-    case CROWDFUNDING = 'Crowdfunding (financement participatif)';
-    case PUBLIC_PRIVATE_PARTNERSHIP = 'Partenariat public-privé';
-    case SPONSORSHIP = 'Mécénat';
+    case OTHER = 'autre';
+    case OWN_FUNDS = 'fonds_propres';
+    case PUBLIC_GRANT = 'subvention_publique';
+    case BANK_LOAN = 'pret_bancaire';
+    case PRIVATE_INVESTMENT = 'investissement_prive';
+    case CROWDFUNDING = 'crowdfunding';
+    case PUBLIC_PRIVATE_PARTNERSHIP = 'partenariat_public_prive';
+    case SPONSORSHIP = 'mecenat';
 }

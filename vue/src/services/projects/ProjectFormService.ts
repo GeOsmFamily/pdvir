@@ -1,12 +1,13 @@
+import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
+import { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType'
+import { ProjectFinancingType } from '@/models/enums/contents/ProjectFinancingType'
+import { Status } from '@/models/enums/contents/Status'
 import type { Project, ProjectSubmission } from '@/models/interfaces/Project'
+import { i18n } from '@/plugins/i18n'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
 import { z } from 'zod'
-import { i18n } from '@/plugins/i18n'
 import { CommonZodSchema } from '../forms/CommonZodSchema'
-import { Status } from '@/models/enums/contents/Status'
-import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
-import { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType'
 
 export class ProjectFormService {
   static getForm(project: Project | null) {
@@ -27,7 +28,7 @@ export class ProjectFormService {
         actor: zodModels.symfonyRelation.optional(),
         otherActor: z.string().optional(),
         status: z.nativeEnum(Status),
-        donors: zodModels.symfonyRelations,
+        financingTypes: z.array(z.nativeEnum(ProjectFinancingType)),
         otherDonor: z.string().optional(),
         contractingOrganisation: zodModels.symfonyRelation,
         otherContractingOrganisation: z.string().optional(),
@@ -56,7 +57,7 @@ export class ProjectFormService {
       deliverables: '',
       calendar: '',
       contractingOrganisation: undefined,
-      donors: [],
+      financingTypes: [],
       interventionZone: undefined,
       focalPointName: '',
       focalPointPosition: '',
@@ -86,7 +87,7 @@ export class ProjectFormService {
       calendar: useField('calendar'),
       contractingOrganisation: useField('contractingOrganisation'),
       otherContractingOrganisation: useField('otherContractingOrganisation'),
-      donors: useField('donors'),
+      financingTypes: useField('financingTypes'),
       otherDonor: useField('otherDonor'),
       interventionZone: useField('interventionZone'),
       focalPointName: useField('focalPointName'),

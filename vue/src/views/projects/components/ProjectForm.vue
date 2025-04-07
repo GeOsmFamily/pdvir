@@ -173,16 +173,16 @@
           density="compact"
           variant="outlined"
           multiple
-          v-model="form.donors.value.value as Organisation[]"
-          :items="projectStore.donors"
+          v-model="form.financingTypes.value.value as ProjectFinancingType[]"
+          :items="Object.values(ProjectFinancingType)"
           :placeholder="$t('projects.form.section.financial')"
-          :item-title="(item) => item.name"
-          item-value="@id"
-          :error-messages="form.donors.errorMessage.value"
-          @blur="form.donors.handleChange(form.donors.value.value)"
+          :item-title="(item) => $t('projects.status.' + item)"
+          :item-value="(item) => item"
+          :error-messages="form.financingTypes.errorMessage.value"
+          @blur="form.financingTypes.handleChange(form.financingTypes.value.value)"
           return-object
         />
-        <div class="Form__fieldCtn" v-if="otherDonorIsSelected">
+        <div class="Form__fieldCtn" v-if="otherFinancialTypeIsSelected">
           <label class="Form__label conditionnal">{{
             $t('projects.form.section.otherDonor')
           }}</label>
@@ -349,35 +349,36 @@
 </template>
 
 <script setup lang="ts">
-import { type Project, type ProjectSubmission } from '@/models/interfaces/Project'
-import { ProjectFormService } from '@/services/projects/ProjectFormService'
-import { useProjectStore } from '@/stores/projectStore'
-import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
-import { computed, onMounted, type Ref, ref } from 'vue'
-import Modal from '@/components/global/Modal.vue'
-import { useThematicStore } from '@/stores/thematicStore'
-import { FormType } from '@/models/enums/app/FormType'
-import type { Thematic } from '@/models/interfaces/Thematic'
-import { useActorsStore } from '@/stores/actorsStore'
-import type { Actor } from '@/models/interfaces/Actor'
-import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
-import { NominatimSearchType } from '@/models/enums/geo/NominatimSearchType'
 import Geocoding from '@/components/forms/Geocoding.vue'
-import { OsmType } from '@/models/enums/geo/OsmType'
-import { Status } from '@/models/enums/contents/Status'
-import { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType'
-import type { Organisation } from '@/models/interfaces/Organisation'
-import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
-import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
-import { onInvalidSubmit } from '@/services/forms/FormService'
-import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
-import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
-import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import Modal from '@/components/global/Modal.vue'
+import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
+import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
+import { FormType } from '@/models/enums/app/FormType'
 import { NotificationType } from '@/models/enums/app/NotificationType'
+import { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType'
+import { ProjectFinancingType } from '@/models/enums/contents/ProjectFinancingType'
+import { Status } from '@/models/enums/contents/Status'
+import { NominatimSearchType } from '@/models/enums/geo/NominatimSearchType'
+import { OsmType } from '@/models/enums/geo/OsmType'
+import type { Actor } from '@/models/interfaces/Actor'
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import type { GeoData } from '@/models/interfaces/geo/GeoData'
+import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
+import type { Organisation } from '@/models/interfaces/Organisation'
+import { type Project, type ProjectSubmission } from '@/models/interfaces/Project'
+import type { Thematic } from '@/models/interfaces/Thematic'
 import { i18n } from '@/plugins/i18n'
+import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
+import { onInvalidSubmit } from '@/services/forms/FormService'
 import { addNotification } from '@/services/notifications/NotificationService'
+import { ProjectFormService } from '@/services/projects/ProjectFormService'
+import { useActorsStore } from '@/stores/actorsStore'
+import { useProjectStore } from '@/stores/projectStore'
+import { useThematicStore } from '@/stores/thematicStore'
 import { useUserStore } from '@/stores/userStore'
+import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
+import { computed, onMounted, type Ref, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const projectStore = useProjectStore()
@@ -429,9 +430,11 @@ const otherBeneficiaryIsSelected = computed(() => {
   }
   return false
 })
-const otherDonorIsSelected = computed(() => {
-  if (form.donors.value?.value && Array.isArray(form.donors.value?.value)) {
-    return (form.donors.value?.value as Organisation[]).map((x) => x.name).includes('Autre')
+const otherFinancialTypeIsSelected = computed(() => {
+  if (form.financingTypes.value?.value && Array.isArray(form.financingTypes.value?.value)) {
+    return (form.financingTypes.value?.value as ProjectFinancingType[]).includes(
+      ProjectFinancingType.OTHER
+    )
   }
   return false
 })
