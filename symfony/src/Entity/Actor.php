@@ -18,6 +18,7 @@ use App\Entity\Trait\SluggableEntity;
 use App\Entity\Trait\TimestampableEntity;
 use App\Entity\Trait\ValidateableEntity;
 use App\Enum\ActorCategory;
+use App\Enum\AdministrativeScope;
 use App\Model\Enums\UserRoles;
 use App\Repository\ActorRepository;
 use App\Security\Voter\ActorVoter;
@@ -59,7 +60,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_ADMIN")'
         ),
     ],
-    normalizationContext: ['groups' => [self::ACTOR_READ_ITEM]],
+    normalizationContext: ['groups' => [self::ACTOR_READ_ITEM, Admin1Boundary::GET_WITH_GEOM, Admin2Boundary::GET_WITH_GEOM, Admin3Boundary::GET_WITH_GEOM]],
     denormalizationContext: ['groups' => [self::ACTOR_WRITE]],
 )]
 class Actor
@@ -150,12 +151,9 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $projects;
 
-    /**
-     * @var Collection<int, AdministrativeScope>
-     */
-    #[ORM\ManyToMany(targetEntity: AdministrativeScope::class, inversedBy: 'actors')]
+    #[ORM\Column(type: 'simple_array', enumType: AdministrativeScope::class)]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private Collection $administrativeScopes;
+    private array $administrativeScopes = [];
 
     #[ORM\OneToOne(targetEntity: MediaObject::class, cascade: ['remove'], orphanRemoval: true)]
     #[ApiProperty(types: ['https://schema.org/image'])]
@@ -174,13 +172,37 @@ class Actor
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?array $externalImages = null;
 
+    /**
+     * @var Collection<int, Admin1Boundary>
+     */
+    #[ORM\ManyToMany(targetEntity: Admin1Boundary::class)]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private Collection $admin1List;
+
+    /**
+     * @var Collection<int, Admin2Boundary>
+     */
+    #[ORM\ManyToMany(targetEntity: Admin2Boundary::class)]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private Collection $admin2List;
+
+    /**
+     * @var Collection<int, Admin3Boundary>
+     */
+    #[ORM\ManyToMany(targetEntity: Admin3Boundary::class)]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    private Collection $admin3List;
+
     public function __construct()
     {
         $this->expertises = new ArrayCollection();
         $this->thematics = new ArrayCollection();
         $this->projects = new ArrayCollection();
-        $this->administrativeScopes = new ArrayCollection();
+        $this->administrativeScopes = [];
         $this->images = new ArrayCollection();
+        $this->admin1List = new ArrayCollection();
+        $this->admin2List = new ArrayCollection();
+        $this->admin3List = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -398,26 +420,32 @@ class Actor
         return $this;
     }
 
-    /**
-     * @return Collection<int, AdministrativeScope>
-     */
-    public function getAdministrativeScopes(): Collection
+    public function getAdministrativeScopes(): ?array
     {
         return $this->administrativeScopes;
     }
 
-    public function addAdministrativeScope(AdministrativeScope $administrativeScope): static
+    public function setAdministrativeScopes(?array $administrativeScopes): self
     {
-        if (!$this->administrativeScopes->contains($administrativeScope)) {
-            $this->administrativeScopes->add($administrativeScope);
+        $this->administrativeScopes = $administrativeScopes;
+
+        return $this;
+    }
+
+    public function addAdministrativeScope(AdministrativeScope $scope): self
+    {
+        if (!in_array($scope, $this->administrativeScopes ?? [], true)) {
+            $this->administrativeScopes[] = $scope;
         }
 
         return $this;
     }
 
-    public function removeAdministrativeScope(AdministrativeScope $administrativeScope): static
+    public function removeAdministrativeScope(AdministrativeScope $scope): self
     {
-        $this->administrativeScopes->removeElement($administrativeScope);
+        if (($key = array_search($scope, $this->administrativeScopes ?? [], true)) !== false) {
+            unset($this->administrativeScopes[$key]);
+        }
 
         return $this;
     }
@@ -466,6 +494,78 @@ class Actor
     public function setExternalImages(?array $externalImages): static
     {
         $this->externalImages = $externalImages;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Admin1Boundary>
+     */
+    public function getAdmin1List(): Collection
+    {
+        return $this->admin1List;
+    }
+
+    public function addAdmin1List(Admin1Boundary $admin1List): static
+    {
+        if (!$this->admin1List->contains($admin1List)) {
+            $this->admin1List->add($admin1List);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin1List(Admin1Boundary $admin1List): static
+    {
+        $this->admin1List->removeElement($admin1List);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Admin2Boundary>
+     */
+    public function getAdmin2List(): Collection
+    {
+        return $this->admin2List;
+    }
+
+    public function addAdmin2List(Admin2Boundary $admin2List): static
+    {
+        if (!$this->admin2List->contains($admin2List)) {
+            $this->admin2List->add($admin2List);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin2List(Admin2Boundary $admin2List): static
+    {
+        $this->admin2List->removeElement($admin2List);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Admin3Boundary>
+     */
+    public function getAdmin3List(): Collection
+    {
+        return $this->admin3List;
+    }
+
+    public function addAdmin3List(Admin3Boundary $admin3List): static
+    {
+        if (!$this->admin3List->contains($admin3List)) {
+            $this->admin3List->add($admin3List);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin3List(Admin3Boundary $admin3List): static
+    {
+        $this->admin3List->removeElement($admin3List);
 
         return $this;
     }

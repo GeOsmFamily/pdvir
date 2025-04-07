@@ -3,9 +3,9 @@
     <template #content>
       <div class="GenericInfoCard__imgCtn">
         <img
+          v-if="image?.contentsFilteredUrl?.thumbnail"
           class="GenericInfoCard__img"
-          :src="image ?? imageDefault"
-          :empty="image ? false : true"
+          :src="image.contentsFilteredUrl.thumbnail"
         />
         <slot name="image"></slot>
       </div>
@@ -64,28 +64,23 @@ import ShareButton from '@/components/global/ShareButton.vue'
 import HighlightButton from '@/components/global/HighlightButton.vue'
 import { ItemType } from '@/models/enums/app/ItemType'
 import { computed } from 'vue'
-import imageDefault from '@/assets/images/Logo.png'
 import type { RouteLocationAsRelative } from 'vue-router'
+import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 
-const props = withDefaults(
-  defineProps<{
-    id: string
-    title?: string
-    description?: string
-    image?: string | null
-    typeLabel: string
-    type?: ItemType
-    slug?: string
-    actionIcon?: string
-    isEditable?: boolean
-    editFunction?: () => void
-    mapRoute?: RouteLocationAsRelative | null
-    href?: string
-  }>(),
-  {
-    image: null
-  }
-)
+const props = defineProps<{
+  id: string
+  title?: string
+  description?: string
+  image?: BaseMediaObject
+  typeLabel: string
+  type?: ItemType
+  slug?: string
+  actionIcon?: string
+  isEditable?: boolean
+  editFunction?: () => void
+  mapRoute?: RouteLocationAsRelative | null
+  href?: string
+}>()
 
 const to = computed(() => {
   switch (props.type) {

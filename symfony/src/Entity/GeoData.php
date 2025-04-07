@@ -28,12 +28,12 @@ class GeoData
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups([Project::WRITE, Resource::WRITE, Actor::ACTOR_WRITE, Resource::GET_FULL])]
+    #[Groups([Project::WRITE, Resource::WRITE, Actor::ACTOR_WRITE, Actor::ACTOR_READ_ITEM, Resource::GET_FULL])]
     #[Assert\Range(min: -90, max: 90)]
     private ?float $latitude = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups([Project::WRITE, Resource::WRITE, Actor::ACTOR_WRITE, Resource::GET_FULL])]
+    #[Groups([Project::WRITE, Resource::WRITE, Actor::ACTOR_WRITE, Actor::ACTOR_READ_ITEM, Resource::GET_FULL])]
     #[Assert\Range(min: -180, max: 180)]
     private ?float $longitude = null;
 

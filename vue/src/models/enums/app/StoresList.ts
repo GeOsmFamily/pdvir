@@ -11,5 +11,6 @@ export enum StoresList {
   THEMATICS = 'thematics',
   HOME = 'home',
   MY_MAP = 'myMap',
+  ADMINISTRATIVE_BOUNDARIES = 'administrativeBoundaries',
   COMMENT = 'comment'
 }

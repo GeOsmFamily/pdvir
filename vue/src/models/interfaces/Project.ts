@@ -11,6 +11,7 @@ import type { Localizable } from '@/models/interfaces/common/Localizable'
 import type { ThematicItem } from '@/models/interfaces/common/ThematicItem'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import type { Admin1Boundary, Admin2Boundary, Admin3Boundary } from './AdminBoundaries'
 
 export interface Project
   extends Timestampable,
@@ -29,7 +30,10 @@ export interface Project
   images: BaseMediaObject[]
   externalImages: string[]
   partners: BaseMediaObject[]
-  interventionZone: AdministrativeScope
+  administrativeScopes: AdministrativeScope[]
+  admin1List?: Admin1Boundary[]
+  admin2List?: Admin2Boundary[]
+  admin3List?: Admin3Boundary[]
   beneficiaryTypes: BeneficiaryType[]
   focalPointName: string
   focalPointPosition: string

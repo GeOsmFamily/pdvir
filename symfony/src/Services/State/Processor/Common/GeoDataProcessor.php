@@ -30,11 +30,12 @@ class GeoDataProcessor implements ProcessorInterface
                     throw new \Exception('Place not found');
                 }
             } elseif (null !== $data->getGeoData()->getLatitude() && null !== $data->getGeoData()->getLongitude()) {
-                if (!$this->areCoordsInCameroon($data->getGeoData())) {
-                    throw new \Exception('Given coordinates are not in Cameroon', 400);
-                } else {
-                    $data->setGeoData($data->getGeoData());
-                }
+                // Disabled because not needed
+                // if (!$this->areCoordsInCameroon($data->getGeoData())) {
+                //     throw new \Exception('Given coordinates are not in Cameroon', 400);
+                // } else {
+                // }
+                $data->setGeoData($data->getGeoData());
             }
         }
 
