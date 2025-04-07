@@ -89,7 +89,7 @@
           />
         </div>
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
-        <FormSectionTitle :text="$t('projects.form.section.location')" />
+        <FormSectionTitle :text="$t('projects.form.section.localization')" />
         <LocationSelector
           @update:model-value="form.geoData.handleChange"
           v-model="form.geoData.value.value as GeoData"
@@ -97,7 +97,7 @@
         />
 
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
-        <FormSectionTitle :text="$t('projects.form.section.localization')" />
+        <FormSectionTitle :text="$t('projects.form.section.adminScope')" />
         <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('actors.form.adminScope') }}</label>
           <v-select
@@ -233,50 +233,54 @@
           />
         </div>
 
-        <v-tooltip
-          location="start"
-          :text="$t('projects.form.section.contractingOrganisationDisclaimer')"
-        >
+        <v-tooltip location="start" :text="$t('projects.form.section.actorInChargeDisclaimer')">
           <template v-slot:activator="{ props }">
-            <FormSectionTitle
-              :text="$t('projects.form.section.contractingOrganisation')"
-              v-bind="props"
-            />
+            <div>
+              <FormSectionTitle :text="$t('projects.form.section.actorInCharge')" v-bind="props" />
+              <div class="d-flex text-caption">
+                {{ $t('projects.form.alterTexts.noActorInCharge') }}
+                <v-checkbox
+                  hide-details
+                  density="compact"
+                  class="ml-1 mt-0 pa-0"
+                  :ripple="false"
+                  v-model="projectHasNoActorInCharge"
+                ></v-checkbox>
+              </div>
+            </div>
           </template>
         </v-tooltip>
+
         <v-select
+          v-if="!projectHasNoActorInCharge"
+          multiple
           density="compact"
           variant="outlined"
-          v-model="form.contractingOrganisation.value.value as Organisation"
-          :items="projectStore.contractingOrganisations"
-          :placeholder="$t('projects.form.section.contractingOrganisation')"
+          v-model="form.actorsInCharge.value.value as Partial<Actor>[]"
+          :items="actors"
+          :placeholder="$t('projects.form.section.actorInCharge')"
           :item-title="(item) => item.name"
           item-value="@id"
-          :error-messages="form.contractingOrganisation.errorMessage.value"
-          @blur="
-            form.contractingOrganisation.handleChange(form.contractingOrganisation.value.value)
-          "
+          :error-messages="form.actorsInCharge.errorMessage.value"
+          @blur="form.actorsInCharge.handleChange(form.actorsInCharge.value.value)"
           return-object
         />
-        <div class="Form__fieldCtn" v-if="otherContractingOrganisationIsSelected">
-          <label class="Form__label conditionnal">{{
-            $t('projects.form.section.otherContractingOrganisation')
-          }}</label>
-          <v-text-field
-            density="compact"
-            variant="outlined"
-            v-model="form.otherContractingOrganisation.value.value"
-            :error-messages="form.otherContractingOrganisation.errorMessage.value"
-            @blur="form.otherContractingOrganisation.handleChange"
-          />
-        </div>
+        <v-text-field
+          v-else
+          density="compact"
+          variant="outlined"
+          :placeholder="$t('projects.form.fields.otherActor.label')"
+          v-model="form.otherActorInCharge.value.value"
+          :error-messages="form.otherActorInCharge.errorMessage.value"
+          @blur="form.otherActorInCharge.handleChange"
+        />
 
         <v-tooltip location="start" :text="$t('projects.form.section.projectOwnerDisclaimer')">
           <template v-slot:activator="{ props }">
             <div>
               <FormSectionTitle :text="$t('projects.form.section.projectOwner')" v-bind="props" />
               <div class="d-flex text-caption">
-                {{ $t('projects.form.section.noProjectOwner') }}
+                {{ $t('projects.form.alterTexts.noProjectOwner') }}
                 <v-checkbox
                   hide-details
                   density="compact"
@@ -406,7 +410,6 @@ import type {
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
 import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
-import type { Organisation } from '@/models/interfaces/Organisation'
 import { type Project, type ProjectSubmission } from '@/models/interfaces/Project'
 import type { Thematic } from '@/models/interfaces/Thematic'
 import { i18n } from '@/plugins/i18n'
@@ -478,12 +481,8 @@ const otherFinancialTypeIsSelected = computed(() => {
   }
   return false
 })
-const otherContractingOrganisationIsSelected = computed(() => {
-  if (form.contractingOrganisation.value?.value) {
-    return (form.contractingOrganisation.value?.value as Organisation).name === 'Autre'
-  }
-  return false
-})
+
+const projectHasNoActorInCharge = ref(false)
 
 const emit = defineEmits(['submitted', 'close'])
 

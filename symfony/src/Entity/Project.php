@@ -197,11 +197,6 @@ class Project
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?array $financingTypes;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
-    private ?Organisation $contractingOrganisation = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?string $otherThematic = null;
@@ -216,7 +211,7 @@ class Project
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
-    private ?string $otherContractingOrganisation = null;
+    private ?string $otherActorInCharge = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
@@ -243,6 +238,13 @@ class Project
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private Collection $admin3List;
 
+    /**
+     * @var Collection<int, Actor>
+     */
+    #[ORM\ManyToMany(targetEntity: Actor::class)]
+    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
+    private Collection $actorsInCharge;
+
     public function __construct()
     {
         $this->thematics = new ArrayCollection();
@@ -253,6 +255,7 @@ class Project
         $this->admin1List = new ArrayCollection();
         $this->admin2List = new ArrayCollection();
         $this->admin3List = new ArrayCollection();
+        $this->actorsInCharge = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -575,18 +578,6 @@ class Project
         return $this;
     }
 
-    public function getContractingOrganisation(): ?Organisation
-    {
-        return $this->contractingOrganisation;
-    }
-
-    public function setContractingOrganisation(?Organisation $contractingOrganisation): static
-    {
-        $this->contractingOrganisation = $contractingOrganisation;
-
-        return $this;
-    }
-
     public function getOtherThematic(): ?string
     {
         return $this->otherThematic;
@@ -671,14 +662,14 @@ class Project
         return $this;
     }
 
-    public function getOtherContractingOrganisation(): ?string
+    public function getOtherActorInCharge(): ?string
     {
-        return $this->otherContractingOrganisation;
+        return $this->otherActorInCharge;
     }
 
-    public function setOtherContractingOrganisation(?string $otherContractingOrganisation): static
+    public function setOtherActorInCharge(?string $otherActorInCharge): static
     {
-        $this->otherContractingOrganisation = $otherContractingOrganisation;
+        $this->otherActorInCharge = $otherActorInCharge;
 
         return $this;
     }
@@ -715,6 +706,30 @@ class Project
     public function removeAdmin3List(Admin3Boundary $admin3List): static
     {
         $this->admin3List->removeElement($admin3List);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Actor>
+     */
+    public function getActorsInCharge(): Collection
+    {
+        return $this->actorsInCharge;
+    }
+
+    public function addActorsInCharge(Actor $actorsInCharge): static
+    {
+        if (!$this->actorsInCharge->contains($actorsInCharge)) {
+            $this->actorsInCharge->add($actorsInCharge);
+        }
+
+        return $this;
+    }
+
+    public function removeActorsInCharge(Actor $actorsInCharge): static
+    {
+        $this->actorsInCharge->removeElement($actorsInCharge);
 
         return $this;
     }

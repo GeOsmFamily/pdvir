@@ -3,7 +3,6 @@ import type { BeneficiaryType } from '@/models/enums/contents/BeneficiaryType'
 import type { Status } from '@/models/enums/contents/Status'
 import type { Actor } from '@/models/interfaces/Actor'
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
-import type { Organisation } from '@/models/interfaces/Organisation'
 import type { iri, SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
 import type { Blameable } from '@/models/interfaces/common/Blameable'
 import type { Localizable } from '@/models/interfaces/common/Localizable'
@@ -44,7 +43,8 @@ export interface Project
   website: string
   logo?: BaseMediaObject
   financingTypes: ProjectFinancingType[]
-  contractingOrganisation: Organisation
+  actorsInCharge: Partial<Actor>[]
+  otherActorInCharge?: string
   actor: Partial<Actor>
   otherActor?: string
   creatorMessage?: string
