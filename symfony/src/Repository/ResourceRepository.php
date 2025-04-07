@@ -46,7 +46,7 @@ class ResourceRepository extends ServiceEntityRepository
             ->setItemType(ItemType::RESOURCE)
             ->setImage($item->getPreviewImage())
             ->setName($item->getName())
-            ->setLink($item->getLink() ?? $item->getFile()->getContentUrl())
+            ->setLink($item->getLink() ?? $item->getFile()->contentUrl)
             ->setDescription($item->getDescription())
             ->setUpdatedAt($item->getUpdatedAt());
     }
