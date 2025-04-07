@@ -510,8 +510,6 @@ const activeAdminLevels = computed(() => {
 onMounted(async () => {
   await Promise.all([
     thematicsStore.getAll(),
-    projectStore.getAllDonors(),
-    projectStore.getAllContractingOrganisations(),
     actorsStore.getAll(),
     adminBoundariesStore.getAdmin1(),
     adminBoundariesStore.getAdmin2(),
