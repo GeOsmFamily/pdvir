@@ -23,6 +23,7 @@ use App\Entity\Trait\TimestampableEntity;
 use App\Entity\Trait\ValidateableEntity;
 use App\Enum\AdministrativeScope;
 use App\Enum\BeneficiaryType;
+use App\Enum\ProjectFinancingType;
 use App\Enum\Status;
 use App\Model\Enums\UserRoles;
 use App\Repository\ProjectRepository;
@@ -194,10 +195,9 @@ class Project
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?array $beneficiaryTypes = null;
 
-    #[ORM\JoinTable(name: 'projects_donors')]
+    #[ORM\Column(enumType: ProjectFinancingType::class)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
-    #[ORM\ManyToMany(targetEntity: Organisation::class)]
-    private Collection $donors;
+    private Collection $financingTypes;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -227,7 +227,7 @@ class Project
     public function __construct()
     {
         $this->thematics = new ArrayCollection();
-        $this->donors = new ArrayCollection();
+        $this->financingTypes = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->partners = new ArrayCollection();
     }
@@ -366,6 +366,30 @@ class Project
         return $this;
     }
 
+    /**
+     * @return Collection<int, ProjectFinancingType>
+     */
+    public function getFinancingTypes(): Collection
+    {
+        return $this->financingTypes;
+    }
+
+    public function addFinancingType(ProjectFinancingType $financingType): static
+    {
+        if (!$this->financingTypes->contains($financingType)) {
+            $this->financingTypes->add($financingType);
+        }
+
+        return $this;
+    }
+
+    public function removeFinancingType(ProjectFinancingType $financingType): static
+    {
+        $this->financingTypes->removeElement($financingType);
+
+        return $this;
+    }
+
     public function getFocalPointName(): ?string
     {
         return $this->focalPointName;
@@ -497,30 +521,6 @@ class Project
     public function setBeneficiaryTypes(?array $beneficiaryTypes): static
     {
         $this->beneficiaryTypes = $beneficiaryTypes;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Organisation>
-     */
-    public function getDonors(): Collection
-    {
-        return $this->donors;
-    }
-
-    public function addDonor(Organisation $donor): static
-    {
-        if (!$this->donors->contains($donor)) {
-            $this->donors->add($donor);
-        }
-
-        return $this;
-    }
-
-    public function removeDonor(Organisation $donor): static
-    {
-        $this->donors->removeElement($donor);
 
         return $this;
     }

@@ -2,40 +2,40 @@ App\Entity\Organisation:
   organisation_1:
     acronym: "Others"
     name: "Autre"
-    donor: true
+    donor: false
     contracting: true
   organisation_2:
     acronym: "FP"
     name: "Fonds propres"
     donor: true
-    contracting: true
+    contracting: false
   organisation_3:
     acronym: "SP"
     name: "Subvention publique"
     donor: true
-    contracting: true
+    contracting: false
   organisation_4:
     acronym: "PB"
     name: "Prêt bancaire"
     donor: true
-    contracting: true
+    contracting: false
   organisation_5:
     acronym: "IP"
     name: "Investissement privé"
     donor: true
-    contracting: true
+    contracting: false
   organisation_6:
     acronym: "CF"
     name: "Crowdfunding (financement participatif)"
     donor: true
-    contracting: true
+    contracting: false
   organisation_7:
     acronym: "PPP"
     name: "Partenariat public-privé"
     donor: true
-    contracting: true
+    contracting: false
   organisation_8:
     acronym: "MC"
     name: "Mécénat"
     donor: true
-    contracting: true
+    contracting: false
