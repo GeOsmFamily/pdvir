@@ -25,7 +25,7 @@ class ActorProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $this->validatorProcessor->process($data, $operation, $uriVariables, $context);
-        $this->geoDataProcessor->process($data, $operation, $uriVariables, $context, true);
+        $this->geoDataProcessor->process($data, $operation, $uriVariables, $context);
 
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
     }
