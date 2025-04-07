@@ -37,7 +37,7 @@ DOWNLOAD_URL=https://download.geofabrik.de/africa/$(OSM_FILE)
 
 download-osm-file:	## Download latest OSM .pbf file
 	mkdir -p $(DATA_DIR)
-	$(DOCKER_COMP) exec osm2pgsql wget -O /data/$(OSM_FILE) $(DOWNLOAD_URL)
+	cd $(DATA_DIR) && wget $(DOWNLOAD_URL)
 
 init-osm-db:	## Create OSM database with osm2pgsql
 	$(DOCKER_COMP) exec osm2pgsql osm2pgsql \
