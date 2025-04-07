@@ -4,6 +4,7 @@ namespace App\Services\Serializer;
 
 use App\Entity\Actor;
 use App\Entity\File\MediaObject;
+use App\Entity\HighlightedItem;
 use App\Entity\Project;
 use App\Entity\Resource;
 use App\Enum\Config\ImagineFilter;
@@ -28,7 +29,7 @@ class MediaObjectNormalizer implements NormalizerInterface
     {
         $context[self::ALREADY_CALLED] = true;
         /* @var MediaObject $object */
-        if ($this->isActor($context) || $this->isProject($context) || $this->isResource($context)) {
+        if ($this->isActor($context) || $this->isProject($context) || $this->isResource($context) || $this->isHighlightedItem($context)) {
             $object->contentsFilteredUrl = [
                 ImagineFilter::THUMBNAIL => $this->imagineCacheManager->getBrowserPath(
                     $this->storage->resolveUri($object, 'file'),
@@ -52,6 +53,7 @@ class MediaObjectNormalizer implements NormalizerInterface
             $this->isActor($context)
             || $this->isProject($context)
             || $this->isResource($context)
+            || $this->isHighlightedItem($context)
         );
     }
 
@@ -68,6 +70,11 @@ class MediaObjectNormalizer implements NormalizerInterface
     private function isResource(array $context = []): bool
     {
         return $this->hasObjectcontext($context) && $context['object'] instanceof Resource;
+    }
+
+    private function isHighlightedItem(array $context = []): bool
+    {
+        return $this->hasObjectcontext($context) && $context['object'] instanceof HighlightedItem;
     }
 
     private function hasObjectContext(array $context = []): bool

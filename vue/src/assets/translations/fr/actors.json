@@ -9,7 +9,6 @@
     "projects": "Projets",
     "resources": "Ressources",
     "services": "Services",
-    "showInMap": "Afficher dans l’outil Ma carte",
     "similar": "D’autres acteurs avec des thématiques communes"
   },
   "actors": {
@@ -25,9 +24,21 @@
     "category": "Catégorie",
     "desc": "Consultez l’annuaire des acteurs du secteur de l’urbanisme au Cameroun.",
     "expertise": "Compétence",
+    "scope": {
+      "city": "Ville",
+      "national": "National",
+      "regional": "Régional",
+      "state": "Département",
+      "neighborhood": "Quartier",
+      "borough": "Arrondissement"
+    },
     "form": {
       "acronym": "Acronyme",
       "adminScope": "Échelles d'intervention",
+      "adminScopeSection": "Localisation de zone d'intervention",
+      "admin1": "Sélectionnez les régions d'intervention",
+      "admin2": "Sélectionnez les départements d'intervention",
+      "admin3": "Sélectionnez les communes d'intervention",
       "category": "Catégorie",
       "otherCategory": "Précisez une autre catégorie",
       "otherExpertise": "Précisez un autre domaine d'expertise",

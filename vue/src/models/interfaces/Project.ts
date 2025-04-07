@@ -12,6 +12,7 @@ import type { Timestampable } from '@/models/interfaces/common/Timestampable'
 import type { Validateable } from '@/models/interfaces/common/Validateable'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
 import type { ProjectFinancingType } from '../enums/contents/ProjectFinancingType'
+import type { Admin1Boundary, Admin2Boundary, Admin3Boundary } from './AdminBoundaries'
 
 export interface Project
   extends Timestampable,
@@ -30,7 +31,10 @@ export interface Project
   images: BaseMediaObject[]
   externalImages: string[]
   partners: BaseMediaObject[]
-  interventionZone: AdministrativeScope
+  administrativeScopes: AdministrativeScope[]
+  admin1List?: Admin1Boundary[]
+  admin2List?: Admin2Boundary[]
+  admin3List?: Admin3Boundary[]
   beneficiaryTypes: BeneficiaryType[]
   focalPointName: string
   focalPointPosition: string

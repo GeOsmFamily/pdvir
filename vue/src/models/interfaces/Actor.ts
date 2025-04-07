@@ -1,6 +1,7 @@
+import type { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import type { ActorsCategories } from '../enums/contents/actors/ActorsCategories'
 import type { ActorExpertise } from './ActorExpertise'
-import type { AdministrativeScope } from './AdministrativeScope'
+import type { Admin1Boundary, Admin2Boundary, Admin3Boundary } from './AdminBoundaries'
 import type { Blameable } from './common/Blameable'
 import type { ThematicItem } from './common/ThematicItem'
 import type { Timestampable } from './common/Timestampable'
@@ -24,6 +25,9 @@ export interface Actor extends Timestampable, Validateable, Blameable, ThematicI
   otherThematic?: string
   description: string
   administrativeScopes: AdministrativeScope[]
+  admin1List?: Admin1Boundary[]
+  admin2List?: Admin2Boundary[]
+  admin3List?: Admin3Boundary[]
   officeName: string
   officeAddress: string
   geoData: GeoData

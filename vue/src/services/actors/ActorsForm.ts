@@ -1,8 +1,9 @@
+import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import type { Actor } from '@/models/interfaces/Actor'
+import { i18n } from '@/plugins/i18n'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
 import { z } from 'zod'
-import { i18n } from '@/plugins/i18n'
 import { CommonZodSchema } from '../forms/CommonZodSchema'
 
 export class ActorsFormService {
@@ -19,7 +20,10 @@ export class ActorsFormService {
       otherExpertise: z.string().optional(),
       thematics: zodModels.symfonyRelations,
       otherThematic: z.string().optional(),
-      administrativeScopes: zodModels.symfonyRelations,
+      administrativeScopes: z.array(z.nativeEnum(AdministrativeScope)),
+      admin1List: zodModels.admin1Boundaries.optional(),
+      admin2List: zodModels.admin2Boundaries.optional(),
+      admin3List: zodModels.admin3Boundaries.optional(),
       description: zodModels.description,
 
       ///////// Contact \\\\\\\\\
@@ -46,6 +50,9 @@ export class ActorsFormService {
       thematics: useField('thematics', '', { validateOnValueUpdate: false }),
       otherThematic: useField('otherThematic', '', { validateOnValueUpdate: false }),
       administrativeScopes: useField('administrativeScopes', '', { validateOnValueUpdate: false }),
+      admin1List: useField('admin1List', '', { validateOnValueUpdate: false }),
+      admin2List: useField('admin2List', '', { validateOnValueUpdate: false }),
+      admin3List: useField('admin3List', '', { validateOnValueUpdate: false }),
       description: useField('description', '', { validateOnValueUpdate: false }),
       officeName: useField('officeName', '', { validateOnValueUpdate: false }),
       officeAddress: useField('officeAddress', '', { validateOnValueUpdate: false }),

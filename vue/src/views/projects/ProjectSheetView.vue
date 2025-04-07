@@ -64,6 +64,11 @@
         />
       </div>
       <ChipList :items="project.thematics" />
+      <div class="SheetView__title SheetView__title--divider mt-lg-12">
+        <span>{{ $t('actorPage.adminScope') }}</span>
+      </div>
+      <span>{{ project.administrativeScopes.map((x) => $t('actors.scope.' + x)).join(', ') }}</span>
+      <AdminBoundariesButton :entity="project" />
       <div class="SheetView__infoCard">
         <div class="SheetView__infoCardBlock">
           <h5 class="SheetView__title">{{ $t('projectPage.projectOwner') }}</h5>
@@ -123,6 +128,7 @@ import { FormType } from '@/models/enums/app/FormType'
 import router from '@/router'
 import type { Actor } from '@/models/interfaces/Actor'
 import ImagesMosaic from '@/components/content/ImagesMosaic.vue'
+import AdminBoundariesButton from '@/components/content/adminBoundaries/AdminBoundariesButton.vue'
 import { CommentOrigin } from '@/models/interfaces/Comment'
 
 const userStore = useUserStore()

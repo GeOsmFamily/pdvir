@@ -12,7 +12,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\QueryParameter;
 use App\Controller\Project\SimilarProjectsAction;
 use App\Entity\File\MediaObject;
 use App\Entity\Trait\BlameableEntity;
@@ -37,6 +36,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ORM\Index(columns: ['slug'], name: 'idx_project_slug')]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['slug' => SearchFilterInterface::STRATEGY_EXACT])]
 #[ApiResource(
     paginationEnabled: false,
@@ -45,18 +45,16 @@ use Symfony\Component\Validator\Constraints as Assert;
             uriTemplate: '/projects/all',
             normalizationContext: ['groups' => [self::GET_PARTIAL]]
         ),
-        new Get(
-            normalizationContext: ['groups' => [self::GET_PARTIAL]]
-        ),
-        new GetCollection(
-            normalizationContext: ['groups' => [self::GET_FULL]],
-            parameters: [
-                'slug' => new QueryParameter(),
-            ]
-        ),
         new GetCollection(
             uriTemplate: '/projects/{id}/similar',
             controller: SimilarProjectsAction::class,
+            normalizationContext: ['groups' => [self::GET_PARTIAL]]
+        ),
+        new GetCollection(
+            uriTemplate: '/projects',
+            normalizationContext: ['groups' => [self::GET_FULL, Admin1Boundary::GET_WITH_GEOM, Admin2Boundary::GET_WITH_GEOM, Admin3Boundary::GET_WITH_GEOM]]
+        ),
+        new Get(
             normalizationContext: ['groups' => [self::GET_PARTIAL]]
         ),
     ]
@@ -111,9 +109,9 @@ class Project
     #[Assert\Length(max: 500)]
     private ?string $description = null;
 
-    #[ORM\Column(enumType: AdministrativeScope::class)]
+    #[ORM\Column(type: 'simple_array', enumType: AdministrativeScope::class)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
-    private ?AdministrativeScope $interventionZone = null;
+    private array $administrativeScopes = [];
 
     /**
      * @var Collection<int, Thematic>
@@ -223,6 +221,27 @@ class Project
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?string $otherActor = null;
+    
+    /**
+     * @var Collection<int, Admin1Boundary>
+     */
+    #[ORM\ManyToMany(targetEntity: Admin1Boundary::class)]
+    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
+    private Collection $admin1List;
+
+    /**
+     * @var Collection<int, Admin2Boundary>
+     */
+    #[ORM\ManyToMany(targetEntity: Admin2Boundary::class)]
+    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
+    private Collection $admin2List;
+
+    /**
+     * @var Collection<int, Admin3Boundary>
+     */
+    #[ORM\ManyToMany(targetEntity: Admin3Boundary::class)]
+    #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
+    private Collection $admin3List;
 
     public function __construct()
     {
@@ -230,6 +249,10 @@ class Project
         $this->financingTypes = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->partners = new ArrayCollection();
+        $this->administrativeScopes = [];
+        $this->admin1List = new ArrayCollection();
+        $this->admin2List = new ArrayCollection();
+        $this->admin3List = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -330,14 +353,32 @@ class Project
         return $this;
     }
 
-    public function getInterventionZone(): ?AdministrativeScope
+    public function getAdministrativeScopes(): ?array
     {
-        return $this->interventionZone;
+        return $this->administrativeScopes;
     }
 
-    public function setInterventionZone(AdministrativeScope $interventionZone): static
+    public function setAdministrativeScopes(?array $administrativeScopes): self
     {
-        $this->interventionZone = $interventionZone;
+        $this->administrativeScopes = $administrativeScopes;
+
+        return $this;
+    }
+
+    public function addAdministrativeScope(AdministrativeScope $scope): self
+    {
+        if (!in_array($scope, $this->administrativeScopes ?? [], true)) {
+            $this->administrativeScopes[] = $scope;
+        }
+
+        return $this;
+    }
+
+    public function removeAdministrativeScope(AdministrativeScope $scope): self
+    {
+        if (($key = array_search($scope, $this->administrativeScopes ?? [], true)) !== false) {
+            unset($this->administrativeScopes[$key]);
+        }
 
         return $this;
     }
@@ -545,6 +586,29 @@ class Project
     public function setOtherThematic(?string $otherThematic): static
     {
         $this->otherThematic = $otherThematic;
+        return $this;
+    }
+    
+    /**
+     * @return Collection<int, Admin1Boundary>
+     */
+    public function getAdmin1List(): Collection
+    {
+        return $this->admin1List;
+    }
+
+    public function addAdmin1List(Admin1Boundary $admin1List): static
+    {
+        if (!$this->admin1List->contains($admin1List)) {
+            $this->admin1List->add($admin1List);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin1List(Admin1Boundary $admin1List): static
+    {
+        $this->admin1List->removeElement($admin1List);
 
         return $this;
     }
@@ -557,9 +621,10 @@ class Project
     public function setOtherBeneficiary(?string $otherBeneficiary): static
     {
         $this->otherBeneficiary = $otherBeneficiary;
-
         return $this;
     }
+    
+    
 
     public function getOtherDonor(): ?string
     {
@@ -569,6 +634,29 @@ class Project
     public function setOtherDonor(?string $otherDonor): static
     {
         $this->otherDonor = $otherDonor;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Admin2Boundary>
+     */
+    public function getAdmin2List(): Collection
+    {
+        return $this->admin2List;
+    }
+
+    public function addAdmin2List(Admin2Boundary $admin2List): static
+    {
+        if (!$this->admin2List->contains($admin2List)) {
+            $this->admin2List->add($admin2List);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin2List(Admin2Boundary $admin2List): static
+    {
+        $this->admin2List->removeElement($admin2List);
 
         return $this;
     }
@@ -581,7 +669,6 @@ class Project
     public function setOtherContractingOrganisation(?string $otherContractingOrganisation): static
     {
         $this->otherContractingOrganisation = $otherContractingOrganisation;
-
         return $this;
     }
 
@@ -593,6 +680,29 @@ class Project
     public function setOtherActor(?string $otherActor): static
     {
         $this->otherActor = $otherActor;
+        return $this;
+    }
+    
+    /**
+     * @return Collection<int, Admin3Boundary>
+     */
+    public function getAdmin3List(): Collection
+    {
+        return $this->admin3List;
+    }
+
+    public function addAdmin3List(Admin3Boundary $admin3List): static
+    {
+        if (!$this->admin3List->contains($admin3List)) {
+            $this->admin3List->add($admin3List);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin3List(Admin3Boundary $admin3List): static
+    {
+        $this->admin3List->removeElement($admin3List);
 
         return $this;
     }

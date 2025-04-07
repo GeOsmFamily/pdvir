@@ -135,7 +135,9 @@
       "international": "Internationale",
       "national": "Nationale",
       "regional": "Régionale",
-      "state": "Départementale"
+      "state": "Départementale",
+      "neighborhood": "Quartier",
+      "borough": "Arrondissement"
     },
     "status": {
       "finalized": "Finalisé",
