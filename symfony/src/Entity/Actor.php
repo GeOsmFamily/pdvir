@@ -517,9 +517,10 @@ class Actor
     public function setOtherCategory(?string $otherCategory): static
     {
         $this->otherCategory = $otherCategory;
+
         return $this;
     }
-    
+
     /**
      * @return Collection<int, Admin1Boundary>
      */
@@ -552,6 +553,7 @@ class Actor
     public function setOtherExpertise(?string $otherExpertise): static
     {
         $this->otherExpertise = $otherExpertise;
+
         return $this;
     }
 
@@ -563,6 +565,7 @@ class Actor
     public function setOtherThematic(?string $otherThematic): static
     {
         $this->otherThematic = $otherThematic;
+
         return $this;
     }
 

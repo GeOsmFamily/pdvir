@@ -221,7 +221,7 @@ class Project
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?string $otherActor = null;
-    
+
     /**
      * @var Collection<int, Admin1Boundary>
      */
@@ -410,7 +410,6 @@ class Project
     /**
      * @return Collection<int, ProjectFinancingType>
      */
-
     public function getFinancingTypes(): ?array
     {
         return $this->financingTypes;
@@ -596,9 +595,10 @@ class Project
     public function setOtherThematic(?string $otherThematic): static
     {
         $this->otherThematic = $otherThematic;
+
         return $this;
     }
-    
+
     /**
      * @return Collection<int, Admin1Boundary>
      */
@@ -631,10 +631,9 @@ class Project
     public function setOtherBeneficiary(?string $otherBeneficiary): static
     {
         $this->otherBeneficiary = $otherBeneficiary;
+
         return $this;
     }
-    
-    
 
     public function getOtherDonor(): ?string
     {
@@ -644,6 +643,7 @@ class Project
     public function setOtherDonor(?string $otherDonor): static
     {
         $this->otherDonor = $otherDonor;
+
         return $this;
     }
 
@@ -679,6 +679,7 @@ class Project
     public function setOtherContractingOrganisation(?string $otherContractingOrganisation): static
     {
         $this->otherContractingOrganisation = $otherContractingOrganisation;
+
         return $this;
     }
 
@@ -690,9 +691,10 @@ class Project
     public function setOtherActor(?string $otherActor): static
     {
         $this->otherActor = $otherActor;
+
         return $this;
     }
-    
+
     /**
      * @return Collection<int, Admin3Boundary>
      */

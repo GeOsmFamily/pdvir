@@ -331,9 +331,10 @@ class Resource
     public function setOtherType(?string $otherType): static
     {
         $this->otherType = $otherType;
+
         return $this;
     }
-    
+
     /**
      * @return Collection<int, Admin1Boundary>
      */
@@ -366,8 +367,9 @@ class Resource
     public function setOtherThematic(?string $otherThematic): static
     {
         $this->otherThematic = $otherThematic;
+
         return $this;
-    }    
+    }
 
     /**
      * @return Collection<int, Admin2Boundary>
