@@ -193,9 +193,9 @@ class Project
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?array $beneficiaryTypes = null;
 
-    #[ORM\Column(enumType: ProjectFinancingType::class)]
+    #[ORM\Column(type: 'simple_array', enumType: ProjectFinancingType::class)]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
-    private Collection $financingTypes;
+    private ?array $financingTypes;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -246,7 +246,7 @@ class Project
     public function __construct()
     {
         $this->thematics = new ArrayCollection();
-        $this->financingTypes = new ArrayCollection();
+        $this->financingTypes = [];
         $this->images = new ArrayCollection();
         $this->partners = new ArrayCollection();
         $this->administrativeScopes = [];
@@ -410,23 +410,33 @@ class Project
     /**
      * @return Collection<int, ProjectFinancingType>
      */
-    public function getFinancingTypes(): Collection
+
+    public function getFinancingTypes(): ?array
     {
         return $this->financingTypes;
     }
 
-    public function addFinancingType(ProjectFinancingType $financingType): static
+    public function setFinancingTypes(?array $financingTypes): self
     {
-        if (!$this->financingTypes->contains($financingType)) {
-            $this->financingTypes->add($financingType);
+        $this->financingTypes = $financingTypes;
+
+        return $this;
+    }
+
+    public function addFinancingType(ProjectFinancingType $financingType): self
+    {
+        if (!in_array($financingType, $this->financingTypes ?? [], true)) {
+            $this->financingTypes[] = $financingType;
         }
 
         return $this;
     }
 
-    public function removeFinancingType(ProjectFinancingType $financingType): static
+    public function removeFinancingType(ProjectFinancingType $financingType): self
     {
-        $this->financingTypes->removeElement($financingType);
+        if (($key = array_search($financingType, $this->financingTypes ?? [], true)) !== false) {
+            unset($this->financingTypes[$key]);
+        }
 
         return $this;
     }
