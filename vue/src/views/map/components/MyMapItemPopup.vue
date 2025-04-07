@@ -105,6 +105,10 @@ const showPopupOnInit = async () => {
 </script>
 
 <style lang="scss">
+.maplibregl-popup:not(.show),
+.maplibregl-popup:not(.show) * {
+  pointer-events: none !important;
+}
 .MyMap {
   width: 100%;
   height: 100%;

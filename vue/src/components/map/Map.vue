@@ -12,6 +12,7 @@ import ResetMapExtentControl from '@/components/map/controls/ResetMapExtentContr
 import { useApplicationStore } from '@/stores/applicationStore'
 import { IControl } from '@/services/map/MapService'
 import cameroonMask from '@/assets/geojsons/mask_cameroun.json'
+import { debounce } from '@/services/utils/UtilsService'
 
 const applicationStore = useApplicationStore()
 const triggerZoomReset = computed(() => applicationStore.triggerZoomReset)
@@ -134,21 +135,55 @@ const addImage = async (path: string, name: string) => {
   return
 }
 
-const addPopup = (
-  coordinates: maplibregl.LngLatLike | undefined,
-  popupHtml: any,
-  isComponent = true
-) => {
-  if (map.value == null || coordinates == null) return
-  flyTo(coordinates)
-  popup.value
-    .setLngLat(coordinates)
-    .setDOMContent(isComponent ? popupHtml.$el : popupHtml)
-    .addTo(map.value)
-  popup.value.addClassName('show')
-  popup.value._onClose = () => {
-    activeFeatureId.value = null
-    popup.value.removeClassName('show')
+const addPopup = debounce(
+  (coordinates: maplibregl.LngLatLike | undefined, popupHtml: any, isComponent = true) => {
+    if (map.value == null || coordinates == null) return
+
+    const domContent = isComponent ? popupHtml.$el : popupHtml
+
+    popup.value.setLngLat(coordinates).setDOMContent(domContent).addTo(map.value)
+
+    popup.value.addClassName('show')
+    flyTo(coordinates)
+    map.value.once('moveend', ensurePopupInView)
+    popup.value._onClose = () => {
+      activeFeatureId.value = null
+      popup.value.removeClassName('show')
+    }
+  },
+  100
+)
+
+const ensurePopupInView = () => {
+  if (map.value == null || popup.value == null) return
+  const popupAnchor = popup.value.getLngLat()
+  const mapCanvas = map.value.getCanvas()
+  const mapRect = mapCanvas.getBoundingClientRect()
+  const popupElement = popup.value._container
+
+  if (!popupAnchor || !popupElement) return
+
+  const popupRect = popupElement.getBoundingClientRect()
+  const offset = 60
+  // Calculate overflow in pixels
+  const overflow = {
+    top: mapRect.top - popupRect.top + offset,
+    bottom: popupRect.bottom - mapRect.bottom + offset,
+    left: mapRect.left - popupRect.left + offset,
+    right: popupRect.right - mapRect.right + offset
+  }
+
+  // Only move if overflow happens
+  let dx = 0,
+    dy = 0
+  if (overflow.left > 0) dx = -overflow.left
+  else if (overflow.right > 0) dx = overflow.right
+
+  if (overflow.top > 0) dy = -overflow.top
+  else if (overflow.bottom > 0) dy = overflow.bottom
+
+  if (dx !== 0 || dy !== 0) {
+    map.value.panBy([dx, dy], { duration: 300 })
   }
 }
 
