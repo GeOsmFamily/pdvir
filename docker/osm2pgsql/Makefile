@@ -50,7 +50,6 @@ init-osm-db:	## Create OSM database with osm2pgsql
         --slim \
         --schema=${POSTGRES_GEODATA_SCHEMA} \
         /data/cameroon-latest.osm.pbf
-	$(DOCKER_COMP) exec osm2pgsql rm /data/cameroon-latest.osm.pbf
 
 
 create-osm-db: create-geodata-user-schema download-osm-file init-osm-db
