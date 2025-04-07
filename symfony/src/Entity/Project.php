@@ -35,7 +35,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
-#[ORM\Index(columns: ['slug'], name: 'idx_project_slug')]
+#[ORM\Index(columns: ['slug', 'is_validated'], name: 'idx_project_slug_is_validated')]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['slug' => SearchFilterInterface::STRATEGY_EXACT])]
 #[ApiResource(
     paginationEnabled: false,

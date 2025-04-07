@@ -16,15 +16,15 @@ class GeoData
     private ?int $id = null;
 
     #[ORM\Column(type: 'bigint', nullable: true)]
-    #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE, Resource::WRITE])]
+    #[Groups([Project::WRITE, Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE, Resource::WRITE])]
     private ?string $osmId = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups([Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE, Resource::WRITE])]
+    #[Groups([Project::WRITE, Project::GET_FULL, Resource::GET_FULL, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE, Resource::WRITE])]
     private ?string $osmType = 'node';
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([PROJECT::GET_FULL, PROJECT::GET_PARTIAL, Resource::GET_FULL, Resource::WRITE, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE])]
+    #[Groups([Project::WRITE, PROJECT::GET_FULL, PROJECT::GET_PARTIAL, Resource::GET_FULL, Resource::WRITE, Actor::ACTOR_READ_COLLECTION, Actor::ACTOR_READ_ITEM, Actor::ACTOR_WRITE])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
