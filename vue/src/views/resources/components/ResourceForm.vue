@@ -239,39 +239,39 @@
 </template>
 
 <script setup lang="ts">
-import { type Resource } from '@/models/interfaces/Resource'
-import { ResourceFormService } from '@/services/resources/ResourceFormService'
-import { useResourceStore } from '@/stores/resourceStore'
-import { useThematicStore } from '@/stores/thematicStore'
-import { computed, onMounted, ref, watch } from 'vue'
-import Modal from '@/components/global/Modal.vue'
-import { FormType } from '@/models/enums/app/FormType'
-import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
-import { onInvalidSubmit } from '@/services/forms/FormService'
-import { ResourceFormat } from '@/models/enums/contents/ResourceFormat'
-import FileInput from '@/components/forms/FileInput.vue'
-import type { Thematic } from '@/models/interfaces/Thematic'
-import { ResourceType } from '@/models/enums/contents/ResourceType'
-import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
-import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import DateInput from '@/components/forms/DateInput.vue'
-import LocationSelector from '@/components/forms/LocationSelector.vue'
-import type { FileObject } from '@/models/interfaces/object/FileObject'
-import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import FileInput from '@/components/forms/FileInput.vue'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
-import type { Ref } from 'vue'
-import { useUserStore } from '@/stores/userStore'
-import { useI18n } from 'vue-i18n'
+import LocationSelector from '@/components/forms/LocationSelector.vue'
+import Modal from '@/components/global/Modal.vue'
+import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
+import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
+import { FormType } from '@/models/enums/app/FormType'
+import { NotificationType } from '@/models/enums/app/NotificationType'
+import { ResourceFormat } from '@/models/enums/contents/ResourceFormat'
+import { ResourceType } from '@/models/enums/contents/ResourceType'
 import type {
   Admin1Boundary,
   Admin2Boundary,
   Admin3Boundary
 } from '@/models/interfaces/AdminBoundaries'
-import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
-import { useAdminBoundariesStore } from '@/stores/adminBoundariesStore'
-import { NotificationType } from '@/models/enums/app/NotificationType'
+import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
+import type { FileObject } from '@/models/interfaces/object/FileObject'
+import { type Resource } from '@/models/interfaces/Resource'
+import type { Thematic } from '@/models/interfaces/Thematic'
 import { i18n } from '@/plugins/i18n'
+import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
+import { onInvalidSubmit } from '@/services/forms/FormService'
 import { addNotification } from '@/services/notifications/NotificationService'
+import { ResourceFormService } from '@/services/resources/ResourceFormService'
+import { useAdminBoundariesStore } from '@/stores/adminBoundariesStore'
+import { useResourceStore } from '@/stores/resourceStore'
+import { useThematicStore } from '@/stores/thematicStore'
+import { useUserStore } from '@/stores/userStore'
+import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
+import type { Ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const resourceStore = useResourceStore()
 const thematicsStore = useThematicStore()
@@ -305,7 +305,9 @@ const submitLabel = computed(() => {
 })
 
 const showAdminScope = computed(() => {
-  return [ResourceType.RAPPORTS, ResourceType.REGULATIONS].includes(form.type.value.value)
+  return [ResourceType.RAPPORTS, ResourceType.REGULATIONS, ResourceType.OTHERS].includes(
+    form.type.value.value
+  )
 })
 const activeAdminLevels = computed(() => {
   if (
@@ -370,7 +372,9 @@ watch(
   }
 )
 const showLocation = computed(() => {
-  return [ResourceType.EVENTS, ResourceType.GUIDES].includes(form.type.value.value)
+  return [ResourceType.EVENTS, ResourceType.GUIDES, ResourceType.OTHERS].includes(
+    form.type.value.value
+  )
 })
 const resourceFormats = computed(() => {
   switch (form.type.value.value) {
