@@ -113,15 +113,6 @@
             @blur="form.thematics.handleChange(form.thematics.value.value)"
             return-object
           />
-          <div class="Form__fieldCtn">
-            <label class="Form__label">{{ $t('actors.form.description') }}</label>
-            <v-textarea
-              variant="outlined"
-              v-model="form.description.value.value"
-              :error-messages="form.description.errorMessage.value"
-              @blur="form.description.handleChange"
-            />
-          </div>
         </div>
         <div class="Form__fieldCtn" v-if="otherThematicIsSelected">
           <label class="Form__label conditionnal">{{ $t('actors.form.otherThematic') }}</label>
@@ -150,14 +141,6 @@
             @blur="form.administrativeScopes.handleChange(form.administrativeScopes.value.value)"
           />
         </div>
-        <v-divider color="main-grey" class="border-opacity-100"></v-divider>
-
-        <FormSectionTitle :text="$t('actors.form.location')" />
-        <LocationSelector
-          @update:model-value="form.geoData.handleChange"
-          v-model="form.geoData.value.value as GeoData"
-          :error-message="form.geoData.errorMessage.value"
-        />
         <div class="Form__fieldCtn" v-if="activeAdminLevels && activeAdminLevels.admin1">
           <label class="Form__label">{{ $t('actors.form.admin1') }}</label>
           <v-autocomplete
@@ -197,6 +180,7 @@
             return-object
           ></v-autocomplete>
         </div>
+
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
 
         <!-- Contact infos -->
@@ -278,6 +262,14 @@
             @blur="form.officeAddress.handleChange"
           />
         </div>
+        <v-divider color="main-grey" class="border-opacity-100"></v-divider>
+
+        <FormSectionTitle :text="$t('actors.form.location')" />
+        <LocationSelector
+          @update:model-value="form.geoData.handleChange"
+          v-model="form.geoData.value.value as GeoData"
+          :error-message="form.geoData.errorMessage.value"
+        />
 
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
         <FormSectionTitle :text="$t('actors.form.images')" />

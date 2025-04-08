@@ -47,6 +47,10 @@
     "logout": "Déconnexion"
   },
   "inputs": {
+    "location": {
+      "lat": "Latitude",
+      "lng": "Longitude"
+    },
     "locationSelector": {
       "searchAddress": "Rechercher l'adresse",
       "enterGpsCoords": "Entrer les coordonnées GPS",
@@ -180,10 +184,6 @@
             "error": "Une erreur est survenue lors du chargement des données"
         }
     }
-  },
-  "location": {
-    "lat": "Latitude",
-    "lng": "Longitude"
   },
   "adminBoundaries": {
         "adminScope": "Echelle d'intervention",
