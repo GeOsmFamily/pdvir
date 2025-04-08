@@ -155,7 +155,10 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
           )
         ])
       ].filter((v) => v) as any[]
-    ).map((value) => value.toLowerCase())
+    ).map((value) => {
+      if (typeof value === 'string') return value.toLowerCase()
+      return value
+    })
   }
 
   const orderedProjects: ComputedRef<Project[]> = computed(() => {
