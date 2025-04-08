@@ -190,8 +190,11 @@
           </div>
           <v-divider color="main-grey" class="border-opacity-100"></v-divider>
         </template>
-        <template v-if="showLocation">
-          <FormSectionTitle :text="$t('resources.form.section.location')" />
+        <template v-if="showLocation || showAdminScope">
+          <FormSectionTitle v-if="showLocation" :text="$t('resources.form.section.location')" />
+          <label class="Form__label" v-if="showAdminScope">{{
+            $t('resources.form.section.centroids')
+          }}</label>
           <LocationSelector
             @update:model-value="form.geoData.handleChange"
             v-model="form.geoData.value.value"

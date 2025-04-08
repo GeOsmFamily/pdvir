@@ -89,7 +89,8 @@
       "section": {
         "thematics": "Thématiques",
         "resource": "Ressource",
-        "location": "Localisation"
+        "location": "Localisation",
+        "centroids": "Centroïde de la zone d'intervention"
       }
     },
     "admin": {
