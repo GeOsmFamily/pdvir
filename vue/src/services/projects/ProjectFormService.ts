@@ -28,7 +28,7 @@ export class ProjectFormService {
         admin3List: zodModels.admin3Boundaries.optional(),
         focalPointTel: zodModels.phone,
         geoData: zodModels.geoData,
-        actor: zodModels.symfonyRelation.optional(),
+        actor: zodModels.symfonyRelation.nullable(),
         otherActor: z.string().optional(),
         status: z.nativeEnum(Status),
         financingTypes: z.array(z.nativeEnum(ProjectFinancingType)),
@@ -44,9 +44,18 @@ export class ProjectFormService {
       .refine(
         (data) => {
           return (
-            (data.actor !== undefined && data.actor !== null) ||
-            (data.otherActor !== undefined && data.otherActor !== '' && data.otherActor !== null)
+            (data.actorsInCharge !== undefined && data.actorsInCharge.length > 0) ||
+            !!data.otherActorInCharge
           )
+        },
+        {
+          message: i18n.t('projects.form.errorMessages.noActor'),
+          path: ['actorsInCharge', 'otherActorInCharge']
+        }
+      )
+      .refine(
+        (data) => {
+          return (data.actor !== undefined && data.actor !== null) || !!data.otherActor
         },
         {
           message: i18n.t('projects.form.errorMessages.noActor'),

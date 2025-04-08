@@ -88,13 +88,6 @@
             @blur="form.status.handleChange(form.status.value.value)"
           />
         </div>
-        <v-divider color="main-grey" class="border-opacity-100"></v-divider>
-        <FormSectionTitle :text="$t('projects.form.section.localization')" />
-        <LocationSelector
-          @update:model-value="form.geoData.handleChange"
-          v-model="form.geoData.value.value as GeoData"
-          :error-message="form.geoData.errorMessage.value"
-        />
 
         <v-divider color="main-grey" class="border-opacity-100"></v-divider>
         <FormSectionTitle :text="$t('projects.form.section.adminScope')" />
@@ -151,6 +144,14 @@
             return-object
           ></v-autocomplete>
         </div>
+
+        <v-divider color="main-grey" class="border-opacity-100"></v-divider>
+        <FormSectionTitle :text="$t('projects.form.section.localization')" />
+        <LocationSelector
+          @update:model-value="form.geoData.handleChange"
+          v-model="form.geoData.value.value as GeoData"
+          :error-message="form.geoData.errorMessage.value"
+        />
 
         <FormSectionTitle :text="$t('projects.form.section.thematics')" />
         <v-select
@@ -271,7 +272,11 @@
           variant="outlined"
           :placeholder="$t('projects.form.fields.otherActor.label')"
           v-model="form.otherActorInCharge.value.value"
-          :error-messages="form.otherActorInCharge.errorMessage.value"
+          :error-messages="
+            projectHasNoActorInCharge && !form.otherActorInCharge.value.value
+              ? $t('projects.form.errorMessages.noActor')
+              : ''
+          "
           @blur="form.otherActorInCharge.handleChange"
         />
 
@@ -304,6 +309,7 @@
           :error-messages="form.actor.errorMessage.value"
           :placeholder="$t('projects.form.section.projectOwner')"
           @blur="form.actor.handleChange(form.actor.value.value)"
+          clearable
           return-object
         />
         <v-text-field
@@ -312,7 +318,11 @@
           variant="outlined"
           v-model="form.otherActor.value.value"
           :placeholder="$t('projects.form.fields.otherActor.label')"
-          :error-messages="form.otherActor.errorMessage.value"
+          :error-messages="
+            projectHasNoOwner && !form.otherActor.value.value
+              ? $t('projects.form.errorMessages.noActor')
+              : ''
+          "
           @blur="form.otherActor.handleChange"
         />
 

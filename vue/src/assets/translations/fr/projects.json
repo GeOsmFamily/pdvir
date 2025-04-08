@@ -80,8 +80,8 @@
         "actorInChargeDisclaimer": "Organisation qui commande et finance le projet",
         "financial": "Financement *",
         "focalPoint": "Personne de référence",
-        "localization": "Localisation",
-        "adminScope": "Echelle d'intervention",
+        "localization": "Localisation centroïde de la zone d'intervention",
+        "adminScope": "Localisation zone d'Intervention",
         "projectOwner": "Responsable du projet *",
         "projectOwnerDisclaimer": "En charge de la gestion et de la coordination du projet",
         "thematics": "Thématiques *",
@@ -101,6 +101,7 @@
         "validate": "Valider un projet"
       },
       "errorMessages": {
+        "noActorInCharge": "Vous devez ajouter au moins une organisation",
         "noActor": "Vous devez ajouter au moins un responsable"
       }
     },
