@@ -529,6 +529,9 @@ onMounted(async () => {
     if (props.project.otherActor) {
       projectHasNoOwner.value = true
     }
+    if (props.project.otherActorInCharge) {
+      projectHasNoActorInCharge.value = true
+    }
     existingLogo.value = props.project.logo ? [props.project.logo] : []
     existingImages.value = [...props.project.images, ...props.project.externalImages]
     existingHostedImages = props.project.images
