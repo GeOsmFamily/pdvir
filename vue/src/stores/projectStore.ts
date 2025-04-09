@@ -124,14 +124,14 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
 
     if (from === 'filters') {
       map.value?.fitBounds(
-        getBboxFromPointsGroup(projectsList.map((x) => x.geoData.coords).filter((c) => c != null))
+        getBboxFromPointsGroup(projectsList.map((x) => x.geoData?.coords).filter((c) => c != null))
       )
     }
     if (from === 'map') {
       if (!map.value) return projectsList
       const bounds = map.value.getBounds()
       return projectsList.filter((proj) => {
-        if (!proj.geoData.coords) return false
+        if (!proj.geoData?.coords) return false
         const { lat, lng } = proj.geoData.coords
         return bounds.contains([lng, lat])
       })
@@ -145,7 +145,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
         ...new Set([
           project.name,
           project.actor.name,
-          project.geoData.name,
+          project.geoData?.name,
           project.administrativeScopes,
           i18n.t(`projects.status.${project.status}`),
           project.focalPointName,
