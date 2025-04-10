@@ -133,7 +133,7 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
       if (!map.value) return projectsList
       const bounds = map.value.getBounds()
       return projectsList.filter((proj) => {
-        if (!proj.geoData?.coords) return false
+        if (!proj.geoData?.coords) return true
         const { lat, lng } = proj.geoData.coords
         return bounds.contains([lng, lat])
       })
