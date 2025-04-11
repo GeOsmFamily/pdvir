@@ -54,7 +54,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: ['groups' => [self::GET_FULL, Admin1Boundary::GET_WITH_GEOM, Admin2Boundary::GET_WITH_GEOM, Admin3Boundary::GET_WITH_GEOM]]
         ),
         new Get(
-            normalizationContext: ['groups' => [self::GET_PARTIAL]]
+            normalizationContext: ['groups' => [self::GET_FULL]]
         ),
     ]
 )]
