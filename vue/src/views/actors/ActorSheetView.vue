@@ -64,11 +64,7 @@
       <div class="SheetView__infoCard">
         <div>
           <h5 class="SheetView__title">{{ $t('actorPage.contact') }}</h5>
-          <ContactCard
-            :name="actor.contactName"
-            :description="actor.contactPosition"
-            image="https://trustedexecutive.com/wp/wp-content/uploads/2016/06/morpheus-red-pill-blue-pill.jpg"
-          />
+          <ContactCard :name="actor.contactName" :description="actor.contactPosition" />
         </div>
       </div>
     </div>
