@@ -3,6 +3,8 @@ services:
     build:
       context: ./vue
       target: vue_dev
+      args:
+        - GOAT_COUNTER_NAMESPACE=${GOAT_COUNTER_NAMESPACE}
     image: vue:latest
     restart: on-failure
     ports:
