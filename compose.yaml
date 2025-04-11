@@ -3,6 +3,8 @@ services:
     build:
       context: ./vue
       target: vue_dev
+      args:
+        - GOAT_COUNTER_NAMESPACE=${GOAT_COUNTER_NAMESPACE}
     image: vue:latest
     restart: on-failure
     ports:
@@ -10,8 +12,6 @@ services:
     volumes:
       - ./vue:/app:rw,cached
       - vue_node_modules:/app/node_modules:rw,cached
-    args:
-      - GOAT_COUNTER_NAMESPACE=${GOAT_COUNTER_NAMESPACE}
 
   frankenphp:
     build:
