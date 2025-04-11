@@ -626,12 +626,12 @@ class Project
         return $this;
     }
 
-    public function getotherFinancingType(): ?string
+    public function getOtherFinancingType(): ?string
     {
         return $this->otherFinancingType;
     }
 
-    public function setotherFinancingType(?string $otherFinancingType): static
+    public function setOtherFinancingType(?string $otherFinancingType): static
     {
         $this->otherFinancingType = $otherFinancingType;
 
