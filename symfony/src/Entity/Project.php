@@ -193,7 +193,7 @@ class Project
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?array $beneficiaryTypes = null;
 
-    #[ORM\Column(type: 'simple_array', enumType: ProjectFinancingType::class)]
+    #[ORM\Column(type: 'simple_array', enumType: ProjectFinancingType::class, options: ['default' => ProjectFinancingType::OTHER->value])]
     #[Groups([self::GET_FULL, self::GET_PARTIAL, self::WRITE])]
     private ?array $financingTypes;
 
