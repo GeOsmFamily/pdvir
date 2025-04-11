@@ -3,6 +3,8 @@ services:
     build:
       context: ./vue
       target: vue_dev
+      args:
+        - GOAT_COUNTER_NAMESPACE=${GOAT_COUNTER_NAMESPACE}
     image: vue:latest
     restart: on-failure
     ports:
@@ -132,11 +134,10 @@ services:
       - postgres
     restart: on-failure
 
-
   osm2pgsql:
     image: iboates/osm2pgsql:latest
     volumes:
-      - ./docker/osm2pgsql/data:/data
+      - osm_data:/data
     environment:
       - PGPASSWORD=${POSTGRES_GEODATA_PASSWORD}
     depends_on:
@@ -158,3 +159,9 @@ volumes:
       o: bind
       type: none
       device: ./docker/qgis/data
+  osm_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./docker/osm2pgsql/data
