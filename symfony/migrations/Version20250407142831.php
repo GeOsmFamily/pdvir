@@ -29,6 +29,7 @@ final class Version20250407142831 extends AbstractMigration
         $this->addSql(<<<'SQL'
             ALTER TABLE project DROP contracting_organisation_id
         SQL);
+        $this->addSql("UPDATE project SET administrative_scopes = 'national' WHERE administrative_scopes IS NULL");
         $this->addSql(<<<'SQL'
             ALTER TABLE project ALTER administrative_scopes SET NOT NULL
         SQL);
