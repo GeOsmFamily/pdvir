@@ -10,6 +10,8 @@ services:
     volumes:
       - ./vue:/app:rw,cached
       - vue_node_modules:/app/node_modules:rw,cached
+    args:
+      - GOAT_COUNTER_NAMESPACE=${GOAT_COUNTER_NAMESPACE}
 
   frankenphp:
     build:
@@ -133,17 +135,17 @@ services:
     restart: on-failure
 
 
-  osm2pgsql:
-    image: iboates/osm2pgsql:latest
-    volumes:
-      - osm_data:/data
-    environment:
-      - PGPASSWORD=${POSTGRES_GEODATA_PASSWORD}
-    depends_on:
-      postgres:
-        condition: service_healthy
-    entrypoint: ["tail", "-f", "/dev/null"]
-    restart: unless-stopped
+  # osm2pgsql:
+  #   image: iboates/osm2pgsql:latest
+  #   volumes:
+  #     - osm_data:/data
+  #   environment:
+  #     - PGPASSWORD=${POSTGRES_GEODATA_PASSWORD}
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   entrypoint: ["tail", "-f", "/dev/null"]
+  #   restart: unless-stopped
 
 volumes:
   caddy_data:
@@ -158,9 +160,9 @@ volumes:
       o: bind
       type: none
       device: ./docker/qgis/data
-  osm_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ./docker/osm2pgsql/data
+  # osm_data:
+  #   driver: local
+  #   driver_opts:
+  #     o: bind
+  #     type: none
+  #     device: ./docker/osm2pgsql/data
