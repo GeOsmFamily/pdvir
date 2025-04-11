@@ -125,9 +125,6 @@ restart:	## Restarts all containers, or a specific one if provided
 restart-db:	## Restarts the postgres container
 	make restart postgres
 
-restart-db:	## Restarts the postgres container
-	make restart postgres
-
 rm-vue-volume:	## Deletes the vue volume, useful if facing puc_vue_node_modules/_data': failed to mount local volume
 	$(DOCKER_COMP) down vue -v
 
