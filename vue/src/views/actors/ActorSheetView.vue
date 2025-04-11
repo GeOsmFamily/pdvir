@@ -19,9 +19,7 @@
         :map-btn-tooltip="$t('actorPage.seeLocation')"
         :createdBy="actor.createdBy"
         @edit="editActor"
-      >
-        <template #mapButton></template>
-      </SheetContentBanner>
+      />
       <div class="SheetView__contentCtn my-6" v-if="actor.description">
         <div class="SheetView__title SheetView__title--divider">
           {{ $t('actorPage.description') }}

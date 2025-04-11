@@ -24,7 +24,6 @@
             <HighlightButton :item-id="id" />
             <LikeButton :id="id" />
             <CommentButton position="Sheet" :origin="page" originSlug="SheetPage" />
-            <slot name="mapButton"></slot>
             <UpdateInfoLabel :date="updatedAt" :user="createdBy" class="show-sm text-left" />
           </div>
           <div class="SheetContentBanner__editBar">
