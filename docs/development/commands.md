@@ -33,7 +33,7 @@ dev:            Up and show urls
 build-dev:      Build, up and show urls
 deploy:         Deploys the project
 show-urls:      Show project services urls
-init-hosts:     Adds the puc.local and local subdomain entries to the hosts file
+init-hosts:     Adds the pdvir.local and local subdomain entries to the hosts file
 
 --------------------------------------------------------------------------------
  🐋  Docker commands

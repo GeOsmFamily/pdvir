@@ -4,8 +4,8 @@ There is currently **2 different environnements** :
 
 | Env | Url                         | Owner   | Database  | IP             |
 |-----|-----------------------------|---------|-----------|----------------|
-|`DEV`| https://dev.puc.cartong.org | CartONG | In docker | `54.36.176.77` |
-|`UAT`| https://uat.puc.cartong.org | CartONG | In docker | `54.36.176.77` |
+|`DEV`| https://dev.pdvir.cartong.org | CartONG | In docker | `54.36.176.77` |
+|`UAT`| https://uat.pdvir.cartong.org | CartONG | In docker | `54.36.176.77` |
 
 ## `DEV` and `UAT` environments
 

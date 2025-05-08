@@ -1,6 +1,6 @@
 # Components
 
-All components used in the platform are available in the design system available in [`https://puc.local/ui`](https://puc.local/ui)
+All components used in the platform are available in the design system available in [`https://pdvir.local/ui`](https://pdvir.local/ui)
 
 
 ::: info

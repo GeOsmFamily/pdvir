@@ -14,21 +14,21 @@ services:
     environment:
       APP_ENV: dev
     networks:
-      - puc-network
+      - pdvir-network
   postgres:
     networks:
-      - puc-network
+      - pdvir-network
   nominatim:
     networks:
-      - puc-network
+      - pdvir-network
   qgis:
     networks:
-      - puc-network
+      - pdvir-network
   osm2pgsql:
     networks:
-      - puc-network
+      - pdvir-network
 
 networks:
-  puc-network:
-    name: puc_network
+  pdvir-network:
+    name: pdvir_network
     external: true

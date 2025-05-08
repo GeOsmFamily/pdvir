@@ -13,7 +13,7 @@ You can now add a new service in the pg_service.conf file.
 Open it in a text editor and configure it like this:
 
 ``` ini
-[puc]
+[pdvir]
 host=localhost
 port={your tunnel port}
 dbname={db name}
@@ -21,6 +21,6 @@ user={username}
 password={password}
 ```
 
-**Do not change the service name (puc), this name will be saved in the QGIS projects that you load into the application to allow it to read the data.**
+**Do not change the service name (pdvir), this name will be saved in the QGIS projects that you load into the application to allow it to read the data.**
 
-You can now create a connection to postgresql in QGIS, you will only need to fill in the service name (puc) in the connection information!
+You can now create a connection to postgresql in QGIS, you will only need to fill in the service name (pdvir) in the connection information!

@@ -12,7 +12,7 @@ import { VDateInput } from 'vuetify/labs/VDateInput'
 // Composables
 import { createVuetify, type ThemeDefinition } from 'vuetify'
 
-const pucCustomTheme: ThemeDefinition = {
+const pdvirCustomTheme: ThemeDefinition = {
   colors: {
     'main-blue': '#1c3b87',
     'bright-blue': '#111EF7',
@@ -43,9 +43,9 @@ export default createVuetify({
     }
   },
   theme: {
-    defaultTheme: 'pucCustomTheme',
+    defaultTheme: 'pdvirCustomTheme',
     themes: {
-      pucCustomTheme
+      pdvirCustomTheme
     }
   },
   defaults: {

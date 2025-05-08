@@ -51,22 +51,22 @@ show-urls:	## Show project services urls
 	@printf "${BLUE}+-------------------------------------------------+\n"
 	@printf "${BLUE}| Cameroon Urban Platform                         |\n"
 	@printf "${BLUE}+-------------------------------------------------+\n"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🚀  Main website" 	"https://puc.local"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🔒  REST API Doc" 			"https://puc.local/api/docs"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🔭  Nominatim API" 			"https://puc.local/nominatim"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🌍  QGIS server" 	 	"https://qgis.puc.local"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "📨  SMTP server" 		"https://mail.puc.local"
-	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "💡  Documentation" 	"https://docs.puc.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🚀  Main website" 	"https://pdvir.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🔒  REST API Doc" 			"https://pdvir.local/api/docs"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🔭  Nominatim API" 			"https://pdvir.local/nominatim"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "🌍  QGIS server" 	 	"https://qgis.pdvir.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "📨  SMTP server" 		"https://mail.pdvir.local"
+	@printf "${BLUE}| ${BLUE}%-19s ${BLUE}| ${LIGHT_BLUE}%-27s${BLUE} |\n" "💡  Documentation" 	"https://docs.pdvir.local"
 	@printf "${BLUE}+-------------------------------------------------+${NC}\n"
 	@echo ""
 
 HOST_ENTRIES = \
-  "127.0.0.1     puc.local"\
-  "127.0.0.1     qgis.puc.local"\
-  "127.0.0.1     docs.puc.local"\
-  "127.0.0.1     mail.puc.local"
+  "127.0.0.1     pdvir.local"\
+  "127.0.0.1     qgis.pdvir.local"\
+  "127.0.0.1     docs.pdvir.local"\
+  "127.0.0.1     mail.pdvir.local"
 
-init-hosts:	## Adds the puc.local and local subdomain entries to the hosts file
+init-hosts:	## Adds the pdvir.local and local subdomain entries to the hosts file
 	@printf "${YELLOW}----------------------------------------------------${NC}\n"
 	@printf "${YELLOW}  We will just add entries to your hosts file       ${NC}\n"
 	@printf "${YELLOW}  Note : You might be asked to enter your password  ${NC}\n"
@@ -125,7 +125,7 @@ restart:	## Restarts all containers, or a specific one if provided
 restart-db:	## Restarts the postgres container
 	make restart postgres
 
-rm-vue-volume:	## Deletes the vue volume, useful if facing puc_vue_node_modules/_data': failed to mount local volume
+rm-vue-volume:	## Deletes the vue volume, useful if facing pdvir_vue_node_modules/_data': failed to mount local volume
 	$(DOCKER_COMP) down vue -v
 
 reload-caddy:	## To reload the caddy container

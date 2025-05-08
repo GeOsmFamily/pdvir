@@ -20,7 +20,7 @@ export default defineConfig({
     }),
     sentryVitePlugin({
       org: 'cartong',
-      project: 'puc-vue',
+      project: 'pdvir-vue',
       authToken: process.env.SENTRY_AUTH_TOKEN
     })
   ],
@@ -32,7 +32,7 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    allowedHosts: ['puc.local']
+    allowedHosts: ['pdvir.local']
     // host: "0.0.0.0",
     // watch: {
     //   usePolling: true,

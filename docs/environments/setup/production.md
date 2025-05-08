@@ -24,7 +24,7 @@ There is **two setup options**, choose the one that fits your need.
 
 ``` bash
 # Clone your project
-git clone git@github.com:CartONG/plateforme-urbaine-cameroun.git puc_prod && cd puc_prod
+git clone git@github.com:CartONG/plateforme-urbaine-cameroun.git pdvir_prod && cd pdvir_prod
 
 # Create an .env.local
 nano .env.local
@@ -95,18 +95,18 @@ Restart your containers.
 
 ### *2 : Create Reverse proxy directory structure and files*
 
-Then create the directory `puc_reverse_proxy` that will contain the caddy docker service that will proxy the requests. Your directory structure should look like this :
+Then create the directory `pdvir_reverse_proxy` that will contain the caddy docker service that will proxy the requests. Your directory structure should look like this :
 
 - `~`
-  - `puc_prod`
-  - `puc_reverse_proxy`
+  - `pdvir_prod`
+  - `pdvir_reverse_proxy`
     - `compose.yaml`
     - `Caddyfile`
 
 Create these two files :
 
 ``` yaml
-# ./puc_reverse_proxy/compose.yaml
+# ./pdvir_reverse_proxy/compose.yaml
 
 services:
   caddy:
@@ -124,7 +124,7 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - puc-network
+      - pdvir-network
 
 volumes:
   caddy_data:
@@ -132,19 +132,19 @@ volumes:
   caddy_config:
 
 networks:
-  puc-network:
-    name: puc_network
+  pdvir-network:
+    name: pdvir_network
     external: true
 ```
 
 Add the following `Caddyfile` file, that will redirect requests to the appropriate docker service, and will handle certificates :
 
 ::: info
-In the following file sample , make sure to replace `<your-domain.org>` with your actual domain, example `puc.org`
+In the following file sample , make sure to replace `<your-domain.org>` with your actual domain, example `pdvir.org`
 :::
 
 ``` bash
-# ./puc_reverse_proxy/Caddyfile
+# ./pdvir_reverse_proxy/Caddyfile
 
 {
   on_demand_tls {

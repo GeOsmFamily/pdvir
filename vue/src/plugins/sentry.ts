@@ -11,7 +11,7 @@ export const initSentry = (app: App, router: Router) => {
       // Tracing
       tracesSampleRate: 1.0, //  Capture 100% of the transactions
       // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-      tracePropagationTargets: [/^https:\/\/(dev|uat)\.puc.\.cartong\.org/]
+      tracePropagationTargets: [/^https:\/\/(dev|uat)\.pdvir.\.cartong\.org/]
     })
   }
 }
