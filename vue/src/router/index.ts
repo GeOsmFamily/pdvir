@@ -77,8 +77,8 @@ const router = createRouter({
       }
     },
     {
-      path: `/${i18n.t('routes.resources')}`,
-      name: 'resources',
+      path: `/${i18n.t('routes.data')}`,
+      name: 'data',
       component: () => import('@/views/resources/ResourceListView.vue')
     },
     {

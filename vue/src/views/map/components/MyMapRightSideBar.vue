@@ -1,5 +1,16 @@
 <template>
   <div class="MyMapRightSideBar">
+    <div >
+      <span>{{$t('myMap.header.select.placeholder')}}</span><br/>
+      <MyMapSelectCommuneTown
+        :placeholder="$t('myMap.header.select.placeholder')"
+        :geometry-details="true"
+        class="MyMapHeader__search"
+        :icon="'mdi-map-marker'"
+        density="comfortable"
+        v-model="mapStore.selectedTown"
+      />
+    </div>
     <div v-show="!mapStore.isMapExportActive" class="MyMapRightSideBar__subCtn">
       <MyMapPlatformLayers />
       <MyMapAtlasesList
@@ -26,6 +37,7 @@ import { useAtlasStore } from '@/stores/atlasStore'
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import { useMyMapStore } from '@/stores/myMapStore'
 import MyMapExportMenu from './export/MyMapExportMenu.vue'
+import MyMapSelectCommuneTown from './MyMapSelectCommuneTown.vue'
 
 const atlasStore = useAtlasStore()
 const mapStore = useMyMapStore()

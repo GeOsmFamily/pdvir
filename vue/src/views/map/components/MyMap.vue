@@ -37,6 +37,9 @@ import MyMapExportButton from '@/views/map/components/export/MyMapExportButton.v
 import ScaleControl from '@/components/map/controls/ScaleControl.vue'
 import QgisLayersQueryButton from './QgisLayersQuery/QgisLayersQueryButton.vue'
 import MyMapCommentButton from '@/views/map/components/MyMapCommentButton.vue'
+import { LngLatBounds } from 'maplibre-gl';
+import doualaMask from '@/assets/geojsons/mask_douala.json'
+import batouriMask from '@/assets/geojsons/mask_batouri.json'
 
 type MapType = InstanceType<typeof Map>
 const basemap = ref<Basemap>()
@@ -94,6 +97,21 @@ watch(basemap, () => {
     })
   }
 })
+
+//this is the watcher that will change the mask when the user selects a town
+watch(
+  () => myMapStore.selectedTown,
+  (newValue) => {
+    const doualaBbox: any=[9.336134, 3.740717, 9.864412, 4.225236];
+    const batouriBbox: any=[13.940685,4.212827,14.882435,4.767127];
+    const newBbox = newValue === 'batouri' ? new LngLatBounds(batouriBbox) : new LngLatBounds(doualaBbox);
+    const newMaskSource = (newValue === 'batouri' ? batouriMask : doualaMask) as GeoJSON.GeoJSON
+    if (map.value != null && newValue != null && newValue != null) {
+      map.value.fitBounds(newBbox, { padding: 75 });
+      (map.value.getSource('doualaMask') as maplibregl.GeoJSONSource).setData(newMaskSource)
+    }
+  }
+)
 
 watch(
   () => myMapStore.mapSearch?.bbox,

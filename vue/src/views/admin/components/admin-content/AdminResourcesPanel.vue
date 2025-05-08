@@ -1,7 +1,7 @@
 <template>
   <div class="AdminPanel">
     <AdminTopBar
-      page="Resources"
+      page="data"
       :items="resourceStore.resources"
       :sortingListItems="sortOptions"
       searchKey="name"

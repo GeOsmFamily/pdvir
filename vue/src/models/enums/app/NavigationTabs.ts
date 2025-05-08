@@ -2,6 +2,6 @@ export enum NavigationTabs {
   HOME,
   ACTORS,
   PROJECTS,
-  RESOURCES,
+  DATA,
   SERVICES
 }

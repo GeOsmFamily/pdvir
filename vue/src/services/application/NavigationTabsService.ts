@@ -10,24 +10,10 @@ export class NavigationTabsService {
         route: '/'
       },
       {
-        name: i18n.t('header.actors'),
-        value: NavigationTabs.ACTORS,
+        name: i18n.t('header.data'),
+        value: NavigationTabs.DATA,
         route: {
-          name: 'actors'
-        }
-      },
-      {
-        name: i18n.t('header.projects'),
-        value: NavigationTabs.PROJECTS,
-        route: {
-          name: 'projects'
-        }
-      },
-      {
-        name: i18n.t('header.resources'),
-        value: NavigationTabs.RESOURCES,
-        route: {
-          name: 'resources'
+          name: 'data'
         }
       },
       {
