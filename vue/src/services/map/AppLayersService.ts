@@ -75,22 +75,8 @@ export class AppLayersService {
       }
     }
 
-    myMapStore!.projectLayer = LayerService.initLayer(
-      {
-        id: ItemType.PROJECT,
-        name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.PROJECT),
-        icon: projectLayerIcon
-      },
-      showProject
-    )
-    myMapStore!.actorLayer = LayerService.initLayer(
-      {
-        id: ItemType.ACTOR,
-        name: i18n.t('myMap.rightSidebar.layers.itemType.' + ItemType.ACTOR),
-        icon: actorLayerIcon
-      },
-      showActor
-    )
+  
+    
     myMapStore!.resourceLayer = LayerService.initLayer(
       {
         id: ItemType.RESOURCE,

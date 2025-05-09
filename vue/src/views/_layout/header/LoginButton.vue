@@ -24,33 +24,9 @@
 
     <v-list class="mt-2">
       <v-list-item
-        v-if="userStore.userHasRole(UserRoles.EDITOR_PROJECTS) || userStore.userIsAdmin()"
-        @click="projectStore.isProjectFormShown = true"
-      >
-        <template v-slot:prepend>
-          <v-icon color="main-blue" icon="mdi-plus"></v-icon>
-        </template>
-        <v-list-item-title>{{ $t('header.addProject') }}</v-list-item-title>
-      </v-list-item>
-      <v-list-item
-        v-if="userStore.userHasRole(UserRoles.EDITOR_ACTORS) || userStore.userIsAdmin()"
-        @click="actorsStore.setActorEditionMode(null)"
-      >
-        <template v-slot:prepend>
-          <v-icon color="main-blue" icon="mdi-plus"></v-icon>
-        </template>
-        <v-list-item-title>{{ $t('header.addActor') }}</v-list-item-title>
-      </v-list-item>
-      <v-list-item
         v-if="userStore.userHasRole(UserRoles.EDITOR_RESSOURCES) || userStore.userIsAdmin()"
         @click="resourceStore.isResourceFormShown = true"
       >
-        <template v-slot:prepend>
-          <v-icon color="main-blue" icon="mdi-plus"></v-icon>
-        </template>
-        <v-list-item-title>{{ $t('header.addResource') }}</v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="userStore.userHasRole(UserRoles.EDITOR_DATA) || userStore.userIsAdmin()">
         <template v-slot:prepend>
           <v-icon color="main-blue" icon="mdi-plus"></v-icon>
         </template>

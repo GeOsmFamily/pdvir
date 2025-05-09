@@ -40,11 +40,9 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const isMapExportActive = ref(false)
   const isQgisLayerQueryActive = ref(false)
 
-  const actorLayer: Ref<Layer | null> = ref(null)
   const actorSubLayers: Ref<Layer[]> = ref([])
   const resourceLayer: Ref<Layer | null> = ref(null)
   const resourceSubLayers: Ref<Layer[]> = ref([])
-  const projectLayer: Ref<Layer | null> = ref(null)
   const projectSubLayers: Ref<Layer[]> = ref([])
 
   const activeItemId: Ref<string | null> = ref(null)
@@ -100,8 +98,6 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
 
   // Activate a watcher for app layers status
   LegendService.watchAppLayersVisibilityChanges(
-    actorLayer,
-    projectLayer,
     resourceLayer,
     legendList,
     atlasMaps
@@ -224,9 +220,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     mapCanvasToDataUrl,
     mapSearch,
     selectedTown,
-    actorLayer,
     actorSubLayers,
-    projectLayer,
     projectSubLayers,
     resourceLayer,
     resourceSubLayers,

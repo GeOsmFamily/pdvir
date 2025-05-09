@@ -1,9 +1,9 @@
 {
   "resources": {
-    "resources": "ressource | ressource | ressources",
-    "title": "Centre de\nressources",
-    "desc": "Le centre de ressources est au coeur de la vie de la Plateforme Urbaine du Cameroun. Elle vous propose...",
-    "search": "Rechercher une ressource",
+    "resources": "donnée | donnée | données",
+    "title": "Centre de\ndonnées",
+    "desc": "Le centre de données est au coeur de la vie de la Plateforme Urbaine du Cameroun. Elle vous propose...",
+    "search": "Rechercher une Donnée",
     "thematic": "Thématique d'intervention",
     "format": "Format",
     "type": "Type",
@@ -12,7 +12,7 @@
     "updatedAt": "Date de dernière mise à jour",
     "showPassedEvents": "Afficher les événenements passées",
     "hidePassedEvents": "Cacher les événenements passées",
-    "add": "Ajouter une ressource",
+    "add": "Ajouter une donnée",
     "resourceType": {
       "guides": "Tutoriels",
       "rapports": "Rapports projet",
@@ -32,14 +32,14 @@
         "atLeastOneField": "Vous devez ajouter au moins un lien ou un fichier"
       },
       "title": {
-        "create": "Ajouter une ressource",
-        "edit": "Modifier une ressource",
-        "validate": "Valider une ressource"
+        "create": "Ajouter une donnée",
+        "edit": "Modifier une Donnée",
+        "validate": "Valider une Donnée"
       },
       "fields": {
         "name": {
-          "label": "Nom de la ressource",
-          "placeholder": "Nom de la ressource"
+          "label": "Nom de la donnée",
+          "placeholder": "Nom de la donnée"
         },
         "description": {
           "label": "Description",
@@ -49,20 +49,20 @@
           "label": "Image de prévisualisation"
         },
         "type": {
-          "label": "Type de ressource",
-          "placeholder": "Type de ressource"
+          "label": "Type de donnée",
+          "placeholder": "Type de donnée"
         },
         "otherType": {
-          "label": "Autre type de ressource",
-          "placeholder": "Preciser le type de ressource"
+          "label": "Autre Type de donnée",
+          "placeholder": "Preciser le Type de donnée"
         },
         "date": {
           "label": "Date",
           "placeholder": "Date"
         },
         "format": {
-          "label": "Format de la ressource",
-          "placeholder": "Format de la ressource"
+          "label": "Format de la donnée",
+          "placeholder": "Format de la donnée"
         },
         "thematics": {
           "label": "Thématiques",
@@ -88,7 +88,7 @@
       },
       "section": {
         "thematics": "Thématiques",
-        "resource": "Ressource",
+        "resource": "Donnée",
         "location": "Localisation",
         "centroids": "Centroïde de la zone d'intervention"
       }
@@ -97,8 +97,8 @@
       "sort": {
         "sortBy": "Trier par",
         "options": {
-          "resourceToValidate": "Ressources en attente de validation",
-          "resourceName": "Nom de la ressource"
+          "resourceToValidate": "Données en attente de validation",
+          "resourceName": "Nom de la donnée"
         }
       },
       "delete": "Supprimer"

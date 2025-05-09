@@ -53,12 +53,7 @@ const projectsSourceName = sources.projects,
   projectsImageName = sources.projects,
   projectsImageHoverName = projectsImageName + '_hover'
 
-watch(
-  () => projectStore.filteredProjects,
-  () => {
-    refreshProjectLayer()
-  }
-)
+
 
 watch(
   () => projectMap.value?.hoveredFeatureId,
@@ -110,7 +105,6 @@ onMounted(() => {
     map.value.addControl(new IControl(toggleSidebarControl), 'top-left')
     projectStore.map = map.value
     map.value.on('load', async () => {
-      await setProjectLayer()
       showPopupOnInit()
     })
     map.value.on('moveend', () => {
@@ -134,11 +128,7 @@ const updatePin = () => {
   }
 }
 
-const refreshProjectLayer = async () => {
-  if (projectMap.value) {
-    projectMap.value.setData(sources.projects, geojson.value)
-  }
-}
+
 
 const imageHoverFilter = (
   imageName: string,
@@ -153,21 +143,7 @@ const imageHoverFilter = (
   ]
 }
 
-const setProjectLayer = async () => {
-  if (projectMap.value) {
-    projectMap.value.addSource(projectsSourceName, geojson.value)
-    await projectMap.value.addImage(projectIcon, projectsImageName)
-    await projectMap.value.addImage(projectHoverIcon, projectsImageHoverName)
-    const layout: maplibregl.LayerSpecification['layout'] = {
-      'icon-image': imageHoverFilter(projectsImageName, projectsImageHoverName),
-      'icon-size': 0.45
-    }
-    projectMap.value.addLayer(projectsLayerName, { layout })
-    projectMap.value.listenToHoveredFeature(projectsLayerName)
-    projectMap.value.addPopupOnClick(projectsLayerName, activeProjectCard.value)
-  }
-  return
-}
+
 </script>
 
 <style lang="scss">

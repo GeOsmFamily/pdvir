@@ -110,12 +110,6 @@ function removeMainLayer(item: AtlasLayerLegendItem | AppLayerLegendItem) {
     })
   } else {
     switch (item.id) {
-      case ItemType.ACTOR:
-        mapStore.actorLayer!.isShown = false
-        break
-      case ItemType.PROJECT:
-        mapStore.projectLayer!.isShown = false
-        break
       case ItemType.RESOURCE:
         mapStore.resourceLayer!.isShown = false
         break

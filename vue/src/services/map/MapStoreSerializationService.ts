@@ -11,16 +11,9 @@ export class MapStoreSerializationService {
       bbox: store.bbox as LngLatBounds,
       order: []
     }
-    if (store.actorLayer?.isShown)
-      stateToSave.layers.actors = store.actorSubLayers
-        .filter((l: Layer) => l.isShown)
-        .map((l: Layer) => l.id) as number[]
+  
     if (store.resourceLayer?.isShown)
       stateToSave.layers.resources = store.resourceSubLayers
-        .filter((l: Layer) => l.isShown)
-        .map((l: Layer) => l.id) as number[]
-    if (store.projectLayer?.isShown)
-      stateToSave.layers.projects = store.projectSubLayers
         .filter((l: Layer) => l.isShown)
         .map((l: Layer) => l.id) as number[]
     if (store.atlasMaps.some((x: AtlasMap) => x.mainLayer.isShown)) {

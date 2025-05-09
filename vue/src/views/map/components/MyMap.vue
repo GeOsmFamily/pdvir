@@ -6,7 +6,6 @@
     <MyMapLegend ref="map-legend" />
     <MyMapExportButton ref="map-export-button" />
     <QgisLayersQueryButton ref="qgis-query-button" />
-    <MyMapCommentButton ref="map-comment-button" />
     <ToggleSidebarControl
       v-model="myMapStore.isLeftSidebarShown"
       :inversed-direction="true"
@@ -63,7 +62,6 @@ onMounted(() => {
     map.value.addControl(new IControl(basemapPicker), 'bottom-right')
     map.value.addControl(new IControl(toggleRightSidebarControl), 'top-right')
     map.value.addControl(new IControl(toggleLeftSidebarControl), 'top-left')
-    map.value.addControl(new IControl(mapCommentControl), 'bottom-right')
     map.value.addControl(new IControl(mapLegend), 'bottom-right')
     map.value.addControl(new IControl(mapExportButton), 'bottom-right')
     map.value.addControl(new IControl(qgisQueryButton), 'bottom-right')

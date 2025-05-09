@@ -8,40 +8,19 @@ import { watch, type Ref } from 'vue'
 
 export class LegendService {
   static watchAppLayersVisibilityChanges(
-    actorLayer: Ref<Layer | null>,
-    projectLayer: Ref<Layer | null>,
     resourceLayer: Ref<Layer | null>,
     legendList: Ref<(AppLayerLegendItem | AtlasLayerLegendItem)[]>,
     atlasMaps: Ref<AtlasMap[]>
   ) {
     watch(
       [
-        () => actorLayer.value?.isShown,
-        () => projectLayer.value?.isShown,
         () => resourceLayer.value?.isShown
       ],
       (
-        [actorIsShown, projectIsShown, resourceIsShown],
-        [prevActorIsShown, prevProjectIsShown, prevResourceIsShown]
+        [ resourceIsShown],
+        [ prevResourceIsShown]
       ) => {
-        if (actorIsShown !== prevActorIsShown) {
-          this.updateLegendList(
-            ItemType.ACTOR,
-            LayerType.APP_LAYER,
-            legendList,
-            atlasMaps,
-            actorIsShown
-          )
-        }
-        if (projectIsShown !== prevProjectIsShown) {
-          this.updateLegendList(
-            ItemType.PROJECT,
-            LayerType.APP_LAYER,
-            legendList,
-            atlasMaps,
-            projectIsShown
-          )
-        }
+        
         if (resourceIsShown !== prevResourceIsShown) {
           this.updateLegendList(
             ItemType.RESOURCE,
