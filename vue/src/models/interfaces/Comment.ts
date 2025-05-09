@@ -14,7 +14,7 @@ export interface AppComment extends Timestampable, Blameable {
 export enum CommentOrigin {
   ACTOR = 'Actor',
   PROJECT = 'Project',
-  RESOURCE = 'Resource',
+  RESOURCE = 'Data',
   MAP = 'Map'
 }
 

@@ -156,8 +156,8 @@ const router = createRouter({
                 import('@/views/admin/components/admin-content/AdminProjectsPanel.vue')
             },
             {
-              name: 'adminResources',
-              path: 'resources',
+              name: 'adminData',
+              path: 'data',
               component: () =>
                 import('@/views/admin/components/admin-content/AdminResourcesPanel.vue')
             }
@@ -209,8 +209,8 @@ const router = createRouter({
               component: () => import('@/views/admin/components/admin-comments/ProjectComments.vue')
             },
             {
-              name: 'resourcesComments',
-              path: 'resourcesComments',
+              name: 'dataComments',
+              path: 'dataComments',
               component: () =>
                 import('@/views/admin/components/admin-comments/ResourcesComments.vue')
             },

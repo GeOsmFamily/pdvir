@@ -151,10 +151,10 @@ export class AppLayersService {
 
   static getGeojsonPerItemType(itemType: ItemType) {
     switch (itemType) {
-      case ItemType.ACTOR:
+      /* case ItemType.ACTOR:
         return MapService.getGeojson(this.filteredActors.value)
       case ItemType.PROJECT:
-        return MapService.getGeojson(this.filteredProjects.value)
+        return MapService.getGeojson(this.filteredProjects.value) */
       case ItemType.RESOURCE:
         return MapService.getGeojson(this.filteredResources.value)
     }

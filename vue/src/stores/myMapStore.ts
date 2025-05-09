@@ -19,11 +19,7 @@ import { AppLayersService } from '@/services/map/AppLayersService'
 import type { MapState } from '@/models/interfaces/map/MapState'
 import { useAtlasStore } from './atlasStore'
 import type { Item } from '@/models/interfaces/Item'
-import { useProjectStore } from './projectStore'
-import { useActorsStore } from './actorsStore'
 import { useResourceStore } from './resourceStore'
-import { ProjectService } from '@/services/projects/ProjectService'
-import { ActorsService } from '@/services/actors/ActorsService'
 import { ResourceService } from '@/services/resources/ResourceService'
 import { ItemType, type QGISItemType } from '@/models/enums/app/ItemType'
 
@@ -176,33 +172,16 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   watch(
     () => activeItemId.value,
     async () => {
-      const projectStore = useProjectStore()
-      const actorStore = useActorsStore()
       const resourceStore = useResourceStore()
       activeItem.value = null
       activeItemType.value = null
 
-      await Promise.all([resourceStore.getAll(), actorStore.getAll(), projectStore.getAll()])
+      await Promise.all([resourceStore.getAll()])
       if (activeItemId.value) {
-        let item: Item | undefined = projectStore.projects.find(
-          (project) => project.id === activeItemId.value
-        )
-
+        const item = resourceStore.resources.find((resource) => resource.id === activeItemId.value)
         if (item) {
-          activeItemType.value = ItemType.PROJECT
-          activeItem.value = await ProjectService.get(item)
-        } else {
-          item = actorStore.actors.find((actor) => actor.id === activeItemId.value)
-          if (item) {
-            activeItemType.value = ItemType.ACTOR
-            activeItem.value = await ActorsService.getActor(item.id)
-          } else {
-            item = resourceStore.resources.find((resource) => resource.id === activeItemId.value)
-            if (item) {
-              activeItemType.value = ItemType.RESOURCE
-              activeItem.value = await ResourceService.get(item)
-            }
-          }
+          activeItemType.value = ItemType.RESOURCE
+          activeItem.value = await ResourceService.get(item)
         }
       }
     }
