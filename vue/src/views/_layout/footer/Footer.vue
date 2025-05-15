@@ -26,16 +26,16 @@
           <div class="Footer__adressCtn">
             <v-icon icon="mdi-map-marker-outline"></v-icon>
             <div class="Footer__adress">
-              <span class="font-weight-medium">Bureau d'Expertise France au Cameroun</span>
-              <span>Quartier Golf Bastos</span>
-              <span>Rue 6.083 Bld Jean Paul II</span>
+              <span class="font-weight-medium">Ministère de l'Habitat et du Développement urbain</span>
+              <span>Bureau gouvernemental à Yaoundé</span>
+              <span> VG87+G8C, N3, Yaoundé</span>
               <span>Yaoundé</span>
             </div>
           </div>
           <div class="Footer__adressCtn">
             <v-icon icon="mdi-phone-outline"></v-icon>
             <div class="Footer__adress">
-              <span>00 237 6 52 26 66 18</span>
+              <span>2 22 21 99 32</span>
             </div>
           </div>
           <v-btn
@@ -44,44 +44,16 @@
             variant="flat"
             prepend-icon="mdi-email-outline"
             append-icon="mdi-arrow-right"
-            onclick="location.href='mailto:plateformeurbaine@gmail.com';"
+            onclick="location.href='mailto:info@minhdu.gov.cm';"
             >{{ $t('footer.email') }}</v-btn
           >
         </div>
         <div class="Footer__block Footer__block--right">
           <h4 class="Footer__title">{{ $t('footer.partners') }}</h4>
           <div class="Footer__partnersLogos">
-            <img src="@/assets/images/footer/cameroun_flag.svg" alt="cameroun flag" />
-            <a href="https://www.eeas.europa.eu/delegations/cameroun_fr?s=88" target="_blank"
-              ><img src="@/assets/images/footer/logo_ue.png" alt="union-europeenne"
-            /></a>
-            <a href="https://www.expertisefrance.fr/fiche-projet?id=882931" target="_blank"
-              ><img src="@/assets/images/footer/logo_ef.png" alt="expertise-france"
-            /></a>
-          </div>
-          <div class="Footer__secondaryPartnersLogos">
-            <a href="https://www.minhdu.gov.cm/" target="_blank"
-              ><img src="@/assets/images/footer/minhdu.png" alt="minhdu"
-            /></a>
-            <a href="https://www.minddevel.gov.cm" target="_blank"
-              ><img src="@/assets/images/footer/mindevel.png" alt="minddevel"
-            /></a>
-            <a href="https://cvuc-uccc.com" target="_blank"
-              ><img src="@/assets/images/footer/cvuc.png" alt="cvuc"
-            /></a>
-            <span><img src="@/assets/images/footer/asso_cameroun.png" alt="asso_cameroun" /></span>
-            <a href="https://minepat.gov.cm/fr/accueil" target="_blank"
-              ><img src="@/assets/images/footer/minepat.png" alt="minepat"
-            /></a>
-            <a href="https://yaounde.cm" target="_blank"
-              ><img src="@/assets/images/footer/yaounde.png" alt="yaounde"
-            /></a>
-            <a href="https://tresorpublic.cm/fr/ministries/mindcaf" target="_blank"
-              ><img src="@/assets/images/footer/mindcaf.png" alt="mindcaf"
-            /></a>
-            <a href="https://www.facebook.com/groups/2611030598941314" target="_blank"
-              ><img src="@/assets/images/footer/maroua.png" alt="maroua"
-            /></a>
+            <img src="@/assets/images/footer/logo-banque-mondiale.png" alt="logo Banque modiale" />
+            <img src="@/assets/images/footer/logo-minhdu.png" alt="Logo MINDHU" />
+            
           </div>
         </div>
       </div>
@@ -227,7 +199,7 @@
 
   .Footer__links {
     $dim-divider: 0.5rem;
-    display: flex;
+    display: none; //flex
     flex-flow: row wrap;
     margin-top: 2rem;
     gap: $dim-divider;

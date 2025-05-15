@@ -10,8 +10,8 @@
     },
     "main": {
       "action": "Découvrir les projets",
-      "desc": "La Plateforme Urbaine est une source incontournable pour explorer, télécharger et exploiter des données géographiques et ouvertes sur les projets urbains du Cameroun. Elle présente une vision claire des acteurs et des initiatives qui façonnent nos villes.",
-      "title": "L'urbanisme\nau Cameroun"
+      "desc": "L'Observatoire National sur l’Habitat est un projet multi-partenarial qui met à la disposition de tous des informations précises et documentées sur l’Habitat urbain et Rural au Cameroun",
+      "title": "Un observatoire pour mieux voir, mieux savoir, mieux agir"
     },
     "highlights": {
       "title": "À la une",
@@ -47,7 +47,7 @@
       },
       "title": "La carte interactive\ndu Cameroun",
       "welcome": "Bienvenue",
-      "welcomeDescription": "Composez votre carte thématique grâce aux différents données mises à disposition sur la Plateforme Urbaine du Cameroun."
+      "welcomeDescription": "Composez votre carte thématique grâce aux différents données mises à disposition sur L'Observatoire National sur l’Habitat du Cameroun."
     },
     "news": {
       "title": "À la une",

@@ -26,8 +26,8 @@
     "submit": "Envoyer"
   },
   "header": {
-    "title": "Plateforme",
-    "title2": "Urbaine",
+    "title": "Observatoire National Sur l'Habitat",
+    "title2": " l'Habitat",
     "help": "FAQ",
     "contact": "Hotline",
     "home": "Accueil",
@@ -385,7 +385,7 @@
     "shareEmail": "Partager par email",
     "copyLink": "Copier le lien",
     "urlCopied": "Lien copié",
-    "mailSubject": "Plateforme Urbaine du Cameroun - Partage de données",
-    "genericBody": "Je souhaite partager cet élément de la Plateforme Urbaine du Cameroun avec vous:"
+    "mailSubject": "Observatoite National de l'urbain - Partage de données",
+    "genericBody": "Je souhaite partager cet élément de L'Observatoire National sur l’Habitat du Cameroun avec vous:"
   }
 }

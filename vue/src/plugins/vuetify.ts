@@ -14,16 +14,17 @@ import { createVuetify, type ThemeDefinition } from 'vuetify'
 
 const pdvirCustomTheme: ThemeDefinition = {
   colors: {
-    'main-blue': '#1c3b87',
+    'dark-grey': '#999999',
+    'light-grey': '#F6F7FA',
+    'main-blue': '#005E84',
     'bright-blue': '#111EF7',
-    'light-blue': '#6176AB',
+    'light-blue': '#A2CDDD',
     'main-red': '#E83323',
     'main-yellow': '#F6CC47',
     'light-yellow': '#fdf5da',
-    'main-grey': '#E0E0E0',
-    'dark-grey': '#999999',
-    'light-grey': '#F6F7FA',
-    'main-green': '#2D6438'
+    'main-grey': "#E0E0E0",
+    'main-green': "#2D6438",
+    'main-white': '#FFFFFF'
   }
 }
 

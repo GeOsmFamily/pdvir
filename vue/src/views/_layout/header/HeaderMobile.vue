@@ -15,9 +15,8 @@
               class="Header__bannerLink"
               @click="appStore.activeTab = 0"
             >
-              <img src="@/assets/images/Logo.png" class="Header__appLogo" />
+              <img src="@/assets/images/Logo.png" alt="logo" class="Header__appLogo" />
               <span class="ml-4 text-main-blue">{{ $t('header.title') }}</span>
-              <span class="ml-2 text-main-blue font-weight-bold">{{ $t('header.title2') }}</span>
             </router-link>
           </div>
         </v-app-bar-title>

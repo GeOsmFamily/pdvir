@@ -2,7 +2,13 @@
   <div class="HomeView">
     <div class="HomeView__ctn HomeView__ctn--main">
       <div class="HomeView__mainContent">
-        
+        <div class="HomeView__mainContentInfo">
+          <PageTitle :title="$t('home.main.title')" />
+          <p>{{ $t('home.main.desc') }}</p>
+          <v-btn class="HomeView__mainAction" color="main-blue" :to="{ name: 'projects' }">{{
+            $t('home.main.action')
+          }}</v-btn>
+        </div>
         <HomeKpis class="HomeView__mainContentKpis" />
       </div>
       <div class="HomeView__mainImagesCtn">
