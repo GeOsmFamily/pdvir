@@ -54,11 +54,7 @@
       </div>
     </div>
     <div class="HomeView__ctn HomeView__ctn--agenda">
-      <SectionBanner
-        :text="$t('home.agenda.title')"
-        :action-label="$t('home.agenda.action')"
-        :action-link="{ name: 'data', query: { type: 'events' } }"
-      />
+        <PageTitle :title="$t('home.agenda.title')" />
       <HomeAgenda />
     </div>
     <div class="HomeView__ctn HomeView__ctn--why-subscribe">
@@ -141,9 +137,12 @@ onMounted(async () => {
         }
       }
     }
+    &--agenda{
+      padding: 4rem 64px;
+    }
     &--map {
       border:1px solid rgba(229, 229, 229, 0.5);
-      padding: 4rem 0rem;
+      padding: 4rem 64px;
       overflow: hidden;
       position: relative;
 

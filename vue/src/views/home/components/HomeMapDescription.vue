@@ -28,6 +28,7 @@
         <p>{{ $t('home.map.welcomeDescription') }}</p>
       </div>
     </div>
+    
   </div>
 </template>
 
@@ -82,6 +83,7 @@ const observatoryContent = [
 }
 .HomeMapDescription {
   display: flex;
+  align-items: center;
   flex-flow: row nowrap;
   gap: 2rem;
   padding: 0 1rem;
@@ -102,13 +104,14 @@ const observatoryContent = [
   .batourie{
     position: absolute;
     right: -80px;
-    bottom:50px;
+    top:100px;
     height:250px;
     object-fit:cover;
   }
   .HomeMapDescription__mapImg {
-    padding-right: 200px;
+    padding-right: 100px;
     position: relative;
+    height:fit-content;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -118,7 +121,8 @@ const observatoryContent = [
     img {
       max-width: 100%;
       width: 400px;
-      height:250px;
+      min-width: 400px;
+      max-height:250px;
       border-radius: 0.5rem;
       border: solid 3px #fff;
       filter: brightness(0.8);

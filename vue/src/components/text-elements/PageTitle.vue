@@ -1,5 +1,7 @@
 <template>
-  <span class="PageTitle" ref="titleRef"></span>
+  <div class="half-circle"> 
+    <span class="PageTitle" ref="titleRef"></span>
+  </div>
 </template>
 
 <script setup lang="ts">
