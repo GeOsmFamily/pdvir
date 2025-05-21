@@ -33,7 +33,7 @@
             {{ $t('auth.signIn.invalidAccount.resendActivationEmail') }}
           </v-btn>
         </div>
-        <v-btn color="main-red" type="submit">{{ $t('auth.signIn.form.submit') }}</v-btn>
+        <v-btn color="main-yellow" type="submit">{{ $t('auth.signIn.form.submit') }}</v-btn>
       </Form>
     </template>
     <template #bottom-content>

@@ -16,7 +16,7 @@
         :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_BECOME_MEMBER } }"
         class="Link--withoutUnderline"
       >
-        <v-btn color="main-red" type="submit" block>{{ $t('home.becomeMember.action') }}</v-btn>
+        <v-btn color="main-yellow" type="submit" block>{{ $t('home.becomeMember.action') }}</v-btn>
       </router-link>
     </div>
     <div class="HomeBecomeMember__imageCtn">
@@ -72,7 +72,7 @@ const reasons = [
     overflow: hidden;
 
     .HomeBecomeMember__title {
-      color: rgb(var(--v-theme-main-red));
+      color: rgb(var(--v-theme-main-yellow));
       font-size: $font-size-h2;
     }
     .HomeBecomeMember__reasonsCtn {

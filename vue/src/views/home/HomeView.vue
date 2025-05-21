@@ -1,18 +1,44 @@
 <template>
   <div class="HomeView">
     <div class="HomeView__ctn HomeView__ctn--main">
+      
       <div class="HomeView__mainContent">
+      
         <div class="HomeView__mainContentInfo">
           <PageTitle :title="$t('home.main.title')" />
           <p>{{ $t('home.main.desc') }}</p>
-          <v-btn class="HomeView__mainAction" color="main-blue" :to="{ name: 'projects' }">{{
+          
+        </div>
+        <div class="HomeView__btnAction">
+          <v-btn class="HomeView__mainAction" color="main-blue" :to="{ name: 'map' }">{{
             $t('home.main.action')
           }}</v-btn>
+          <v-btn class="HomeView__mainAction" color="main-blue" :to="{ name: 'data' }">{{
+            $t('home.main.data')
+          }}</v-btn>
         </div>
-        <HomeKpis class="HomeView__mainContentKpis" />
+        <!-- <HomeKpis class="HomeView__mainContentKpis" /> -->
       </div>
+      
       <div class="HomeView__mainImagesCtn">
         <img src="@/assets/images/home_iconography.svg" alt="" />
+      </div>
+       <div class="swiper-container">
+        <div class="backdrop"></div>
+        <Swiper
+          :modules="[EffectFade, Autoplay, Navigation]"
+          :effect="'fade'"
+          :navigation="false"
+          :autoplay="{
+            delay: 3500,
+            disableOnInteraction: false
+          }"
+          class="mySwiper"
+        >
+          <SwiperSlide v-for="(image, index) in imagesBackgroundUrl" :key="index">
+            <img :src="image" :alt="`Slide ${index + 1}`" />
+          </SwiperSlide>
+        </Swiper>
       </div>
     </div>
     <div
@@ -37,6 +63,7 @@
     </div>
     <div class="HomeView__ctn HomeView__ctn--why-subscribe">
       <HomeBecomeMember />
+      
     </div>
   </div>
 </template>
@@ -50,13 +77,32 @@ import HomeBecomeMember from '@/views/home/components/HomeBecomeMember.vue'
 import { useHomeStore } from '@/stores/homeStore'
 import { onMounted } from 'vue'
 import HomeAgenda from '@/views/home/components/HomeAgenda.vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { EffectFade, Autoplay, Navigation } from 'swiper/modules'
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/effect-fade'
+import 'swiper/css/navigation'
 
-const homeStore = useHomeStore()
+const homeStore = useHomeStore();
+const imagesBackgroundUrl =[
+  'src/assets/images/home/monument.jpg',
+  'src/assets/images/home/djoudjou.jpg',
+  'src/assets/images/home/paysage de douala.jpg',
+  'src/assets/images/home/rue.jpg',
+  'src/assets/images/home/toit.jpg'
+];
 
-onMounted(async () => await Promise.all([homeStore.getMainHighlights(), homeStore.getGlobalKpis()]))
+
+
+onMounted(async () => {
+  await Promise.all([homeStore.getMainHighlights(), homeStore.getGlobalKpis()]);
+});
+
 </script>
 <style lang="scss">
 .HomeView {
+  
   .HomeView__ctn {
     display: flex;
     flex-flow: column nowrap;
@@ -65,13 +111,20 @@ onMounted(async () => await Promise.all([homeStore.getMainHighlights(), homeStor
     &--main {
       flex-flow: row nowrap;
       gap: 3rem;
+      padding: 64px;
+      color: white;
       margin: 0;
-
+      position: relative;
       .HomeView__mainContent {
         display: flex;
         flex-flow: column nowrap;
         gap: 3rem;
         flex: 1 0 50%;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: opacity 1s ease-in-out;
         .HomeView__mainContentInfo {
           display: flex;
           flex-flow: column nowrap;
@@ -89,29 +142,79 @@ onMounted(async () => await Promise.all([homeStore.getMainHighlights(), homeStor
       }
     }
     &--map {
-      background-color: rgb(var(--v-theme-light-yellow));
+      border:1px solid rgba(229, 229, 229, 0.5);
       padding: 4rem 0rem;
       overflow: hidden;
       position: relative;
 
       &::after {
         content: '';
-        right: 0;
+        right: -200px;
         z-index: 1;
         pointer-events: none;
         background-size: contain;
-        top: 0;
+        top: -85px;
         background-image: url('@/assets/images/roads_iconography.svg');
         background-position: top right;
         position: absolute;
         width: 70vw;
         min-height: 50rem;
-        height: 80vh;
+        height: 100vh;
       }
 
       > * {
         z-index: 2;
       }
+    }
+    .HomeView__btnAction{
+      display: flex;
+      justify-content: left;
+      gap:32px;
+      margin-top: 54px;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+.swiper-container {
+  opacity: 0.75;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  .backdrop{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+    z-index:10;
+
+  }
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .swiper-slide {
+    background-position: center;
+    background-size: cover;
+    
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  :deep(.swiper-button-next),
+  :deep(.swiper-button-prev) {
+    color: white;
+    
+    &:after {
+      font-size: 24px;
     }
   }
 }
@@ -135,7 +238,7 @@ onMounted(async () => await Promise.all([homeStore.getMainHighlights(), homeStor
 
         .HomeView__mainContent {
           .HomeView__mainAction {
-            width: 100%;
+            width: 40%;
           }
         }
 

@@ -71,7 +71,7 @@ const closeDialog = () => {
     text-align: center;
 
     .Dialog__title {
-      color: rgb(var(--v-theme-main-red));
+      color: rgb(var(--v-theme-main-yellow));
     }
 
     .Dialog__subtitle {

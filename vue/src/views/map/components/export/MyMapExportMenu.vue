@@ -39,7 +39,7 @@
         <span class="text-action" @click="mapStore.isMapExportActive = false">{{
           $t('forms.cancel')
         }}</span>
-        <v-btn type="submit" form="map-export-form" color="main-red" :loading="isSubmitting">{{
+        <v-btn type="submit" form="map-export-form" color="main-yellow" :loading="isSubmitting">{{
           $t('myMap.export.form.submit')
         }}</v-btn>
       </div>

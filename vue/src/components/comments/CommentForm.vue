@@ -38,7 +38,7 @@
       >
     </template>
     <template #footer-right>
-      <v-btn type="submit" form="comment-form" color="main-red" :loading="isSubmitting">{{
+      <v-btn type="submit" form="comment-form" color="main-yellow" :loading="isSubmitting">{{
         $t('forms.create')
       }}</v-btn>
     </template>

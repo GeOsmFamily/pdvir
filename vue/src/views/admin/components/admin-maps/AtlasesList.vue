@@ -17,7 +17,7 @@
       @update-search-query="searchQuery = $event"
     >
       <template #right-buttons>
-        <v-btn @click="createAtlas" color="main-red">{{ $t('admin.add') }}</v-btn>
+        <v-btn @click="createAtlas" color="main-yellow">{{ $t('admin.add') }}</v-btn>
       </template>
     </AdminTopBar>
     <div class="AdminTable" :class="{ 'cursor-grab': sortingAtlasSelectedMethod === 'position' }">

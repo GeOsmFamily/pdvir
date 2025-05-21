@@ -34,7 +34,7 @@
       hide-details
       v-model="newExternalImageUrl"
     ></v-text-field>
-    <v-btn color="main-red ml-2" @click="addNewExternalImage">Ajouter</v-btn>
+    <v-btn color="main-yellow ml-2" @click="addNewExternalImage">Ajouter</v-btn>
   </div>
 
   <div>
@@ -181,7 +181,7 @@ const emitChange = () => {
     }
   }
   &__errorMessage {
-    color: rgb(var(--v-theme-main-red));
+    color: rgb(var(--v-theme-main-yellow));
     font-size: $font-size-xs;
   }
   &__divider {
@@ -209,7 +209,7 @@ const emitChange = () => {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgb(var(--v-theme-main-red));
+    background-color: rgb(var(--v-theme-main-yellow));
     height: 24px;
     width: 24px;
     border-radius: 50%;

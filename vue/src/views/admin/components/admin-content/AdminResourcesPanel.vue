@@ -10,7 +10,7 @@
       @update-search-query="(e) => (searchQuery = e)"
     >
       <template #right-buttons>
-        <v-btn @click="showResourceForm" color="main-red">{{ $t('admin.add') }}</v-btn>
+        <v-btn @click="showResourceForm" color="main-yellow">{{ $t('admin.add') }}</v-btn>
       </template>
     </AdminTopBar>
     <AdminTable

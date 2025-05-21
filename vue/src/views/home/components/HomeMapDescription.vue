@@ -9,21 +9,20 @@
       >
       <PageTitle :title="$t('home.map.title')" />
       <div class="HomeMapDescription__bullets">
-        <CheckPoint
-          v-for="bullet in bullets"
-          :key="bullet"
-          :label="$t(`home.map.bullets.${bullet}.label`)"
-          :description="$t(`home.map.bullets.${bullet}.description`)"
-          :highlighted="true"
-          :highlight-color="'white'"
-        />
-        <v-btn class="mt-4 hide-mobile" color="main-blue" :to="{ name: 'map' }">{{
-          $t('home.map.action')
-        }}</v-btn>
+        <div class="cards-grid">
+          <CardBorderEffect
+            v-for="(card, index) in observatoryContent"
+            :key="index"
+            :label="card.title"
+            :description="card.description"
+            :icon="card.icon"
+          />
+        </div>
       </div>
     </div>
     <div class="HomeMapDescription__mapImg">
-      <img src="@/assets/images/home_map_comparator.png" />
+      <img src="@/assets/images/home_map_comparator.png" alt="douala-map" />
+      <img src="@/assets/images/batouri_screen.png" alt="batourie-map" class="batourie"/>
       <div class="HomeMapDescription__welcomeCtn">
         <h4>{{ $t('home.map.welcome') }}</h4>
         <p>{{ $t('home.map.welcomeDescription') }}</p>
@@ -35,11 +34,52 @@
 <script setup lang="ts">
 import CheckPoint from '@/components/global/CheckPoint.vue'
 import PageTitle from '@/components/text-elements/PageTitle.vue'
+import CardBorderEffect from '@/components/card-gradiant/CardBorderEffect.vue'
 
 const bullets = ['overview', 'simpleMaps', 'geodata', 'thematics', 'way']
+const observatoryContent = [
+   
+    {
+      title: "Construisez votre carte facilement",
+      description: "Mesurez avec précision, dessinez des polygones, des lignes et des points directement sur la carte.",
+      icon: "mdi-map-marker-plus-outline", // Ou mdi-pencil-ruler, mdi-map-outline
+    },
+    {
+      title: "Accédez aux informations géographiques de base",
+      description: "L’observatoire contient une diversité de données sur l'Habitat urbain et rural susceptibles d’intéresser des publics variés.",
+      icon: "mdi-home-city-outline", // Ou mdi-chart-box-outline, mdi-database
+    },
+    {
+      title: "Accédez à des données thématiques riches",
+      description: "Obtenez des informations couvrant diverses thématiques comme l'urbanisme, l'environnement, les infrastructures par exemple.",
+      icon: "mdi-shape-outline", // Ou mdi-layers-outline, mdi-book-multiple-outline
+    },
+    {
+      title: "Calculez des itinéraires de manière optimale",
+      description: "Planifiez vos déplacements de manière efficace grâce à notre fonctionnalité de calcul d'itinéraires !",
+      icon: "mdi-map-marker-distance", // Ou mdi-navigation-variant-outline, mdi-map-marker-distance
+    },
+  ]
 </script>
 
 <style lang="scss">
+.cards-grid {
+  display: grid; /* grid */
+  grid-template-columns: repeat(1, minmax(0, 1fr)); /* grid-cols-1 */
+  gap: 2rem; /* gap-8 (assuming Tailwind's default of 1 unit = 0.25rem, so 8 * 0.25 = 2rem) */
+}
+
+@media (min-width: 640px) { /* sm: (small breakpoint) */
+  .cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* sm:grid-cols-2 */
+  }
+}
+
+@media (min-width: 1280px) { /* xl: (extra large breakpoint) */
+  .cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* xl:grid-cols-4 */
+  }
+}
 .HomeMapDescription {
   display: flex;
   flex-flow: row nowrap;
@@ -59,27 +99,34 @@ const bullets = ['overview', 'simpleMaps', 'geodata', 'thematics', 'way']
     padding: 2rem 0 0 0;
     flex: 1 0 50%;
   }
-
+  .batourie{
+    position: absolute;
+    right: -80px;
+    bottom:50px;
+    height:250px;
+    object-fit:cover;
+  }
   .HomeMapDescription__mapImg {
+    padding-right: 200px;
+    position: relative;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
     justify-content: center;
     flex: 1 0 40%;
-    margin: 1.5rem;
-
     img {
       max-width: 100%;
-      width: 500px;
+      width: 400px;
+      height:250px;
       border-radius: 0.5rem;
       border: solid 3px #fff;
+      filter: brightness(0.8);
       box-shadow: 0 0.125rem 0.5rem -0.125rem rgba(0, 0, 0, 0.4);
     }
 
     .HomeMapDescription__welcomeCtn {
-      background: rgb(var(--v-theme-light-yellow)) url(@/assets/images/Frise.svg) no-repeat top
-        center;
+      background: rgb(var(--v-theme-light-yellow)) url(@/assets/images/Frise.svg) no-repeat top center;
       background-attachment: local;
       background-size: 100% 1rem;
       display: flex;
@@ -92,6 +139,7 @@ const bullets = ['overview', 'simpleMaps', 'geodata', 'thematics', 'way']
       padding: 2rem 1.5rem 1rem 1.5rem;
       position: absolute;
       transform: translateY(11rem);
+      display: none;
 
       h4 {
         color: rgb(var(--v-theme-main-red));

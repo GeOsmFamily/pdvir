@@ -15,7 +15,7 @@
       <template #right-buttons>
         <v-btn
           prepend-icon="mdi-folder-edit-outline"
-          color="main-red"
+          color="main-yellow"
           :disabled="selectedComments.length === 0"
         >
           {{ $t('admin.comments.actionsButton') }}

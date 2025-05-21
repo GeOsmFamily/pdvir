@@ -13,6 +13,7 @@ const homeStore = useHomeStore()
 
 <style lang="scss">
 .HomeKpis {
+  border: 2px solid red;
   display: grid;
   grid-template-columns: repeat(2, minmax(150px, 2fr));
   gap: 2rem;

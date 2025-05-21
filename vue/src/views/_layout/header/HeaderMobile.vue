@@ -98,7 +98,7 @@ const whatsappLink = `https://wa.me/${'+237652266618'.replace(/\D/g, '')}`
       text-decoration: none;
 
       &--active {
-        color: rgb(var(--v-theme-main-red));
+        color: rgb(var(--v-theme-main-yellow));
       }
     }
 

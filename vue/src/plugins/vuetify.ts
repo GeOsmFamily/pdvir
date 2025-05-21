@@ -19,12 +19,12 @@ const pdvirCustomTheme: ThemeDefinition = {
     'main-blue': '#005E84',
     'bright-blue': '#111EF7',
     'light-blue': '#A2CDDD',
-    'main-red': '#E83323',
     'main-yellow': '#F6CC47',
     'light-yellow': '#fdf5da',
     'main-grey': "#E0E0E0",
     'main-green': "#2D6438",
-    'main-white': '#FFFFFF'
+    'main-white': '#FFFFFF',
+    'main-black': '#00000'
   }
 }
 

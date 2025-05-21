@@ -24,6 +24,7 @@ const homeStore = useHomeStore()
 
 <style lang="scss">
 .HomeHighlights {
+  border: 4px solid red;
   display: flex;
   flex-flow: row-reverse nowrap;
   max-width: 100%;

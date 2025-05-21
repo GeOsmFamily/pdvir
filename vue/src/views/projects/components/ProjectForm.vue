@@ -393,7 +393,7 @@
       <span class="text-action" @click="$emit('close')">{{ $t('forms.cancel') }}</span>
     </template>
     <template #footer-right>
-      <v-btn type="submit" form="project-form" color="main-red" :loading="isSubmitting">
+      <v-btn type="submit" form="project-form" color="main-yellow" :loading="isSubmitting">
         {{ submitLabel }}
       </v-btn>
     </template>

@@ -8,7 +8,7 @@
         :highlighted="true"
       />
       <span class="mb-4 text-center">{{ $t('auth.becomeMemberThanks.info') }}</span>
-      <v-btn color="main-red" @click="closeDialog" block>
+      <v-btn color="main-yellow" @click="closeDialog" block>
         {{ $t('dialog.close') }}
       </v-btn>
     </template>

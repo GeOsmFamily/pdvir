@@ -1,4 +1,7 @@
 <template>
+  <p>
+    Dans cette rubrique, vous verrez d'une part comment utiliser l'observatoire, mais surtout vous découvrirez son interface, ses fonctionnalités ainsi que sa prise en main au travers de quelques tutoriels qui seront progressivement explicités ici.La première vidéo a pour objectif de donner aux nouveaux utilisateurs, les bases pour bien démarrer.
+  </p>
   <div class="HomeAgenda">
     <ResourceCard v-for="item in resourceStore.nearestEvents" :resource="item" :key="item.id" />
   </div>

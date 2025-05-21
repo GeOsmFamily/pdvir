@@ -60,7 +60,7 @@
           </ListSortBy>
           <v-btn
             class="fixed-btn"
-            color="main-red"
+            color="main-yellow"
             prepend-icon="mdi-plus"
             @click="resourceStore.isResourceFormShown = true"
             v-if="userStore.userIsAdmin() || userStore.userHasRole(UserRoles.EDITOR_RESSOURCES)"

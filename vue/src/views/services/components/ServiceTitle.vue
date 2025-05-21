@@ -1,7 +1,7 @@
 <template lang="">
   <div class="ServiceTitle">
     <p class="mr-5">{{ title }}</p>
-    <v-btn color="main-red" class="px-2" append-icon="mdi-arrow-right" @click="openService()">{{
+    <v-btn color="main-yellow" class="px-2" append-icon="mdi-arrow-right" @click="openService()">{{
       $t('services.discover')
     }}</v-btn>
   </div>

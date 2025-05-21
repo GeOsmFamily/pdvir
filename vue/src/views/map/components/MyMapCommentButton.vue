@@ -6,9 +6,9 @@
       @click.stop="activeMapComment"
       :class="{
         'text-white': commentStore.isAppCommentActive,
-        'text-main-red': !commentStore.isAppCommentActive
+        'text-main-yellow': !commentStore.isAppCommentActive
       }"
-      :color="commentStore.isAppCommentActive ? 'main-red' : 'white'"
+      :color="commentStore.isAppCommentActive ? 'main-yellow' : 'white'"
     ></v-btn>
     <CommentForm
       :map-comment="true"

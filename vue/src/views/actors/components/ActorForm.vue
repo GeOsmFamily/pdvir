@@ -282,7 +282,7 @@
       }}</span>
     </template>
     <template #footer-right>
-      <v-btn type="submit" form="actor-form" color="main-red" :loading="isSubmitting">{{
+      <v-btn type="submit" form="actor-form" color="main-yellow" :loading="isSubmitting">{{
         submitLabel
       }}</v-btn>
     </template>

@@ -13,7 +13,7 @@
       @update-search-query="searchQuery = $event"
       >
       <template #right-buttons>
-        <v-btn @click="createQgisMap" color="main-red">{{ $t('admin.add') }}</v-btn>
+        <v-btn @click="createQgisMap" color="main-yellow">{{ $t('admin.add') }}</v-btn>
       </template>
     </AdminTopBar>
     <QgisMapsListItem

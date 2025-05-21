@@ -1,7 +1,7 @@
 {
   "home": {
     "agenda": {
-      "title": "Agenda",
+      "title": "Fonctionnalités",
       "action": "Toutes les actualités"
     },
     "becomeMember": {
@@ -9,7 +9,8 @@
       "title": "Pourquoi adhérer ?"
     },
     "main": {
-      "action": "Découvrir les projets",
+      "action": "Découvrir l'observatoire",
+      "data":"Voir les données",
       "desc": "L'Observatoire National sur l’Habitat est un projet multi-partenarial qui met à la disposition de tous des informations précises et documentées sur l’Habitat urbain et Rural au Cameroun",
       "title": "Un observatoire pour mieux voir, mieux savoir, mieux agir"
     },
@@ -18,11 +19,11 @@
       "action": "Toutes les actualités"
     },
     "map": {
-      "action": "Accéder au Géoportail",
+      "action": "Accéder à l'observatoire",
       "availableOnDesktop": "Disponible sur ordinateur",
       "bullets": {
         "geodata": {
-          "description": "Les images satellites, limites administratives, réseaux routiers et bien plus encore sont à portée de main.",
+          "description": "L’observatoire contient une diversité de données sur l’Habitat urbain et rural susceptibles d’intéresser des publics variés",
           "label": "Accédez aux informations géographiques de base"
         },
         "overview": {
@@ -38,14 +39,14 @@
           "label": "Accèdez à des données thématiques riches"
         },
         "agenda": {
-          "title": "Agenda"
+          "title": "Fonctionnalités"
         },
         "way": {
           "description": "Planifiez vos déplacements de manière efficace grâce à notre fonctionnalité de calcul d'itinéraires !",
           "label": "Calculez des itinéraires de manière optimale"
         }
       },
-      "title": "La carte interactive\ndu Cameroun",
+      "title": "Maîtrisez l'Habitat : Accédez à une information complète et variée.",
       "welcome": "Bienvenue",
       "welcomeDescription": "Composez votre carte thématique grâce aux différents données mises à disposition sur L'Observatoire National sur l’Habitat du Cameroun."
     },

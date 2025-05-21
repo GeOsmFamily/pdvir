@@ -49,7 +49,7 @@
       }}</span>
     </template>
     <template #footer-right>
-      <v-btn type="submit" form="atlas-form" color="main-red" :loading="isSubmitting">{{
+      <v-btn type="submit" form="atlas-form" color="main-yellow" :loading="isSubmitting">{{
         $t('forms.' + type)
       }}</v-btn>
     </template>

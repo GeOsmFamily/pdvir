@@ -31,7 +31,7 @@ import { DialogKey } from '@/models/enums/app/DialogKey'
     align-items: center;
     padding: 1rem;
     width: 100%;
-    color: rgb(var(--v-theme-main-red));
+    color: rgb(var(--v-theme-main-yellow));
     font-weight: 700;
     background-color: rgb(var(--v-theme-light-yellow));
     margin-bottom: 1rem;

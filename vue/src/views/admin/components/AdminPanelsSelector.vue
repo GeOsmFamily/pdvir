@@ -172,7 +172,7 @@ const mapCommentsToRead = computed(
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(var(--v-theme-main-red));
+    background-color: rgb(var(--v-theme-main-yellow));
     border-radius: 1rem;
     height: 16px;
     min-width: 16px;

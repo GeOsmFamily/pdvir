@@ -13,7 +13,7 @@
       @update-search-query="searchQuery = $event"
     >
       <template #right-buttons>
-        <v-btn @click="createUser" color="main-red">{{ $t('admin.add') }}</v-btn>
+        <v-btn @click="createUser" color="main-yellow">{{ $t('admin.add') }}</v-btn>
       </template>
     </AdminTopBar>
     <AdminTable
@@ -127,7 +127,7 @@ const getRoleIconColor = (user: User, role: UserRoles) => {
   if (user.roles.includes(role) || user.roles.includes(UserRoles.ADMIN)) {
     return 'main-green'
   } else if (user.requestedRoles?.includes(role)) {
-    return 'main-red'
+    return 'main-yellow'
   }
   return 'main-grey'
 }

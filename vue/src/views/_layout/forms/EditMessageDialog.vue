@@ -19,7 +19,7 @@
           :label="$t('itemType.new.your_message.confidentiality_policy')"
         />
 
-        <v-btn color="main-red" type="submit" :loading="isLoading">
+        <v-btn color="main-yellow" type="submit" :loading="isLoading">
           {{ $t('itemType.new.your_message.form.submit') }}
         </v-btn>
       </Form>

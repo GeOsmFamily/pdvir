@@ -12,7 +12,7 @@
       @update-search-query="searchQuery = $event"
     >
       <template #right-buttons>
-        <v-btn @click="createActor" color="main-red">{{ $t('admin.add') }}</v-btn>
+        <v-btn @click="createActor" color="main-yellow">{{ $t('admin.add') }}</v-btn>
       </template>
     </AdminTopBar>
     <AdminTable

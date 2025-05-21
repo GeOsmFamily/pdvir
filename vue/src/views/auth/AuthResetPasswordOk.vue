@@ -5,7 +5,7 @@
       <CheckPoint class="mb-4" :label="$t('auth.resetPasswordOk.subtitle')" :highlighted="true" />
     </template>
     <template #content>
-      <v-btn color="main-red" @click="closeDialog" block>{{ $t('dialog.close') }}</v-btn>
+      <v-btn color="main-yellow" @click="closeDialog" block>{{ $t('dialog.close') }}</v-btn>
     </template>
     <template #bottom-content>
       <router-link append :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_SIGN_IN } }">

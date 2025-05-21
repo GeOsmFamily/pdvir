@@ -4,7 +4,7 @@
     append
     :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_SIGN_IN } }"
   >
-    <v-btn color="main-red" prepend-icon="mdi-account-circle" flat>
+    <v-btn color="main-yellow" prepend-icon="mdi-account-circle" flat>
       {{ $t('header.login') }}
     </v-btn>
   </router-link>

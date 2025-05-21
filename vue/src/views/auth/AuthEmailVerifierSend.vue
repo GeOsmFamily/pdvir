@@ -10,7 +10,7 @@
           :error-messages="form.email.errorMessage.value"
           @blur="form.email.handleChange"
         />
-        <v-btn color="main-red" type="submit" block :disabled="isDisabled">
+        <v-btn color="main-yellow" type="submit" block :disabled="isDisabled">
           {{ $t('dialog.submit') }}
         </v-btn>
       </Form>
@@ -20,7 +20,7 @@
         :label="$t('auth.emailVerifier.subtitle.sent')"
         :highlighted="true"
       />
-      <v-btn color="main-red" type="submit" block v-if="isSent" @click="close()">
+      <v-btn color="main-yellow" type="submit" block v-if="isSent" @click="close()">
         {{ $t('dialog.close') }}
       </v-btn>
     </template>

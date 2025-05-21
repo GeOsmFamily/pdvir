@@ -32,7 +32,7 @@ const color = computed(() => {
     case NotificationType.SUCCESS:
       return 'main-green'
     case NotificationType.ERROR:
-      return 'main-red'
+      return 'main-yellow'
     case NotificationType.INFO:
     default:
       return 'main-blue'

@@ -20,7 +20,7 @@
           </router-link>
         </div>
         <nav class="Header__navBlock Header__navBlock--right">
-          <v-tabs v-model="appStore.activeTab" align-tabs="end" color="main-red">
+          <v-tabs v-model="appStore.activeTab" align-tabs="end" color="main-yellow">
             <v-tab
               v-for="(tab, index) in NavigationTabsService.getContent()"
               :value="tab.value"
@@ -66,7 +66,7 @@ const whatsappLink = `https://wa.me/${'+237652266618'.replace(/\D/g, '')}`
     }
 
     .Header__banner {
-      background: rgb(var(--v-theme-main-yellow));
+      background: rgb(var(--v-theme-main-blue));
 
       .Header__bannerContent {
         display: flex;
@@ -81,7 +81,7 @@ const whatsappLink = `https://wa.me/${'+237652266618'.replace(/\D/g, '')}`
           flex-flow: row nowrap;
           align-items: center;
           text-decoration: none;
-          color: rgb(var(--v-theme-main-blue));
+          color: rgb(var(--v-theme-main-white));
           gap: 0.375rem;
           font-size: $font-size-xs;
           cursor: pointer;
@@ -94,7 +94,7 @@ const whatsappLink = `https://wa.me/${'+237652266618'.replace(/\D/g, '')}`
     }
 
     .Header__nav {
-      background: linear-gradient(to top, transparent 0%, rgb(var(--v-theme-light-yellow)) 100%);
+      background: linear-gradient(to top, transparent 0%, rgb(var(--v-theme-light-blue)) 100%);
       height: $dim-logo;
       display: flex;
       justify-content: space-between;

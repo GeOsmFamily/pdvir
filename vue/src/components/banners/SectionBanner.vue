@@ -3,7 +3,7 @@
     <h3 class="SectionBanner__title half-circle" :hide-half-circle="hideHalfCircle || false">
       {{ text }}
     </h3>
-    <v-btn
+    <!-- <v-btn
       v-if="actionLabel"
       :to="actionLink"
       class="mt-3 px-2"
@@ -11,7 +11,7 @@
       append-icon="mdi-arrow-right"
     >
       {{ actionLabel }}
-    </v-btn>
+    </v-btn> -->
   </div>
 </template>
 <script setup lang="ts">
