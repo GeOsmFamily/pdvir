@@ -1,5 +1,5 @@
 <template>
-  <div class="App" :is-100-vh="appStore.is100vh" :is-light-header="appStore.isLightHeader">
+  <div class="App main-container" :is-100-vh="appStore.is100vh" :is-light-header="appStore.isLightHeader">
     <Header v-if="!appStore.isFullViewport" />
     <div
       :class="
@@ -25,8 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import { onBeforeMount } from 'vue'
+import { RouterView, useRoute } from 'vue-router'
+import { ref, onUnmounted, watch, onBeforeMount, computed } from 'vue'
 import Header from '@/views/_layout/header/Header.vue'
 import Footer from '@/views/_layout/footer/Footer.vue'
 import DialogController from '@/components/global/DialogController.vue'
@@ -37,10 +37,12 @@ import EditContentDialog from '@/views/_layout/forms/EditContentDialog.vue'
 import { useThematicStore } from './stores/thematicStore'
 import NotificationBox from '@/views/_layout/notification/NotificationBox.vue'
 
+
 const appStore = useApplicationStore()
 const actorsStore = useActorsStore()
 const userStore = useUserStore()
 const thematicStore = useThematicStore()
+
 onBeforeMount(async () => {
   await userStore.checkAuthenticated()
   await actorsStore.getActors()
@@ -48,6 +50,8 @@ onBeforeMount(async () => {
   await thematicStore.getAll()
   await appStore.getLikesList()
 })
+
+
 </script>
 
 <style lang="scss">
@@ -56,6 +60,7 @@ onBeforeMount(async () => {
 .App {
   display: flex;
   flex-flow: column nowrap;
+  position: relative;
 
   &[is-100-vh='true'] {
     min-height: 100vh;

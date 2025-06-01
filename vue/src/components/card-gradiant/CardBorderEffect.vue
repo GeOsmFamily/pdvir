@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <CardContainer>
-    <div class="border-effect-container">
+    <div class="border-effect-container" >
       <div class="content-wrapper">
         <div class="icon-container">
           <div :v-if="icon" class="icon-wrapper">

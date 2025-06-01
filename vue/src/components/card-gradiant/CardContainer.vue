@@ -25,6 +25,7 @@ onUnmounted(() => {
 </script>
 <template>
   <div
+    data-aos="fade-right" data-aos-duration="1000" data-aos-delay="300"
     ref="cover"
     class="cover"
     :style="{ '--x': x + 'px', '--y': y + 'px' }"

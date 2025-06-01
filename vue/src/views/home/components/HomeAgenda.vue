@@ -3,7 +3,9 @@
     Dans cette rubrique, vous verrez d'une part comment utiliser l'observatoire, mais surtout vous découvrirez son interface, ses fonctionnalités ainsi que sa prise en main au travers de quelques tutoriels qui seront progressivement explicités ici. La première vidéo a pour objectif de donner aux nouveaux utilisateurs, les bases pour bien démarrer.
   </p>
   <div class="features-grid">
-    <div class="feature-card" v-for="(feature, index) in observatoryFeatures" :key="index">
+    <div 
+      class="feature-card" data-aos="fade-up" data-aos-duration="500" :data-aos-delay="(1+index)*100"
+      v-for="(feature, index) in observatoryFeatures" :key="index">
       <div class="feature-header">
         <v-icon class="feature-icon" :icon="feature.icon"></v-icon>
         <strong class="feature-title">{{ feature.title }}</strong>

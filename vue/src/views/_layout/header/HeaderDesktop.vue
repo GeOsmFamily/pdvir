@@ -1,17 +1,5 @@
 <template>
-  <div class="Header Header--desktop">
-    <div class="Header__banner">
-      <div class="Header__bannerContent container container--transition">
-        <div class="Header__bannerLink">
-          <v-icon icon="mdi-help-circle-outline" />
-          <span class="mr-6">{{ $t('header.help') }}</span>
-        </div>
-        <a :href="whatsappLink" target="_blank" class="Header__bannerLink">
-          <v-icon icon="mdi-email-outline" />
-          <span>{{ $t('header.contact') }}</span>
-        </a>
-      </div>
-    </div>
+  <div class="Header Header--desktop nav">
     <div class="Header__nav">
       <div class="Header__navContent container container--transition">
         <div class="Header__navBlock Header__navBlock--left">
@@ -20,25 +8,23 @@
           </router-link>
         </div>
         <nav class="Header__navBlock Header__navBlock--right">
-          <v-tabs v-model="appStore.activeTab" align-tabs="end" color="main-yellow">
-            <v-tab
-              v-for="(tab, index) in NavigationTabsService.getContent()"
-              :value="tab.value"
-              :to="tab.route"
-              :key="index"
-              :disabled="tab.disabled"
-            >
-              <span class="Header__tabsText">{{ tab.name }}</span>
-            </v-tab>
-          </v-tabs>
-          <v-btn base-color="white" class="text-main-blue mr-3 gap-5" :to="{ name: 'map' }" flat>
-            <img
-              src="@/assets/images/icons/add_location_alt.svg"
-              alt="Accueil"
-              class="Header__appLogo mr-1"
-            />
-            {{ $t('header.map') }}
-          </v-btn>
+              <div class="Header__tabs">
+                <v-btn
+                v-for="(tab, index) in NavigationTabsService.getContent()"
+                :key="index"
+                :to="tab.route"
+                :disabled="tab.disabled"
+                flat
+                :class="['Header__tab', { 'tab-active': tab.value === appStore.activeTab }]"
+                @click="appStore.activeTab = tab.value"
+                >
+                <span class="Header__tabsText">{{ tab.name }}</span>
+              </v-btn>
+              </div>
+              <v-btn base-color="transparent" class="text-main-blue mr-3 gap-5" :to="{ name: 'map' }" flat>
+                <v-icon>mdi-map-marker</v-icon>
+                {{ $t('header.map') }}
+              </v-btn>
           <LoginButton />
         </nav>
       </div>
@@ -55,6 +41,55 @@ const whatsappLink = `https://wa.me/${'+237652266618'.replace(/\D/g, '')}`
 </script>
 
 <style lang="scss">
+.Header__tab{
+  margin-right:4px;
+}
+.Header__tabsText{
+  text-transform: uppercase;
+}
+.tab-active{
+  color: rgb(var(--v-theme-main-blue));
+}
+.Header--desktop{
+  border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+  height: 100px;
+  overflow: hidden;
+}
+  .scroll-top{
+    height: 44px;
+    width: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    position: fixed;
+    z-index: 10;
+    bottom: 20px;
+    right: 12px;
+    &:after{
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, .25) 0, transparent 80%);
+      content: "";
+      height: 10px;
+      position: absolute;
+      top: 105%;
+      width: 90%;
+      z-index: -1;
+    }
+  }
+  .nav{
+    width: 100vw;
+  }
+  
+  .top-nav {
+    position: fixed;
+    left: 0;
+    z-index: 5;
+    right: -10px;
+    border-bottom-width:0;
+    box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, .2);
+    background-color: white;
+    top: -127px;
+}
 .Header {
   &--desktop {
     $dim-logo: 10rem;
@@ -94,7 +129,6 @@ const whatsappLink = `https://wa.me/${'+237652266618'.replace(/\D/g, '')}`
     }
 
     .Header__nav {
-      background: linear-gradient(to top, transparent 0%, rgb(var(--v-theme-light-blue)) 100%);
       height: $dim-logo;
       display: flex;
       justify-content: space-between;
@@ -109,9 +143,11 @@ const whatsappLink = `https://wa.me/${'+237652266618'.replace(/\D/g, '')}`
         .Header__navBlock {
           &--left {
             .Header__appLogo {
+
               z-index: 10;
               position: relative;
-              height: $dim-logo;
+              height: 100px;
+              margin-top: 30px;
               transform: translateY(calc(-1 * var(--dim-banner-h)));
             }
           }
@@ -119,6 +155,7 @@ const whatsappLink = `https://wa.me/${'+237652266618'.replace(/\D/g, '')}`
           &--right {
             flex: 1 0 auto;
             display: flex;
+            text-transform: uppercase;
             flex-flow: row nowrap;
             justify-content: flex-end;
             align-items: center;

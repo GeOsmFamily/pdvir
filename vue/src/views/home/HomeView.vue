@@ -4,12 +4,12 @@
       
       <div class="HomeView__mainContent">
       
-        <div class="HomeView__mainContentInfo">
+        <div class="HomeView__mainContentInfo"  data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
           <PageTitle :title="$t('home.main.title')" />
           <p>{{ $t('home.main.desc') }}</p>
-          
         </div>
-        <div class="HomeView__btnAction">
+        
+        <div class="HomeView__btnAction" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
           <v-btn class="HomeView__mainAction" color="main-blue" :to="{ name: 'map' }">{{
             $t('home.main.action')
           }}</v-btn>
@@ -58,7 +58,6 @@
       <HomeAgenda />
     </div>
     <div class="HomeView__ctn HomeView__ctn--why-subscribe">
-      <HomeBecomeMember />
       
     </div>
   </div>
@@ -79,6 +78,9 @@ import { EffectFade, Autoplay, Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
+// Import AOS
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const homeStore = useHomeStore();
 const imagesBackgroundUrl =[
@@ -89,9 +91,15 @@ const imagesBackgroundUrl =[
   'src/assets/images/home/toit.jpg'
 ];
 
-
-
 onMounted(async () => {
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    easing: 'ease-in-out',
+    once: true,
+    offset: 50
+  });
+  
   await Promise.all([homeStore.getMainHighlights(), homeStore.getGlobalKpis()]);
 });
 

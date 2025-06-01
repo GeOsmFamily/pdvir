@@ -4,7 +4,7 @@
     append
     :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_SIGN_IN } }"
   >
-    <v-btn color="main-yellow" prepend-icon="mdi-account-circle" flat>
+    <v-btn class="login-btn" prepend-icon="mdi-account-circle" flat>
       {{ $t('header.login') }}
     </v-btn>
   </router-link>
@@ -71,6 +71,9 @@ const resourceStore = useResourceStore()
 </script>
 
 <style lang="scss">
+.login-btn{
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
 .AuthMenu {
   .v-menu > .v-overlay__content {
     border-radius: 6px;
