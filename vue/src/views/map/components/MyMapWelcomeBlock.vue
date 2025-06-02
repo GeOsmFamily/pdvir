@@ -23,7 +23,7 @@ const isClosed = ref(false)
 
 <style lang="scss">
 .MyMapWelcomeBlock {
-  background: rgb(var(--v-theme-light-yellow)) url(@/assets/images/Frise.svg) no-repeat top center;
+  background: rgb(var(--v-theme-light-blue)) ;
   background-size: 130% 1rem;
   // background-attachment: local;
   padding: var(--dialog-padding-top) var(--dialog-padding-x) 3rem var(--dialog-padding-x);
@@ -37,9 +37,7 @@ const isClosed = ref(false)
   min-width: 19rem !important;
   align-self: flex-end;
 
-  h2 {
-    color: rgb(var(--v-theme-main-yellow));
-  }
+  
 
   .MyMapWelcomeBlock__moreAccess {
     display: flex;

@@ -39,6 +39,7 @@ import MyMapCommentButton from '@/views/map/components/MyMapCommentButton.vue'
 import { LngLatBounds } from 'maplibre-gl';
 import doualaMask from '@/assets/geojsons/mask_douala.json'
 import batouriMask from '@/assets/geojsons/mask_batouri.json'
+import camerounMask from '@/assets/geojsons/mask_cameroun.json';
 
 type MapType = InstanceType<typeof Map>
 const basemap = ref<Basemap>()
@@ -102,8 +103,19 @@ watch(
   (newValue) => {
     const doualaBbox: any=[9.336134, 3.740717, 9.864412, 4.225236];
     const batouriBbox: any=[13.940685,4.212827,14.882435,4.767127];
-    const newBbox = newValue === 'batouri' ? new LngLatBounds(batouriBbox) : new LngLatBounds(doualaBbox);
-    const newMaskSource = (newValue === 'batouri' ? batouriMask : doualaMask) as GeoJSON.GeoJSON
+    const camerounBbox: any=[8.382218,1.651795,16.191101,13.083333]
+    const newBbox = newValue === 'batouri' 
+      ? new LngLatBounds(batouriBbox) 
+      : newValue === 'douala'
+      ? new LngLatBounds(doualaBbox)
+      : new LngLatBounds(camerounBbox);
+      
+    const newMaskSource = (newValue === 'batouri' 
+      ? batouriMask 
+      : newValue === 'douala'
+      ? doualaMask
+      : camerounMask) as GeoJSON.GeoJSON;
+      
     if (map.value != null && newValue != null && newValue != null) {
       map.value.fitBounds(newBbox, { padding: 75 });
       (map.value.getSource('doualaMask') as maplibregl.GeoJSONSource).setData(newMaskSource)

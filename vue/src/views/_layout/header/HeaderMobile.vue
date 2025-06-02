@@ -77,18 +77,10 @@
       All Rights Reserved.
       <ul class="social-links">
         <li class="social-link">
-           <img
-              src="@/assets/images/footer/facebook.svg"
-              alt="facebook"
-              class="Footer__contactImg ml-8"
-            />
+          <v-icon  size="44">mdi-facebook</v-icon>
         </li>
         <li class="social-link">
-          <img
-            src="@/assets/images/footer/linkedin.svg"
-            alt="linkedin"
-            class="Footer__contactImg"
-          />
+          <v-icon  size="44">mdi-linkedin</v-icon>
         </li>
       </ul>
     </div>
@@ -301,9 +293,8 @@ const closeMenu=()=>{
   text-align: center;
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 50%;
   padding: 0;
-  border: 1px solid #e5e7eb;
+  color: rgba(var(--v-theme-main-black),0.7);
   cursor: pointer;
   transition: color 0.2s ease;
 }

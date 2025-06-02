@@ -72,16 +72,14 @@
 
 <style lang="scss">
 .Footer {
-  background-image: url('@/assets/images/Frise.svg');
-  background-repeat: repeat-x;
   width: 100%;
   padding: 6rem 0 2rem 0;
   position: relative;
-
+  border-top: 1px solid rgba(128, 128, 128, 0.5);
   &::after {
     content: '';
     z-index: -1;
-    background: linear-gradient(to top, transparent 0%, rgb(var(--v-theme-light-yellow)) 100%);
+    background: linear-gradient(to top, transparent 0%, rgb(var(--v-theme-light-blue)) 100%);
     position: absolute;
     inset: 0;
     height: 8rem;

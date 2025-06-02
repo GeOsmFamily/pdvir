@@ -26,7 +26,8 @@ const selectedCity = defineModel<string | null>({
 
 const cities = [
   { name: 'Douala', value: 'douala' },
-  { name: 'Batouri', value: 'batouri' }
+  { name: 'Batouri', value: 'batouri' },
+  { name: 'Cameroun', value: 'cameroun' }
 ]
 
 const props = withDefaults(
