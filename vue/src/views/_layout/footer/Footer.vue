@@ -26,7 +26,9 @@
           <div class="Footer__adressCtn">
             <v-icon icon="mdi-map-marker-outline"></v-icon>
             <div class="Footer__adress">
-              <span class="font-weight-medium">Ministère de l'Habitat et du Développement urbain</span>
+              <span class="font-weight-medium"
+                >Ministère de l'Habitat et du Développement urbain</span
+              >
               <span>Bureau gouvernemental à Yaoundé</span>
               <span> VG87+G8C, N3, Yaoundé</span>
               <span>Yaoundé</span>
@@ -53,7 +55,6 @@
           <div class="Footer__partnersLogos">
             <img src="@/assets/images/footer/logo-banque-mondiale.png" alt="logo Banque modiale" />
             <img src="@/assets/images/footer/logo-minhdu.png" alt="Logo MINDHU" />
-            
           </div>
         </div>
       </div>
@@ -160,9 +161,9 @@
           gap: 2rem;
           margin-top: 1rem;
 
-          & > img {
-            border: solid 1px rgb(var(--v-theme-main-blue));
-          }
+          // & > img {
+          //   border: solid 1px rgb(var(--v-theme-main-blue));
+          // }
 
           img {
             height: 4.5rem;
