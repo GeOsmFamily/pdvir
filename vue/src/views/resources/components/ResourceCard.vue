@@ -133,17 +133,17 @@ const editResource = () => {
     padding-bottom: 0.5rem;
   }
   .ResourceCard__dateBanner {
-    background: rgb(var(--v-theme-main-yellow));
-    color: rgb(var(--v-theme-main-blue));
+    background: rgb(var(--v-theme-main-blue));
+    color: rgb(var(--v-theme-main-white));
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     padding: 1rem;
     position: absolute;
     min-width: 5.25rem;
-    top: 0;
-    right: 1rem;
-    border-radius: 0 0 $dim-radius $dim-radius;
+    top: 0.5rem;
+    right: 0.5rem;
+    border-radius: 5px;
 
     .ResourceCard__date {
       font-weight: 700;

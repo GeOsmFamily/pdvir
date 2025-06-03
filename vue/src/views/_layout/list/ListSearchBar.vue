@@ -1,8 +1,8 @@
 <template>
-  <div class="ListSearchBar bg-main-yellow">
+  <div class="ListSearchBar">
     <v-text-field
       v-model="searchQuery"
-      variant="solo"
+      variant="solo-filled"
       bg-color="white"
       density="comfortable"
       :hide-details="true"
@@ -28,9 +28,6 @@ defineProps<{
   display: flex;
   align-items: center;
   width: 28rem;
-
-  border-radius: 0.5rem;
-  padding: 1rem 1.5rem;
 
   .v-input {
     box-shadow: 0 0.2rem 0.25rem -0.125rem rgba(0, 0, 0, 0.3);

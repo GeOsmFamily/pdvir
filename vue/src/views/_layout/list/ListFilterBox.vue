@@ -1,15 +1,13 @@
 <template>
   <div class="ListFilterBox">
-    <SectionTitle :title="$t('list.filtersTitle')" />
+    <!-- <SectionTitle :title="$t('list.filtersTitle')" /> -->
     <div class="ListFilterBox__filterCtn">
       <slot></slot>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import SectionTitle from '@/components/text-elements/SectionTitle.vue'
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
 .ListFilterBox {
