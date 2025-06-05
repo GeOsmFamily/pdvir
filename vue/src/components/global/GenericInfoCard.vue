@@ -47,13 +47,13 @@
       </v-btn>
       <slot name="comment"></slot>
     </template>
-    <template #footer-right>
+    <!-- <template #footer-right>
       <v-icon
         class="InfoCard__actionIcon"
         :icon="actionIcon ?? 'mdi-open-in-new'"
         color="light-blue"
       ></v-icon>
-    </template>
+    </template> -->
   </InfoCard>
 </template>
 
@@ -151,8 +151,8 @@ const additionnalPath = computed(() => {
     width: 100%;
     background: linear-gradient(
       to top,
-      rgb(var(--v-theme-light-yellow)) 0%,
-      rgba(var(--v-theme-light-yellow), 15%) 100%
+      rgb(var(--v-theme-light-blue)) 0%,
+      rgba(var(--v-theme-light-blue), 15%) 100%
     );
 
     .GenericInfoCard__img {

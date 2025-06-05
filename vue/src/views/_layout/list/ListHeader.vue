@@ -1,6 +1,6 @@
 <template>
   <div class="ListHeader">
-    <img src="@/assets/images/Mosaic_actors_page.svg" alt="" />
+    <!-- <img src="@/assets/images/Mosaic_actors_page.svg" alt="" /> -->
     <div class="ListHeader__content">
       <PageTitle :title="title" />
       <span class="ListHeader__desc">{{ description }}</span>
@@ -25,7 +25,7 @@ defineProps<{
 .ListHeader {
   display: flex;
   flex-flow: row-reverse nowrap;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   gap: 3rem;
   img {
     max-width: 40%;
@@ -34,7 +34,7 @@ defineProps<{
     margin-top: 3rem;
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 100%;
     gap: 1.5rem;
   }
 }

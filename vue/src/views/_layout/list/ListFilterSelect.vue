@@ -3,7 +3,7 @@
     class="ListFilterSelect"
     v-model="model"
     density="compact"
-    variant="outlined"
+    variant="solo-filled"
     :label="label"
     :items="items"
     item-title="name"
