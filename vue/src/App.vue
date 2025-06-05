@@ -8,11 +8,6 @@
         (appStore.mobile ? 'App__content--mobile' : 'App__content--desktop')
       "
     >
-      <v-breadcrumbs
-        v-if="!appStore.mobile && !appStore.isFullViewport"
-        class="Breadcrumbs"
-        :items="appStore.breadcrumbs"
-      ></v-breadcrumbs>
       <RouterView />
     </div>
     <Footer v-if="!appStore.isFullViewport" />

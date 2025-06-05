@@ -21,7 +21,7 @@
       </div>
       
       <div class="HomeView__mainImagesCtn">
-        <img src="@/assets/images/home_iconography.svg" alt="" />
+        <img src="@/assets/images/home_iconography.png" alt="" />
       </div>
        <div class="swiper-container">
         <div class="backdrop"></div>
@@ -137,7 +137,7 @@ onMounted(async () => {
         }
       }
       .HomeView__mainImagesCtn {
-        transform: translateY(-5rem);
+        transform: translateY(-3rem);
         flex: 1 0 45%;
 
         img {
