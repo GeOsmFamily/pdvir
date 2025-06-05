@@ -46,9 +46,10 @@ const closeDialog = () => {
   --dialog-padding-x: 2.5rem;
   --dialog-padding-top: 5.5rem;
   $dim-dialog-h: calc(100vh - 4rem);
-
-  background: #fff url(@/assets/images/Frise.svg) no-repeat top center;
-  background-attachment: local;
+  box-shadow: 2px 2px 13px 0px rgba(var(--v-theme-main-blue));
+  -webkit-box-shadow: 2px 2px 13px 0px rgba(var(--v-theme-main-blue));
+  -moz-box-shadow: 2px 2px 13px 0px rgba(var(--v-theme-main-blue));
+  background: #fff;
   padding: var(--dialog-padding-top) var(--dialog-padding-x) 3rem var(--dialog-padding-x);
   width: $dim-dialog-w;
   min-height: min(42rem, $dim-dialog-h);
@@ -58,7 +59,7 @@ const closeDialog = () => {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  border-radius: 3px;
+  border-radius: 8px;
   box-shadow: $mixin-shadow;
   white-space: pre-line;
 
@@ -71,7 +72,7 @@ const closeDialog = () => {
     text-align: center;
 
     .Dialog__title {
-      color: rgb(var(--v-theme-main-yellow));
+      color: rgb(var(--v-theme-main-blue));
     }
 
     .Dialog__subtitle {

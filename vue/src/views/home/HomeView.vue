@@ -195,7 +195,7 @@ onMounted(async () => {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.6);
     z-index:10;
 
   }

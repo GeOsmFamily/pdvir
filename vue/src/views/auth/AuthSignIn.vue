@@ -3,19 +3,42 @@
     <template #title>{{ $t('auth.signIn.title') }}</template>
     <template #content>
       <Form @submit="onSubmit">
-        <v-text-field
-          v-model="form.email.value.value"
-          :label="$t('auth.signIn.form.email')"
-          :error-messages="form.email.errorMessage.value"
-          @blur="form.email.handleChange"
-        />
-        <v-text-field
-          v-model="form.password.value.value"
-          type="password"
-          :label="$t('auth.signIn.form.password')"
-          :error-messages="form.password.errorMessage.value"
-          @blur="form.password.handleChange"
-        />
+        <div class="form-field">
+          <label class="form-label">{{ $t('auth.signIn.form.email') }}</label>
+          <input
+            v-model="form.email.value.value"
+            type="email"
+            class="form-input"
+            :class="{ 'form-input--error': form.email.errorMessage.value }"
+            :placeholder="$t('auth.signIn.form.email')"
+            @blur="form.email.handleChange"
+          />
+          <div 
+            v-if="form.email.errorMessage.value" 
+            class="form-error"
+          >
+            {{ form.email.errorMessage.value }}
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label">{{ $t('auth.signIn.form.password') }}</label>
+          <input
+            v-model="form.password.value.value"
+            type="password"
+            class="form-input"
+            :class="{ 'form-input--error': form.password.errorMessage.value }"
+            :placeholder="$t('auth.signIn.form.password')"
+            @blur="form.password.handleChange"
+          />
+          <div 
+            v-if="form.password.errorMessage.value" 
+            class="form-error"
+          >
+            {{ form.password.errorMessage.value }}
+          </div>
+        </div>
+
         <router-link
           class="AuthDialog__forgotPassword"
           append
@@ -23,7 +46,17 @@
         >
           {{ $t('auth.signIn.form.forgotPassword') }}
         </router-link>
-        <v-checkbox :label="$t('auth.signIn.form.rememberMe')"></v-checkbox>
+
+        <div class="form-field">
+          <label class="form-checkbox">
+            <input
+              type="checkbox"
+              class="form-checkbox-input"
+            />
+            <span class="form-checkbox-label">{{ $t('auth.signIn.form.rememberMe') }}</span>
+          </label>
+        </div>
+
         <div class="AuthDialog__error" v-if="userStore.errorWhileSignInOrSignUp">
           {{ $t('auth.signIn.error') }}
         </div>
@@ -33,7 +66,7 @@
             {{ $t('auth.signIn.invalidAccount.resendActivationEmail') }}
           </v-btn>
         </div>
-        <v-btn color="main-yellow" type="submit">{{ $t('auth.signIn.form.submit') }}</v-btn>
+        <v-btn color="main-blue" type="submit">{{ $t('auth.signIn.form.submit') }}</v-btn>
       </Form>
     </template>
     <template #bottom-content>
@@ -74,5 +107,93 @@ const goToResendActivationEmail = () => {
   &__error {
     flex-direction: column;
   }
+
+  &__forgotPassword {
+    color: #1976d2;
+    text-decoration: none;
+    font-size: 0.875rem;
+    margin: 0.5rem 0 1rem 0;
+    display: inline-block;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Styles pour les champs de formulaire
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+  font-size: 0.875rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background-color: #fff;
+  
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  &::placeholder {
+    color: #9ca3af;
+  }
+  
+  &--error {
+    border-color: #ef4444;
+    
+    &:focus {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+  }
+}
+
+.form-error {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #ef4444;
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.form-checkbox-input {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  accent-color: #3b82f6;
+}
+
+.form-checkbox-label {
+  font-size: 0.875rem;
+  color: #333;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 1rem;
 }
 </style>

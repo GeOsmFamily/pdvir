@@ -36,6 +36,9 @@ const hoveredFeatureId: Ref<string | null> = ref(null)
 const activeFeatureId: Ref<string | null> = ref(null)
 
 onMounted(() => {
+  
+  let mainContainer = document.querySelector('.App') as HTMLElement;
+  mainContainer.style.paddingTop = '0px'
   const apiKey = import.meta.env.VITE_MAPTILER_API_KEY
   map.value = new maplibregl.Map({
     container: props.mapId,
