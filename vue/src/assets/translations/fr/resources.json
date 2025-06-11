@@ -18,7 +18,8 @@
       "rapports": "Rapports projet",
       "regulations": "Réglementations",
       "events": "Événements",
-      "others": "Autre"
+      "others": "Autre",
+      "bd": "Base de données"
     },
     "resourceFormat": {
       "pdf": "PDF",

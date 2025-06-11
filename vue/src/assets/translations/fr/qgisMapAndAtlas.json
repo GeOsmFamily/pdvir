@@ -39,7 +39,7 @@
     },
     "atlas": {
         "thematicData": "Données thématiques",
-        "predefinedMap": "Cartes prédefinies",
+        "predefinedMap": "Listes des indicateurs",
         "leftMaps": "Carte | Carte | Cartes",
         "rightMaps": "Donnée thématique | Donnée thématique | Données thématiques",
         "dragErrorMessage": "Veuillez trier les données par position pour pouvoir modifier celle ci",

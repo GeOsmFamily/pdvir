@@ -38,7 +38,7 @@
     },
     "atlases": {
       "thematicData": "Données thématiques",
-      "predefinedData": "Cartes prédéfinies",
+      "predefinedData": "Listes des indicateurs",
       "data": "Donnée | Données",
       "map": "Carte | Cartes",
       "dataNotFetchable": "Cette couche contient des données au format Raster qui ne peuvent être téléchargées.",

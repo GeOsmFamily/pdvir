@@ -1,12 +1,22 @@
 <template>
   <InfoCard class="GenericInfoCard" :to="to" :href="href" :target="href ? '_blank' : undefined">
     <template #content>
-      <div class="GenericInfoCard__imgCtn">
+      <div 
+        class="GenericInfoCard__imgCtn" 
+        :style="{ backgroundColor: resourceConfig.color }"
+      >
         <img
           v-if="image?.contentsFilteredUrl?.thumbnail"
           class="GenericInfoCard__img"
           :src="image.contentsFilteredUrl.thumbnail"
         />
+        <div v-else class="GenericInfoCard__iconWrapper">
+          <v-icon 
+            :icon="resourceConfig.icon" 
+            size="64"
+            color="white"
+          />
+        </div>
         <slot name="image"></slot>
       </div>
       <div class="GenericInfoCard__infoCtn">
@@ -16,7 +26,12 @@
         </slot>
       </div>
       <div class="GenericInfoCard__chips">
-        <v-chip class="mr-2">{{ typeLabel }}</v-chip>
+        <v-chip 
+          class="mr-2" 
+          :style="{ backgroundColor: resourceConfig.color, color: 'white' }"
+        >
+          {{ typeLabel }}
+        </v-chip>
       </div>
     </template>
     <template #footer-left>
@@ -25,16 +40,16 @@
         :to="mapRoute"
         variant="text"
         density="comfortable"
-        icon="mdi-map-outline"
+        icon="mdi-map-marker-outline"
         class="hide-sm"
-        color="main-blue"
+        :color="resourceConfig.color"
       />
       <ShareButton
         :additionnal-path="additionnalPath as string"
         :external-link="sharedLinkIsExternalToPlatform"
+        :color="resourceConfig.color"
       />
       <HighlightButton :item-id="id" />
-      <LikeButton :id="id" />
       <v-btn
         class="GenericInfoCard__editBtn"
         v-if="isEditable"
@@ -47,13 +62,6 @@
       </v-btn>
       <slot name="comment"></slot>
     </template>
-    <!-- <template #footer-right>
-      <v-icon
-        class="InfoCard__actionIcon"
-        :icon="actionIcon ?? 'mdi-open-in-new'"
-        color="light-blue"
-      ></v-icon>
-    </template> -->
   </InfoCard>
 </template>
 
@@ -66,6 +74,31 @@ import { ItemType } from '@/models/enums/app/ItemType'
 import { computed } from 'vue'
 import type { RouteLocationAsRelative } from 'vue-router'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
+import { ResourceType } from '@/models/enums/contents/ResourceType'
+
+// Configuration des icônes et couleurs par type de ressource
+const resourceTypeConfig = {
+  'Rapports projet': {
+    icon: 'mdi-chart-box',
+    color: '#2196F3' // Bleu
+  },
+  'Événements': {
+    icon: 'mdi-calendar-star',
+    color: '#FF5722' // Rouge-orange
+  },
+  'Tutoriels': {
+    icon: 'mdi-play-circle-outline',
+    color: '#4CAF50' // Vert
+  },
+  'Réglementations': {
+    icon: 'mdi-scale-balance',
+    color: '#673AB7' // Violet indigo
+  },
+  'Autre': {
+    icon: 'mdi-folder-multiple',
+    color: '#607D8B' // Bleu gris
+  }
+}
 
 const props = defineProps<{
   id: string
@@ -81,6 +114,10 @@ const props = defineProps<{
   mapRoute?: RouteLocationAsRelative | null
   href?: string
 }>()
+
+const resourceConfig = computed(() => {
+  return resourceTypeConfig[props.typeLabel as keyof typeof resourceTypeConfig] || resourceTypeConfig['Autre']
+})
 
 const to = computed(() => {
   switch (props.type) {
@@ -120,7 +157,6 @@ const additionnalPath = computed(() => {
   min-height: $dim-card-h;
   justify-content: space-between;
 
-  
   &:hover {
     .GenericInfoCard__imgCtn {
       height: 0;
@@ -150,11 +186,17 @@ const additionnalPath = computed(() => {
     inset: 0;
     min-height: $dim-img-h;
     width: 100%;
-    background: linear-gradient(
-      to top,
-      rgb(var(--v-theme-light-blue)) 0%,
-      rgba(var(--v-theme-light-blue), 15%) 100%
-    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .GenericInfoCard__iconWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
 
     .GenericInfoCard__img {
       $dim-margin: 1rem;
@@ -192,11 +234,13 @@ const additionnalPath = computed(() => {
 
     .InfoCard__title {
       font-size: $font-size-h5 !important;
+      color: #000000 !important;
     }
     .InfoCard__description {
       max-height: $dim-text-max-h;
       font-size: $font-size-sm;
       transition: $card-transition;
+      color: #000000 !important;
     }
 
     &::after {

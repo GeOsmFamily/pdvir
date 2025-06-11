@@ -36,7 +36,7 @@
           :reset-function="resetFilters"
         />
         <div>
-          <v-btn
+          <!-- <v-btn
             variant="text"
             class="fit-content font-weight-medium flex-basis-auto text-body-3"
             :prepend-icon="arePassedEventsShown ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
@@ -46,14 +46,14 @@
                 ? $t('resources.hidePassedEvents')
                 : $t('resources.showPassedEvents')
             }}</v-btn
-          >
+          > -->
           <ListSortBy>
             <v-list-item @click="sortingResourcesSelectedMethod = SortMethod.NAME">{{
               $t('resources.name')
             }}</v-list-item>
-            <v-list-item @click="sortingResourcesSelectedMethod = SortMethod.DATE">{{
+            <!-- <v-list-item @click="sortingResourcesSelectedMethod = SortMethod.DATE">{{
               $t('resources.date')
-            }}</v-list-item>
+            }}</v-list-item> -->
             <v-list-item @click="sortingResourcesSelectedMethod = SortMethod.UPDATED_AT">{{
               $t('resources.updatedAt')
             }}</v-list-item>

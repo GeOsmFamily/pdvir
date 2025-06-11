@@ -1,5 +1,5 @@
 <template>
-  <GenericInfoCard
+  <GenericRessourceCard
     v-if="resource"
     :id="resource.id"
     :href="ResourceService.getLink(resource)"
@@ -15,13 +15,11 @@
     :edit-function="editResource"
     :slug="resource.slug"
   >
-    <template #image v-if="isEvent && resource.startAt">
       <div class="ResourceCard__dateBanner">
-        <span class="ResourceCard__date">{{ date }}</span>
+        <span class="ResourceCard__date">{{ date }}</span>zzzz
         <span class="ResourceCard__month">{{ month }}</span>
       </div>
-    </template>
-    <template #description>
+    <template #description>cdcdcdc
       <span class="InfoCard__title">{{ resource.name }}</span>
       <span
         class="InfoCard__subTitle"
@@ -51,13 +49,13 @@
     <template #footer-right>
       <v-icon class="InfoCard__actionIcon" :icon="icon" color="light-blue"></v-icon>
     </template>
-  </GenericInfoCard>
+  </GenericRessourceCard>
 </template>
 
 <script setup lang="ts">
 import type { Resource } from '@/models/interfaces/Resource'
 import { ItemType } from '@/models/enums/app/ItemType'
-import GenericInfoCard from '@/components/global/GenericInfoCard.vue'
+import GenericRessourceCard from '@/components/global/GenericRessourceCard.vue'
 import { ResourceFormat } from '@/models/enums/contents/ResourceFormat'
 import { computed } from 'vue'
 import { useResourceStore } from '@/stores/resourceStore'

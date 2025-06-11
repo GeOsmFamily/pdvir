@@ -1,7 +1,7 @@
 export enum ResourceType {
+  BD = 'bd',
   GUIDES = 'guides',
-  RAPPORTS = 'rapports',
   REGULATIONS = 'regulations',
-  EVENTS = 'events',
-  OTHERS = 'others'
+  RAPPORTS = 'rapports',
+  OTHERS = 'others',
 }
