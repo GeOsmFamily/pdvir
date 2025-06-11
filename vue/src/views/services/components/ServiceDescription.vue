@@ -6,7 +6,9 @@
       :is-pair="index % 2 == 0"
       :key="index"
     >
-      <img src="@/assets/images/Logo.png" alt="Accueil" class="Service__Img" />
+      <div class="Service__Img">
+        <img src="@/assets/images/Logo.png" alt="Accueil" />
+      </div>
       <div class="Service__Text px-5">
         <p class="Service__Title">{{ item.title }}</p>
         <span class="Service__Description">{{ item.description }}</span>
@@ -26,17 +28,21 @@ defineProps<{
 <style lang="scss">
 .Service {
   .ServiceDescription {
+    padding-bottom: 50px;
     display: flex;
     flex-direction: reverse;
   }
 
   .ServiceDescription__Reverse {
+    padding: 50px 0px;
     display: flex;
     flex-direction: row-reverse;
   }
 
   &__Img {
     width: 40%;
+    display: flex;
+    justify-content: center;
   }
 
   &__Text {

@@ -20,11 +20,11 @@ import { ref, onMounted } from 'vue'
 const panel = ref<number[]>([])
 
 function openByDefault() {
-  if (ServiceDatas.length > 0) {
-    panel.value = [0]
-  } else {
-    panel.value = []
-  }
+  ServiceDatas.forEach((e, i) => {
+    if (e.isExpanded) {
+      panel.value = [i]
+    }
+  })
 }
 
 onMounted(() => {
