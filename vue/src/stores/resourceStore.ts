@@ -1,7 +1,7 @@
 import { StoresList } from '@/models/enums/app/StoresList'
 import { defineStore } from 'pinia'
 import { ref, type Ref, computed, watch } from 'vue'
-import type { Resource, ResourceEvent } from '@/models/interfaces/Resource'
+import type { Resource } from '@/models/interfaces/Resource'
 import { ResourceService } from '@/services/resources/ResourceService'
 import { FormType } from '@/models/enums/app/FormType'
 import { i18n } from '@/plugins/i18n'
@@ -16,7 +16,7 @@ export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
   const resources: Ref<Resource[]> = ref([])
   const resource: Ref<Resource | null> = ref(null)
   const resourceForSubmission: Ref<Resource | null> = ref(null)
-  const nearestEvents: Ref<ResourceEvent[]> = ref([])
+  const nearestEvents: Ref<any[]> = ref([])
   const editedResourceId: Ref<Resource['id'] | null> = ref(null)
   const isResourceFormShown = ref(false)
 

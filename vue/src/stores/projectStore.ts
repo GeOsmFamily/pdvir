@@ -194,7 +194,6 @@ export const useProjectStore = defineStore(StoresList.PROJECTS, () => {
     projectForSubmission.value = project
     isProjectFormShown.value = false
     useApplicationStore().activeDialog = DialogKey.EDITOR_NEW_MESSAGE
-    useApplicationStore().showEditMessageDialog = ItemType.PROJECT
   }
 
   const saveProject = async (project: ProjectSubmission, type: FormType) => {

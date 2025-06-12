@@ -52,7 +52,6 @@ const mapLegend = useTemplateRef('map-legend')
 const mapExportButton = useTemplateRef('map-export-button')
 const scaleControl = useTemplateRef('scale-control')
 const qgisQueryButton = useTemplateRef('qgis-query-button')
-const mapCommentControl = useTemplateRef('map-comment-button')
 const map = computed(() => myMap.value?.map)
 
 onMounted(() => {

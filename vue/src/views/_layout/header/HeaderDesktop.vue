@@ -13,7 +13,6 @@
                 v-for="(tab, index) in NavigationTabsService.getContent()"
                 :key="index"
                 :to="tab.route"
-                :disabled="tab.disabled"
                 flat
                 :class="['Header__tab', { 'tab-active': tab.value === appStore.activeTab }]"
                 @click="appStore.activeTab = tab.value"

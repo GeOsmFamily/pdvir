@@ -120,23 +120,12 @@ const resourceConfig = computed(() => {
 })
 
 const to = computed(() => {
-  switch (props.type) {
-    case ItemType.PROJECT:
-      return { name: 'projectPage', params: { slug: props.slug } }
-    case ItemType.ACTOR:
-      return { name: 'actorProfile', params: { slug: props.slug } }
-    default:
       return undefined
-  }
 })
 
 const sharedLinkIsExternalToPlatform = ItemType.RESOURCE === props.type
 const additionnalPath = computed(() => {
   switch (props.type) {
-    case ItemType.PROJECT:
-      return 'projects/' + props.slug
-    case ItemType.ACTOR:
-      return 'actors/' + props.slug
     case ItemType.RESOURCE:
       return props.href
     default:

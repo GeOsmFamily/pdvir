@@ -125,11 +125,7 @@ const filteredResources = computed(() => {
   if (!arePassedEventsShown.value) {
     const todayDate = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
     filteredResources = filteredResources.filter((resource: Resource) => {
-      if (resource.type === ResourceType.EVENTS) {
-        return new Date(resource.startAt).getTime() >= todayDate
-      } else {
         return true
-      }
     })
   }
 
@@ -164,18 +160,9 @@ enum SortMethod {
 const sortingResourcesSelectedMethod: Ref<SortMethod> = ref(SortMethod.NAME)
 
 function getResourcesByDate() {
-  const eventResources = filteredResources.value.filter((resource: Resource) => {
-    return resource.type === ResourceType.EVENTS
+  return filteredResources.value.slice().sort((a: Resource, b: Resource) => {
+    return new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
   })
-  const otherResources = filteredResources.value.filter((resource: Resource) => {
-    return resource.type !== ResourceType.EVENTS
-  })
-  return [
-    ...eventResources.slice().sort((a: Resource, b: Resource) => {
-      return new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
-    }),
-    ...otherResources
-  ]
 }
 
 const sortedResources = computed(() => {
@@ -197,10 +184,8 @@ const sortedResources = computed(() => {
 const initRouteFilters = () => {
   if (Object.values(ResourceType).includes(route.query.type as ResourceType)) {
     selectedResourceTypes.value = [route.query.type as ResourceType]
-    if (route.query.type === ResourceType.EVENTS) {
       arePassedEventsShown.value = false
       sortingResourcesSelectedMethod.value = SortMethod.DATE
-    }
   }
 }
 

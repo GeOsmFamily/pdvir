@@ -77,7 +77,6 @@ export const useActorsStore = defineStore(StoresList.ACTORS, () => {
       } else {
         actorEdition.active = false
         useApplicationStore().activeDialog = DialogKey.EDITOR_NEW_MESSAGE
-        useApplicationStore().showEditMessageDialog = ItemType.ACTOR
       }
     } catch (error) {
       addNotification(i18n.t('actors.form.submitError'), NotificationType.ERROR, error as string)

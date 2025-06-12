@@ -49,7 +49,7 @@
           />
         </div>
 
-        <div class="Form__fieldCtn" v-if="form.type.value.value === ResourceType.EVENTS">
+        <!-- <div class="Form__fieldCtn" v-if="form.type.value.value === ResourceType.EVENTS">
           <label class="Form__label required">{{ $t('resources.form.fields.date.label') }}</label>
           <DateInput
             v-model:start-at="form.startAt.value.value"
@@ -57,7 +57,7 @@
             :error-messages="form.startAt.errorMessage.value || form.endAt.errorMessage.value"
             @change="handleDateChange"
           />
-        </div>
+        </div> -->
 
         <div class="Form__fieldCtn">
           <label class="Form__label required">{{ $t('resources.form.fields.name.label') }}</label>
@@ -375,14 +375,12 @@ watch(
   }
 )
 const showLocation = computed(() => {
-  return [ResourceType.EVENTS, ResourceType.GUIDES, ResourceType.OTHERS].includes(
+  return [ResourceType.GUIDES, ResourceType.OTHERS].includes(
     form.type.value.value
   )
 })
 const resourceFormats = computed(() => {
   switch (form.type.value.value) {
-    case ResourceType.EVENTS:
-      return [ResourceFormat.WEB, ResourceFormat.PDF, ResourceFormat.IMAGE, ResourceFormat.VIDEO]
     case ResourceType.GUIDES:
       return [
         ResourceFormat.WEB,

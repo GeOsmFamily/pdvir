@@ -50,6 +50,7 @@ type AdminPages =
   | 'Projects'
   | 'Members'
   | 'Resources'
+  | 'data'
   | 'Highlights'
   | AtlasGroup.PREDEFINED_MAP
   | AtlasGroup.THEMATIC_DATA

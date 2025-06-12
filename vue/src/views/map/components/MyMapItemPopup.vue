@@ -1,20 +1,9 @@
 <template>
   <div class="MyMapItemPopup" ref="active-item-card">
-    <ProjectCard
-      v-if="myMapStore.activeItemType === ItemType.PROJECT"
-      class="ProjectCard ProjectCard--light"
-      :project="myMapStore.activeItem as Project"
-      :map="true"
-    />
     <ResourceCard
-      v-else-if="myMapStore.activeItemType === ItemType.RESOURCE"
+      v-if="myMapStore.activeItemType === ItemType.RESOURCE"
       :resource="myMapStore.activeItem as Resource"
       class="ResourceCard ResourceCard--light"
-    />
-    <ActorCard
-      v-else-if="myMapStore.activeItemType === ItemType.ACTOR"
-      :actor="myMapStore.activeItem as Actor"
-      class="ActorCard ActorCard--light"
     />
     <QgisCard
       v-if="myMapStore.activeItemType === 'QGIS'"

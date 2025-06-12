@@ -1,5 +1,5 @@
 import { apiClient } from '@/plugins/axios/api'
-import type { Resource, ResourceEvent } from '@/models/interfaces/Resource'
+import type { Resource } from '@/models/interfaces/Resource'
 import { handleFileUpload } from '@/services/forms/FormService'
 import FileUploader from '@/services/files/FileUploader'
 import type { BaseMediaObject } from '../../models/interfaces/object/MediaObject'
@@ -52,7 +52,7 @@ export class ResourceService {
     return await apiClient.delete('/api/resources/' + resource.id).then((response) => response.data)
   }
 
-  static async getNearestEvents(): Promise<ResourceEvent[]> {
+  static async getNearestEvents(): Promise<any[]> {
     return await apiClient
       .get('/api/resources/events/nearest')
       .then((response) => response.data['hydra:member'])

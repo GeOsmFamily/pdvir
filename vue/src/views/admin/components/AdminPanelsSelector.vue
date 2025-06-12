@@ -20,11 +20,11 @@
 
       <v-expansion-panel
         :readonly="true"
-        :value="AdministrationPanels.CONTENT_RESOURCES"
-        @click="adminStore.selectedAdminPanel = AdministrationPanels.CONTENT_RESOURCES"
+        :value="AdministrationPanels.CONTENT_DATA"
+        @click="adminStore.selectedAdminPanel = AdministrationPanels.CONTENT_DATA"
         class="text-main-blue"
         :class="{
-          Admin__selectedPanel: adminStore.selectedAdminPanel === AdministrationPanels.CONTENT_RESOURCES
+          Admin__selectedPanel: adminStore.selectedAdminPanel === AdministrationPanels.CONTENT_DATA
         }"
       >
         <v-expansion-panel-title>
@@ -107,9 +107,9 @@ watch(
     if (adminStore.selectedAdminPanel === AdministrationPanels.MEMBERS) {
       router.push({ name: 'adminUsers' })
       adminStore.selectedAdminItem = null
-    } else if (adminStore.selectedAdminPanel === AdministrationPanels.CONTENT_RESOURCES) {
+    } else if (adminStore.selectedAdminPanel === AdministrationPanels.CONTENT_DATA) {
       router.push({ name: 'adminData' })
-      adminStore.selectedAdminItem = AdministrationPanels.CONTENT_RESOURCES
+      adminStore.selectedAdminItem = AdministrationPanels.CONTENT_DATA
     } else {
       router.push({ name: 'adminPredefinedMaps' })
       adminStore.selectedAdminItem = AdministrationPanels.MAP_ATLAS

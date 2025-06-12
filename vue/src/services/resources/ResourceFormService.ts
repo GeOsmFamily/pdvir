@@ -14,41 +14,32 @@ export class ResourceFormService {
     // @ts-expect-error - zod object.
     const resourceSchema: z.ZodType<Partial<Resource>> = z
       .object({
-        name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
-        description: zodModels.descriptionRequired,
-        type: z.nativeEnum(ResourceType),
-        otherType: z.string().optional(),
-        administrativeScopes: z.array(z.nativeEnum(AdministrativeScope)).optional(),
-        admin1List: zodModels.admin1Boundaries.optional(),
-        admin2List: zodModels.admin2Boundaries.optional(),
-        admin3List: zodModels.admin3Boundaries.optional(),
-        geoData: zodModels.geoDataNullable.optional(),
-        startAt: z.coerce.date().nullable().optional(),
-        endAt: z.coerce.date().nullable().optional(),
-        file: zodModels.file.nullable().optional(),
-        link: zodModels.website.nullable().optional(),
-        format: z.nativeEnum(ResourceFormat),
-        author: zodModels.maxLabel.optional(),
-        thematics: zodModels.symfonyRelations,
-        otherThematic: z.string().optional()
+      name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
+      description: zodModels.descriptionRequired,
+      type: z.nativeEnum(ResourceType),
+      otherType: z.string().optional(),
+      administrativeScopes: z.array(z.nativeEnum(AdministrativeScope)).optional(),
+      admin1List: zodModels.admin1Boundaries.optional(),
+      admin2List: zodModels.admin2Boundaries.optional(),
+      admin3List: zodModels.admin3Boundaries.optional(),
+      geoData: zodModels.geoDataNullable.optional(),
+      startAt: z.coerce.date().nullable().optional(),
+      endAt: z.coerce.date().nullable().optional(),
+      file: zodModels.file.nullable().optional(),
+      link: zodModels.website.nullable().optional(),
+      format: z.nativeEnum(ResourceFormat),
+      author: zodModels.maxLabel.optional(),
+      thematics: zodModels.symfonyRelations,
+      otherThematic: z.string().optional()
       })
       .refine(
-        (schema) => {
-          return schema.file || schema.link
-        },
-        {
-          message: i18n.t('resources.form.errorMessages.atLeastOneField'),
-          path: ['link', 'file']
-        }
-      )
-      .refine(
-        (schema) =>
-          (schema.type === ResourceType.EVENTS && schema.startAt) ||
-          schema.type !== ResourceType.EVENTS,
-        {
-          message: i18n.t('forms.errorMessages.required'),
-          path: ['startAt']
-        }
+      (schema) => {
+        return schema.file || schema.link
+      },
+      {
+        message: i18n.t('resources.form.errorMessages.atLeastOneField'),
+        path: ['link', 'file']
+      }
       )
 
     const { errors, handleSubmit, isSubmitting, setFieldValue } = useForm<Partial<Resource>>({

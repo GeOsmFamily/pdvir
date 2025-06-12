@@ -80,12 +80,6 @@ const onSubmit = handleSubmit(
     try {
       isLoading.value = true
       switch (showEditMessageType.value) {
-        case ItemType.ACTOR:
-          await saveActor(values)
-          break
-        case ItemType.PROJECT:
-          await saveProject(values)
-          break
         case ItemType.RESOURCE:
           await saveResource(values)
           break
@@ -124,10 +118,6 @@ async function saveResource(values: { confidentiality: boolean; message?: string
 
 const getType = () => {
   switch (showEditMessageType.value) {
-    case ItemType.ACTOR:
-      return i18n.t('itemType.new.your_message.actor')
-    case ItemType.PROJECT:
-      return i18n.t('itemType.new.your_message.project')
     case ItemType.RESOURCE:
       return i18n.t('itemType.new.your_message.resource')
     default:

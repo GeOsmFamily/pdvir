@@ -31,9 +31,6 @@ export interface Resource
   [key: string]: any
 }
 
-export interface ResourceEvent extends Resource {
-  type: ResourceType.EVENTS
-}
 
 export interface ResourceSubmission extends Resource {
   previewImageToUpload: ContentImageFromUserFile
