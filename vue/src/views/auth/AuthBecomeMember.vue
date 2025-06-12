@@ -111,7 +111,6 @@
               v-model="form.acceptTerms.value.value"
               type="checkbox"
               class="form-checkbox-input"
-              @blur="form.acceptTerms.handleChange"
             />
             <span class="form-checkbox-label">
               <i18n-t keypath="auth.becomeMember.form.privacyPolicy.label" tag="span">
