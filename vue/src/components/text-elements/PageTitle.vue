@@ -1,6 +1,6 @@
 <template>
-  <div class="half-circle"> 
-    <span class="PageTitle" ref="titleRef"></span>
+  <div :class="whiteTitle?'half-circle white-circle':'half-circle' " > 
+    <span :class="whiteTitle?'PageTitle PageTitle-white':'PageTitle' " class="PageTitle" ref="titleRef" ></span>
   </div>
 </template>
 
@@ -8,7 +8,8 @@
 import { onMounted, ref } from 'vue';
 
 const props = defineProps<{
-  title: string
+  title: string,
+  whiteTitle?:boolean
 }>();
 
 const titleRef = ref<HTMLElement | null>(null);
@@ -59,6 +60,13 @@ const animateText = (text: string) => {
     animation-name: blinking; 
     animation-duration: 1s; 
     animation-iteration-count: infinite;
+  }
+  &.PageTitle-white{
+    color: white !important;
+    &::after{
+      color: white;
+    }
+
   }
   &.no-cursor::after {
     content: '';

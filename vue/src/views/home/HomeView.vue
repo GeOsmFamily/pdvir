@@ -5,7 +5,7 @@
       <div class="HomeView__mainContent">
       
         <div class="HomeView__mainContentInfo"  data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-          <PageTitle :title="$t('home.main.title')" />
+          <PageTitle :title="$t('home.main.title')" :whiteTitle="true" />
           <p>{{ $t('home.main.desc') }}</p>
         </div>
         
@@ -184,7 +184,6 @@ onMounted(async () => {
 }
 
 .swiper-container {
-  opacity: 0.75;
   z-index: -1;
   width: 100%;
   height: 100%;
