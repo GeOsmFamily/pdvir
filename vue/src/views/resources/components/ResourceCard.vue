@@ -15,16 +15,14 @@
     :edit-function="editResource"
     :slug="resource.slug"
   >
-      <div class="ResourceCard__dateBanner">
-        <span class="ResourceCard__date">{{ date }}</span>zzzz
-        <span class="ResourceCard__month">{{ month }}</span>
-      </div>
+    <div class="ResourceCard__dateBanner">
+      <span class="ResourceCard__date">{{ date }}</span
+      >zzzz
+      <span class="ResourceCard__month">{{ month }}</span>
+    </div>
     <template #description>
       <span class="InfoCard__title">{{ resource.name }}</span>
-      <span
-        class="InfoCard__subTitle"
-        v-if="resource.geoData?.name"
-      >
+      <span class="InfoCard__subTitle" v-if="resource.geoData?.name">
         <span v-if="resource.startAt">
           <v-icon icon="mdi-calendar" />
           <span>{{ dateRangeLabel }}</span>
@@ -39,13 +37,13 @@
         <UpdateInfoLabel :date="resource.updatedAt" :user="resource.createdBy" />
       </span>
     </template>
-    <template #comment>
+    <!-- <template #comment>
       <CommentButton
         position="Card"
         :origin="CommentOrigin.RESOURCE"
         :originSlug="ResourceService.getLink(resource)"
       />
-    </template>
+    </template> -->
     <template #footer-right>
       <v-icon class="InfoCard__actionIcon" :icon="icon" color="light-blue"></v-icon>
     </template>
@@ -59,13 +57,10 @@ import GenericRessourceCard from '@/components/global/GenericRessourceCard.vue'
 import { ResourceFormat } from '@/models/enums/contents/ResourceFormat'
 import { computed } from 'vue'
 import { useResourceStore } from '@/stores/resourceStore'
-import { ResourceType } from '@/models/enums/contents/ResourceType'
 import { getDateRangeLabel, localizeDate } from '@/services/utils/UtilsService'
 import GeocodingService from '@/services/map/GeocodingService'
 import { ResourceService } from '@/services/resources/ResourceService'
 import { useUserStore } from '@/stores/userStore'
-import CommentButton from '@/components/comments/CommentButton.vue'
-import { CommentOrigin } from '@/models/interfaces/Comment'
 import UpdateInfoLabel from '@/views/_layout/sheet/UpdateInfoLabel.vue'
 
 const resourceStore = useResourceStore()
@@ -74,6 +69,7 @@ const props = defineProps<{
   resource: Resource
 }>()
 const mapRoute = computed(() => {
+  console.log(props.resource)
   return props.resource?.geoData
     ? {
         name: 'map',
