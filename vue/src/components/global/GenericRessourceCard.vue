@@ -1,21 +1,14 @@
 <template>
   <InfoCard class="GenericInfoCard" :to="to" :href="href" :target="href ? '_blank' : undefined">
     <template #content>
-      <div 
-        class="GenericInfoCard__imgCtn" 
-        :style="{ backgroundColor: resourceConfig.color }"
-      >
+      <div class="GenericInfoCard__imgCtn" :style="{ backgroundColor: resourceConfig.color }">
         <img
           v-if="image?.contentsFilteredUrl?.thumbnail"
           class="GenericInfoCard__img"
           :src="image.contentsFilteredUrl.thumbnail"
         />
         <div v-else class="GenericInfoCard__iconWrapper">
-          <v-icon 
-            :icon="resourceConfig.icon" 
-            size="64"
-            color="white"
-          />
+          <v-icon :icon="resourceConfig.icon" size="64" color="white" />
         </div>
         <slot name="image"></slot>
       </div>
@@ -26,21 +19,18 @@
         </slot>
       </div>
       <div class="GenericInfoCard__chips">
-        <v-chip 
-          class="mr-2" 
-          :style="{ backgroundColor: resourceConfig.color, color: 'white' }"
-        >
+        <v-chip class="mr-2" :style="{ backgroundColor: resourceConfig.color, color: 'white' }">
           {{ typeLabel }}
         </v-chip>
       </div>
     </template>
     <template #footer-left>
       <v-btn
-        v-if="mapRoute"
-        :to="mapRoute"
+        v-if="href"
+        @click="download()"
         variant="text"
         density="comfortable"
-        icon="mdi-map-marker-outline"
+        icon="mdi-download"
         class="hide-sm"
         :color="resourceConfig.color"
       />
@@ -49,7 +39,7 @@
         :external-link="sharedLinkIsExternalToPlatform"
         :color="resourceConfig.color"
       />
-      <HighlightButton :item-id="id" />
+      <!-- <HighlightButton :item-id="id" /> -->
       <v-btn
         class="GenericInfoCard__editBtn"
         v-if="isEditable"
@@ -67,14 +57,11 @@
 
 <script setup lang="ts">
 import InfoCard from '@/components/global/InfoCard.vue'
-import LikeButton from '@/components/global/LikeButton.vue'
 import ShareButton from '@/components/global/ShareButton.vue'
-import HighlightButton from '@/components/global/HighlightButton.vue'
 import { ItemType } from '@/models/enums/app/ItemType'
 import { computed } from 'vue'
 import type { RouteLocationAsRelative } from 'vue-router'
 import type { BaseMediaObject } from '@/models/interfaces/object/MediaObject'
-import { ResourceType } from '@/models/enums/contents/ResourceType'
 
 // Configuration des icônes et couleurs par type de ressource
 const resourceTypeConfig = {
@@ -82,22 +69,27 @@ const resourceTypeConfig = {
     icon: 'mdi-chart-box',
     color: '#2196F3' // Bleu
   },
-  'Événements': {
+  Événements: {
     icon: 'mdi-calendar-star',
     color: '#FF5722' // Rouge-orange
   },
-  'Tutoriels': {
+  Tutoriels: {
     icon: 'mdi-play-circle-outline',
     color: '#4CAF50' // Vert
   },
-  'Réglementations': {
+  Réglementations: {
     icon: 'mdi-scale-balance',
     color: '#673AB7' // Violet indigo
   },
-  'Autre': {
+  Autre: {
     icon: 'mdi-folder-multiple',
     color: '#607D8B' // Bleu gris
   }
+}
+
+function download() {
+  if (props.href == null) return
+  window.open(props.href, '_blank')
 }
 
 const props = defineProps<{
@@ -116,11 +108,14 @@ const props = defineProps<{
 }>()
 
 const resourceConfig = computed(() => {
-  return resourceTypeConfig[props.typeLabel as keyof typeof resourceTypeConfig] || resourceTypeConfig['Autre']
+  return (
+    resourceTypeConfig[props.typeLabel as keyof typeof resourceTypeConfig] ||
+    resourceTypeConfig['Autre']
+  )
 })
 
 const to = computed(() => {
-      return undefined
+  return undefined
 })
 
 const sharedLinkIsExternalToPlatform = ItemType.RESOURCE === props.type
