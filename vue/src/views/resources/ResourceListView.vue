@@ -8,7 +8,7 @@
     />
     <div class="ListView__filters">
       <ListFilterBox>
-        <ListFilterSelect
+        <!-- <ListFilterSelect
           v-model="selectedThematic"
           :items="thematicsItems"
           :label="$t('resources.thematic')"
@@ -19,7 +19,7 @@
           :item-title="(item: ResourceFormat) => $t('resources.resourceFormat.' + item)"
           :item-value="(item: ResourceFormat) => item"
           :label="$t('resources.format')"
-        />
+        /> -->
         <ListFilterSelect
           v-model="selectedResourceTypes"
           :items="Object.values(ResourceType)"
@@ -125,7 +125,7 @@ const filteredResources = computed(() => {
   if (!arePassedEventsShown.value) {
     const todayDate = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
     filteredResources = filteredResources.filter((resource: Resource) => {
-        return true
+      return true
     })
   }
 
@@ -184,8 +184,8 @@ const sortedResources = computed(() => {
 const initRouteFilters = () => {
   if (Object.values(ResourceType).includes(route.query.type as ResourceType)) {
     selectedResourceTypes.value = [route.query.type as ResourceType]
-      arePassedEventsShown.value = false
-      sortingResourcesSelectedMethod.value = SortMethod.DATE
+    arePassedEventsShown.value = false
+    sortingResourcesSelectedMethod.value = SortMethod.DATE
   }
 }
 
