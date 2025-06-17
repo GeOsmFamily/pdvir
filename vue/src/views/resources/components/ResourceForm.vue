@@ -242,7 +242,6 @@
 </template>
 
 <script setup lang="ts">
-import DateInput from '@/components/forms/DateInput.vue'
 import FileInput from '@/components/forms/FileInput.vue'
 import ImagesLoader from '@/components/forms/ImagesLoader.vue'
 import LocationSelector from '@/components/forms/LocationSelector.vue'
@@ -375,9 +374,7 @@ watch(
   }
 )
 const showLocation = computed(() => {
-  return [ResourceType.GUIDES, ResourceType.OTHERS].includes(
-    form.type.value.value
-  )
+  return [ResourceType.GUIDES, ResourceType.OTHERS].includes(form.type.value.value)
 })
 const resourceFormats = computed(() => {
   switch (form.type.value.value) {
@@ -389,7 +386,10 @@ const resourceFormats = computed(() => {
         ResourceFormat.VIDEO,
         ResourceFormat.XLSX
       ]
+    case ResourceType.BD:
+      return [ResourceFormat.ZIP, ResourceFormat.XLSX]
     case ResourceType.RAPPORTS:
+      return [ResourceFormat.WEB, ResourceFormat.PDF, ResourceFormat.IMAGE]
     case ResourceType.REGULATIONS:
     default:
       return [ResourceFormat.WEB, ResourceFormat.PDF, ResourceFormat.IMAGE]

@@ -26,7 +26,8 @@
       "web": "Page web",
       "xlsx": "Excel",
       "video": "Vidéo",
-      "image": "Image"
+      "image": "Image",
+      "zip": "ZIP"
     },
     "form": {
       "errorMessages": {

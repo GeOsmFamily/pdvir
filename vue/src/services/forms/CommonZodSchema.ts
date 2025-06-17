@@ -105,6 +105,8 @@ export class CommonZodSchema {
       file: this.createFileSchema({
         allowedTypes: [
           'application/pdf',
+          'application/zip',
+          'application/x-zip-compressed',
           'application/vnd.oasis.opendocument.spreadsheet',
           'application/vnd.ms-excel',
           'image/jpeg',
