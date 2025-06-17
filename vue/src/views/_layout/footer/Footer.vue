@@ -16,11 +16,11 @@
                 alt="linkedin"
                 class="Footer__contactImg"
               />
-              <img
+              <!-- <img
                 src="@/assets/images/footer/instagram.svg"
                 alt="instagram"
                 class="Footer__contactImg"
-              />
+              /> -->
             </div>
           </div>
           <div class="Footer__adressCtn">
@@ -53,8 +53,9 @@
         <div class="Footer__block Footer__block--right">
           <h4 class="Footer__title">{{ $t('footer.partners') }}</h4>
           <div class="Footer__partnersLogos">
-            <img src="@/assets/images/footer/logo-banque-mondiale.png" alt="logo Banque modiale" />
-            <img src="@/assets/images/footer/logo-minhdu.png" alt="Logo MINDHU" />
+            <img src="@/assets/images/footer/logo-banque-mondiale.png" alt="logo Banque modiale"  />
+            <img src="@/assets/images/Logo.png" style="height: 100px;" alt="Logo MINDHU" />
+            <img src="@/assets/images/footer/logo-minhdu.png" alt="Logo PDVIR" />
           </div>
         </div>
       </div>
@@ -167,7 +168,7 @@
 
           img {
             height: 4.5rem;
-            cursor: pointer;
+            //cursor: pointer;
           }
         }
 

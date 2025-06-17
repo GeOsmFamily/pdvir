@@ -66,16 +66,16 @@ const observatoryFeatures = [
     description: "Exporter l’ensemble des données vecteurs sous des formats de votre choix (.shp .Tab dxf, geojson, etc…).",
     icon: "mdi-file-export" // Icon for exporting files
   },
-  {
+  /* {
     title: "Dessin",
     description: "Dessiner des objets géographiques avec la possibilité de les éditer, commenter, partager et sauvegarder.",
     icon: "mdi-pencil-ruler" // Icon for drawing/ruler
-  },
-  {
+  }, */
+  /* {
     title: "Fiches géodésiques",
     description: "Consulter l’ensemble des bornes du Réseau Géodésique National du Cameroun.",
     icon: "mdi-map-marker-distance" // Icon for geographic markers/distance
-  },
+  }, */
   {
     title: "Comparateur",
     description: "Comparer deux cartes de votre choix.",
