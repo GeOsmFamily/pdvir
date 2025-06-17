@@ -11,5 +11,6 @@ enum ResourceType: string
     case RAPPORTS = 'rapports'; // "Rapports et présentations"
     case REGULATIONS = 'regulations'; // "Réglementations et textes officiels"
     case EVENTS = 'events'; // "Événements"
+    case BD = 'bd'; // Base de données
     case OTHERS = 'others';
 }

@@ -3,5 +3,6 @@ export enum ResourceFormat {
   WEB = 'web',
   XLSX = 'xlsx',
   VIDEO = 'video',
-  IMAGE = 'image'
+  IMAGE = 'image',
+  ZIP = 'zip'
 }
