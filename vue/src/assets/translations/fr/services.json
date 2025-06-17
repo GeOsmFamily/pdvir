@@ -1,5 +1,7 @@
 {
     "services": {
+        "voirie": "GéoVoirie",
+        "risque": "GéoRisque",
         "discover": "Decouvrir le service"
     }
 }

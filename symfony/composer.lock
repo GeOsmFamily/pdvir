@@ -10500,7 +10500,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Fidry\\CpdviroreCounter\\": "src/"
+                    "Fidry\\CpuCoreCounter\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",

@@ -1,56 +1,70 @@
 <template lang="">
   <div class="Service">
     <div
-      :class="index % 2 == 0 ? 'ServiceDescription' : 'ServiceDescription__Reverse'"
+      class="ServiceDescription"
       v-for="(item, index) in contents"
-      :is-pair="index % 2 == 0"
       :key="index"
+      :data-aos="item.left ? 'fade-right' : 'fade-left'"
+      data-aos-duration="1000"
+      data-aos-delay="200"
     >
-      <div class="Service__Img">
-        <img src="@/assets/images/Logo.png" alt="Accueil" />
-      </div>
-      <div class="Service__Text px-5">
+      <div class="Service__Text">
         <p class="Service__Title">{{ item.title }}</p>
         <span class="Service__Description">{{ item.description }}</span>
+      </div>
+      <div class="Service__Img">
+        <img :src="item.image.src" :alt="item.title" :width="item.image.size + '%'" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import type { ServiceContent } from '@/models/interfaces/Service'
+// Import AOS
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 defineProps<{
   contents: ServiceContent[]
 }>()
+onMounted(async () => {
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    easing: 'ease-in-out',
+    once: true,
+    offset: 50
+  })
+})
 </script>
 
 <style lang="scss">
 .Service {
   .ServiceDescription {
     padding-bottom: 50px;
-    display: flex;
-    flex-direction: reverse;
+    // display: flex;
+    // flex-direction: reverse;
   }
 
-  .ServiceDescription__Reverse {
-    padding: 50px 0px;
-    display: flex;
-    flex-direction: row-reverse;
-  }
+  // .ServiceDescription__Reverse {
+  // padding: 50px 0px;
+  // display: flex;
+  // flex-direction: row-reverse;
+  // }
 
-  &__Img {
-    width: 40%;
-    display: flex;
-    justify-content: center;
-  }
+  // &__Img {
+  // display: flex;
+  // justify-content: center;
+  // }
 
   &__Text {
-    width: 60%;
     white-space: pre-line;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    margin-bottom: 10px;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
   }
 
   &__Title {
