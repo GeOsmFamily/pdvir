@@ -7,6 +7,7 @@
     :items="cities"
     item-title="name"
     item-value="value"
+    color="main-blue"
     v-model="selectedCity"
     :error-messages="errorMessages"
   >
