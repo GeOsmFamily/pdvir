@@ -24,11 +24,11 @@
         :title="$t('atlas.cedhuDB')"
         :type="AtlasGroup.THEMATIC_DATA"
         :atlases="
-          atlasStore.atlasList
+          atlasStore.atlasListSplitted
             .filter((atlas) => atlas.atlasGroup === AtlasGroup.THEMATIC_DATA)
-            .sort((a, b) => a.position - b.position)
+            .sort((a, b) => a.name.localeCompare(b.name))
         "
-        v-if="atlasStore.atlasList.length > 0"
+        v-if="atlasStore.atlasListSplitted.length > 0"
       />
     </div>
     <div v-if="mapStore.isMapExportActive" class="MyMapRightSideBar__subCtn">
