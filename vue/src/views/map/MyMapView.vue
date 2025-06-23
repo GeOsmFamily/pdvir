@@ -7,6 +7,7 @@
       <MyMapRightSideBar class="MyMapView__layersSideBar" :shown="myMapStore.isRightSidebarShown" />
     </div>
   </div>
+  
 </template>
 <script setup lang="ts">
 import MyMap from '@/views/map/components/MyMap.vue'
@@ -14,7 +15,7 @@ import MyMapHeader from '@/views/map/components/MyMapHeader.vue'
 import MyMapLeftSideBar from '@/views/map/components/MyMapLeftSideBar.vue'
 import MyMapRightSideBar from '@/views/map/components/MyMapRightSideBar.vue'
 import { useMyMapStore } from '@/stores/myMapStore'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { LayerType } from '@/models/enums/geo/LayerType'
 import { useRoute } from 'vue-router'
 import { AppLayersService } from '@/services/map/AppLayersService'
