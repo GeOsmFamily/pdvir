@@ -1,7 +1,8 @@
 <template>
   <div class="MyMapRightSideBar">
-    <div >
-      <span>{{$t('myMap.header.select.placeholder')}}</span><br/>
+    <div>
+      <span>{{ $t('myMap.header.select.placeholder') }}</span
+      ><br />
       <MyMapSelectCommuneTown
         :placeholder="$t('myMap.header.select.placeholder')"
         :geometry-details="true"
@@ -11,10 +12,16 @@
         v-model="mapStore.selectedTown"
       />
     </div>
+    <MyMapAtlasesList
+      :title="$t('breadcrumbs.projects')"
+      :type="AtlasGroup.THEMATIC_DATA"
+      :atlases="[atlasStore.mindhuProjects]"
+      v-if="atlasStore.mindhuProjects !== null"
+    />
     <div v-show="!mapStore.isMapExportActive" class="MyMapRightSideBar__subCtn">
       <MyMapPlatformLayers />
       <MyMapAtlasesList
-        :title="$t('atlas.thematicData')"
+        :title="$t('atlas.cedhuDB')"
         :type="AtlasGroup.THEMATIC_DATA"
         :atlases="
           atlasStore.atlasList

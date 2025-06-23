@@ -38,6 +38,7 @@
         }
     },
     "atlas": {
+        "cedhuDB": "BD CEDHU",
         "thematicData": "Données thématiques",
         "predefinedMap": "Listes des indicateurs",
         "leftMaps": "Carte | Carte | Cartes",

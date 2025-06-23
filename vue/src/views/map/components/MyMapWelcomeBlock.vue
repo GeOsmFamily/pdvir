@@ -1,5 +1,5 @@
 <template>
-  <div class="MyMapWelcomeBlock" v-if="!userStore.userIsLogged && !isClosed">
+  <div class="MyMapWelcomeBlock" v-if="!userStore.userIsLogged && !isClosed && false">
     <h2>{{ $t('myMap.leftSidebar.welcome.title') }}</h2>
     <p>{{ $t('myMap.leftSidebar.welcome.description') }}</p>
     <div class="MyMapWelcomeBlock__moreAccess">
@@ -23,7 +23,7 @@ const isClosed = ref(false)
 
 <style lang="scss">
 .MyMapWelcomeBlock {
-  background: rgb(var(--v-theme-light-blue)) ;
+  background: rgb(var(--v-theme-light-blue));
   background-size: 130% 1rem;
   // background-attachment: local;
   padding: var(--dialog-padding-top) var(--dialog-padding-x) 3rem var(--dialog-padding-x);
@@ -36,8 +36,6 @@ const isClosed = ref(false)
   text-align: center;
   min-width: 19rem !important;
   align-self: flex-end;
-
-  
 
   .MyMapWelcomeBlock__moreAccess {
     display: flex;

@@ -12,11 +12,26 @@ import { AtlasMapService } from '@/services/map/AtlasMapService'
 
 export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
   const atlasList: Ref<Atlas[]> = ref([])
+  const mindhuProjects: Ref<Atlas | null> = ref(null)
   const isFormShown: Ref<boolean> = ref(false)
+
+  const splitMindhuAtlas = () => {
+    const atlases: Atlas[] = []
+    for (let i = 0; i < atlasList.value.length; i++) {
+      if (atlasList.value[i].name === 'Réalisations MINDHU') {
+        console.log('Réalisations MINDHU find', i)
+        mindhuProjects.value = atlasList.value[i]
+      } else {
+        atlases.push(atlasList.value[i])
+      }
+    }
+    atlasList.value = atlases
+  }
 
   async function getAll(): Promise<void> {
     if (atlasList.value.length === 0) {
       atlasList.value = await AtlasService.getAll()
+      splitMindhuAtlas()
     }
   }
 
@@ -55,6 +70,7 @@ export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
   return {
     atlasList,
     isFormShown,
+    mindhuProjects,
     getAll,
     submitAtlas,
     deleteAtlas
