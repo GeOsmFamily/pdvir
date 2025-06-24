@@ -31,6 +31,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
   const isLeftSidebarShown = ref(true)
   const mapSearch: Ref<GeoData | null> = ref(null)
   const selectedTown: Ref<string | null> =ref(null)
+  const selectedBoundary: Ref<string| null>=ref(null)
   const isMapAlreadyBeenMounted = ref(false)
   const isLayersReorderingAlreadyTriggering = ref(false)
   const isMapExportActive = ref(false)
@@ -199,6 +200,7 @@ export const useMyMapStore = defineStore(StoresList.MY_MAP, () => {
     mapCanvasToDataUrl,
     mapSearch,
     selectedTown,
+    selectedBoundary,
     actorSubLayers,
     projectSubLayers,
     resourceLayer,

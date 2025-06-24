@@ -38,11 +38,13 @@ import SelectDropdown from '@/components/select/SelectDropdown.vue'
 import MyMapAtlasesList from '@/views/map/components/Atlases/MyMapAtlasesList.vue'
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import { useAtlasStore } from '@/stores/atlasStore'
-import { ref, watch, computed } from 'vue'
+import { ref, watch } from 'vue'
 import regionsSource from '@/assets/geojsons/bounderies/region.json'
 import departementSource from '@/assets/geojsons/bounderies/departement.json'
 import communesSource from '@/assets/geojsons/bounderies/arrondissement.json'
+import { useMyMapStore } from '@/stores/myMapStore'
 
+const mapStore = useMyMapStore()
 const atlasStore = useAtlasStore()
 
 const selectedRegion = defineModel<string | null>('selectedRegion', { default: null });
@@ -62,10 +64,12 @@ const mappedDepartments = ref<{ name: string; value: string }[]>([]);
 // Fonction pour mettre à jour la liste des départements
 const updateDepartmentList = () => {
   if(mappedDepartments.value.length===0){
-    mappedDepartments.value=(departementSource as any).features.map((departement: any)=>({
+    mappedDepartments.value=(departementSource as any).features
+    .map((departement: any)=>({
       name: departement.properties.name,
       value: departement.properties['ref:COG']
-    }));
+    }))
+    .sort((a, b) => a.name?.localeCompare(b.name));
   }
   const filteredDepartements=mappedDepartments.value;
 
@@ -111,6 +115,7 @@ const updateCommuneList = () => {
 
 // Watchers pour les sélections en cascade
 watch(selectedRegion, (newRegion, oldRegion) => {
+  mapStore.selectedBoundary=selectedRegion.value;
   // Mettre à jour la liste des départements
   updateDepartmentList();
   
