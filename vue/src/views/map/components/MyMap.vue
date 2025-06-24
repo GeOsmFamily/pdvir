@@ -36,10 +36,13 @@ import MyMapExportButton from '@/views/map/components/export/MyMapExportButton.v
 import ScaleControl from '@/components/map/controls/ScaleControl.vue'
 import QgisLayersQueryButton from './QgisLayersQuery/QgisLayersQueryButton.vue'
 import MyMapCommentButton from '@/views/map/components/MyMapCommentButton.vue'
-import { LngLatBounds } from 'maplibre-gl';
+import maplibregl, { LngLatBounds } from 'maplibre-gl';
 import doualaMask from '@/assets/geojsons/mask_douala.json'
 import batouriMask from '@/assets/geojsons/mask_batouri.json'
 import camerounMask from '@/assets/geojsons/mask_cameroun.json';
+import regionsSource from '@/assets/geojsons/bounderies/region.json'
+import departementSource from '@/assets/geojsons/bounderies/departement.json'
+import communesSource from '@/assets/geojsons/bounderies/arrondissement.json'
 
 type MapType = InstanceType<typeof Map>
 const basemap = ref<Basemap>()
@@ -96,6 +99,29 @@ watch(basemap, () => {
   }
 })
 
+interface GeometryFeature {
+  type: string;
+  properties: {
+    'ref:COG': string;
+    [key: string]: any;
+  };
+  geometry: {
+    type: string;
+    coordinates: any[];
+  };
+}
+
+// Options pour personnaliser l'apparence de la couche
+interface BoundaryLayerOptions {
+  lineColor?: string;
+  lineWidth?: number;
+  lineOpacity?: number;
+}
+
+// Constantes pour les IDs de couche et source
+const BOUNDARY_LAYER_ID = 'polygon-boundary-layer';
+const BOUNDARY_SOURCE_ID = 'polygon-boundary-source';
+
 //this is the watcher that will change the mask when the user selects a town
 watch(
   () => myMapStore.selectedTown,
@@ -117,10 +143,214 @@ watch(
       
     if (map.value != null && newValue != null && newValue != null) {
       map.value.fitBounds(newBbox, { padding: 75 });
-      (map.value.getSource('doualaMask') as maplibregl.GeoJSONSource).setData(newMaskSource)
+      (map.value.getSource('camerounMask') as maplibregl.GeoJSONSource).setData(newMaskSource)
     }
   }
 )
+
+watch(
+  () => myMapStore.selectedBoundary,
+  (newValue)=>{
+    let polygonSource
+    if(newValue && newValue.length===2){//it's a region
+      type RegionFeature = {
+      type: string;
+      properties: {
+        'ref:COG': string;
+        [key: string]: any;
+      };
+      geometry: {
+        type: string;
+        coordinates: any;
+      };
+      };
+      polygonSource = (regionsSource.features as RegionFeature[]).find(item => item.properties['ref:COG'] === newValue);
+    }else if(newValue && newValue.length===4){//it's a department
+      polygonSource=(departementSource as any).features.find((item: any) =>item.properties['ref:COG']===newValue);
+    }else if(newValue && newValue.length===4){//it's a commune
+      polygonSource=(communesSource as any).features.find((item: any)=>item.properties['ref:COG']===newValue);
+    }
+    addPolygonBoundaryLayer(polygonSource)
+  }
+)
+
+
+interface BoundaryLayerOptions {
+  lineColor?: string;
+  lineWidth?: number;
+  lineOpacity?: number;
+}
+
+/**
+ * Ajoute ou met à jour une couche de limites de polygone sur la carte MapLibre
+ * Assume que la variable 'map' (MapLibreMap) est disponible dans le scope
+ * @param feature - Objet contenant la géométrie du polygone
+ * @param options - Options pour personnaliser l'apparence de la couche
+ */
+const addPolygonBoundaryLayer = (
+  feature: GeometryFeature, 
+  options: BoundaryLayerOptions = {}
+): void => {
+  // Options par défaut
+  const {
+    lineColor = '#005E84',
+    lineWidth = 4,
+    lineOpacity = 1
+  } = options;
+
+  try {
+    // Créer un objet GeoJSON valide
+    const geoJsonData = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: feature.type || 'Feature',
+          properties: feature.properties,
+          geometry: feature.geometry
+        }
+      ]
+    };
+
+    // Vérifier si la source existe déjà
+    if (map.value?.getSource(BOUNDARY_SOURCE_ID)) {
+      // Mettre à jour la source existante
+      const source = map.value?.getSource(BOUNDARY_SOURCE_ID) as any;
+      source.setData(geoJsonData);
+    } else {
+      // Ajouter une nouvelle source
+      map.value?.addSource(BOUNDARY_SOURCE_ID, {
+        type: 'geojson',
+        data: geoJsonData as any
+      });
+      console.log('Nouvelle source de limites ajoutée');
+    }
+
+    // Vérifier si la couche existe déjà
+    if (!map.value?.getLayer(BOUNDARY_LAYER_ID)) {
+      // Ajouter la couche seulement si elle n'existe pas
+      map.value?.addLayer({
+        id: BOUNDARY_LAYER_ID,
+        type: 'line',
+        source: BOUNDARY_SOURCE_ID,
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': lineColor,
+          'line-width': lineWidth,
+          'line-opacity': lineOpacity
+        }
+      });
+      console.log('Nouvelle couche de limites ajoutée');
+    } else {
+      // Mettre à jour les propriétés de style de la couche existante
+      map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-color', lineColor);
+      map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-width', lineWidth);
+      map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-opacity', lineOpacity);
+    }
+    zoomToPolygon(feature.geometry.coordinates);
+
+  } catch (error) {
+    console.log(error)
+    removePolygonBoundaryLayer()
+  }
+};
+
+/**
+ * Supprime la couche de limites de la carte
+ */
+const removePolygonBoundaryLayer = (): void => {
+  try {
+    // Supprimer la couche si elle existe
+    if (map.value?.getLayer(BOUNDARY_LAYER_ID)) {
+      map.value?.removeLayer(BOUNDARY_LAYER_ID);
+    }
+
+    // Supprimer la source si elle existe
+    if (map.value?.getSource(BOUNDARY_SOURCE_ID)) {
+      map.value?.removeSource(BOUNDARY_SOURCE_ID);
+    }
+
+  } catch (error) {
+    console.error('Erreur lors de la suppression de la couche:', error);
+  }
+};
+
+const zoomToPolygon = (coordinates: any) => {
+  try {
+    if (!coordinates || coordinates.length === 0) {
+      console.warn('Coordonnées vides ou invalides');
+      return;
+    }
+
+    let minLng = Infinity;
+    let maxLng = -Infinity;
+    let minLat = Infinity;
+    let maxLat = -Infinity;
+
+    // Fonction pour traiter un seul anneau de coordonnées
+    const processRing = (ring: any[]) => {
+      ring.forEach((coord: any) => {
+        if (Array.isArray(coord) && coord.length >= 2) {
+          const lng = coord[0];
+          const lat = coord[1];
+          
+          if (typeof lng === 'number' && typeof lat === 'number' && 
+              !isNaN(lng) && !isNaN(lat)) {
+            minLng = Math.min(minLng, lng);
+            maxLng = Math.max(maxLng, lng);
+            minLat = Math.min(minLat, lat);
+            maxLat = Math.max(maxLat, lat);
+          }
+        }
+      });
+    };
+
+    // Déterminer le type de géométrie et traiter en conséquence
+    if (coordinates[0] && Array.isArray(coordinates[0])) {
+      if (Array.isArray(coordinates[0][0])) {
+        // Cas Polygon: coordinates = [ring1, ring2, ...] où ring = [[lng,lat], [lng,lat], ...]
+        // ou MultiPolygon: coordinates = [polygon1, polygon2, ...] où polygon = [ring1, ring2, ...]
+        
+        if (Array.isArray(coordinates[0][0][0])) {
+          // MultiPolygon: coordinates[i][j][k] = [lng, lat]
+          coordinates.forEach((polygon: any) => {
+            polygon.forEach((ring: any) => {
+              processRing(ring);
+            });
+          });
+        } else {
+          // Polygon: coordinates[i][j] = [lng, lat]
+          coordinates.forEach((ring: any) => {
+            processRing(ring);
+          });
+        }
+      } else {
+        // Cas LineString ou autres: coordinates = [[lng,lat], [lng,lat], ...]
+        processRing(coordinates);
+      }
+    }
+
+    // Vérifier que nous avons des coordonnées valides
+    if (!isFinite(minLng) || !isFinite(maxLng) || !isFinite(minLat) || !isFinite(maxLat)) {
+      console.warn('Aucune coordonnée valide trouvée');
+      return;
+    }
+
+    // Créer les bounds et ajuster la vue
+    const newBbox = new maplibregl.LngLatBounds([minLng, minLat], [maxLng, maxLat]);
+    map.value?.fitBounds(newBbox, { 
+      padding: 50,
+      duration: 1000 // Animation de 1 seconde
+    });
+
+    console.log(`Zoom vers: [${minLng}, ${minLat}] - [${maxLng}, ${maxLat}]`);
+
+  } catch (error) {
+    console.error('Erreur lors du zoom vers le polygone:', error);
+  }
+};
 
 watch(
   () => myMapStore.mapSearch?.bbox,

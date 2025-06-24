@@ -22,7 +22,7 @@ import { i18n } from '@/plugins/i18n';
 
 // Définir le model avec defineModel
 const selectedCity = defineModel<string | null>({
-  default: 'douala'
+  default: 'cameroun'
 })
 
 const cities = [
