@@ -1,8 +1,8 @@
 <template>
-  <v-select
+  <v-autocomplete
     class="custom-select"
     v-model="internalValue"
-    :items="filteredItems"
+    :items="items"
     :label="label"
     :placeholder="placeholder"
     :multiple="multiple"
@@ -24,35 +24,20 @@
     :item-text="itemText"
     :item-value="itemValue"
     :return-object="returnObject"
+    :no-data-text="noDataText"
+    :search-input.sync="searchInput"
     color="main-blue"
-    v-bind="$attrs"
-    v-on="$listeners"
     variant="outlined"
     item-title="name"
     item-value="value"
+    v-bind="$attrs"
+    v-on="$listeners"
   >
-    <template v-slot:prepend-item>
-      <v-list-item>
-        <v-list-item-content>
-          <v-text-field
-            v-model="searchTerm"
-            :placeholder="searchPlaceholder"
-            prepend-inner-icon="mdi-magnify"
-            clearable
-            dense
-            hide-details
-            @input="filterItems"
-          />
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider class="mt-2" />
-    </template>
-
-    <!-- Pass through other slots except prepend-item -->
+    <!-- Pass through all slots -->
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope" :key="slot">
-      <slot v-if="slot !== 'prepend-item'" :name="slot" v-bind="scope" />
+      <slot :name="slot" v-bind="scope" />
     </template>
-  </v-select>
+  </v-autocomplete>
 </template>
 
 <script>
@@ -111,8 +96,12 @@ export default {
       type: Boolean,
       default: true
     },
+    noDataText: {
+      type: String,
+      default: 'Aucun résultat trouvé'
+    },
     
-    // Chip configuration - removed since single select
+    // Chip configuration
     chips: {
       type: Boolean,
       default: false
@@ -177,8 +166,7 @@ export default {
   
   data() {
     return {
-      searchTerm: '',
-      filteredItems: []
+      searchInput: null
     }
   },
   
@@ -195,48 +183,9 @@ export default {
   },
   
   watch: {
-    items: {
-      handler() {
-        this.initializeItems()
-      },
-      immediate: true
-    }
-  },
-  
-  methods: {
-    initializeItems() {
-      this.filteredItems = [...this.items]
-    },
-    
-    filterItems() {
-      if (!this.searchTerm || this.searchTerm.trim() === '') {
-        this.filteredItems = [...this.items]
-        return
-      }
-      
-      const searchLower = this.searchTerm.toLowerCase().trim()
-      
-      this.filteredItems = this.items.filter(item => {
-        let searchText = ''
-        
-        if (typeof item === 'string') {
-          searchText = item
-        } else if (typeof item === 'object' && item !== null) {
-          if (typeof this.itemText === 'function') {
-            searchText = this.itemText(item)
-          } else {
-            // For objects, get the property specified by itemText (default: 'name')
-            searchText = item[this.itemText] || item.name || ''
-          }
-        }
-        
-        return searchText.toString().toLowerCase().includes(searchLower)
-      })
-    },
-    
-    clearSearch() {
-      this.searchTerm = ''
-      this.filterItems()
+    searchInput(val) {
+      // Émets l'événement de recherche si nécessaire
+      this.$emit('search-input', val)
     }
   }
 }
@@ -244,10 +193,10 @@ export default {
 
 <style scoped>
 /* Add any custom styles here if needed */
- .custom-select{
-    width: 100%;
-    max-height: 20px;
-    margin-top: 16px;
-    margin-bottom: 32px;
-  }
+.custom-select {
+  width: 100%;
+  max-height: 20px;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
 </style>
