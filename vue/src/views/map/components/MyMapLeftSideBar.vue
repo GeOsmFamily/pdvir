@@ -12,14 +12,12 @@
       :items="departments"
       :label="'Départements'"
       :placeholder="'Rechercher un département'"
-      :disabled="!selectedRegion"
     />
     <SelectDropdown
       v-model="selectedCommune"
       :items="communes"
       :label="'Communes'"
       :placeholder="'Rechercher une commune'"
-      :disabled="!selectedDepartment"
     />
     <MyMapAtlasesList
       :title="$t('atlas.predefinedMap')"
@@ -70,6 +68,7 @@ const updateDepartmentList = () => {
     }));
   }
   const filteredDepartements=mappedDepartments.value;
+
   departments.value = filteredDepartements
     .filter(dept => (selectedRegion.value===null || dept.value.includes(selectedRegion.value as string)))
     .map(dept => ({
@@ -87,16 +86,19 @@ const updateRegionsList = () =>{
 
 // Fonction pour mettre à jour la liste des communes
 const updateCommuneList = () => {
-  if(mappedCommunes.value.length===0){
-    mappedCommunes.value=(communesSource as any).features.map((commune: any)=>({
-      name: commune.properties.name,
-      value: commune.properties['ref:COG']
-    }));
+  if (mappedCommunes.value.length === 0) {
+     const communesTemp= (communesSource as any).features
+      .map((commune: any) => ({
+        name: commune.properties.name,
+        value: commune.properties['ref:COG']
+      }))
+      
+    mappedCommunes.value= communesTemp.filter(item=>item.name!==null).sort((a, b) => a.name?.localeCompare(b.name));
   }
   let filteredCommunes=mappedCommunes.value;
 
   if(selectedRegion.value){
-    filteredCommunes = filteredCommunes.filter(commune => commune.value.includes(selectedRegion.value as string));
+    filteredCommunes = filteredCommunes.filter(commune => commune.value?.includes(selectedRegion.value as string));
   }
 
   // Si un département est sélectionné, filtrer aussi par département
