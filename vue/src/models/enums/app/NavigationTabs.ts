@@ -3,5 +3,6 @@ export enum NavigationTabs {
   ACTORS,
   PROJECTS,
   DATA,
-  SERVICES
+  SERVICES,
+  THIRDPLACE
 }

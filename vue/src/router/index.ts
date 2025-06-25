@@ -87,6 +87,11 @@ const router = createRouter({
       component: () => import('@/views/services/ServicesView.vue')
     },
     {
+      path: `/${i18n.t('routes.thirdPlace')}`,
+      name: 'tiers-lieu',
+      component: () => import('@/views/third-place/ThirdPlaceView.vue')
+    },
+    {
       path: `/${i18n.t('routes.map')}`,
       name: 'map',
       component: () => import('@/views/map/MyMapView.vue'),
@@ -241,16 +246,16 @@ router.beforeEach((to, from, next) => {
 })
 declare global {
   interface Window {
-    goatcounter: any;
+    goatcounter: any
   }
 }
-// Add manual goat counter analytics for SPA https://www.goatcounter.com/help/spa 
+// Add manual goat counter analytics for SPA https://www.goatcounter.com/help/spa
 // @ts-ignore
 if (import.meta.env.VITE_GOAT_COUNTER_NAMESPACE != null) {
   router.afterEach((to) => {
     if (window.goatcounter && typeof window.goatcounter.count === 'function') {
       window.goatcounter.count({
-        path: to.fullPath,
+        path: to.fullPath
       })
     }
   })
