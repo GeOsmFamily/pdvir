@@ -88,7 +88,7 @@ const updateDepartmentList = () => {
         name: departement.properties.name,
         value: departement.properties['ref:COG']
       }))
-      .sort((a, b) => a.name?.localeCompare(b.name))
+      .sort((a: any, b: any) => a.name?.localeCompare(b.name))
   }
   const filteredDepartements = mappedDepartments.value
 
@@ -118,8 +118,8 @@ const updateCommuneList = () => {
     }))
 
     mappedCommunes.value = communesTemp
-      .filter((item) => item.name !== null)
-      .sort((a, b) => a.name?.localeCompare(b.name))
+      .filter((item: any) => item.name !== null)
+      .sort((a: any, b: any) => a.name?.localeCompare(b.name))
   }
   let filteredCommunes = mappedCommunes.value
 
