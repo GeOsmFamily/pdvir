@@ -9,8 +9,7 @@ import type { Atlas } from '@/models/interfaces/Atlas'
 import { AtlasService } from '@/services/atlas/AtlasService'
 import { useMyMapStore } from './myMapStore'
 import { AtlasMapService } from '@/services/map/AtlasMapService'
-
-const MINDHU_PROJECT_KEY = 'Réalisations MINDHU'
+import { MINDHU_PROJECT_KEY } from '@/models/enums/mindhuProjectKey'
 
 export const useAtlasStore = defineStore(StoresList.ATLAS, () => {
   const atlasList: Ref<Atlas[]> = ref([])
