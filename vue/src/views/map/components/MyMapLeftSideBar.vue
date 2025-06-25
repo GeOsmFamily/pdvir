@@ -1,6 +1,6 @@
 <template>
   <div class="MyMapLeftSideBar">
-    <h3 class="zone-title">Selectionner une zone</h3>
+    <h3 class="zone-title">{{ $t('myMap.header.select.placeholder') }}</h3>
     <SelectDropdown
       v-model="selectedRegion"
       :items="regions"
@@ -19,6 +19,7 @@
       :label="'Communes'"
       :placeholder="'Rechercher une commune'"
     />
+    <div class="mb-5"></div>
     <MyMapAtlasesList
       :title="$t('atlas.predefinedMap')"
       :type="AtlasGroup.PREDEFINED_MAP"
@@ -33,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import MyMapWelcomeBlock from '@/views/map/components/MyMapWelcomeBlock.vue'
 import SelectDropdown from '@/components/select/SelectDropdown.vue'
 import MyMapAtlasesList from '@/views/map/components/Atlases/MyMapAtlasesList.vue'
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
@@ -47,16 +47,16 @@ import { useMyMapStore } from '@/stores/myMapStore'
 const mapStore = useMyMapStore()
 const atlasStore = useAtlasStore()
 
-const selectedRegion = defineModel<string | null>('selectedRegion', { default: null });
-const selectedDepartment = defineModel<string | null>('selectedDepartment', { default: null });
-const selectedCommune = defineModel<string | null>('selectedCommune', { default: null });
+const selectedRegion = defineModel<string | null>('selectedRegion', { default: null })
+const selectedDepartment = defineModel<string | null>('selectedDepartment', { default: null })
+const selectedCommune = defineModel<string | null>('selectedCommune', { default: null })
 
 // Tableaux filtrés pour les SelectDropdown
-const regions = ref<{ name: string; value: string }[]>([]);
-const departments = ref<{ name: string; value: string }[]>([]);
-const communes = ref<{ name: string; value: string }[]>([]);
-const mappedCommunes = ref<{ name: string; value: string }[]>([]);
-const mappedDepartments = ref<{ name: string; value: string }[]>([]);
+const regions = ref<{ name: string; value: string }[]>([])
+const departments = ref<{ name: string; value: string }[]>([])
+const communes = ref<{ name: string; value: string }[]>([])
+const mappedCommunes = ref<{ name: string; value: string }[]>([])
+const mappedDepartments = ref<{ name: string; value: string }[]>([])
 
 /**
  * Met à jour le store selectedBoundary selon la logique de priorité :
@@ -67,136 +67,153 @@ const mappedDepartments = ref<{ name: string; value: string }[]>([]);
 const updateSelectedBoundary = () => {
   if (selectedCommune.value) {
     // Priorité 1 : Commune sélectionnée
-    mapStore.selectedBoundary = selectedCommune.value;
+    mapStore.selectedBoundary = selectedCommune.value
   } else if (selectedDepartment.value) {
     // Priorité 2 : Département sélectionné mais pas de commune
-    mapStore.selectedBoundary = selectedDepartment.value;
+    mapStore.selectedBoundary = selectedDepartment.value
   } else if (selectedRegion.value) {
     // Priorité 3 : Région sélectionnée mais pas de département ni commune
-    mapStore.selectedBoundary = selectedRegion.value;
+    mapStore.selectedBoundary = selectedRegion.value
   } else {
     // Aucune sélection
-    mapStore.selectedBoundary = null;
+    mapStore.selectedBoundary = null
   }
-};
+}
 
 // Fonction pour mettre à jour la liste des départements
 const updateDepartmentList = () => {
-  if(mappedDepartments.value.length === 0){
+  if (mappedDepartments.value.length === 0) {
     mappedDepartments.value = (departementSource as any).features
       .map((departement: any) => ({
         name: departement.properties.name,
         value: departement.properties['ref:COG']
       }))
-      .sort((a, b) => a.name?.localeCompare(b.name));
+      .sort((a, b) => a.name?.localeCompare(b.name))
   }
-  const filteredDepartements = mappedDepartments.value;
+  const filteredDepartements = mappedDepartments.value
 
   departments.value = filteredDepartements
-    .filter(dept => (selectedRegion.value === null || dept.value.includes(selectedRegion.value as string)))
-    .map(dept => ({
+    .filter(
+      (dept) => selectedRegion.value === null || dept.value.includes(selectedRegion.value as string)
+    )
+    .map((dept) => ({
       name: dept.name,
       value: dept.value.toString()
-    }));
-};
+    }))
+}
 
 const updateRegionsList = () => {
-  regions.value = regionsSource.features.map(region => ({
+  regions.value = regionsSource.features.map((region) => ({
     name: region.properties.name,
     value: region.properties['ref:COG']
-  }));
-};
+  }))
+}
 
 // Fonction pour mettre à jour la liste des communes
 const updateCommuneList = () => {
   if (mappedCommunes.value.length === 0) {
-    const communesTemp = (communesSource as any).features
-      .map((commune: any) => ({
-        name: commune.properties.name,
-        value: commune.properties['ref:COG']
-      }));
-      
-    mappedCommunes.value = communesTemp
-      .filter(item => item.name !== null)
-      .sort((a, b) => a.name?.localeCompare(b.name));
-  }
-  let filteredCommunes = mappedCommunes.value;
+    const communesTemp = (communesSource as any).features.map((commune: any) => ({
+      name: commune.properties.name,
+      value: commune.properties['ref:COG']
+    }))
 
-  if(selectedRegion.value){
-    filteredCommunes = filteredCommunes.filter(commune => 
+    mappedCommunes.value = communesTemp
+      .filter((item) => item.name !== null)
+      .sort((a, b) => a.name?.localeCompare(b.name))
+  }
+  let filteredCommunes = mappedCommunes.value
+
+  if (selectedRegion.value) {
+    filteredCommunes = filteredCommunes.filter((commune) =>
       commune.value?.includes(selectedRegion.value as string)
-    );
+    )
   }
 
   // Si un département est sélectionné, filtrer aussi par département
   if (selectedDepartment.value) {
-    filteredCommunes = filteredCommunes.filter(commune => 
+    filteredCommunes = filteredCommunes.filter((commune) =>
       commune.value.includes(selectedDepartment.value as string)
-    );
+    )
   }
   // Si on change de département, vérifier si la commune sélectionnée existe encore
-  if (selectedCommune.value){
-    const communeExists = filteredCommunes.some(commune => commune.value === selectedCommune.value);
+  if (selectedCommune.value) {
+    const communeExists = filteredCommunes.some(
+      (commune) => commune.value === selectedCommune.value
+    )
     if (!communeExists) {
-      selectedCommune.value = null;
+      selectedCommune.value = null
     }
   }
-  communes.value = filteredCommunes;
-};
+  communes.value = filteredCommunes
+}
 
 // Watchers pour les sélections en cascade
-watch(selectedRegion, (newRegion, oldRegion) => {
-  // Mettre à jour la liste des départements
-  updateDepartmentList();
-  
-  // Si on retire la région, réinitialiser les sélections enfants
-  if (!newRegion) {
-    selectedDepartment.value = null;
-    selectedCommune.value = null;
-    updateSelectedBoundary(); // Mettre à jour le store
-    return;
-  }
-  
-  // Si on change de région, vérifier si le département sélectionné existe encore
-  if (selectedDepartment.value && newRegion !== oldRegion) {
-    const departmentExists = departments.value.some(dept => dept.value === selectedDepartment.value);
-    if (!departmentExists) {
-      selectedDepartment.value = null;
-    }
-  }
-  
-  // Mettre à jour la liste des communes
-  updateCommuneList();
-  
-  // Mettre à jour le store selon la logique de priorité
-  updateSelectedBoundary();
-}, { immediate: true });
+watch(
+  selectedRegion,
+  (newRegion, oldRegion) => {
+    // Mettre à jour la liste des départements
+    updateDepartmentList()
 
-watch(selectedDepartment, (newDepartment, oldDepartment) => {
-  // Mettre à jour la liste des communes
-  updateCommuneList();
-  
-  // Si on retire le département, réinitialiser la commune
-  if (!newDepartment) {
-    selectedCommune.value = null;
-    updateSelectedBoundary(); // Mettre à jour le store
-    return;
-  }
-  
+    // Si on retire la région, réinitialiser les sélections enfants
+    if (!newRegion) {
+      selectedDepartment.value = null
+      selectedCommune.value = null
+      updateSelectedBoundary() // Mettre à jour le store
+      return
+    }
+
+    // Si on change de région, vérifier si le département sélectionné existe encore
+    if (selectedDepartment.value && newRegion !== oldRegion) {
+      const departmentExists = departments.value.some(
+        (dept) => dept.value === selectedDepartment.value
+      )
+      if (!departmentExists) {
+        selectedDepartment.value = null
+      }
+    }
+
+    // Mettre à jour la liste des communes
+    updateCommuneList()
+
     // Mettre à jour le store selon la logique de priorité
-  updateSelectedBoundary();
-}, { immediate: true });
+    updateSelectedBoundary()
+  },
+  { immediate: true }
+)
+
+watch(
+  selectedDepartment,
+  (newDepartment, oldDepartment) => {
+    // Mettre à jour la liste des communes
+    updateCommuneList()
+
+    // Si on retire le département, réinitialiser la commune
+    if (!newDepartment) {
+      selectedCommune.value = null
+      updateSelectedBoundary() // Mettre à jour le store
+      return
+    }
+
+    // Mettre à jour le store selon la logique de priorité
+    updateSelectedBoundary()
+  },
+  { immediate: true }
+)
 
 // Watcher pour la commune (nouveau)
-watch(selectedCommune, () => {
-  // Mettre à jour le store selon la logique de priorité
-  updateSelectedBoundary();
-}, { immediate: true });
+watch(
+  selectedCommune,
+  () => {
+    // Mettre à jour le store selon la logique de priorité
+    updateSelectedBoundary()
+  },
+  { immediate: true }
+)
 
 // Initialisation des listes au montage du composant
-updateDepartmentList();
-updateCommuneList();
-updateRegionsList();
+updateDepartmentList()
+updateCommuneList()
+updateRegionsList()
 </script>
 
 <style lang="scss">
@@ -209,7 +226,7 @@ updateRegionsList();
   padding: 1rem;
 }
 
-.zone-title{
+.zone-title {
   font-size: 18px;
   font-weight: 500;
 }
