@@ -6,6 +6,7 @@
         "resources": "ressources",
         "data": "données",
         "map": "ma-carte",
-        "myAccount": "mon-compte"
+        "myAccount": "mon-compte",
+        "thirdPlace": "tiers-lieu"
     }
 }

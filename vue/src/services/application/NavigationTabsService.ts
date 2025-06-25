@@ -22,14 +22,14 @@ export class NavigationTabsService {
         route: {
           name: 'services'
         }
-      },
-      {
-        name: i18n.t('header.thirdPlace'),
-        value: NavigationTabs.THIRDPLACE,
-        route: {
-          name: 'tiers-lieu'
-        }
       }
+      // {
+      //   name: i18n.t('header.thirdPlace'),
+      //   value: NavigationTabs.THIRDPLACE,
+      //   route: {
+      //     name: 'tiers-lieu'
+      //   }
+      // }
     ]
   }
   static getTabsNumberFromRoute(route: RouteLocationNormalizedLoadedGeneric, actualNumber: number) {
