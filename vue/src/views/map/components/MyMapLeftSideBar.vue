@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import SelectDropdown from '@/components/select/SelectDropdown.vue'
+import SelectDropdown from './SelectDropdown.vue'
 import MyMapAtlasesList from '@/views/map/components/Atlases/MyMapAtlasesList.vue'
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import { useAtlasStore } from '@/stores/atlasStore'
