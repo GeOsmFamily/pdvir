@@ -11,7 +11,11 @@
       >
         <template v-slot:label>
           <div class="MyMapLayerPicker__descCtn">
-            <img :src="mainLayer.icon" :alt="mainLayer.name" />
+            <img
+              :src="mainLayer.icon"
+              :alt="mainLayer.name"
+              v-if="mainLayer.icon !== undefined && mainLayer.icon.length > 0"
+            />
             <span>{{ mainLayer.name }}</span>
           </div>
         </template>

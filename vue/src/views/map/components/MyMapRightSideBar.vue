@@ -1,10 +1,9 @@
 <template>
   <div class="MyMapRightSideBar">
     <div>
-      <span>{{ $t('myMap.header.select.placeholder') }}</span
-      ><br />
+      <h3 class="zone-title">{{ $t('myMap.header.select.mainCity') }}</h3>
       <MyMapSelectCommuneTown
-        :placeholder="$t('myMap.header.select.placeholder')"
+        :placeholder="$t('myMap.header.select.mainCity')"
         :geometry-details="true"
         class="MyMapHeader__search"
         :icon="'mdi-map-marker'"
@@ -21,7 +20,7 @@
     <div v-show="!mapStore.isMapExportActive" class="MyMapRightSideBar__subCtn">
       <MyMapPlatformLayers />
       <MyMapAtlasesList
-        :title="$t('atlas.cedhuDB')"
+        :title="$t('atlas.thematicData')"
         :type="AtlasGroup.THEMATIC_DATA"
         :atlases="
           atlasStore.atlasListSplitted
@@ -46,17 +45,21 @@ import { useMyMapStore } from '@/stores/myMapStore'
 import MyMapExportMenu from './export/MyMapExportMenu.vue'
 import MyMapSelectCommuneTown from './MyMapSelectCommuneTown.vue'
 import { watch } from 'vue'
-const selectedTown = defineModel<string | null>('selectedTown', { default: null });
+const selectedTown = defineModel<string | null>('selectedTown', { default: null })
 const atlasStore = useAtlasStore()
 const mapStore = useMyMapStore()
 
-watch(selectedTown, () => {
-  // Mettre à jour le store selon la logique de priorité
-  mapStore.selectedBoundary=selectedTown.value
-}, { immediate: true });
+watch(
+  selectedTown,
+  () => {
+    // Mettre à jour le store selon la logique de priorité
+    mapStore.selectedBoundary = selectedTown.value
+  },
+  { immediate: true }
+)
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .MyMapRightSideBar {
   display: flex;
   flex-flow: column nowrap;
@@ -74,5 +77,8 @@ watch(selectedTown, () => {
   width: 100%;
   height: 100%;
   max-height: calc(100vh - $mymap-header-h);
+}
+.zone-title {
+  margin-bottom: 16px;
 }
 </style>

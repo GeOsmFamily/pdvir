@@ -3,7 +3,8 @@
     "header": {
       "share": "Partager",
       "select": {
-        "placeholder": "Selectionner une zone"
+        "placeholder": "Selectionner une zone",
+        "mainCity": "Selectionner une zone pilote"
       },
       "search": {
         "placeholder": "Rechercher un lieu"
