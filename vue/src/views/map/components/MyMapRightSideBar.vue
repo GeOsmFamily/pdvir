@@ -9,7 +9,7 @@
         class="MyMapHeader__search"
         :icon="'mdi-map-marker'"
         density="comfortable"
-        v-model="mapStore.selectedTown"
+        v-model="selectedTown"
       />
     </div>
     <MyMapAtlasesList
@@ -45,9 +45,15 @@ import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import { useMyMapStore } from '@/stores/myMapStore'
 import MyMapExportMenu from './export/MyMapExportMenu.vue'
 import MyMapSelectCommuneTown from './MyMapSelectCommuneTown.vue'
-
+import { watch } from 'vue'
+const selectedTown = defineModel<string | null>('selectedTown', { default: null });
 const atlasStore = useAtlasStore()
 const mapStore = useMyMapStore()
+
+watch(selectedTown, () => {
+  // Mettre à jour le store selon la logique de priorité
+  mapStore.selectedBoundary=selectedTown.value
+}, { immediate: true });
 </script>
 
 <style lang="scss">

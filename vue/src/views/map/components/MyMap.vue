@@ -35,11 +35,10 @@ import MyMapItemPopup from '@/views/map/components/MyMapItemPopup.vue'
 import MyMapExportButton from '@/views/map/components/export/MyMapExportButton.vue'
 import ScaleControl from '@/components/map/controls/ScaleControl.vue'
 import QgisLayersQueryButton from './QgisLayersQuery/QgisLayersQueryButton.vue'
-import MyMapCommentButton from '@/views/map/components/MyMapCommentButton.vue'
 import maplibregl, { LngLatBounds } from 'maplibre-gl';
-import doualaMask from '@/assets/geojsons/mask_douala.json'
-import batouriMask from '@/assets/geojsons/mask_batouri.json'
-import camerounMask from '@/assets/geojsons/mask_cameroun.json';
+//import doualaMask from '@/assets/geojsons/mask_douala.json'
+//import batouriMask from '@/assets/geojsons/mask_batouri.json'
+//import camerounMask from '@/assets/geojsons/mask_cameroun.json';
 import regionsSource from '@/assets/geojsons/bounderies/region.json'
 import departementSource from '@/assets/geojsons/bounderies/departement.json'
 import communesSource from '@/assets/geojsons/bounderies/arrondissement.json'
@@ -55,7 +54,9 @@ const mapLegend = useTemplateRef('map-legend')
 const mapExportButton = useTemplateRef('map-export-button')
 const scaleControl = useTemplateRef('scale-control')
 const qgisQueryButton = useTemplateRef('qgis-query-button')
-const map = computed(() => myMap.value?.map)
+const map = computed(() => myMap.value?.map)    
+const camerounBbox: any=[8.382218,1.651795,16.191101,13.083333]
+
 
 onMounted(() => {
   if (myMap.value) {
@@ -123,34 +124,33 @@ const BOUNDARY_LAYER_ID = 'polygon-boundary-layer';
 const BOUNDARY_SOURCE_ID = 'polygon-boundary-source';
 
 //this is the watcher that will change the mask when the user selects a town
-watch(
+/* watch(
   () => myMapStore.selectedTown,
   (newValue) => {
     const doualaBbox: any=[9.336134, 3.740717, 9.864412, 4.225236];
     const batouriBbox: any=[13.940685,4.212827,14.882435,4.767127];
-    const camerounBbox: any=[8.382218,1.651795,16.191101,13.083333]
     const newBbox = newValue === 'batouri' 
       ? new LngLatBounds(batouriBbox) 
       : newValue === 'douala'
       ? new LngLatBounds(doualaBbox)
       : new LngLatBounds(camerounBbox);
       
-    const newMaskSource = (newValue === 'batouri' 
-      ? batouriMask 
-      : newValue === 'douala'
-      ? doualaMask
-      : camerounMask) as GeoJSON.GeoJSON;
+    
       
     if (map.value != null && newValue != null && newValue != null) {
       map.value.fitBounds(newBbox, { padding: 75 });
       (map.value.getSource('camerounMask') as maplibregl.GeoJSONSource).setData(newMaskSource)
     }
   }
-)
+) */
 
 watch(
   () => myMapStore.selectedBoundary,
   (newValue)=>{
+     if (newValue===null) {
+      map.value?.fitBounds(camerounBbox, { padding: 75 });
+      return 
+    }
     let polygonSource
     if(newValue && newValue.length===2){//it's a region
       type RegionFeature = {
@@ -169,7 +169,6 @@ watch(
       polygonSource=(departementSource as any).features.find((item: any) =>item.properties['ref:COG']===newValue);
     }else if(newValue && newValue.length===6){//it's a commune
       polygonSource=(communesSource as any).features.find((item: any)=>item.properties['ref:COG']===newValue);
-      console.log('here is the source polygon', polygonSource)
     }
     addPolygonBoundaryLayer(polygonSource)
   }
@@ -223,7 +222,6 @@ const addPolygonBoundaryLayer = (
         type: 'geojson',
         data: geoJsonData as any
       });
-      console.log('Nouvelle source de limites ajoutée');
     }
 
     // Vérifier si la couche existe déjà
@@ -243,7 +241,6 @@ const addPolygonBoundaryLayer = (
           'line-opacity': lineOpacity
         }
       });
-      console.log('Nouvelle couche de limites ajoutée');
     } else {
       // Mettre à jour les propriétés de style de la couche existante
       map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-color', lineColor);
@@ -253,7 +250,7 @@ const addPolygonBoundaryLayer = (
     zoomToPolygon(feature.geometry.coordinates);
 
   } catch (error) {
-    console.log(error)
+    console.error(error);
     removePolygonBoundaryLayer()
   }
 };
@@ -346,7 +343,6 @@ const zoomToPolygon = (coordinates: any) => {
       duration: 1000 // Animation de 1 seconde
     });
 
-    console.log(`Zoom vers: [${minLng}, ${minLat}] - [${maxLng}, ${maxLat}]`);
 
   } catch (error) {
     console.error('Erreur lors du zoom vers le polygone:', error);

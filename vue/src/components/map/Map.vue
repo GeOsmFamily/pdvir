@@ -11,7 +11,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import ResetMapExtentControl from '@/components/map/controls/ResetMapExtentControl.vue'
 import { useApplicationStore } from '@/stores/applicationStore'
 import { IControl } from '@/services/map/MapService'
-import doualaMask from '@/assets/geojsons/mask_douala.json'
+import camerounMask from '@/assets/geojsons/mask_cameroun.json'
 import { debounce } from '@/services/utils/UtilsService'
 
 const applicationStore = useApplicationStore()
@@ -27,7 +27,7 @@ const props = withDefaults(
   {
     mapId: 'map',
     bounds: () =>
-      new maplibregl.LngLatBounds([9.336134, 3.740717, 9.864412, 4.225236]),
+      new maplibregl.LngLatBounds([8.382218,1.651795,16.191101,13.083333]),
     small: false
   }
 )
@@ -60,11 +60,11 @@ onMounted(() => {
   map.value.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right')
   setBBox()
   map.value.on('load', () => {
-    addSource('doualaMask', doualaMask as GeoJSON.GeoJSON)
+    addSource('camerounMask', camerounMask as GeoJSON.GeoJSON)
     map.value?.addLayer({
-      id: 'doualaMask',
+      id: 'camerounMask',
       type: 'fill',
-      source: 'doualaMask',
+      source: 'camerounMask',
       paint: {
         'fill-color': '#000000',
         'fill-opacity': 0.7
