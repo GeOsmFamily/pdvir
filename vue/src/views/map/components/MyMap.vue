@@ -167,8 +167,9 @@ watch(
       polygonSource = (regionsSource.features as RegionFeature[]).find(item => item.properties['ref:COG'] === newValue);
     }else if(newValue && newValue.length===4){//it's a department
       polygonSource=(departementSource as any).features.find((item: any) =>item.properties['ref:COG']===newValue);
-    }else if(newValue && newValue.length===4){//it's a commune
+    }else if(newValue && newValue.length===6){//it's a commune
       polygonSource=(communesSource as any).features.find((item: any)=>item.properties['ref:COG']===newValue);
+      console.log('here is the source polygon', polygonSource)
     }
     addPolygonBoundaryLayer(polygonSource)
   }
