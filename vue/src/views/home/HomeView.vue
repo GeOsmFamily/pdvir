@@ -1,15 +1,23 @@
 <template>
   <div class="HomeView">
     <div class="HomeView__ctn HomeView__ctn--main">
-      
       <div class="HomeView__mainContent">
-      
-        <div class="HomeView__mainContentInfo"  data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        <div
+          class="HomeView__mainContentInfo"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          data-aos-delay="200"
+        >
           <PageTitle :title="$t('home.main.title')" :whiteTitle="true" />
           <p>{{ $t('home.main.desc') }}</p>
         </div>
-        
-        <div class="HomeView__btnAction" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+
+        <div
+          class="HomeView__btnAction"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          data-aos-delay="200"
+        >
           <v-btn class="HomeView__mainAction" color="main-blue" :to="{ name: 'map' }">{{
             $t('home.main.action')
           }}</v-btn>
@@ -19,11 +27,11 @@
         </div>
         <!-- <HomeKpis class="HomeView__mainContentKpis" /> -->
       </div>
-      
+
       <div class="HomeView__mainImagesCtn">
         <img src="@/assets/images/home_iconography.png" alt="" />
       </div>
-       <div class="swiper-container">
+      <div class="swiper-container">
         <div class="backdrop"></div>
         <Swiper
           :modules="[EffectFade, Autoplay, Navigation]"
@@ -54,21 +62,17 @@
       </div>
     </div>
     <div class="HomeView__ctn HomeView__ctn--agenda">
-        <PageTitle :title="$t('home.agenda.title')" />
+      <PageTitle :title="$t('home.agenda.title')" />
       <HomeAgenda />
     </div>
-    <div class="HomeView__ctn HomeView__ctn--why-subscribe">
-      
-    </div>
+    <div class="HomeView__ctn HomeView__ctn--why-subscribe"></div>
   </div>
 </template>
 <script setup lang="ts">
 import PageTitle from '@/components/text-elements/PageTitle.vue'
 import SectionBanner from '@/components/banners/SectionBanner.vue'
-import HomeKpis from '@/views/home/components/HomeKpis.vue'
 import HomeHighlights from '@/views/home/components/HomeHighlights.vue'
 import HomeMapDescription from '@/views/home/components/HomeMapDescription.vue'
-import HomeBecomeMember from '@/views/home/components/HomeBecomeMember.vue'
 import { useHomeStore } from '@/stores/homeStore'
 import { onMounted } from 'vue'
 import HomeAgenda from '@/views/home/components/HomeAgenda.vue'
@@ -82,14 +86,14 @@ import 'swiper/css/navigation'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-const homeStore = useHomeStore();
-const imagesBackgroundUrl =[
-  'src/assets/images/home/monument.jpg',
-  'src/assets/images/home/djoudjou.jpg',
-  'src/assets/images/home/paysage de douala.jpg',
-  'src/assets/images/home/rue.jpg',
-  'src/assets/images/home/toit.jpg'
-];
+import monument from '@/assets/images/home/monument.jpg'
+import djoudjou from '@/assets/images/home/djoudjou.jpg'
+import paysage from '@/assets/images/home/paysage de douala.jpg'
+import rue from '@/assets/images/home/rue.jpg'
+import toit from '@/assets/images/home/toit.jpg'
+
+const homeStore = useHomeStore()
+const imagesBackgroundUrl = [monument, djoudjou, paysage, rue, toit]
 
 onMounted(async () => {
   // Initialize AOS
@@ -98,15 +102,13 @@ onMounted(async () => {
     easing: 'ease-in-out',
     once: true,
     offset: 50
-  });
-  
-  await Promise.all([homeStore.getMainHighlights(), homeStore.getGlobalKpis()]);
-});
+  })
 
+  await Promise.all([homeStore.getMainHighlights(), homeStore.getGlobalKpis()])
+})
 </script>
 <style lang="scss">
 .HomeView {
-  
   .HomeView__ctn {
     display: flex;
     flex-flow: column nowrap;
@@ -145,11 +147,11 @@ onMounted(async () => {
         }
       }
     }
-    &--agenda{
+    &--agenda {
       padding: 4rem 64px;
     }
     &--map {
-      border:1px solid rgba(229, 229, 229, 0.5);
+      border: 1px solid rgba(229, 229, 229, 0.5);
       padding: 4rem 64px;
       overflow: hidden;
       position: relative;
@@ -173,10 +175,10 @@ onMounted(async () => {
         z-index: 2;
       }
     }
-    .HomeView__btnAction{
+    .HomeView__btnAction {
       display: flex;
       justify-content: left;
-      gap:32px;
+      gap: 32px;
       margin-top: 54px;
       flex-wrap: wrap;
     }
@@ -190,23 +192,22 @@ onMounted(async () => {
   position: absolute;
   right: 0px;
   top: 0px;
-  .backdrop{
+  .backdrop {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-color: rgba(0,0,0,0.6);
-    z-index:10;
-
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 10;
   }
   .swiper {
     width: 100%;
     height: 100%;
   }
-  
+
   .swiper-slide {
     background-position: center;
     background-size: cover;
-    
+
     img {
       display: block;
       width: 100%;
@@ -214,11 +215,11 @@ onMounted(async () => {
       object-fit: cover;
     }
   }
-  
+
   :deep(.swiper-button-next),
   :deep(.swiper-button-prev) {
     color: white;
-    
+
     &:after {
       font-size: 24px;
     }
