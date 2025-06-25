@@ -149,6 +149,8 @@ watch(
   (newValue)=>{
      if (newValue===null) {
       map.value?.fitBounds(camerounBbox, { padding: 75 });
+      removePolygonBoundaryLayer()
+
       return 
     }
     let polygonSource
