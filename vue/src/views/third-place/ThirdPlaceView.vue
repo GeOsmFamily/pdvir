@@ -10,8 +10,14 @@
       }"
       class="carousel"
     >
-      <SwiperSlide v-for="(image, index) in galleryImages" :key="index">
-        <img :src="image" :alt="`Slide ${index + 1}`" />
+      <SwiperSlide v-for="(image, index) in carouselBanner" :key="index">
+        <img
+          :src="image"
+          :alt="`Slide ${index + 1}`"
+          width="100%"
+          height="100%"
+          style="object-fit: fill"
+        />
       </SwiperSlide>
     </Swiper>
     <PageTitle :title="$t('thirdPlace.title')" :whiteTitle="false" />
@@ -34,7 +40,7 @@ import ThirdPlaceGallery from '@/views/third-place/components/ThirdPlaceGallery.
 import ThirdPlaceRoomDescription from '@/views/third-place/components/ThirdPlaceRoomDescription.vue'
 import SectionBanner from '@/components/banners/SectionBanner.vue'
 import PageTitle from '@/components/text-elements/PageTitle.vue'
-import { galleryImages } from '@/models/interfaces/ThirdPlace'
+import { carouselBanner } from '@/models/interfaces/ThirdPlace'
 
 onMounted(async () => {
   // Initialize AOS
