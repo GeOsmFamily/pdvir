@@ -56,8 +56,12 @@ onMounted(() => {
 .Service_Container {
   display: flex;
 
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
+
   &__Item {
-    width: 50%;
+    width: 100%;
     margin: 5px 20px;
   }
 }

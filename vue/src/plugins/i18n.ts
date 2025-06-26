@@ -10,6 +10,7 @@ import myMapFR from '@/assets/translations/fr/myMap.json'
 import routesFR from '@/assets/translations/fr/routes.json'
 import qgisFR from '@/assets/translations/fr/qgisMapAndAtlas.json'
 import servicesFR from '@/assets/translations/fr/services.json'
+import thirdPlaceFR from '@/assets/translations/fr/thirdPlace.json'
 
 export const i18nInstance = createI18n({
   legacy: false,
@@ -27,7 +28,8 @@ export const i18nInstance = createI18n({
       ...myMapFR,
       ...routesFR,
       ...qgisFR,
-      ...servicesFR
+      ...servicesFR,
+      ...thirdPlaceFR
     }
   }
 })
