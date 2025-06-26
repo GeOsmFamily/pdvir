@@ -6,6 +6,7 @@
     <MyMapLegend ref="map-legend" />
     <MyMapExportButton ref="map-export-button" />
     <QgisLayersQueryButton ref="qgis-query-button" />
+    <MyMapCommentButton ref="map-comment-button" />
     <ToggleSidebarControl
       v-model="myMapStore.isLeftSidebarShown"
       :inversed-direction="true"
@@ -35,7 +36,8 @@ import MyMapItemPopup from '@/views/map/components/MyMapItemPopup.vue'
 import MyMapExportButton from '@/views/map/components/export/MyMapExportButton.vue'
 import ScaleControl from '@/components/map/controls/ScaleControl.vue'
 import QgisLayersQueryButton from './QgisLayersQuery/QgisLayersQueryButton.vue'
-import maplibregl, { LngLatBounds } from 'maplibre-gl';
+import MyMapCommentButton from '@/views/map/components/MyMapCommentButton.vue'
+import maplibregl from 'maplibre-gl'
 //import doualaMask from '@/assets/geojsons/mask_douala.json'
 //import batouriMask from '@/assets/geojsons/mask_batouri.json'
 //import camerounMask from '@/assets/geojsons/mask_cameroun.json';
@@ -54,9 +56,9 @@ const mapLegend = useTemplateRef('map-legend')
 const mapExportButton = useTemplateRef('map-export-button')
 const scaleControl = useTemplateRef('scale-control')
 const qgisQueryButton = useTemplateRef('qgis-query-button')
-const map = computed(() => myMap.value?.map)    
-const camerounBbox: any=[8.382218,1.651795,16.191101,13.083333]
-
+const mapCommentControl = useTemplateRef('map-comment-button')
+const map = computed(() => myMap.value?.map)
+const camerounBbox: any = [8.382218, 1.651795, 16.191101, 13.083333]
 
 onMounted(() => {
   if (myMap.value) {
@@ -67,6 +69,7 @@ onMounted(() => {
     map.value.addControl(new IControl(toggleRightSidebarControl), 'top-right')
     map.value.addControl(new IControl(toggleLeftSidebarControl), 'top-left')
     map.value.addControl(new IControl(mapLegend), 'bottom-right')
+    map.value.addControl(new IControl(mapCommentControl), 'bottom-right')
     map.value.addControl(new IControl(mapExportButton), 'bottom-right')
     map.value.addControl(new IControl(qgisQueryButton), 'bottom-right')
     map.value.addControl(new IControl(scaleControl), 'bottom-left')
@@ -101,27 +104,27 @@ watch(basemap, () => {
 })
 
 interface GeometryFeature {
-  type: string;
+  type: string
   properties: {
-    'ref:COG': string;
-    [key: string]: any;
-  };
+    'ref:COG': string
+    [key: string]: any
+  }
   geometry: {
-    type: string;
-    coordinates: any[];
-  };
+    type: string
+    coordinates: any[]
+  }
 }
 
 // Options pour personnaliser l'apparence de la couche
 interface BoundaryLayerOptions {
-  lineColor?: string;
-  lineWidth?: number;
-  lineOpacity?: number;
+  lineColor?: string
+  lineWidth?: number
+  lineOpacity?: number
 }
 
 // Constantes pour les IDs de couche et source
-const BOUNDARY_LAYER_ID = 'polygon-boundary-layer';
-const BOUNDARY_SOURCE_ID = 'polygon-boundary-source';
+const BOUNDARY_LAYER_ID = 'polygon-boundary-layer'
+const BOUNDARY_SOURCE_ID = 'polygon-boundary-source'
 
 //this is the watcher that will change the mask when the user selects a town
 /* watch(
@@ -146,41 +149,49 @@ const BOUNDARY_SOURCE_ID = 'polygon-boundary-source';
 
 watch(
   () => myMapStore.selectedBoundary,
-  (newValue)=>{
-     if (newValue===null) {
-      map.value?.fitBounds(camerounBbox, { padding: 75 });
+  (newValue) => {
+    if (newValue === null) {
+      map.value?.fitBounds(camerounBbox, { padding: 75 })
       removePolygonBoundaryLayer()
 
-      return 
+      return
     }
     let polygonSource
-    if(newValue && newValue.length===2){//it's a region
+    if (newValue && newValue.length === 2) {
+      //it's a region
       type RegionFeature = {
-      type: string;
-      properties: {
-        'ref:COG': string;
-        [key: string]: any;
-      };
-      geometry: {
-        type: string;
-        coordinates: any;
-      };
-      };
-      polygonSource = (regionsSource.features as RegionFeature[]).find(item => item.properties['ref:COG'] === newValue);
-    }else if(newValue && newValue.length===4){//it's a department
-      polygonSource=(departementSource as any).features.find((item: any) =>item.properties['ref:COG']===newValue);
-    }else if(newValue && newValue.length===6){//it's a commune
-      polygonSource=(communesSource as any).features.find((item: any)=>item.properties['ref:COG']===newValue);
+        type: string
+        properties: {
+          'ref:COG': string
+          [key: string]: any
+        }
+        geometry: {
+          type: string
+          coordinates: any
+        }
+      }
+      polygonSource = (regionsSource.features as RegionFeature[]).find(
+        (item) => item.properties['ref:COG'] === newValue
+      )
+    } else if (newValue && newValue.length === 4) {
+      //it's a department
+      polygonSource = (departementSource as any).features.find(
+        (item: any) => item.properties['ref:COG'] === newValue
+      )
+    } else if (newValue && newValue.length === 6) {
+      //it's a commune
+      polygonSource = (communesSource as any).features.find(
+        (item: any) => item.properties['ref:COG'] === newValue
+      )
     }
     addPolygonBoundaryLayer(polygonSource)
   }
 )
 
-
 interface BoundaryLayerOptions {
-  lineColor?: string;
-  lineWidth?: number;
-  lineOpacity?: number;
+  lineColor?: string
+  lineWidth?: number
+  lineOpacity?: number
 }
 
 /**
@@ -190,15 +201,11 @@ interface BoundaryLayerOptions {
  * @param options - Options pour personnaliser l'apparence de la couche
  */
 const addPolygonBoundaryLayer = (
-  feature: GeometryFeature, 
+  feature: GeometryFeature,
   options: BoundaryLayerOptions = {}
 ): void => {
   // Options par défaut
-  const {
-    lineColor = '#005E84',
-    lineWidth = 4,
-    lineOpacity = 1
-  } = options;
+  const { lineColor = '#005E84', lineWidth = 4, lineOpacity = 1 } = options
 
   try {
     // Créer un objet GeoJSON valide
@@ -211,19 +218,19 @@ const addPolygonBoundaryLayer = (
           geometry: feature.geometry
         }
       ]
-    };
+    }
 
     // Vérifier si la source existe déjà
     if (map.value?.getSource(BOUNDARY_SOURCE_ID)) {
       // Mettre à jour la source existante
-      const source = map.value?.getSource(BOUNDARY_SOURCE_ID) as any;
-      source.setData(geoJsonData);
+      const source = map.value?.getSource(BOUNDARY_SOURCE_ID) as any
+      source.setData(geoJsonData)
     } else {
       // Ajouter une nouvelle source
       map.value?.addSource(BOUNDARY_SOURCE_ID, {
         type: 'geojson',
         data: geoJsonData as any
-      });
+      })
     }
 
     // Vérifier si la couche existe déjà
@@ -242,20 +249,19 @@ const addPolygonBoundaryLayer = (
           'line-width': lineWidth,
           'line-opacity': lineOpacity
         }
-      });
+      })
     } else {
       // Mettre à jour les propriétés de style de la couche existante
-      map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-color', lineColor);
-      map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-width', lineWidth);
-      map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-opacity', lineOpacity);
+      map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-color', lineColor)
+      map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-width', lineWidth)
+      map.value?.setPaintProperty(BOUNDARY_LAYER_ID, 'line-opacity', lineOpacity)
     }
-    zoomToPolygon(feature.geometry.coordinates);
-
+    zoomToPolygon(feature.geometry.coordinates)
   } catch (error) {
-    console.error(error);
+    console.error(error)
     removePolygonBoundaryLayer()
   }
-};
+}
 
 /**
  * Supprime la couche de limites de la carte
@@ -264,92 +270,88 @@ const removePolygonBoundaryLayer = (): void => {
   try {
     // Supprimer la couche si elle existe
     if (map.value?.getLayer(BOUNDARY_LAYER_ID)) {
-      map.value?.removeLayer(BOUNDARY_LAYER_ID);
+      map.value?.removeLayer(BOUNDARY_LAYER_ID)
     }
 
     // Supprimer la source si elle existe
     if (map.value?.getSource(BOUNDARY_SOURCE_ID)) {
-      map.value?.removeSource(BOUNDARY_SOURCE_ID);
+      map.value?.removeSource(BOUNDARY_SOURCE_ID)
     }
-
   } catch (error) {
-    console.error('Erreur lors de la suppression de la couche:', error);
+    console.error('Erreur lors de la suppression de la couche:', error)
   }
-};
+}
 
 const zoomToPolygon = (coordinates: any) => {
   try {
     if (!coordinates || coordinates.length === 0) {
-      console.warn('Coordonnées vides ou invalides');
-      return;
+      console.warn('Coordonnées vides ou invalides')
+      return
     }
 
-    let minLng = Infinity;
-    let maxLng = -Infinity;
-    let minLat = Infinity;
-    let maxLat = -Infinity;
+    let minLng = Infinity
+    let maxLng = -Infinity
+    let minLat = Infinity
+    let maxLat = -Infinity
 
     // Fonction pour traiter un seul anneau de coordonnées
     const processRing = (ring: any[]) => {
       ring.forEach((coord: any) => {
         if (Array.isArray(coord) && coord.length >= 2) {
-          const lng = coord[0];
-          const lat = coord[1];
-          
-          if (typeof lng === 'number' && typeof lat === 'number' && 
-              !isNaN(lng) && !isNaN(lat)) {
-            minLng = Math.min(minLng, lng);
-            maxLng = Math.max(maxLng, lng);
-            minLat = Math.min(minLat, lat);
-            maxLat = Math.max(maxLat, lat);
+          const lng = coord[0]
+          const lat = coord[1]
+
+          if (typeof lng === 'number' && typeof lat === 'number' && !isNaN(lng) && !isNaN(lat)) {
+            minLng = Math.min(minLng, lng)
+            maxLng = Math.max(maxLng, lng)
+            minLat = Math.min(minLat, lat)
+            maxLat = Math.max(maxLat, lat)
           }
         }
-      });
-    };
+      })
+    }
 
     // Déterminer le type de géométrie et traiter en conséquence
     if (coordinates[0] && Array.isArray(coordinates[0])) {
       if (Array.isArray(coordinates[0][0])) {
         // Cas Polygon: coordinates = [ring1, ring2, ...] où ring = [[lng,lat], [lng,lat], ...]
         // ou MultiPolygon: coordinates = [polygon1, polygon2, ...] où polygon = [ring1, ring2, ...]
-        
+
         if (Array.isArray(coordinates[0][0][0])) {
           // MultiPolygon: coordinates[i][j][k] = [lng, lat]
           coordinates.forEach((polygon: any) => {
             polygon.forEach((ring: any) => {
-              processRing(ring);
-            });
-          });
+              processRing(ring)
+            })
+          })
         } else {
           // Polygon: coordinates[i][j] = [lng, lat]
           coordinates.forEach((ring: any) => {
-            processRing(ring);
-          });
+            processRing(ring)
+          })
         }
       } else {
         // Cas LineString ou autres: coordinates = [[lng,lat], [lng,lat], ...]
-        processRing(coordinates);
+        processRing(coordinates)
       }
     }
 
     // Vérifier que nous avons des coordonnées valides
     if (!isFinite(minLng) || !isFinite(maxLng) || !isFinite(minLat) || !isFinite(maxLat)) {
-      console.warn('Aucune coordonnée valide trouvée');
-      return;
+      console.warn('Aucune coordonnée valide trouvée')
+      return
     }
 
     // Créer les bounds et ajuster la vue
-    const newBbox = new maplibregl.LngLatBounds([minLng, minLat], [maxLng, maxLat]);
-    map.value?.fitBounds(newBbox, { 
+    const newBbox = new maplibregl.LngLatBounds([minLng, minLat], [maxLng, maxLat])
+    map.value?.fitBounds(newBbox, {
       padding: 50,
       duration: 1000 // Animation de 1 seconde
-    });
-
-
+    })
   } catch (error) {
-    console.error('Erreur lors du zoom vers le polygone:', error);
+    console.error('Erreur lors du zoom vers le polygone:', error)
   }
-};
+}
 
 watch(
   () => myMapStore.mapSearch?.bbox,
