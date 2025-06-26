@@ -1,3 +1,4 @@
+import office_banner_1 from '@/assets/images/third-place/office-banner-1.jpg'
 import office_1 from '@/assets/images/third-place/office-1.jpg'
 import office_2 from '@/assets/images/third-place/office-2.jpg'
 import office_3 from '@/assets/images/third-place/office-3.jpg'
@@ -30,5 +31,7 @@ export const thirdPlaceRooms: ThirdPlaceRoom[] = [
     image: { src: office_5, size: 100 }
   }
 ]
+
+export const carouselBanner = [office_banner_1]
 
 export const galleryImages = [office_1, office_2, office_3, office_4, office_5]
