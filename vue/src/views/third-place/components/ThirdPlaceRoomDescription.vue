@@ -10,7 +10,13 @@
       data-aos-delay="200"
     >
       <div class="ThirdPlace__Img">
-        <img :src="item.image.src" :alt="item.title" height="100%" />
+        <img
+          :src="item.image.src"
+          :alt="item.title"
+          height="100%"
+          width="100%"
+          style="object-fit: cover"
+        />
       </div>
       <div class="ThirdPlace__Text px-5">
         <p class="ThirdPlace__Title">{{ item.title }}</p>
@@ -55,13 +61,13 @@ onMounted(async () => {
   }
 
   &__Img {
-    width: 50%;
+    width: 40%;
     display: flex;
     justify-content: center;
   }
 
   &__Text {
-    width: 50%;
+    width: 60%;
     white-space: pre-line;
     display: flex;
     flex-direction: column;
