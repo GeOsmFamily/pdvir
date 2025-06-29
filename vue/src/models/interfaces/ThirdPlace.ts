@@ -21,20 +21,31 @@ export interface ThirdPlaceRoom {
 export const thirdPlaceRooms: ThirdPlaceRoom[] = [
   {
     title: 'Diver City Space',
-    description:
-      "GéoVoirie est une solution cartographique innovante dédiée à la gestion et au suivi de la voirie communale et intercommunale. Ce Web-SIG permet de consulter, mettre à jour et analyser l'état des voiries, planifier des travaux et gérer les budgets associés.\n\nIntuitif et ergonomique, il propose des outils modernes de navigation cartographique et d'édition, facilitant ainsi le travail des services techniques et des décideurs territoriaux.",
+    description: `Financé par l’Union européenne et mis en œuvre par Expertise France, le projet Plateforme Urbaine accompagne le Cameroun dans l’amélioration des politiques publiques en matière d’aménagement du territoire.
+
+L’Union européenne, partenaire de longue date, intervient dans les domaines de l’éducation, de la santé, de la gouvernance et des infrastructures. Expertise France, agence publique de coopération technique internationale, agit aux côtés des autorités camerounaises pour renforcer les politiques urbaines durables et inclusives.
+    
+Le projet, doté d’un budget de 4,9 millions d’euros (3,214 milliards de FCFA), est prévu de janvier 2023 à décembre 2026.`,
     image: { src: dcs_2, size: 35 }
   },
   {
-    title: 'Ville Inclusive Durable',
-    description:
-      "Le module permet d'organiser et de suivre les travaux de voirie en intégrant la gestion financière. Chaque chantier est localisé sur la carte et dispose d'une fiche récapitulative : budget prévisionnel, coûts engagés, entreprises intervenantes et phase d'avancement.\n\nDes bordereaux de prix pré-paramétrés facilitent la saisie et le calcul des budgets, assurant ainsi un contrôle budgétaire efficace à chaque étape.",
+    title: 'Contexte et Objectifs',
+    description: `Le Cameroun, locomotive économique de l’Afrique Centrale, fait face à une urbanisation rapide mais insuffisamment maîtrisée, entraînant précarité et détérioration des services urbains. Pour répondre à ces défis, le pays a adopté une stratégie de développement urbain durable inscrite dans le Programme Indicatif Multi-annuel (PIM) 2021-2027, soutenu par l’Union européenne.
+
+Objectif général : Améliorer les politiques publiques d’aménagement du territoire pour des villes durables et inclusives.
+
+Objectifs spécifiques : Renforcer les mécanismes de gestion du territoire et de planification urbaine. Améliorer l’accessibilité et la connaissance des données urbaines, en intégrant les enjeux d’inclusion et de résilience.`,
     image: { src: dcs_7, size: 100 }
   },
   {
-    title: 'Diver City Space',
-    description:
-      "GéoVoirie est conçu pour s'intégrer à d'autres systèmes géographiques via des services Web (WMS/WFS). Les référentiels de voirie sont diffusés en temps réel et consultables depuis des plateformes partenaires ou nationales.\n\nLes utilisateurs peuvent également ajouter des fonds de plan variés (Google Maps, OpenStreetMap, BD Ortho…) pour enrichir leurs analyses et prises de décision.",
+    title: 'Activités et Bénéficiaires',
+    description: `Le projet s’articule autour de deux composantes :
+
+Composante 1 : Animation d’une plateforme nationale d’acteurs du développement urbain. Révision du cadre normatif et élaboration de guides de planification urbaine. Renforcement des compétences techniques des acteurs locaux. Organisation d’échanges thématiques et sensibilisation des usagers de l’urbain.
+
+Composante 2 : Création d’une base de données des documents de planification. Appui à la production et à l’accessibilité des données territoriales.
+
+Bénéficiaires : Ministère de l’Habitat et du Développement Urbain. Ministère de la Décentralisation et du Développement Local. Ministère des Domaines, du Cadastre et des Affaires Foncières. Ministère de l’Économie, de la Planification et de l’Aménagement du Territoire.`,
     image: { src: dcs_14, size: 100 }
   }
 ]
