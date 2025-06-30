@@ -29,17 +29,17 @@
               <span class="font-weight-medium"
                 >Ministère de l'Habitat et du Développement urbain</span
               >
-              <span>Bureau gouvernemental à Yaoundé</span>
-              <span> VG87+G8C, N3, Yaoundé</span>
+              <span>93 Rue Valéry Giscard d'Estaing</span>
+              <span>Immeuble Balanos</span>
               <span>Yaoundé</span>
             </div>
           </div>
-          <div class="Footer__adressCtn">
+          <!-- <div class="Footer__adressCtn">
             <v-icon icon="mdi-phone-outline"></v-icon>
             <div class="Footer__adress">
               <span>2 22 21 99 32</span>
             </div>
-          </div>
+          </div> -->
           <v-btn
             color="main-blue"
             class="Footer__btn"
@@ -53,8 +53,8 @@
         <div class="Footer__block Footer__block--right">
           <h4 class="Footer__title">{{ $t('footer.partners') }}</h4>
           <div class="Footer__partnersLogos">
-            <img src="@/assets/images/footer/logo-banque-mondiale.png" alt="logo Banque modiale"  />
-            <img src="@/assets/images/Logo.png" style="height: 100px;" alt="Logo MINDHU" />
+            <img src="@/assets/images/footer/logo-banque-mondiale.png" alt="logo Banque modiale" />
+            <img src="@/assets/images/Logo.png" style="height: 100px" alt="Logo MINDHU" />
             <img src="@/assets/images/footer/logo-minhdu.png" alt="Logo PDVIR" />
           </div>
         </div>
