@@ -224,6 +224,8 @@ updateRegionsList()
   flex: 1 0 auto;
   background: #fff;
   padding: 1rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
 }
 
 .zone-title {
