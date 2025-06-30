@@ -14,7 +14,7 @@
       <img
         :src="atlasMap.mainLayer.icon"
         :alt="atlas.name"
-        v-if="atlasMap.mainLayer.icon !== null"
+        v-if="atlasMap.mainLayer.icon !== undefined && atlasMap.mainLayer.icon.length > 0"
       />
       <div class="MyMapAtlasPicker__desc ml-2">
         <span>{{ atlasMap.mainLayer.name }}</span>
