@@ -90,7 +90,6 @@ import { useUserStore } from '@/stores/userStore'
 import { computed, ref, type Ref } from 'vue'
 import { UserRoles } from '@/models/enums/auth/UserRoles'
 import type { Resource } from '@/models/interfaces/Resource'
-import { useThematicStore } from '@/stores/thematicStore'
 import { onMounted } from 'vue'
 import { ResourceFormat } from '@/models/enums/contents/ResourceFormat'
 import { ResourceType } from '@/models/enums/contents/ResourceType'
@@ -98,10 +97,8 @@ import { useRoute } from 'vue-router'
 
 const resourceStore = useResourceStore()
 const userStore = useUserStore()
-const thematicsStore = useThematicStore()
 const route = useRoute()
 
-const thematicsItems = computed(() => thematicsStore.thematics)
 const searchQuery = ref('')
 const arePassedEventsShown = ref(false)
 const selectedThematic: Ref<string[]> = ref([])
@@ -110,7 +107,6 @@ const selectedResourceTypes: Ref<ResourceType[]> = ref([])
 
 onMounted(async () => {
   await resourceStore.getAll()
-  await thematicsStore.getAll()
 
   initRouteFilters()
 })
@@ -132,7 +128,7 @@ const filteredResources = computed(() => {
   if (selectedThematic.value && selectedThematic.value.length > 0) {
     filteredResources = filteredResources.filter((resource: Resource) => {
       return resource.thematics.some((thematic) =>
-        (selectedThematic.value as string[]).includes(thematic['@id'])
+        (selectedThematic.value as string[]).includes(thematic)
       )
     })
   }

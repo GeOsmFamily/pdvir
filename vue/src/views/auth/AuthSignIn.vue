@@ -50,6 +50,7 @@
         <div class="form-field">
           <label class="form-checkbox">
             <input
+              v-model="form.stayLoggedIn.value.value"
               type="checkbox"
               class="form-checkbox-input"
             />
@@ -73,6 +74,7 @@
       <span>{{ $t('auth.signIn.question') }}</span>
       <router-link
         append
+        class="Dialog__clickableText"
         :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_BECOME_MEMBER } }"
       >
         {{ $t('auth.becomeMember.title') }}

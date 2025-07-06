@@ -33,7 +33,7 @@
       <template v-if="isVerified === VerificationStatus.EXPIRED">
         {{ $t('auth.emailVerifier.content.expired') }}
       </template>
-      <v-btn class="mt-8" color="main-yellow" @click="closeDialog" block>{{
+      <v-btn class="mt-8" color="main-red" @click="closeDialog" block>{{
         $t('auth.emailVerifier.close')
       }}</v-btn>
     </template>

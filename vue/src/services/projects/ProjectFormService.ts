@@ -16,30 +16,38 @@ export class ProjectFormService {
     const projectSchema: z.ZodType<Partial<Project>> = z
       .object({
         name: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
-        description: zodModels.description,
-        calendar: zodModels.maxDescription,
-        deliverables: zodModels.maxDescription,
-        focalPointName: zodModels.maxLabel,
+        description: zodModels.descriptionRequired,
+        calendar: zodModels.description,
+        deliverables: zodModels.description,
+        focalPointName: z.string().min(1, { message: i18n.t('forms.errorMessages.required') }),
         focalPointPosition: zodModels.maxLabel.optional(),
         focalPointEmail: zodModels.email,
-        administrativeScopes: z.array(z.nativeEnum(AdministrativeScope)),
+        administrativeScopes: z.array(z.nativeEnum(AdministrativeScope), {
+          message: i18n.t('forms.errorMessages.required')
+        }),
         admin1List: zodModels.admin1Boundaries.optional(),
-        admin2List: zodModels.admin2Boundaries.optional(),
         admin3List: zodModels.admin3Boundaries.optional(),
         focalPointTel: zodModels.phone,
         geoData: zodModels.geoDataNullable.optional(),
         actor: zodModels.symfonyRelation.optional(),
         otherActor: z.string().optional(),
-        status: z.nativeEnum(Status),
-        financingTypes: z.array(z.nativeEnum(ProjectFinancingType)),
+        status: z.nativeEnum(Status, { required_error: i18n.t('forms.errorMessages.required') }),
+        financingTypes: z.array(z.nativeEnum(ProjectFinancingType), {
+          required_error: i18n.t('forms.errorMessages.required')
+        }),
         otherFinancingType: z.string().optional(),
         actorsInCharge: z.array(zodModels.symfonyRelation).optional(),
         otherActorInCharge: z.string().optional(),
-        thematics: zodModels.symfonyRelations,
+        thematics: zodModels.thematics,
         otherThematic: z.string().optional(),
-        beneficiaryTypes: z.array(z.nativeEnum(BeneficiaryType)),
+        odds: zodModels.odds,
+        beneficiaryTypes: z.array(z.nativeEnum(BeneficiaryType), {
+          required_error: i18n.t('forms.errorMessages.required')
+        }),
         otherBeneficiary: z.string().optional(),
-        website: zodModels.website
+        website: zodModels.website,
+        banoc: zodModels.banoc,
+        banocUrl: zodModels.banocUrl
       })
       .refine(
         (data) => {
@@ -68,21 +76,24 @@ export class ProjectFormService {
       description: '',
       deliverables: '',
       calendar: '',
-      actorsInCharge: [],
-      otherActorInCharge: '',
-      financingTypes: [],
-      administrativeScopes: [],
+      actorsInCharge: undefined,
+      otherActorInCharge: undefined,
+      financingTypes: undefined,
+      administrativeScopes: undefined,
       focalPointName: '',
       focalPointPosition: '',
       focalPointEmail: '',
       focalPointTel: '',
-      beneficiaryTypes: [],
+      beneficiaryTypes: undefined,
       actor: undefined,
       otherActor: '',
       status: undefined,
       geoData: undefined,
-      thematics: [],
-      website: ''
+      thematics: undefined,
+      odds: undefined,
+      website: '',
+      banoc: undefined,
+      banocUrl: undefined
     }
 
     const { errors, handleSubmit, isSubmitting } = useForm<Partial<Project | ProjectSubmission>>({
@@ -104,7 +115,6 @@ export class ProjectFormService {
       otherFinancingType: useField('otherFinancingType'),
       administrativeScopes: useField('administrativeScopes'),
       admin1List: useField('admin1List'),
-      admin2List: useField('admin2List'),
       admin3List: useField('admin3List'),
       focalPointName: useField('focalPointName'),
       focalPointPosition: useField('focalPointPosition'),
@@ -118,7 +128,10 @@ export class ProjectFormService {
       geoData: useField('geoData'),
       thematics: useField('thematics'),
       otherThematic: useField('otherThematic'),
-      website: useField('website')
+      odds: useField('odds'),
+      website: useField('website'),
+      banoc: useField('banoc'),
+      banocUrl: useField('banocUrl')
     }
 
     return { form, errors, handleSubmit, isSubmitting }

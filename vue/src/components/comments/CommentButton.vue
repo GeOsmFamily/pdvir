@@ -2,11 +2,11 @@
   <template v-if="userStore.userIsLogged">
     <v-btn
       v-if="position === 'Sheet'"
-      :icon="isFormCommentVisible ? 'mdi-comment-text' : 'mdi-comment-text-outline'"
-      @click.stop="isFormCommentVisible = true"
+      :icon="isFormCommentVisible ? '$commentText' : '$commentTextOutline'"
+      @click.stop.prevent="isFormCommentVisible = true"
       :class="{
         'text-white': isFormCommentVisible,
-        'text-main-yellow': !isFormCommentVisible
+        'text-main-red': !isFormCommentVisible
       }"
       :color="isFormCommentVisible ? 'main-blue' : 'white'"
     ></v-btn>
@@ -14,9 +14,9 @@
       v-else
       variant="text"
       density="comfortable"
-      :icon="isFormCommentVisible ? 'mdi-comment-text' : 'mdi-comment-text-outline'"
-      color="main-yellow"
-      @click.prevent="isFormCommentVisible = true"
+      :icon="isFormCommentVisible ? '$commentText' : '$commentTextOutline'"
+      color="main-red"
+      @click.stop.prevent="isFormCommentVisible = true"
     >
     </v-btn>
     <CommentForm
@@ -29,10 +29,10 @@
   </template>
 </template>
 <script setup lang="ts">
-import CommentForm from '@/components/comments/CommentForm.vue'
-import type { CommentOrigin } from '@/models/interfaces/Comment'
-import { useUserStore } from '@/stores/userStore'
-import { ref } from 'vue'
+import CommentForm from '@/components/comments/CommentForm.vue';
+import type { CommentOrigin } from '@/models/interfaces/Comment';
+import { useUserStore } from '@/stores/userStore';
+import { ref } from 'vue';
 
 defineProps<{
   position: 'Sheet' | 'Card'

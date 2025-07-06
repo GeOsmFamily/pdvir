@@ -22,6 +22,13 @@
   }
 }
 
+.text-warning {
+  color: rgb(var(--v-theme-main-red));
+  font-weight: 600;
+  font-style: italic;
+  text-decoration: underline;
+}
+
 :root {
   .half-circle {
     --dim-half-circle-more: 0rem;
@@ -68,12 +75,9 @@
     left: 0;
     width: var(--dim-half-circle);
     height: calc(var(--dim-half-circle) * 2);
-    background-color: rgb(var(--v-theme-main-blue));
+    background-color: rgb(var(--v-theme-main-yellow));
     border-radius: 0 var(--dim-half-circle) var(--dim-half-circle) 0;
     position: absolute;
-  }
-  &.white-circle::before{
-    background-color:white !important;
   }
 }
 
@@ -155,13 +159,13 @@
 
 .Card {
   background: white;
-  box-shadow: 0px 0px 0px 1px rgb(var(--v-theme-main-grey)), 0px 2px 0px 1px rgb(var(--v-theme-main-grey));
+  box-shadow: 0px 0px 0px 1px rgb(var(--v-theme-main-blue)), 0px 2px 0px 1px rgb(var(--v-theme-main-blue));
   transition: all .1s ease-in;
   border: none;
   cursor: pointer;
 
   &:hover,
   &[active="true"] {
-    box-shadow: 0px 0px 0px 2px rgb(var(--v-theme-main-grey)), 0px 4px 0px 2px rgb(var(--v-theme-main-grey));
+    box-shadow: 0px 0px 0px 2px rgb(var(--v-theme-main-blue)), 0px 4px 0px 2px rgb(var(--v-theme-main-blue));
   }
 }

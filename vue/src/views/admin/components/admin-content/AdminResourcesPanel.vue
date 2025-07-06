@@ -1,7 +1,7 @@
 <template>
   <div class="AdminPanel">
     <AdminTopBar
-      page="data"
+      page="Resources"
       :items="resourceStore.resources"
       :sortingListItems="sortOptions"
       searchKey="name"
@@ -10,7 +10,7 @@
       @update-search-query="(e) => (searchQuery = e)"
     >
       <template #right-buttons>
-        <v-btn @click="showResourceForm" color="main-yellow">{{ $t('admin.add') }}</v-btn>
+        <v-btn @click="showResourceForm" color="main-red">{{ $t('admin.add') }}</v-btn>
       </template>
     </AdminTopBar>
     <AdminTable
@@ -26,20 +26,22 @@
         <template v-if="!(item as Resource).isValidated">
           <v-btn
             size="small"
-            icon="mdi-arrow-right"
+            icon="$arrowRight"
             class="text-main-blue"
             @click="editResource(item as Resource, FormType.VALIDATE)"
-          ></v-btn>
+          >
+            <v-icon icon="$arrowRight" color="main-blue"></v-icon>
+          </v-btn>
         </template>
         <template v-else>
           <v-btn
             density="comfortable"
-            icon="mdi-pencil-outline"
+            icon="$pencilOutline"
             @click="editResource(item as Resource)"
             class="mr-2"
           ></v-btn>
-          <v-btn density="comfortable" icon="mdi-dots-vertical">
-            <v-icon icon="mdi-dots-vertical"></v-icon>
+          <v-btn density="comfortable" icon="$dotsVertical">
+            <v-icon icon="$dotsVertical"></v-icon>
             <v-menu activator="parent" location="left">
               <v-list class="AdminPanel__additionnalMenu">
                 <v-list-item @click="resourceStore.deleteResource(item as Resource)">{{
@@ -54,14 +56,14 @@
   </div>
 </template>
 <script setup lang="ts">
+import AdminTable from '@/components/admin/AdminTable.vue'
+import AdminTopBar from '@/components/admin/AdminTopBar.vue'
+import HighlightButton from '@/components/global/HighlightButton.vue'
+import { FormType } from '@/models/enums/app/FormType'
 import type { Resource } from '@/models/interfaces/Resource'
+import { i18n } from '@/plugins/i18n'
 import { useResourceStore } from '@/stores/resourceStore'
 import { computed, onBeforeMount, ref } from 'vue'
-import AdminTopBar from '@/components/admin/AdminTopBar.vue'
-import AdminTable from '@/components/admin/AdminTable.vue'
-import { i18n } from '@/plugins/i18n'
-import { FormType } from '@/models/enums/app/FormType'
-import HighlightButton from '@/components/global/HighlightButton.vue'
 
 const resourceStore = useResourceStore()
 const sortingResourcesSelectedMethod = ref('isValidated')

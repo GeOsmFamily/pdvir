@@ -79,13 +79,23 @@ export const useResourceStore = defineStore(StoresList.RESOURCES, () => {
   )
 
   const deleteResource = async (resource: Resource) => {
-    await ResourceService.delete(resource)
-    resources.value.forEach((p, key) => {
-      if (p.id === resource.id) {
-        resources.value.splice(key, 1)
-        addNotification(i18n.t('notifications.resource.delete'), NotificationType.SUCCESS)
-      }
-    })
+    useApplicationStore().isLoading = true
+    try {
+      await ResourceService.delete(resource)
+      resources.value.forEach((p, key) => {
+        if (p.id === resource.id) {
+          resources.value.splice(key, 1)
+          addNotification(i18n.t('notifications.resource.deleteSuccess'), NotificationType.SUCCESS)
+        }
+      })
+    } catch (error) {
+      addNotification(
+        i18n.t('notifications.resource.deleteError'),
+        NotificationType.ERROR,
+        error as string
+      )
+    }
+    useApplicationStore().isLoading = false
   }
 
   return {

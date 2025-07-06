@@ -3,7 +3,7 @@
     <div class="MyMapExport__title">
       <v-btn
         size="small"
-        icon="mdi-arrow-left"
+        icon="$arrowLeft"
         class="text-dark-grey"
         elevation="4"
         @click="mapStore.isMapExportActive = false"
@@ -39,7 +39,7 @@
         <span class="text-action" @click="mapStore.isMapExportActive = false">{{
           $t('forms.cancel')
         }}</span>
-        <v-btn type="submit" form="map-export-form" color="main-yellow" :loading="isSubmitting">{{
+        <v-btn type="submit" form="map-export-form" color="main-red" :loading="isSubmitting">{{
           $t('myMap.export.form.submit')
         }}</v-btn>
       </div>

@@ -2,13 +2,13 @@
 <template>
   <div class="maplibregl-ctrl maplibregl-ctrl-group MapExport">
     <v-btn
-      icon="mdi-comment-text"
+      icon="$commentText"
       @click.stop="activeMapComment"
       :class="{
         'text-white': commentStore.isAppCommentActive,
-        'text-main-yellow': !commentStore.isAppCommentActive
+        'text-main-red': !commentStore.isAppCommentActive
       }"
-      :color="commentStore.isAppCommentActive ? 'main-yellow' : 'white'"
+      :color="commentStore.isAppCommentActive ? 'main-red' : 'white'"
     ></v-btn>
     <CommentForm
       :map-comment="true"

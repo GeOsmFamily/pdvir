@@ -12,9 +12,10 @@
     />
     <div class="MyMapAtlasPicker__descCtn ml-2">
       <img
+        loading="lazy"
         :src="atlasMap.mainLayer.icon"
         :alt="atlas.name"
-        v-if="atlasMap.mainLayer.icon !== undefined && atlasMap.mainLayer.icon.length > 0"
+        v-if="atlasMap.mainLayer.icon"
       />
       <div class="MyMapAtlasPicker__desc ml-2">
         <span>{{ atlasMap.mainLayer.name }}</span>
@@ -31,12 +32,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import { LayerType } from '@/models/enums/geo/LayerType'
 import type { Atlas } from '@/models/interfaces/Atlas'
 import type { AtlasMap } from '@/models/interfaces/map/AtlasMap'
-import MyMapLayerAdditionnalMenu from '../MyMapLayerAdditionnalMenu.vue'
 import { useMyMapStore } from '@/stores/myMapStore'
 import { computed, type Ref } from 'vue'
-import { LayerType } from '@/models/enums/geo/LayerType'
+import MyMapLayerAdditionnalMenu from '../MyMapLayerAdditionnalMenu.vue'
 const props = defineProps<{
   atlas: Atlas
 }>()

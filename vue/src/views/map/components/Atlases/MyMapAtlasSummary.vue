@@ -2,33 +2,38 @@
   <div class="MyMapAtlasSummary" :type="type">
     <div class="d-flex flex-row flex-wrap">
       <div class="MyMapAtlasSummary_logo" :type="type">
-        <img :src="atlas.logo.contentUrl" v-if="atlas.logo" />
+        <img loading="lazy" :src="atlas.logo.contentUrl" v-if="atlas.logo" />
       </div>
       <div class="MyMapAtlasSummary_desc">
-        <div class="MyMapAtlasSummary_title">{{ atlas.name }}</div>
+        <v-tooltip :text="atlas.name" location="top" v-if="atlas.name.length > 19">
+          <template v-slot:activator="{ props }">
+            <div class="MyMapAtlasSummary_title" v-bind="props">
+              {{ reduceText(atlas.name, 19) }}
+            </div>
+          </template>
+        </v-tooltip>
+        <div class="MyMapAtlasSummary_title" v-else>
+          {{ atlas.name }}
+        </div>
         <div class="MyMapAtlasSummary_details">
-          {{ atlas.maps.length }}
+          {{ filteredLength }}
           {{
             type === AtlasGroup.PREDEFINED_MAP
-              ? $t('myMap.atlases.map', { count: atlas.maps.length })
-              : $t('myMap.atlases.data', { count: atlas.maps.length })
+              ? $t('myMap.atlases.map', { count: filteredLength })
+              : $t('myMap.atlases.data', { count: filteredLength })
           }}
         </div>
       </div>
     </div>
-    <v-btn
-      size="small"
-      icon="mdi-arrow-right"
-      class="text-dark-grey"
-      @click="setActiveAtlas"
-    ></v-btn>
+    <v-btn size="small" icon="$arrowRight" class="text-dark-grey" @click="setActiveAtlas"></v-btn>
   </div>
 </template>
 <script setup lang="ts">
 import { AtlasGroup } from '@/models/enums/geo/AtlasGroup'
 import type { Atlas } from '@/models/interfaces/Atlas'
+import { reduceText } from '@/services/utils/UtilsService'
 import { useMyMapStore } from '@/stores/myMapStore'
-import { inject, type Ref } from 'vue'
+import { computed, inject, type Ref } from 'vue'
 
 const props = defineProps<{
   atlas: Atlas
@@ -47,6 +52,23 @@ function setActiveAtlas() {
     mapStore.activeAtlas.rightPanel.atlasID = props.atlas['@id']
   }
 }
+
+const filteredLength = computed(() => {
+  if (
+    props.type === AtlasGroup.PREDEFINED_MAP ||
+    !mapStore.atlasSearchText ||
+    props.atlas.name.toLowerCase().includes(mapStore.atlasSearchText.toLowerCase())
+  ) {
+    return props.atlas.maps.length
+  }
+  return props.atlas.maps.filter(
+    (map) =>
+      map.name.toLowerCase().includes(mapStore.atlasSearchText.toLowerCase()) ||
+      map.qgisProject.layers?.some((layer) =>
+        layer.toLowerCase().includes(mapStore.atlasSearchText.toLowerCase())
+      )
+  ).length
+})
 </script>
 
 <style>

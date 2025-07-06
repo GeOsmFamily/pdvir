@@ -41,6 +41,10 @@
         flex-flow: column wrap;
         gap: .5rem;
         width: 100%;
+
+        span ul li {
+            margin-left: 2rem;
+        }
     }
 
     .SheetView__updatedAtCtn {
@@ -72,6 +76,11 @@
             border-bottom: solid 4px rgb(var(--v-theme-light-yellow));
             margin-bottom: .5rem;
         }
+    }
+
+    .SheetView__ODD {
+        height: 5rem;
+        width: 5rem;
     }
 
     .SheetView__block {

@@ -1,13 +1,11 @@
-import { i18n } from '@/plugins/i18n'
+import { ODD } from '@/models/enums/contents/ODD'
+import { Thematic } from '@/models/enums/contents/Thematic'
+import type { Admin1Boundary, Admin3Boundary } from '@/models/interfaces/AdminBoundaries'
 import type { GeoData } from '@/models/interfaces/geo/GeoData'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import type { SymfonyRelation } from '@/models/interfaces/SymfonyRelation'
+import { i18n } from '@/plugins/i18n'
 import { number, z, ZodType } from 'zod'
-import type {
-  Admin1Boundary,
-  Admin2Boundary,
-  Admin3Boundary
-} from '@/models/interfaces/AdminBoundaries'
 
 export class CommonZodSchema {
   static getDefinitions() {
@@ -22,13 +20,6 @@ export class CommonZodSchema {
       adm1Name: z.string(),
       adm1Pcode: z.string()
     }) satisfies ZodType<Admin1Boundary>
-
-    const Admin2BoundarySchema = z.object({
-      id: number(),
-      '@id': z.string(),
-      adm2Name: z.string(),
-      adm2Pcode: z.string()
-    }) satisfies ZodType<Admin2Boundary>
 
     const Admin3BoundarySchema = z.object({
       id: number(),
@@ -93,20 +84,17 @@ export class CommonZodSchema {
       )
 
     return {
-      symfonyRelations: z.array(SymfonyRelationSchema).nonempty({
-        message: i18n.t('forms.errorMessages.required')
+      symfonyRelations: z.array(SymfonyRelationSchema, {
+        required_error: i18n.t('forms.errorMessages.required')
       }),
       symfonyRelation: SymfonyRelationSchema,
       admin1Boundaries: z.array(Admin1BoundarySchema),
-      admin2Boundaries: z.array(Admin2BoundarySchema),
       admin3Boundaries: z.array(Admin3BoundarySchema),
       geoData: NotNullableGeoDataSchema,
       geoDataNullable: NullableGeoDataSchema,
       file: this.createFileSchema({
         allowedTypes: [
           'application/pdf',
-          'application/zip',
-          'application/x-zip-compressed',
           'application/vnd.oasis.opendocument.spreadsheet',
           'application/vnd.ms-excel',
           'image/jpeg',
@@ -153,24 +141,38 @@ export class CommonZodSchema {
             message: i18n.t('forms.errorMessages.email')
           }
         ),
-      description: z
-        .string()
-        .min(1, { message: i18n.t('forms.errorMessages.required') })
-        .min(50, { message: i18n.t('forms.errorMessages.minlength', { min: 50 }) })
-        .optional(),
+      description: z.string({ required_error: i18n.t('forms.errorMessages.required') }).optional(),
       descriptionRequired: z
-        .string()
+        .string({ required_error: i18n.t('forms.errorMessages.required') })
         .min(50, { message: i18n.t('forms.errorMessages.minlength', { min: 50 }) }),
       maxLabel: z
         .string()
         .max(100, { message: i18n.t('forms.errorMessages.maxlength', { max: 100 }) }),
-      maxDescription: z
-        .string()
-        .max(500, { message: i18n.t('forms.errorMessages.maxlength', { max: 500 }) })
-        .optional(),
+      maxDescription: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z
+          .string()
+          .max(1000, { message: i18n.t('forms.errorMessages.maxlength', { max: 1000 }) })
+          .optional()
+      ),
       phone: z.string().optional(),
       latString: LatitudeSchema,
-      lngString: LongitudeSchema
+      lngString: LongitudeSchema,
+      thematics: z.array(z.nativeEnum(Thematic), {
+        required_error: i18n.t('forms.errorMessages.required')
+      }),
+      odds: z.array(z.nativeEnum(ODD), {
+        required_error: i18n.t('forms.errorMessages.required')
+      }),
+      banoc: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z
+          .string()
+          .min(1, { message: i18n.t('forms.errorMessages.minlength', { min: 1 }) })
+          .max(6, { message: i18n.t('forms.errorMessages.maxlength', { max: 6 }) })
+          .optional()
+      ),
+      banocUrl: z.string().optional()
     }
   }
 

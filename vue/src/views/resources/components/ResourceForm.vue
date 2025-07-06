@@ -162,19 +162,6 @@
               return-object
             ></v-autocomplete>
           </div>
-          <div class="Form__fieldCtn" v-if="activeAdminLevels && activeAdminLevels.admin2">
-            <label class="Form__label">{{ $t('actors.form.admin2') }}</label>
-            <v-autocomplete
-              multiple
-              density="compact"
-              :items="adminBoundariesStore.admin2Boundaries"
-              item-title="adm2Name"
-              item-value="@id"
-              variant="outlined"
-              v-model="form.admin2List.value.value as Admin2Boundary[]"
-              return-object
-            ></v-autocomplete>
-          </div>
           <div class="Form__fieldCtn" v-if="activeAdminLevels && activeAdminLevels.admin3">
             <label class="Form__label">{{ $t('actors.form.admin3') }}</label>
             <v-autocomplete
@@ -207,7 +194,7 @@
           variant="outlined"
           multiple
           v-model="form.thematics.value.value as Thematic[]"
-          :items="thematics"
+          :items="Object.values(Thematic)"
           :placeholder="$t('resources.form.section.thematics')"
           item-title="name"
           item-value="@id"
@@ -247,6 +234,7 @@ import ImagesLoader from '@/components/forms/ImagesLoader.vue'
 import LocationSelector from '@/components/forms/LocationSelector.vue'
 import Modal from '@/components/global/Modal.vue'
 import FormSectionTitle from '@/components/text-elements/FormSectionTitle.vue'
+import { Thematic } from '@/models/enums/contents/Thematic'
 import { AdministrativeScope } from '@/models/enums/AdministrativeScope'
 import { FormType } from '@/models/enums/app/FormType'
 import { NotificationType } from '@/models/enums/app/NotificationType'
@@ -260,7 +248,6 @@ import type {
 import type { ContentImageFromUserFile } from '@/models/interfaces/ContentImage'
 import type { FileObject } from '@/models/interfaces/object/FileObject'
 import { type Resource } from '@/models/interfaces/Resource'
-import type { Thematic } from '@/models/interfaces/Thematic'
 import { i18n } from '@/plugins/i18n'
 import { nestedObjectsToIri } from '@/services/api/ApiPlatformService'
 import { onInvalidSubmit } from '@/services/forms/FormService'
@@ -268,7 +255,6 @@ import { addNotification } from '@/services/notifications/NotificationService'
 import { ResourceFormService } from '@/services/resources/ResourceFormService'
 import { useAdminBoundariesStore } from '@/stores/adminBoundariesStore'
 import { useResourceStore } from '@/stores/resourceStore'
-import { useThematicStore } from '@/stores/thematicStore'
 import { useUserStore } from '@/stores/userStore'
 import NewSubmission from '@/views/admin/components/form/NewSubmission.vue'
 import type { Ref } from 'vue'
@@ -276,7 +262,6 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const resourceStore = useResourceStore()
-const thematicsStore = useThematicStore()
 const userStore = useUserStore()
 const adminBoundariesStore = useAdminBoundariesStore()
 
@@ -289,12 +274,7 @@ const props = defineProps<{
 }>()
 
 onMounted(async () => {
-  await Promise.all([
-    thematicsStore.getAll(),
-    adminBoundariesStore.getAdmin1(),
-    adminBoundariesStore.getAdmin2(),
-    adminBoundariesStore.getAdmin3()
-  ])
+  await Promise.all([adminBoundariesStore.getAdmin1(), adminBoundariesStore.getAdmin3()])
   existingImagePreview.value = props.resource?.previewImage ? [props.resource.previewImage] : []
 })
 
@@ -320,9 +300,6 @@ const activeAdminLevels = computed(() => {
       admin1: (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
         AdministrativeScope.REGIONAL
       ),
-      admin2: (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
-        AdministrativeScope.STATE
-      ),
       admin3: (form.administrativeScopes.value?.value as AdministrativeScope[]).includes(
         AdministrativeScope.CITY
       )
@@ -341,7 +318,7 @@ const otherRessourceTypeIsSelected = computed(() => {
 })
 const otherThematicIsSelected = computed(() => {
   if (form.thematics.value?.value && Array.isArray(form.thematics.value?.value)) {
-    return (form.thematics.value?.value as Thematic[]).map((x) => x.name).includes('Autre')
+    return (form.thematics.value?.value as Thematic[]).includes(Thematic.OTHERS)
   }
   return false
 })
@@ -364,7 +341,6 @@ const handleDateChange = () => {
 }
 
 const emit = defineEmits(['submitted', 'close'])
-const thematics = computed(() => thematicsStore.thematics)
 watch(
   () => form.type.value.value,
   () => {

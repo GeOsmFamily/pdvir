@@ -3,13 +3,12 @@
     class="AdminBoundaries__toMap"
     v-if="
       (entity.admin1List && entity.admin1List.length > 0) ||
-      (entity.admin2List && entity.admin2List.length > 0) ||
       (entity.admin3List && entity.admin3List.length > 0)
     "
     @click="showAdminMap"
   >
     <span>{{ $t('adminBoundaries.showInMap') }}</span>
-    <v-icon class="ml-2" color="main-green" icon="mdi-arrow-right-circle" size="large"></v-icon>
+    <v-icon class="ml-2" color="main-green" icon="$arrowRight-circle" size="large"></v-icon>
   </div>
   <AdminBoundariesMap
     v-if="adminBoundariesMapIsVisible"
@@ -19,10 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Actor } from '@/models/interfaces/Actor'
-import type { Project } from '@/models/interfaces/Project'
-import AdminBoundariesMap from './AdminBoundariesMap.vue'
-import { ref } from 'vue'
+import type { Actor } from '@/models/interfaces/Actor';
+import type { Project } from '@/models/interfaces/Project';
+import { ref } from 'vue';
+import AdminBoundariesMap from './AdminBoundariesMap.vue';
 
 defineProps<{
   entity: Project | Actor

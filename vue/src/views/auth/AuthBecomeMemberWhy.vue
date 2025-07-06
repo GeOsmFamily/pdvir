@@ -3,6 +3,7 @@
     <template #title>{{ $t('auth.becomeMemberWhy.title') }}</template>
     <template #content>
       <img
+        loading="lazy"
         class="AuthBecomeMemberWhy__image"
         src="@/assets/images/auth/become-member-why.png"
         alt=""
@@ -15,7 +16,7 @@
         :to="{ query: { ...$route.query, dialog: DialogKey.AUTH_BECOME_MEMBER } }"
         class="Link--withoutUnderline"
       >
-        <v-btn color="main-yellow" type="submit" block>{{
+        <v-btn color="main-red" type="submit" block>{{
           $t('auth.becomeMemberWhy.form.submit')
         }}</v-btn>
       </router-link>
@@ -24,10 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import { i18n } from '@/plugins/i18n'
 import CheckPoint from '@/components/global/CheckPoint.vue'
-import AuthDialog from '@/views/auth/AuthDialog.vue'
 import { DialogKey } from '@/models/enums/app/DialogKey'
+import { i18n } from '@/plugins/i18n'
+import AuthDialog from '@/views/auth/AuthDialog.vue'
 
 const reasons = [
   i18n.t('auth.becomeMemberWhy.form.reasons.urbanTransformation'),

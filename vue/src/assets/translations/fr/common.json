@@ -153,38 +153,48 @@
         "cookies": "Cookies"
     },
     "notifications": {
-        "project": {
-            "create": "Le projet a été créé",
-            "edit": "Le projet a été modifié",
-            "validate": "Le projet a été validé",
-            "delete": "Le projet a été supprimé"
-        },
-        "resource": {
-            "create": "La ressource a été créé",
-            "edit": "La ressource a été modifié",
-            "validate": "La ressource a été validé",
-            "delete": "La ressource a été supprimé"
-        },
-        "common": {
-            "error": {
-                "411": "Une erreur est survenue lors de la validation du formulaire",
-                "500": "Une erreur est survenue, un rapport a été envoyé",
-                "moreDetails": "Détails :"
-            }
-        },
-        "atlas": {
-            "create": "L'atlas a été créé",
-            "edit": "L'atlas a été modifié",
-            "validate": "L'atlas a été validé",
-            "delete": "L'atlas a été supprimé"
-        },
-        "qgismap": {
-            "create": "La donnée a bien été crée",
-            "edit": "La donnée a bien été modifiée",
-            "validate": "La donnée a bien été validée",
-            "delete": "La donnée a bien été supprimé",
-            "error": "Une erreur est survenue lors du chargement des données"
+      "project": {
+        "create": "Le projet a été créé",
+        "edit": "Le projet a été modifié",
+        "validate": "Le projet a été validé",
+        "deleteSuccess": "Le projet a été supprimé",
+        "deleteError": "Une erreur est survenue lors de la suppression du projet"
+      },
+      "resource": {
+        "create": "La ressource a été créé",
+        "edit": "La ressource a été modifié",
+        "validate": "La ressource a été validé",
+        "deleteSuccess": "La ressource a été supprimé",
+        "deleteError": "Une erreur est survenue lors de la suppression de la ressource"
+      },
+      "common": {
+        "error": {
+          "411": "Une erreur est survenue lors de la validation du formulaire",
+          "500": "Une erreur est survenue, un rapport a été envoyé",
+          "moreDetails": "Détails :"
         }
+      },
+      "atlas": {
+        "create": "L'atlas a été créé",
+        "edit": "L'atlas a été modifié",
+        "validate": "L'atlas a été validé",
+        "delete": "L'atlas a été supprimé"
+      },
+      "qgismap": {
+        "create": "La donnée a bien été crée",
+        "edit": "La donnée a bien été modifiée",
+        "validate": "La donnée a bien été validée",
+        "error": "Une erreur est survenue lors du chargement des données",
+        "deleteSuccess": "La donnée a bien été supprimé",
+        "deleteError":"Une erreur est survenue lors de la suppression de la donnée, assurez vous que ce projet QGIS n'est pas utilisé dans une carte"
+      },
+      "user": {
+        "create": "L'utilisateur a bien été créé",
+        "edit": "L'utilisateur a bien été modifié",
+        "validate": "L'utilisateur a bien été validé",
+        "deleteSuccess": "L'utilisateur a bien été supprimé",
+        "deleteError": "Une erreur est survenue lors de la suppression de l'utilisateur"
+      }
     }
   },
   "adminBoundaries": {
