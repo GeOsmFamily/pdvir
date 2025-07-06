@@ -103,7 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([self::GROUP_READ, self::GROUP_GETME, Actor::ACTOR_READ_ITEM, Project::GET_FULL])]
+    #[Groups([self::GROUP_READ, self::GROUP_GETME, Actor::ACTOR_READ_ITEM, Project::GET_FULL, Resource::GET_FULL])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -116,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE, AppContentComment::COMMENT_READ])]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email]
     #[Groups([self::GROUP_READ, self::GROUP_GETME, self::GROUP_WRITE, UserPasswordToken::GROUP_READ, AppContentComment::COMMENT_READ])]
@@ -177,7 +177,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Actor>
      */
-    #[ORM\OneToMany(targetEntity: Actor::class, mappedBy: 'createdBy', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Actor::class, mappedBy: 'createdBy')]
     private Collection $actorsCreated;
 
     /**

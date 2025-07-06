@@ -19,7 +19,7 @@
 (basic_auth) {
 	@included_basic_auth expression `(!path('/nominatim*'))`
   basic_auth @included_basic_auth {
-		pdvir {$BASIC_AUTH_BCRYPT_PASSWORD}
+		puc {$BASIC_AUTH_BCRYPT_PASSWORD}
 	}
 }
 

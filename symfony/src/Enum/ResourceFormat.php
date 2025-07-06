@@ -12,5 +12,4 @@ enum ResourceFormat: string
     case XLSX = 'xlsx';
     case VIDEO = 'video';
     case IMAGE = 'image';
-    case ZIP = 'zip';
 }

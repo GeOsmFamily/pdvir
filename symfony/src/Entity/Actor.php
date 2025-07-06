@@ -11,12 +11,16 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Entity\File\MediaObject;
+use App\Entity\Trait\BanocEntity;
 use App\Entity\Trait\BlameableEntity;
 use App\Entity\Trait\CreatorMessageEntity;
 use App\Entity\Trait\LocalizableEntity;
+use App\Entity\Trait\ODDEntity;
 use App\Entity\Trait\SluggableEntity;
+use App\Entity\Trait\ThematizedEntity;
 use App\Entity\Trait\TimestampableEntity;
 use App\Entity\Trait\ValidateableEntity;
+use App\Entity\User\User;
 use App\Enum\ActorCategory;
 use App\Enum\AdministrativeScope;
 use App\Model\Enums\UserRoles;
@@ -27,21 +31,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[ApiResource(
+    normalizationContext: ['groups' => [self::ACTOR_READ_ITEM, MediaObject::READ, Admin1Boundary::GET_WITH_GEOM, Admin3Boundary::GET_WITH_GEOM]],
+    denormalizationContext: ['groups' => [self::ACTOR_WRITE, MediaObject::READ]],
     operations: [
         new GetCollection(
             paginationEnabled: false,
-            normalizationContext: ['groups' => self::ACTOR_READ_COLLECTION]
+            normalizationContext: ['groups' => [self::ACTOR_READ_COLLECTION, MediaObject::READ]]
         ),
         new GetCollection(
             uriTemplate: '/actors/all',
             paginationEnabled: false,
-            normalizationContext: ['groups' => self::ACTOR_READ_COLLECTION_ALL]
+            normalizationContext: ['groups' => [self::ACTOR_READ_COLLECTION_ALL]]
         ),
         new Get(),
         new Post(
@@ -60,8 +67,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_ADMIN")'
         ),
     ],
-    normalizationContext: ['groups' => [self::ACTOR_READ_ITEM, Admin1Boundary::GET_WITH_GEOM, Admin2Boundary::GET_WITH_GEOM, Admin3Boundary::GET_WITH_GEOM]],
-    denormalizationContext: ['groups' => [self::ACTOR_WRITE]],
 )]
 class Actor
 {
@@ -71,11 +76,23 @@ class Actor
     use BlameableEntity;
     use ValidateableEntity;
     use CreatorMessageEntity;
+    use ThematizedEntity;
+    use ODDEntity;
+    use BanocEntity;
 
     public const ACTOR_READ_COLLECTION = 'actor:read_collection';
     public const ACTOR_READ_COLLECTION_ALL = 'actor:read_collection:all';
     public const ACTOR_READ_ITEM = 'actor:read_item';
     public const ACTOR_WRITE = 'actor:write';
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+        $this->administrativeScopes = [];
+        $this->images = new ArrayCollection();
+        $this->admin1List = new ArrayCollection();
+        $this->admin3List = new ArrayCollection();
+    }
 
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -89,26 +106,12 @@ class Actor
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::GET_PARTIAL, Project::GET_FULL])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::GET_FULL])]
     private ?string $acronym = null;
 
     #[ORM\Column(enumType: ActorCategory::class)]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::GET_FULL])]
     private ?ActorCategory $category = null;
-
-    /**
-     * @var Collection<int, ActorExpertise>
-     */
-    #[ORM\ManyToMany(targetEntity: ActorExpertise::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private Collection $expertises;
-
-    /**
-     * @var Collection<int, Thematic>
-     */
-    #[ORM\ManyToMany(targetEntity: Thematic::class, inversedBy: 'actors')]
-    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private Collection $thematics;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
@@ -136,7 +139,6 @@ class Actor
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    #[Assert\Regex(pattern: '/^[0-9]{4,15}$/')]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -157,7 +159,7 @@ class Actor
 
     #[ORM\OneToOne(targetEntity: MediaObject::class, cascade: ['remove'], orphanRemoval: true)]
     #[ApiProperty(types: ['https://schema.org/image'])]
-    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE, Project::GET_FULL])]
+    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?MediaObject $logo = null;
 
     /**
@@ -165,7 +167,7 @@ class Actor
      */
     #[ORM\ManyToMany(targetEntity: MediaObject::class, cascade: ['remove'], orphanRemoval: true)]
     #[ApiProperty(types: ['https://schema.org/image'])]
-    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
+    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $images;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
@@ -178,10 +180,6 @@ class Actor
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private ?string $otherExpertise = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups([self::ACTOR_READ_COLLECTION, self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private ?string $otherThematic = null;
     /**
      * @var Collection<int, Admin1Boundary>
@@ -191,30 +189,39 @@ class Actor
     private Collection $admin1List;
 
     /**
-     * @var Collection<int, Admin2Boundary>
-     */
-    #[ORM\ManyToMany(targetEntity: Admin2Boundary::class)]
-    #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
-    private Collection $admin2List;
-
-    /**
      * @var Collection<int, Admin3Boundary>
      */
     #[ORM\ManyToMany(targetEntity: Admin3Boundary::class)]
     #[Groups([self::ACTOR_READ_ITEM, self::ACTOR_WRITE])]
     private Collection $admin3List;
 
-    public function __construct()
-    {
-        $this->expertises = new ArrayCollection();
-        $this->thematics = new ArrayCollection();
-        $this->projects = new ArrayCollection();
-        $this->administrativeScopes = [];
-        $this->images = new ArrayCollection();
-        $this->admin1List = new ArrayCollection();
-        $this->admin2List = new ArrayCollection();
-        $this->admin3List = new ArrayCollection();
-    }
+    // Override Traits groups
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups([Actor::ACTOR_WRITE, Actor::ACTOR_READ_ITEM, Actor::ACTOR_READ_COLLECTION])]
+    private ?GeoData $geoData = null;
+
+    #[ORM\Column]
+    #[Groups([Actor::ACTOR_READ_ITEM, Actor::ACTOR_READ_COLLECTION])]
+    private ?bool $isValidated = false;
+
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups([Actor::ACTOR_READ_ITEM, Actor::ACTOR_READ_COLLECTION])]
+    protected ?\DateTimeInterface $createdAt;
+
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups([Actor::ACTOR_READ_ITEM, Actor::ACTOR_READ_COLLECTION])]
+    protected ?\DateTimeInterface $updatedAt;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL', name: 'created_by')]
+    #[Gedmo\Blameable(on: 'create')]
+    #[Groups([Actor::ACTOR_READ_ITEM])]
+    protected ?User $createdBy;
+
+    // End traits groups
 
     public function getId(): ?Uuid
     {
@@ -253,54 +260,6 @@ class Actor
     public function setCategory(ActorCategory $category): static
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ActorExpertise>
-     */
-    public function getExpertises(): Collection
-    {
-        return $this->expertises;
-    }
-
-    public function addExpertise(ActorExpertise $expertise): static
-    {
-        if (!$this->expertises->contains($expertise)) {
-            $this->expertises->add($expertise);
-        }
-
-        return $this;
-    }
-
-    public function removeExpertise(ActorExpertise $expertise): static
-    {
-        $this->expertises->removeElement($expertise);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Thematic>
-     */
-    public function getThematics(): Collection
-    {
-        return $this->thematics;
-    }
-
-    public function addThematic(Thematic $thematic): static
-    {
-        if (!$this->thematics->contains($thematic)) {
-            $this->thematics->add($thematic);
-        }
-
-        return $this;
-    }
-
-    public function removeThematic(Thematic $thematic): static
-    {
-        $this->thematics->removeElement($thematic);
 
         return $this;
     }
@@ -545,18 +504,6 @@ class Actor
         return $this;
     }
 
-    public function getOtherExpertise(): ?string
-    {
-        return $this->otherExpertise;
-    }
-
-    public function setOtherExpertise(?string $otherExpertise): static
-    {
-        $this->otherExpertise = $otherExpertise;
-
-        return $this;
-    }
-
     public function getOtherThematic(): ?string
     {
         return $this->otherThematic;
@@ -565,30 +512,6 @@ class Actor
     public function setOtherThematic(?string $otherThematic): static
     {
         $this->otherThematic = $otherThematic;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Admin2Boundary>
-     */
-    public function getAdmin2List(): Collection
-    {
-        return $this->admin2List;
-    }
-
-    public function addAdmin2List(Admin2Boundary $admin2List): static
-    {
-        if (!$this->admin2List->contains($admin2List)) {
-            $this->admin2List->add($admin2List);
-        }
-
-        return $this;
-    }
-
-    public function removeAdmin2List(Admin2Boundary $admin2List): static
-    {
-        $this->admin2List->removeElement($admin2List);
 
         return $this;
     }

@@ -32,7 +32,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
     ],
     normalizationContext: ['groups' => [self::GET_FULL]],
     denormalizationContext: ['groups' => [self::WRITE]],
-    order: ['name' => 'ASC'],
 )]
 class Atlas
 {
